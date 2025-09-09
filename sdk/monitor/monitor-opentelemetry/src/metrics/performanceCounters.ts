@@ -20,7 +20,6 @@ import { PerformanceCounterMetricNames } from "./types.js";
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
 import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { Logger } from "../shared/logging/logger.js";
 import process from "node:process";
 
@@ -214,7 +213,7 @@ export class PerformanceCounterMetrics {
    * Record Log metrics
    * @internal
    */
-  public recordLog(logRecord: LogRecord): void {
+  public recordLog(logRecord: any): void {
     const columns: TraceData | ExceptionData = getLogData(logRecord);
     if (isExceptionData(columns)) {
       this.totalExceptionCount++;

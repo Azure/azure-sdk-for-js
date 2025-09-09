@@ -5,6 +5,8 @@ import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
+import type { MetricReader } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "./shared/config.js";
 import { MetricHandler } from "./metrics/index.js";
 import { TraceHandler } from "./traces/handler.js";
@@ -24,6 +26,7 @@ import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
 import { parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -81,10 +84,30 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
   const logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
 
+  // Prepare metric readers - always include Azure Monitor
+  const metricReaders: MetricReader[] = [metricHandler.getMetricReader()];
+  
+  // Add OTLP metric reader if configured via environment variables
+  if (process.env.OTEL_METRICS_EXPORTER === "otlp" && 
+      (process.env.OTEL_EXPORTER_OTLP_ENDPOINT || process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT)) {
+    try {
+      const otlpExporter = new OTLPMetricExporter({
+        url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT,
+      });
+      const otlpMetricReader = new PeriodicExportingMetricReader({
+        exporter: otlpExporter,
+        exportIntervalMillis: 60000, // Default interval
+      });
+      metricReaders.push(otlpMetricReader);
+    } catch (error) {
+      console.warn('Failed to create OTLP metric reader: ', error);
+    }
+  }
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
-    metricReader: metricHandler.getMetricReader(),
+    metricReaders: metricReaders,
     views: metricHandler.getViews(),
     instrumentations: instrumentations,
     logRecordProcessors: [

@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 import { TraceFlags } from "@opentelemetry/api";
-import type { LogRecord, LogRecordExporter } from "@opentelemetry/sdk-logs";
+import type {
+  LogRecordExporter,
+} from "@opentelemetry/sdk-logs";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
 /**
@@ -20,7 +22,7 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
     this._options = options;
   }
 
-  public onEmit(logRecord: LogRecord): void {
+  public onEmit(logRecord: any): void {
     // Trace based sampling for logs
     if (this._options.enableTraceBasedSamplingForLogs) {
       if (logRecord.spanContext && logRecord.spanContext.spanId) {

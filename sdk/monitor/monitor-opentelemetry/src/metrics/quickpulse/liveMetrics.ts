@@ -11,7 +11,6 @@ import type { Meter, ObservableGauge, ObservableResult } from "@opentelemetry/ap
 import { SpanKind, SpanStatusCode, ValueType, context } from "@opentelemetry/api";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type {
   DocumentIngress,
   Exception,
@@ -514,7 +513,7 @@ export class LiveMetrics {
    * Record LogRecord metrics, add attribute so data is not aggregated again in ingestion
    * @internal
    */
-  public recordLog(logRecord: LogRecord): void {
+  public recordLog(logRecord: any): void {
     if (this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
