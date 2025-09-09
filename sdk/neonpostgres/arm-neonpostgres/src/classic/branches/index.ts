@@ -1,21 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { Branch } from "../../models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import { preflight, list, $delete, createOrUpdate, get } from "../../api/branches/operations.js";
+import type {
+  BranchesPreflightOptionalParams,
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "../../api/branches/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/branches/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  Branch,
+  PreflightCheckParameters,
+  PreflightCheckResult,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Branches operations. */
 export interface BranchesOperations {
+  /** Action to validate preflight checks. */
+  preflight: (
+    resourceGroupName: string,
+    organizationName: string,
+    projectName: string,
+    branchName: string,
+    parameters: PreflightCheckParameters,
+    options?: BranchesPreflightOptionalParams,
+  ) => Promise<PreflightCheckResult>;
   /** List Branch resources by Project */
   list: (
     resourceGroupName: string,
@@ -36,15 +49,6 @@ export interface BranchesOperations {
     branchName: string,
     options?: BranchesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a Branch */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    properties: Branch,
-    options?: BranchesUpdateOptionalParams,
-  ) => PollerLike<OperationState<Branch>, Branch>;
   /** Create a Branch */
   createOrUpdate: (
     resourceGroupName: string,
@@ -66,6 +70,23 @@ export interface BranchesOperations {
 
 function _getBranches(context: PostgresContext) {
   return {
+    preflight: (
+      resourceGroupName: string,
+      organizationName: string,
+      projectName: string,
+      branchName: string,
+      parameters: PreflightCheckParameters,
+      options?: BranchesPreflightOptionalParams,
+    ) =>
+      preflight(
+        context,
+        resourceGroupName,
+        organizationName,
+        projectName,
+        branchName,
+        parameters,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       organizationName: string,
@@ -79,23 +100,6 @@ function _getBranches(context: PostgresContext) {
       branchName: string,
       options?: BranchesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, organizationName, projectName, branchName, options),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      properties: Branch,
-      options?: BranchesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        properties,
-        options,
-      ),
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,

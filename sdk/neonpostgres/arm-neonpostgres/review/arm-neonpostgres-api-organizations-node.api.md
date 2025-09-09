@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: PostgresContext, resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -60,7 +60,7 @@ export interface OrganizationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, properties: OrganizationResource, options?: OrganizationsUpdateOptionalParams): PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 
 // (No @packageDocumentation comment for this package)
 

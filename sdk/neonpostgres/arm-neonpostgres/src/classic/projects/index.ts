@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { Project } from "../../models/models.js";
-import { ConnectionUriProperties } from "../../models/models/models.js";
-import {
-  ProjectsGetConnectionUriOptionalParams,
-  ProjectsListOptionalParams,
-  ProjectsDeleteOptionalParams,
-  ProjectsUpdateOptionalParams,
-  ProjectsCreateOrUpdateOptionalParams,
-  ProjectsGetOptionalParams,
-} from "../../api/projects/options.js";
+import type { PostgresContext } from "../../api/postgresContext.js";
 import {
   getConnectionUri,
   list,
   $delete,
-  update,
   createOrUpdate,
   get,
 } from "../../api/projects/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ProjectsGetConnectionUriOptionalParams,
+  ProjectsListOptionalParams,
+  ProjectsDeleteOptionalParams,
+  ProjectsCreateOrUpdateOptionalParams,
+  ProjectsGetOptionalParams,
+} from "../../api/projects/options.js";
+import type { Project, ConnectionUriProperties } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Projects operations. */
 export interface ProjectsOperations {
@@ -51,14 +48,6 @@ export interface ProjectsOperations {
     projectName: string,
     options?: ProjectsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a Project */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    properties: Project,
-    options?: ProjectsUpdateOptionalParams,
-  ) => PollerLike<OperationState<Project>, Project>;
   /** Create a Project */
   createOrUpdate: (
     resourceGroupName: string,
@@ -104,13 +93,6 @@ function _getProjects(context: PostgresContext) {
       projectName: string,
       options?: ProjectsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, organizationName, projectName, options),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      properties: Project,
-      options?: ProjectsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, organizationName, projectName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
