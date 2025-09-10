@@ -36,7 +36,7 @@ export interface BrowserSdkLoaderOptions {
 }
 
 // @internal
-export function _getInternalSdk(): NodeSDK | undefined;
+export function _getSdkInstance(): NodeSDK | undefined;
 
 // @public
 export interface InstrumentationOptions {
