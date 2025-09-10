@@ -1,5 +1,5 @@
 # Release History
-## 4.5.2 (2025-09-10)
+## 4.6.0 (2025-09-11)
 
 ### Features Added
 
@@ -7,15 +7,9 @@
 
 ```js
 const requestOptions = { excludedLocations: ["West US"] };
-const cities = [
-  { id: "1", name: "Olympia", state: "WA", isCapitol: true },
-  { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-  { id: "3", name: "Chicago", state: "IL", isCapitol: false },
-];
+const city = { id: "1", name: "Olympia", state: "WA" };
 
-for (const city of cities) {
-  await container.items.create(city, requestOptions);
-}
+await container.items.upsert(city, requestOptions);
 
 await container.item("1").delete(requestOptions);
 ```
