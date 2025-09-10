@@ -17855,7 +17855,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
-        specifier: ^1.13.0
+        specifier: ^1.13.1
         version: link:../monitor-opentelemetry
       '@opentelemetry/api':
         specifier: ^1.9.0
