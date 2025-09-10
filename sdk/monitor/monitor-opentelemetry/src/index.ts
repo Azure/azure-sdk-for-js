@@ -126,7 +126,7 @@ export function shutdownAzureMonitor(): Promise<void> {
  * Get the internal SDK instance for testing purposes
  * @internal
  */
-// eslint-disable-next-line @typescript-eslint/no-underscore-dangle
+// eslint-disable-next-line no-underscore-dangle
 export function _getSdkInstance(): NodeSDK | undefined {
   return sdk;
 }
