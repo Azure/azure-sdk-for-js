@@ -525,57 +525,16 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const requestOptions = { excludedLocations: ["Test Region"] };
     // @ts-preserve-whitespace
-    await container.item("id", "1").read(requestOptions);
+    const city = { id: "1", name: "Olympia", state: "WA" };
+    await container.items.upsert(city, { excludedLocations: ["Test Region"] });
     // @ts-preserve-whitespace
-    const iterator = container.items.readAll(requestOptions);
-    await iterator.fetchNext();
+    const iterator = container.items.getChangeFeedIterator({
+      excludedLocations: ["Test Region"],
+      maxItemCount: 1,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+    });
     // @ts-preserve-whitespace
-    const cities = [
-      { id: "1", name: "Olympia", state: "WA", isCapitol: true },
-      { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-      { id: "3", name: "Chicago", state: "IL", isCapitol: false },
-    ];
-    // @ts-preserve-whitespace
-    for (const city of cities) {
-      await container.items.create(city, requestOptions);
-    }
-    // @ts-preserve-whitespace
-    for (const city of cities) {
-      await container.items.upsert(city, requestOptions);
-    }
-    // @ts-preserve-whitespace
-    await container.item("1").delete(requestOptions);
-    // @ts-preserve-whitespace
-    await container.item("1", "A").replace({ id: "1", name: "Zues" }, requestOptions);
-    // @ts-preserve-whitespace
-    const { resources: queryResults } = await container.items
-      .query("SELECT * from c WHERE c.name = Zues", requestOptions)
-      .fetchAll();
-    console.log("Query Results:", queryResults);
-    // @ts-preserve-whitespace
-    const bulkOperations: OperationInput[] = [
-      {
-        operationType: BulkOperationType.Create,
-        partitionKey: "A",
-        resourceBody: {
-          id: "1",
-          name: "sample",
-          key: "A",
-        },
-      },
-    ];
-    // @ts-preserve-whitespace
-    await container.items.executeBulkOperations(bulkOperations, requestOptions);
-
-    // @ts-preserve-whitespace
-    const batchOperations: OperationInput[] = [
-      {
-        operationType: "Create",
-        resourceBody: { id: "A", key: "A", school: "high" },
-      },
-    ];
-    // @ts-preserve-whitespace
-    await container.items.batch(batchOperations, "A", requestOptions);
+    const response = await iterator.readNext();
   });
 
   it("CosmosClientCreate", async () => {

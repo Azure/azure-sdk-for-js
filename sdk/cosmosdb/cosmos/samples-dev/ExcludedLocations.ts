@@ -6,7 +6,8 @@
  */
 
 import "dotenv/config";
-import { CosmosClient, BulkOperationType } from "@azure/cosmos";
+import type { ChangeFeedIteratorOptions } from "@azure/cosmos";
+import { CosmosClient, BulkOperationType, ChangeFeedStartFrom } from "@azure/cosmos";
 import { handleError, logStep } from "./Shared/handleError.js";
 
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -28,7 +29,13 @@ async function run(): Promise<void> {
    * This option is only applied when enableEndPointDiscovery is set to true.
    */
   const requestOptions = { excludedLocations: ["West US 3"] };
-  const client = new CosmosClient({ endpoint, key });
+  const client = new CosmosClient({
+    endpoint,
+    key,
+    connectionPolicy: {
+      preferredLocations: ["West US"],
+    },
+  });
 
   // Unique IDs for each API action
   const readItemId = addEntropy("item1");
@@ -108,6 +115,16 @@ async function run(): Promise<void> {
     ],
     requestOptions,
   );
+
+  logStep("CHANGEFEED operations with excludedLocations");
+  const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+    excludedLocations: ["West US 3"],
+    maxItemCount: 1,
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+  };
+  const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+  const response = await iterator.readNext();
+  console.log("Change Feed Response:", response.result);
 }
 
 run().catch(handleError);

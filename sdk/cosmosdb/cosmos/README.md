@@ -517,58 +517,15 @@ const { database } = await client.databases.createIfNotExists({ id: "Test Databa
 
 const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
-const requestOptions = { excludedLocations: ["Test Region"] };
+const city = { id: "1", name: "Olympia", state: "WA" };
+await container.items.upsert(city, { excludedLocations: ["Test Region"] });
 
-await container.item("id", "1").read(requestOptions);
-
-const iterator = container.items.readAll(requestOptions);
-await iterator.fetchNext();
-
-const cities = [
-  { id: "1", name: "Olympia", state: "WA", isCapitol: true },
-  { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-  { id: "3", name: "Chicago", state: "IL", isCapitol: false },
-];
-
-for (const city of cities) {
-  await container.items.create(city, requestOptions);
-}
-
-for (const city of cities) {
-  await container.items.upsert(city, requestOptions);
-}
-
-await container.item("1").delete(requestOptions);
-
-await container.item("1", "A").replace({ id: "1", name: "Zues" }, requestOptions);
-
-const { resources: queryResults } = await container.items
-  .query("SELECT * from c WHERE c.name = Zues", requestOptions)
-  .fetchAll();
-console.log("Query Results:", queryResults);
-
-const bulkOperations: OperationInput[] = [
-  {
-    operationType: BulkOperationType.Create,
-    partitionKey: "A",
-    resourceBody: {
-      id: "1",
-      name: "sample",
-      key: "A",
-    },
-  },
-];
-
-await container.items.executeBulkOperations(bulkOperations, requestOptions);
-
-const batchOperations: OperationInput[] = [
-  {
-    operationType: "Create",
-    resourceBody: { id: "A", key: "A", school: "high" },
-  },
-];
-
-await container.items.batch(batchOperations, "A", requestOptions);
+const iterator = container.items.getChangeFeedIterator({
+  excludedLocations: ["Test Region"],
+  maxItemCount: 1,
+  changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+});
+const response = await iterator.readNext();
 ```
 
 ## Error Handling
