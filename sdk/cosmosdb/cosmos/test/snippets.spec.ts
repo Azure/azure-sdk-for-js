@@ -523,8 +523,6 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
-    const requestOptions = { excludedLocations: ["Test Region"] };
-    // @ts-preserve-whitespace
     const city = { id: "1", name: "Olympia", state: "WA" };
     await container.items.upsert(city, { excludedLocations: ["Test Region"] });
     // @ts-preserve-whitespace
