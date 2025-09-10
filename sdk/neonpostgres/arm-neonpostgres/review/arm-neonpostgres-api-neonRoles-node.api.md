@@ -4,19 +4,16 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, options?: NeonRolesDeleteOptionalParams): Promise<void>;
 
 // @public
 export function createOrUpdate(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, resource: NeonRole, options?: NeonRolesCreateOrUpdateOptionalParams): PollerLike<OperationState<NeonRole>, NeonRole>;
-
-// @public
-export function get(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, options?: NeonRolesGetOptionalParams): Promise<NeonRole>;
 
 // @public
 export function list(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: NeonRolesListOptionalParams): PagedAsyncIterableIterator<NeonRole>;
@@ -31,20 +28,8 @@ export interface NeonRolesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NeonRolesGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NeonRolesListOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface NeonRolesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, properties: NeonRole, options?: NeonRolesUpdateOptionalParams): PollerLike<OperationState<NeonRole>, NeonRole>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -33,21 +34,6 @@ export {
   SingleSignOnProperties,
   KnownSingleSignOnStates,
   SingleSignOnStates,
-  TrackedResource,
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  Project,
-  ProxyResource,
-  Branch,
-  Compute,
-  NeonDatabase,
-  NeonRole,
-  Endpoint,
-  KnownVersions,
-} from "./models/index.js";
-export {
   ProjectProperties,
   Attributes,
   DefaultEndpointSettings,
@@ -57,46 +43,56 @@ export {
   EndpointProperties,
   KnownEndpointType,
   EndpointType,
+  KnownEndpointStatus,
+  EndpointStatus,
+  AutoscalingSize,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  OrganizationResourceUpdate,
+  OrganizationResourceUpdateProperties,
   PgVersion,
   PgVersionsResult,
+  Project,
+  ProxyResource,
   ConnectionUriProperties,
+  Branch,
+  PreflightCheckParameters,
+  KnownEntityType,
+  EntityType,
+  PreflightCheckResult,
+  Compute,
   ComputeProperties,
-} from "./models/models/index.js";
+  NeonDatabase,
+  NeonRole,
+  Endpoint,
+  KnownVersions,
+} from "./models/index.js";
 export { PostgresClientOptionalParams } from "./api/index.js";
 export {
+  BranchesPreflightOptionalParams,
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "./api/branches/index.js";
+export { ComputesListOptionalParams } from "./api/computes/index.js";
 export {
-  ComputesListOptionalParams,
-  ComputesDeleteOptionalParams,
-  ComputesUpdateOptionalParams,
-  ComputesCreateOrUpdateOptionalParams,
-  ComputesGetOptionalParams,
-} from "./api/computes/index.js";
-export {
-  EndpointsListOptionalParams,
   EndpointsDeleteOptionalParams,
-  EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
-  EndpointsGetOptionalParams,
+  EndpointsListOptionalParams,
 } from "./api/endpoints/index.js";
 export {
-  NeonDatabasesListOptionalParams,
   NeonDatabasesDeleteOptionalParams,
-  NeonDatabasesUpdateOptionalParams,
   NeonDatabasesCreateOrUpdateOptionalParams,
-  NeonDatabasesGetOptionalParams,
+  NeonDatabasesListOptionalParams,
 } from "./api/neonDatabases/index.js";
 export {
-  NeonRolesListOptionalParams,
   NeonRolesDeleteOptionalParams,
-  NeonRolesUpdateOptionalParams,
   NeonRolesCreateOrUpdateOptionalParams,
-  NeonRolesGetOptionalParams,
+  NeonRolesListOptionalParams,
 } from "./api/neonRoles/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
@@ -112,7 +108,6 @@ export {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
-  ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./api/projects/index.js";
@@ -127,3 +122,4 @@ export {
   ProjectsOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

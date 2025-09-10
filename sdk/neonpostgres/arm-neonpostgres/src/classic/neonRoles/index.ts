@@ -1,29 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { NeonRole } from "../../models/models.js";
-import {
-  NeonRolesListOptionalParams,
+import type { PostgresContext } from "../../api/postgresContext.js";
+import { $delete, createOrUpdate, list } from "../../api/neonRoles/operations.js";
+import type {
   NeonRolesDeleteOptionalParams,
-  NeonRolesUpdateOptionalParams,
   NeonRolesCreateOrUpdateOptionalParams,
-  NeonRolesGetOptionalParams,
+  NeonRolesListOptionalParams,
 } from "../../api/neonRoles/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/neonRoles/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { NeonRole } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NeonRoles operations. */
 export interface NeonRolesOperations {
-  /** List NeonRole resources by Branch */
-  list: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    options?: NeonRolesListOptionalParams,
-  ) => PagedAsyncIterableIterator<NeonRole>;
   /** Delete a NeonRole */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -38,16 +28,6 @@ export interface NeonRolesOperations {
     neonRoleName: string,
     options?: NeonRolesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a NeonRole */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    neonRoleName: string,
-    properties: NeonRole,
-    options?: NeonRolesUpdateOptionalParams,
-  ) => PollerLike<OperationState<NeonRole>, NeonRole>;
   /** Create a NeonRole */
   createOrUpdate: (
     resourceGroupName: string,
@@ -58,26 +38,18 @@ export interface NeonRolesOperations {
     resource: NeonRole,
     options?: NeonRolesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NeonRole>, NeonRole>;
-  /** Get a NeonRole */
-  get: (
+  /** List NeonRole resources by Branch */
+  list: (
     resourceGroupName: string,
     organizationName: string,
     projectName: string,
     branchName: string,
-    neonRoleName: string,
-    options?: NeonRolesGetOptionalParams,
-  ) => Promise<NeonRole>;
+    options?: NeonRolesListOptionalParams,
+  ) => PagedAsyncIterableIterator<NeonRole>;
 }
 
 function _getNeonRoles(context: PostgresContext) {
   return {
-    list: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      options?: NeonRolesListOptionalParams,
-    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -93,25 +65,6 @@ function _getNeonRoles(context: PostgresContext) {
         projectName,
         branchName,
         neonRoleName,
-        options,
-      ),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      neonRoleName: string,
-      properties: NeonRole,
-      options?: NeonRolesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        neonRoleName,
-        properties,
         options,
       ),
     createOrUpdate: (
@@ -133,23 +86,13 @@ function _getNeonRoles(context: PostgresContext) {
         resource,
         options,
       ),
-    get: (
+    list: (
       resourceGroupName: string,
       organizationName: string,
       projectName: string,
       branchName: string,
-      neonRoleName: string,
-      options?: NeonRolesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        neonRoleName,
-        options,
-      ),
+      options?: NeonRolesListOptionalParams,
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 

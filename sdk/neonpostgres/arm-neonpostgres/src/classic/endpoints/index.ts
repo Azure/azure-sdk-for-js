@@ -1,29 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { Endpoint } from "../../models/models.js";
-import {
-  EndpointsListOptionalParams,
+import type { PostgresContext } from "../../api/postgresContext.js";
+import { $delete, createOrUpdate, list } from "../../api/endpoints/operations.js";
+import type {
   EndpointsDeleteOptionalParams,
-  EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
-  EndpointsGetOptionalParams,
+  EndpointsListOptionalParams,
 } from "../../api/endpoints/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/endpoints/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Endpoint } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Endpoints operations. */
 export interface EndpointsOperations {
-  /** List Endpoint resources by Branch */
-  list: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    options?: EndpointsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Endpoint>;
   /** Delete a Endpoint */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -38,16 +28,6 @@ export interface EndpointsOperations {
     endpointName: string,
     options?: EndpointsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a Endpoint */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    endpointName: string,
-    properties: Endpoint,
-    options?: EndpointsUpdateOptionalParams,
-  ) => PollerLike<OperationState<Endpoint>, Endpoint>;
   /** Create a Endpoint */
   createOrUpdate: (
     resourceGroupName: string,
@@ -58,26 +38,18 @@ export interface EndpointsOperations {
     resource: Endpoint,
     options?: EndpointsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Endpoint>, Endpoint>;
-  /** Get a Endpoint */
-  get: (
+  /** List Endpoint resources by Branch */
+  list: (
     resourceGroupName: string,
     organizationName: string,
     projectName: string,
     branchName: string,
-    endpointName: string,
-    options?: EndpointsGetOptionalParams,
-  ) => Promise<Endpoint>;
+    options?: EndpointsListOptionalParams,
+  ) => PagedAsyncIterableIterator<Endpoint>;
 }
 
 function _getEndpoints(context: PostgresContext) {
   return {
-    list: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      options?: EndpointsListOptionalParams,
-    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -93,25 +65,6 @@ function _getEndpoints(context: PostgresContext) {
         projectName,
         branchName,
         endpointName,
-        options,
-      ),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      endpointName: string,
-      properties: Endpoint,
-      options?: EndpointsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        endpointName,
-        properties,
         options,
       ),
     createOrUpdate: (
@@ -133,23 +86,13 @@ function _getEndpoints(context: PostgresContext) {
         resource,
         options,
       ),
-    get: (
+    list: (
       resourceGroupName: string,
       organizationName: string,
       projectName: string,
       branchName: string,
-      endpointName: string,
-      options?: EndpointsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        endpointName,
-        options,
-      ),
+      options?: EndpointsListOptionalParams,
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 
