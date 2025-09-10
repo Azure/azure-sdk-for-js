@@ -507,7 +507,7 @@ The `excludedLocations` option at the request level allows user to specify one o
 This example shows various APIs supporting Excluded Locations.
 
 ```ts snippet:ReadmeSampleWithExcludedLocations
-import { CosmosClient, OperationInput, BulkOperationType } from "@azure/cosmos";
+import { CosmosClient, ChangeFeedStartFrom } from "@azure/cosmos";
 
 const endpoint = "https://your-account.documents.azure.com";
 const key = "<database account masterkey>";
@@ -525,6 +525,7 @@ const iterator = container.items.getChangeFeedIterator({
   maxItemCount: 1,
   changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
 });
+
 const response = await iterator.readNext();
 ```
 
