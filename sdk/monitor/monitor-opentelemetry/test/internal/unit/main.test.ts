@@ -5,7 +5,7 @@ import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
-import { useAzureMonitor, shutdownAzureMonitor, getInternalSdk } from "../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
@@ -523,7 +523,7 @@ describe("Main functions", () => {
     useAzureMonitor(config);
 
     // Get the internal SDK instance
-    const internalSdk = getInternalSdk();
+    const internalSdk = _getSdkInstance();
     assert.ok(internalSdk, "Internal SDK should be available");
 
     // Access the meter provider from the SDK

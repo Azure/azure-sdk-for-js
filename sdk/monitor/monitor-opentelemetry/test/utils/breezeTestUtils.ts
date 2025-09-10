@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { SeverityNumber } from "@opentelemetry/api-logs";
+import { Resource } from "@opentelemetry/resources";
 import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 
 export function successfulBreezeResponse(count: number): any {
@@ -44,8 +45,8 @@ export function partialBreezeResponse(statusCodes: number[]): {
 }
 
 export function createMockSdkLogRecord(
-  resource?: any,
-  instrumentationScope?: any,
+  resource?: Resource,
+  instrumentationScope?: { name: string; version?: string },
   initialData: any = {},
 ): SdkLogRecord {
   const { body, ...otherData } = initialData;

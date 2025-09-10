@@ -7,7 +7,7 @@
 import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
-import { MetricReader } from '@opentelemetry/sdk-metrics';
+import type { MetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import type { Resource } from '@opentelemetry/resources';
 import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';

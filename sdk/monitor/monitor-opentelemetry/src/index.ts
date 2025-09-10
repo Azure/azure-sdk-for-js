@@ -126,6 +126,6 @@ export function shutdownAzureMonitor(): Promise<void> {
  * Get the internal SDK instance for testing purposes
  * @internal
  */
-export function getInternalSdk(): NodeSDK | undefined {
+export function _getSdkInstance(): NodeSDK | undefined {
   return sdk;
 }
