@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-locks": ["./src/index.ts"],
+      "@azure/arm-locks/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

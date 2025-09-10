@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-hybridkubernetes": ["./src/index.ts"],
+      "@azure/arm-hybridkubernetes/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

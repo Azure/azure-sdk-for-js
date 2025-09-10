@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { randomBytes } from "node:crypto";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -19,7 +19,7 @@ import {
   generateAccountSASQueryParameters,
   SASProtocol,
 } from "../../src/index.js";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { newPipeline } from "../../src/Pipeline.js";
 import { ShareServiceClient } from "../../src/ShareServiceClient.js";
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";

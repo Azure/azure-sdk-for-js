@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-customerinsights": ["./src/index.ts"],
+      "@azure/arm-customerinsights/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

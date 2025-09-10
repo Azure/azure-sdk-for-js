@@ -9,8 +9,8 @@ import { logger } from "./log.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { PollOperationState } from "@azure/core-lro";
 import { PollerLike } from "@azure/core-lro";
-import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
+import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
 import {
@@ -33,7 +33,7 @@ import {
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
 } from "./secretsModels.js";
-import { KnownDeletionRecoveryLevel, DeletionRecoveryLevel } from "./generated/index.js";
+import { KnownDeletionRecoveryLevel, DeletionRecoveryLevel } from "./generated/src/index.js";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier.js";
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";

@@ -9,6 +9,7 @@ import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import { withMetadataDiagnostics } from "./utils/diagnostics.js";
+import { normalizeEndpoint } from "./utils/checkURL.js";
 
 /**
  * @hidden
@@ -33,6 +34,7 @@ export class GlobalEndpointManager {
   private readableLocations: Location[] = [];
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
+  private enableMultipleWriteLocations: boolean;
 
   public preferredLocationsCount: number;
   /**
@@ -76,6 +78,13 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
+  /**
+   * Gets the read locations from the endpoint cache.
+   */
+  public async getReadLocations(): Promise<ReadonlyArray<Location>> {
+    return this.readableLocations;
+  }
+
   public async markCurrentLocationUnavailableForRead(
     diagnosticNode: DiagnosticNodeInternal,
     endpoint: string,
@@ -108,7 +117,8 @@ export class GlobalEndpointManager {
     resourceType?: ResourceType,
     operationType?: OperationType,
   ): boolean {
-    let canUse = this.options.connectionPolicy.useMultipleWriteLocations;
+    let canUse =
+      this.options.connectionPolicy.useMultipleWriteLocations && this.enableMultipleWriteLocations;
 
     if (resourceType) {
       canUse =
@@ -154,6 +164,7 @@ export class GlobalEndpointManager {
 
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
+      this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
     }
 
     const locations = isReadRequest(operationType)
@@ -216,18 +227,24 @@ export class GlobalEndpointManager {
   }
 
   private refreshEndpoints(databaseAccount: DatabaseAccount): void {
-    for (const location of databaseAccount.writableLocations) {
-      const existingLocation = this.writeableLocations.find((loc) => loc.name === location.name);
-      if (!existingLocation) {
-        this.writeableLocations.push(location);
+    const oldWritableLocations = this.writeableLocations;
+    const oldReadableLocations = this.readableLocations;
+
+    function merge(loc: Location, oldList: Location[]): Location {
+      const prev = oldList.find((o) => o.name === loc.name);
+      if (prev) {
+        loc.unavailable = prev.unavailable;
+        loc.lastUnavailabilityTimestampInMs = prev.lastUnavailabilityTimestampInMs;
       }
+      return loc;
     }
-    for (const location of databaseAccount.readableLocations) {
-      const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
-      if (!existingLocation) {
-        this.readableLocations.push(location);
-      }
-    }
+
+    this.writeableLocations = databaseAccount.writableLocations.map((loc) =>
+      merge({ ...loc }, oldWritableLocations),
+    );
+    this.readableLocations = databaseAccount.readableLocations.map((loc) =>
+      merge({ ...loc }, oldReadableLocations),
+    );
   }
 
   private refreshStaleUnavailableLocations(): void {
@@ -257,26 +274,22 @@ export class GlobalEndpointManager {
     allLocations: Location[],
   ): void {
     for (const location of unavailableLocations) {
-      const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
+      const unavailableLocation = allLocations.find((loc) => loc.name === location.name);
       if (
-        unavaialableLocation &&
-        now - unavaialableLocation.lastUnavailabilityTimestampInMs >
+        unavailableLocation &&
+        now - unavailableLocation.lastUnavailabilityTimestampInMs >
           Constants.LocationUnavailableExpirationTimeInMs
       ) {
-        unavaialableLocation.unavailable = false;
+        unavailableLocation.unavailable = false;
       }
     }
   }
 
   private cleanUnavailableLocationList(now: number, unavailableLocations: Location[]): Location[] {
     return unavailableLocations.filter((loc) => {
-      if (
-        loc &&
-        now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
-      ) {
-        return false;
-      }
-      return true;
+      return (
+        now - loc.lastUnavailabilityTimestampInMs < Constants.LocationUnavailableExpirationTimeInMs
+      );
     });
   }
 
@@ -358,8 +371,4 @@ export class GlobalEndpointManager {
 
     return null;
   }
-}
-
-function normalizeEndpoint(endpoint: string): string {
-  return endpoint.split(" ").join("").toLowerCase();
 }

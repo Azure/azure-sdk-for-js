@@ -132,6 +132,30 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
+  it("MultiAgents", async function () {
+    const connectedAgentName = "stock_price_bot";
+    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    const stockAgent = await client.createAgent(modelDeploymentName, {
+      name: "stock-price-agent",
+      instructions:
+        "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+    });
+    // Initialize Connected Agent tool with the agent id, name, and description
+    const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+      stockAgent.id,
+      connectedAgentName,
+      "Gets the stock price of a company",
+    );
+
+    // Create agent with the Connected Agent tool and process assistant run
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-agent",
+      instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
+      tools: [connectedAgentTool.definition],
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
+  });
+
   it("bingGrounding", async function () {
     const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
     // @ts-preserve-whitespace
@@ -308,21 +332,6 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
-  it("createAgentWithFabric", async function () {
-    const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
-    // @ts-preserve-whitespace
-    // Initialize agent Microsoft Fabric tool with the connection id
-    const fabricTool = ToolUtility.createFabricTool(connectionId);
-    // @ts-preserve-whitespace
-    // Create agent with the Microsoft Fabric tool and process assistant run
-    const agent = await client.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [fabricTool.definition],
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
   it("createThread", async function () {
     const thread = await client.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -437,7 +446,7 @@ describe("snippets", function () {
       },
       {
         type: "image_file",
-        image_file: {
+        imageFile: {
           file_id: imageFile.id,
           detail: "high",
         },
@@ -461,7 +470,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageUrl,
           detail: "high",
         },
@@ -501,7 +510,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageDataUrl,
           detail: "high",
         },

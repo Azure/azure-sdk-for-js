@@ -20,6 +20,7 @@ import {
   BackupInstanceResource as BackupInstanceResourceMapper,
   TriggerBackupRequest as TriggerBackupRequestMapper,
   ValidateForBackupRequest as ValidateForBackupRequestMapper,
+  ValidateForModifyBackupRequest as ValidateForModifyBackupRequestMapper,
   CrossRegionRestoreRequestObject as CrossRegionRestoreRequestObjectMapper,
   ValidateCrossRegionRestoreRequestObject as ValidateCrossRegionRestoreRequestObjectMapper,
   AzureBackupRehydrationRequest as AzureBackupRehydrationRequestMapper,
@@ -65,7 +66,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2025-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -231,6 +232,27 @@ export const parameters7: OperationParameter = {
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
+  mapper: ValidateForModifyBackupRequestMapper,
+};
+
+export const vaultName1: OperationURLParameter = {
+  parameterPath: "vaultName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z][-A-Za-z0-9]*[A-Za-z0-9]$"),
+      MaxLength: 50,
+      MinLength: 2,
+    },
+    serializedName: "vaultName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
   mapper: CrossRegionRestoreRequestObjectMapper,
 };
 
@@ -248,37 +270,37 @@ export const location1: OperationURLParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: ValidateCrossRegionRestoreRequestObjectMapper,
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: AzureBackupRehydrationRequestMapper,
 };
 
-export const parameters11: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: AzureBackupRestoreRequestMapper,
 };
 
-export const parameters12: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: StopProtectionRequestMapper,
 };
 
-export const parameters13: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: SuspendBackupRequestMapper,
 };
 
-export const parameters14: OperationParameter = {
+export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: SyncBackupInstanceRequestMapper,
 };
 
-export const parameters15: OperationParameter = {
+export const parameters16: OperationParameter = {
   parameterPath: "parameters",
   mapper: ValidateRestoreRequestObjectMapper,
 };
@@ -314,17 +336,17 @@ export const recoveryPointId: OperationURLParameter = {
   },
 };
 
-export const parameters16: OperationParameter = {
+export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: FetchSecondaryRPsRequestParametersMapper,
 };
 
-export const parameters17: OperationParameter = {
+export const parameters18: OperationParameter = {
   parameterPath: "parameters",
   mapper: CrossRegionRestoreJobRequestMapper,
 };
 
-export const parameters18: OperationParameter = {
+export const parameters19: OperationParameter = {
   parameterPath: "parameters",
   mapper: CrossRegionRestoreJobsRequestMapper,
 };
@@ -352,12 +374,12 @@ export const jobId: OperationURLParameter = {
   },
 };
 
-export const parameters19: OperationParameter = {
+export const parameters20: OperationParameter = {
   parameterPath: "parameters",
   mapper: AzureBackupFindRestorableTimeRangesRequestMapper,
 };
 
-export const parameters20: OperationParameter = {
+export const parameters21: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourceGuardResourceMapper,
 };
@@ -373,7 +395,7 @@ export const resourceGuardsName: OperationURLParameter = {
   },
 };
 
-export const parameters21: OperationParameter = {
+export const parameters22: OperationParameter = {
   parameterPath: "parameters",
   mapper: PatchResourceGuardInputMapper,
 };
@@ -403,12 +425,12 @@ export const resourceGuardProxyName: OperationURLParameter = {
   },
 };
 
-export const parameters22: OperationParameter = {
+export const parameters23: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourceGuardProxyBaseResourceMapper,
 };
 
-export const parameters23: OperationParameter = {
+export const parameters24: OperationParameter = {
   parameterPath: "parameters",
   mapper: UnlockDeleteRequestMapper,
 };

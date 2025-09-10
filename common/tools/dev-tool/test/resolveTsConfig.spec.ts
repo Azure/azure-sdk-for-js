@@ -8,7 +8,9 @@ import { resolveConfig } from "../src/util/resolveTsConfig";
 vi.mock("fs/promises", async () => {
   const memfs = await import("memfs");
   return {
-    ...memfs.fs.promises,
+    default: {
+      ...memfs.fs.promises,
+    },
   };
 });
 

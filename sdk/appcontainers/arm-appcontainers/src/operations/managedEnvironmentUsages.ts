@@ -45,11 +45,7 @@ export class ManagedEnvironmentUsagesImpl implements ManagedEnvironmentUsages {
     environmentName: string,
     options?: ManagedEnvironmentUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -61,12 +57,7 @@ export class ManagedEnvironmentUsagesImpl implements ManagedEnvironmentUsages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
       },
     };
   }
@@ -87,12 +78,7 @@ export class ManagedEnvironmentUsagesImpl implements ManagedEnvironmentUsages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        environmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -105,11 +91,7 @@ export class ManagedEnvironmentUsagesImpl implements ManagedEnvironmentUsages {
     environmentName: string,
     options?: ManagedEnvironmentUsagesListOptionalParams,
   ): AsyncIterableIterator<Usage> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      environmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
       yield* page;
     }
   }

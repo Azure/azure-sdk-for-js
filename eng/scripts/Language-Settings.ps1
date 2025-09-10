@@ -205,10 +205,17 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
   $packageBefore = Get-PackageJsonContentFromPackage -package $package -workingDirectory $workingDirectory
   $name = $packageBefore.name
 
+  if (!$packageBefore.version.Contains("-alpha")) {
+    Write-Error "The package $name with version $($packageBefore.version) is not a dev version (i.e. doesn't contain '-alpha') so not going to include in publishing."
+    # Return false to indicate no changes so it doesn't get added to the publish set.
+    return $false
+  }
+
   $packageAfterName = npm pack $name@dev --pack --pack-destination $workingDirectory 2> $workingDirectory/error.txt
   if ($LastExitCode -ne 0) {
-    Write-Verbose (Get-Content -Path $workingDirectory/error.txt)
-    Write-Verbose "Failed to retrieve package $name@dev.. assuming there is source code changes."
+    Get-Content -Path $workingDirectory/error.txt | Out-Host
+    Write-Host "Failed to retrieve package $name@dev.. assuming there is source code changes."
+    $global:LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
     return $true
   }  
   $packageAfter = Get-PackageJsonContentFromPackage -package (Join-Path $workingDirectory $packageAfterName) -workingDirectory $workingDirectory
@@ -380,8 +387,10 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
   if ($null -eq $ReleaseDate) {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
-  Push-Location "$EngDir/tools/versioning"
+  Push-Location "$EngDir/tools/eng-package-utils"
   Confirm-NodeInstallation
+  npm install
+  Push-Location "$EngDir/tools/versioning"
   npm install
   $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
   node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `

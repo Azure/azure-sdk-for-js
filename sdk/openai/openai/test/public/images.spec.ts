@@ -21,6 +21,7 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
     describe("generates image URLs", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.images.generate({ model: deploymentName, prompt, n, size }),
         validate: (item) => assertImagesWithURLs(item, height, width),
@@ -33,6 +34,7 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
     describe("generates image strings with response_format", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.images.generate({
             model: deploymentName,
@@ -51,6 +53,7 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
     describe("generates image strings without response_format", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.images.generate({
             model: deploymentName,

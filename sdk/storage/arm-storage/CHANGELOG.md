@@ -1,5 +1,23 @@
 # Release History
+    
+## 18.6.0 (2025-07-16)
+    
+### Features Added
+  - Added Type Alias IntervalUnit
+  - Added Type Alias KeyType
+  - Added Type Alias Permissions
+  - Added Enum KnownIntervalUnit
+  - Operation StorageTaskAssignments.beginCreate has a new signature
+  - Operation StorageTaskAssignments.beginCreateAndWait has a new signature
+  - Operation StorageTaskAssignments.beginUpdate has a new signature
+  - Operation StorageTaskAssignments.beginUpdateAndWait has a new signature
+  - Operation StorageTaskAssignments.get has a new signature
+  - Type of parameter intervalUnit of interface TriggerParameters is changed from "Days" to IntervalUnit
+  - Type of parameter intervalUnit of interface TriggerParametersUpdate is changed from "Days" to IntervalUnit
+  - Removed Type Alias KeyType_2
+  - Removed Type Alias Permissions_2
 
+    
 ## 18.5.0 (2025-04-18)
 
 ### Features Added

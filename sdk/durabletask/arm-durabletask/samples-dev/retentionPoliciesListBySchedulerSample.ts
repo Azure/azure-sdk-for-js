@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DurableTaskClient } from "@azure/arm-durabletask";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list Retention Policies
  *
  * @summary list Retention Policies
  * x-ms-original-file: 2025-04-01-preview/RetentionPolicies_ListByScheduler_MaximumSet_Gen.json
  */
+
+import { DurableTaskClient } from "@azure/arm-durabletask";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function retentionPoliciesListBySchedulerMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "194D3C1E-462F-4738-9025-092A628C06EB";

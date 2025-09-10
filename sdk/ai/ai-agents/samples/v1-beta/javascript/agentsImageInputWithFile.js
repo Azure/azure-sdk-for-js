@@ -52,8 +52,8 @@ async function main() {
     },
     {
       type: "image_file",
-      image_file: {
-        file_id: imageFile.id,
+      imageFile: {
+        fileId: imageFile.id,
         detail: "high",
       },
     },

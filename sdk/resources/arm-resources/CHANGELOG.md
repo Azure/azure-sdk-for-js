@@ -1,5 +1,22 @@
 # Release History
     
+## 7.0.0 (2025-06-10)
+    
+- operation groups `DeploymentOperations` and `Deployments` has been split into an independent library [`@azure/arm-resourcesdeployment`](https://www.npmjs.com/package/@azure/arm-resourcesdeployments/v/1.0.0-beta.1).
+
+### Breaking Changes
+
+  - Removed operation group DeploymentOperations
+  - Removed operation group Deployments
+  - Class ResourceManagementClient no longer has parameter deploymentOperations
+  - Class ResourceManagementClient no longer has parameter deployments
+  - Removed Enum KnownExpressionEvaluationOptionsScopeType
+  - Removed Enum KnownExtensionConfigPropertyType
+  - Removed Enum KnownLevel
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownValidationLevel
+    
+    
 ## 6.1.0 (2025-05-14)
     
 ### Features Added

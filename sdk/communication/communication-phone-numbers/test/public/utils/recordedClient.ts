@@ -10,6 +10,7 @@ import type { TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
+import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
 
 if (isNodeLike) {
   dotenv.config();
@@ -21,8 +22,9 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING:
+    "endpoint=https://Sanitized.com/;accesskey=banana",
+  COMMUNICATION_ENDPOINT: "https://Sanitized.com/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
@@ -31,18 +33,41 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 const sanitizerOptions: SanitizerOptions = {
-  connectionStringSanitizers: [
+  connectionStringSanitizers: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+    ? [
+        {
+          actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
+          fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+        },
+      ]
+    : [],
+  headerSanitizers: [
     {
-      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+      key: "Operation-Location",
+      regex: true,
+      target: `https://[^/]+(?:\\.int)?\\.communication\\.azure\\.(?:com|net)/(.*)`,
+      value: `https://Sanitized.com/$1`,
+    },
+    {
+      key: "operation-location",
+      regex: true,
+      target: `https://[^/]+(?:\\.int)?\\.communication\\.azure\\.(?:com|net)/(.*)`,
+      value: `https://Sanitized.com/$1`,
+    },
+  ],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `https://[^/]+(?:\\.int)?\\.communication\\.azure\\.(?:com|net)/(.*)`,
+      value: `https://Sanitized.com/$1`,
     },
   ],
   generalSanitizers: [
     { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
     {
       regex: true,
-      target: `(https://)([^/'",}]*)`,
-      value: `$1endpoint`,
+      target: `(https://)([^/'",}]*(?:\\.int)?\\.communication\\.azure\\.(?:com|net))`,
+      value: `$1Sanitized.com`,
     },
     {
       regex: true,
@@ -83,13 +108,22 @@ export async function createRecordedClient(
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context);
 
+  // Use the fake connection string in playback mode, real one in live/record mode
+  const connectionString = isPlaybackMode()
+    ? envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"]
+    : (env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "");
+
   const client = new PhoneNumbersClient(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    connectionString,
     recorder.configureClientOptions({
       additionalPolicies: [
         {
           policy: createMSUserAgentPolicy(),
           position: "perCall",
+        },
+        {
+          policy: createOperationLocationFixPolicy(),
+          position: "perRetry",
         },
       ],
     }),
@@ -113,14 +147,16 @@ export async function createRecordedClientWithToken(
   const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-  ).endpoint;
+  let endpoint: string;
 
   if (isPlaybackMode()) {
     credential = createMockToken();
+    endpoint = envSetupForPlayback["COMMUNICATION_ENDPOINT"];
   } else {
     credential = createTestCredential();
+    endpoint = parseConnectionString(
+      env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    ).endpoint;
   }
 
   const client = new PhoneNumbersClient(
@@ -131,6 +167,10 @@ export async function createRecordedClientWithToken(
         {
           policy: createMSUserAgentPolicy(),
           position: "perCall",
+        },
+        {
+          policy: createOperationLocationFixPolicy(),
+          position: "perRetry",
         },
       ],
     }),

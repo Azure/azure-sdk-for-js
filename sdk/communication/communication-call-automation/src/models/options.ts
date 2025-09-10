@@ -42,8 +42,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
-  /** speechModelEndpointId. */
-  speechModelEndpointId?: string;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -120,8 +118,6 @@ export interface CreateCallOptions extends OperationOptions {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptions;
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
   /**
    * Overrides default client source by a MicrosoftTeamsAppIdentifier type source.
    * Required for creating call with Teams resource account ID.
@@ -136,8 +132,6 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Used by customer to send custom context to targets. */
-  customCallingContext?: CustomCallingContext;
   /** Options for Media streaming. */
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Options for live transcription. */
@@ -149,10 +143,7 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export interface RedirectCallOptions extends OperationOptions {
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
-}
+export type RedirectCallOptions = OperationOptions;
 
 /**
  * Options to reject call.
@@ -197,17 +188,6 @@ export interface AddParticipantOptions extends OperationOptions {
   operationCallbackUrl?: string;
 }
 
-/** Options to move participants. */
-export interface MoveParticipantsOptions extends OperationOptions {
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /**
-   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUrl?: string;
-}
-
 /**
  * Options to remove participants.
  */
@@ -242,8 +222,6 @@ export interface PlayOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
-  /** If set, hold audio will be interrupted, then this request will be played, and then the hold audio will be resumed. */
-  interruptHoldAudio?: boolean;
 }
 
 /**
@@ -318,11 +296,6 @@ export type PauseRecordingOptions = OperationOptions;
  * Options to get recording properties.
  */
 export type GetRecordingPropertiesOptions = OperationOptions;
-
-/**
- * Options to get recording result.
- */
-export type GetRecordingResultOptions = OperationOptions;
 
 /**
  * Options to resume recording.
@@ -420,7 +393,7 @@ export interface HoldOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
   /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUri?: string;
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -429,6 +402,8 @@ export interface HoldOptions extends OperationOptions {
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
+  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -480,12 +455,4 @@ export interface UpdateTranscriptionOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
-}
-
-/**
- * Options to interrupt audio and announce.
- */
-export interface InterruptAudioAndAnnounceOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
 }

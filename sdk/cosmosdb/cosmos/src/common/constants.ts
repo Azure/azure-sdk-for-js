@@ -202,6 +202,11 @@ export const Constants = {
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
   LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
+  StalePartitionUnavailabilityRefreshIntervalInMs: 1 * 60 * 1000, // 1 minute
+  AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
+  ReadRequestFailureCountThreshold: 10,
+  WriteRequestFailureCountThreshold: 5,
+  ConsecutiveFailureCountResetIntervalInMS: 1000 * 60 * 1, // 1 minute
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -218,7 +223,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.4.1",
+  SDKVersion: "4.5.1",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -296,6 +301,8 @@ export const Constants = {
   DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
+
+  RequestTimeoutForReadsInMs: 2000, // 2 seconds
 };
 
 /**
@@ -532,4 +539,20 @@ export enum QueryFeature {
 
 export enum SDKSupportedCapabilities {
   PartitionMerge = 1,
+}
+
+/**
+ * @hidden
+ */
+export enum PartitionAvailablilityStatus {
+  Available,
+  Unavailable,
+}
+
+/**
+ * @hidden
+ */
+export enum UserAgentFeatureFlags {
+  PerPartitionAutomaticFailover = 1,
+  PerPartitionCircuitBreaker = 2,
 }

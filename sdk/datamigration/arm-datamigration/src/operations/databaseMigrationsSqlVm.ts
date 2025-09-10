@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataMigrationManagementClient } from "../dataMigrationManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DatabaseMigrationsSqlVmGetOptionalParams,
   DatabaseMigrationsSqlVmGetResponse,
@@ -21,7 +25,7 @@ import {
   DatabaseMigrationsSqlVmCreateOrUpdateResponse,
   MigrationOperationInput,
   DatabaseMigrationsSqlVmCancelOptionalParams,
-  DatabaseMigrationsSqlVmCutoverOptionalParams
+  DatabaseMigrationsSqlVmCutoverOptionalParams,
 } from "../models/index.js";
 
 /** Class containing DatabaseMigrationsSqlVm operations. */
@@ -37,7 +41,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -48,16 +52,16 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     resourceGroupName: string,
     sqlVirtualMachineName: string,
     targetDbName: string,
-    options?: DatabaseMigrationsSqlVmGetOptionalParams
+    options?: DatabaseMigrationsSqlVmGetOptionalParams,
   ): Promise<DatabaseMigrationsSqlVmGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlVirtualMachineName, targetDbName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -70,30 +74,29 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     sqlVirtualMachineName: string,
     targetDbName: string,
     parameters: DatabaseMigrationSqlVm,
-    options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
+    options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
       DatabaseMigrationsSqlVmCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -102,8 +105,8 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -111,32 +114,35 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineName,
         targetDbName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DatabaseMigrationsSqlVmCreateOrUpdateResponse,
+      OperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -149,20 +155,20 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     sqlVirtualMachineName: string,
     targetDbName: string,
     parameters: DatabaseMigrationSqlVm,
-    options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
+    options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams,
   ): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       sqlVirtualMachineName,
       targetDbName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -175,25 +181,24 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     sqlVirtualMachineName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DatabaseMigrationsSqlVmCancelOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +207,8 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,32 +216,32 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineName,
         targetDbName,
         parameters,
-        options
+        options,
       },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -249,20 +254,20 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     sqlVirtualMachineName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCancelOptionalParams
+    options?: DatabaseMigrationsSqlVmCancelOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCancel(
       resourceGroupName,
       sqlVirtualMachineName,
       targetDbName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -275,25 +280,24 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     sqlVirtualMachineName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCutoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DatabaseMigrationsSqlVmCutoverOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +306,8 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,32 +315,32 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineName,
         targetDbName,
         parameters,
-        options
+        options,
       },
-      cutoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: cutoverOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -349,14 +353,14 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
     sqlVirtualMachineName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCutoverOptionalParams
+    options?: DatabaseMigrationsSqlVmCutoverOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCutover(
       resourceGroupName,
       sqlVirtualMachineName,
       targetDbName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -365,95 +369,91 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseMigrationSqlVm
+      bodyMapper: Mappers.DatabaseMigrationSqlVm,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.migrationOperationId,
     Parameters.expand,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.targetDbName,
     Parameters.subscriptionId,
-    Parameters.sqlVirtualMachineName
+    Parameters.targetDbName,
+    Parameters.sqlVirtualMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseMigrationSqlVm
+      bodyMapper: Mappers.DatabaseMigrationSqlVm,
     },
     201: {
-      bodyMapper: Mappers.DatabaseMigrationSqlVm
+      bodyMapper: Mappers.DatabaseMigrationSqlVm,
     },
     202: {
-      bodyMapper: Mappers.DatabaseMigrationSqlVm
+      bodyMapper: Mappers.DatabaseMigrationSqlVm,
     },
     204: {
-      bodyMapper: Mappers.DatabaseMigrationSqlVm
+      bodyMapper: Mappers.DatabaseMigrationSqlVm,
     },
-    default: {}
+    default: {},
   },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.targetDbName,
+    Parameters.sqlVirtualMachineName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cancel",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.targetDbName,
     Parameters.subscriptionId,
-    Parameters.sqlVirtualMachineName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cancel",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.targetDbName,
-    Parameters.subscriptionId,
-    Parameters.sqlVirtualMachineName
+    Parameters.sqlVirtualMachineName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cutoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cutover",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cutover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.targetDbName,
     Parameters.subscriptionId,
-    Parameters.sqlVirtualMachineName
+    Parameters.targetDbName,
+    Parameters.sqlVirtualMachineName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

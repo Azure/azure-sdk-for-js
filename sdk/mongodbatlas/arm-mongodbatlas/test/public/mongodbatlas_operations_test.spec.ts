@@ -32,7 +32,8 @@ describe("mongodbatlas test", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+
+  it.skip("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);

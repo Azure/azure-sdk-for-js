@@ -5,24 +5,23 @@ import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
 } from "./generated/src/models/index.js";
-import type { RecordingResult, RecordingStateResult } from "./models/responses.js";
+import type { RecordingStateResult } from "./models/responses.js";
 import type {
   StartRecordingOptions,
   StopRecordingOptions,
   PauseRecordingOptions,
   GetRecordingPropertiesOptions,
-  GetRecordingResultOptions,
   ResumeRecordingOptions,
   DeleteRecordingOptions,
   DownloadRecordingOptions,
 } from "./models/options.js";
 import { communicationIdentifierModelConverter } from "./utli/converters.js";
 import { ContentDownloaderImpl } from "./contentDownloader.js";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { CallAutomationApiClient } from "./generated/src/index.js";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { CallAutomationApiClient } from "./generated/src/index.js";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -37,11 +36,9 @@ export class CallRecording {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
@@ -168,30 +165,6 @@ export class CallRecording {
    */
   public async resume(recordingId: string, options: ResumeRecordingOptions = {}): Promise<void> {
     return this.callRecordingImpl.resumeRecording(recordingId, options);
-  }
-
-  /**
-   * Returns call recording result.
-   * @param recordingId - The recordingId associated with the recording.
-   * @param options - Additional request options contains getRecordingProperties api options.
-   */
-  public async getRecordingResult(
-    recordingId: string,
-    options: GetRecordingResultOptions = {},
-  ): Promise<RecordingResult> {
-    const response = await this.callRecordingImpl.getRecordingResult(recordingId, options);
-
-    const result: RecordingResult = {
-      recordingId: response.recordingId!,
-      errors: response.errors,
-      recordingDurationMs: response.recordingDurationMs,
-      recordingExpirationTime: response.recordingExpirationTime,
-      recordingStartTime: response.recordingStartTime,
-      recordingStorageInfo: response.recordingStorageInfo,
-      sessionEndReason: response.sessionEndReason,
-    };
-
-    return result;
   }
 
   /**

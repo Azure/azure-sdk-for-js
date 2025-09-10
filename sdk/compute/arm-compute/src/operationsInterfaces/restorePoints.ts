@@ -8,20 +8,33 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  RestorePointsGetOptionalParams,
+  RestorePointsGetResponse,
   RestorePoint,
   RestorePointsCreateOptionalParams,
   RestorePointsCreateResponse,
   RestorePointsDeleteOptionalParams,
-  RestorePointsGetOptionalParams,
-  RestorePointsGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a RestorePoints. */
 export interface RestorePoints {
   /**
+   * The operation to get the restore point.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
+   * @param restorePointName The name of the restore point.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    restorePointName: string,
+    options?: RestorePointsGetOptionalParams,
+  ): Promise<RestorePointsGetResponse>;
+  /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param parameters Parameters supplied to the Create restore point operation.
@@ -42,7 +55,7 @@ export interface RestorePoints {
   /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param parameters Parameters supplied to the Create restore point operation.
@@ -57,8 +70,8 @@ export interface RestorePoints {
   ): Promise<RestorePointsCreateResponse>;
   /**
    * The operation to delete the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
    */
@@ -70,8 +83,8 @@ export interface RestorePoints {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
    */
@@ -81,17 +94,4 @@ export interface RestorePoints {
     restorePointName: string,
     options?: RestorePointsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection.
-   * @param restorePointName The name of the restore point.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    restorePointName: string,
-    options?: RestorePointsGetOptionalParams,
-  ): Promise<RestorePointsGetResponse>;
 }

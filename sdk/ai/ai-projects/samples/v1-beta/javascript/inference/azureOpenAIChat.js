@@ -15,7 +15,7 @@ const deploymentName = process.env["DEPLOYMENT_GPT_MODEL"] || "<deployment name>
 
 async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-  project.enableTelemetry("stdout");
+
   const client = await project.inference.azureOpenAI({
     // The API version should match the version of the Azure OpenAI resource.
     apiVersion: "2025-01-01-preview",

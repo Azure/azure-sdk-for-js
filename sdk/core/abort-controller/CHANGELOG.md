@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
 ## 2.1.2 (2024-04-09)
 
 ### Other Changes

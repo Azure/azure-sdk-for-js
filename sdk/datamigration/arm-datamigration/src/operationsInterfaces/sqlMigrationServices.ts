@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlMigrationService,
   SqlMigrationServicesListByResourceGroupOptionalParams,
@@ -31,7 +31,7 @@ import {
   SqlMigrationServicesDeleteNodeOptionalParams,
   SqlMigrationServicesDeleteNodeResponse,
   SqlMigrationServicesListMonitoringDataOptionalParams,
-  SqlMigrationServicesListMonitoringDataResponse
+  SqlMigrationServicesListMonitoringDataResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export interface SqlMigrationServices {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SqlMigrationServicesListByResourceGroupOptionalParams
+    options?: SqlMigrationServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SqlMigrationService>;
   /**
    * Retrieve the List of database migrations attached to the service.
@@ -57,17 +57,17 @@ export interface SqlMigrationServices {
   listMigrations(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMigrationsOptionalParams
+    options?: SqlMigrationServicesListMigrationsOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseMigration>;
   /**
    * Retrieve all SQL migration services in the subscriptions.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SqlMigrationServicesListBySubscriptionOptionalParams
+    options?: SqlMigrationServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SqlMigrationService>;
   /**
-   * Retrieve the Migration Service.
+   * Retrieve the Database Migration Service
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -76,10 +76,10 @@ export interface SqlMigrationServices {
   get(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesGetOptionalParams
+    options?: SqlMigrationServicesGetOptionalParams,
   ): Promise<SqlMigrationServicesGetResponse>;
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -90,15 +90,15 @@ export interface SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationService,
-    options?: SqlMigrationServicesCreateOrUpdateOptionalParams
+    options?: SqlMigrationServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlMigrationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlMigrationServicesCreateOrUpdateResponse>,
       SqlMigrationServicesCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -109,10 +109,10 @@ export interface SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationService,
-    options?: SqlMigrationServicesCreateOrUpdateOptionalParams
+    options?: SqlMigrationServicesCreateOrUpdateOptionalParams,
   ): Promise<SqlMigrationServicesCreateOrUpdateResponse>;
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -121,10 +121,10 @@ export interface SqlMigrationServices {
   beginDelete(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SqlMigrationServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -133,10 +133,10 @@ export interface SqlMigrationServices {
   beginDeleteAndWait(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesDeleteOptionalParams
+    options?: SqlMigrationServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -147,15 +147,15 @@ export interface SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationServiceUpdate,
-    options?: SqlMigrationServicesUpdateOptionalParams
+    options?: SqlMigrationServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlMigrationServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlMigrationServicesUpdateResponse>,
       SqlMigrationServicesUpdateResponse
     >
   >;
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -166,7 +166,7 @@ export interface SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationServiceUpdate,
-    options?: SqlMigrationServicesUpdateOptionalParams
+    options?: SqlMigrationServicesUpdateOptionalParams,
   ): Promise<SqlMigrationServicesUpdateResponse>;
   /**
    * Retrieve the List of Authentication Keys for Self Hosted Integration Runtime.
@@ -178,7 +178,7 @@ export interface SqlMigrationServices {
   listAuthKeys(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListAuthKeysOptionalParams
+    options?: SqlMigrationServicesListAuthKeysOptionalParams,
   ): Promise<SqlMigrationServicesListAuthKeysResponse>;
   /**
    * Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
@@ -192,7 +192,7 @@ export interface SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: RegenAuthKeys,
-    options?: SqlMigrationServicesRegenerateAuthKeysOptionalParams
+    options?: SqlMigrationServicesRegenerateAuthKeysOptionalParams,
   ): Promise<SqlMigrationServicesRegenerateAuthKeysResponse>;
   /**
    * Delete the integration runtime node.
@@ -206,10 +206,11 @@ export interface SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: DeleteNode,
-    options?: SqlMigrationServicesDeleteNodeOptionalParams
+    options?: SqlMigrationServicesDeleteNodeOptionalParams,
   ): Promise<SqlMigrationServicesDeleteNodeResponse>;
   /**
-   * Retrieve the Monitoring Data.
+   * Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database
+   * Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -218,6 +219,6 @@ export interface SqlMigrationServices {
   listMonitoringData(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMonitoringDataOptionalParams
+    options?: SqlMigrationServicesListMonitoringDataOptionalParams,
   ): Promise<SqlMigrationServicesListMonitoringDataResponse>;
 }
