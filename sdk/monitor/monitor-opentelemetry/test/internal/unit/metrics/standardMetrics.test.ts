@@ -21,7 +21,7 @@ import {
   ATTR_SERVER_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
-import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
@@ -89,17 +89,38 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    const loggerProvider = new LoggerProvider({ resource: resource });
-    const logger = loggerProvider.getLogger("testLogger") as any;
-
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
-      { name: "test" },
-      {
-        body: "testMessage",
-        timestamp: 123,
+    const traceLog: SdkLogRecord = {
+      hrTime: [0, 123],
+      hrTimeObserved: [0, 123],
+      resource: resource,
+      instrumentationScope: { name: "test" },
+      attributes: { body: "testMessage" },
+      droppedAttributesCount: 0,
+      setAttribute: (key: string, value?: any) => {
+        traceLog.attributes[key] = value;
+        return traceLog;
       },
-    );
+      setAttributes: (attributes: any) => {
+        Object.assign(traceLog.attributes, attributes);
+        return traceLog;
+      },
+      setBody: (body: any) => {
+        traceLog.body = body;
+        return traceLog;
+      },
+      setEventName: (eventName: string) => {
+        traceLog.eventName = eventName;
+        return traceLog;
+      },
+      setSeverityNumber: (severityNumber: any) => {
+        traceLog.severityNumber = severityNumber;
+        return traceLog;
+      },
+      setSeverityText: (severityText: string) => {
+        traceLog.severityText = severityText;
+        return traceLog;
+      },
+    };
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
@@ -295,17 +316,38 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "serviceTestName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    const loggerProvider = new LoggerProvider({ resource: resource });
-    const logger = loggerProvider.getLogger("testLogger") as any;
-
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
-      { name: "test" },
-      {
-        body: "testMessage",
-        timestamp: 123,
+    const traceLog: SdkLogRecord = {
+      hrTime: [0, 123],
+      hrTimeObserved: [0, 123],
+      resource: resource,
+      instrumentationScope: { name: "test" },
+      attributes: { body: "testMessage" },
+      droppedAttributesCount: 0,
+      setAttribute: (key: string, value?: any) => {
+        traceLog.attributes[key] = value;
+        return traceLog;
       },
-    );
+      setAttributes: (attributes: any) => {
+        Object.assign(traceLog.attributes, attributes);
+        return traceLog;
+      },
+      setBody: (body: any) => {
+        traceLog.body = body;
+        return traceLog;
+      },
+      setEventName: (eventName: string) => {
+        traceLog.eventName = eventName;
+        return traceLog;
+      },
+      setSeverityNumber: (severityNumber: any) => {
+        traceLog.severityNumber = severityNumber;
+        return traceLog;
+      },
+      setSeverityText: (severityText: string) => {
+        traceLog.severityText = severityText;
+        return traceLog;
+      },
+    };
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
