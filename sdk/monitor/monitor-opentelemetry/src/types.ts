@@ -4,6 +4,7 @@ import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-e
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { MetricReader } from "@opentelemetry/sdk-metrics";
 import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
@@ -34,6 +35,8 @@ export interface AzureMonitorOpenTelemetryOptions {
   logRecordProcessors?: LogRecordProcessor[];
   /** An array of span processors to register to the tracer provider.*/
   spanProcessors?: SpanProcessor[];
+  /** An array of metric readers to register to the meter provider.*/
+  metricReaders?: MetricReader[];
 }
 
 /**

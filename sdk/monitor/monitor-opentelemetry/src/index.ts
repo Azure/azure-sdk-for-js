@@ -5,6 +5,7 @@ import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
+import type { MetricReader } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "./shared/config.js";
 import { MetricHandler } from "./metrics/index.js";
 import { TraceHandler } from "./traces/handler.js";
@@ -81,10 +82,16 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
   const logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
 
+  // Prepare metric readers - always include Azure Monitor
+  const metricReaders: MetricReader[] = [
+    metricHandler.getMetricReader(),
+    ...(options?.metricReaders || []),
+  ];
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
-    metricReader: metricHandler.getMetricReader(),
+    metricReaders: metricReaders,
     views: metricHandler.getViews(),
     instrumentations: instrumentations,
     logRecordProcessors: [
@@ -113,4 +120,13 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
   return sdk?.shutdown();
+}
+
+/**
+ * Get the internal SDK instance for testing purposes
+ * @internal
+ */
+// eslint-disable-next-line no-underscore-dangle
+export function _getSdkInstance(): NodeSDK | undefined {
+  return sdk;
 }

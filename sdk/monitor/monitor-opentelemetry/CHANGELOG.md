@@ -1,5 +1,15 @@
 # Release History
 
+### 1.13.1 ()
+
+### Bugs Fixed
+
+- Fix support for multiple metric exporters and OTLP metric exporter creation.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
 ### 1.13.0 (2025-09-05)
 
 ### Features Added
