@@ -152,7 +152,8 @@ export async function createRecordedClientWithToken(
   const endpoint = parseConnectionString(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
   ).endpoint;
-
+  
+  console.log("endpoint:", endpoint);
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes: any) => {
