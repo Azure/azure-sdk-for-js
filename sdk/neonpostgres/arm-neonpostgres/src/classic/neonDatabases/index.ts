@@ -1,29 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { NeonDatabase } from "../../models/models.js";
-import {
-  NeonDatabasesListOptionalParams,
+import type { PostgresContext } from "../../api/postgresContext.js";
+import { $delete, createOrUpdate, list } from "../../api/neonDatabases/operations.js";
+import type {
   NeonDatabasesDeleteOptionalParams,
-  NeonDatabasesUpdateOptionalParams,
   NeonDatabasesCreateOrUpdateOptionalParams,
-  NeonDatabasesGetOptionalParams,
+  NeonDatabasesListOptionalParams,
 } from "../../api/neonDatabases/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/neonDatabases/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { NeonDatabase } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NeonDatabases operations. */
 export interface NeonDatabasesOperations {
-  /** List NeonDatabase resources by Branch */
-  list: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    options?: NeonDatabasesListOptionalParams,
-  ) => PagedAsyncIterableIterator<NeonDatabase>;
   /** Delete a NeonDatabase */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -38,16 +28,6 @@ export interface NeonDatabasesOperations {
     neonDatabaseName: string,
     options?: NeonDatabasesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a NeonDatabase */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    neonDatabaseName: string,
-    properties: NeonDatabase,
-    options?: NeonDatabasesUpdateOptionalParams,
-  ) => PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
   /** Create a NeonDatabase */
   createOrUpdate: (
     resourceGroupName: string,
@@ -58,26 +38,18 @@ export interface NeonDatabasesOperations {
     resource: NeonDatabase,
     options?: NeonDatabasesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
-  /** Get a NeonDatabase */
-  get: (
+  /** List NeonDatabase resources by Branch */
+  list: (
     resourceGroupName: string,
     organizationName: string,
     projectName: string,
     branchName: string,
-    neonDatabaseName: string,
-    options?: NeonDatabasesGetOptionalParams,
-  ) => Promise<NeonDatabase>;
+    options?: NeonDatabasesListOptionalParams,
+  ) => PagedAsyncIterableIterator<NeonDatabase>;
 }
 
 function _getNeonDatabases(context: PostgresContext) {
   return {
-    list: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      options?: NeonDatabasesListOptionalParams,
-    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -93,25 +65,6 @@ function _getNeonDatabases(context: PostgresContext) {
         projectName,
         branchName,
         neonDatabaseName,
-        options,
-      ),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      neonDatabaseName: string,
-      properties: NeonDatabase,
-      options?: NeonDatabasesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        neonDatabaseName,
-        properties,
         options,
       ),
     createOrUpdate: (
@@ -133,23 +86,13 @@ function _getNeonDatabases(context: PostgresContext) {
         resource,
         options,
       ),
-    get: (
+    list: (
       resourceGroupName: string,
       organizationName: string,
       projectName: string,
       branchName: string,
-      neonDatabaseName: string,
-      options?: NeonDatabasesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        neonDatabaseName,
-        options,
-      ),
+      options?: NeonDatabasesListOptionalParams,
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 

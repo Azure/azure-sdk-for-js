@@ -1,35 +1,104 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { PostgresContext as Client } from "../index.js";
+import type {
   Branch,
-  branchSerializer,
-  branchDeserializer,
   _BranchListResult,
-  _branchListResultDeserializer,
+  PreflightCheckParameters,
+  PreflightCheckResult,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  branchSerializer,
+  branchDeserializer,
+  _branchListResultDeserializer,
+  preflightCheckParametersSerializer,
+  preflightCheckResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  BranchesPreflightOptionalParams,
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _preflightSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationName: string,
+  projectName: string,
+  branchName: string,
+  parameters: PreflightCheckParameters,
+  options: BranchesPreflightOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/preflight{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationName: organizationName,
+      projectName: projectName,
+      branchName: branchName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: preflightCheckParametersSerializer(parameters),
+  });
+}
+
+export async function _preflightDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PreflightCheckResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return preflightCheckResultDeserializer(result.body);
+}
+
+/** Action to validate preflight checks. */
+export async function preflight(
+  context: Client,
+  resourceGroupName: string,
+  organizationName: string,
+  projectName: string,
+  branchName: string,
+  parameters: PreflightCheckParameters,
+  options: BranchesPreflightOptionalParams = { requestOptions: {} },
+): Promise<PreflightCheckResult> {
+  const result = await _preflightSend(
+    context,
+    resourceGroupName,
+    organizationName,
+    projectName,
+    branchName,
+    parameters,
+    options,
+  );
+  return _preflightDeserialize(result);
+}
 
 export function _listSend(
   context: Client,
@@ -110,13 +179,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -155,78 +218,6 @@ export async function $delete(
   return _$deleteDeserialize(result);
 }
 
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  branchName: string,
-  properties: Branch,
-  options: BranchesUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      organizationName: organizationName,
-      projectName: projectName,
-      branchName: branchName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: branchSerializer(properties),
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Branch> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return branchDeserializer(result.body);
-}
-
-/** Update a Branch */
-export function update(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  branchName: string,
-  properties: Branch,
-  options: BranchesUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<Branch>, Branch> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        properties,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Branch>, Branch>;
-}
-
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
@@ -262,7 +253,7 @@ export function _createOrUpdateSend(
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Branch> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -282,7 +273,7 @@ export function createOrUpdate(
   resource: Branch,
   options: BranchesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Branch>, Branch> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

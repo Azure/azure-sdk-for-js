@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<void>;
@@ -25,26 +25,11 @@ export interface EndpointsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EndpointsGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface EndpointsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EndpointsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export function get(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, options?: EndpointsGetOptionalParams): Promise<Endpoint>;
-
-// @public
 export function list(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: EndpointsListOptionalParams): PagedAsyncIterableIterator<Endpoint>;
-
-// @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, properties: Endpoint, options?: EndpointsUpdateOptionalParams): PollerLike<OperationState<Endpoint>, Endpoint>;
 
 // (No @packageDocumentation comment for this package)
 

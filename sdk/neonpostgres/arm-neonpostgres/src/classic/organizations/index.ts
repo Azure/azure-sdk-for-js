@@ -1,18 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { OrganizationResource } from "../../models/models.js";
-import { PgVersionsResult } from "../../models/models/models.js";
-import {
-  OrganizationsGetPostgresVersionsOptionalParams,
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
-} from "../../api/organizations/options.js";
+import type { PostgresContext } from "../../api/postgresContext.js";
 import {
   getPostgresVersions,
   listBySubscription,
@@ -22,8 +11,22 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  OrganizationsGetPostgresVersionsOptionalParams,
+  OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+} from "../../api/organizations/options.js";
+import type {
+  OrganizationResource,
+  OrganizationResourceUpdate,
+  PgVersionsResult,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {
@@ -56,7 +59,7 @@ export interface OrganizationsOperations {
   update: (
     resourceGroupName: string,
     organizationName: string,
-    properties: OrganizationResource,
+    properties: OrganizationResourceUpdate,
     options?: OrganizationsUpdateOptionalParams,
   ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
   /** Create a OrganizationResource */
@@ -94,7 +97,7 @@ function _getOrganizations(context: PostgresContext) {
     update: (
       resourceGroupName: string,
       organizationName: string,
-      properties: OrganizationResource,
+      properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
     ) => update(context, resourceGroupName, organizationName, properties, options),
     createOrUpdate: (
