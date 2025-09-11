@@ -42,22 +42,13 @@ export type ConnectionStatus = string;
 export type CreatedByType = string;
 
 // @public
-export interface DisconnectedCreateOrUpdateOperation extends TrackedResource {
-    properties?: DisconnectedCreateOrUpdateOperationProperties;
-}
-
-// @public
-export interface DisconnectedCreateOrUpdateOperationProperties {
-    connectionIntent: ConnectionIntent;
-    readonly connectionStatus?: ConnectionStatus;
-    deviceVersion?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    registrationStatus?: RegistrationStatus;
-}
-
-// @public
 export interface DisconnectedOperation extends TrackedResource {
     properties?: DisconnectedOperationProperties;
+}
+
+// @public
+export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
+    properties?: DisconnectedOperationPropertiesCreateOrUpdate;
 }
 
 // @public
@@ -80,6 +71,15 @@ export interface DisconnectedOperationProperties {
     readonly provisioningState?: ResourceProvisioningState;
     registrationStatus?: RegistrationStatus;
     readonly stampId: string;
+}
+
+// @public
+export interface DisconnectedOperationPropertiesCreateOrUpdate {
+    connectionIntent: ConnectionIntent;
+    readonly connectionStatus?: ConnectionStatus;
+    deviceVersion?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    registrationStatus?: RegistrationStatus;
 }
 
 // @public

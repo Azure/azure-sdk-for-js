@@ -5,9 +5,9 @@ const { EdgeClient } = require("@azure/arm-disconnectedoperations");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create a DisconnectedCreateOrUpdateOperation
+ * This sample demonstrates how to create a DisconnectedOperationCreateOrUpdate
  *
- * @summary create a DisconnectedCreateOrUpdateOperation
+ * @summary create a DisconnectedOperationCreateOrUpdate
  * x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function disconnectedOperationsCreateOrUpdate() {

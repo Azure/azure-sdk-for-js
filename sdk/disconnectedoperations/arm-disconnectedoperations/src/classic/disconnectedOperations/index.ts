@@ -22,7 +22,7 @@ import type {
 } from "../../api/disconnectedOperations/options.js";
 import type {
   DisconnectedOperation,
-  DisconnectedCreateOrUpdateOperation,
+  DisconnectedOperationCreateOrUpdate,
   DisconnectedOperationUpdate,
   DisconnectedOperationDeploymentManifest,
 } from "../../models/models.js";
@@ -64,15 +64,15 @@ export interface DisconnectedOperationsOperations {
     properties: DisconnectedOperationUpdate,
     options?: DisconnectedOperationsUpdateOptionalParams,
   ) => Promise<DisconnectedOperation>;
-  /** Create a DisconnectedCreateOrUpdateOperation */
+  /** Create a DisconnectedOperationCreateOrUpdate */
   createOrUpdate: (
     resourceGroupName: string,
     name: string,
-    resource: DisconnectedCreateOrUpdateOperation,
+    resource: DisconnectedOperationCreateOrUpdate,
     options?: DisconnectedOperationsCreateOrUpdateOptionalParams,
   ) => PollerLike<
-    OperationState<DisconnectedCreateOrUpdateOperation>,
-    DisconnectedCreateOrUpdateOperation
+    OperationState<DisconnectedOperationCreateOrUpdate>,
+    DisconnectedOperationCreateOrUpdate
   >;
   /** Get a DisconnectedOperation */
   get: (
@@ -109,7 +109,7 @@ function _getDisconnectedOperations(context: EdgeContext) {
     createOrUpdate: (
       resourceGroupName: string,
       name: string,
-      resource: DisconnectedCreateOrUpdateOperation,
+      resource: DisconnectedOperationCreateOrUpdate,
       options?: DisconnectedOperationsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, name, resource, options),
     get: (

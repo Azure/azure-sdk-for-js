@@ -316,26 +316,26 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** Disconnected create or update operation resource. */
-export interface DisconnectedCreateOrUpdateOperation extends TrackedResource {
+export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedCreateOrUpdateOperationProperties;
+  properties?: DisconnectedOperationPropertiesCreateOrUpdate;
 }
 
-export function disconnectedCreateOrUpdateOperationSerializer(
-  item: DisconnectedCreateOrUpdateOperation,
+export function disconnectedOperationCreateOrUpdateSerializer(
+  item: DisconnectedOperationCreateOrUpdate,
 ): any {
   return {
     tags: item["tags"],
     location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
-      : disconnectedCreateOrUpdateOperationPropertiesSerializer(item["properties"]),
+      : disconnectedOperationPropertiesCreateOrUpdateSerializer(item["properties"]),
   };
 }
 
-export function disconnectedCreateOrUpdateOperationDeserializer(
+export function disconnectedOperationCreateOrUpdateDeserializer(
   item: any,
-): DisconnectedCreateOrUpdateOperation {
+): DisconnectedOperationCreateOrUpdate {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -347,12 +347,12 @@ export function disconnectedCreateOrUpdateOperationDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : disconnectedCreateOrUpdateOperationPropertiesDeserializer(item["properties"]),
+      : disconnectedOperationPropertiesCreateOrUpdateDeserializer(item["properties"]),
   };
 }
 
 /** The disconnected create or update operation properties */
-export interface DisconnectedCreateOrUpdateOperationProperties {
+export interface DisconnectedOperationPropertiesCreateOrUpdate {
   /** The resource provisioning state */
   readonly provisioningState?: ResourceProvisioningState;
   /** The connection intent */
@@ -365,8 +365,8 @@ export interface DisconnectedCreateOrUpdateOperationProperties {
   deviceVersion?: string;
 }
 
-export function disconnectedCreateOrUpdateOperationPropertiesSerializer(
-  item: DisconnectedCreateOrUpdateOperationProperties,
+export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
+  item: DisconnectedOperationPropertiesCreateOrUpdate,
 ): any {
   return {
     connectionIntent: item["connectionIntent"],
@@ -375,9 +375,9 @@ export function disconnectedCreateOrUpdateOperationPropertiesSerializer(
   };
 }
 
-export function disconnectedCreateOrUpdateOperationPropertiesDeserializer(
+export function disconnectedOperationPropertiesCreateOrUpdateDeserializer(
   item: any,
-): DisconnectedCreateOrUpdateOperationProperties {
+): DisconnectedOperationPropertiesCreateOrUpdate {
   return {
     provisioningState: item["provisioningState"],
     connectionIntent: item["connectionIntent"],

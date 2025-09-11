@@ -85,22 +85,13 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
-export interface DisconnectedCreateOrUpdateOperation extends TrackedResource {
-    properties?: DisconnectedCreateOrUpdateOperationProperties;
-}
-
-// @public
-export interface DisconnectedCreateOrUpdateOperationProperties {
-    connectionIntent: ConnectionIntent;
-    readonly connectionStatus?: ConnectionStatus;
-    deviceVersion?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    registrationStatus?: RegistrationStatus;
-}
-
-// @public
 export interface DisconnectedOperation extends TrackedResource {
     properties?: DisconnectedOperationProperties;
+}
+
+// @public
+export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
+    properties?: DisconnectedOperationPropertiesCreateOrUpdate;
 }
 
 // @public
@@ -123,6 +114,15 @@ export interface DisconnectedOperationProperties {
     readonly provisioningState?: ResourceProvisioningState;
     registrationStatus?: RegistrationStatus;
     readonly stampId: string;
+}
+
+// @public
+export interface DisconnectedOperationPropertiesCreateOrUpdate {
+    connectionIntent: ConnectionIntent;
+    readonly connectionStatus?: ConnectionStatus;
+    deviceVersion?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    registrationStatus?: RegistrationStatus;
 }
 
 // @public
@@ -153,7 +153,7 @@ export interface DisconnectedOperationsListDeploymentManifestOptionalParams exte
 
 // @public
 export interface DisconnectedOperationsOperations {
-    createOrUpdate: (resourceGroupName: string, name: string, resource: DisconnectedCreateOrUpdateOperation, options?: DisconnectedOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DisconnectedCreateOrUpdateOperation>, DisconnectedCreateOrUpdateOperation>;
+    createOrUpdate: (resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
     delete: (resourceGroupName: string, name: string, options?: DisconnectedOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, name: string, options?: DisconnectedOperationsGetOptionalParams) => Promise<DisconnectedOperation>;
     listByResourceGroup: (resourceGroupName: string, options?: DisconnectedOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DisconnectedOperation>;

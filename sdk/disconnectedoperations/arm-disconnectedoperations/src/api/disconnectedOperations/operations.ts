@@ -4,7 +4,7 @@
 import type { EdgeContext as Client } from "../index.js";
 import type {
   DisconnectedOperation,
-  DisconnectedCreateOrUpdateOperation,
+  DisconnectedOperationCreateOrUpdate,
   DisconnectedOperationUpdate,
   _DisconnectedOperationListResult,
   DisconnectedOperationDeploymentManifest,
@@ -12,8 +12,8 @@ import type {
 import {
   disconnectedOperationDeserializer,
   errorResponseDeserializer,
-  disconnectedCreateOrUpdateOperationSerializer,
-  disconnectedCreateOrUpdateOperationDeserializer,
+  disconnectedOperationCreateOrUpdateSerializer,
+  disconnectedOperationCreateOrUpdateDeserializer,
   disconnectedOperationUpdateSerializer,
   _disconnectedOperationListResultDeserializer,
   disconnectedOperationDeploymentManifestDeserializer,
@@ -312,7 +312,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  resource: DisconnectedCreateOrUpdateOperation,
+  resource: DisconnectedOperationCreateOrUpdate,
   options: DisconnectedOperationsCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
@@ -336,13 +336,13 @@ export function _createOrUpdateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: disconnectedCreateOrUpdateOperationSerializer(resource),
+    body: disconnectedOperationCreateOrUpdateSerializer(resource),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<DisconnectedCreateOrUpdateOperation> {
+): Promise<DisconnectedOperationCreateOrUpdate> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -350,21 +350,21 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return disconnectedCreateOrUpdateOperationDeserializer(result.body);
+  return disconnectedOperationCreateOrUpdateDeserializer(result.body);
 }
 
-/** Create a DisconnectedCreateOrUpdateOperation */
+/** Create a DisconnectedOperationCreateOrUpdate */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   name: string,
-  resource: DisconnectedCreateOrUpdateOperation,
+  resource: DisconnectedOperationCreateOrUpdate,
   options: DisconnectedOperationsCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<DisconnectedCreateOrUpdateOperation>,
-  DisconnectedCreateOrUpdateOperation
+  OperationState<DisconnectedOperationCreateOrUpdate>,
+  DisconnectedOperationCreateOrUpdate
 > {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -373,8 +373,8 @@ export function createOrUpdate(
       _createOrUpdateSend(context, resourceGroupName, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<
-    OperationState<DisconnectedCreateOrUpdateOperation>,
-    DisconnectedCreateOrUpdateOperation
+    OperationState<DisconnectedOperationCreateOrUpdate>,
+    DisconnectedOperationCreateOrUpdate
   >;
 }
 
