@@ -1,5 +1,18 @@
 # Release History
 
+## 2.0.0 (2025-09-11)
+
+### Features Added
+  - Interface ComputeScheduleClientOptionalParams has a new optional parameter cloudSetting
+  - Interface ExecuteCreateRequest has a new optional parameter correlationId
+  - Interface ExecuteDeleteRequest has a new optional parameter correlationId
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+
+### Breaking Changes
+  - Interface ExecuteCreateRequest no longer has parameter correlationid
+  - Interface ExecuteDeleteRequest no longer has parameter correlationid
+
 ## 1.2.0-beta.1 (2025-08-28)
 
 Compared with version 1.1.0

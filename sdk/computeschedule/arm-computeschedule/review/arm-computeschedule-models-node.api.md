@@ -4,15 +4,8 @@
 
 ```ts
 
-import { ErrorModel } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
-
-// @public
-export interface CancelOccurrenceRequest {
-    resourceIds: string[];
-}
 
 // @public
 export interface CancelOperationsRequest {
@@ -24,9 +17,6 @@ export interface CancelOperationsRequest {
 export interface CancelOperationsResponse {
     results: ResourceOperation[];
 }
-
-// @public
-export type CreatedByType = string;
 
 // @public
 export interface CreateResourceOperationResponse {
@@ -45,12 +35,6 @@ export interface DeallocateResourceOperationResponse {
     location: string;
     results?: ResourceOperation[];
     type: string;
-}
-
-// @public
-export interface DelayRequest {
-    delay: string;
-    resourceIds: string[];
 }
 
 // @public
@@ -83,7 +67,7 @@ export interface ErrorResponse {
 
 // @public
 export interface ExecuteCreateRequest {
-    correlationid?: string;
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionPayload;
 }
@@ -97,7 +81,7 @@ export interface ExecuteDeallocateRequest {
 
 // @public
 export interface ExecuteDeleteRequest {
-    correlationid?: string;
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     forceDeletion?: boolean;
     resources: Resources;
@@ -121,10 +105,6 @@ export interface ExecuteStartRequest {
 export interface ExecutionParameters {
     optimizationPreference?: OptimizationPreference;
     retryPolicy?: RetryPolicy;
-}
-
-// @public
-export interface ExtensionResource extends Resource {
 }
 
 // @public
@@ -162,56 +142,10 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownDeadlineType {
     CompleteBy = "CompleteBy",
     InitiateAt = "InitiateAt",
     Unknown = "Unknown"
-}
-
-// @public
-export enum KnownLanguage {
-    EnUs = "en-us"
-}
-
-// @public
-export enum KnownMonth {
-    All = "All",
-    April = "April",
-    August = "August",
-    December = "December",
-    February = "February",
-    January = "January",
-    July = "July",
-    June = "June",
-    March = "March",
-    May = "May",
-    November = "November",
-    October = "October",
-    September = "September"
-}
-
-// @public
-export enum KnownNotificationType {
-    Email = "Email"
-}
-
-// @public
-export enum KnownOccurrenceState {
-    Canceled = "Canceled",
-    Cancelling = "Cancelling",
-    Created = "Created",
-    Failed = "Failed",
-    Rescheduling = "Rescheduling",
-    Scheduled = "Scheduled",
-    Succeeded = "Succeeded"
 }
 
 // @public
@@ -242,20 +176,6 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownResourceOperationStatus {
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownResourceOperationType {
     Deallocate = "Deallocate",
     Hibernate = "Hibernate",
@@ -264,109 +184,10 @@ export enum KnownResourceOperationType {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownResourceType {
-    VirtualMachine = "VirtualMachine",
-    VirtualMachineScaleSet = "VirtualMachineScaleSet"
-}
-
-// @public
-export enum KnownScheduledActionType {
-    Deallocate = "Deallocate",
-    Hibernate = "Hibernate",
-    Start = "Start"
-}
-
-// @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
-    V20240815Preview = "2024-08-15-preview",
-    V20250415Preview = "2025-04-15-preview",
     V20250501 = "2025-05-01"
 }
-
-// @public
-export enum KnownWeekDay {
-    All = "All",
-    Friday = "Friday",
-    Monday = "Monday",
-    Saturday = "Saturday",
-    Sunday = "Sunday",
-    Thursday = "Thursday",
-    Tuesday = "Tuesday",
-    Wednesday = "Wednesday"
-}
-
-// @public
-export type Language = string;
-
-// @public
-export type Month = string;
-
-// @public
-export interface NotificationProperties {
-    destination: string;
-    disabled?: boolean;
-    language: Language;
-    type: NotificationType;
-}
-
-// @public
-export type NotificationType = string;
-
-// @public
-export interface Occurrence extends ProxyResource {
-    properties?: OccurrenceProperties;
-}
-
-// @public
-export interface OccurrenceExtensionProperties {
-    readonly errorDetails?: ErrorModel;
-    notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
-    resourceId: string;
-    scheduledActionId: string;
-    readonly scheduledTime: Date;
-}
-
-// @public
-export interface OccurrenceExtensionResource extends ExtensionResource {
-    properties?: OccurrenceExtensionProperties;
-}
-
-// @public
-export interface OccurrenceProperties {
-    readonly provisioningState?: OccurrenceState;
-    readonly resultSummary: OccurrenceResultSummary;
-    readonly scheduledTime: Date;
-}
-
-// @public
-export interface OccurrenceResource {
-    readonly errorDetails?: ErrorModel;
-    readonly id: string;
-    readonly name: string;
-    notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
-    resourceId: string;
-    readonly scheduledTime: Date;
-    readonly type?: string;
-}
-
-// @public
-export interface OccurrenceResultSummary {
-    statuses: ResourceResultSummary[];
-    total: number;
-}
-
-// @public
-export type OccurrenceState = string;
 
 // @public
 export interface Operation {
@@ -416,37 +237,6 @@ export type OptimizationPreference = string;
 export type Origin = string;
 
 // @public
-export type ProvisioningState = string;
-
-// @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export interface RecurringActionsResourceOperationResult {
-    resourcesStatuses: ResourceStatus[];
-    totalResources: number;
-}
-
-// @public
-export interface Resource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceAttachRequest {
-    resources: ScheduledActionResourceCreate[];
-}
-
-// @public
-export interface ResourceDetachRequest {
-    resources: string[];
-}
-
-// @public
 export interface ResourceOperation {
     errorCode?: string;
     errorDetails?: string;
@@ -477,18 +267,7 @@ export interface ResourceOperationError {
 }
 
 // @public
-export type ResourceOperationStatus = string;
-
-// @public
 export type ResourceOperationType = string;
-
-// @public
-export interface ResourcePatchRequest {
-    resources: ScheduledActionResourceCreate[];
-}
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface ResourceProvisionPayload {
@@ -499,26 +278,9 @@ export interface ResourceProvisionPayload {
 }
 
 // @public
-export interface ResourceResultSummary {
-    code: string;
-    count: number;
-    errorDetails?: ErrorModel;
-}
-
-// @public
 export interface Resources {
     ids: string[];
 }
-
-// @public
-export interface ResourceStatus {
-    error?: ErrorModel;
-    resourceId: string;
-    status: ResourceOperationStatus;
-}
-
-// @public
-export type ResourceType = string;
 
 // @public
 export interface RetryPolicy {
@@ -533,74 +295,6 @@ export interface Schedule {
     timezone?: string;
     userRequestDeadline?: string;
     userRequestTimezone?: string;
-}
-
-// @public
-export interface ScheduledAction extends TrackedResource {
-    properties?: ScheduledActionProperties;
-}
-
-// @public
-export interface ScheduledActionProperties {
-    actionType: ScheduledActionType;
-    disabled?: boolean;
-    endTime?: string;
-    notificationSettings: NotificationProperties[];
-    readonly provisioningState?: ProvisioningState;
-    resourceType: ResourceType;
-    schedule: ScheduledActionsSchedule;
-    startTime: string;
-}
-
-// @public
-export interface ScheduledActionResource {
-    readonly id: string;
-    readonly name: string;
-    notificationSettings?: NotificationProperties[];
-    resourceId: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ScheduledActionResourceCreate {
-    notificationSettings?: NotificationProperties[];
-    resourceId: string;
-}
-
-// @public
-export interface ScheduledActionResources extends ExtensionResource {
-    properties?: ScheduledActionProperties;
-}
-
-// @public
-export interface ScheduledActionsSchedule {
-    deadlineType?: DeadlineType;
-    executionParameters?: ExecutionParameters;
-    requestedDaysOfTheMonth: number[];
-    requestedMonths: Month[];
-    requestedWeekDays: WeekDay[];
-    scheduledTime: string;
-    timeZone: string;
-}
-
-// @public
-export type ScheduledActionType = string;
-
-// @public
-export interface ScheduledActionUpdate {
-    properties?: ScheduledActionUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ScheduledActionUpdateProperties {
-    actionType?: ScheduledActionType;
-    disabled?: boolean;
-    endTime?: string;
-    notificationSettings?: NotificationProperties[];
-    resourceType?: ResourceType;
-    schedule?: ScheduledActionsSchedule;
-    startTime?: string;
 }
 
 // @public
@@ -634,25 +328,6 @@ export interface SubmitStartRequest {
     resources: Resources;
     schedule: Schedule;
 }
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface TrackedResource extends Resource {
-    location: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export type WeekDay = string;
 
 // (No @packageDocumentation comment for this package)
 

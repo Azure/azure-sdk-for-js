@@ -4,15 +4,10 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -28,11 +23,6 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface CancelOccurrenceRequest {
-    resourceIds: string[];
-}
-
-// @public
 export interface CancelOperationsRequest {
     correlationId: string;
     operationIds: string[];
@@ -46,11 +36,8 @@ export interface CancelOperationsResponse {
 // @public (undocumented)
 export class ComputeScheduleClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeScheduleClientOptionalParams);
-    readonly occurrenceExtension: OccurrenceExtensionOperations;
-    readonly occurrences: OccurrencesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
-    readonly scheduledActionExtension: ScheduledActionExtensionOperations;
     readonly scheduledActions: ScheduledActionsOperations;
 }
 
@@ -64,9 +51,6 @@ export interface ComputeScheduleClientOptionalParams extends ClientOptions {
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
-
-// @public
-export type CreatedByType = string;
 
 // @public
 export interface CreateResourceOperationResponse {
@@ -85,12 +69,6 @@ export interface DeallocateResourceOperationResponse {
     location: string;
     results?: ResourceOperation[];
     type: string;
-}
-
-// @public
-export interface DelayRequest {
-    delay: string;
-    resourceIds: string[];
 }
 
 // @public
@@ -123,7 +101,7 @@ export interface ErrorResponse {
 
 // @public
 export interface ExecuteCreateRequest {
-    correlationid?: string;
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionPayload;
 }
@@ -137,7 +115,7 @@ export interface ExecuteDeallocateRequest {
 
 // @public
 export interface ExecuteDeleteRequest {
-    correlationid?: string;
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     forceDeletion?: boolean;
     resources: Resources;
@@ -161,10 +139,6 @@ export interface ExecuteStartRequest {
 export interface ExecutionParameters {
     optimizationPreference?: OptimizationPreference;
     retryPolicy?: RetryPolicy;
-}
-
-// @public
-export interface ExtensionResource extends Resource {
 }
 
 // @public
@@ -202,56 +176,10 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownDeadlineType {
     CompleteBy = "CompleteBy",
     InitiateAt = "InitiateAt",
     Unknown = "Unknown"
-}
-
-// @public
-export enum KnownLanguage {
-    EnUs = "en-us"
-}
-
-// @public
-export enum KnownMonth {
-    All = "All",
-    April = "April",
-    August = "August",
-    December = "December",
-    February = "February",
-    January = "January",
-    July = "July",
-    June = "June",
-    March = "March",
-    May = "May",
-    November = "November",
-    October = "October",
-    September = "September"
-}
-
-// @public
-export enum KnownNotificationType {
-    Email = "Email"
-}
-
-// @public
-export enum KnownOccurrenceState {
-    Canceled = "Canceled",
-    Cancelling = "Cancelling",
-    Created = "Created",
-    Failed = "Failed",
-    Rescheduling = "Rescheduling",
-    Scheduled = "Scheduled",
-    Succeeded = "Succeeded"
 }
 
 // @public
@@ -282,20 +210,6 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownResourceOperationStatus {
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownResourceOperationType {
     Deallocate = "Deallocate",
     Hibernate = "Hibernate",
@@ -304,148 +218,10 @@ export enum KnownResourceOperationType {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownResourceType {
-    VirtualMachine = "VirtualMachine",
-    VirtualMachineScaleSet = "VirtualMachineScaleSet"
-}
-
-// @public
-export enum KnownScheduledActionType {
-    Deallocate = "Deallocate",
-    Hibernate = "Hibernate",
-    Start = "Start"
-}
-
-// @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
-    V20240815Preview = "2024-08-15-preview",
-    V20250415Preview = "2025-04-15-preview",
     V20250501 = "2025-05-01"
 }
-
-// @public
-export enum KnownWeekDay {
-    All = "All",
-    Friday = "Friday",
-    Monday = "Monday",
-    Saturday = "Saturday",
-    Sunday = "Sunday",
-    Thursday = "Thursday",
-    Tuesday = "Tuesday",
-    Wednesday = "Wednesday"
-}
-
-// @public
-export type Language = string;
-
-// @public
-export type Month = string;
-
-// @public
-export interface NotificationProperties {
-    destination: string;
-    disabled?: boolean;
-    language: Language;
-    type: NotificationType;
-}
-
-// @public
-export type NotificationType = string;
-
-// @public
-export interface Occurrence extends ProxyResource {
-    properties?: OccurrenceProperties;
-}
-
-// @public
-export interface OccurrenceExtensionListOccurrenceByVmsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OccurrenceExtensionOperations {
-    listOccurrenceByVms: (resourceUri: string, options?: OccurrenceExtensionListOccurrenceByVmsOptionalParams) => PagedAsyncIterableIterator<OccurrenceExtensionResource>;
-}
-
-// @public
-export interface OccurrenceExtensionProperties {
-    readonly errorDetails?: ErrorModel;
-    notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
-    resourceId: string;
-    scheduledActionId: string;
-    readonly scheduledTime: Date;
-}
-
-// @public
-export interface OccurrenceExtensionResource extends ExtensionResource {
-    properties?: OccurrenceExtensionProperties;
-}
-
-// @public
-export interface OccurrenceProperties {
-    readonly provisioningState?: OccurrenceState;
-    readonly resultSummary: OccurrenceResultSummary;
-    readonly scheduledTime: Date;
-}
-
-// @public
-export interface OccurrenceResource {
-    readonly errorDetails?: ErrorModel;
-    readonly id: string;
-    readonly name: string;
-    notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
-    resourceId: string;
-    readonly scheduledTime: Date;
-    readonly type?: string;
-}
-
-// @public
-export interface OccurrenceResultSummary {
-    statuses: ResourceResultSummary[];
-    total: number;
-}
-
-// @public
-export interface OccurrencesCancelOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OccurrencesDelayOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OccurrencesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OccurrencesListByScheduledActionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OccurrencesListResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OccurrencesOperations {
-    cancel: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, body: CancelOccurrenceRequest, options?: OccurrencesCancelOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
-    delay: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, body: DelayRequest, options?: OccurrencesDelayOptionalParams) => PollerLike<OperationState_2<RecurringActionsResourceOperationResult>, RecurringActionsResourceOperationResult>;
-    get: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, options?: OccurrencesGetOptionalParams) => Promise<Occurrence>;
-    listByScheduledAction: (resourceGroupName: string, scheduledActionName: string, options?: OccurrencesListByScheduledActionOptionalParams) => PagedAsyncIterableIterator<Occurrence>;
-    listResources: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, options?: OccurrencesListResourcesOptionalParams) => PagedAsyncIterableIterator<OccurrenceResource>;
-}
-
-// @public
-export type OccurrenceState = string;
 
 // @public
 export interface Operation {
@@ -516,37 +292,6 @@ export interface PageSettings {
 }
 
 // @public
-export type ProvisioningState = string;
-
-// @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export interface RecurringActionsResourceOperationResult {
-    resourcesStatuses: ResourceStatus[];
-    totalResources: number;
-}
-
-// @public
-export interface Resource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceAttachRequest {
-    resources: ScheduledActionResourceCreate[];
-}
-
-// @public
-export interface ResourceDetachRequest {
-    resources: string[];
-}
-
-// @public
 export interface ResourceOperation {
     errorCode?: string;
     errorDetails?: string;
@@ -577,18 +322,7 @@ export interface ResourceOperationError {
 }
 
 // @public
-export type ResourceOperationStatus = string;
-
-// @public
 export type ResourceOperationType = string;
-
-// @public
-export interface ResourcePatchRequest {
-    resources: ScheduledActionResourceCreate[];
-}
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface ResourceProvisionPayload {
@@ -599,35 +333,8 @@ export interface ResourceProvisionPayload {
 }
 
 // @public
-export interface ResourceResultSummary {
-    code: string;
-    count: number;
-    errorDetails?: ErrorModel;
-}
-
-// @public
 export interface Resources {
     ids: string[];
-}
-
-// @public
-export interface ResourceStatus {
-    error?: ErrorModel;
-    resourceId: string;
-    status: ResourceOperationStatus;
-}
-
-// @public
-export type ResourceType = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeScheduleClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -646,113 +353,7 @@ export interface Schedule {
 }
 
 // @public
-export interface ScheduledAction extends TrackedResource {
-    properties?: ScheduledActionProperties;
-}
-
-// @public
-export interface ScheduledActionExtensionListByVmsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionExtensionOperations {
-    listByVms: (resourceUri: string, options?: ScheduledActionExtensionListByVmsOptionalParams) => PagedAsyncIterableIterator<ScheduledActionResources>;
-}
-
-// @public
-export interface ScheduledActionProperties {
-    actionType: ScheduledActionType;
-    disabled?: boolean;
-    endTime?: string;
-    notificationSettings: NotificationProperties[];
-    readonly provisioningState?: ProvisioningState;
-    resourceType: ResourceType;
-    schedule: ScheduledActionsSchedule;
-    startTime: string;
-}
-
-// @public
-export interface ScheduledActionResource {
-    readonly id: string;
-    readonly name: string;
-    notificationSettings?: NotificationProperties[];
-    resourceId: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ScheduledActionResourceCreate {
-    notificationSettings?: NotificationProperties[];
-    resourceId: string;
-}
-
-// @public
-export interface ScheduledActionResources extends ExtensionResource {
-    properties?: ScheduledActionProperties;
-}
-
-// @public
-export interface ScheduledActionsAttachResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsCancelNextOccurrenceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ScheduledActionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ScheduledActionsDetachResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsDisableOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsEnableOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsListResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ScheduledActionsOperations {
-    attachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequest, options?: ScheduledActionsAttachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
-    cancelNextOccurrence: (resourceGroupName: string, scheduledActionName: string, body: CancelOccurrenceRequest, options?: ScheduledActionsCancelNextOccurrenceOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
-    createOrUpdate: (resourceGroupName: string, scheduledActionName: string, resource: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<ScheduledAction>, ScheduledAction>;
-    delete: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    detachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceDetachRequest, options?: ScheduledActionsDetachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
-    disable: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDisableOptionalParams) => Promise<void>;
-    enable: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsEnableOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsGetOptionalParams) => Promise<ScheduledAction>;
-    listByResourceGroup: (resourceGroupName: string, options?: ScheduledActionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
-    listBySubscription: (options?: ScheduledActionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
-    listResources: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsListResourcesOptionalParams) => PagedAsyncIterableIterator<ScheduledActionResource>;
-    patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequest, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
-    triggerManualOccurrence: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams) => Promise<Occurrence>;
-    update: (resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams) => Promise<ScheduledAction>;
     virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
     virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
     virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
@@ -764,29 +365,6 @@ export interface ScheduledActionsOperations {
     virtualMachinesSubmitDeallocate: (locationparameter: string, requestBody: SubmitDeallocateRequest, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
     virtualMachinesSubmitHibernate: (locationparameter: string, requestBody: SubmitHibernateRequest, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
     virtualMachinesSubmitStart: (locationparameter: string, requestBody: SubmitStartRequest, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams) => Promise<StartResourceOperationResponse>;
-}
-
-// @public
-export interface ScheduledActionsPatchResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsSchedule {
-    deadlineType?: DeadlineType;
-    executionParameters?: ExecutionParameters;
-    requestedDaysOfTheMonth: number[];
-    requestedMonths: Month[];
-    requestedWeekDays: WeekDay[];
-    scheduledTime: string;
-    timeZone: string;
-}
-
-// @public
-export interface ScheduledActionsTriggerManualOccurrenceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -834,26 +412,6 @@ export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extend
 }
 
 // @public
-export type ScheduledActionType = string;
-
-// @public
-export interface ScheduledActionUpdate {
-    properties?: ScheduledActionUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ScheduledActionUpdateProperties {
-    actionType?: ScheduledActionType;
-    disabled?: boolean;
-    endTime?: string;
-    notificationSettings?: NotificationProperties[];
-    resourceType?: ResourceType;
-    schedule?: ScheduledActionsSchedule;
-    startTime?: string;
-}
-
-// @public
 export interface StartResourceOperationResponse {
     description: string;
     location: string;
@@ -884,25 +442,6 @@ export interface SubmitStartRequest {
     resources: Resources;
     schedule: Schedule;
 }
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface TrackedResource extends Resource {
-    location: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export type WeekDay = string;
 
 // (No @packageDocumentation comment for this package)
 
