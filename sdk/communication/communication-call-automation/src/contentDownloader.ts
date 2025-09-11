@@ -113,7 +113,9 @@ export class ContentDownloaderImpl {
     opt.headers?.set("OriginalUrl", sourceLocationUrl);
     opt.headers?.set("x-ms-host", endpoint.host);
     opt.headers?.set("accept", "application/json");
-    opt.headers?.set("Range", rangeHeader);
+    if (options.length && options.offset) {
+      opt.headers?.set("Range", rangeHeader);
+    }
 
     const req = createPipelineRequest(opt);
 
