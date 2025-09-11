@@ -6,7 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
+
+export const PrivateZoneListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateZoneListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateZone",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const Resource: coreClient.CompositeMapper = {
   type: {
@@ -32,6 +60,58 @@ export const Resource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -93,69 +173,26 @@ export const CloudErrorBody: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateZoneListResult: coreClient.CompositeMapper = {
+export const RecordSetListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PrivateZoneListResult",
+    className: "RecordSetListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "PrivateZone",
+              className: "RecordSet",
             },
           },
         },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const SubResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const VirtualNetworkLinkListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkLinkListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualNetworkLink",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -349,26 +386,26 @@ export const TxtRecord: coreClient.CompositeMapper = {
   },
 };
 
-export const RecordSetListResult: coreClient.CompositeMapper = {
+export const VirtualNetworkLinkListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RecordSetListResult",
+    className: "VirtualNetworkLinkListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "RecordSet",
+              className: "VirtualNetworkLink",
             },
           },
         },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -377,21 +414,13 @@ export const RecordSetListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
+export const SubResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TrackedResource",
+    className: "SubResource",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      location: {
-        serializedName: "location",
+      id: {
+        serializedName: "id",
         type: {
           name: "String",
         },
@@ -415,7 +444,20 @@ export const PrivateZone: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PrivateZone",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
+      ...ProxyResource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
       etag: {
         serializedName: "etag",
         type: {
@@ -475,55 +517,6 @@ export const PrivateZone: coreClient.CompositeMapper = {
       },
       internalId: {
         serializedName: "properties.internalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const VirtualNetworkLink: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualNetworkLink",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String",
-        },
-      },
-      virtualNetwork: {
-        serializedName: "properties.virtualNetwork",
-        type: {
-          name: "Composite",
-          className: "SubResource",
-        },
-      },
-      registrationEnabled: {
-        serializedName: "properties.registrationEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      resolutionPolicy: {
-        serializedName: "properties.resolutionPolicy",
-        type: {
-          name: "String",
-        },
-      },
-      virtualNetworkLinkState: {
-        serializedName: "properties.virtualNetworkLinkState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
           name: "String",
@@ -656,6 +649,195 @@ export const RecordSet: coreClient.CompositeMapper = {
               className: "TxtRecord",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const VirtualNetworkLink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkLink",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String",
+        },
+      },
+      virtualNetwork: {
+        serializedName: "properties.virtualNetwork",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
+      registrationEnabled: {
+        serializedName: "properties.registrationEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      resolutionPolicy: {
+        serializedName: "properties.resolutionPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      virtualNetworkLinkState: {
+        serializedName: "properties.virtualNetworkLinkState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateZonesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateZonesCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateZonesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateZonesUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateZonesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateZonesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const VirtualNetworkLinksCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "VirtualNetworkLinksCreateOrUpdateHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const VirtualNetworkLinksUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkLinksUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const VirtualNetworkLinksDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkLinksDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

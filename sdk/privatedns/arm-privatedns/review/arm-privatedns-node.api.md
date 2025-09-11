@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AaaaRecord {
@@ -39,7 +39,18 @@ export interface CnameRecord {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
 
 // @public
 export enum KnownProvisioningState {
@@ -94,9 +105,10 @@ export interface PrivateDnsManagementClientOptionalParams extends coreClient.Ser
 }
 
 // @public
-export interface PrivateZone extends TrackedResource {
+export interface PrivateZone extends ProxyResource {
     etag?: string;
     readonly internalId?: string;
+    location?: string;
     readonly maxNumberOfRecordSets?: number;
     readonly maxNumberOfVirtualNetworkLinks?: number;
     readonly maxNumberOfVirtualNetworkLinksWithRegistration?: number;
@@ -104,12 +116,15 @@ export interface PrivateZone extends TrackedResource {
     readonly numberOfVirtualNetworkLinks?: number;
     readonly numberOfVirtualNetworkLinksWithRegistration?: number;
     readonly provisioningState?: ProvisioningState;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface PrivateZoneListResult {
-    readonly nextLink?: string;
-    value?: PrivateZone[];
+    nextLink?: string;
+    value: PrivateZone[];
 }
 
 // @public
@@ -126,6 +141,12 @@ export interface PrivateZones {
 }
 
 // @public
+export interface PrivateZonesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateZonesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -135,6 +156,12 @@ export interface PrivateZonesCreateOrUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type PrivateZonesCreateOrUpdateResponse = PrivateZone;
+
+// @public
+export interface PrivateZonesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PrivateZonesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -181,6 +208,12 @@ export interface PrivateZonesListOptionalParams extends coreClient.OperationOpti
 export type PrivateZonesListResponse = PrivateZoneListResult;
 
 // @public
+export interface PrivateZonesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateZonesUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -223,8 +256,8 @@ export interface RecordSet extends ProxyResource {
 
 // @public
 export interface RecordSetListResult {
-    readonly nextLink?: string;
-    value?: RecordSet[];
+    nextLink?: string;
+    value: RecordSet[];
 }
 
 // @public
@@ -308,6 +341,7 @@ export type ResolutionPolicy = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -336,11 +370,13 @@ export interface SubResource {
 }
 
 // @public
-export interface TrackedResource extends Resource {
-    location?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -349,19 +385,23 @@ export interface TxtRecord {
 }
 
 // @public
-export interface VirtualNetworkLink extends TrackedResource {
+export interface VirtualNetworkLink extends ProxyResource {
     etag?: string;
+    location?: string;
     readonly provisioningState?: ProvisioningState;
     registrationEnabled?: boolean;
     resolutionPolicy?: ResolutionPolicy;
+    tags?: {
+        [propertyName: string]: string;
+    };
     virtualNetwork?: SubResource;
     readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
 }
 
 // @public
 export interface VirtualNetworkLinkListResult {
-    readonly nextLink?: string;
-    value?: VirtualNetworkLink[];
+    nextLink?: string;
+    value: VirtualNetworkLink[];
 }
 
 // @public
@@ -377,6 +417,12 @@ export interface VirtualNetworkLinks {
 }
 
 // @public
+export interface VirtualNetworkLinksCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -386,6 +432,12 @@ export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreCli
 
 // @public
 export type VirtualNetworkLinksCreateOrUpdateResponse = VirtualNetworkLink;
+
+// @public
+export interface VirtualNetworkLinksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualNetworkLinksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -418,6 +470,12 @@ export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
 
 // @public
 export type VirtualNetworkLinkState = string;
+
+// @public
+export interface VirtualNetworkLinksUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualNetworkLinksUpdateOptionalParams extends coreClient.OperationOptions {

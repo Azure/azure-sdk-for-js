@@ -8,23 +8,23 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   PrivateZonesImpl,
-  VirtualNetworkLinksImpl,
   RecordSetsImpl,
+  VirtualNetworkLinksImpl,
 } from "./operations/index.js";
-import {
+import type {
   PrivateZones,
-  VirtualNetworkLinks,
   RecordSets,
+  VirtualNetworkLinks,
 } from "./operationsInterfaces/index.js";
-import { PrivateDnsManagementClientOptionalParams } from "./models/index.js";
+import type { PrivateDnsManagementClientOptionalParams } from "./models/index.js";
 
 export class PrivateDnsManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -34,8 +34,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the PrivateDnsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -59,7 +58,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-privatedns/3.3.1`;
+    const packageDetails = `azsdk-js-arm-privatedns/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,8 +114,8 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-06-01";
     this.privateZones = new PrivateZonesImpl(this);
-    this.virtualNetworkLinks = new VirtualNetworkLinksImpl(this);
     this.recordSets = new RecordSetsImpl(this);
+    this.virtualNetworkLinks = new VirtualNetworkLinksImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -149,6 +148,6 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
   }
 
   privateZones: PrivateZones;
-  virtualNetworkLinks: VirtualNetworkLinks;
   recordSets: RecordSets;
+  virtualNetworkLinks: VirtualNetworkLinks;
 }

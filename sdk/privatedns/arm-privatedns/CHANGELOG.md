@@ -1,15 +1,30 @@
 # Release History
 
-## 3.3.1 (Unreleased)
+## 4.0.0 (2025-09-11)
 
 ### Features Added
+  - Added Interface PrivateZonesCreateOrUpdateHeaders
+  - Added Interface PrivateZonesDeleteHeaders
+  - Added Interface PrivateZonesUpdateHeaders
+  - Added Interface SystemData
+  - Added Interface VirtualNetworkLinksCreateOrUpdateHeaders
+  - Added Interface VirtualNetworkLinksDeleteHeaders
+  - Added Interface VirtualNetworkLinksUpdateHeaders
+  - Interface PrivateZone has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface RecordSet has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface VirtualNetworkLink has a new optional parameter systemData
+  - Added Type Alias CreatedByType
+  - Added Enum KnownCreatedByType
 
 ### Breaking Changes
+  - Removed Interface TrackedResource
+  - Parameter value of interface PrivateZoneListResult is now required
+  - Parameter value of interface RecordSetListResult is now required
+  - Parameter value of interface VirtualNetworkLinkListResult is now required
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 3.3.0 (2024-09-12)
     
 ### Features Added

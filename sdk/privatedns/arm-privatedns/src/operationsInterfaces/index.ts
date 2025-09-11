@@ -7,5 +7,5 @@
  */
 
 export * from "./privateZones.js";
-export * from "./virtualNetworkLinks.js";
 export * from "./recordSets.js";
+export * from "./virtualNetworkLinks.js";

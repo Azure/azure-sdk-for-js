@@ -6,12 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
-/** The core properties of ARM resources */
+/** The response of a PrivateZone list operation. */
+export interface PrivateZoneListResult {
+  /** The PrivateZone items on this page */
+  value: PrivateZone[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource Id for the resource. Example - '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -21,10 +29,31 @@ export interface Resource {
    */
   readonly name?: string;
   /**
-   * The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** An error response from the service. */
@@ -45,32 +74,12 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** The response to a Private DNS zone list operation. */
-export interface PrivateZoneListResult {
-  /** Information about the Private DNS zones. */
-  value?: PrivateZone[];
-  /**
-   * The continuation token for the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Reference to another subresource. */
-export interface SubResource {
-  /** Resource ID. */
-  id?: string;
-}
-
-/** The response to a list virtual network link to Private DNS zone operation. */
-export interface VirtualNetworkLinkListResult {
-  /** Information about the virtual network links to the Private DNS zones. */
-  value?: VirtualNetworkLink[];
-  /**
-   * The continuation token for the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response of a RecordSet list operation. */
+export interface RecordSetListResult {
+  /** The RecordSet items on this page */
+  value: RecordSet[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** An A record. */
@@ -141,30 +150,29 @@ export interface TxtRecord {
   value?: string[];
 }
 
-/** The response to a record set list operation. */
-export interface RecordSetListResult {
-  /** Information about the record sets in the response. */
-  value?: RecordSet[];
-  /**
-   * The continuation token for the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response of a VirtualNetworkLink list operation. */
+export interface VirtualNetworkLinkListResult {
+  /** The VirtualNetworkLink items on this page */
+  value: VirtualNetworkLink[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** The resource model definition for a ARM tracked top level resource */
-export interface TrackedResource extends Resource {
+/** Reference to another subresource. */
+export interface SubResource {
+  /** Resource ID. */
+  id?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Describes a Private DNS zone. */
+export interface PrivateZone extends ProxyResource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The Azure Region where the resource lives */
   location?: string;
-}
-
-/** The resource model definition for an ARM proxy resource. */
-export interface ProxyResource extends Resource {}
-
-/** Describes a Private DNS zone. */
-export interface PrivateZone extends TrackedResource {
   /** The ETag of the zone. */
   etag?: string;
   /**
@@ -209,28 +217,6 @@ export interface PrivateZone extends TrackedResource {
   readonly internalId?: string;
 }
 
-/** Describes a link to virtual network for a Private DNS zone. */
-export interface VirtualNetworkLink extends TrackedResource {
-  /** The ETag of the virtual network link. */
-  etag?: string;
-  /** The reference of the virtual network. */
-  virtualNetwork?: SubResource;
-  /** Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? */
-  registrationEnabled?: boolean;
-  /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
-  resolutionPolicy?: ResolutionPolicy;
-  /**
-   * The status of the virtual network link to the Private DNS zone. Possible values are 'InProgress' and 'Done'. This is a read-only property and any attempt to set this value will be ignored.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
-  /**
-   * The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
 /** Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone. */
 export interface RecordSet extends ProxyResource {
   /** The ETag of the record set. */
@@ -267,6 +253,80 @@ export interface RecordSet extends ProxyResource {
   txtRecords?: TxtRecord[];
 }
 
+/** Describes a link to virtual network for a Private DNS zone. */
+export interface VirtualNetworkLink extends ProxyResource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The Azure Region where the resource lives */
+  location?: string;
+  /** The ETag of the virtual network link. */
+  etag?: string;
+  /** The reference of the virtual network. */
+  virtualNetwork?: SubResource;
+  /** Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? */
+  registrationEnabled?: boolean;
+  /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
+  resolutionPolicy?: ResolutionPolicy;
+  /**
+   * The status of the virtual network link to the Private DNS zone. Possible values are 'InProgress' and 'Done'. This is a read-only property and any attempt to set this value will be ignored.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
+  /**
+   * The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Defines headers for PrivateZones_createOrUpdate operation. */
+export interface PrivateZonesCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PrivateZones_update operation. */
+export interface PrivateZonesUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PrivateZones_delete operation. */
+export interface PrivateZonesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for VirtualNetworkLinks_createOrUpdate operation. */
+export interface VirtualNetworkLinksCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for VirtualNetworkLinks_update operation. */
+export interface VirtualNetworkLinksUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for VirtualNetworkLinks_delete operation. */
+export interface VirtualNetworkLinksDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Creating */
@@ -296,6 +356,30 @@ export enum KnownProvisioningState {
  * **Canceled**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link ResolutionPolicy} that the service accepts. */
 export enum KnownResolutionPolicy {
@@ -344,6 +428,33 @@ export type RecordType =
   | "TXT";
 
 /** Optional parameters. */
+export interface PrivateZonesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of Private DNS zones to return. If not specified, returns up to 100 zones. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type PrivateZonesListResponse = PrivateZoneListResult;
+
+/** Optional parameters. */
+export interface PrivateZonesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type PrivateZonesListByResourceGroupResponse = PrivateZoneListResult;
+
+/** Optional parameters. */
+export interface PrivateZonesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateZonesGetResponse = PrivateZone;
+
+/** Optional parameters. */
 export interface PrivateZonesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The ETag of the Private DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes. */
@@ -385,33 +496,6 @@ export interface PrivateZonesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PrivateZonesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PrivateZonesGetResponse = PrivateZone;
-
-/** Optional parameters. */
-export interface PrivateZonesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of Private DNS zones to return. If not specified, returns up to 100 zones. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type PrivateZonesListResponse = PrivateZoneListResult;
-
-/** Optional parameters. */
-export interface PrivateZonesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type PrivateZonesListByResourceGroupResponse = PrivateZoneListResult;
-
-/** Optional parameters. */
 export interface PrivateZonesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -424,6 +508,97 @@ export interface PrivateZonesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PrivateZonesListByResourceGroupNextResponse = PrivateZoneListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListByTypeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+  /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
+  recordsetnamesuffix?: string;
+}
+
+/** Contains response data for the listByType operation. */
+export type RecordSetsListByTypeResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RecordSetsGetResponse = RecordSet;
+
+/** Optional parameters. */
+export interface RecordSetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RecordSetsCreateOrUpdateResponse = RecordSet;
+
+/** Optional parameters. */
+export interface RecordSetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the update operation. */
+export type RecordSetsUpdateResponse = RecordSet;
+
+/** Optional parameters. */
+export interface RecordSetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the record set. Omit this value to always delete the current record set. Specify the last-seen ETag value to prevent accidentally deleting any concurrent changes. */
+  ifMatch?: string;
+}
+
+/** Optional parameters. */
+export interface RecordSetsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+  /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
+  recordsetnamesuffix?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RecordSetsListResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListByTypeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByTypeNext operation. */
+export type RecordSetsListByTypeNextResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RecordSetsListNextResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkLinksListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of virtual network links to return. If not specified, returns up to 100 virtual network links. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkLinksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualNetworkLinksGetResponse = VirtualNetworkLink;
 
 /** Optional parameters. */
 export interface VirtualNetworkLinksCreateOrUpdateOptionalParams
@@ -467,102 +642,11 @@ export interface VirtualNetworkLinksDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VirtualNetworkLinksGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VirtualNetworkLinksGetResponse = VirtualNetworkLink;
-
-/** Optional parameters. */
-export interface VirtualNetworkLinksListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of virtual network links to return. If not specified, returns up to 100 virtual network links. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
-
-/** Optional parameters. */
 export interface VirtualNetworkLinksListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualNetworkLinksListNextResponse = VirtualNetworkLinkListResult;
-
-/** Optional parameters. */
-export interface RecordSetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ETag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type RecordSetsCreateOrUpdateResponse = RecordSet;
-
-/** Optional parameters. */
-export interface RecordSetsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ETag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-}
-
-/** Contains response data for the update operation. */
-export type RecordSetsUpdateResponse = RecordSet;
-
-/** Optional parameters. */
-export interface RecordSetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ETag of the record set. Omit this value to always delete the current record set. Specify the last-seen ETag value to prevent accidentally deleting any concurrent changes. */
-  ifMatch?: string;
-}
-
-/** Optional parameters. */
-export interface RecordSetsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RecordSetsGetResponse = RecordSet;
-
-/** Optional parameters. */
-export interface RecordSetsListByTypeOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
-  recordsetnamesuffix?: string;
-}
-
-/** Contains response data for the listByType operation. */
-export type RecordSetsListByTypeResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name to be used to filter the record set enumeration. If this parameter is specified, the returned enumeration will only contain records that end with ".<recordsetnamesuffix>". */
-  recordsetnamesuffix?: string;
-}
-
-/** Contains response data for the list operation. */
-export type RecordSetsListResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListByTypeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByTypeNext operation. */
-export type RecordSetsListByTypeNextResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RecordSetsListNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface PrivateDnsManagementClientOptionalParams

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { PrivateDnsManagementClient } from "../src/privateDnsManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -73,7 +74,7 @@ describe("PrivateDns test", () => {
 
   it("privateZones list test", async () => {
     const resArray = new Array();
-    for await (let item of client.privateZones.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.privateZones.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -82,7 +83,7 @@ describe("PrivateDns test", () => {
   it("privateZones delete test", async () => {
     const resArray = new Array();
     await client.privateZones.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
-    for await (let item of client.privateZones.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.privateZones.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
