@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<void>;
@@ -44,14 +44,6 @@ export interface ProjectsGetOptionalParams extends OperationOptions {
 // @public
 export interface ProjectsListOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface ProjectsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, properties: Project, options?: ProjectsUpdateOptionalParams): PollerLike<OperationState<Project>, Project>;
 
 // (No @packageDocumentation comment for this package)
 

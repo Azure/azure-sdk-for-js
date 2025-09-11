@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createPostgres, PostgresContext, PostgresClientOptionalParams } from "./api/index.js";
-import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
-import { NeonRolesOperations, _getNeonRolesOperations } from "./classic/neonRoles/index.js";
-import {
-  NeonDatabasesOperations,
-  _getNeonDatabasesOperations,
-} from "./classic/neonDatabases/index.js";
-import { ComputesOperations, _getComputesOperations } from "./classic/computes/index.js";
-import { BranchesOperations, _getBranchesOperations } from "./classic/branches/index.js";
-import { ProjectsOperations, _getProjectsOperations } from "./classic/projects/index.js";
-import {
-  OrganizationsOperations,
-  _getOrganizationsOperations,
-} from "./classic/organizations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { PostgresContext, PostgresClientOptionalParams } from "./api/index.js";
+import { createPostgres } from "./api/index.js";
+import type { BranchesOperations } from "./classic/branches/index.js";
+import { _getBranchesOperations } from "./classic/branches/index.js";
+import type { ComputesOperations } from "./classic/computes/index.js";
+import { _getComputesOperations } from "./classic/computes/index.js";
+import type { EndpointsOperations } from "./classic/endpoints/index.js";
+import { _getEndpointsOperations } from "./classic/endpoints/index.js";
+import type { NeonDatabasesOperations } from "./classic/neonDatabases/index.js";
+import { _getNeonDatabasesOperations } from "./classic/neonDatabases/index.js";
+import type { NeonRolesOperations } from "./classic/neonRoles/index.js";
+import { _getNeonRolesOperations } from "./classic/neonRoles/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { OrganizationsOperations } from "./classic/organizations/index.js";
+import { _getOrganizationsOperations } from "./classic/organizations/index.js";
+import type { ProjectsOperations } from "./classic/projects/index.js";
+import { _getProjectsOperations } from "./classic/projects/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { PostgresClientOptionalParams } from "./api/postgresContext.js";
 

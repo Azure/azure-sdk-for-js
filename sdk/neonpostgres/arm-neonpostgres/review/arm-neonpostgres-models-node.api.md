@@ -8,8 +8,43 @@
 export type ActionType = string;
 
 // @public
+export interface Attributes {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface AutoscalingSize {
+    autoscalingLimitMaxCu: number;
+    autoscalingLimitMinCu: number;
+}
+
+// @public
 export interface Branch extends ProxyResource {
     properties?: BranchProperties;
+}
+
+// @public
+export interface BranchProperties {
+    attributes?: Attributes[];
+    branch?: string;
+    branchId?: string;
+    readonly computeHours?: string;
+    readonly createdAt?: string;
+    databaseName?: string;
+    databases?: NeonDatabaseProperties[];
+    readonly dataSize?: string;
+    endpoints?: EndpointProperties[];
+    readonly entityId?: string;
+    entityName?: string;
+    readonly isDefault?: boolean;
+    readonly lastActive?: string;
+    parentId?: string;
+    projectId?: string;
+    readonly protected?: boolean;
+    readonly provisioningState?: ResourceProvisioningState;
+    roleName?: string;
+    roles?: NeonRoleProperties[];
 }
 
 // @public
@@ -28,7 +63,37 @@ export interface Compute extends ProxyResource {
 }
 
 // @public
+export interface ComputeProperties {
+    attributes?: Attributes[];
+    cpuCores?: number;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    memory?: number;
+    readonly provisioningState?: ResourceProvisioningState;
+    region?: string;
+    status?: string;
+}
+
+// @public
+export interface ConnectionUriProperties {
+    branchId?: string;
+    readonly connectionStringUri?: string;
+    databaseName?: string;
+    endpointId?: string;
+    isPooled?: boolean;
+    projectId?: string;
+    roleName?: string;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface DefaultEndpointSettings {
+    autoscalingLimitMaxCu: number;
+    autoscalingLimitMinCu: number;
+}
 
 // @public
 export interface Endpoint extends ProxyResource {
@@ -36,8 +101,34 @@ export interface Endpoint extends ProxyResource {
 }
 
 // @public
+export interface EndpointProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    computeName?: string;
+    readonly createdAt?: string;
+    endpointId?: string;
+    endpointType?: EndpointType;
+    readonly entityId?: string;
+    entityName?: string;
+    readonly lastActive?: string;
+    projectId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    size?: AutoscalingSize;
+    readonly status?: EndpointStatus;
+}
+
+// @public
+export type EndpointStatus = string;
+
+// @public
+export type EndpointType = string;
+
+// @public
+export type EntityType = string;
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -66,6 +157,27 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownEndpointStatus {
+    Active = "active",
+    Idle = "idle",
+    Init = "init"
+}
+
+// @public
+export enum KnownEndpointType {
+    ReadOnly = "read_only",
+    ReadWrite = "read_write"
+}
+
+// @public
+export enum KnownEntityType {
+    Branch = "branch",
+    Endpoint = "endpoint",
+    NeonDatabase = "neonDatabase",
+    NeonRole = "neonRole"
 }
 
 // @public
@@ -99,7 +211,10 @@ export enum KnownSingleSignOnStates {
 
 // @public
 export enum KnownVersions {
-    V20250301 = "2025-03-01"
+    V20241222Preview = "2024-12-22-preview",
+    V20250301 = "2025-03-01",
+    V20250301Preview = "2025-03-01-preview",
+    V20250623Preview = "2025-06-23-preview"
 }
 
 // @public
@@ -118,8 +233,36 @@ export interface NeonDatabase extends ProxyResource {
 }
 
 // @public
+export interface NeonDatabaseProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    databaseName?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    readonly lastUpdated?: string;
+    ownerName?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
 export interface NeonRole extends ProxyResource {
     properties?: NeonRoleProperties;
+}
+
+// @public
+export interface NeonRoleProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    isSuperUser?: boolean;
+    readonly lastUpdated?: string;
+    readonly owns?: string;
+    permissions?: string[];
+    readonly provisioningState?: ResourceProvisioningState;
+    roleName?: string;
 }
 
 // @public
@@ -165,6 +308,21 @@ export interface OrganizationResource extends TrackedResource {
 }
 
 // @public
+export interface OrganizationResourceUpdate {
+    properties?: OrganizationResourceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface OrganizationResourceUpdateProperties {
+    companyDetails?: CompanyDetails;
+    marketplaceDetails?: MarketplaceDetails;
+    partnerOrganizationProperties?: PartnerOrganizationProperties;
+    projectProperties?: ProjectProperties;
+    userDetails?: UserDetails;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -175,8 +333,53 @@ export interface PartnerOrganizationProperties {
 }
 
 // @public
+export interface PgVersion {
+    version?: number;
+}
+
+// @public
+export interface PgVersionsResult {
+    versions: PgVersion[];
+}
+
+// @public
+export interface PreflightCheckParameters {
+    branchId: string;
+    branchProperties?: BranchProperties;
+    databaseProperties?: NeonDatabaseProperties;
+    endpointProperties?: EndpointProperties;
+    entityType: EntityType;
+    projectId: string;
+    roleProperties?: NeonRoleProperties;
+}
+
+// @public
+export interface PreflightCheckResult {
+    isValid: boolean;
+    reason?: string;
+}
+
+// @public
 export interface Project extends ProxyResource {
     properties?: ProjectProperties;
+}
+
+// @public
+export interface ProjectProperties {
+    attributes?: Attributes[];
+    branch?: BranchProperties;
+    readonly createdAt?: string;
+    databases?: NeonDatabaseProperties[];
+    defaultEndpointSettings?: DefaultEndpointSettings;
+    endpoints?: EndpointProperties[];
+    readonly entityId?: string;
+    entityName?: string;
+    historyRetention?: number;
+    pgVersion?: number;
+    readonly provisioningState?: ResourceProvisioningState;
+    regionId?: string;
+    roles?: NeonRoleProperties[];
+    storage?: number;
 }
 
 // @public

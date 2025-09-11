@@ -1,21 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { PostgresContext as Client } from "../index.js";
+import type {
   OrganizationResource,
-  organizationResourceSerializer,
-  organizationResourceDeserializer,
+  OrganizationResourceUpdate,
   _OrganizationResourceListResult,
-  _organizationResourceListResultDeserializer,
+  PgVersionsResult,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  organizationResourceSerializer,
+  organizationResourceDeserializer,
+  organizationResourceUpdateSerializer,
+  _organizationResourceListResultDeserializer,
   pgVersionSerializer,
-  PgVersionsResult,
   pgVersionsResultDeserializer,
-} from "../../models/models/models.js";
-import {
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -24,19 +30,9 @@ import {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getPostgresVersionsSend(
   context: Client,
@@ -223,13 +219,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -267,7 +257,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   organizationName: string,
-  properties: OrganizationResource,
+  properties: OrganizationResourceUpdate,
   options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -289,7 +279,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: organizationResourceSerializer(properties),
+    body: organizationResourceUpdateSerializer(properties),
   });
 }
 
@@ -311,7 +301,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   organizationName: string,
-  properties: OrganizationResource,
+  properties: OrganizationResourceUpdate,
   options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
@@ -356,7 +346,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OrganizationResource> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -374,7 +364,7 @@ export function createOrUpdate(
   resource: OrganizationResource,
   options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

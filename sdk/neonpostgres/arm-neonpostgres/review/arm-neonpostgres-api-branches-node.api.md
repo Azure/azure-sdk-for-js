@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: BranchesDeleteOptionalParams): Promise<void>;
@@ -30,8 +30,7 @@ export interface BranchesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BranchesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
+export interface BranchesPreflightOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -44,7 +43,7 @@ export function get(context: PostgresContext, resourceGroupName: string, organiz
 export function list(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, options?: BranchesListOptionalParams): PagedAsyncIterableIterator<Branch>;
 
 // @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, properties: Branch, options?: BranchesUpdateOptionalParams): PollerLike<OperationState<Branch>, Branch>;
+export function preflight(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, parameters: PreflightCheckParameters, options?: BranchesPreflightOptionalParams): Promise<PreflightCheckResult>;
 
 // (No @packageDocumentation comment for this package)
 

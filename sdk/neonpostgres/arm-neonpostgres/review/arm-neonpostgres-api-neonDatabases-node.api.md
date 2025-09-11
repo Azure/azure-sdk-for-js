@@ -4,19 +4,16 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, options?: NeonDatabasesDeleteOptionalParams): Promise<void>;
 
 // @public
 export function createOrUpdate(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, resource: NeonDatabase, options?: NeonDatabasesCreateOrUpdateOptionalParams): PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
-
-// @public
-export function get(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, options?: NeonDatabasesGetOptionalParams): Promise<NeonDatabase>;
 
 // @public
 export function list(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: NeonDatabasesListOptionalParams): PagedAsyncIterableIterator<NeonDatabase>;
@@ -31,20 +28,8 @@ export interface NeonDatabasesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NeonDatabasesGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NeonDatabasesListOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface NeonDatabasesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, properties: NeonDatabase, options?: NeonDatabasesUpdateOptionalParams): PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
 
 // (No @packageDocumentation comment for this package)
 

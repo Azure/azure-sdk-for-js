@@ -1,42 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresClient } from "./postgresClient.js";
-import { _updateDeserialize, _createOrUpdateDeserialize } from "./api/endpoints/operations.js";
-import {
-  _updateDeserialize as _updateDeserializeNeonRoles,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeNeonRoles,
-} from "./api/neonRoles/operations.js";
-import {
-  _updateDeserialize as _updateDeserializeNeonDatabases,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeNeonDatabases,
-} from "./api/neonDatabases/operations.js";
-import {
-  _updateDeserialize as _updateDeserializeComputes,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeComputes,
-} from "./api/computes/operations.js";
-import {
-  _updateDeserialize as _updateDeserializeBranches,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeBranches,
-} from "./api/branches/operations.js";
-import {
-  _updateDeserialize as _updateDeserializeProjects,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeProjects,
-} from "./api/projects/operations.js";
+import type { PostgresClient } from "./postgresClient.js";
+import { _createOrUpdateDeserialize } from "./api/endpoints/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeNeonRoles } from "./api/neonRoles/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeNeonDatabases } from "./api/neonDatabases/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeBranches } from "./api/branches/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeProjects } from "./api/projects/operations.js";
 import {
   _$deleteDeserialize,
-  _updateDeserialize as _updateDeserializeOrganizations,
+  _updateDeserialize,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeOrganizations,
 } from "./api/organizations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -101,62 +81,30 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/endpoints/{endpointName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/endpoints/{endpointName}":
     {
       deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonRoles/{neonRoleName}":
-    {
-      deserializer: _updateDeserializeNeonRoles,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonRoles/{neonRoleName}":
     {
       deserializer: _createOrUpdateDeserializeNeonRoles,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonDatabases/{neonDatabaseName}":
-    {
-      deserializer: _updateDeserializeNeonDatabases,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonDatabases/{neonDatabaseName}":
     {
       deserializer: _createOrUpdateDeserializeNeonDatabases,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/computes/{computeName}":
-    {
-      deserializer: _updateDeserializeComputes,
-      expectedStatuses: ["200", "202"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/computes/{computeName}":
-    {
-      deserializer: _createOrUpdateDeserializeComputes,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}":
-    {
-      deserializer: _updateDeserializeBranches,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}":
     {
       deserializer: _createOrUpdateDeserializeBranches,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}":
-    {
-      deserializer: _updateDeserializeProjects,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}":
     {
       deserializer: _createOrUpdateDeserializeProjects,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
     {
@@ -164,14 +112,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
-    {
-      deserializer: _updateDeserializeOrganizations,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
     {
       deserializer: _createOrUpdateDeserializeOrganizations,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 
