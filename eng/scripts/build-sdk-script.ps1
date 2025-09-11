@@ -86,7 +86,7 @@ try {
 
     # Build the package
     Write-Host "Building package with turbo..."
-    pnpm turbo build --filter="$($packageInfo.Name)..."
+    pnpm turbo build --filter="$($packageInfo.Name)..."  --token 1
     if ($LASTEXITCODE -ne 0) {
       throw "pnpm turbo build failed with exit code $LASTEXITCODE"
     }
