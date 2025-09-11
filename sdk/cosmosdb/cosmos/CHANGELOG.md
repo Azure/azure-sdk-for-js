@@ -13,6 +13,8 @@ await container.items.upsert(city, requestOptions);
 
 await container.item("1").delete(requestOptions);
 ```
+- [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
+ preventing partitionKeyMismatch error when an optional partition key value is provided in the operationInput
 
 ## 4.5.1 (2025-09-01)
 
