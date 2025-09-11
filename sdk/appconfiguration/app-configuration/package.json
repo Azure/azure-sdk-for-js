@@ -84,6 +84,8 @@
     "@azure/eventgrid": "^5.0.0",
     "@azure/identity": "catalog:internal",
     "@azure/keyvault-secrets": "^4.2.0",
+    "@azure/app-configuration-provider": "latest",
+    "@microsoft/feature-management": "latest",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
