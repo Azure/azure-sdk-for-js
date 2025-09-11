@@ -68,8 +68,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       };
     }
     let resHeaders = getInitialHeader();
-    let partitionKeyRangeMap: Map<string, QueryRangeMapping> | undefined;
-    let updatedContinuationRanges: Record<string, any> | undefined;
 
     // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize <= 0) {
@@ -85,7 +83,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       if (
         response === undefined ||
         response.result === undefined ||
-        !Array.isArray(response.result.buffer) ||
+        !response.result.buffer ||
         response.result.buffer.length === 0
       ) {
         this.isCompleted = true;
@@ -95,7 +93,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
       const parallelResult = response.result as ParallelQueryResult;
       const dataToProcess: NonStreamingOrderByResult[] =
         parallelResult.buffer as NonStreamingOrderByResult[];
@@ -111,8 +108,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     if (this.executionContext.hasMoreResults()) {
       const result = createParallelQueryResult(
         [], // empty buffer
-        partitionKeyRangeMap || new Map(),
-        updatedContinuationRanges || {},
+        new Map(),
+        {},
       );
 
       return {
@@ -126,8 +123,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       this.isCompleted = true;
       return this.buildFinalResultArray(
         resHeaders,
-        partitionKeyRangeMap,
-        updatedContinuationRanges,
+        new Map(),
+        {},
       );
     }
 

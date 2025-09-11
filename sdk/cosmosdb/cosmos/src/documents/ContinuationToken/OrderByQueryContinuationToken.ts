@@ -29,6 +29,11 @@ export interface OrderByQueryContinuationToken {
   skipCount: number;
 
   /**
+   * Document ID of the last document result 
+   */
+  documentRid: string;
+
+  /**
    * Current offset value for OFFSET/LIMIT queries
    */
   offset?: number;
@@ -54,6 +59,7 @@ export function createOrderByQueryContinuationToken(
   orderByItems: any[],
   rid: string,
   skipCount: number,
+  documentRid?: string,
   offset?: number,
   limit?: number,
   hashedLastResult?: string,
@@ -66,6 +72,7 @@ export function createOrderByQueryContinuationToken(
     offset,
     limit,
     hashedLastResult,
+    documentRid
   };
 }
 

@@ -67,9 +67,9 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
     while (component.hasMoreResults()) {
       const response = await component.fetchMore({} as any);
       if (count < 99) {
-        assert.deepStrictEqual(response.result, []);
+        assert.deepStrictEqual(response.result.buffer, []);
       } else {
-        assert.deepStrictEqual(response.result.length, count);
+        assert.deepStrictEqual(response.result.buffer.length, count);
       }
       count++;
     }

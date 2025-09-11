@@ -132,13 +132,9 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       }
       resHeaders = response.headers;
 
-      // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
       const parallelResult = response.result as ParallelQueryResult;
       const dataToProcess: NonStreamingOrderByResult[] =
         parallelResult.buffer as NonStreamingOrderByResult[];
-      const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
-      const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
-      const orderByItems = parallelResult.orderByItems;
 
       for (const item of dataToProcess) {
         if (item) {
@@ -151,9 +147,9 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       if (this.executionContext.hasMoreResults()) {
         const result = createParallelQueryResult(
           [], // empty buffer
-          partitionKeyRangeMap,
-          updatedContinuationRanges,
-          orderByItems,
+          new Map(),
+          undefined,
+          undefined,
         );
 
         return {
@@ -167,7 +163,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
       await this.buildFinalResultArray();
-      const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+      const result = createParallelQueryResult(this.finalResultArray, new Map());
 
       return {
         result,
@@ -175,7 +171,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       };
     }
     // Signal that there are no more results.
-    const result = createParallelQueryResult([], new Map(), {}, undefined);
+    const result = createParallelQueryResult([], new Map());
 
     return {
       result,

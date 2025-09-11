@@ -77,7 +77,16 @@ export class PartitionRangeManager {
    * Checks if there are any unprocessed ranges in the sliding window
    */
   public hasUnprocessedRanges(): boolean {
-    return this.partitionKeyRangeMap.size > 0;
+    const mapSize = this.partitionKeyRangeMap.size;
+    const result = mapSize > 0;
+    console.log("=== PartitionRangeManager hasUnprocessedRanges DEBUG ===");
+    console.log("partitionKeyRangeMap.size:", mapSize);
+    console.log("result:", result);
+    if (mapSize > 0) {
+      console.log("Range IDs in map:", Array.from(this.partitionKeyRangeMap.keys()));
+    }
+    console.log("=== END PartitionRangeManager hasUnprocessedRanges DEBUG ===");
+    return result;
   }
 
   /**
@@ -109,21 +118,13 @@ export class PartitionRangeManager {
    * Processes ranges for ORDER BY queries
    */
   public processOrderByRanges(
-    pageSize: number,
-    orderByItemsArray?: any[][],
+    pageSize: number
   ): {
     endIndex: number;
     processedRanges: string[];
     lastRangeBeforePageLimit: QueryRangeMapping | null;
   } {
     console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
-
-    // ORDER BY queries require orderByItemsArray to be present and non-empty
-    if (!orderByItemsArray || orderByItemsArray.length === 0) {
-      throw new Error(
-        "ORDER BY query processing failed: orderByItemsArray is required but was not provided or is empty",
-      );
-    }
 
     let endIndex = 0;
     const processedRanges: string[] = [];
@@ -168,10 +169,12 @@ export class PartitionRangeManager {
   public processParallelRanges(pageSize: number): {
     endIndex: number;
     processedRanges: string[];
+    processedRangeMappings: QueryRangeMapping[];
     lastPartitionBeforeCutoff?: { rangeId: string; mapping: QueryRangeMapping };
   } {
     let endIndex = 0;
     const processedRanges: string[] = [];
+    const processedRangeMappings: QueryRangeMapping[] = [];
     let rangesAggregatedInCurrentToken = 0;
     let lastPartitionBeforeCutoff: { rangeId: string; mapping: QueryRangeMapping } | undefined;
 
@@ -189,6 +192,7 @@ export class PartitionRangeManager {
       // Skip empty ranges (0 items)
       if (itemCount === 0) {
         processedRanges.push(rangeId);
+        processedRangeMappings.push(value);
         rangesAggregatedInCurrentToken++;
         continue;
       }
@@ -199,11 +203,12 @@ export class PartitionRangeManager {
         lastPartitionBeforeCutoff = { rangeId, mapping: value };
         endIndex += itemCount;
         processedRanges.push(rangeId);
+        processedRangeMappings.push(value);
       } else {
         break; // No more ranges can fit, exit loop
       }
     }
 
-    return { endIndex, processedRanges, lastPartitionBeforeCutoff };
+    return { endIndex, processedRanges, processedRangeMappings, lastPartitionBeforeCutoff };
   }
 }

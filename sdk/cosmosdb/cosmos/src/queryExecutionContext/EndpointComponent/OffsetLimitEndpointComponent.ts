@@ -55,10 +55,12 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     }
 
     // Process offset/limit logic and update partition key range map
+    // Note: Pass initial offset/limit values (not current state) to calculateOffsetLimitForPartitionRanges
+    // This function updates partition metadata while the loop above processes actual data items
     const updatedPartitionKeyRangeMap = calculateOffsetLimitForPartitionRanges(
       partitionKeyRangeMap,
       initialOffset,
-      initialLimit,
+      initialLimit
     );
 
     // Return in the new structure format using the utility function

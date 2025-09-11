@@ -63,9 +63,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     const parallelResult = response.result as ParallelQueryResult;
     const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
-    const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
-    const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
-    const orderByItems = parallelResult.orderByItems;
 
     for (const item of dataToProcess) {
       if (item) {
@@ -102,9 +99,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     if (this.completed) {
       const result = createParallelQueryResult(
         [],
-        partitionKeyRangeMap,
-        updatedContinuationRanges,
-        orderByItems,
+        new Map()
       );
 
       return {
@@ -117,9 +112,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       // Return empty buffer but preserve the structure and pass-through fields
       const result = createParallelQueryResult(
         [], // empty buffer
-        partitionKeyRangeMap,
-        updatedContinuationRanges,
-        orderByItems,
+        new Map(),
       );
 
       return { result, headers: aggregateHeaders };
@@ -127,18 +120,12 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
       return this.generateAggregateResponse(
         aggregateHeaders,
-        partitionKeyRangeMap,
-        updatedContinuationRanges,
-        orderByItems,
       );
     }
   }
 
   private generateAggregateResponse(
     aggregateHeaders: CosmosHeaders,
-    partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
-    updatedContinuationRanges?: Record<string, any>,
-    orderByItems?: any[],
   ): Response<any> {
     for (const aggregator of this.aggregators.values()) {
       const result = aggregator.getResult();
@@ -151,9 +138,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     // Return in the new structure format using the utility function
     const result = createParallelQueryResult(
       this.aggregateResultArray,
-      partitionKeyRangeMap || new Map(),
-      updatedContinuationRanges || {},
-      orderByItems,
+      new Map()
     );
 
     return {

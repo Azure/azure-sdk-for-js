@@ -623,10 +623,30 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
   public hasMoreResults(): boolean {
-    return (
-      !this.err &&
-      (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended)
-    );
+    const hasError = !!this.err;
+    const bufferLength = this.buffer.length;
+    const currentState = this.state;
+    const isEnded = this.state === ParallelQueryExecutionContextBase.STATES.ended;
+    
+    // Check document producer queues state
+    const unfilledQueueSize = this.unfilledDocumentProducersQueue ? this.unfilledDocumentProducersQueue.size() : 0;
+    const bufferedQueueSize = this.bufferedDocumentProducersQueue ? this.bufferedDocumentProducersQueue.size() : 0;
+    
+    const result = !hasError && (bufferLength > 0 || !isEnded);
+    
+    console.log("=== ParallelQueryExecutionContextBase hasMoreResults DEBUG ===");
+    console.log("hasError:", hasError);
+    console.log("buffer.length:", bufferLength);
+    console.log("state:", currentState);
+    console.log("STATES.ended:", ParallelQueryExecutionContextBase.STATES.ended);
+    console.log("isEnded:", isEnded);
+    console.log("unfilledQueueSize:", unfilledQueueSize);
+    console.log("bufferedQueueSize:", bufferedQueueSize);
+    console.log("Logic: !hasError (" + !hasError + ") && (bufferLength > 0 (" + (bufferLength > 0) + ") || !isEnded (" + !isEnded + "))");
+    console.log("final result:", result);
+    console.log("=== END ParallelQueryExecutionContextBase hasMoreResults DEBUG ===");
+    
+    return result;
   }
 
   /**

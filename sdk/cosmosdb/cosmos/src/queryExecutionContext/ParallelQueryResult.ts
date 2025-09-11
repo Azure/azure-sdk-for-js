@@ -42,7 +42,7 @@ export interface ParallelQueryResult {
 export function createParallelQueryResult(
   buffer: any[],
   partitionKeyRangeMap: Map<string, QueryRangeMapping>,
-  updatedContinuationRanges: Record<string, any>,
+  updatedContinuationRanges?: Record<string, any>,
   orderByItems?: any[][],
 ): ParallelQueryResult {
   const result: ParallelQueryResult = {

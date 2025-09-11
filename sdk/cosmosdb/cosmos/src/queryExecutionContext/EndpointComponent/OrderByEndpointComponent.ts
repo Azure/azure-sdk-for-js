@@ -34,17 +34,15 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
     const response = await this.executionContext.fetchMore(diagnosticNode);
     if (
-      response === undefined ||
-      response.result === undefined ||
+      !response ||
+      !response.result ||
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
       const result = createParallelQueryResult([], new Map(), {}, []);
-
       return { result, headers: response.headers };
     }
 
-    // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
     const parallelResult = response.result as ParallelQueryResult;
     const rawBuffer = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
@@ -62,7 +60,6 @@ export class OrderByEndpointComponent implements ExecutionContext {
       orderByItemsArray.push(item.orderByItems);
     }
 
-    // Return in the new structure format using the utility function with orderByItems
     const result = createParallelQueryResult(
       buffer,
       partitionKeyRangeMap,

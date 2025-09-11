@@ -60,8 +60,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     const parallelResult = response.result as ParallelQueryResult;
     const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
-    const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
-    const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
 
     // Process GROUP BY aggregation logic
     for (const item of dataToProcess) {
@@ -105,25 +103,19 @@ export class GroupByEndpointComponent implements ExecutionContext {
       // Return empty buffer but preserve the structure and pass-through fields
       const result = createParallelQueryResult(
         [], // empty buffer
-        partitionKeyRangeMap,
-        updatedContinuationRanges,
-        undefined,
+        new Map()
       );
 
       return { result, headers: aggregateHeaders };
     } else {
       return this.consolidateGroupResults(
-        aggregateHeaders,
-        partitionKeyRangeMap,
-        updatedContinuationRanges,
+        aggregateHeaders
       );
     }
   }
 
   private consolidateGroupResults(
     aggregateHeaders: CosmosHeaders,
-    partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
-    updatedContinuationRanges?: Record<string, any>,
   ): Response<any> {
     for (const grouping of this.groupings.values()) {
       const groupResult: any = {};
@@ -137,10 +129,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
     // Return in the new structure format using the utility function
     const result = createParallelQueryResult(
       this.aggregateResultArray,
-      partitionKeyRangeMap || new Map(),
-      updatedContinuationRanges || {},
-      undefined,
-    );
+      new Map(),
+      );
 
     return { result, headers: aggregateHeaders };
   }
