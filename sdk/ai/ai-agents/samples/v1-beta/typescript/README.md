@@ -27,6 +27,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agentsImageInputWithUrl.ts][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
 | [agentsLocalTelemetry.ts][agentslocaltelemetry]                               | This sample demonstrates how to enable telemetry for AIAgentClient at local development.                                   |
 | [agentsMCPs.ts][agentsmcps]                                                   | demonstrates how to use agent operations with the MCP tool.                                                                |
+| [agentsMultiMCPs.ts][agentsmultimcps]                                         | demonstrates how to use agent operations with multiple MCP servers.                                                        |
 | [agentsRemoteTelemetry.ts][agentsremotetelemetry]                             | This sample demonstrates how to enable remote telemetry for AIAgentClient at production.                                   |
 | [agentsSharepoint.ts][agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                         |
 | [agentsWithFunctionTool.ts][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
@@ -112,6 +113,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithUrl.ts
 [agentslocaltelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsLocalTelemetry.ts
 [agentsmcps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsMCPs.ts
+[agentsmultimcps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsMultiMCPs.ts
 [agentsremotetelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsRemoteTelemetry.ts
 [agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsSharepoint.ts
 [agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithFunctionTool.ts

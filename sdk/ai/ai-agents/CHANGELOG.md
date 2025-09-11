@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.0-beta.4 (2025-09-12)
+
+### Features Added
+
+- Add `MCPTool.mergeResources` to support multiple MCP tools in one agent
+- Add `OpenApiTool` to easily call multiple open APIs in one agent
+
 ## 1.1.0-beta.3 (2025-07-30)
 
 ### Bugs Fixed

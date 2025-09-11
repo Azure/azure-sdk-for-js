@@ -491,6 +491,7 @@ export class MCPTool {
     get definitions(): MCPToolDefinition[];
     disallowTool(toolName: string): void;
     get headers(): Record<string, string>;
+    static mergeResources(mcpTools: MCPTool[]): ToolResources;
     get resources(): ToolResources;
     get serverLabel(): string;
     get serverUrl(): string;
@@ -852,6 +853,16 @@ export interface OpenApiManagedAuthDetails extends OpenApiAuthDetails {
 // @public
 export interface OpenApiManagedSecurityScheme {
     audience: string;
+}
+
+// @public
+export class OpenApiTool {
+    constructor(openApiFunctionDefinition: OpenApiFunctionDefinition);
+    addDefinition(openApiFunctionDefinition: OpenApiFunctionDefinition): void;
+    static createDefinition(openapi: OpenApiFunctionDefinition): OpenApiToolDefinition;
+    get definitions(): OpenApiToolDefinition[];
+    removeDefinition(name: string): void;
+    get resources(): ToolResources;
 }
 
 // @public

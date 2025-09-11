@@ -141,4 +141,36 @@ export class MCPTool {
       mcp: [this._resource],
     };
   }
+
+  /**
+   * Merge the tool resources from multiple MCPTool instances into a single ToolResources object.
+   *
+   * This is useful when creating a run that should have access to multiple MCP servers at once.
+   *
+   * @param mcpTools - An array of MCPTool instances whose resources will be merged.
+   * @returns A ToolResources object containing all MCP tool resources from the provided tools.
+   * @throws Error if the provided array is empty.
+   * @throws TypeError if any item in the array is not an instance of MCPTool.
+   */
+  static mergeResources(mcpTools: MCPTool[]): ToolResources {
+    if (!mcpTools || mcpTools.length === 0) {
+      throw new Error("mcpTools must be a non-empty array of MCPTool instances.");
+    }
+
+    const flatResources: MCPToolResource[] = [];
+
+    for (const tool of mcpTools) {
+      if (!(tool instanceof MCPTool)) {
+        throw new TypeError("All items in mcpTools must be instances of MCPTool.");
+      }
+
+      // Combine all MCP resources; duplicates are harmless and can be filtered by the service if needed
+      const res = tool.resources?.mcp;
+      if (res?.length) {
+        flatResources.push(...res);
+      }
+    }
+
+    return { mcp: flatResources };
+  }
 }

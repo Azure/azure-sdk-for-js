@@ -10,6 +10,7 @@ import { FileContents } from "./static-helpers/multipartHelpers.js";
 export * from "./models/streamingModels.js";
 export * from "./utils/utils.js";
 export { MCPTool } from "./utils/MCPTool.js";
+export { OpenApiTool } from "./utils/OpenApiTool.js";
 export { AgentsClient } from "./agentsClient.js";
 export {
   ToolDefinition,

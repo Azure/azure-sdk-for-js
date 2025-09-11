@@ -27,7 +27,7 @@ import type {
   SharepointToolDefinition,
 } from "../index.js";
 import { MCPTool } from "./MCPTool.js";
-
+import { OpenApiTool } from "./OpenApiTool.js";
 /**
  * Determines if the given output is of the specified type.
  *
@@ -309,16 +309,7 @@ export class ToolUtility {
     definition: OpenApiToolDefinition;
   } {
     return {
-      definition: {
-        type: "openapi",
-        openapi: {
-          name: openApiFunctionDefinition.name,
-          spec: openApiFunctionDefinition.spec,
-          description: openApiFunctionDefinition.description,
-          auth: openApiFunctionDefinition.auth,
-          defaultParams: openApiFunctionDefinition.defaultParams,
-        },
-      },
+      definition: OpenApiTool.createDefinition(openApiFunctionDefinition),
     };
   }
   /**
