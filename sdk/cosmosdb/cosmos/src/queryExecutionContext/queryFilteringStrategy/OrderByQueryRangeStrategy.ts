@@ -140,36 +140,39 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     rid: string | undefined,
     queryInfo: Record<string, unknown> | undefined,
   ): string {
-    // Create the right filter condition first (same logic as right ranges)
-    const rightFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "right");
+    console.log("=== Creating TARGET RANGE filter ===");
+    console.log("orderByItems:", orderByItems);
+    console.log("rid:", rid);
+    
+    // Create the left filter condition (documents greater than continuation point)
+    const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
+    console.log("leftFilter for target:", leftFilter);
 
-    // Add _rid check if available
-    if (rid) {
+    // If we have ORDER BY items and a RID, create the optimal filter
+    if (leftFilter && rid) {
       const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
+      console.log("ridCondition:", ridCondition);
 
-      if (rightFilter) {
-        // Create equality condition for documents with same ORDER BY values
-        const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
-        
-        if (equalityFilter) {
-          // Combine ORDER BY filter with RID filter using OR logic
-          // This ensures we get documents that:
-          // 1. Have ORDER BY values greater than the continuation point, OR
-          // 2. Have the same ORDER BY values but RID greater than continuation point
-          // This prevents duplicates while ensuring proper continuation
-          return `(${rightFilter}) OR (${equalityFilter} AND ${ridCondition})`;
-        } else {
-          // Fallback to simple OR logic if equality filter couldn't be created
-          return `(${rightFilter}) OR ${ridCondition}`;
-        }
-      } else {
-        // If no ORDER BY filter could be created, use just the RID condition
-        return ridCondition;
-      }
+      // Create equality condition for documents with same ORDER BY values
+      // This should always succeed if leftFilter succeeded since they use the same data
+      const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
+      console.log("equalityFilter:", equalityFilter);
+      
+      // Combine ORDER BY filter with RID filter using OR logic
+      // This ensures we get documents that:
+      // 1. Have ORDER BY values greater than the continuation point, OR
+      // 2. Have the same ORDER BY values but RID greater than continuation point
+      // This prevents duplicates while ensuring proper continuation
+      const finalFilter = `(${leftFilter}) OR (${equalityFilter} AND ${ridCondition})`;
+      console.log("Generated TARGET RANGE filter:", finalFilter);
+      console.log("=== END Creating TARGET RANGE filter ===");
+      return finalFilter;
     }
 
-    // If no RID available, return just the right filter
-    return rightFilter;
+    // If no RID available, return just the left filter (could be empty string)
+    console.log("Generated TARGET RANGE filter (no RID):", leftFilter);
+    console.log("=== END Creating TARGET RANGE filter ===");
+    return leftFilter || "";
   }
 
   /**

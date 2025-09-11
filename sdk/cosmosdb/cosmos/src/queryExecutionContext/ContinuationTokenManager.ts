@@ -241,7 +241,6 @@ export class ContinuationTokenManager {
     let queryRange: QueryRangeWithContinuationToken;
     if (lastRangeBeforePageLimit) {
       queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
-      // this.addOrUpdateRangeMapping(lastRangeBeforePageLimit);
     }
 
     // Extract ORDER BY items from the last item on the page
@@ -256,6 +255,15 @@ export class ContinuationTokenManager {
     // Extract RID and calculate skip count from the actual page results
     let documentRid: string; // fallback to collection link
     let skipCount: number = 0;
+
+    console.log("=== ContinuationTokenManager pageResults DEBUG ===");
+    console.log("pageResults:", pageResults ? pageResults.length : "undefined");
+    if (pageResults && pageResults.length > 0) {
+      console.log("First pageResult keys:", Object.keys(pageResults[0]));
+      console.log("Last pageResult keys:", Object.keys(pageResults[pageResults.length - 1]));
+      console.log("Last pageResult:", JSON.stringify(pageResults[pageResults.length - 1], null, 2));
+    }
+    console.log("=== END ContinuationTokenManager pageResults DEBUG ===");
 
     if (pageResults && pageResults.length > 0) {
       // Get the last document in the page
@@ -277,6 +285,14 @@ export class ContinuationTokenManager {
     const rangeMappings = queryRange ? [queryRange] : [];
 
     // Create new ORDER BY continuation token
+    console.log("=== ContinuationTokenManager ORDER BY Token Creation DEBUG ===");
+    console.log("rangeMappings:", rangeMappings);
+    console.log("lastOrderByItems:", lastOrderByItems);
+    console.log("collectionLink:", this.collectionLink);
+    console.log("skipCount:", skipCount);
+    console.log("documentRid:", documentRid);
+    console.log("=== END ContinuationTokenManager ORDER BY Token Creation DEBUG ===");
+    
     this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
       rangeMappings,
       lastOrderByItems,
@@ -329,48 +345,6 @@ export class ContinuationTokenManager {
       this.compositeContinuationToken.limit = result.lastPartitionBeforeCutoff.mapping.limit;
     }
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
-  }
-
-  /**
-   * Adds or updates a range mapping in the common ranges array
-   * TODO: take care of split/merges
-   */
-  private addOrUpdateRangeMapping(rangeMapping: QueryRangeMapping): void {
-    // Safety check for rangeMapping parameter
-    if (!rangeMapping || !rangeMapping.partitionKeyRange) {
-      return;
-    }
-
-    let existingMappingFound = false;
-
-    for (const mapping of this.ranges) {
-      if (
-        mapping &&
-        mapping.queryRange.min === rangeMapping.partitionKeyRange.minInclusive &&
-        mapping.queryRange.max === rangeMapping.partitionKeyRange.maxExclusive
-      ) {
-        // Update existing mapping with new continuation token
-        mapping.continuationToken = rangeMapping.continuationToken;
-        existingMappingFound = true;
-        break;
-      }
-    }
-
-    if (!existingMappingFound) {
-      // Create new QueryRangeWithContinuationToken from QueryRangeMapping
-      const queryRange = new QueryRange(
-        rangeMapping.partitionKeyRange.minInclusive,
-        rangeMapping.partitionKeyRange.maxExclusive,
-        true, // minInclusive
-        false, // maxInclusive (exclusive max)
-      );
-
-      const newRangeWithToken: QueryRangeWithContinuationToken = {
-        queryRange: queryRange,
-        continuationToken: rangeMapping.continuationToken,
-      };
-      this.ranges.push(newRangeWithToken);
-    }
   }
 
   /**

@@ -10,7 +10,6 @@ import { createAggregator } from "../Aggregators/index.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
-import type { QueryRangeMapping } from "../QueryRangeMapping.js";
 import type { ParallelQueryResult } from "../ParallelQueryResult.js";
 import { createParallelQueryResult } from "../ParallelQueryResult.js";
 
