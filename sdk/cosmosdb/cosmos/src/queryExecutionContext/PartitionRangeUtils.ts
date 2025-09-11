@@ -37,7 +37,7 @@ export function calculateOffsetLimitForPartitionRanges(
 
         // Calculate remaining items after offset consumption
         const remainingItems = itemCount - offsetConsumption;
-        
+
         if (remainingItems > 0 && currentLimit > 0) {
           // Apply limit to remaining items
           const limitConsumption = Math.min(currentLimit, remainingItems);

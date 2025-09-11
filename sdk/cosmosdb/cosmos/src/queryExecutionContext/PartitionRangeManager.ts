@@ -79,13 +79,13 @@ export class PartitionRangeManager {
   public hasUnprocessedRanges(): boolean {
     const mapSize = this.partitionKeyRangeMap.size;
     const result = mapSize > 0;
-    console.log("=== PartitionRangeManager hasUnprocessedRanges DEBUG ===");
-    console.log("partitionKeyRangeMap.size:", mapSize);
-    console.log("result:", result);
-    if (mapSize > 0) {
-      console.log("Range IDs in map:", Array.from(this.partitionKeyRangeMap.keys()));
+    // console.log("=== PartitionRangeManager hasUnprocessedRanges DEBUG ===");
+    // console.log("partitionKeyRangeMap.size:", mapSize);
+    // console.log("result:", result);
+    if (result) {
+      // console.log("Range IDs in map:", Array.from(this.partitionKeyRangeMap.keys()));
     }
-    console.log("=== END PartitionRangeManager hasUnprocessedRanges DEBUG ===");
+    // console.log("=== END PartitionRangeManager hasUnprocessedRanges DEBUG ===");
     return result;
   }
 
@@ -117,14 +117,12 @@ export class PartitionRangeManager {
   /**
    * Processes ranges for ORDER BY queries
    */
-  public processOrderByRanges(
-    pageSize: number
-  ): {
+  public processOrderByRanges(pageSize: number): {
     endIndex: number;
     processedRanges: string[];
     lastRangeBeforePageLimit: QueryRangeMapping | null;
   } {
-    console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
+    // console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
 
     let endIndex = 0;
     const processedRanges: string[] = [];
@@ -132,7 +130,7 @@ export class PartitionRangeManager {
 
     // Process ranges sequentially until page size is reached
     for (const [rangeId, value] of this.partitionKeyRangeMap) {
-      console.log(`=== Processing ORDER BY Range ${rangeId} ===`);
+      // console.log(`=== Processing ORDER BY Range ${rangeId} ===`);
 
       // Validate range data
       if (!value || value.itemCount === undefined) {
@@ -140,7 +138,7 @@ export class PartitionRangeManager {
       }
 
       const { itemCount } = value;
-      console.log(`ORDER BY Range ${rangeId}: itemCount ${itemCount}`);
+      // console.log(`ORDER BY Range ${rangeId}: itemCount ${itemCount}`);
 
       // Skip empty ranges (0 items)
       if (itemCount === 0) {
@@ -187,7 +185,7 @@ export class PartitionRangeManager {
       }
 
       const { itemCount } = value;
-      console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
+      // console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
 
       // Skip empty ranges (0 items)
       if (itemCount === 0) {

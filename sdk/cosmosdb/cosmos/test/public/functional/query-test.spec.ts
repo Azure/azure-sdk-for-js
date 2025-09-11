@@ -455,6 +455,4 @@ describe("Queries", { timeout: 10000 }, () => {
     // Clean up
     await database.database.delete();
   });
-
-  
 });

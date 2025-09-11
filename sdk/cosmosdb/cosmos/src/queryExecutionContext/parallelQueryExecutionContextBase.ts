@@ -289,15 +289,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param continuationToken - The continuation token containing range mappings to analyze
    * @returns Object containing processed ranges with EPK info and optional orderByItems and rid for ORDER BY queries
    */
-  private async _handlePartitionRangeChanges(
-    continuationToken?: string,
-  ): Promise<{
+  private async _handlePartitionRangeChanges(continuationToken?: string): Promise<{
     ranges: { range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[];
     orderByItems?: any[];
     rid?: string;
   }> {
     if (!continuationToken) {
-      console.log("No continuation token provided, returning empty processed ranges");
+      // console.log("No continuation token provided, returning empty processed ranges");
       return { ranges: [] };
     }
 
@@ -324,16 +322,16 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const rid: string | undefined = parsedRid;
 
     // Check each range mapping for potential splits/merges
-    for (const rangeWithToken of rangeMappings) {      
-        // Create a new QueryRange instance from the parsed JSON data
+    for (const rangeWithToken of rangeMappings) {
+      // Create a new QueryRange instance from the parsed JSON data
       const range = rangeWithToken.queryRange;
       const queryRange: QueryRange = new QueryRange(
         range.min,
         range.max,
         range.isMinInclusive,
-        range.isMaxInclusive
+        range.isMaxInclusive,
       );
-      
+
       const rangeMin = queryRange.min;
       const rangeMax = queryRange.max;
 
@@ -633,27 +631,27 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   public hasMoreResults(): boolean {
     const hasError = !!this.err;
     const bufferLength = this.buffer.length;
-    const currentState = this.state;
+    // const currentState = this.state;
     const isEnded = this.state === ParallelQueryExecutionContextBase.STATES.ended;
-    
+
     // Check document producer queues state
-    const unfilledQueueSize = this.unfilledDocumentProducersQueue ? this.unfilledDocumentProducersQueue.size() : 0;
-    const bufferedQueueSize = this.bufferedDocumentProducersQueue ? this.bufferedDocumentProducersQueue.size() : 0;
-    
+    // const unfilledQueueSize = this.unfilledDocumentProducersQueue ? this.unfilledDocumentProducersQueue.size() : 0;
+    // const bufferedQueueSize = this.bufferedDocumentProducersQueue ? this.bufferedDocumentProducersQueue.size() : 0;
+
     const result = !hasError && (bufferLength > 0 || !isEnded);
-    
-    console.log("=== ParallelQueryExecutionContextBase hasMoreResults DEBUG ===");
-    console.log("hasError:", hasError);
-    console.log("buffer.length:", bufferLength);
-    console.log("state:", currentState);
-    console.log("STATES.ended:", ParallelQueryExecutionContextBase.STATES.ended);
-    console.log("isEnded:", isEnded);
-    console.log("unfilledQueueSize:", unfilledQueueSize);
-    console.log("bufferedQueueSize:", bufferedQueueSize);
-    console.log("Logic: !hasError (" + !hasError + ") && (bufferLength > 0 (" + (bufferLength > 0) + ") || !isEnded (" + !isEnded + "))");
-    console.log("final result:", result);
-    console.log("=== END ParallelQueryExecutionContextBase hasMoreResults DEBUG ===");
-    
+
+    // console.log("=== ParallelQueryExecutionContextBase hasMoreResults DEBUG ===");
+    // console.log("hasError:", hasError);
+    // console.log("buffer.length:", bufferLength);
+    // console.log("state:", currentState);
+    // console.log("STATES.ended:", ParallelQueryExecutionContextBase.STATES.ended);
+    // console.log("isEnded:", isEnded);
+    // console.log("unfilledQueueSize:", unfilledQueueSize);
+    // console.log("bufferedQueueSize:", bufferedQueueSize);
+    // console.log("Logic: !hasError (" + !hasError + ") && (bufferLength > 0 (" + (bufferLength > 0) + ") || !isEnded (" + !isEnded + "))");
+    // console.log("final result:", result);
+    // console.log("=== END ParallelQueryExecutionContextBase hasMoreResults DEBUG ===");
+
     return result;
   }
 

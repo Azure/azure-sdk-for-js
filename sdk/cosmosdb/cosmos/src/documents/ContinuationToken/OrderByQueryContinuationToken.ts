@@ -29,7 +29,7 @@ export interface OrderByQueryContinuationToken {
   skipCount: number;
 
   /**
-   * Document ID of the last document result 
+   * Document ID of the last document result
    */
   documentRid: string;
 
@@ -72,7 +72,7 @@ export function createOrderByQueryContinuationToken(
     offset,
     limit,
     hashedLastResult,
-    documentRid
+    documentRid,
   };
 }
 

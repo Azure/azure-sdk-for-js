@@ -147,10 +147,10 @@ export class Items {
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
-    console.log("==========================================");
-    console.log("ITEMS.query() method called");
-    console.log("enableEncryption:", this.clientContext.enableEncryption);
-    console.log("==========================================");
+    // console.log("==========================================");
+    // console.log("ITEMS.query() method called");
+    // console.log("enableEncryption:", this.clientContext.enableEncryption);
+    // console.log("==========================================");
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 

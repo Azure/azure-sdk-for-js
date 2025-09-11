@@ -60,7 +60,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const updatedPartitionKeyRangeMap = calculateOffsetLimitForPartitionRanges(
       partitionKeyRangeMap,
       initialOffset,
-      initialLimit
+      initialLimit,
     );
 
     // Return in the new structure format using the utility function

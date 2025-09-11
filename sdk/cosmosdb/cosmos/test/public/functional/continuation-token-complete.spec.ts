@@ -1156,7 +1156,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         allResults.push(...result.resources);
         iterationCount++;
 
-        console.log(`Iteration ${iterationCount}: ${result.resources.length} items, continuationToken: ${result.continuationToken ? "YES" : "NO"}`);
+        console.log(
+          `Iteration ${iterationCount}: ${result.resources.length} items, continuationToken: ${result.continuationToken ? "YES" : "NO"}`,
+        );
 
         if (result.continuationToken && queryIterator.hasMoreResults()) {
           // Create new iterator with continuation token
@@ -1182,13 +1184,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         if (allResults.length > 10) {
           console.log(
             `Last 5 items by amount:`,
-            allResults
-              .slice(-5)
-              .map((item) => ({
-                id: item.id,
-                amount: item.amount,
-                amountType: typeof item.amount,
-              })),
+            allResults.slice(-5).map((item) => ({
+              id: item.id,
+              amount: item.amount,
+              amountType: typeof item.amount,
+            })),
           );
         }
       }

@@ -69,18 +69,18 @@ export class TargetPartitionRangeManager {
   private createStrategy(config: TargetPartitionRangeManagerConfig): TargetPartitionRangeStrategy {
     // Use custom strategy if provided
     if (config.customStrategy) {
-      console.log(`Using custom strategy: ${config.customStrategy.getStrategyType()}`);
+      // console.log(`Using custom strategy: ${config.customStrategy.getStrategyType()}`);
       return config.customStrategy;
     }
 
     // Create default strategy based on query type
     switch (config.queryType) {
       case QueryExecutionContextType.Parallel:
-        console.log("Creating ParallelQueryRangeStrategy");
+        // console.log("Creating ParallelQueryRangeStrategy");
         return new ParallelQueryRangeStrategy();
 
       case QueryExecutionContextType.OrderBy:
-        console.log("Creating OrderByQueryRangeStrategy");
+        // console.log("Creating OrderByQueryRangeStrategy");
         return new OrderByQueryRangeStrategy();
 
       default:

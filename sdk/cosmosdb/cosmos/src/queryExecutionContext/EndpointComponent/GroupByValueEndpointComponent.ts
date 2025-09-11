@@ -96,10 +96,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     // We bail early since we got an undefined result back `[{}]`
     if (this.completed) {
-      const result = createParallelQueryResult(
-        [],
-        new Map()
-      );
+      const result = createParallelQueryResult([], new Map());
 
       return {
         result,
@@ -117,15 +114,11 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return { result, headers: aggregateHeaders };
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
-      return this.generateAggregateResponse(
-        aggregateHeaders,
-      );
+      return this.generateAggregateResponse(aggregateHeaders);
     }
   }
 
-  private generateAggregateResponse(
-    aggregateHeaders: CosmosHeaders,
-  ): Response<any> {
+  private generateAggregateResponse(aggregateHeaders: CosmosHeaders): Response<any> {
     for (const aggregator of this.aggregators.values()) {
       const result = aggregator.getResult();
       if (result !== undefined) {
@@ -135,10 +128,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     this.completed = true;
 
     // Return in the new structure format using the utility function
-    const result = createParallelQueryResult(
-      this.aggregateResultArray,
-      new Map()
-    );
+    const result = createParallelQueryResult(this.aggregateResultArray, new Map());
 
     return {
       result,

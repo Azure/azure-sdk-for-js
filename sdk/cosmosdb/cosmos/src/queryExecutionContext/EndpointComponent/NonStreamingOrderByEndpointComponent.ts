@@ -121,11 +121,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     // If all results are fetched from backend, prepare final results
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
-      return this.buildFinalResultArray(
-        resHeaders,
-        new Map(),
-        {},
-      );
+      return this.buildFinalResultArray(resHeaders, new Map(), {});
     }
 
     // If pq is empty, return undefined to signal that there are no more results.

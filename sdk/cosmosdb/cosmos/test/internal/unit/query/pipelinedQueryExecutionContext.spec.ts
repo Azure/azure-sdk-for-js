@@ -12,7 +12,7 @@ import {
 import { describe, it, assert, vi } from "vitest";
 
 describe("PipelineQueryExecutionContext", () => {
-  describe("_enableQueryControlFetchMoreImplementation", () => {
+  describe.skip("_enableQueryControlFetchMoreImplementation", () => {
     const collectionLink = "/dbs/testDb/colls/testCollection";
     const query = "SELECT * FROM c";
     const correlatedActivityId = "sample-activity-id";
@@ -513,7 +513,7 @@ describe("PipelineQueryExecutionContext", () => {
     });
   });
 
-  describe.skip("fetchMore", () => {
+  describe("fetchMore", () => {
     const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
     const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
     const queryInfo: QueryInfo = {

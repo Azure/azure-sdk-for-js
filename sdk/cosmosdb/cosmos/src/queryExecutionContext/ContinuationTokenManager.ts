@@ -41,7 +41,7 @@ export class ContinuationTokenManager {
 
   private partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
   private isOrderByQuery: boolean = false;
-  private orderByItemsArray: any[][] ;
+  private orderByItemsArray: any[][];
   private isUnsupportedQueryType: boolean = false;
   private collectionLink: string;
 
@@ -207,13 +207,15 @@ export class ContinuationTokenManager {
    * Existing ranges are updated with new continuation tokens, new ranges are added.
    * @param rangeMappings - Array of QueryRangeWithContinuationToken to merge into existing token
    */
-  private updateExistingCompositeContinuationToken(rangeMappings: QueryRangeWithContinuationToken[]): void {
+  private updateExistingCompositeContinuationToken(
+    rangeMappings: QueryRangeWithContinuationToken[],
+  ): void {
     for (const newRange of rangeMappings) {
       // Check if this range already exists in the token
       const existingRangeIndex = this.compositeContinuationToken.rangeMappings.findIndex(
         (existingRange) =>
           existingRange.queryRange.min === newRange.queryRange.min &&
-          existingRange.queryRange.max === newRange.queryRange.max
+          existingRange.queryRange.max === newRange.queryRange.max,
       );
 
       if (existingRangeIndex >= 0) {
@@ -256,15 +258,6 @@ export class ContinuationTokenManager {
     let documentRid: string; // fallback to collection link
     let skipCount: number = 0;
 
-    console.log("=== ContinuationTokenManager pageResults DEBUG ===");
-    console.log("pageResults:", pageResults ? pageResults.length : "undefined");
-    if (pageResults && pageResults.length > 0) {
-      console.log("First pageResult keys:", Object.keys(pageResults[0]));
-      console.log("Last pageResult keys:", Object.keys(pageResults[pageResults.length - 1]));
-      console.log("Last pageResult:", JSON.stringify(pageResults[pageResults.length - 1], null, 2));
-    }
-    console.log("=== END ContinuationTokenManager pageResults DEBUG ===");
-
     if (pageResults && pageResults.length > 0) {
       // Get the last document in the page
       const lastDocument = pageResults[pageResults.length - 1];
@@ -285,14 +278,6 @@ export class ContinuationTokenManager {
     const rangeMappings = queryRange ? [queryRange] : [];
 
     // Create new ORDER BY continuation token
-    console.log("=== ContinuationTokenManager ORDER BY Token Creation DEBUG ===");
-    console.log("rangeMappings:", rangeMappings);
-    console.log("lastOrderByItems:", lastOrderByItems);
-    console.log("collectionLink:", this.collectionLink);
-    console.log("skipCount:", skipCount);
-    console.log("documentRid:", documentRid);
-    console.log("=== END ContinuationTokenManager ORDER BY Token Creation DEBUG ===");
-    
     this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
       rangeMappings,
       lastOrderByItems,
@@ -300,7 +285,7 @@ export class ContinuationTokenManager {
       skipCount, // Number of documents with the same RID already processed
       documentRid, // Document RID from the last item in the page
     );
-    
+
     // Update offset/limit and hashed result from the last processed range
     if (lastRangeBeforePageLimit) {
       this.orderByQueryContinuationToken.offset = lastRangeBeforePageLimit.offset;
@@ -320,12 +305,8 @@ export class ContinuationTokenManager {
 
     // Convert QueryRangeMapping objects to QueryRangeWithContinuationToken objects using helper
     const rangeMappings: QueryRangeWithContinuationToken[] = result.processedRangeMappings.map(
-      (rangeMapping) => convertRangeMappingToQueryRange(rangeMapping)
+      (rangeMapping) => convertRangeMappingToQueryRange(rangeMapping),
     );
-
-    console.log(`=== processParallelRanges DEBUG ===`);
-    console.log(`Converted to ${rangeMappings.length} QueryRangeWithContinuationToken objects`);
-    console.log(`=== END processParallelRanges DEBUG ===`);
 
     // Update or create composite continuation token
     if (!this.compositeContinuationToken) {
@@ -338,7 +319,7 @@ export class ContinuationTokenManager {
       // Update existing composite continuation token with new/updated ranges
       this.updateExistingCompositeContinuationToken(rangeMappings);
     }
-    
+
     // Update internal state based on the result
     if (result.lastPartitionBeforeCutoff && result.lastPartitionBeforeCutoff.mapping) {
       this.compositeContinuationToken.offset = result.lastPartitionBeforeCutoff.mapping.offset;
@@ -381,10 +362,10 @@ export class ContinuationTokenManager {
    */
   public hasUnprocessedRanges(): boolean {
     const result = this.partitionRangeManager.hasUnprocessedRanges();
-    console.log("=== ContinuationTokenManager hasUnprocessedRanges DEBUG ===");
-    console.log("partitionRangeManager.hasUnprocessedRanges():", result);
-    console.log("isUnsupportedQueryType:", this.isUnsupportedQueryType);
-    console.log("=== END ContinuationTokenManager hasUnprocessedRanges DEBUG ===");
+    // console.log("=== ContinuationTokenManager hasUnprocessedRanges DEBUG ===");
+    // console.log("partitionRangeManager.hasUnprocessedRanges():", result);
+    // console.log("isUnsupportedQueryType:", this.isUnsupportedQueryType);
+    // console.log("=== END ContinuationTokenManager hasUnprocessedRanges DEBUG ===");
     return result;
   }
 
@@ -494,12 +475,12 @@ export class ContinuationTokenManager {
    * @param partitionKeyRangeMap - Map of range IDs to QueryRangeMapping objects
    */
   public setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
-    console.log("=== ContinuationTokenManager setPartitionKeyRangeMap DEBUG ===");
-    if(partitionKeyRangeMap){
-      console.log("Received partitionKeyRangeMap size:", partitionKeyRangeMap.size);
+    // console.log("=== ContinuationTokenManager setPartitionKeyRangeMap DEBUG ===");
+    if (partitionKeyRangeMap) {
+      // console.log("Received partitionKeyRangeMap size:", partitionKeyRangeMap.size);
     }
-    console.log("isUnsupportedQueryType:", this.isUnsupportedQueryType);
-    console.log("=== END ContinuationTokenManager setPartitionKeyRangeMap DEBUG ===");
+    // console.log("isUnsupportedQueryType:", this.isUnsupportedQueryType);
+    // console.log("=== END ContinuationTokenManager setPartitionKeyRangeMap DEBUG ===");
     this.partitionRangeManager.setPartitionKeyRangeMap(partitionKeyRangeMap);
   }
 }

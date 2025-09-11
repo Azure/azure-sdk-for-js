@@ -76,7 +76,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
       // Apply filtering logic for left ranges
       if (leftRanges.length > 0) {
-        console.log(`Applying filter condition to ${leftRanges.length} left ranges`);
+        // console.log(`Applying filter condition to ${leftRanges.length} left ranges`);
 
         leftRanges.forEach((range) => {
           result.rangeTokenPairs.push({
@@ -140,38 +140,38 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     rid: string | undefined,
     queryInfo: Record<string, unknown> | undefined,
   ): string {
-    console.log("=== Creating TARGET RANGE filter ===");
-    console.log("orderByItems:", orderByItems);
-    console.log("rid:", rid);
-    
+    // console.log("=== Creating TARGET RANGE filter ===");
+    // console.log("orderByItems:", orderByItems);
+    // console.log("rid:", rid);
+
     // Create the left filter condition (documents greater than continuation point)
     const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
-    console.log("leftFilter for target:", leftFilter);
+    // console.log("leftFilter for target:", leftFilter);
 
     // If we have ORDER BY items and a RID, create the optimal filter
     if (leftFilter && rid) {
       const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
-      console.log("ridCondition:", ridCondition);
+      // console.log("ridCondition:", ridCondition);
 
       // Create equality condition for documents with same ORDER BY values
       // This should always succeed if leftFilter succeeded since they use the same data
       const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
-      console.log("equalityFilter:", equalityFilter);
-      
+      // console.log("equalityFilter:", equalityFilter);
+
       // Combine ORDER BY filter with RID filter using OR logic
       // This ensures we get documents that:
       // 1. Have ORDER BY values greater than the continuation point, OR
       // 2. Have the same ORDER BY values but RID greater than continuation point
       // This prevents duplicates while ensuring proper continuation
       const finalFilter = `(${leftFilter}) OR (${equalityFilter} AND ${ridCondition})`;
-      console.log("Generated TARGET RANGE filter:", finalFilter);
-      console.log("=== END Creating TARGET RANGE filter ===");
+      // console.log("Generated TARGET RANGE filter:", finalFilter);
+      // console.log("=== END Creating TARGET RANGE filter ===");
       return finalFilter;
     }
 
     // If no RID available, return just the left filter (could be empty string)
-    console.log("Generated TARGET RANGE filter (no RID):", leftFilter);
-    console.log("=== END Creating TARGET RANGE filter ===");
+    // console.log("Generated TARGET RANGE filter (no RID):", leftFilter);
+    // console.log("=== END Creating TARGET RANGE filter ===");
     return leftFilter || "";
   }
 
@@ -192,18 +192,21 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       console.warn(`No order by items found for creating ${rangePosition} range filter`);
       return "";
     }
-    console.log("queryInfo:", JSON.stringify(queryInfo, null, 2));
+    // console.log("queryInfo:", JSON.stringify(queryInfo, null, 2));
 
     // Extract sort orders from query info
     const sortOrders = this.extractSortOrders(queryInfo);
-    
+
     // Extract orderByExpressions from nested structure
     let orderByExpressions: any[] | undefined;
-    if (queryInfo && queryInfo.quereyInfo && 
-        typeof queryInfo.quereyInfo === 'object' &&
-        (queryInfo.quereyInfo as any).queryInfo &&
-        (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-        Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)) {
+    if (
+      queryInfo &&
+      queryInfo.quereyInfo &&
+      typeof queryInfo.quereyInfo === "object" &&
+      (queryInfo.quereyInfo as any).queryInfo &&
+      (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+      Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
+    ) {
       orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
     }
 
@@ -217,12 +220,12 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       return "";
     }
 
-    console.log(
-      `Creating ${rangePosition} filter for ${orderByItems.length} order by items with ${sortOrders.length} sort orders`,
-    );
+    // console.log(
+    //   `Creating ${rangePosition} filter for ${orderByItems.length} order by items with ${sortOrders.length} sort orders`,
+    // );
     if (rangePosition === "left") {
-      console.log(`QueryInfo keys:`, queryInfo ? Object.keys(queryInfo) : "No queryInfo");
-      console.log(`OrderBy expressions:`, queryInfo?.orderByExpressions);
+      // console.log(`QueryInfo keys:`, queryInfo ? Object.keys(queryInfo) : "No queryInfo");
+      // console.log(`OrderBy expressions:`, queryInfo?.orderByExpressions);
     }
 
     const filterConditions: string[] = [];
@@ -243,7 +246,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
       // Determine the field path from ORDER BY expressions in query plan
       const fieldPath = this.extractFieldPath(queryInfo, i);
-      console.log(`Extracted field path for ${rangePosition} range index ${i}: ${fieldPath}`);
+      // console.log(`Extracted field path for ${rangePosition} range index ${i}: ${fieldPath}`);
 
       // Create the comparison condition based on sort order and range position
       const condition = this.createComparisonCondition(
@@ -261,7 +264,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // Combine multiple conditions with AND for multi-field ORDER BY
     const combinedFilter = filterConditions.length > 0 ? `(${filterConditions.join(" AND ")})` : "";
 
-    console.log(`Generated ${rangePosition} range filter: ${combinedFilter}`);
+    // console.log(`Generated ${rangePosition} range filter: ${combinedFilter}`);
     return combinedFilter;
   }
 
@@ -275,16 +278,18 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     // Try multiple paths to find orderBy due to nested structure
     let orderBy: any[] | undefined;
-    
+
     // Direct path
     if (queryInfo.orderBy && Array.isArray(queryInfo.orderBy)) {
       orderBy = queryInfo.orderBy;
     }
     // Nested path: queryInfo.quereyInfo.queryInfo.orderBy
-    else if (queryInfo.quereyInfo && 
-             (queryInfo.quereyInfo as any).queryInfo &&
-             (queryInfo.quereyInfo as any).queryInfo.orderBy &&
-             Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderBy)) {
+    else if (
+      queryInfo.quereyInfo &&
+      (queryInfo.quereyInfo as any).queryInfo &&
+      (queryInfo.quereyInfo as any).queryInfo.orderBy &&
+      Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderBy)
+    ) {
       orderBy = (queryInfo.quereyInfo as any).queryInfo.orderBy;
     }
 
@@ -309,23 +314,25 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
    * Extracts field path from ORDER BY expressions in query plan
    */
   private extractFieldPath(queryInfo: Record<string, unknown> | undefined, index: number): string {
-    console.log(`Extracting field path for index ${index} from query info 2:`, queryInfo);
-    
+    // console.log(`Extracting field path for index ${index} from query info 2:`, queryInfo);
+
     // Try multiple paths to find orderByExpressions due to nested structure
     let orderByExpressions: any[] | undefined;
-    
+
     if (queryInfo) {
       // Direct path
       // TODO: make it simple
-      if (queryInfo.quereyInfo && 
-               typeof queryInfo.quereyInfo === 'object' &&
-               (queryInfo.quereyInfo as any).queryInfo &&
-               (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-               Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)) {
+      if (
+        queryInfo.quereyInfo &&
+        typeof queryInfo.quereyInfo === "object" &&
+        (queryInfo.quereyInfo as any).queryInfo &&
+        (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+        Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
+      ) {
         orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
       }
     }
-    
+
     if (!orderByExpressions) {
       console.warn(`No orderByExpressions found in query info for index ${index}`);
       return `orderByField${index}`;
@@ -403,7 +410,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // Create the condition with proper field reference
     const condition = `${fieldPath} ${operator} ${formattedValue}`;
 
-    console.log(`Created ${rangePosition} range condition: ${condition} (sort: ${sortOrder})`);
+    // console.log(`Created ${rangePosition} range condition: ${condition} (sort: ${sortOrder})`);
     return condition;
   }
 
@@ -452,13 +459,16 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     // Extract sort orders and expressions from query info
     const sortOrders = this.extractSortOrders(queryInfo);
-    
+
     let orderByExpressions: any[] | undefined;
-    if (queryInfo && queryInfo.quereyInfo && 
-        typeof queryInfo.quereyInfo === 'object' &&
-        (queryInfo.quereyInfo as any).queryInfo &&
-        (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-        Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)) {
+    if (
+      queryInfo &&
+      queryInfo.quereyInfo &&
+      typeof queryInfo.quereyInfo === "object" &&
+      (queryInfo.quereyInfo as any).queryInfo &&
+      (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+      Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
+    ) {
       orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
     }
 
