@@ -280,8 +280,9 @@ export class ContinuationTokenManager {
     this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
       rangeMappings,
       lastOrderByItems,
-      documentRid, // Document RID from the last item in the page
+      this.collectionLink, // Container RID/link
       skipCount, // Number of documents with the same RID already processed
+      documentRid, // Document RID from the last item in the page
     );
     
     // Update offset/limit and hashed result from the last processed range
