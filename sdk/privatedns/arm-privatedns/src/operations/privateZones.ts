@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { PrivateZones } from "../operationsInterfaces/index.js";
+import type { PrivateZones } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PrivateDnsManagementClient } from "../privateDnsManagementClient.js";
-import {
+import type { PrivateDnsManagementClient } from "../privateDnsManagementClient.js";
+import type {
   SimplePollerLike,
-  OperationState,
+  OperationState} from "@azure/core-lro";
+import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   PrivateZone,
   PrivateZonesListNextOptionalParams,
   PrivateZonesListOptionalParams,
@@ -27,13 +28,13 @@ import {
   PrivateZonesListByResourceGroupNextOptionalParams,
   PrivateZonesListByResourceGroupOptionalParams,
   PrivateZonesListByResourceGroupResponse,
+  PrivateZonesGetOptionalParams,
+  PrivateZonesGetResponse,
   PrivateZonesCreateOrUpdateOptionalParams,
   PrivateZonesCreateOrUpdateResponse,
   PrivateZonesUpdateOptionalParams,
   PrivateZonesUpdateResponse,
   PrivateZonesDeleteOptionalParams,
-  PrivateZonesGetOptionalParams,
-  PrivateZonesGetResponse,
   PrivateZonesListNextResponse,
   PrivateZonesListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -83,7 +84,7 @@ export class PrivateZonesImpl implements PrivateZones {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -91,7 +92,7 @@ export class PrivateZonesImpl implements PrivateZones {
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -107,7 +108,7 @@ export class PrivateZonesImpl implements PrivateZones {
 
   /**
    * Lists the Private DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -144,7 +145,7 @@ export class PrivateZonesImpl implements PrivateZones {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -156,7 +157,7 @@ export class PrivateZonesImpl implements PrivateZones {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -175,9 +176,52 @@ export class PrivateZonesImpl implements PrivateZones {
   }
 
   /**
+   * Lists the Private DNS zones in all resource groups in a subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: PrivateZonesListOptionalParams,
+  ): Promise<PrivateZonesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Lists the Private DNS zones within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: PrivateZonesListByResourceGroupOptionalParams,
+  ): Promise<PrivateZonesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the
+   * record sets within the zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: PrivateZonesGetOptionalParams,
+  ): Promise<PrivateZonesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateZoneName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records
    * within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -242,6 +286,7 @@ export class PrivateZonesImpl implements PrivateZones {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -250,7 +295,7 @@ export class PrivateZonesImpl implements PrivateZones {
   /**
    * Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records
    * within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -272,7 +317,7 @@ export class PrivateZonesImpl implements PrivateZones {
 
   /**
    * Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -337,6 +382,7 @@ export class PrivateZonesImpl implements PrivateZones {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -344,7 +390,7 @@ export class PrivateZonesImpl implements PrivateZones {
 
   /**
    * Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -368,7 +414,7 @@ export class PrivateZonesImpl implements PrivateZones {
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
    * operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to
    * it are removed.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -423,6 +469,7 @@ export class PrivateZonesImpl implements PrivateZones {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -432,7 +479,7 @@ export class PrivateZonesImpl implements PrivateZones {
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
    * operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to
    * it are removed.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -447,49 +494,6 @@ export class PrivateZonesImpl implements PrivateZones {
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the
-   * record sets within the zone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    privateZoneName: string,
-    options?: PrivateZonesGetOptionalParams,
-  ): Promise<PrivateZonesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateZoneName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the Private DNS zones in all resource groups in a subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: PrivateZonesListOptionalParams,
-  ): Promise<PrivateZonesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Lists the Private DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: PrivateZonesListByResourceGroupOptionalParams,
-  ): Promise<PrivateZonesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
   }
 
   /**
@@ -509,7 +513,7 @@ export class PrivateZonesImpl implements PrivateZones {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -527,122 +531,6 @@ export class PrivateZonesImpl implements PrivateZones {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    201: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    202: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    204: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    201: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    202: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    204: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateZone,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateDnsZones",
   httpMethod: "GET",
@@ -673,10 +561,126 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    201: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    202: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    204: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    201: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    202: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    204: {
+      bodyMapper: Mappers.PrivateZone,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -711,8 +715,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

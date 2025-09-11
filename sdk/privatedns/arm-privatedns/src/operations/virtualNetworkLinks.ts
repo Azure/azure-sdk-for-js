@@ -6,31 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { VirtualNetworkLinks } from "../operationsInterfaces/index.js";
+import type { VirtualNetworkLinks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PrivateDnsManagementClient } from "../privateDnsManagementClient.js";
-import {
+import type { PrivateDnsManagementClient } from "../privateDnsManagementClient.js";
+import type {
   SimplePollerLike,
-  OperationState,
+  OperationState} from "@azure/core-lro";
+import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   VirtualNetworkLink,
   VirtualNetworkLinksListNextOptionalParams,
   VirtualNetworkLinksListOptionalParams,
   VirtualNetworkLinksListResponse,
+  VirtualNetworkLinksGetOptionalParams,
+  VirtualNetworkLinksGetResponse,
   VirtualNetworkLinksCreateOrUpdateOptionalParams,
   VirtualNetworkLinksCreateOrUpdateResponse,
   VirtualNetworkLinksUpdateOptionalParams,
   VirtualNetworkLinksUpdateResponse,
   VirtualNetworkLinksDeleteOptionalParams,
-  VirtualNetworkLinksGetOptionalParams,
-  VirtualNetworkLinksGetResponse,
   VirtualNetworkLinksListNextResponse,
 } from "../models/index.js";
 
@@ -49,7 +50,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
 
   /**
    * Lists the virtual network links to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -94,7 +95,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, privateZoneName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -107,7 +108,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -128,8 +129,44 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
   }
 
   /**
+   * Lists the virtual network links to the specified Private DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: VirtualNetworkLinksListOptionalParams,
+  ): Promise<VirtualNetworkLinksListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateZoneName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a virtual network link to the specified Private DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param virtualNetworkLinkName The name of the virtual network link.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    virtualNetworkLinkName: string,
+    options?: VirtualNetworkLinksGetOptionalParams,
+  ): Promise<VirtualNetworkLinksGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateZoneName, virtualNetworkLinkName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates or updates a virtual network link to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param virtualNetworkLinkName The name of the virtual network link.
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
@@ -202,6 +239,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -209,7 +247,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
 
   /**
    * Creates or updates a virtual network link to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param virtualNetworkLinkName The name of the virtual network link.
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
@@ -234,7 +272,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
 
   /**
    * Updates a virtual network link to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param virtualNetworkLinkName The name of the virtual network link.
    * @param parameters Parameters supplied to the Update operation.
@@ -307,6 +345,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -314,7 +353,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
 
   /**
    * Updates a virtual network link to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param virtualNetworkLinkName The name of the virtual network link.
    * @param parameters Parameters supplied to the Update operation.
@@ -341,7 +380,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
    * Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration
    * virtual network, all auto-registered DNS records in the zone for the virtual network will also be
    * deleted. This operation cannot be undone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param virtualNetworkLinkName The name of the virtual network link.
    * @param options The options parameters.
@@ -403,6 +442,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -412,7 +452,7 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
    * Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration
    * virtual network, all auto-registered DNS records in the zone for the virtual network will also be
    * deleted. This operation cannot be undone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param virtualNetworkLinkName The name of the virtual network link.
    * @param options The options parameters.
@@ -433,44 +473,8 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
   }
 
   /**
-   * Gets a virtual network link to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param virtualNetworkLinkName The name of the virtual network link.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    privateZoneName: string,
-    virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksGetOptionalParams,
-  ): Promise<VirtualNetworkLinksGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateZoneName, virtualNetworkLinkName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the virtual network links to the specified Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    privateZoneName: string,
-    options?: VirtualNetworkLinksListOptionalParams,
-  ): Promise<VirtualNetworkLinksListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateZoneName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -490,6 +494,49 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkLinkListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkLink,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+    Parameters.virtualNetworkLinkName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}",
   httpMethod: "PUT",
@@ -510,18 +557,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.virtualNetworkLinkName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
   ],
@@ -548,18 +595,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.virtualNetworkLinkName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
   ],
   mediaType: "json",
@@ -580,55 +627,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.virtualNetworkLinkName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworkLink,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-    Parameters.virtualNetworkLinkName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworkLinkListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -644,9 +648,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PrivateZone,
   PrivateZonesListOptionalParams,
   PrivateZonesListByResourceGroupOptionalParams,
+  PrivateZonesGetOptionalParams,
+  PrivateZonesGetResponse,
   PrivateZonesCreateOrUpdateOptionalParams,
   PrivateZonesCreateOrUpdateResponse,
   PrivateZonesUpdateOptionalParams,
   PrivateZonesUpdateResponse,
   PrivateZonesDeleteOptionalParams,
-  PrivateZonesGetOptionalParams,
-  PrivateZonesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface PrivateZones {
   ): PagedAsyncIterableIterator<PrivateZone>;
   /**
    * Lists the Private DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -41,9 +41,21 @@ export interface PrivateZones {
     options?: PrivateZonesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PrivateZone>;
   /**
+   * Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the
+   * record sets within the zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: PrivateZonesGetOptionalParams,
+  ): Promise<PrivateZonesGetResponse>;
+  /**
    * Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records
    * within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -62,7 +74,7 @@ export interface PrivateZones {
   /**
    * Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records
    * within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -75,7 +87,7 @@ export interface PrivateZones {
   ): Promise<PrivateZonesCreateOrUpdateResponse>;
   /**
    * Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -93,7 +105,7 @@ export interface PrivateZones {
   >;
   /**
    * Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -108,7 +120,7 @@ export interface PrivateZones {
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
    * operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to
    * it are removed.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -121,7 +133,7 @@ export interface PrivateZones {
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
    * operation cannot be undone. Private DNS zone cannot be deleted unless all virtual network links to
    * it are removed.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -130,16 +142,4 @@ export interface PrivateZones {
     privateZoneName: string,
     options?: PrivateZonesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the
-   * record sets within the zone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    privateZoneName: string,
-    options?: PrivateZonesGetOptionalParams,
-  ): Promise<PrivateZonesGetResponse>;
 }
