@@ -162,9 +162,11 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
+    startServiceEndpointIndex: number = 0,
     options: SharedOptions | ChangeFeedIteratorOptions = {}, // add to support request-level excluded region(location)
   ): Promise<string> {
+    // startServiceEndpointIndex : This is used to indicate the starting index for selecting servers.
+
     // If endpoint discovery is disabled, always use the user provided endpoint
 
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {

@@ -1324,8 +1324,7 @@ export class GlobalEndpointManager {
     preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, // Represents the starting index for selecting servers.
-    options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
 }
 
 // @public (undocumented)
