@@ -11,7 +11,7 @@
 
 .EXAMPLE
     .\build-sdk.ps1 -PackagePath "C:\repo\azure-sdk-for-js\sdk\storage\storage-blob"
-
+    
     Builds the storage-blob package with dependency installation.
 
 .NOTES
@@ -35,23 +35,23 @@ function Get-PackageInfo {
     [Parameter(Mandatory = $true)]
     [string]$PackagePath
   )
-
+  
   try {
     $resolvedPath = Resolve-Path $PackagePath -ErrorAction Stop
     $packageJsonPath = Join-Path $resolvedPath "package.json"
-
+    
     if (-not (Test-Path $packageJsonPath)) {
       throw "package.json not found at: $packageJsonPath"
     }
-
+    
     Write-Host "Reading package.json from: $packageJsonPath"
-
+    
     $packageJson = Get-Content $packageJsonPath -Raw | ConvertFrom-Json -ErrorAction Stop
-
+    
     if (-not $packageJson.name) {
       throw "'name' field not found in package.json"
     }
-
+    
     return [PSCustomObject]@{
       Name    = $packageJson.name
       Path    = $resolvedPath
@@ -68,13 +68,10 @@ function Get-PackageInfo {
 try {
   # Extract package information
   $packageInfo = Get-PackageInfo -PackagePath $PackagePath
-
+  
   Write-Host "Building package: $($packageInfo.Name) (v$($packageInfo.Version))"
   Write-Host "Package path: $($packageInfo.Path)"
-
-  # Navigate to package directory
-  Push-Location $packageInfo.Path
-
+    
   try {
     # Install dependencies
     Write-Host "Installing dependencies..."
@@ -83,14 +80,14 @@ try {
       throw "pnpm install failed with exit code $LASTEXITCODE"
     }
     Write-Host "Dependencies installed successfully"
-
+    
     # Build the package
     Write-Host "Building package with turbo..."
-    pnpm turbo build --filter="$($packageInfo.Name)..." --token 1
+    pnpm turbo build --token 1
     if ($LASTEXITCODE -ne 0) {
       throw "pnpm turbo build failed with exit code $LASTEXITCODE"
     }
-
+    
     Write-Host "Build completed successfully!"
   }
   finally {
