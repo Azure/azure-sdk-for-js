@@ -325,7 +325,7 @@
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @puagarwa @ShreyaAnand
+/sdk/playwrighttesting/ @azure/testing-services
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing

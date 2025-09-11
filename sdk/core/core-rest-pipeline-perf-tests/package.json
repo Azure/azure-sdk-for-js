@@ -44,8 +44,8 @@
   "private": true,
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
+    "@azure/core-auth": "^1.10.0",
+    "@azure/core-rest-pipeline": "^1.22.0",
     "dotenv": "^16.0.0",
     "tslib": "^2.8.1",
     "undici": "^7.1.0"
@@ -53,11 +53,11 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@types/express": "^4.17.13",
+    "@types/express": "^5.0.3",
     "@types/node": "catalog:",
     "concurrently": "^9.2.1",
     "eslint": "catalog:",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "typescript": "catalog:"
   },
   "scripts": {

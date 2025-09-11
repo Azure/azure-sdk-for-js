@@ -254,6 +254,7 @@ Further information on usage of the browser SDK loader can be found [here](https
 You might set the Cloud Role Name and the Cloud Role Instance via [OpenTelemetry Resource](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) attributes.
 
 ```ts snippet:ReadmeSampleSetRoleNameAndInstance
+import { emptyResource } from "@opentelemetry/resources";
 import {
   ATTR_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -264,7 +265,7 @@ import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monito
 // ----------------------------------------
 // Setting role name and role instance
 // ----------------------------------------
-const customResource = Resource.EMPTY;
+const customResource = emptyResource();
 customResource.attributes[ATTR_SERVICE_NAME] = "my-helloworld-service";
 customResource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "my-namespace";
 customResource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "my-instance";
@@ -334,7 +335,7 @@ Use a custom span processor and log record processor in order to attach and corr
 import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Span, Context, trace } from "@opentelemetry/api";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
-import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
+import { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
@@ -361,7 +362,7 @@ class LogRecordEnrichingProcessor implements LogRecordProcessor {
   async shutdown(): Promise<void> {
     // shutdown code here
   }
-  onEmit(_logRecord: LogRecord, _context: Context): void {
+  onEmit(_logRecord: SdkLogRecord, _context: Context): void {
     const parentSpan = trace.getSpan(_context);
     if (parentSpan && "name" in parentSpan) {
       // If the parent span has a name we can assume it is a ReadableSpan and cast it.

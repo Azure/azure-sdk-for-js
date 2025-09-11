@@ -86,6 +86,7 @@ describe("AzurePowerShellCredential", function () {
   it("throws an expected error when claims challenge is provided", async function () {
     const credential = new AzurePowerShellCredential();
     const claimsChallenge = "urn:microsoft:req1";
+    const encodedClaims = btoa(claimsChallenge);
 
     let error: Error | null = null;
     try {
@@ -98,13 +99,14 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${claimsChallenge}`,
+      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${encodedClaims}`,
     );
   });
 
   it("throws an expected error when claims challenge is provided with tenant", async function () {
     const credential = new AzurePowerShellCredential();
     const claimsChallenge = "urn:microsoft:req1";
+    const encodedClaims = btoa(claimsChallenge);
     const tenantId = "12345678-1234-1234-1234-123456789012";
 
     let error: Error | null = null;
@@ -121,7 +123,7 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${claimsChallenge} -Tenant ${tenantId}`,
+      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${encodedClaims} -Tenant ${tenantId}`,
     );
   });
 

@@ -49,7 +49,6 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@types/inquirer": "^9.0.7",
     "@types/mustache": "^4.2.1",
     "@types/node": "catalog:",
     "@types/yargs": "^17.0.32",
@@ -65,7 +64,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "glob": "^11.0.3",
-    "inquirer": "^9.2.17",
+    "inquirer": "^12.6.3",
     "mustache": "^4.2.0",
     "tslib": "^2.6.2",
     "yargs": "^17.2.2",

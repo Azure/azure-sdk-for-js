@@ -245,7 +245,16 @@ export enum ExceptionType {
 export enum DropReason {
   CLIENT_READONLY = "Client readonly",
   CLIENT_PERSISTENCE_CAPACITY = "Client persistence capacity",
-  UNKNOWN = "Unknown",
+  CLIENT_STORAGE_DISABLED = "Client local storage disabled",
+  UNKNOWN = "Unknown reason",
+}
+
+/**
+ * Reasons for retrying telemetry
+ */
+export enum RetryReason {
+  CLIENT_TIMEOUT = "Client timeout",
+  UNKNOWN = "Unknown reason",
 }
 
 /**

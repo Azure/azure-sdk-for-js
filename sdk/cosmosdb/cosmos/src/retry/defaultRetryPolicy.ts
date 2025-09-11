@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { OperationType, StatusCodes } from "../common/index.js";
+import { OperationType } from "../common/index.js";
 import type { ErrorResponse } from "../request/index.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
@@ -112,9 +112,8 @@ const CONNECTION_ERROR_CODES = [
  */
 function needsRetry(operationType: OperationType, code: number | string): boolean {
   return (
-    code === StatusCodes.ENOTFOUND ||
-    ((operationType === OperationType.Read || operationType === OperationType.Query) &&
-      CONNECTION_ERROR_CODES.includes(code))
+    (operationType === OperationType.Read || operationType === OperationType.Query) &&
+    CONNECTION_ERROR_CODES.includes(code)
   );
 }
 /**

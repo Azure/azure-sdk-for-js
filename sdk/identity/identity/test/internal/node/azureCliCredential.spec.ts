@@ -168,6 +168,7 @@ describe("AzureCliCredential (internal)", function () {
   it("throws an expected error when claims challenge is provided", async function () {
     const credential = new AzureCliCredential();
     const claimsChallenge = "fakeClaimChallenge";
+    const encodedClaims = btoa(claimsChallenge);
     const scope = "https://service/.default";
 
     let error: Error | null = null;
@@ -181,13 +182,14 @@ describe("AzureCliCredential (internal)", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${claimsChallenge} --scope ${scope}`,
+      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${encodedClaims} --scope ${scope}`,
     );
   });
 
   it("throws an expected error when claims challenge is provided with tenant", async function () {
     const credential = new AzureCliCredential();
     const claimsChallenge = "fakeClaimChallenge";
+    const encodedClaims = btoa(claimsChallenge);
     const tenantId = "12345678-1234-1234-1234-123456789012";
     const scope = "https://service/.default";
 
@@ -205,7 +207,7 @@ describe("AzureCliCredential (internal)", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${claimsChallenge} --scope ${scope} --tenant ${tenantId}`,
+      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${encodedClaims} --scope ${scope} --tenant ${tenantId}`,
     );
   });
 
