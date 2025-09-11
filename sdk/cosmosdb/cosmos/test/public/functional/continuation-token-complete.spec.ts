@@ -1140,10 +1140,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe.skip("Integration Tests", () => {
+  describe("Integration Tests", () => {
     it("should handle continuation token across multiple iterations", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
-      const queryOptions = { maxItemCount: 2, enableQueryControl: true };
+      const queryOptions = { maxItemCount: 10, enableQueryControl: true };
 
       console.log("\n=== Testing Multi-Iteration Continuation ===");
 
@@ -1151,14 +1151,14 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const allResults: any[] = [];
       let iterationCount = 0;
 
-      while (queryIterator.hasMoreResults() && iterationCount < 20) {
+      while (queryIterator.hasMoreResults()) {
         const result = await queryIterator.fetchNext();
         allResults.push(...result.resources);
         iterationCount++;
 
-        console.log(`Iteration ${iterationCount}: ${result.resources.length} items`);
+        console.log(`Iteration ${iterationCount}: ${result.resources.length} items, continuationToken: ${result.continuationToken ? "YES" : "NO"}`);
 
-        if (result.continuationToken) {
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
           // Create new iterator with continuation token
           queryIterator = multiPartitionContainer.items.query(query, {
             ...queryOptions,

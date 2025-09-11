@@ -238,8 +238,10 @@ export class ContinuationTokenManager {
     const { lastRangeBeforePageLimit } = result;
 
     // Store the range mapping
+    let queryRange: QueryRangeWithContinuationToken;
     if (lastRangeBeforePageLimit) {
-      this.addOrUpdateRangeMapping(lastRangeBeforePageLimit);
+      queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
+      // this.addOrUpdateRangeMapping(lastRangeBeforePageLimit);
     }
 
     // Extract ORDER BY items from the last item on the page
@@ -272,41 +274,16 @@ export class ContinuationTokenManager {
     }
 
     // Create or update ORDER BY specific continuation token with resume values
-    const rangeMappings = this.ranges || [];
+    const rangeMappings = queryRange ? [queryRange] : [];
+
+    // Create new ORDER BY continuation token
+    this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
+      rangeMappings,
+      lastOrderByItems,
+      documentRid, // Document RID from the last item in the page
+      skipCount, // Number of documents with the same RID already processed
+    );
     
-    if (!this.orderByQueryContinuationToken) {
-      // Create new ORDER BY continuation token
-      this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
-        rangeMappings,
-        lastOrderByItems,
-        documentRid, // Document RID from the last item in the page
-        skipCount, // Number of documents with the same RID already processed
-      );
-    } else {
-      // Update existing ORDER BY continuation token
-      // 1. Update range mappings: add new ranges or replace existing ones
-      for (const newRange of rangeMappings) {
-        const existingRangeIndex = this.orderByQueryContinuationToken.rangeMappings.findIndex(
-          (existingRange) =>
-            existingRange.queryRange.min === newRange.queryRange.min &&
-            existingRange.queryRange.max === newRange.queryRange.max
-        );
-
-        if (existingRangeIndex >= 0) {
-          // Range exists - replace with new range (same range + new continuation token)
-          this.orderByQueryContinuationToken.rangeMappings[existingRangeIndex] = newRange;
-        } else {
-          // New range - add to rangeMappings array
-          this.orderByQueryContinuationToken.rangeMappings.push(newRange);
-        }
-      }
-
-      // 2. Update ORDER BY specific fields with new values
-      this.orderByQueryContinuationToken.orderByItems = lastOrderByItems;
-      this.orderByQueryContinuationToken.rid = documentRid;
-      this.orderByQueryContinuationToken.skipCount = skipCount;
-    }
-
     // Update offset/limit and hashed result from the last processed range
     if (lastRangeBeforePageLimit) {
       this.orderByQueryContinuationToken.offset = lastRangeBeforePageLimit.offset;

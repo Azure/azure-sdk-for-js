@@ -324,8 +324,16 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const rid: string | undefined = parsedRid;
 
     // Check each range mapping for potential splits/merges
-    for (const rangeWithToken of rangeMappings) {
-      const queryRange = rangeWithToken.queryRange;
+    for (const rangeWithToken of rangeMappings) {      
+        // Create a new QueryRange instance from the parsed JSON data
+      const range = rangeWithToken.queryRange;
+      const queryRange: QueryRange = new QueryRange(
+        range.min,
+        range.max,
+        range.isMinInclusive,
+        range.isMaxInclusive
+      );
+      
       const rangeMin = queryRange.min;
       const rangeMax = queryRange.max;
 
@@ -362,9 +370,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // Split scenario - one range from continuation token now maps to multiple ranges
         await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges);
         // Add all overlapping ranges with the same continuation token to processed ranges
-        overlappingRanges.forEach((range) => {
+        overlappingRanges.forEach((rangeValue) => {
           processedRanges.push({
-            range: range,
+            range: rangeValue,
             continuationToken: rangeWithToken.continuationToken,
           });
         });
@@ -397,7 +405,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return {
             rangeMappings: parsed.rangeMappings,
             orderByItems: parsed.orderByItems,
-            rid: parsed.rid,
+            rid: parsed.documentRid,
           };
         }
       } else {

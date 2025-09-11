@@ -55,16 +55,11 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const leftRanges = targetRanges.filter((mapping) =>
         this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
       );
-      // TODO: add units
-      let queryPlanInfo: Record<string, unknown> = {};
-      if (queryInfo && queryInfo.queryInfo) {
-        queryPlanInfo = queryInfo.queryInfo as Record<string, unknown>;
-      }
 
       // Create filtering condition for left ranges based on ORDER BY items and sort orders
       const leftFilter = this.createRangeFilterCondition(
         (queryInfo?.orderByItems as any[]) || [], // TODO: improve
-        queryPlanInfo,
+        queryInfo,
         "left",
       );
 
@@ -75,7 +70,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       // Create filtering condition for right ranges based on ORDER BY items and sort orders
       const rightFilter = this.createRangeFilterCondition(
         (queryInfo?.orderByItems as any[]) || [], // TODO: improve
-        queryPlanInfo,
+        queryInfo,
         "right",
       );
 
@@ -153,11 +148,20 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
 
       if (rightFilter) {
-        // Combine ORDER BY filter with RID filter using AND logic
-        // This ensures we get documents that :
-        // 1. Have ORDER BY values greater than the continuation point, AND
-        // 2. Have the same ORDER BY values but RID greater than continuation point
-        return `(${rightFilter}) AND ${ridCondition}`;
+        // Create equality condition for documents with same ORDER BY values
+        const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
+        
+        if (equalityFilter) {
+          // Combine ORDER BY filter with RID filter using OR logic
+          // This ensures we get documents that:
+          // 1. Have ORDER BY values greater than the continuation point, OR
+          // 2. Have the same ORDER BY values but RID greater than continuation point
+          // This prevents duplicates while ensuring proper continuation
+          return `(${rightFilter}) OR (${equalityFilter} AND ${ridCondition})`;
+        } else {
+          // Fallback to simple OR logic if equality filter couldn't be created
+          return `(${rightFilter}) OR ${ridCondition}`;
+        }
       } else {
         // If no ORDER BY filter could be created, use just the RID condition
         return ridCondition;
@@ -189,7 +193,16 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     // Extract sort orders from query info
     const sortOrders = this.extractSortOrders(queryInfo);
-    const orderByExpressions = queryInfo?.orderByExpressions;
+    
+    // Extract orderByExpressions from nested structure
+    let orderByExpressions: any[] | undefined;
+    if (queryInfo && queryInfo.quereyInfo && 
+        typeof queryInfo.quereyInfo === 'object' &&
+        (queryInfo.quereyInfo as any).queryInfo &&
+        (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+        Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)) {
+      orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
+    }
 
     if (sortOrders.length === 0) {
       console.warn("No sort orders found in query info");
@@ -257,9 +270,23 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       return [];
     }
 
-    // orderBy should contain the sort directions (e.g., ["Ascending", "Descending"])
+    // Try multiple paths to find orderBy due to nested structure
+    let orderBy: any[] | undefined;
+    
+    // Direct path
     if (queryInfo.orderBy && Array.isArray(queryInfo.orderBy)) {
-      return queryInfo.orderBy.map((order) => {
+      orderBy = queryInfo.orderBy;
+    }
+    // Nested path: queryInfo.quereyInfo.queryInfo.orderBy
+    else if (queryInfo.quereyInfo && 
+             (queryInfo.quereyInfo as any).queryInfo &&
+             (queryInfo.quereyInfo as any).queryInfo.orderBy &&
+             Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderBy)) {
+      orderBy = (queryInfo.quereyInfo as any).queryInfo.orderBy;
+    }
+
+    if (orderBy) {
+      return orderBy.map((order) => {
         if (typeof order === "string") {
           return order;
         }
@@ -280,16 +307,26 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
    */
   private extractFieldPath(queryInfo: Record<string, unknown> | undefined, index: number): string {
     console.log(`Extracting field path for index ${index} from query info 2:`, queryInfo);
-    if (
-      !queryInfo ||
-      !queryInfo.orderByExpressions ||
-      !Array.isArray(queryInfo.orderByExpressions)
-    ) {
+    
+    // Try multiple paths to find orderByExpressions due to nested structure
+    let orderByExpressions: any[] | undefined;
+    
+    if (queryInfo) {
+      // Direct path
+      // TODO: make it simple
+      if (queryInfo.quereyInfo && 
+               typeof queryInfo.quereyInfo === 'object' &&
+               (queryInfo.quereyInfo as any).queryInfo &&
+               (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+               Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)) {
+        orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
+      }
+    }
+    
+    if (!orderByExpressions) {
       console.warn(`No orderByExpressions found in query info for index ${index}`);
       return `orderByField${index}`;
     }
-
-    const orderByExpressions = queryInfo.orderByExpressions as any[];
 
     if (index >= orderByExpressions.length) {
       console.warn(
@@ -393,6 +430,63 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         }
         return `'${value.toString().replace(/'/g, "''")}'`;
     }
+  }
+
+  /**
+   * Creates an equality filter condition for documents that have the same ORDER BY values
+   * This is used in combination with RID checks to ensure proper continuation without duplicates
+   * @param orderByItems - Array of order by items from the continuation token
+   * @param queryInfo - Query information containing sort orders and other metadata
+   * @returns SQL filter condition string for equality matching
+   */
+  private createEqualityFilterCondition(
+    orderByItems: any[],
+    queryInfo: Record<string, unknown> | undefined,
+  ): string {
+    if (!orderByItems || orderByItems.length === 0) {
+      return "";
+    }
+
+    // Extract sort orders and expressions from query info
+    const sortOrders = this.extractSortOrders(queryInfo);
+    
+    let orderByExpressions: any[] | undefined;
+    if (queryInfo && queryInfo.quereyInfo && 
+        typeof queryInfo.quereyInfo === 'object' &&
+        (queryInfo.quereyInfo as any).queryInfo &&
+        (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+        Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)) {
+      orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
+    }
+
+    if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
+      return "";
+    }
+
+    const equalityConditions: string[] = [];
+
+    // Create equality conditions for each ORDER BY field
+    for (
+      let i = 0;
+      i < orderByItems.length && i < sortOrders.length && i < orderByExpressions.length;
+      i++
+    ) {
+      const orderByItem = orderByItems[i];
+
+      if (!orderByItem || orderByItem.item === undefined) {
+        continue;
+      }
+
+      // Get the field path for this ORDER BY item
+      const fieldPath = this.extractFieldPath(queryInfo, i);
+      const formattedValue = this.formatValueForSQL(orderByItem.item);
+
+      // Create equality condition: field = value
+      equalityConditions.push(`${fieldPath} = ${formattedValue}`);
+    }
+
+    // Combine all equality conditions with AND
+    return equalityConditions.length > 0 ? equalityConditions.join(" AND ") : "";
   }
 
   /**
