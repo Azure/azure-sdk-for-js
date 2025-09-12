@@ -28,10 +28,33 @@ pr:
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
 extends:
-  template: /eng/pipelines/templates/stages/cosmos-sdk-client.yml
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: cosmosdb
     RunUnitTests: false
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
+    # Use isolated test stage for Cosmos-specific requirements
+    UseIsolatedTestStage: true
+    IsolatedTestParameters:
+      PackageName: '@azure/cosmos'
+      MatrixFilters:
+        - TestType=node
+        - DependencyVersion=^$
+        - NodeTestVersion=env:NODE_VERSION_LTS_MAINTENANCE
+    # Custom test steps for Cosmos
+    PreTestSteps:
+      - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
+    PostTestSteps:
+      - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml@self
+    # Cosmos-specific environment variables
+    TestEnvVars:
+      MOCHA_TIMEOUT: 100000
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    # Cosmos requires non-federated auth
+    UseFederatedAuth: false
+    # Override default matrix filters to exclude browser tests
+    MatrixFilters:
+      - TestType=node
+      - DependencyVersion=^$
