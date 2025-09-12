@@ -42,7 +42,7 @@ import * as utils from "./serviceUtils.js";
 import { createSpan } from "./tracing.js";
 
 /**
- * Client options used to configure Cognitive Search API requests.
+ * Client options used to configure AI Search API requests.
  */
 export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
   /**

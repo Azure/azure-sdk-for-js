@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
+  AzureOpenAIParameters,
   AzureOpenAIVectorizer,
+  KnowledgeAgent,
   SearchIndex,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
@@ -21,7 +24,6 @@ import {
   deleteSynonymMaps,
   WAIT_TIME,
 } from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("SearchIndexClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
@@ -66,15 +68,30 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
+    let TEST_AGENT_NAME: string;
+    let azureOpenAIParameters: AzureOpenAIParameters;
+    let knowledgeAgent: KnowledgeAgent;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
-      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
+      TEST_AGENT_NAME = createRandomIndexName();
+      ({
+        indexClient,
+        indexName: TEST_INDEX_NAME,
+        agentName: TEST_AGENT_NAME,
+        azureOpenAIParameters,
+      } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
         TEST_INDEX_NAME,
+        TEST_AGENT_NAME,
       ));
+      knowledgeAgent = {
+        name: "knowledge-agent",
+        models: [{ kind: "azureOpenAI", azureOpenAIParameters }],
+        targetIndexes: [{ indexName: TEST_INDEX_NAME }],
+      };
 
       await createSynonymMaps(indexClient);
       await createSimpleIndex(indexClient, TEST_INDEX_NAME);
@@ -83,6 +100,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
 
     afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
       await recorder?.stop();
@@ -262,6 +280,59 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.fields.length, 6);
       });
+
+      it("gets index statistics summary", async () => {
+        let stats;
+        for await (const elem of indexClient.getIndexStatsSummary()) {
+          if (elem.name === TEST_INDEX_NAME) {
+            stats = elem;
+          }
+        }
+
+        assert.deepEqual(stats, {
+          name: TEST_INDEX_NAME,
+          documentCount: 0,
+          storageSize: 0,
+          vectorIndexSize: 0,
+        });
+      });
+    });
+
+    describe("#knowledgeAgent", async () => {
+      beforeEach(async () => {
+        await indexClient.createKnowledgeAgent(knowledgeAgent);
+      });
+      afterEach(async () => {
+        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+      });
+
+      it("creates knowledge agents", async () => {
+        const test = await indexClient.getKnowledgeAgent(knowledgeAgent.name);
+        assert.deepEqual(test.name, knowledgeAgent.name);
+      });
+      it("updates knowledge agents", async () => {
+        const test = await indexClient.createOrUpdateKnowledgeAgent(
+          knowledgeAgent.name,
+          knowledgeAgent,
+        );
+
+        assert.deepEqual(test.name, knowledgeAgent.name);
+      });
+      it("lists knowledge agents", async () => {
+        const test = [];
+        for await (const ka of indexClient.listKnowledgeAgents()) {
+          test.push(ka.name);
+        }
+        assert.deepEqual(test, [knowledgeAgent.name]);
+      });
+      it("deletes knowledge agents", async () => {
+        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+        const test = [];
+        for await (const ka of indexClient.listKnowledgeAgents()) {
+          test.push(ka.name);
+        }
+        assert.deepEqual(test, []);
+      });
     });
 
     it("creates the index object vector fields", async () => {
@@ -275,11 +346,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       const vectorizer: AzureOpenAIVectorizer = {
         kind: "azureOpenAI",
         vectorizerName: "vectorizer",
-        parameters: {
-          deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-          resourceUrl: env.AZURE_OPENAI_ENDPOINT,
-          modelName: "text-embedding-ada-002",
-        },
+        parameters: azureOpenAIParameters,
       };
       const profile: VectorSearchProfile = {
         name: "profile",

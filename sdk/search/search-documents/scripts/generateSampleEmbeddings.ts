@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
-import { createWriteStream } from "fs";
+import { AzureKeyCredential, OpenAIClient } from "@azure/openai";
 import "dotenv/config";
+import { createWriteStream } from "fs";
 
 const outputPath = "samples-dev/vectors.ts";
 
