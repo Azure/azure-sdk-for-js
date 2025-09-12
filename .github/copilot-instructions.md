@@ -75,6 +75,25 @@ If a change requires updates to the core packages, you will remind the user to r
 
 - To use MCP tool calls, user must have PowerShell installed. Provide [PowerShell installation instructions](https://learn.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
 
+## Platform Support Policy
+
+### Node.js Version Support
+
+The Azure SDK for JavaScript supports each Node.js LTS version up to three months after its official End of Life (EOL) date. This policy should be referenced and enforced when:
+
+- Answering questions about Node.js version compatibility
+- Suggesting code that depends on specific Node.js features
+- Discussing Node.js version requirements or deprecation
+- Recommending Node.js version upgrades or migrations
+
+When providing guidance about Node.js versions:
+- Always recommend using currently supported LTS versions of Node.js
+- Inform users about upcoming Node.js EOL dates when relevant
+- Reference the official [Node.js release schedule](https://github.com/nodejs/release#release-schedule) for accurate EOL information
+- Consider the three-month grace period when discussing version support timelines
+
+For detailed information about the Azure SDK support policy, refer to the [Azure SDK Support and Lifecycle information](https://azure.github.io/azure-sdk/policies_support.html) and the repository's [SUPPORT.md](../SUPPORT.md) file.
+
 ## Azure SDK Guidelines
 
 Generate TypeScript code that adheres strictly to these guidelines.
