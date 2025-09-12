@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Database, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateVCoreDatabaseByServiceObjective.json
  */
-
-import type { Database } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -42,8 +42,10 @@ async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName(): Promise<
  */
 async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -69,8 +71,10 @@ async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity(): Promise<vo
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdw";
   const parameters: Database = {
@@ -98,8 +102,10 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABack
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-WestUS";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-WestUS";
   const serverName = "testsvr";
   const databaseName = "testdw";
   const parameters: Database = {
@@ -127,8 +133,10 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoB
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdw";
   const parameters: Database = {
@@ -157,8 +165,10 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARest
  */
 async function createsADatabaseAsACopy(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "dbcopy";
   const parameters: Database = {
@@ -187,8 +197,10 @@ async function createsADatabaseAsACopy(): Promise<void> {
  */
 async function createsADatabaseAsAStandbySecondary(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -218,8 +230,10 @@ async function createsADatabaseAsAStandbySecondary(): Promise<void> {
  */
 async function createsADatabaseAsAnOnLineSecondary(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -249,8 +263,10 @@ async function createsADatabaseAsAnOnLineSecondary(): Promise<void> {
  */
 async function createsADatabaseAsNamedReplicaSecondary(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -280,8 +296,10 @@ async function createsADatabaseAsNamedReplicaSecondary(): Promise<void> {
  */
 async function createsADatabaseFromPointInTimeRestore(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "dbpitr";
   const parameters: Database = {
@@ -310,8 +328,10 @@ async function createsADatabaseFromPointInTimeRestore(): Promise<void> {
  */
 async function createsADatabaseWithDefaultEnclaveType(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -337,8 +357,10 @@ async function createsADatabaseWithDefaultEnclaveType(): Promise<void> {
  */
 async function createsADatabaseWithVbsEnclaveType(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -364,8 +386,10 @@ async function createsADatabaseWithVbsEnclaveType(): Promise<void> {
  */
 async function createsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -395,14 +419,17 @@ async function createsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
  */
 async function createsADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
     collation: "SQL_Latin1_General_CP1_CI_AS",
     createMode: "Default",
-    encryptionProtector: "https://your-key-vault-name.vault.azure.net/yourKey/yourKeyVersion",
+    encryptionProtector:
+      "https://your-key-vault-name.vault.azure.net/yourKey/yourKeyVersion",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
@@ -437,8 +464,10 @@ async function createsADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<v
  */
 async function createsADatabaseWithDefaultMode(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -467,8 +496,10 @@ async function createsADatabaseWithDefaultMode(): Promise<void> {
  */
 async function createsADatabaseWithLedgerOn(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = { isLedgerOn: true, location: "southeastasia" };
@@ -491,8 +522,10 @@ async function createsADatabaseWithLedgerOn(): Promise<void> {
  */
 async function createsADatabaseWithMinimumNumberOfParameters(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = { location: "southeastasia" };
@@ -515,8 +548,10 @@ async function createsADatabaseWithMinimumNumberOfParameters(): Promise<void> {
  */
 async function createsADatabaseWithPreferredMaintenanceWindow(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -547,8 +582,10 @@ async function createsADatabaseWithPreferredMaintenanceWindow(): Promise<void> {
  */
 async function createsADatabaseWithSpecifiedBackupStorageRedundancy(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -574,8 +611,10 @@ async function createsADatabaseWithSpecifiedBackupStorageRedundancy(): Promise<v
  */
 async function updatesADatabaseToHyperscaleSloWithManualCutover(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {
@@ -611,8 +650,10 @@ async function updatesADatabaseToHyperscaleSloWithManualCutover(): Promise<void>
  */
 async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: Database = {

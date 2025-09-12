@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ManagedInstanceAdministrator,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates a managed instance administrator.
  *
  * @summary Creates or updates a managed instance administrator.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceAdministratorCreate.json
  */
-
-import type { ManagedInstanceAdministrator } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createAdministratorOfManagedInstance(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const administratorName = "ActiveDirectory";
   const parameters: ManagedInstanceAdministrator = {
@@ -27,12 +30,13 @@ async function createAdministratorOfManagedInstance(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceAdministrators.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    administratorName,
-    parameters,
-  );
+  const result =
+    await client.managedInstanceAdministrators.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      administratorName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -44,8 +48,10 @@ async function createAdministratorOfManagedInstance(): Promise<void> {
  */
 async function updateAdministratorOfManagedInstance(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const administratorName = "ActiveDirectory";
   const parameters: ManagedInstanceAdministrator = {
@@ -56,12 +62,13 @@ async function updateAdministratorOfManagedInstance(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceAdministrators.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    administratorName,
-    parameters,
-  );
+  const result =
+    await client.managedInstanceAdministrators.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      managedInstanceName,
+      administratorName,
+      parameters,
+    );
   console.log(result);
 }
 

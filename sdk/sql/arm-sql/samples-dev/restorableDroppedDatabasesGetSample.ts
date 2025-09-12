@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  RestorableDroppedDatabasesGetOptionalParams,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a restorable dropped database.
  *
  * @summary Gets a restorable dropped database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetRestorableDroppedDatabaseWithExpandEqualsKeys.json
  */
-
-import type { RestorableDroppedDatabasesGetOptionalParams } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getsARestorableDroppedDatabaseWithExpandEqualsKeys(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const restorableDroppedDatabaseId = "testdb,131403269876900000";
   const expand = "keys";
@@ -40,8 +43,10 @@ async function getsARestorableDroppedDatabaseWithExpandEqualsKeys(): Promise<voi
  */
 async function getsARestorableDroppedDatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const restorableDroppedDatabaseId = "testdb,131403269876900000";
   const credential = new DefaultAzureCredential();

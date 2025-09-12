@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DatabaseUpdate, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseAssignMaintenanceConfiguration.json
  */
-
-import type { DatabaseUpdate } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function assignsMaintenanceWindowToADatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: DatabaseUpdate = {
@@ -43,8 +43,10 @@ async function assignsMaintenanceWindowToADatabase(): Promise<void> {
  */
 async function createsADatabaseWithVbsEnclaveType(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: DatabaseUpdate = { preferredEnclaveType: "VBS" };
@@ -67,12 +69,15 @@ async function createsADatabaseWithVbsEnclaveType(): Promise<void> {
  */
 async function patchADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: DatabaseUpdate = {
-    encryptionProtector: "https://your-key-vault-name.vault.azure.net/yourKey/yourKeyVersion",
+    encryptionProtector:
+      "https://your-key-vault-name.vault.azure.net/yourKey/yourKeyVersion",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
@@ -84,7 +89,8 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<voi
     },
     keys: {
       "https://yourKeyVaultNameVaultAzureNet/yourKey/yourKeyVersion": {},
-      "https://yourKeyVaultNameVaultAzureNet/yourKey2/yourKey2VersionToDelete": {},
+      "https://yourKeyVaultNameVaultAzureNet/yourKey2/yourKey2VersionToDelete":
+        {},
     },
     sku: { name: "S0", tier: "Standard" },
   };
@@ -107,8 +113,10 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<voi
  */
 async function resetsMaintenanceWindowOfADatabaseToDefault(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: DatabaseUpdate = {
@@ -135,8 +143,10 @@ async function resetsMaintenanceWindowOfADatabaseToDefault(): Promise<void> {
  */
 async function updatesADatabaseWithDefaultEnclaveType(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: DatabaseUpdate = { preferredEnclaveType: "Default" };
@@ -159,8 +169,10 @@ async function updatesADatabaseWithDefaultEnclaveType(): Promise<void> {
  */
 async function updatesADatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const serverName = "testsvr";
   const databaseName = "testdb";
   const parameters: DatabaseUpdate = {

@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { JobTargetGroup, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates a target group.
  *
  * @summary Creates or updates a target group.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobTargetGroupMax.json
  */
-
-import type { JobTargetGroup } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateATargetGroupWithAllProperties(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
   const serverName = "server1";
   const jobAgentName = "agent1";
@@ -73,7 +72,8 @@ async function createOrUpdateATargetGroupWithAllProperties(): Promise<void> {
  */
 async function createOrUpdateATargetGroupWithMinimalProperties(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
   const serverName = "server1";
   const jobAgentName = "agent1";

@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  UpdateLongTermRetentionBackupParameters,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Updates an existing long term retention backup.
  *
  * @summary Updates an existing long term retention backup.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionBackupUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/LongTermRetentionBackupUpdate.json
  */
-
-import type { UpdateLongTermRetentionBackupParameters } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateTheLongTermRetentionBackup(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const locationName = "japaneast";
   const longTermRetentionServerName = "testserver";
   const longTermRetentionDatabaseName = "testDatabase";

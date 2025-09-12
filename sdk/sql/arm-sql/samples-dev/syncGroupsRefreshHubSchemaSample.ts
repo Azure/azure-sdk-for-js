@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Refreshes a hub database schema.
  *
  * @summary Refreshes a hub database schema.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupRefreshHubSchema.json
  */
-
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function refreshAHubDatabaseSchema(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
   const serverName = "syncgroupcrud-8475";
   const databaseName = "syncgroupcrud-4328";
   const syncGroupName = "syncgroupcrud-3187";

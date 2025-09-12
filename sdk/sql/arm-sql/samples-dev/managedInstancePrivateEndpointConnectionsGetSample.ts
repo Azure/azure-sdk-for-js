@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a private endpoint connection.
  *
  * @summary Gets a private endpoint connection.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstancePrivateEndpointConnectionGet.json
  */
-
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
   const managedInstanceName = "test-cl";
   const privateEndpointConnectionName = "private-endpoint-connection-name";

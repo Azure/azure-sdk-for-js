@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a database extension. This will return resource not found as it is not supported.
  *
  * @summary Gets a database extension. This will return resource not found as it is not supported.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/GetDatabaseExtensions.json
  */
-
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getDatabaseExtensions(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "a3473687-7581-41e1-ac24-6bcca5843f07";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "a3473687-7581-41e1-ac24-6bcca5843f07";
   const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "rg_a1f9d6f8-30d5-4228-9504-8a364361bca3";
+    process.env["SQL_RESOURCE_GROUP"] ||
+    "rg_a1f9d6f8-30d5-4228-9504-8a364361bca3";
   const serverName = "srv_65858e0f-b1d1-4bdc-8351-a7da86ca4939";
   const databaseName = "11aa6c5e-58ed-4693-b303-3b8e3131deaa";
   const extensionName = "polybaseimport";

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a managed instance time zone.
  *
  * @summary Gets a managed instance time zone.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceTimeZoneGet.json
  */
-
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getManagedInstanceTimeZone(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "37d5e605-6142-4d79-b564-28b6dbfeec0f";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "37d5e605-6142-4d79-b564-28b6dbfeec0f";
   const locationName = "canadaeast";
   const timeZoneId = "Haiti Standard Time";
   const credential = new DefaultAzureCredential();
