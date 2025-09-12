@@ -183,6 +183,24 @@ export interface GetAnalyzeResultPdfDefaultResponse extends HttpResponse {
   body: DocumentIntelligenceErrorResponseOutput;
 }
 
+export interface GetAnalyzeResultPng200Headers {
+  /** Response content type. */
+  "content-type": "image/png";
+}
+
+/** The request has succeeded. */
+export interface GetAnalyzeResultPng200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+  headers: RawHttpHeaders & GetAnalyzeResultPng200Headers;
+}
+
+export interface GetAnalyzeResultPngDefaultResponse extends HttpResponse {
+  status: string;
+  body: DocumentIntelligenceErrorResponseOutput;
+}
+
 export interface GetAnalyzeResultFigure200Headers {
   /** Response content type. */
   "content-type": "image/png";
