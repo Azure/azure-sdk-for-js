@@ -8,6 +8,7 @@
  */
 
 import ModelClient from "@azure-rest/ai-inference";
+import { type ModelClient as ModelClientType } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
 import { createRestError } from "@azure-rest/core-client";
@@ -42,16 +43,16 @@ export async function main(): Promise<void> {
     })
     .asNodeStream();
 
-  const stream = response.body;
-  if (!stream) {
-    throw new Error("The response stream is undefined");
+  if (!response.body) {
+    throw new Error("The response body is undefined");
   }
 
   if (response.status !== "200") {
-    throw createRestError(response);
+    const body = JSON.parse(await streamToString(response.body));
+    throw createRestError({ ...response, body });
   }
 
-  const sses = createSseStream(stream as IncomingMessage);
+  const sses = createSseStream(response.body as IncomingMessage);
 
   for await (const event of sses) {
     if (event.data === "[DONE]") {
@@ -77,7 +78,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient(): ModelClient {
+function createModelClient(): ModelClientType {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

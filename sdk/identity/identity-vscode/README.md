@@ -9,6 +9,17 @@ This package provides a plugin to the Azure Identity library for JavaScript ([`@
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - Install [Visual Studio Code](https://aka.ms/vscode) and the ["Azure Resources" extension][azresourcesext]
 
+> Note: For local development with `@azure/identity-vscode`, you may need to install additional tools. [node-gyp](https://github.com/nodejs/node-gyp) is used to compile [addons](https://nodejs.org/api/addons.html) for accessing system APIs. Installation requirements are listed in the [node-gyp README](https://github.com/nodejs/node-gyp#installation).
+
+On Linux, the library uses `libsecret` so you may need to install it. Depending on your distribution, you will need to run the following command:
+
+- Debian/Ubuntu: `sudo apt-get install libsecret-1-dev`
+- Red Hat-based: `sudo yum install libsecret-devel`
+- Arch Linux: `sudo pacman -S libsecret`
+
+> [!NOTE] 
+> Visual Studio Code authentication is currently only supported on Windows. Linux and macOS aren't yet supported.
+
 ### Install the package
 
 This package is designed to be used with Azure Identity for JavaScript. Install both `@azure/identity` and this package using `npm`:

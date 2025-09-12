@@ -6,9 +6,11 @@ import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
   RetriableRestErrorTypes,
-  ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
 } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
+import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
 
 // Mock dependencies
 vi.mock("@opentelemetry/api", () => {
@@ -92,7 +94,7 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
   };
 });
 
-export const mockCustomerStatsbeatMetrics = {
+export const mockCustomerSDKStatsMetrics = {
   countSuccessfulItems: vi.fn(),
   countDroppedItems: vi.fn(),
   countRetryItems: vi.fn(),
@@ -100,11 +102,11 @@ export const mockCustomerStatsbeatMetrics = {
   shutdown: vi.fn(),
 };
 
-vi.mock("../../src/export/statsbeat/customerStatsbeat.js", () => {
+vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
   return {
-    CustomerStatsbeatMetrics: {
+    CustomerSDKStatsMetrics: {
       getInstance: vi.fn().mockImplementation(() => {
-        return mockCustomerStatsbeatMetrics;
+        return mockCustomerSDKStatsMetrics;
       }),
       shutdown: vi.fn(),
     },
@@ -166,8 +168,8 @@ class TestBaseSender extends BaseSender {
       value: mockLongIntervalStats,
       writable: true,
     });
-    Object.defineProperty(this, "customerStatsbeatMetrics", {
-      value: mockCustomerStatsbeatMetrics,
+    Object.defineProperty(this, "customerSDKStatsMetrics", {
+      value: mockCustomerSDKStatsMetrics,
       writable: true,
     });
     Object.defineProperty(this, "persister", {
@@ -490,7 +492,7 @@ describe("BaseSender", () => {
       nonRetriableError.statusCode = 400;
 
       // Mock isTimeoutError to return false so timeout logic isn't triggered
-      mockCustomerStatsbeatMetrics.isTimeoutError.mockReturnValue(false);
+      mockCustomerSDKStatsMetrics.isTimeoutError.mockReturnValue(false);
 
       sender.sendMock.mockRejectedValue(nonRetriableError);
 
@@ -592,7 +594,7 @@ describe("BaseSender", () => {
 
       await sender.exportEnvelopes([performanceCounterEnvelope]);
 
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
         performanceCounterEnvelope,
       ]);
     });
@@ -631,7 +633,7 @@ describe("BaseSender", () => {
 
       await sender.exportEnvelopes([customMetricEnvelope]);
 
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
         customMetricEnvelope,
       ]);
     });
@@ -675,21 +677,21 @@ describe("BaseSender", () => {
       await sender.exportEnvelopes([mixedMetricEnvelope]);
 
       // Should be counted as performance counter since it contains at least one
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
         mixedMetricEnvelope,
       ]);
     });
   });
 
-  describe("Customer Statsbeat Exception Message Handling", () => {
+  describe("Customer SDK Stats Exception Message Handling", () => {
     let testSender: TestBaseSender;
     let originalEnv: string | undefined;
 
     beforeEach(() => {
       // Save original environment variable
-      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
-      // Set environment variable to enable customer statsbeat metrics
-      process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "true";
+      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      // Set environment variable to enable Customer SDK Stats metrics
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
 
       testSender = new TestBaseSender({
         endpointUrl: "https://example.com",
@@ -706,9 +708,9 @@ describe("BaseSender", () => {
     afterEach(() => {
       // Restore original environment variable
       if (originalEnv === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = originalEnv;
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnv;
       }
     });
 
@@ -737,10 +739,11 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
         "Circular redirect",
+        "Client exception",
       );
     });
 
@@ -748,11 +751,8 @@ describe("BaseSender", () => {
       // Disable network statsbeat to trigger CLIENT_EXCEPTION path
       (testSender as any).networkStatsbeatMetrics = null;
 
-      // Mock a non-retriable status code response (this will trigger the CLIENT_EXCEPTION path)
-      testSender.sendMock.mockResolvedValue({
-        statusCode: 400, // Non-retriable status code
-        result: "Bad Request",
-      });
+      // Mock a network error that throws an exception
+      testSender.sendMock.mockRejectedValue(new Error("Error message"));
 
       const envelopes = [
         {
@@ -768,13 +768,14 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
+        "Error message",
       );
     });
 
-    it("should not capture exception.message for NON_RETRYABLE_STATUS_CODE", async () => {
+    it("should not capture exception.message for status code errors", async () => {
       testSender.sendMock.mockResolvedValue({
         statusCode: 400,
         result: "Bad Request",
@@ -794,11 +795,11 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
 
-      // Verify exception.message is not passed for non-client exceptions
-      const call = mockCustomerStatsbeatMetrics.countDroppedItems.mock.calls[0];
-      expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
+      // Verify exception.message is not passed for status code errors
+      const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
+      expect(call.length).toBe(2); // envelopes array, drop code (no drop reason)
     });
 
     it("should handle successful export without calling error tracking", async () => {
@@ -821,9 +822,118 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.SUCCESS);
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalled();
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).not.toHaveBeenCalled();
-      expect(mockCustomerStatsbeatMetrics.countRetryItems).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countRetryItems).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("Customer SDK Stats Export Interval Configuration", () => {
+    let originalEnvEnabled: string | undefined;
+    let originalEnvInterval: string | undefined;
+
+    beforeEach(() => {
+      // Save original environment variables
+      originalEnvEnabled = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      originalEnvInterval = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+
+      // Enable Customer SDK Stats for all tests in this section
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+
+      // Clear all mock calls from previous tests
+      vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+      // Restore original environment variables
+      if (originalEnvEnabled === undefined) {
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      } else {
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnvEnabled;
+      }
+
+      if (originalEnvInterval === undefined) {
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+      } else {
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = originalEnvInterval;
+      }
+    });
+
+    it("should use custom export interval when valid environment variable is set", () => {
+      // Set a valid export interval (30 seconds)
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = "30";
+
+      const testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Verify that CustomerSDKStatsMetrics.getInstance was called with the converted interval
+      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+        instrumentationKey: "test-key",
+        endpointUrl: "https://example.com",
+        disableOfflineStorage: false,
+        networkCollectionInterval: 30000, // 30 seconds * 1000 = 30000 milliseconds
+      });
+    });
+
+    it("should use default export interval when environment variable is not set", () => {
+      // Ensure the export interval env var is not set
+      delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+
+      const testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
+      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+        instrumentationKey: "test-key",
+        endpointUrl: "https://example.com",
+        disableOfflineStorage: false,
+        networkCollectionInterval: undefined,
+      });
+    });
+
+    it("should log warning and use default interval for non-numeric values", () => {
+      // Set an invalid export interval (non-numeric)
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = "invalid";
+
+      const testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Verify warning was logged
+      expect(diag.warn).toHaveBeenCalledWith(
+        "Invalid value for APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL environment variable: 'invalid'. Expected a positive number (seconds). Using default export interval.",
+      );
+
+      // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
+      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+        instrumentationKey: "test-key",
+        endpointUrl: "https://example.com",
+        disableOfflineStorage: false,
+        networkCollectionInterval: undefined,
+      });
     });
   });
 });

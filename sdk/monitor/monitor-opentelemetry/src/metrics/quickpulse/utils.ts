@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type {
   DocumentIngress,
   Exception,
@@ -392,7 +392,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   return dependencyData;
 }
 
-export function getLogData(log: LogRecord): ExceptionData | TraceData {
+export function getLogData(log: SdkLogRecord): ExceptionData | TraceData {
   const customDims = createCustomDimsFromAttributes(log.attributes);
   if (isExceptionTelemetry(log)) {
     return {

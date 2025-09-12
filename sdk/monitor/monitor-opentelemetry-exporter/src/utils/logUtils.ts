@@ -24,6 +24,7 @@ import {
   ATTR_EXCEPTION_STACKTRACE,
   ATTR_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
+import { experimentalOpenTelemetryValues } from "../types.js";
 import type { Measurements, Properties, Tags } from "../types.js";
 import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
 import type { Attributes } from "@opentelemetry/api";
@@ -41,8 +42,8 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
-import { getLocationIp } from "./spanUtils.js";
 
 /**
  * Log to Azure envelope parsing.
@@ -154,7 +155,30 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (isSyntheticSource(log.attributes as Attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
-  getLocationIp(tags, log.attributes as Attributes);
+
+  // Set ai.location.ip from microsoft.client.ip if it exists
+  const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+
+  // Map user ID attributes
+  const attributes = log.attributes as Attributes;
+  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]) {
+    const endUserId = String(attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]);
+    if (endUserId && endUserId.length > 0) {
+      tags[KnownContextTagKeys.AiUserAuthUserId] = endUserId;
+    }
+  }
+  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]) {
+    const endUserPseudoId = String(
+      attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID],
+    );
+    if (endUserPseudoId && endUserPseudoId.length > 0) {
+      tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
+    }
+  }
+
   return tags;
 }
 

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/ai-content-safety": ["./src/index.ts"],
+      "@azure-rest/ai-content-safety/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Get all workflow tasks.
+ *
+ * @summary Get all workflow tasks.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowTasks.json
+ */
+
 import type {
   ApproveApprovalTaskParameters,
   ListWorkflowTasksParameters,
@@ -12,13 +19,6 @@ import type {
 import createPurviewWorkflowClient, { paginate, isUnexpected } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import "dotenv/config";
-
-/**
- * This sample demonstrates how to Get all workflow tasks.
- *
- * @summary Get all workflow tasks.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowTasks.json
- */
 
 async function workflowTasksList(
   client: PurviewWorkflowClient,

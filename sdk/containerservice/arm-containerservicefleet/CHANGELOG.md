@@ -1,4 +1,54 @@
 # Release History
+
+## 2.1.0-beta.1 (2025-08-26)
+Compared with version 2.0.0
+
+### Features Added
+  - Added operation group GatesOperations
+  - Added Interface Gate
+  - Added Interface GateConfiguration
+  - Added Interface GatePatch
+  - Added Interface GatePatchProperties
+  - Added Interface GateProperties
+  - Added Interface GatesGetOptionalParams
+  - Added Interface GatesListByFleetOptionalParams
+  - Added Interface GatesUpdateOptionalParams
+  - Added Interface GateTarget
+  - Added Interface UpdateRunGateStatus
+  - Added Interface UpdateRunGateTargetProperties
+  - Interface AutoUpgradeProfileProperties has a new optional parameter longTermSupport
+  - Interface AutoUpgradeProfileProperties has a new optional parameter targetKubernetesVersion
+  - Interface ContainerServiceFleetClientOptionalParams has a new optional parameter cloudSetting
+  - Interface FleetMemberProperties has a new optional parameter labels
+  - Interface FleetMemberUpdateProperties has a new optional parameter labels
+  - Interface UpdateGroup has a new optional parameter afterGates
+  - Interface UpdateGroup has a new optional parameter beforeGates
+  - Interface UpdateGroupStatus has a new optional parameter afterGates
+  - Interface UpdateGroupStatus has a new optional parameter beforeGates
+  - Interface UpdateStage has a new optional parameter afterGates
+  - Interface UpdateStage has a new optional parameter beforeGates
+  - Interface UpdateStageStatus has a new optional parameter afterGates
+  - Interface UpdateStageStatus has a new optional parameter beforeGates
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias GateProvisioningState
+  - Added Type Alias GateState
+  - Added Type Alias GateType
+  - Added Type Alias Timing
+  - Added Enum AzureClouds
+  - Added Enum KnownGateProvisioningState
+  - Added Enum KnownGateState
+  - Added Enum KnownGateType
+  - Added Enum KnownTiming
+  - Enum KnownUpdateState has a new value Pending
+  - Enum KnownUpgradeChannel has a new value TargetKubernetesVersion
+  - Enum KnownVersions has a new value V20220902Preview
+  - Enum KnownVersions has a new value V20230315Preview
+  - Enum KnownVersions has a new value V20230615Preview
+  - Enum KnownVersions has a new value V20230815Preview
+  - Enum KnownVersions has a new value V20240202Preview
+  - Enum KnownVersions has a new value V20240502Preview
+  - Enum KnownVersions has a new value V20250401Preview
+
     
 ## 2.0.0 (2025-04-16)
     

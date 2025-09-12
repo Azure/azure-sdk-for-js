@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-auth": ["./src/index.ts"],
+      "@azure/core-auth/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

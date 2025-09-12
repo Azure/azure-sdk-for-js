@@ -741,27 +741,26 @@ export const RegionInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const RegionInfoAvailabilityZoneMappingsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "RegionInfoAvailabilityZoneMappingsItem",
-      modelProperties: {
-        availabilityZone: {
-          serializedName: "availabilityZone",
-          type: {
-            name: "String",
-          },
+export const RegionInfoAvailabilityZoneMappingsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegionInfoAvailabilityZoneMappingsItem",
+    modelProperties: {
+      availabilityZone: {
+        serializedName: "availabilityZone",
+        type: {
+          name: "String",
         },
-        isAvailable: {
-          serializedName: "isAvailable",
-          type: {
-            name: "Boolean",
-          },
+      },
+      isAvailable: {
+        serializedName: "isAvailable",
+        type: {
+          name: "Boolean",
         },
       },
     },
-  };
+  },
+};
 
 export const RegionInfosList: coreClient.CompositeMapper = {
   type: {
@@ -1703,6 +1702,13 @@ export const CapacityPoolPatch: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      customThroughputMibps: {
+        serializedName: "properties.customThroughputMibps",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -2610,30 +2616,29 @@ export const AuthorizeRequest: coreClient.CompositeMapper = {
   },
 };
 
-export const PeerClusterForVolumeMigrationRequest: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PeerClusterForVolumeMigrationRequest",
-      modelProperties: {
-        peerIpAddresses: {
-          constraints: {
-            MinItems: 1,
-          },
-          serializedName: "peerIpAddresses",
-          required: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+export const PeerClusterForVolumeMigrationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PeerClusterForVolumeMigrationRequest",
+    modelProperties: {
+      peerIpAddresses: {
+        constraints: {
+          MinItems: 1,
+        },
+        serializedName: "peerIpAddresses",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ClusterPeerCommandResponse: coreClient.CompositeMapper = {
   type: {
@@ -3634,6 +3639,12 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
           className: "VolumePropertiesDataProtection",
         },
       },
+      acceptGrowCapacityPoolForShortTermCloneSplit: {
+        serializedName: "properties.acceptGrowCapacityPoolForShortTermCloneSplit",
+        type: {
+          name: "String",
+        },
+      },
       isRestoring: {
         serializedName: "properties.isRestoring",
         readOnly: true,
@@ -3905,6 +3916,14 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String",
+        },
+      },
+      inheritedSizeInBytes: {
+        serializedName: "properties.inheritedSizeInBytes",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number",
         },
       },
     },
@@ -4977,6 +4996,13 @@ export const CapacityPool: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      customThroughputMibps: {
+        serializedName: "properties.customThroughputMibps",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
       qosType: {
         serializedName: "properties.qosType",
         type: {
@@ -5194,6 +5220,12 @@ export const Volume: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePropertiesDataProtection",
+        },
+      },
+      acceptGrowCapacityPoolForShortTermCloneSplit: {
+        serializedName: "properties.acceptGrowCapacityPoolForShortTermCloneSplit",
+        type: {
+          name: "String",
         },
       },
       isRestoring: {
@@ -5469,6 +5501,14 @@ export const Volume: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      inheritedSizeInBytes: {
+        serializedName: "properties.inheritedSizeInBytes",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -5667,21 +5707,20 @@ export const BackupVault: coreClient.CompositeMapper = {
   },
 };
 
-export const NetAppResourceUpdateNetworkSiblingSetHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetAppResourceUpdateNetworkSiblingSetHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const NetAppResourceUpdateNetworkSiblingSetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetAppResourceUpdateNetworkSiblingSetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const AccountsTransitionToCmkHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5698,21 +5737,20 @@ export const AccountsTransitionToCmkHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const AccountsGetChangeKeyVaultInformationHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "AccountsGetChangeKeyVaultInformationHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const AccountsGetChangeKeyVaultInformationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountsGetChangeKeyVaultInformationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const AccountsChangeKeyVaultHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5729,26 +5767,40 @@ export const AccountsChangeKeyVaultHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const VolumesPopulateAvailabilityZoneHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VolumesPopulateAvailabilityZoneHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const VolumesPopulateAvailabilityZoneHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesPopulateAvailabilityZoneHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const VolumesResetCifsPasswordHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VolumesResetCifsPasswordHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumesSplitCloneFromParentHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesSplitCloneFromParentHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -5775,21 +5827,20 @@ export const VolumesBreakFileLocksHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const VolumesListGetGroupIdListForLdapUserHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VolumesListGetGroupIdListForLdapUserHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const VolumesListGetGroupIdListForLdapUserHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesListGetGroupIdListForLdapUserHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const VolumesPeerExternalClusterHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5806,53 +5857,50 @@ export const VolumesPeerExternalClusterHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const VolumesAuthorizeExternalReplicationHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VolumesAuthorizeExternalReplicationHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const VolumesAuthorizeExternalReplicationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesAuthorizeExternalReplicationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const VolumesFinalizeExternalReplicationHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VolumesFinalizeExternalReplicationHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const VolumesFinalizeExternalReplicationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesFinalizeExternalReplicationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const VolumesPerformReplicationTransferHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VolumesPerformReplicationTransferHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const VolumesPerformReplicationTransferHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesPerformReplicationTransferHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const BackupsUpdateHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5914,50 +5962,47 @@ export const BackupVaultsDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const BackupsUnderBackupVaultRestoreFilesHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BackupsUnderBackupVaultRestoreFilesHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BackupsUnderBackupVaultRestoreFilesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupsUnderBackupVaultRestoreFilesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const BackupsUnderVolumeMigrateBackupsHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BackupsUnderVolumeMigrateBackupsHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BackupsUnderVolumeMigrateBackupsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupsUnderVolumeMigrateBackupsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const BackupsUnderAccountMigrateBackupsHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BackupsUnderAccountMigrateBackupsHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BackupsUnderAccountMigrateBackupsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupsUnderAccountMigrateBackupsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};

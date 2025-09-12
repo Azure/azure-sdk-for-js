@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "dotenv/config";
 /**
  * @summary Classification policy crud
  */
+
+import "dotenv/config";
+
 import type {
   QueueLengthExceptionTrigger,
   AzureCommunicationRoutingServiceClient,

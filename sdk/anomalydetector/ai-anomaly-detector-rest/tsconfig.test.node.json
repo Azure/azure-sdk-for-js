@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/ai-anomaly-detector": ["./src/index.ts"],
+      "@azure-rest/ai-anomaly-detector/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
