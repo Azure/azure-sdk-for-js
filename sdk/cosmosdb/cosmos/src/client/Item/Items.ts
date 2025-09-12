@@ -1189,6 +1189,13 @@ export class Items {
       if (operations.length > 100) {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
+      for (const operationInput of operations) {
+        if (operationInput && operationInput.partitionKey !== undefined) {
+          operationInput.partitionKey = JSON.stringify(
+            convertToInternalPartitionKey(operationInput.partitionKey),
+          );
+        }
+      }
       let response: Response<OperationResponse[]>;
       try {
         if (this.clientContext.enableEncryption) {
