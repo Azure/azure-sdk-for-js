@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a container registry with the specified parameters.
- *
- * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreate.json
- */
-
 import {
   Registry,
   ContainerRegistryManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates a container registry with the specified parameters.
+ *
+ * @summary Creates a container registry with the specified parameters.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/RegistryCreate.json
+ */
 async function registryCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
@@ -45,7 +44,7 @@ async function registryCreate(): Promise<void> {
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreateAbac.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/RegistryCreateAbac.json
  */
 async function registryCreateAbac(): Promise<void> {
   const subscriptionId =
@@ -77,7 +76,7 @@ async function registryCreateAbac(): Promise<void> {
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreateDomainNameLabelScope.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/RegistryCreateDomainNameLabelScope.json
  */
 async function registryCreateDomainNameLabelScope(): Promise<void> {
   const subscriptionId =
@@ -109,7 +108,7 @@ async function registryCreateDomainNameLabelScope(): Promise<void> {
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/RegistryCreateZoneRedundant.json
  */
 async function registryCreateZoneRedundant(): Promise<void> {
   const subscriptionId =
