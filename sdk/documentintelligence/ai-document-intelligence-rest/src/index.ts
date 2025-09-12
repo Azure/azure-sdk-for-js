@@ -12,7 +12,10 @@ export * from "./models.js";
 export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
+<<<<<<< HEAD
+=======
 export * from "./utils.js";
 export { KnownDocumentIntelligenceAudience } from "./audience.js";
+>>>>>>> customization
 
 export default DocumentIntelligence;
