@@ -49,22 +49,23 @@ stages:
               pnpm install
             displayName: "Install library dependencies"
 
-          - script: |
-              pnpm build
-            env:
-              TURBO_TEAM: azsdkjs
-              TURBO_TEAMID: azsdkjs
-              TURBO_TOKEN: $(js-turborepo-cache-token)
-              TURBO_CACHE: local:rw,remote:rw
-            condition: not(eq(variables['dataPlaneOnly'], 'true'))
-            displayName: "Build All Packages"
+          - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
+            - script: |
+                pnpm build
+              env:
+                TURBO_TEAM: azsdkjs
+                TURBO_TEAMID: azsdkjs
+                TURBO_TOKEN: $(js-turborepo-cache-token)
+                TURBO_CACHE: local:rw,remote:rw
+              condition: not(eq(variables['skipMgmt'], 'true'))
+              displayName: "Build All Packages"
 
-          - script: |
-              pnpm exec turbo build --filter='!@azure/arm-*' --filter='!@azure-rest/arm-*'
-            env:
-              TURBO_TEAM: azsdkjs
-              TURBO_TEAMID: azsdkjs
-              TURBO_TOKEN: $(js-turborepo-cache-token)
-              TURBO_CACHE: local:rw,remote:rw
-            condition: eq(variables['dataPlaneOnly'], 'true')
-            displayName: "Build All Data-plane Packages"
+            - script: |
+                pnpm exec turbo build --filter='!@azure/arm-*' --filter='!@azure-rest/arm-*'
+              env:
+                TURBO_TEAM: azsdkjs
+                TURBO_TEAMID: azsdkjs
+                TURBO_TOKEN: $(js-turborepo-cache-token)
+                TURBO_CACHE: local:rw,remote:rw
+              condition: eq(variables['skipMgmt'], 'true')
+              displayName: "Build Non-Mgmt Packages"
