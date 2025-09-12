@@ -35,7 +35,8 @@ export class GlobalEndpointManager {
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
   private enableMultipleWriteLocations: boolean;
-
+  public enablePartitionLevelFailover: boolean;
+  public enablePartitionLevelCircuitBreaker: boolean;
   public preferredLocationsCount: number;
   /**
    * @param options - The document client instance.
@@ -54,6 +55,10 @@ export class GlobalEndpointManager {
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.enablePartitionLevelCircuitBreaker =
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      options.connectionPolicy.enablePartitionLevelFailover;
   }
 
   /**
@@ -221,6 +226,7 @@ export class GlobalEndpointManager {
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
+        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
       }
       this.isRefreshing = false;
     }
@@ -278,7 +284,7 @@ export class GlobalEndpointManager {
       if (
         unavailableLocation &&
         now - unavailableLocation.lastUnavailabilityTimestampInMs >
-          Constants.LocationUnavailableExpirationTimeInMs
+        Constants.LocationUnavailableExpirationTimeInMs
       ) {
         unavailableLocation.unavailable = false;
       }
@@ -370,5 +376,20 @@ export class GlobalEndpointManager {
     }
 
     return null;
+  }
+
+  /**
+    * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
+    * based on the value from database account. 
+    */
+  private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
+    // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
+    // we will override it to false.
+    if (this.enablePartitionLevelFailover == true) {
+      if (enablePerPartitionFailoverBehavior == false) {
+        this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
+        this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+      }
+    }
   }
 }
