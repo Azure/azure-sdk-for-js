@@ -1,0 +1,63 @@
+{
+  "name": "@azure-tools/turborepo-remote-cache",
+  "version": "1.0.0",
+  "sdk-type": "utility",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/src/index.d.ts",
+        "default": "./dist/src/index.js"
+      }
+    }
+  },
+  "keywords": [
+    "turborepo",
+    "azure",
+    "remote-cache",
+    "azure-storage"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "description": "TurboRepo remote cache using Azure Blob Storage",
+  "private": true,
+  "dependencies": {
+    "@azure/identity": "^4.9.0",
+    "@azure/storage-blob": "^12.27.0",
+    "@fastify/multipart": "^9.0.3",
+    "@hapi/boom": "^10.0.1",
+    "dotenv": "^16.5.0",
+    "fastify": "^5.3.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-istanbul": "^3.1.1",
+    "eslint": "^9.9.0",
+    "pino-pretty": "^13.1.1",
+    "tsx": "^4.17.0",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "~8.43.0",
+    "vitest": "^3.0.9"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:samples": "echo skipped",
+    "build:test": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "clean": "rimraf --glob dist* types",
+    "dev": "tsx watch src/index.ts",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "test": "npm run clean && npm run build && npm run test:node && npm run test:browser",
+    "test:browser": "echo skipped",
+    "test:node": "vitest",
+    "update-snippets": "echo skipped"
+  }
+}
