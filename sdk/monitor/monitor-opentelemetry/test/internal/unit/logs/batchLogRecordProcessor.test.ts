@@ -17,8 +17,9 @@ describe.todo("AzureBatchLogRecordProcessor", () => {
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
       });
-      const loggerProvider = new LoggerProvider();
-      loggerProvider.addLogRecordProcessor(processor);
+      const loggerProvider = new LoggerProvider({
+        processors: [processor],
+      });
       const sampler = new ApplicationInsightsSampler(0);
       const tracerProvider = new NodeTracerProvider({ sampler: sampler });
       await tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {
@@ -40,8 +41,9 @@ describe.todo("AzureBatchLogRecordProcessor", () => {
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
       });
-      const loggerProvider = new LoggerProvider();
-      loggerProvider.addLogRecordProcessor(processor);
+      const loggerProvider = new LoggerProvider({
+        processors: [processor],
+      });
       const sampler = new ApplicationInsightsSampler(1);
       const tracerProvider = new NodeTracerProvider({ sampler: sampler });
       await tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {
@@ -63,8 +65,9 @@ describe.todo("AzureBatchLogRecordProcessor", () => {
       const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: false,
       });
-      const loggerProvider = new LoggerProvider();
-      loggerProvider.addLogRecordProcessor(processor);
+      const loggerProvider = new LoggerProvider({
+        processors: [processor],
+      });
       const sampler = new ApplicationInsightsSampler(1);
       const tracerProvider = new NodeTracerProvider({ sampler: sampler });
       await tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {

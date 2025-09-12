@@ -62,7 +62,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "concurrently": "^9.2.1",
     "eslint": "catalog:",
-    "express": "^4.19.2",
+    "express": "^5.1.0",
     "playwright": "catalog:testing",
     "tslib": "catalog:",
     "typescript": "catalog:",
