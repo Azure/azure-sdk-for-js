@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
- *
- * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageByManifestDigest.json
- */
-
 import {
   ImportImageParameters,
   ContainerRegistryManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
+ *
+ * @summary Copies an image to this container registry from the specified container registry.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/ImportImageByManifestDigest.json
+ */
 async function importImageByManifestDigest(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
@@ -50,7 +49,7 @@ async function importImageByManifestDigest(): Promise<void> {
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageByTag.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/ImportImageByTag.json
  */
 async function importImageByTag(): Promise<void> {
   const subscriptionId =
@@ -86,7 +85,7 @@ async function importImageByTag(): Promise<void> {
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageFromPublicRegistry.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/ImportImageFromPublicRegistry.json
  */
 async function importImageFromPublicRegistry(): Promise<void> {
   const subscriptionId =
