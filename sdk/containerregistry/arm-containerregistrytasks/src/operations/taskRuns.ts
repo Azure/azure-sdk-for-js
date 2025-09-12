@@ -10,7 +10,7 @@ import { TaskRuns } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
+import { ContainerRegistryTasksManagementClient } from "../containerRegistryTasksManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
@@ -26,10 +26,10 @@ import {
   TaskRunsGetResponse,
   TaskRunsCreateOptionalParams,
   TaskRunsCreateResponse,
-  TaskRunsDeleteOptionalParams,
   TaskRunUpdateParameters,
   TaskRunsUpdateOptionalParams,
   TaskRunsUpdateResponse,
+  TaskRunsDeleteOptionalParams,
   TaskRunsGetDetailsOptionalParams,
   TaskRunsGetDetailsResponse,
   TaskRunsListNextResponse,
@@ -38,20 +38,20 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TaskRuns operations. */
 export class TaskRunsImpl implements TaskRuns {
-  private readonly client: ContainerRegistryManagementClient;
+  private readonly client: ContainerRegistryTasksManagementClient;
 
   /**
    * Initialize a new instance of the class TaskRuns class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClient) {
+  constructor(client: ContainerRegistryTasksManagementClient) {
     this.client = client;
   }
 
   /**
    * Lists all the task runs for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   public list(
@@ -125,9 +125,26 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
+   * Lists all the task runs for a specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: TaskRunsListOptionalParams,
+  ): Promise<TaskRunsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Gets the detailed information for a given task run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
@@ -145,8 +162,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Creates a task run for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param options The options parameters.
@@ -220,8 +237,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Creates a task run for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param options The options parameters.
@@ -244,28 +261,9 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
-   * Deletes a specified task run resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskRunName The name of the task run.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    registryName: string,
-    taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskRunName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
    * Updates a task run with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param options The options parameters.
@@ -345,8 +343,8 @@ export class TaskRunsImpl implements TaskRuns {
 
   /**
    * Updates a task run with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param options The options parameters.
@@ -369,9 +367,28 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
+   * Deletes a specified task run resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param taskRunName The name of the task run.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: TaskRunsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, taskRunName, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
    * Gets the detailed information for a given task run that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
@@ -388,26 +405,9 @@ export class TaskRunsImpl implements TaskRuns {
   }
 
   /**
-   * Lists all the task runs for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: TaskRunsListOptionalParams,
-  ): Promise<TaskRunsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -426,6 +426,27 @@ export class TaskRunsImpl implements TaskRuns {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TaskRunListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "GET",
@@ -481,27 +502,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.taskRunName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "PATCH",
@@ -535,6 +535,27 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.taskRunName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getDetailsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}/listDetails",
   httpMethod: "POST",
@@ -553,27 +574,6 @@ const getDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.taskRunName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TaskRunListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

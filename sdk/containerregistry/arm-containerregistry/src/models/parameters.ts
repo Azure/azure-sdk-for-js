@@ -10,8 +10,12 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Archive as ArchiveMapper,
-  ArchiveUpdateParameters as ArchiveUpdateParametersMapper,
+  RegistryNameCheckRequest as RegistryNameCheckRequestMapper,
+  Registry as RegistryMapper,
+  RegistryUpdateParameters as RegistryUpdateParametersMapper,
+  GenerateCredentialsParameters as GenerateCredentialsParametersMapper,
+  ImportImageParameters as ImportImageParametersMapper,
+  RegenerateCredentialParameters as RegenerateCredentialParametersMapper,
   CacheRule as CacheRuleMapper,
   CacheRuleUpdateParameters as CacheRuleUpdateParametersMapper,
   ConnectedRegistry as ConnectedRegistryMapper,
@@ -19,13 +23,9 @@ import {
   CredentialSet as CredentialSetMapper,
   CredentialSetUpdateParameters as CredentialSetUpdateParametersMapper,
   ExportPipeline as ExportPipelineMapper,
-  ImportImageParameters as ImportImageParametersMapper,
-  RegistryNameCheckRequest as RegistryNameCheckRequestMapper,
-  Registry as RegistryMapper,
-  RegistryUpdateParameters as RegistryUpdateParametersMapper,
-  RegenerateCredentialParameters as RegenerateCredentialParametersMapper,
-  GenerateCredentialsParameters as GenerateCredentialsParametersMapper,
   ImportPipeline as ImportPipelineMapper,
+  Archive as ArchiveMapper,
+  ArchiveUpdateParameters as ArchiveUpdateParametersMapper,
   PipelineRun as PipelineRunMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Replication as ReplicationMapper,
@@ -74,6 +74,35 @@ export const apiVersion: OperationQueryParameter = {
   },
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const registryNameCheckRequest: OperationParameter = {
+  parameterPath: "registryNameCheckRequest",
+  mapper: RegistryNameCheckRequestMapper,
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -116,15 +145,30 @@ export const registryName: OperationURLParameter = {
   },
 };
 
-export const packageType: OperationURLParameter = {
-  parameterPath: "packageType",
+export const registry: OperationParameter = {
+  parameterPath: "registry",
+  mapper: RegistryMapper,
+};
+
+export const registryUpdateParameters: OperationParameter = {
+  parameterPath: "registryUpdateParameters",
+  mapper: RegistryUpdateParametersMapper,
+};
+
+export const generateCredentialsParameters: OperationParameter = {
+  parameterPath: "generateCredentialsParameters",
+  mapper: GenerateCredentialsParametersMapper,
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ImportImageParametersMapper,
+};
+
+export const groupName: OperationURLParameter = {
+  parameterPath: "groupName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z]*$"),
-      MaxLength: 50,
-      MinLength: 3,
-    },
-    serializedName: "packageType",
+    serializedName: "groupName",
     required: true,
     type: {
       name: "String",
@@ -132,70 +176,9 @@ export const packageType: OperationURLParameter = {
   },
 };
 
-export const archiveName: OperationURLParameter = {
-  parameterPath: "archiveName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 200,
-      MinLength: 5,
-    },
-    serializedName: "archiveName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const archiveCreateParameters: OperationParameter = {
-  parameterPath: "archiveCreateParameters",
-  mapper: ArchiveMapper,
-};
-
-export const archiveUpdateParameters: OperationParameter = {
-  parameterPath: "archiveUpdateParameters",
-  mapper: ArchiveUpdateParametersMapper,
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const archiveVersionName: OperationURLParameter = {
-  parameterPath: "archiveVersionName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 200,
-      MinLength: 5,
-    },
-    serializedName: "archiveVersionName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
+export const regenerateCredentialParameters: OperationParameter = {
+  parameterPath: "regenerateCredentialParameters",
+  mapper: RegenerateCredentialParametersMapper,
 };
 
 export const cacheRuleName: OperationURLParameter = {
@@ -224,6 +207,16 @@ export const cacheRuleUpdateParameters: OperationParameter = {
   mapper: CacheRuleUpdateParametersMapper,
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const connectedRegistryName: OperationURLParameter = {
   parameterPath: "connectedRegistryName",
   mapper: {
@@ -248,16 +241,6 @@ export const connectedRegistryCreateParameters: OperationParameter = {
 export const connectedRegistryUpdateParameters: OperationParameter = {
   parameterPath: "connectedRegistryUpdateParameters",
   mapper: ConnectedRegistryUpdateParametersMapper,
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const credentialSetName: OperationURLParameter = {
@@ -307,47 +290,6 @@ export const exportPipelineCreateParameters: OperationParameter = {
   mapper: ExportPipelineMapper,
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ImportImageParametersMapper,
-};
-
-export const registryNameCheckRequest: OperationParameter = {
-  parameterPath: "registryNameCheckRequest",
-  mapper: RegistryNameCheckRequestMapper,
-};
-
-export const registry: OperationParameter = {
-  parameterPath: "registry",
-  mapper: RegistryMapper,
-};
-
-export const registryUpdateParameters: OperationParameter = {
-  parameterPath: "registryUpdateParameters",
-  mapper: RegistryUpdateParametersMapper,
-};
-
-export const groupName: OperationURLParameter = {
-  parameterPath: "groupName",
-  mapper: {
-    serializedName: "groupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const regenerateCredentialParameters: OperationParameter = {
-  parameterPath: "regenerateCredentialParameters",
-  mapper: RegenerateCredentialParametersMapper,
-};
-
-export const generateCredentialsParameters: OperationParameter = {
-  parameterPath: "generateCredentialsParameters",
-  mapper: GenerateCredentialsParametersMapper,
-};
-
 export const importPipelineName: OperationURLParameter = {
   parameterPath: "importPipelineName",
   mapper: {
@@ -367,6 +309,64 @@ export const importPipelineName: OperationURLParameter = {
 export const importPipelineCreateParameters: OperationParameter = {
   parameterPath: "importPipelineCreateParameters",
   mapper: ImportPipelineMapper,
+};
+
+export const packageType: OperationURLParameter = {
+  parameterPath: "packageType",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z]*$"),
+      MaxLength: 50,
+      MinLength: 3,
+    },
+    serializedName: "packageType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const archiveName: OperationURLParameter = {
+  parameterPath: "archiveName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 200,
+      MinLength: 5,
+    },
+    serializedName: "archiveName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const archiveCreateParameters: OperationParameter = {
+  parameterPath: "archiveCreateParameters",
+  mapper: ArchiveMapper,
+};
+
+export const archiveUpdateParameters: OperationParameter = {
+  parameterPath: "archiveUpdateParameters",
+  mapper: ArchiveUpdateParametersMapper,
+};
+
+export const archiveVersionName: OperationURLParameter = {
+  parameterPath: "archiveVersionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 200,
+      MinLength: 5,
+    },
+    serializedName: "archiveVersionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const pipelineRunName: OperationURLParameter = {

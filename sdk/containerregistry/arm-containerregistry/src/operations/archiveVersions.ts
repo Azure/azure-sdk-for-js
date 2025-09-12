@@ -48,7 +48,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
    * Lists all archive versions for the specified container registry, repository type and archive name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -150,7 +150,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
    * Lists all archive versions for the specified container registry, repository type and archive name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -171,7 +171,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
    * Gets the properties of the archive version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveVersionName The name of the archive version resource.
    * @param options The options parameters.
@@ -198,10 +198,10 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
   }
 
   /**
-   * Creates a archive for a container registry with the specified parameters.
+   * Creates a archive version for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveVersionName The name of the archive version resource.
    * @param options The options parameters.
@@ -282,10 +282,10 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
   }
 
   /**
-   * Creates a archive for a container registry with the specified parameters.
+   * Creates a archive version for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveVersionName The name of the archive version resource.
    * @param options The options parameters.
@@ -313,7 +313,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
    * Deletes a archive version from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveVersionName The name of the archive version resource.
    * @param options The options parameters.
@@ -397,7 +397,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
    * Deletes a archive version from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveVersionName The name of the archive version resource.
    * @param options The options parameters.
@@ -425,7 +425,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -580,12 +580,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.packageType,
     Parameters.archiveName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

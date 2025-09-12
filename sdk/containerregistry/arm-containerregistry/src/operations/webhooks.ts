@@ -31,14 +31,14 @@ import {
   WebhookCreateParameters,
   WebhooksCreateOptionalParams,
   WebhooksCreateResponse,
-  WebhooksDeleteOptionalParams,
   WebhookUpdateParameters,
   WebhooksUpdateOptionalParams,
   WebhooksUpdateResponse,
-  WebhooksPingOptionalParams,
-  WebhooksPingResponse,
+  WebhooksDeleteOptionalParams,
   WebhooksGetCallbackConfigOptionalParams,
   WebhooksGetCallbackConfigResponse,
+  WebhooksPingOptionalParams,
+  WebhooksPingResponse,
   WebhooksListNextResponse,
   WebhooksListEventsNextResponse,
 } from "../models/index.js";
@@ -368,93 +368,6 @@ export class WebhooksImpl implements Webhooks {
   }
 
   /**
-   * Deletes a webhook from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param webhookName The name of the webhook.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    webhookName: string,
-    options?: WebhooksDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, webhookName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a webhook from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param webhookName The name of the webhook.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    webhookName: string,
-    options?: WebhooksDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      webhookName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Updates a webhook with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -561,21 +474,108 @@ export class WebhooksImpl implements Webhooks {
   }
 
   /**
-   * Triggers a ping event to be sent to the webhook.
+   * Deletes a webhook from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
    */
-  ping(
+  async beginDelete(
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksPingOptionalParams,
-  ): Promise<WebhooksPingResponse> {
+    options?: WebhooksDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, webhookName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a webhook from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param webhookName The name of the webhook.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: WebhooksDeleteOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      registryName,
+      webhookName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the configuration of service URI and custom headers for the webhook.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param webhookName The name of the webhook.
+   * @param options The options parameters.
+   */
+  getCallbackConfig(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: WebhooksGetCallbackConfigOptionalParams,
+  ): Promise<WebhooksGetCallbackConfigResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
-      pingOperationSpec,
+      getCallbackConfigOperationSpec,
     );
   }
 
@@ -599,21 +599,21 @@ export class WebhooksImpl implements Webhooks {
   }
 
   /**
-   * Gets the configuration of service URI and custom headers for the webhook.
+   * Triggers a ping event to be sent to the webhook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param options The options parameters.
    */
-  getCallbackConfig(
+  ping(
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksGetCallbackConfigOptionalParams,
-  ): Promise<WebhooksGetCallbackConfigResponse> {
+    options?: WebhooksPingOptionalParams,
+  ): Promise<WebhooksPingResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
-      getCallbackConfigOperationSpec,
+      pingOperationSpec,
     );
   }
 
@@ -667,6 +667,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.WebhookListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -684,6 +687,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Webhook,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -713,6 +719,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Webhook,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.webhookCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -725,20 +734,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.webhookName,
-  ],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -757,6 +752,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Webhook,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.webhookUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -771,31 +769,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const pingOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
-  httpMethod: "POST",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.EventInfo,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.webhookName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listEventsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EventListResult,
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -816,6 +799,53 @@ const getCallbackConfigOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CallbackConfig,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.webhookName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listEventsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.webhookName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const pingOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventInfo,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -835,13 +865,16 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.WebhookListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -853,13 +886,16 @@ const listEventsNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EventListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
     Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],

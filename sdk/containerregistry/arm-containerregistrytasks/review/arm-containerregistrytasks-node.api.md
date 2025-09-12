@@ -11,7 +11,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface AgentPool extends Resource {
+export interface AgentPool extends TrackedResource {
     count?: number;
     os?: OS;
     readonly provisioningState?: ProvisioningState;
@@ -45,8 +45,8 @@ export interface AgentPools {
 
 // @public
 export interface AgentPoolsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -60,8 +60,8 @@ export type AgentPoolsCreateResponse = AgentPool;
 
 // @public
 export interface AgentPoolsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -103,8 +103,8 @@ export type AgentPoolsListResponse = AgentPoolListResult;
 
 // @public
 export interface AgentPoolsUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -191,10 +191,10 @@ export interface BaseImageTriggerUpdateParameters {
 }
 
 // @public (undocumented)
-export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
+export class ContainerRegistryTasksManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryTasksManagementClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
@@ -212,7 +212,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 }
 
 // @public
-export interface ContainerRegistryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface ContainerRegistryTasksManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
@@ -410,14 +410,6 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownLastModifiedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownOS {
     Linux = "Linux",
     Windows = "Windows"
@@ -516,9 +508,6 @@ export enum KnownVariant {
 }
 
 // @public
-export type LastModifiedByType = string;
-
-// @public
 export type OS = string;
 
 // @public (undocumented)
@@ -549,11 +538,7 @@ export interface PlatformUpdateParameters {
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -579,12 +564,8 @@ export type RegistriesScheduleRunResponse = Run;
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -618,19 +599,6 @@ export interface Run extends ProxyResource {
 }
 
 // @public
-export interface RunFilter {
-    agentPoolName?: string;
-    createTime?: Date;
-    finishTime?: Date;
-    isArchiveEnabled?: boolean;
-    outputImageManifests?: string;
-    runId?: string;
-    runType?: RunType;
-    status?: RunStatus;
-    taskName?: string;
-}
-
-// @public
 export interface RunGetLogResult {
     logArtifactLink?: string;
     logLink?: string;
@@ -647,11 +615,11 @@ export interface RunRequest {
     agentPoolName?: string;
     isArchiveEnabled?: boolean;
     logTemplate?: string;
-    type: "DockerBuildRequest" | "FileTaskRunRequest" | "TaskRunRequest" | "EncodedTaskRunRequest";
+    type: "DockerBuildRequest" | "EncodedTaskRunRequest" | "FileTaskRunRequest" | "TaskRunRequest";
 }
 
 // @public (undocumented)
-export type RunRequestUnion = RunRequest | DockerBuildRequest | FileTaskRunRequest | TaskRunRequest | EncodedTaskRunRequest;
+export type RunRequestUnion = RunRequest | DockerBuildRequest | EncodedTaskRunRequest | FileTaskRunRequest | TaskRunRequest;
 
 // @public
 export interface Runs {
@@ -804,11 +772,11 @@ export interface SystemData {
     createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: LastModifiedByType;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
-export interface Task extends Resource {
+export interface Task extends TrackedResource {
     agentConfiguration?: AgentProperties;
     agentPoolName?: string;
     readonly creationDate?: Date;
@@ -867,8 +835,8 @@ export interface TaskRuns {
 
 // @public
 export interface TaskRunsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -914,8 +882,8 @@ export type TaskRunsListResponse = TaskRunListResult;
 
 // @public
 export interface TaskRunsUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -995,21 +963,21 @@ export interface TaskStepProperties {
     readonly baseImageDependencies?: BaseImageDependency[];
     contextAccessToken?: string;
     contextPath?: string;
-    type: "Docker" | "FileTask" | "EncodedTask";
+    type: "Docker" | "EncodedTask" | "FileTask";
 }
 
 // @public (undocumented)
-export type TaskStepPropertiesUnion = TaskStepProperties | DockerBuildStep | FileTaskStep | EncodedTaskStep;
+export type TaskStepPropertiesUnion = TaskStepProperties | DockerBuildStep | EncodedTaskStep | FileTaskStep;
 
 // @public
 export interface TaskStepUpdateParameters {
     contextAccessToken?: string;
     contextPath?: string;
-    type: "Docker" | "FileTask" | "EncodedTask";
+    type: "Docker" | "EncodedTask" | "FileTask";
 }
 
 // @public (undocumented)
-export type TaskStepUpdateParametersUnion = TaskStepUpdateParameters | DockerBuildStepUpdateParameters | FileTaskStepUpdateParameters | EncodedTaskStepUpdateParameters;
+export type TaskStepUpdateParametersUnion = TaskStepUpdateParameters | DockerBuildStepUpdateParameters | EncodedTaskStepUpdateParameters | FileTaskStepUpdateParameters;
 
 // @public
 export interface TasksUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1057,6 +1025,14 @@ export interface TimerTriggerUpdateParameters {
 
 // @public
 export type TokenType = string;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface TriggerProperties {

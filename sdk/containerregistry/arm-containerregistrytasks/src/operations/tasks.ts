@@ -10,7 +10,7 @@ import { Tasks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
+import { ContainerRegistryTasksManagementClient } from "../containerRegistryTasksManagementClient.js";
 import {
   Task,
   TasksListNextOptionalParams,
@@ -20,10 +20,10 @@ import {
   TasksGetResponse,
   TasksCreateOptionalParams,
   TasksCreateResponse,
-  TasksDeleteOptionalParams,
   TaskUpdateParameters,
   TasksUpdateOptionalParams,
   TasksUpdateResponse,
+  TasksDeleteOptionalParams,
   TasksGetDetailsOptionalParams,
   TasksGetDetailsResponse,
   TasksListNextResponse,
@@ -32,20 +32,20 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Tasks operations. */
 export class TasksImpl implements Tasks {
-  private readonly client: ContainerRegistryManagementClient;
+  private readonly client: ContainerRegistryTasksManagementClient;
 
   /**
    * Initialize a new instance of the class Tasks class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClient) {
+  constructor(client: ContainerRegistryTasksManagementClient) {
     this.client = client;
   }
 
   /**
    * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   public list(
@@ -120,8 +120,8 @@ export class TasksImpl implements Tasks {
 
   /**
    * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   private _list(
@@ -137,8 +137,8 @@ export class TasksImpl implements Tasks {
 
   /**
    * Get the properties of a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param options The options parameters.
    */
@@ -156,8 +156,8 @@ export class TasksImpl implements Tasks {
 
   /**
    * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param taskCreateParameters The parameters for creating a task.
    * @param options The options parameters.
@@ -182,28 +182,9 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
    * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param taskUpdateParameters The parameters for updating a task.
    * @param options The options parameters.
@@ -228,9 +209,28 @@ export class TasksImpl implements Tasks {
   }
 
   /**
+   * Deletes a specified task.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param taskName The name of the container registry task.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    registryName: string,
+    taskName: string,
+    options?: TasksDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, taskName, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
    * Returns a task with extended information that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param options The options parameters.
    */
@@ -248,8 +248,8 @@ export class TasksImpl implements Tasks {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -338,27 +338,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.taskName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
   httpMethod: "PATCH",
@@ -381,6 +360,27 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.taskName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getDetailsOperationSpec: coreClient.OperationSpec = {

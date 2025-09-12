@@ -33,7 +33,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Container Registry REST API operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
@@ -87,7 +87,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Container Registry REST API operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(
@@ -121,6 +121,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
@@ -133,6 +136,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],

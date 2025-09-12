@@ -12,10 +12,10 @@ import {
   TasksGetResponse,
   TasksCreateOptionalParams,
   TasksCreateResponse,
-  TasksDeleteOptionalParams,
   TaskUpdateParameters,
   TasksUpdateOptionalParams,
   TasksUpdateResponse,
+  TasksDeleteOptionalParams,
   TasksGetDetailsOptionalParams,
   TasksGetDetailsResponse,
 } from "../models/index.js";
@@ -25,8 +25,8 @@ import {
 export interface Tasks {
   /**
    * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   list(
@@ -36,8 +36,8 @@ export interface Tasks {
   ): PagedAsyncIterableIterator<Task>;
   /**
    * Get the properties of a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param options The options parameters.
    */
@@ -49,8 +49,8 @@ export interface Tasks {
   ): Promise<TasksGetResponse>;
   /**
    * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param taskCreateParameters The parameters for creating a task.
    * @param options The options parameters.
@@ -63,22 +63,9 @@ export interface Tasks {
     options?: TasksCreateOptionalParams,
   ): Promise<TasksCreateResponse>;
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param taskUpdateParameters The parameters for updating a task.
    * @param options The options parameters.
@@ -91,9 +78,22 @@ export interface Tasks {
     options?: TasksUpdateOptionalParams,
   ): Promise<TasksUpdateResponse>;
   /**
+   * Deletes a specified task.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param taskName The name of the container registry task.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    registryName: string,
+    taskName: string,
+    options?: TasksDeleteOptionalParams,
+  ): Promise<void>;
+  /**
    * Returns a task with extended information that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param taskName The name of the container registry task.
    * @param options The options parameters.
    */

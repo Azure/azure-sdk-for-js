@@ -6,9 +6,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a archive for a container registry with the specified parameters.
+ * This sample demonstrates how to Creates a archive version for a container registry with the specified parameters.
  *
- * @summary Creates a archive for a container registry with the specified parameters.
+ * @summary Creates a archive version for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/ArchiveVersionCreate.json
  */
 async function archiveVersionCreate(): Promise<void> {

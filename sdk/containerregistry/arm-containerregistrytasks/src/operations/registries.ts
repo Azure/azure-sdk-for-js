@@ -8,49 +8,30 @@ import { Registries } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
+import { ContainerRegistryTasksManagementClient } from "../containerRegistryTasksManagementClient.js";
 import {
+  RegistriesGetBuildSourceUploadUrlOptionalParams,
+  RegistriesGetBuildSourceUploadUrlResponse,
   RunRequestUnion,
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
-  RegistriesGetBuildSourceUploadUrlOptionalParams,
-  RegistriesGetBuildSourceUploadUrlResponse,
 } from "../models/index.js";
 
 /** Class containing Registries operations. */
 export class RegistriesImpl implements Registries {
-  private readonly client: ContainerRegistryManagementClient;
+  private readonly client: ContainerRegistryTasksManagementClient;
 
   /**
    * Initialize a new instance of the class Registries class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClient) {
+  constructor(client: ContainerRegistryTasksManagementClient) {
     this.client = client;
   }
 
   /**
-   * Schedules a new run based on the request parameters and add it to the run queue.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runRequest The parameters of a run that needs to scheduled.
-   * @param options The options parameters.
-   */
-  scheduleRun(
-    resourceGroupName: string,
-    registryName: string,
-    runRequest: RunRequestUnion,
-    options?: RegistriesScheduleRunOptionalParams,
-  ): Promise<RegistriesScheduleRunResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, runRequest, options },
-      scheduleRunOperationSpec,
-    );
-  }
-
-  /**
    * Get the upload location for the user to be able to upload the source.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -64,10 +45,50 @@ export class RegistriesImpl implements Registries {
       getBuildSourceUploadUrlOperationSpec,
     );
   }
+
+  /**
+   * Schedules a new run based on the request parameters and add it to the run queue.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param runRequest The request body
+   * @param options The options parameters.
+   */
+  scheduleRun(
+    resourceGroupName: string,
+    registryName: string,
+    runRequest: RunRequestUnion,
+    options?: RegistriesScheduleRunOptionalParams,
+  ): Promise<RegistriesScheduleRunResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, runRequest, options },
+      scheduleRunOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getBuildSourceUploadUrlOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listBuildSourceUploadUrl",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SourceUploadDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const scheduleRunOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scheduleRun",
   httpMethod: "POST",
@@ -89,26 +110,5 @@ const scheduleRunOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getBuildSourceUploadUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listBuildSourceUploadUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SourceUploadDefinition,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };

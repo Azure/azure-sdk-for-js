@@ -13,11 +13,11 @@ import {
   ArchivesGetResponse,
   ArchivesCreateOptionalParams,
   ArchivesCreateResponse,
-  ArchivesDeleteOptionalParams,
-  ArchivesDeleteResponse,
   ArchiveUpdateParameters,
   ArchivesUpdateOptionalParams,
   ArchivesUpdateResponse,
+  ArchivesDeleteOptionalParams,
+  ArchivesDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface Archives {
    * Lists all archives for the specified container registry and package type.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param options The options parameters.
    */
   list(
@@ -40,7 +40,7 @@ export interface Archives {
    * Gets the properties of the archive.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -55,7 +55,7 @@ export interface Archives {
    * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
@@ -77,7 +77,7 @@ export interface Archives {
    * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
@@ -91,10 +91,27 @@ export interface Archives {
     options?: ArchivesCreateOptionalParams,
   ): Promise<ArchivesCreateResponse>;
   /**
+   * Updates a archive for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param packageType The package type.
+   * @param archiveName The name of the archive resource.
+   * @param archiveUpdateParameters The parameters for updating a archive.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    packageType: string,
+    archiveName: string,
+    archiveUpdateParameters: ArchiveUpdateParameters,
+    options?: ArchivesUpdateOptionalParams,
+  ): Promise<ArchivesUpdateResponse>;
+  /**
    * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -114,7 +131,7 @@ export interface Archives {
    * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -125,21 +142,4 @@ export interface Archives {
     archiveName: string,
     options?: ArchivesDeleteOptionalParams,
   ): Promise<ArchivesDeleteResponse>;
-  /**
-   * Updates a archive for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
-   * @param archiveName The name of the archive resource.
-   * @param archiveUpdateParameters The parameters for updating a archive.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    registryName: string,
-    packageType: string,
-    archiveName: string,
-    archiveUpdateParameters: ArchiveUpdateParameters,
-    options?: ArchivesUpdateOptionalParams,
-  ): Promise<ArchivesUpdateResponse>;
 }

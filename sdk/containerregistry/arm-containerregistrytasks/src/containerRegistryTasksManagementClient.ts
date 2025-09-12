@@ -26,23 +26,23 @@ import {
   TaskRuns,
   Tasks,
 } from "./operationsInterfaces/index.js";
-import { ContainerRegistryManagementClientOptionalParams } from "./models/index.js";
+import { ContainerRegistryTasksManagementClientOptionalParams } from "./models/index.js";
 
-export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
+export class ContainerRegistryTasksManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
-   * Initializes a new instance of the ContainerRegistryManagementClient class.
+   * Initializes a new instance of the ContainerRegistryTasksManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Microsoft Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerRegistryManagementClientOptionalParams,
+    options?: ContainerRegistryTasksManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,7 +55,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     if (!options) {
       options = {};
     }
-    const defaults: ContainerRegistryManagementClientOptionalParams = {
+    const defaults: ContainerRegistryTasksManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };

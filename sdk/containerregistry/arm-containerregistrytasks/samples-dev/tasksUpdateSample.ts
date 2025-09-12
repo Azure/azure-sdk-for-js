@@ -3,7 +3,7 @@
 
 import {
   TaskUpdateParameters,
-  ContainerRegistryManagementClient,
+  ContainerRegistryTasksManagementClient,
 } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -57,7 +57,7 @@ async function tasksUpdate(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -90,7 +90,7 @@ async function tasksUpdateQuickTask(): Promise<void> {
     tags: { testkey: "value" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -155,7 +155,7 @@ async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -206,7 +206,7 @@ async function tasksUpdateWithLoginIdentity(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -259,7 +259,7 @@ async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -317,7 +317,7 @@ async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

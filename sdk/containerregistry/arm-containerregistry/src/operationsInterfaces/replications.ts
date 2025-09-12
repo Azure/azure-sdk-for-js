@@ -13,10 +13,10 @@ import {
   ReplicationsGetResponse,
   ReplicationsCreateOptionalParams,
   ReplicationsCreateResponse,
-  ReplicationsDeleteOptionalParams,
   ReplicationUpdateParameters,
   ReplicationsUpdateOptionalParams,
   ReplicationsUpdateResponse,
+  ReplicationsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -82,32 +82,6 @@ export interface Replications {
     options?: ReplicationsCreateOptionalParams,
   ): Promise<ReplicationsCreateResponse>;
   /**
-   * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param replicationName The name of the replication.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    replicationName: string,
-    options?: ReplicationsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param replicationName The name of the replication.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    replicationName: string,
-    options?: ReplicationsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Updates a replication for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -142,4 +116,30 @@ export interface Replications {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams,
   ): Promise<ReplicationsUpdateResponse>;
+  /**
+   * Deletes a replication from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param replicationName The name of the replication.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: ReplicationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a replication from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param replicationName The name of the replication.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: ReplicationsDeleteOptionalParams,
+  ): Promise<void>;
 }

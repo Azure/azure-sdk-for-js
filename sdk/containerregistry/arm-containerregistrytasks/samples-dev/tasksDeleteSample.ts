@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistrytasks";
+import { ContainerRegistryTasksManagementClient } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,7 +20,7 @@ async function tasksDelete(): Promise<void> {
   const registryName = "myRegistry";
   const taskName = "myTask";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

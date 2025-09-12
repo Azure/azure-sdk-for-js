@@ -13,9 +13,9 @@ import {
   RunUpdateParameters,
   RunsUpdateOptionalParams,
   RunsUpdateResponse,
+  RunsCancelOptionalParams,
   RunsGetLogSasUrlOptionalParams,
   RunsGetLogSasUrlResponse,
-  RunsCancelOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,8 +23,8 @@ import {
 export interface Runs {
   /**
    * Gets all the runs for a registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   list(
@@ -34,8 +34,8 @@ export interface Runs {
   ): PagedAsyncIterableIterator<Run>;
   /**
    * Gets the detailed information for a given run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param runId The run ID.
    * @param options The options parameters.
    */
@@ -47,8 +47,8 @@ export interface Runs {
   ): Promise<RunsGetResponse>;
   /**
    * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param runId The run ID.
    * @param runUpdateParameters The run update properties.
    * @param options The options parameters.
@@ -61,22 +61,9 @@ export interface Runs {
     options?: RunsUpdateOptionalParams,
   ): Promise<RunsUpdateResponse>;
   /**
-   * Gets a link to download the run logs.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param options The options parameters.
-   */
-  getLogSasUrl(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    options?: RunsGetLogSasUrlOptionalParams,
-  ): Promise<RunsGetLogSasUrlResponse>;
-  /**
    * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param runId The run ID.
    * @param options The options parameters.
    */
@@ -86,4 +73,17 @@ export interface Runs {
     runId: string,
     options?: RunsCancelOptionalParams,
   ): Promise<void>;
+  /**
+   * Gets a link to download the run logs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param runId The run ID.
+   * @param options The options parameters.
+   */
+  getLogSasUrl(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: RunsGetLogSasUrlOptionalParams,
+  ): Promise<RunsGetLogSasUrlResponse>;
 }

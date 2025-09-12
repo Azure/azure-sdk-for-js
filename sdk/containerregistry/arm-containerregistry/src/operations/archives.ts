@@ -26,11 +26,11 @@ import {
   ArchivesGetResponse,
   ArchivesCreateOptionalParams,
   ArchivesCreateResponse,
-  ArchivesDeleteOptionalParams,
-  ArchivesDeleteResponse,
   ArchiveUpdateParameters,
   ArchivesUpdateOptionalParams,
   ArchivesUpdateResponse,
+  ArchivesDeleteOptionalParams,
+  ArchivesDeleteResponse,
   ArchivesListNextResponse,
 } from "../models/index.js";
 
@@ -51,7 +51,7 @@ export class ArchivesImpl implements Archives {
    * Lists all archives for the specified container registry and package type.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param options The options parameters.
    */
   public list(
@@ -144,7 +144,7 @@ export class ArchivesImpl implements Archives {
    * Lists all archives for the specified container registry and package type.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param options The options parameters.
    */
   private _list(
@@ -163,7 +163,7 @@ export class ArchivesImpl implements Archives {
    * Gets the properties of the archive.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -184,7 +184,7 @@ export class ArchivesImpl implements Archives {
    * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
@@ -268,7 +268,7 @@ export class ArchivesImpl implements Archives {
    * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
@@ -293,10 +293,40 @@ export class ArchivesImpl implements Archives {
   }
 
   /**
+   * Updates a archive for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param packageType The package type.
+   * @param archiveName The name of the archive resource.
+   * @param archiveUpdateParameters The parameters for updating a archive.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    packageType: string,
+    archiveName: string,
+    archiveUpdateParameters: ArchiveUpdateParameters,
+    options?: ArchivesUpdateOptionalParams,
+  ): Promise<ArchivesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        registryName,
+        packageType,
+        archiveName,
+        archiveUpdateParameters,
+        options,
+      },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -377,7 +407,7 @@ export class ArchivesImpl implements Archives {
    * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
@@ -399,40 +429,10 @@ export class ArchivesImpl implements Archives {
   }
 
   /**
-   * Updates a archive for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
-   * @param archiveName The name of the archive resource.
-   * @param archiveUpdateParameters The parameters for updating a archive.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    registryName: string,
-    packageType: string,
-    archiveName: string,
-    archiveUpdateParameters: ArchiveUpdateParameters,
-    options?: ArchivesUpdateOptionalParams,
-  ): Promise<ArchivesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        registryName,
-        packageType,
-        archiveName,
-        archiveUpdateParameters,
-        options,
-      },
-      updateOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param packageType The type of the package resource.
+   * @param packageType The package type.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -531,6 +531,31 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Archive,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.archiveUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.packageType,
+    Parameters.archiveName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "DELETE",
@@ -563,31 +588,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Archive,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.archiveUpdateParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.packageType,
-    Parameters.archiveName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -601,11 +601,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.packageType,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

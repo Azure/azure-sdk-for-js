@@ -10,7 +10,7 @@ import { Runs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
+import { ContainerRegistryTasksManagementClient } from "../containerRegistryTasksManagementClient.js";
 import {
   Run,
   RunsListNextOptionalParams,
@@ -21,29 +21,29 @@ import {
   RunUpdateParameters,
   RunsUpdateOptionalParams,
   RunsUpdateResponse,
+  RunsCancelOptionalParams,
   RunsGetLogSasUrlOptionalParams,
   RunsGetLogSasUrlResponse,
-  RunsCancelOptionalParams,
   RunsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Runs operations. */
 export class RunsImpl implements Runs {
-  private readonly client: ContainerRegistryManagementClient;
+  private readonly client: ContainerRegistryTasksManagementClient;
 
   /**
    * Initialize a new instance of the class Runs class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClient) {
+  constructor(client: ContainerRegistryTasksManagementClient) {
     this.client = client;
   }
 
   /**
    * Gets all the runs for a registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   public list(
@@ -118,8 +118,8 @@ export class RunsImpl implements Runs {
 
   /**
    * Gets all the runs for a registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param options The options parameters.
    */
   private _list(
@@ -135,8 +135,8 @@ export class RunsImpl implements Runs {
 
   /**
    * Gets the detailed information for a given run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param runId The run ID.
    * @param options The options parameters.
    */
@@ -154,8 +154,8 @@ export class RunsImpl implements Runs {
 
   /**
    * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param runId The run ID.
    * @param runUpdateParameters The run update properties.
    * @param options The options parameters.
@@ -174,28 +174,9 @@ export class RunsImpl implements Runs {
   }
 
   /**
-   * Gets a link to download the run logs.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param options The options parameters.
-   */
-  getLogSasUrl(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    options?: RunsGetLogSasUrlOptionalParams,
-  ): Promise<RunsGetLogSasUrlResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, runId, options },
-      getLogSasUrlOperationSpec,
-    );
-  }
-
-  /**
    * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param runId The run ID.
    * @param options The options parameters.
    */
@@ -212,9 +193,28 @@ export class RunsImpl implements Runs {
   }
 
   /**
+   * Gets a link to download the run logs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
+   * @param runId The run ID.
+   * @param options The options parameters.
+   */
+  getLogSasUrl(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: RunsGetLogSasUrlOptionalParams,
+  ): Promise<RunsGetLogSasUrlResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, runId, options },
+      getLogSasUrlOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the Registry
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -300,13 +300,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.RunGetLogResult,
-    },
+    200: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -322,11 +320,13 @@ const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
+const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
   httpMethod: "POST",
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.RunGetLogResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },

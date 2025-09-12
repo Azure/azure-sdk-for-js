@@ -44,13 +44,25 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2025-03-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };
@@ -59,6 +71,7 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
+      MaxLength: 90,
       MinLength: 1,
     },
     serializedName: "resourceGroupName",
@@ -79,18 +92,6 @@ export const registryName: OperationURLParameter = {
     },
     serializedName: "registryName",
     required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2025-03-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
     type: {
       name: "String",
     },

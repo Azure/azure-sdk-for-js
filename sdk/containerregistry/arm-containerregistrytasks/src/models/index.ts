@@ -9,43 +9,47 @@ import * as coreClient from "@azure/core-client";
 export type RunRequestUnion =
   | RunRequest
   | DockerBuildRequest
+  | EncodedTaskRunRequest
   | FileTaskRunRequest
-  | TaskRunRequest
-  | EncodedTaskRunRequest;
+  | TaskRunRequest;
 export type TaskStepPropertiesUnion =
   | TaskStepProperties
   | DockerBuildStep
-  | FileTaskStep
-  | EncodedTaskStep;
+  | EncodedTaskStep
+  | FileTaskStep;
 export type TaskStepUpdateParametersUnion =
   | TaskStepUpdateParameters
   | DockerBuildStepUpdateParameters
-  | FileTaskStepUpdateParameters
-  | EncodedTaskStepUpdateParameters;
+  | EncodedTaskStepUpdateParameters
+  | FileTaskStepUpdateParameters;
 
-/** An Azure resource. */
+/** The collection of agent pools. */
+export interface AgentPoolListResult {
+  /** The collection value. */
+  value?: AgentPool[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * The resource ID.
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The name of the resource.
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The location of the resource. This cannot be changed after the resource is created. */
-  location: string;
-  /** The tags of the resource. */
-  tags?: { [propertyName: string]: string };
   /**
-   * Metadata pertaining to creation and last modification of the resource.
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -62,8 +66,8 @@ export interface SystemData {
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: LastModifiedByType;
-  /** The timestamp of resource modification (UTC). */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
 }
 
@@ -124,34 +128,26 @@ export interface AgentPoolUpdateParameters {
   count?: number;
 }
 
-/** The collection of agent pools. */
-export interface AgentPoolListResult {
-  /** The collection value. */
-  value?: AgentPool[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
 /** The QueueStatus of Agent Pool */
 export interface AgentPoolQueueStatus {
   /** The number of pending runs in the queue */
   count?: number;
 }
 
-/** The request parameters for scheduling a run. */
-export interface RunRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "DockerBuildRequest"
-    | "FileTaskRunRequest"
-    | "TaskRunRequest"
-    | "EncodedTaskRunRequest";
-  /** The value that indicates whether archiving is enabled for the run or not. */
-  isArchiveEnabled?: boolean;
-  /** The dedicated agent pool for the run. */
-  agentPoolName?: string;
-  /** The template that describes the repository and tag information for run log artifact. */
-  logTemplate?: string;
+/** The properties of a response to source upload request. */
+export interface SourceUploadDefinition {
+  /** The URL where the client can upload the source. */
+  uploadUrl?: string;
+  /** The relative path to the source. This is used to submit the subsequent queue build request. */
+  relativePath?: string;
+}
+
+/** The collection of runs. */
+export interface RunListResult {
+  /** The collection value. */
+  value?: Run[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
 }
 
 /** Properties for a registry image. */
@@ -217,46 +213,6 @@ export interface AgentProperties {
   cpu?: number;
 }
 
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
-export interface ProxyResource {
-  /**
-   * The resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** The properties of a response to source upload request. */
-export interface SourceUploadDefinition {
-  /** The URL where the client can upload the source. */
-  uploadUrl?: string;
-  /** The relative path to the source. This is used to submit the subsequent queue build request. */
-  relativePath?: string;
-}
-
-/** Collection of runs. */
-export interface RunListResult {
-  /** The collection value. */
-  value?: Run[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
 /** The set of run properties that can be updated. */
 export interface RunUpdateParameters {
   /** The value that indicates whether archiving is enabled or not. */
@@ -269,6 +225,30 @@ export interface RunGetLogResult {
   logLink?: string;
   /** The link to logs in registry for a run on a azure container registry. */
   logArtifactLink?: string;
+}
+
+/** The request parameters for scheduling a run. */
+export interface RunRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "DockerBuildRequest"
+    | "EncodedTaskRunRequest"
+    | "FileTaskRunRequest"
+    | "TaskRunRequest";
+  /** The value that indicates whether archiving is enabled for the run or not. */
+  isArchiveEnabled?: boolean;
+  /** The dedicated agent pool for the run. */
+  agentPoolName?: string;
+  /** The template that describes the repository and tag information for run log artifact. */
+  logTemplate?: string;
+}
+
+/** The collection of task runs. */
+export interface TaskRunListResult {
+  /** The collection value. */
+  value?: TaskRun[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
 }
 
 /** Managed identity for the resource. */
@@ -289,7 +269,7 @@ export interface IdentityProperties {
    * The list of user identities associated with the resource. The user identity
    * dictionary key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-   *     providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   * providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
   userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
 }
@@ -321,14 +301,6 @@ export interface TaskRunUpdateParameters {
   forceUpdateTag?: string;
 }
 
-/** The collection of task runs. */
-export interface TaskRunListResult {
-  /** The collection value. */
-  value?: TaskRun[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
 /** The collection of tasks. */
 export interface TaskListResult {
   /** The collection value. */
@@ -340,7 +312,7 @@ export interface TaskListResult {
 /** Base properties for any task step. */
 export interface TaskStepProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker" | "FileTask" | "EncodedTask";
+  type: "Docker" | "EncodedTask" | "FileTask";
   /**
    * List of base image dependencies for a step.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -542,7 +514,7 @@ export interface PlatformUpdateParameters {
 /** Base properties for updating any task step. */
 export interface TaskStepUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker" | "FileTask" | "EncodedTask";
+  type: "Docker" | "EncodedTask" | "FileTask";
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
@@ -624,31 +596,6 @@ export interface BaseImageTriggerUpdateParameters {
   name: string;
 }
 
-/** Properties that are enabled for Odata querying on runs. */
-export interface RunFilter {
-  /** The unique identifier for the run. */
-  runId?: string;
-  /** The type of run. */
-  runType?: RunType;
-  /** The current status of the run. */
-  status?: RunStatus;
-  /** The create time for a run. */
-  createTime?: Date;
-  /** The time the run finished. */
-  finishTime?: Date;
-  /**
-   * The list of comma-separated image manifests that were generated from the run. This is applicable if the run is of
-   * build type.
-   */
-  outputImageManifests?: string;
-  /** The value that indicates whether archiving is enabled or not. */
-  isArchiveEnabled?: boolean;
-  /** The name of the task that the run corresponds to. */
-  taskName?: string;
-  /** The name of the agent pool that the run corresponds to. */
-  agentPoolName?: string;
-}
-
 /** The properties of a run argument. */
 export interface Argument {
   /** The name of the argument. */
@@ -687,64 +634,16 @@ export interface OverrideTaskStepProperties {
   updateTriggerToken?: string;
 }
 
-/**
- * The agentpool that has the ARM resource and properties.
- * The agentpool will have all information to create an agent pool.
- */
-export interface AgentPool extends Resource {
-  /** The count of agent machine */
-  count?: number;
-  /** The Tier of agent machine */
-  tier?: string;
-  /** The OS of agent machine */
-  os?: OS;
-  /** The Virtual Network Subnet Resource Id of the agent machine */
-  virtualNetworkSubnetResourceId?: string;
-  /**
-   * The provisioning state of this agent pool
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
-/**
- * The task that has the ARM resource and task properties.
- * The task will have all information to schedule a run against it.
- */
-export interface Task extends Resource {
-  /** Identity for the resource. */
-  identity?: IdentityProperties;
-  /**
-   * The provisioning state of the task.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The creation date of task.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creationDate?: Date;
-  /** The current status of task. */
-  status?: TaskStatus;
-  /** The platform properties against which the run has to happen. */
-  platform?: PlatformProperties;
-  /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
-  /** The dedicated agent pool for the task. */
-  agentPoolName?: string;
-  /** Run timeout in seconds. */
-  timeout?: number;
-  /** The properties of a task step. */
-  step?: TaskStepPropertiesUnion;
-  /** The properties that describe all triggers for the task. */
-  trigger?: TriggerProperties;
-  /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
-  /** The template that describes the repository and tag information for run log artifact. */
-  logTemplate?: string;
-  /** The value of this property indicates whether the task resource is system task or not. */
-  isSystemTask?: boolean;
-}
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** The parameters for a docker quick build. */
 export interface DockerBuildRequest extends RunRequest {
@@ -762,6 +661,31 @@ export interface DockerBuildRequest extends RunRequest {
   target?: string;
   /** The collection of override arguments to be used when executing the run. */
   arguments?: Argument[];
+  /** Run timeout in seconds. */
+  timeout?: number;
+  /** The platform properties against which the run has to happen. */
+  platform: PlatformProperties;
+  /** The machine configuration of the run agent. */
+  agentConfiguration?: AgentProperties;
+  /**
+   * The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
+   * If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
+   */
+  sourceLocation?: string;
+  /** The properties that describes a set of credentials that will be used when this run is invoked. */
+  credentials?: Credentials;
+}
+
+/** The parameters for a quick task run request. */
+export interface EncodedTaskRunRequest extends RunRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "EncodedTaskRunRequest";
+  /** Base64 encoded value of the template/definition file content. */
+  encodedTaskContent: string;
+  /** Base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: SetValue[];
   /** Run timeout in seconds. */
   timeout?: number;
   /** The platform properties against which the run has to happen. */
@@ -812,29 +736,149 @@ export interface TaskRunRequest extends RunRequest {
   overrideTaskStepProperties?: OverrideTaskStepProperties;
 }
 
-/** The parameters for a quick task run request. */
-export interface EncodedTaskRunRequest extends RunRequest {
+/** The Docker build step. */
+export interface DockerBuildStep extends TaskStepProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EncodedTaskRunRequest";
+  type: "Docker";
+  /** The fully qualified image names including the repository and tag. */
+  imageNames?: string[];
+  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
+  isPushEnabled?: boolean;
+  /** The value of this property indicates whether the image cache is enabled or not. */
+  noCache?: boolean;
+  /** The Docker file path relative to the source context. */
+  dockerFilePath: string;
+  /** The name of the target build stage for the docker build. */
+  target?: string;
+  /** The collection of override arguments to be used when executing this build step. */
+  arguments?: Argument[];
+}
+
+/** The properties of a encoded task step. */
+export interface EncodedTaskStep extends TaskStepProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "EncodedTask";
   /** Base64 encoded value of the template/definition file content. */
   encodedTaskContent: string;
   /** Base64 encoded value of the parameters/values file content. */
   encodedValuesContent?: string;
   /** The collection of overridable values that can be passed when running a task. */
   values?: SetValue[];
-  /** Run timeout in seconds. */
-  timeout?: number;
+}
+
+/** The properties of a task step. */
+export interface FileTaskStep extends TaskStepProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "FileTask";
+  /** The task template/definition file path relative to the source context. */
+  taskFilePath: string;
+  /** The task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: SetValue[];
+}
+
+/** The properties for updating a docker build step. */
+export interface DockerBuildStepUpdateParameters
+  extends TaskStepUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Docker";
+  /** The fully qualified image names including the repository and tag. */
+  imageNames?: string[];
+  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
+  isPushEnabled?: boolean;
+  /** The value of this property indicates whether the image cache is enabled or not. */
+  noCache?: boolean;
+  /** The Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** The collection of override arguments to be used when executing this build step. */
+  arguments?: Argument[];
+  /** The name of the target build stage for the docker build. */
+  target?: string;
+}
+
+/** The properties for updating encoded task step. */
+export interface EncodedTaskStepUpdateParameters
+  extends TaskStepUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "EncodedTask";
+  /** Base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** Base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: SetValue[];
+}
+
+/** The properties of updating a task step. */
+export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "FileTask";
+  /** The task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** The values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: SetValue[];
+}
+
+/**
+ * The agentpool that has the ARM resource and properties.
+ * The agentpool will have all information to create an agent pool.
+ */
+export interface AgentPool extends TrackedResource {
+  /** The count of agent machine */
+  count?: number;
+  /** The Tier of agent machine */
+  tier?: string;
+  /** The OS of agent machine */
+  os?: OS;
+  /** The Virtual Network Subnet Resource Id of the agent machine */
+  virtualNetworkSubnetResourceId?: string;
+  /**
+   * The provisioning state of this agent pool
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * The task that has the ARM resource and task properties.
+ * The task will have all information to schedule a run against it.
+ */
+export interface Task extends TrackedResource {
+  /** Identity for the resource. */
+  identity?: IdentityProperties;
+  /**
+   * The provisioning state of the task.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The creation date of task.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationDate?: Date;
+  /** The current status of task. */
+  status?: TaskStatus;
   /** The platform properties against which the run has to happen. */
-  platform: PlatformProperties;
+  platform?: PlatformProperties;
   /** The machine configuration of the run agent. */
   agentConfiguration?: AgentProperties;
-  /**
-   * The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository.
-   * If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API.
-   */
-  sourceLocation?: string;
+  /** The dedicated agent pool for the task. */
+  agentPoolName?: string;
+  /** Run timeout in seconds. */
+  timeout?: number;
+  /** The properties of a task step. */
+  step?: TaskStepPropertiesUnion;
+  /** The properties that describe all triggers for the task. */
+  trigger?: TriggerProperties;
   /** The properties that describes a set of credentials that will be used when this run is invoked. */
   credentials?: Credentials;
+  /** The template that describes the repository and tag information for run log artifact. */
+  logTemplate?: string;
+  /** The value of this property indicates whether the task resource is system task or not. */
+  isSystemTask?: boolean;
 }
 
 /** Run resource properties */
@@ -916,115 +960,44 @@ export interface TaskRun extends ProxyResource {
   forceUpdateTag?: string;
 }
 
-/** The Docker build step. */
-export interface DockerBuildStep extends TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker";
-  /** The fully qualified image names including the repository and tag. */
-  imageNames?: string[];
-  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
-  isPushEnabled?: boolean;
-  /** The value of this property indicates whether the image cache is enabled or not. */
-  noCache?: boolean;
-  /** The Docker file path relative to the source context. */
-  dockerFilePath: string;
-  /** The name of the target build stage for the docker build. */
-  target?: string;
-  /** The collection of override arguments to be used when executing this build step. */
-  arguments?: Argument[];
-}
-
-/** The properties of a task step. */
-export interface FileTaskStep extends TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FileTask";
-  /** The task template/definition file path relative to the source context. */
-  taskFilePath: string;
-  /** The task values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** The properties of a encoded task step. */
-export interface EncodedTaskStep extends TaskStepProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EncodedTask";
-  /** Base64 encoded value of the template/definition file content. */
-  encodedTaskContent: string;
-  /** Base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** The properties for updating a docker build step. */
-export interface DockerBuildStepUpdateParameters
-  extends TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Docker";
-  /** The fully qualified image names including the repository and tag. */
-  imageNames?: string[];
-  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
-  isPushEnabled?: boolean;
-  /** The value of this property indicates whether the image cache is enabled or not. */
-  noCache?: boolean;
-  /** The Docker file path relative to the source context. */
-  dockerFilePath?: string;
-  /** The collection of override arguments to be used when executing this build step. */
-  arguments?: Argument[];
-  /** The name of the target build stage for the docker build. */
-  target?: string;
-}
-
-/** The properties of updating a task step. */
-export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FileTask";
-  /** The task template/definition file path relative to the source context. */
-  taskFilePath?: string;
-  /** The values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
-/** The properties for updating encoded task step. */
-export interface EncodedTaskStepUpdateParameters
-  extends TaskStepUpdateParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EncodedTask";
-  /** Base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string;
-  /** Base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
-  /** The collection of overridable values that can be passed when running a task. */
-  values?: SetValue[];
-}
-
 /** Defines headers for AgentPools_create operation. */
 export interface AgentPoolsCreateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-}
-
-/** Defines headers for AgentPools_delete operation. */
-export interface AgentPoolsDeleteHeaders {
-  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AgentPools_update operation. */
 export interface AgentPoolsUpdateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AgentPools_delete operation. */
+export interface AgentPoolsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for TaskRuns_create operation. */
 export interface TaskRunsCreateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for TaskRuns_update operation. */
 export interface TaskRunsUpdateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link OS} that the service accepts. */
@@ -1098,30 +1071,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-
-/** Known values of {@link LastModifiedByType} that the service accepts. */
-export enum KnownLastModifiedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for LastModifiedByType. \
- * {@link KnownLastModifiedByType} can be used interchangeably with LastModifiedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type LastModifiedByType = string;
 
 /** Known values of {@link RunStatus} that the service accepts. */
 export enum KnownRunStatus {
@@ -1439,6 +1388,13 @@ export type ResourceIdentityType =
   | "None";
 
 /** Optional parameters. */
+export interface AgentPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AgentPoolsListResponse = AgentPoolListResult;
+
+/** Optional parameters. */
 export interface AgentPoolsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1458,18 +1414,6 @@ export interface AgentPoolsCreateOptionalParams
 export type AgentPoolsCreateResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
-
-/** Optional parameters. */
 export interface AgentPoolsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1482,11 +1426,16 @@ export interface AgentPoolsUpdateOptionalParams
 export type AgentPoolsUpdateResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AgentPoolsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/** Contains response data for the list operation. */
-export type AgentPoolsListResponse = AgentPoolListResult;
+/** Contains response data for the delete operation. */
+export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
 
 /** Optional parameters. */
 export interface AgentPoolsGetQueueStatusOptionalParams
@@ -1503,18 +1452,18 @@ export interface AgentPoolsListNextOptionalParams
 export type AgentPoolsListNextResponse = AgentPoolListResult;
 
 /** Optional parameters. */
-export interface RegistriesScheduleRunOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the scheduleRun operation. */
-export type RegistriesScheduleRunResponse = Run;
-
-/** Optional parameters. */
 export interface RegistriesGetBuildSourceUploadUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBuildSourceUploadUrl operation. */
 export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition;
+
+/** Optional parameters. */
+export interface RegistriesScheduleRunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the scheduleRun operation. */
+export type RegistriesScheduleRunResponse = Run;
 
 /** Optional parameters. */
 export interface RunsListOptionalParams extends coreClient.OperationOptions {
@@ -1540,6 +1489,9 @@ export interface RunsUpdateOptionalParams extends coreClient.OperationOptions {}
 export type RunsUpdateResponse = Run;
 
 /** Optional parameters. */
+export interface RunsCancelOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface RunsGetLogSasUrlOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1547,14 +1499,18 @@ export interface RunsGetLogSasUrlOptionalParams
 export type RunsGetLogSasUrlResponse = RunGetLogResult;
 
 /** Optional parameters. */
-export interface RunsCancelOptionalParams extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface RunsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RunsListNextResponse = RunListResult;
+
+/** Optional parameters. */
+export interface TaskRunsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TaskRunsListResponse = TaskRunListResult;
 
 /** Optional parameters. */
 export interface TaskRunsGetOptionalParams
@@ -1576,10 +1532,6 @@ export interface TaskRunsCreateOptionalParams
 export type TaskRunsCreateResponse = TaskRun;
 
 /** Optional parameters. */
-export interface TaskRunsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface TaskRunsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1592,18 +1544,15 @@ export interface TaskRunsUpdateOptionalParams
 export type TaskRunsUpdateResponse = TaskRun;
 
 /** Optional parameters. */
+export interface TaskRunsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface TaskRunsGetDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetails operation. */
 export type TaskRunsGetDetailsResponse = TaskRun;
-
-/** Optional parameters. */
-export interface TaskRunsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TaskRunsListResponse = TaskRunListResult;
 
 /** Optional parameters. */
 export interface TaskRunsListNextOptionalParams
@@ -1632,15 +1581,15 @@ export interface TasksCreateOptionalParams
 export type TasksCreateResponse = Task;
 
 /** Optional parameters. */
-export interface TasksDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface TasksUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type TasksUpdateResponse = Task;
+
+/** Optional parameters. */
+export interface TasksDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TasksGetDetailsOptionalParams
@@ -1657,7 +1606,7 @@ export interface TasksListNextOptionalParams
 export type TasksListNextResponse = TaskListResult;
 
 /** Optional parameters. */
-export interface ContainerRegistryManagementClientOptionalParams
+export interface ContainerRegistryTasksManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

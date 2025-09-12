@@ -13,15 +13,15 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ArchivesImpl,
-  ArchiveVersionsImpl,
+  OperationsImpl,
+  RegistriesImpl,
   CacheRulesImpl,
   ConnectedRegistriesImpl,
   CredentialSetsImpl,
   ExportPipelinesImpl,
-  RegistriesImpl,
   ImportPipelinesImpl,
-  OperationsImpl,
+  ArchivesImpl,
+  ArchiveVersionsImpl,
   PipelineRunsImpl,
   PrivateEndpointConnectionsImpl,
   ReplicationsImpl,
@@ -30,15 +30,15 @@ import {
   WebhooksImpl,
 } from "./operations/index.js";
 import {
-  Archives,
-  ArchiveVersions,
+  Operations,
+  Registries,
   CacheRules,
   ConnectedRegistries,
   CredentialSets,
   ExportPipelines,
-  Registries,
   ImportPipelines,
-  Operations,
+  Archives,
+  ArchiveVersions,
   PipelineRuns,
   PrivateEndpointConnections,
   Replications,
@@ -135,15 +135,15 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2025-05-01-preview";
-    this.archives = new ArchivesImpl(this);
-    this.archiveVersions = new ArchiveVersionsImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.registries = new RegistriesImpl(this);
     this.cacheRules = new CacheRulesImpl(this);
     this.connectedRegistries = new ConnectedRegistriesImpl(this);
     this.credentialSets = new CredentialSetsImpl(this);
     this.exportPipelines = new ExportPipelinesImpl(this);
-    this.registries = new RegistriesImpl(this);
     this.importPipelines = new ImportPipelinesImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.archives = new ArchivesImpl(this);
+    this.archiveVersions = new ArchiveVersionsImpl(this);
     this.pipelineRuns = new PipelineRunsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.replications = new ReplicationsImpl(this);
@@ -181,15 +181,15 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  archives: Archives;
-  archiveVersions: ArchiveVersions;
+  operations: Operations;
+  registries: Registries;
   cacheRules: CacheRules;
   connectedRegistries: ConnectedRegistries;
   credentialSets: CredentialSets;
   exportPipelines: ExportPipelines;
-  registries: Registries;
   importPipelines: ImportPipelines;
-  operations: Operations;
+  archives: Archives;
+  archiveVersions: ArchiveVersions;
   pipelineRuns: PipelineRuns;
   privateEndpointConnections: PrivateEndpointConnections;
   replications: Replications;

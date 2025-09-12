@@ -25,12 +25,6 @@ export interface ActivationProperties {
 export type ActivationStatus = string;
 
 // @public
-export interface ActiveDirectoryObject {
-    objectId?: string;
-    tenantId?: string;
-}
-
-// @public
 export interface Actor {
     name?: string;
 }
@@ -80,8 +74,8 @@ export interface Archives {
 
 // @public
 export interface ArchivesCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -95,8 +89,8 @@ export type ArchivesCreateResponse = Archive;
 
 // @public
 export interface ArchivesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -165,8 +159,8 @@ export interface ArchiveVersions {
 
 // @public
 export interface ArchiveVersionsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -180,8 +174,8 @@ export type ArchiveVersionsCreateResponse = ArchiveVersion;
 
 // @public
 export interface ArchiveVersionsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -259,8 +253,8 @@ export interface CacheRules {
 
 // @public
 export interface CacheRulesCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -274,8 +268,8 @@ export type CacheRulesCreateResponse = CacheRule;
 
 // @public
 export interface CacheRulesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -316,8 +310,8 @@ export interface CacheRulesListResult {
 
 // @public
 export interface CacheRulesUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -361,8 +355,8 @@ export interface ConnectedRegistries {
 
 // @public
 export interface ConnectedRegistriesCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -376,8 +370,8 @@ export type ConnectedRegistriesCreateResponse = ConnectedRegistry;
 
 // @public
 export interface ConnectedRegistriesDeactivateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -388,8 +382,8 @@ export interface ConnectedRegistriesDeactivateOptionalParams extends coreClient.
 
 // @public
 export interface ConnectedRegistriesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -422,8 +416,8 @@ export type ConnectedRegistriesListResponse = ConnectedRegistryListResult;
 
 // @public
 export interface ConnectedRegistriesUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -569,8 +563,8 @@ export interface CredentialSets {
 
 // @public
 export interface CredentialSetsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -584,8 +578,8 @@ export type CredentialSetsCreateResponse = CredentialSet;
 
 // @public
 export interface CredentialSetsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -620,8 +614,8 @@ export type CredentialSetsListResponse = CredentialSetListResult;
 
 // @public
 export interface CredentialSetsUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -759,8 +753,8 @@ export interface ExportPipelines {
 
 // @public
 export interface ExportPipelinesCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -774,8 +768,8 @@ export type ExportPipelinesCreateResponse = ExportPipeline;
 
 // @public
 export interface ExportPipelinesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -891,8 +885,8 @@ export interface ImportPipelines {
 
 // @public
 export interface ImportPipelinesCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -906,8 +900,8 @@ export type ImportPipelinesCreateResponse = ImportPipeline;
 
 // @public
 export interface ImportPipelinesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1084,14 +1078,6 @@ export enum KnownImportMode {
 }
 
 // @public
-export enum KnownLastModifiedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownLogLevel {
     Debug = "Debug",
     Error = "Error",
@@ -1247,9 +1233,6 @@ export enum KnownZoneRedundancy {
 }
 
 // @public
-export type LastModifiedByType = string;
-
-// @public
 export interface LoggingProperties {
     auditLogStatus?: AuditLogStatus;
     logLevel?: LogLevel;
@@ -1345,12 +1328,6 @@ export type OperationsListResponse = OperationListResult;
 export type PackageSourceType = string;
 
 // @public
-export interface PackageType {
-    readonly endpoint?: string;
-    name?: string;
-}
-
-// @public
 export interface ParentProperties {
     id?: string;
     syncProperties: SyncProperties;
@@ -1411,8 +1388,8 @@ export interface PipelineRuns {
 
 // @public
 export interface PipelineRunsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1426,8 +1403,8 @@ export type PipelineRunsCreateResponse = PipelineRun;
 
 // @public
 export interface PipelineRunsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1541,8 +1518,8 @@ export interface PrivateEndpointConnections {
 
 // @public
 export interface PrivateEndpointConnectionsCreateOrUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1556,8 +1533,8 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointCo
 
 // @public
 export interface PrivateEndpointConnectionsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1588,13 +1565,10 @@ export interface PrivateEndpointConnectionsListOptionalParams extends coreClient
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
-export interface PrivateLinkResource {
+export interface PrivateLinkResource extends ProxyResource {
     groupId?: string;
-    id?: string;
-    name?: string;
     requiredMembers?: string[];
     requiredZoneNames?: string[];
-    readonly type?: string;
 }
 
 // @public
@@ -1619,11 +1593,7 @@ export interface ProgressProperties {
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1671,8 +1641,8 @@ export type RegistriesCheckNameAvailabilityResponse = RegistryNameStatus;
 
 // @public
 export interface RegistriesCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1686,8 +1656,8 @@ export type RegistriesCreateResponse = Registry;
 
 // @public
 export interface RegistriesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1698,8 +1668,8 @@ export interface RegistriesDeleteOptionalParams extends coreClient.OperationOpti
 
 // @public
 export interface RegistriesGenerateCredentialsHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1727,8 +1697,8 @@ export type RegistriesGetResponse = Registry;
 
 // @public
 export interface RegistriesImportImageHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1802,8 +1772,8 @@ export type RegistriesRegenerateCredentialResponse = RegistryListCredentialsResu
 
 // @public
 export interface RegistriesUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1816,7 +1786,7 @@ export interface RegistriesUpdateOptionalParams extends coreClient.OperationOpti
 export type RegistriesUpdateResponse = Registry;
 
 // @public
-export interface Registry extends Resource {
+export interface Registry extends TrackedResource {
     adminUserEnabled?: boolean;
     anonymousPullEnabled?: boolean;
     autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
@@ -1911,7 +1881,7 @@ export interface RegistryUsageListResult {
 export type RegistryUsageUnit = string;
 
 // @public
-export interface Replication extends Resource {
+export interface Replication extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     regionEndpointEnabled?: boolean;
     readonly status?: Status;
@@ -1938,8 +1908,8 @@ export interface Replications {
 
 // @public
 export interface ReplicationsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1953,8 +1923,8 @@ export type ReplicationsCreateResponse = Replication;
 
 // @public
 export interface ReplicationsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1986,8 +1956,8 @@ export type ReplicationsListResponse = ReplicationListResult;
 
 // @public
 export interface ReplicationsUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2020,12 +1990,8 @@ export { Request_2 as Request }
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -2071,8 +2037,8 @@ export interface ScopeMaps {
 
 // @public
 export interface ScopeMapsCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2086,8 +2052,8 @@ export type ScopeMapsCreateResponse = ScopeMap;
 
 // @public
 export interface ScopeMapsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2119,8 +2085,8 @@ export type ScopeMapsListResponse = ScopeMapListResult;
 
 // @public
 export interface ScopeMapsUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2180,11 +2146,6 @@ export interface StatusDetailProperties {
 }
 
 // @public
-export interface StorageAccountProperties {
-    id: string;
-}
-
-// @public
 export interface SyncProperties {
     readonly gatewayEndpoint?: string;
     readonly lastSyncTime?: Date;
@@ -2208,7 +2169,7 @@ export interface SystemData {
     createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: LastModifiedByType;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -2299,8 +2260,8 @@ export interface Tokens {
 
 // @public
 export interface TokensCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2314,8 +2275,8 @@ export type TokensCreateResponse = Token;
 
 // @public
 export interface TokensDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2350,8 +2311,8 @@ export type TokenStatus = string;
 
 // @public
 export interface TokensUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2368,6 +2329,14 @@ export interface TokenUpdateParameters {
     credentials?: TokenCredentialsProperties;
     scopeMapId?: string;
     status?: TokenStatus;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -2389,7 +2358,7 @@ export interface UserIdentityProperties {
 }
 
 // @public
-export interface Webhook extends Resource {
+export interface Webhook extends TrackedResource {
     actions?: WebhookAction[];
     readonly provisioningState?: ProvisioningState;
     scope?: string;
@@ -2437,8 +2406,8 @@ export interface Webhooks {
 
 // @public
 export interface WebhooksCreateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2452,8 +2421,8 @@ export type WebhooksCreateResponse = Webhook;
 
 // @public
 export interface WebhooksDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2516,8 +2485,8 @@ export type WebhookStatus = string;
 
 // @public
 export interface WebhooksUpdateHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public

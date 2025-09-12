@@ -12,8 +12,6 @@ import {
   RegistriesListByResourceGroupOptionalParams,
   PrivateLinkResource,
   RegistriesListPrivateLinkResourcesOptionalParams,
-  ImportImageParameters,
-  RegistriesImportImageOptionalParams,
   RegistryNameCheckRequest,
   RegistriesCheckNameAvailabilityOptionalParams,
   RegistriesCheckNameAvailabilityResponse,
@@ -21,22 +19,24 @@ import {
   RegistriesGetResponse,
   RegistriesCreateOptionalParams,
   RegistriesCreateResponse,
-  RegistriesDeleteOptionalParams,
   RegistryUpdateParameters,
   RegistriesUpdateOptionalParams,
   RegistriesUpdateResponse,
+  RegistriesDeleteOptionalParams,
+  GenerateCredentialsParameters,
+  RegistriesGenerateCredentialsOptionalParams,
+  RegistriesGenerateCredentialsResponse,
+  ImportImageParameters,
+  RegistriesImportImageOptionalParams,
+  RegistriesListCredentialsOptionalParams,
+  RegistriesListCredentialsResponse,
   RegistriesListUsagesOptionalParams,
   RegistriesListUsagesResponse,
   RegistriesGetPrivateLinkResourceOptionalParams,
   RegistriesGetPrivateLinkResourceResponse,
-  RegistriesListCredentialsOptionalParams,
-  RegistriesListCredentialsResponse,
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
-  GenerateCredentialsParameters,
-  RegistriesGenerateCredentialsOptionalParams,
-  RegistriesGenerateCredentialsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,35 +70,9 @@ export interface Registries {
     options?: RegistriesListPrivateLinkResourcesOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
-   * Copies an image to this container registry from the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param parameters The parameters specifying the image to copy and the source container registry.
-   * @param options The options parameters.
-   */
-  beginImportImage(
-    resourceGroupName: string,
-    registryName: string,
-    parameters: ImportImageParameters,
-    options?: RegistriesImportImageOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Copies an image to this container registry from the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param parameters The parameters specifying the image to copy and the source container registry.
-   * @param options The options parameters.
-   */
-  beginImportImageAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    parameters: ImportImageParameters,
-    options?: RegistriesImportImageOptionalParams,
-  ): Promise<void>;
-  /**
    * Checks whether the container registry name is available for use. The name must contain only
    * alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
-   * @param registryNameCheckRequest The object containing information for the availability request.
+   * @param registryNameCheckRequest The request body
    * @param options The options parameters.
    */
   checkNameAvailability(
@@ -148,28 +122,6 @@ export interface Registries {
     options?: RegistriesCreateOptionalParams,
   ): Promise<RegistriesCreateResponse>;
   /**
-   * Deletes a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    options?: RegistriesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    options?: RegistriesDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Updates a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -201,54 +153,27 @@ export interface Registries {
     options?: RegistriesUpdateOptionalParams,
   ): Promise<RegistriesUpdateResponse>;
   /**
-   * Gets the quota usages for the specified container registry.
+   * Deletes a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
-  listUsages(
+  beginDelete(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListUsagesOptionalParams,
-  ): Promise<RegistriesListUsagesResponse>;
+    options?: RegistriesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Gets a private link resource by a specified group name for a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param groupName The name of the private link resource.
-   * @param options The options parameters.
-   */
-  getPrivateLinkResource(
-    resourceGroupName: string,
-    registryName: string,
-    groupName: string,
-    options?: RegistriesGetPrivateLinkResourceOptionalParams,
-  ): Promise<RegistriesGetPrivateLinkResourceResponse>;
-  /**
-   * Lists the login credentials for the specified container registry.
+   * Deletes a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
-  listCredentials(
+  beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListCredentialsOptionalParams,
-  ): Promise<RegistriesListCredentialsResponse>;
-  /**
-   * Regenerates one of the login credentials for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param regenerateCredentialParameters Specifies name of the password which should be regenerated --
-   *                                       password or password2.
-   * @param options The options parameters.
-   */
-  regenerateCredential(
-    resourceGroupName: string,
-    registryName: string,
-    regenerateCredentialParameters: RegenerateCredentialParameters,
-    options?: RegistriesRegenerateCredentialOptionalParams,
-  ): Promise<RegistriesRegenerateCredentialResponse>;
+    options?: RegistriesDeleteOptionalParams,
+  ): Promise<void>;
   /**
    * Generate keys for a token of a specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -280,4 +205,79 @@ export interface Registries {
     generateCredentialsParameters: GenerateCredentialsParameters,
     options?: RegistriesGenerateCredentialsOptionalParams,
   ): Promise<RegistriesGenerateCredentialsResponse>;
+  /**
+   * Copies an image to this container registry from the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param parameters The parameters specifying the image to copy and the source container registry.
+   * @param options The options parameters.
+   */
+  beginImportImage(
+    resourceGroupName: string,
+    registryName: string,
+    parameters: ImportImageParameters,
+    options?: RegistriesImportImageOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Copies an image to this container registry from the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param parameters The parameters specifying the image to copy and the source container registry.
+   * @param options The options parameters.
+   */
+  beginImportImageAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    parameters: ImportImageParameters,
+    options?: RegistriesImportImageOptionalParams,
+  ): Promise<void>;
+  /**
+   * Lists the login credentials for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  listCredentials(
+    resourceGroupName: string,
+    registryName: string,
+    options?: RegistriesListCredentialsOptionalParams,
+  ): Promise<RegistriesListCredentialsResponse>;
+  /**
+   * Gets the quota usages for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  listUsages(
+    resourceGroupName: string,
+    registryName: string,
+    options?: RegistriesListUsagesOptionalParams,
+  ): Promise<RegistriesListUsagesResponse>;
+  /**
+   * Gets a private link resource by a specified group name for a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param groupName The name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    registryName: string,
+    groupName: string,
+    options?: RegistriesGetPrivateLinkResourceOptionalParams,
+  ): Promise<RegistriesGetPrivateLinkResourceResponse>;
+  /**
+   * Regenerates one of the login credentials for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param regenerateCredentialParameters Specifies name of the password which should be regenerated --
+   *                                       password or password2.
+   * @param options The options parameters.
+   */
+  regenerateCredential(
+    resourceGroupName: string,
+    registryName: string,
+    regenerateCredentialParameters: RegenerateCredentialParameters,
+    options?: RegistriesRegenerateCredentialOptionalParams,
+  ): Promise<RegistriesRegenerateCredentialResponse>;
 }

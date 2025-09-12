@@ -26,11 +26,11 @@ import {
   CacheRulesGetResponse,
   CacheRulesCreateOptionalParams,
   CacheRulesCreateResponse,
-  CacheRulesDeleteOptionalParams,
-  CacheRulesDeleteResponse,
   CacheRuleUpdateParameters,
   CacheRulesUpdateOptionalParams,
   CacheRulesUpdateResponse,
+  CacheRulesDeleteOptionalParams,
+  CacheRulesDeleteResponse,
   CacheRulesListNextResponse,
 } from "../models/index.js";
 
@@ -266,101 +266,6 @@ export class CacheRulesImpl implements CacheRules {
   }
 
   /**
-   * Deletes a cache rule resource from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param cacheRuleName The name of the cache rule.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    cacheRuleName: string,
-    options?: CacheRulesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesDeleteResponse>,
-      CacheRulesDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<CacheRulesDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, cacheRuleName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      CacheRulesDeleteResponse,
-      OperationState<CacheRulesDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a cache rule resource from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param cacheRuleName The name of the cache rule.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    cacheRuleName: string,
-    options?: CacheRulesDeleteOptionalParams,
-  ): Promise<CacheRulesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      cacheRuleName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Updates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -467,6 +372,101 @@ export class CacheRulesImpl implements CacheRules {
   }
 
   /**
+   * Deletes a cache rule resource from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param cacheRuleName The name of the cache rule.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CacheRulesDeleteResponse>,
+      CacheRulesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<CacheRulesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, cacheRuleName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CacheRulesDeleteResponse,
+      OperationState<CacheRulesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a cache rule resource from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param cacheRuleName The name of the cache rule.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    cacheRuleName: string,
+    options?: CacheRulesDeleteOptionalParams,
+  ): Promise<CacheRulesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      registryName,
+      cacheRuleName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -564,37 +564,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.cacheRuleName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PATCH",
@@ -628,6 +597,37 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.cacheRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -641,10 +641,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

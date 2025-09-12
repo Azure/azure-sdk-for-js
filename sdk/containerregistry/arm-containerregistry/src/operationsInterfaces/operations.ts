@@ -14,7 +14,7 @@ import {
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all of the available Azure Container Registry REST API operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(

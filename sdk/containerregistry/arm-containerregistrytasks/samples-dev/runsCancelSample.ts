@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistrytasks";
+import { ContainerRegistryTasksManagementClient } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,7 +20,7 @@ async function runsCancel(): Promise<void> {
   const registryName = "myRegistry";
   const runId = "0accec26-d6de-4757-8e74-d080f38eaaab";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

@@ -3,7 +3,7 @@
 
 import {
   AgentPoolUpdateParameters,
-  ContainerRegistryManagementClient,
+  ContainerRegistryTasksManagementClient,
 } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,7 +24,7 @@ async function agentPoolsUpdate(): Promise<void> {
   const agentPoolName = "myAgentPool";
   const updateParameters: AgentPoolUpdateParameters = { count: 1 };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

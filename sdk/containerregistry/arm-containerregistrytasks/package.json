@@ -2,7 +2,7 @@
   "name": "@azure/arm-containerregistrytasks",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for ContainerRegistryManagementClient.",
+  "description": "A generated SDK for ContainerRegistryTasksManagementClient.",
   "version": "1.0.0-beta.1",
   "engines": {
     "node": ">=20.0.0"
@@ -73,7 +73,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/containerRegistryManagementClient.ts",
+        "path": "src/containerRegistryTasksManagementClient.ts",
         "prefix": "packageDetails"
       }
     ]

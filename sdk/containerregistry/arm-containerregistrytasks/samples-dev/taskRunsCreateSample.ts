@@ -3,7 +3,7 @@
 
 import {
   TaskRun,
-  ContainerRegistryManagementClient,
+  ContainerRegistryTasksManagementClient,
 } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -36,7 +36,7 @@ async function taskRunsCreate(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

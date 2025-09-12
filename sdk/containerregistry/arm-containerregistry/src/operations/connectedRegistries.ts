@@ -124,6 +124,23 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   }
 
   /**
+   * Lists all connected registries for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: ConnectedRegistriesListOptionalParams,
+  ): Promise<ConnectedRegistriesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Gets the properties of the connected registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -442,23 +459,6 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   }
 
   /**
-   * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: ConnectedRegistriesListOptionalParams,
-  ): Promise<ConnectedRegistriesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * Deactivates the connected registry instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -567,6 +567,27 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectedRegistryListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "GET",
@@ -678,27 +699,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectedRegistryListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deactivateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}/deactivate",
   httpMethod: "POST",
@@ -735,10 +735,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

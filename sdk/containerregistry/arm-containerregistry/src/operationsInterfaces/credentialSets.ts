@@ -13,11 +13,11 @@ import {
   CredentialSetsGetResponse,
   CredentialSetsCreateOptionalParams,
   CredentialSetsCreateResponse,
-  CredentialSetsDeleteOptionalParams,
-  CredentialSetsDeleteResponse,
   CredentialSetUpdateParameters,
   CredentialSetsUpdateOptionalParams,
   CredentialSetsUpdateResponse,
+  CredentialSetsDeleteOptionalParams,
+  CredentialSetsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -83,37 +83,6 @@ export interface CredentialSets {
     options?: CredentialSetsCreateOptionalParams,
   ): Promise<CredentialSetsCreateResponse>;
   /**
-   * Deletes a credential set from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param credentialSetName The name of the credential set.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsDeleteResponse>,
-      CredentialSetsDeleteResponse
-    >
-  >;
-  /**
-   * Deletes a credential set from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param credentialSetName The name of the credential set.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams,
-  ): Promise<CredentialSetsDeleteResponse>;
-  /**
    * Updates a credential set for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -148,4 +117,35 @@ export interface CredentialSets {
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
     options?: CredentialSetsUpdateOptionalParams,
   ): Promise<CredentialSetsUpdateResponse>;
+  /**
+   * Deletes a credential set from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param credentialSetName The name of the credential set.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    credentialSetName: string,
+    options?: CredentialSetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CredentialSetsDeleteResponse>,
+      CredentialSetsDeleteResponse
+    >
+  >;
+  /**
+   * Deletes a credential set from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param credentialSetName The name of the credential set.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    credentialSetName: string,
+    options?: CredentialSetsDeleteOptionalParams,
+  ): Promise<CredentialSetsDeleteResponse>;
 }

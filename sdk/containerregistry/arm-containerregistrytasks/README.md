@@ -1,8 +1,8 @@
-# Azure ContainerRegistryManagement client library for JavaScript
+# Azure ContainerRegistryTasksManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ContainerRegistryManagement client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ContainerRegistryTasksManagement client.
 
-
+The Microsoft Azure Container Registry management API provides create, read, update, and delete functionality for Azure Container Registry resources including registries, replications, webhooks, tasks, runs, and other registry components.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistrytasks) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-containerregistrytasks) |
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-containerregistrytasks` package
 
-Install the Azure ContainerRegistryManagement client library for JavaScript with `npm`:
+Install the Azure ContainerRegistryTasksManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-containerregistrytasks
 ```
 
-### Create and authenticate a `ContainerRegistryManagementClient`
+### Create and authenticate a `ContainerRegistryTasksManagementClient`
 
-To create a client object to access the Azure ContainerRegistryManagement API, you will need the `endpoint` of your Azure ContainerRegistryManagement resource and a `credential`. The Azure ContainerRegistryManagement client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure ContainerRegistryManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure ContainerRegistryTasksManagement API, you will need the `endpoint` of your Azure ContainerRegistryTasksManagement resource and a `credential`. The Azure ContainerRegistryTasksManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure ContainerRegistryTasksManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,32 +43,35 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure ContainerRegistryManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure ContainerRegistryTasksManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistrytasks";
+import { ContainerRegistryTasksManagementClient } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ContainerRegistryManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ContainerRegistryTasksManagementClient(
+  new DefaultAzureCredential(),
+  subscriptionId,
+);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistrytasks";
+import { ContainerRegistryTasksManagementClient } from "@azure/arm-containerregistrytasks";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+const client = new ContainerRegistryTasksManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
@@ -76,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### ContainerRegistryManagementClient
+### ContainerRegistryTasksManagementClient
 
-`ContainerRegistryManagementClient` is the primary interface for developers using the Azure ContainerRegistryManagement client library. Explore the methods on this client object to understand the different features of the Azure ContainerRegistryManagement service that you can access.
+`ContainerRegistryTasksManagementClient` is the primary interface for developers using the Azure ContainerRegistryTasksManagement client library. Explore the methods on this client object to understand the different features of the Azure ContainerRegistryTasksManagement service that you can access.
 
 ## Troubleshooting
 

@@ -6,9 +6,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all of the available Azure Container Registry REST API operations.
+ * This sample demonstrates how to List the operations for the provider
  *
- * @summary Lists all of the available Azure Container Registry REST API operations.
+ * @summary List the operations for the provider
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/OperationList.json
  */
 async function operationList(): Promise<void> {

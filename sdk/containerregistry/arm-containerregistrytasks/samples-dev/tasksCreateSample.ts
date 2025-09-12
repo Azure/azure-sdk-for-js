@@ -3,7 +3,7 @@
 
 import {
   Task,
-  ContainerRegistryManagementClient,
+  ContainerRegistryTasksManagementClient,
 } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -70,7 +70,7 @@ async function tasksCreate(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -106,7 +106,7 @@ async function tasksCreateQuickTask(): Promise<void> {
     tags: { testkey: "value" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -180,7 +180,7 @@ async function tasksCreateWithLoginIdentity(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -261,7 +261,7 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -344,7 +344,7 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );
@@ -417,7 +417,7 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> 
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

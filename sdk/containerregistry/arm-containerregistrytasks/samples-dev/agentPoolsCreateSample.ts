@@ -3,7 +3,7 @@
 
 import {
   AgentPool,
-  ContainerRegistryManagementClient,
+  ContainerRegistryTasksManagementClient,
 } from "@azure/arm-containerregistrytasks";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -30,7 +30,7 @@ async function agentPoolsCreate(): Promise<void> {
     tier: "S1",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
+  const client = new ContainerRegistryTasksManagementClient(
     credential,
     subscriptionId,
   );

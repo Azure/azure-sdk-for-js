@@ -26,11 +26,11 @@ import {
   CredentialSetsGetResponse,
   CredentialSetsCreateOptionalParams,
   CredentialSetsCreateResponse,
-  CredentialSetsDeleteOptionalParams,
-  CredentialSetsDeleteResponse,
   CredentialSetUpdateParameters,
   CredentialSetsUpdateOptionalParams,
   CredentialSetsUpdateResponse,
+  CredentialSetsDeleteOptionalParams,
+  CredentialSetsDeleteResponse,
   CredentialSetsListNextResponse,
 } from "../models/index.js";
 
@@ -266,101 +266,6 @@ export class CredentialSetsImpl implements CredentialSets {
   }
 
   /**
-   * Deletes a credential set from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param credentialSetName The name of the credential set.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsDeleteResponse>,
-      CredentialSetsDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<CredentialSetsDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, credentialSetName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      CredentialSetsDeleteResponse,
-      OperationState<CredentialSetsDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a credential set from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param credentialSetName The name of the credential set.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams,
-  ): Promise<CredentialSetsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      credentialSetName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Updates a credential set for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -467,6 +372,101 @@ export class CredentialSetsImpl implements CredentialSets {
   }
 
   /**
+   * Deletes a credential set from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param credentialSetName The name of the credential set.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    credentialSetName: string,
+    options?: CredentialSetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CredentialSetsDeleteResponse>,
+      CredentialSetsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<CredentialSetsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, credentialSetName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CredentialSetsDeleteResponse,
+      OperationState<CredentialSetsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a credential set from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param credentialSetName The name of the credential set.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    credentialSetName: string,
+    options?: CredentialSetsDeleteOptionalParams,
+  ): Promise<CredentialSetsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      registryName,
+      credentialSetName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -564,37 +564,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.credentialSetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "PATCH",
@@ -628,6 +597,37 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.credentialSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -641,10 +641,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
