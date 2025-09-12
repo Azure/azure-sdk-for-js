@@ -1,15 +1,162 @@
 # Release History
 
-## 8.2.1 (Unreleased)
+## 9.0.0 (2025-09-12)
 
 ### Features Added
+  - Added operation AccessPolicyOperations.createUpdate
+  - Added operation AccessPolicyOperations.delete
+  - Added operation AccessPolicyAssignmentOperations.createUpdate
+  - Added operation AccessPolicyAssignmentOperations.delete
+  - Added operation LinkedServerOperations.create
+  - Added operation LinkedServerOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.put
+  - Added operation RedisOperations.create
+  - Added operation RedisOperations.delete
+  - Added operation RedisOperations.exportData
+  - Added operation RedisOperations.flushCache
+  - Added operation RedisOperations.importData
+  - Added operation RedisOperations.update
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface RedisCacheAccessPolicyProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ScheduleEntries
+  - Added Interface SystemData
+  - Interface PrivateEndpointConnection has a new optional parameter properties
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface RedisCacheAccessPolicy has a new optional parameter properties
+  - Interface RedisCacheAccessPolicy has a new optional parameter systemData
+  - Interface RedisCacheAccessPolicyAssignment has a new optional parameter systemData
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter additionalProperties
+  - Interface RedisFirewallRule has a new optional parameter systemData
+  - Interface RedisLinkedServerWithProperties has a new optional parameter properties
+  - Interface RedisLinkedServerWithProperties has a new optional parameter systemData
+  - Interface RedisPatchSchedule has a new optional parameter systemData
+  - Interface RedisResource has a new optional parameter systemData
+  - Interface RedisUpdateParameters has a new optional parameter properties
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation AccessPolicy.beginCreateUpdate
+  - Removed operation AccessPolicy.beginCreateUpdateAndWait
+  - Removed operation AccessPolicy.beginDelete
+  - Removed operation AccessPolicy.beginDeleteAndWait
+  - Removed operation AccessPolicyAssignment.beginCreateUpdate
+  - Removed operation AccessPolicyAssignment.beginCreateUpdateAndWait
+  - Removed operation AccessPolicyAssignment.beginDelete
+  - Removed operation AccessPolicyAssignment.beginDeleteAndWait
+  - Removed operation LinkedServer.beginCreate
+  - Removed operation LinkedServer.beginCreateAndWait
+  - Removed operation LinkedServer.beginDelete
+  - Removed operation LinkedServer.beginDeleteAndWait
+  - Removed operation PrivateEndpointConnections.beginPut
+  - Removed operation PrivateEndpointConnections.beginPutAndWait
+  - Removed operation Redis.beginCreate
+  - Removed operation Redis.beginCreateAndWait
+  - Removed operation Redis.beginDelete
+  - Removed operation Redis.beginDeleteAndWait
+  - Removed operation Redis.beginExportData
+  - Removed operation Redis.beginExportDataAndWait
+  - Removed operation Redis.beginFlushCache
+  - Removed operation Redis.beginFlushCacheAndWait
+  - Removed operation Redis.beginImportData
+  - Removed operation Redis.beginImportDataAndWait
+  - Removed operation Redis.beginUpdate
+  - Removed operation Redis.beginUpdateAndWait
+  - Operation FirewallRules.createOrUpdate has a new signature
+  - Operation FirewallRules.get has a new signature
+  - Operation PatchSchedules.createOrUpdate has a new signature
+  - Operation PatchSchedules.get has a new signature
+  - Operation Redis.get has a new signature
+  - Removed Interface NotificationListResponse
+  - Removed Interface RedisCacheAccessPolicyAssignmentList
+  - Removed Interface RedisCacheAccessPolicyList
+  - Removed Interface RedisFirewallRuleCreateParameters
+  - Removed Interface RedisLinkedServerWithPropertiesList
+  - Interface RedisCreateParameters has a new required parameter properties
+  - Interface RedisLinkedServerCreateParameters has a new required parameter properties
+  - Interface RedisPatchSchedule has a new required parameter properties
+  - Interface RedisResource has a new required parameter properties
+  - Interface PrivateEndpointConnection no longer has parameter privateEndpoint
+  - Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection no longer has parameter provisioningState
+  - Interface RedisCacheAccessPolicy no longer has parameter permissions
+  - Interface RedisCacheAccessPolicy no longer has parameter provisioningState
+  - Interface RedisCacheAccessPolicy no longer has parameter typePropertiesType
+  - Interface RedisCreateParameters no longer has parameter disableAccessKeyAuthentication
+  - Interface RedisCreateParameters no longer has parameter enableNonSslPort
+  - Interface RedisCreateParameters no longer has parameter minimumTlsVersion
+  - Interface RedisCreateParameters no longer has parameter publicNetworkAccess
+  - Interface RedisCreateParameters no longer has parameter redisConfiguration
+  - Interface RedisCreateParameters no longer has parameter redisVersion
+  - Interface RedisCreateParameters no longer has parameter replicasPerMaster
+  - Interface RedisCreateParameters no longer has parameter replicasPerPrimary
+  - Interface RedisCreateParameters no longer has parameter shardCount
+  - Interface RedisCreateParameters no longer has parameter sku
+  - Interface RedisCreateParameters no longer has parameter staticIP
+  - Interface RedisCreateParameters no longer has parameter subnetId
+  - Interface RedisCreateParameters no longer has parameter tenantSettings
+  - Interface RedisCreateParameters no longer has parameter updateChannel
+  - Interface RedisCreateParameters no longer has parameter zonalAllocationPolicy
+  - Interface RedisLinkedServerCreateParameters no longer has parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateParameters no longer has parameter linkedRedisCacheId
+  - Interface RedisLinkedServerCreateParameters no longer has parameter linkedRedisCacheLocation
+  - Interface RedisLinkedServerCreateParameters no longer has parameter primaryHostName
+  - Interface RedisLinkedServerCreateParameters no longer has parameter serverRole
+  - Interface RedisLinkedServerWithProperties no longer has parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerWithProperties no longer has parameter linkedRedisCacheId
+  - Interface RedisLinkedServerWithProperties no longer has parameter linkedRedisCacheLocation
+  - Interface RedisLinkedServerWithProperties no longer has parameter primaryHostName
+  - Interface RedisLinkedServerWithProperties no longer has parameter provisioningState
+  - Interface RedisLinkedServerWithProperties no longer has parameter serverRole
+  - Interface RedisPatchSchedule no longer has parameter scheduleEntries
+  - Interface RedisResource no longer has parameter accessKeys
+  - Interface RedisResource no longer has parameter disableAccessKeyAuthentication
+  - Interface RedisResource no longer has parameter enableNonSslPort
+  - Interface RedisResource no longer has parameter hostName
+  - Interface RedisResource no longer has parameter instances
+  - Interface RedisResource no longer has parameter linkedServers
+  - Interface RedisResource no longer has parameter minimumTlsVersion
+  - Interface RedisResource no longer has parameter port
+  - Interface RedisResource no longer has parameter privateEndpointConnections
+  - Interface RedisResource no longer has parameter provisioningState
+  - Interface RedisResource no longer has parameter publicNetworkAccess
+  - Interface RedisResource no longer has parameter redisConfiguration
+  - Interface RedisResource no longer has parameter redisVersion
+  - Interface RedisResource no longer has parameter replicasPerMaster
+  - Interface RedisResource no longer has parameter replicasPerPrimary
+  - Interface RedisResource no longer has parameter shardCount
+  - Interface RedisResource no longer has parameter sku
+  - Interface RedisResource no longer has parameter sslPort
+  - Interface RedisResource no longer has parameter staticIP
+  - Interface RedisResource no longer has parameter subnetId
+  - Interface RedisResource no longer has parameter tenantSettings
+  - Interface RedisResource no longer has parameter updateChannel
+  - Interface RedisResource no longer has parameter zonalAllocationPolicy
+  - Interface RedisUpdateParameters no longer has parameter disableAccessKeyAuthentication
+  - Interface RedisUpdateParameters no longer has parameter enableNonSslPort
+  - Interface RedisUpdateParameters no longer has parameter minimumTlsVersion
+  - Interface RedisUpdateParameters no longer has parameter publicNetworkAccess
+  - Interface RedisUpdateParameters no longer has parameter redisConfiguration
+  - Interface RedisUpdateParameters no longer has parameter redisVersion
+  - Interface RedisUpdateParameters no longer has parameter replicasPerMaster
+  - Interface RedisUpdateParameters no longer has parameter replicasPerPrimary
+  - Interface RedisUpdateParameters no longer has parameter shardCount
+  - Interface RedisUpdateParameters no longer has parameter sku
+  - Interface RedisUpdateParameters no longer has parameter tenantSettings
+  - Interface RedisUpdateParameters no longer has parameter updateChannel
+  - Interface RedisUpdateParameters no longer has parameter zonalAllocationPolicy
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 8.2.0 (2025-01-07)
     
 ### Features Added
