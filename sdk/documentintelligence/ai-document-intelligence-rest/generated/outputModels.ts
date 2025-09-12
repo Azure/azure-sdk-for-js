@@ -880,7 +880,7 @@ export interface PagedAnalyzeBatchOperationOutput {
  */
 export interface ModelCopyAuthorizationOutput {
   /** ID of the target Azure resource where the document model should be copied to. */
-  targetResourceId: string;
+  targetResourceId: number;
   /**
    * Location of the target Azure resource where the document model should be copied
    * to.
@@ -891,7 +891,7 @@ export interface ModelCopyAuthorizationOutput {
   /** URL of the copied document model in the target account. */
   targetModelLocation: string;
   /** Token used to authorize the request. */
-  accessToken: string;
+  accessToken: number;
   /** Date/time when the access token expires. */
   expirationDateTime: string;
 }

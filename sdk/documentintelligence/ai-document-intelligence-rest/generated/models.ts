@@ -180,7 +180,7 @@ export interface AuthorizeCopyRequest {
  */
 export interface ModelCopyAuthorization {
   /** ID of the target Azure resource where the document model should be copied to. */
-  targetResourceId: string;
+  targetResourceId: number;
   /**
    * Location of the target Azure resource where the document model should be copied
    * to.
@@ -191,7 +191,7 @@ export interface ModelCopyAuthorization {
   /** URL of the copied document model in the target account. */
   targetModelLocation: string;
   /** Token used to authorize the request. */
-  accessToken: string;
+  accessToken: number;
   /** Date/time when the access token expires. */
   expirationDateTime: Date | string;
 }
