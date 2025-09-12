@@ -27,7 +27,7 @@ export default function createClient(
 ): DocumentIntelligenceClient {
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? `${endpointParam}/documentintelligence`;
-  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.1.0`;
+  const userAgentInfo = `azsdk-js-@azure-rest/ai-document-intelligence/1.1.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

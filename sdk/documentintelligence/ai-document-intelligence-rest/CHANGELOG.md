@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.1 (2025-09-12)
+
+### Features Added
+
+<!-- dev-tool snippets ignore -->
+
 ## 1.1.0 (2025-05-08)
 
 ### Features Added
@@ -261,7 +267,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
     Each page is treated as a separate document. Each empty page is kept as its own document.
 
-**Breaking Changes**
+### Breaking Changes
 
 - **prebuilt-receipt** - Currency related fields have been updated. Currency symbol ("$") and code ("USD") are returned along with the amount as shown below.
 
