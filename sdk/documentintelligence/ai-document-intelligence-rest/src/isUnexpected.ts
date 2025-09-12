@@ -24,6 +24,8 @@ import type {
   DeleteAnalyzeResultDefaultResponse,
   GetAnalyzeResultPdf200Response,
   GetAnalyzeResultPdfDefaultResponse,
+  GetAnalyzeResultPng200Response,
+  GetAnalyzeResultPngDefaultResponse,
   GetAnalyzeResultFigure200Response,
   GetAnalyzeResultFigureDefaultResponse,
   AnalyzeDocumentFromStream202Response,
@@ -89,6 +91,7 @@ const responseMap: Record<string, string[]> = {
   "GET /documentModels/{modelId}/analyzeResults/{resultId}": ["200"],
   "DELETE /documentModels/{modelId}/analyzeResults/{resultId}": ["204"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}/pdf": ["200"],
+  "GET /documentModels/{modelId}/analyzeResults/{resultId}/png": ["200"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}": ["200"],
   "GET /documentModels/{modelId}:analyze": ["200", "202"],
   "POST /documentModels/{modelId}:analyze": ["202"],
@@ -163,6 +166,9 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse,
 ): response is GetAnalyzeResultPdfDefaultResponse;
+export function isUnexpected(
+  response: GetAnalyzeResultPng200Response | GetAnalyzeResultPngDefaultResponse,
+): response is GetAnalyzeResultPngDefaultResponse;
 export function isUnexpected(
   response: GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse,
 ): response is GetAnalyzeResultFigureDefaultResponse;
@@ -277,6 +283,8 @@ export function isUnexpected(
     | DeleteAnalyzeResultDefaultResponse
     | GetAnalyzeResultPdf200Response
     | GetAnalyzeResultPdfDefaultResponse
+    | GetAnalyzeResultPng200Response
+    | GetAnalyzeResultPngDefaultResponse
     | GetAnalyzeResultFigure200Response
     | GetAnalyzeResultFigureDefaultResponse
     | AnalyzeDocumentFromStream202Response
@@ -345,6 +353,7 @@ export function isUnexpected(
   | GetAnalyzeResultDefaultResponse
   | DeleteAnalyzeResultDefaultResponse
   | GetAnalyzeResultPdfDefaultResponse
+  | GetAnalyzeResultPngDefaultResponse
   | GetAnalyzeResultFigureDefaultResponse
   | AnalyzeDocumentFromStreamDefaultResponse
   | AnalyzeDocumentDefaultResponse
