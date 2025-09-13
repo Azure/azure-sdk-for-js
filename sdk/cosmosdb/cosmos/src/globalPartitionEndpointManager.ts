@@ -313,7 +313,8 @@ export class GlobalPartitionEndpointManager {
   private isRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
   ): boolean {
-    const enablePartitionLevelCircuitBreaker = this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
+    const enablePartitionLevelCircuitBreaker =
+      this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
       this.globalEndpointManager.enablePartitionLevelFailover;
     if (!enablePartitionLevelCircuitBreaker) {
       return false;
@@ -375,7 +376,8 @@ export class GlobalPartitionEndpointManager {
    */
   private initiateCircuitBreakerFailbackLoop(): void {
     this.circuitBreakerFailbackBackgroundRefresher = startBackgroundTask(async () => {
-      const enablePartitionLevelCircuitBreaker = this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
+      const enablePartitionLevelCircuitBreaker =
+        this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
         this.globalEndpointManager.enablePartitionLevelFailover;
       if (!enablePartitionLevelCircuitBreaker) {
         return;

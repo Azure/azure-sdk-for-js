@@ -285,7 +285,7 @@ export class GlobalEndpointManager {
       if (
         unavailableLocation &&
         now - unavailableLocation.lastUnavailabilityTimestampInMs >
-        Constants.LocationUnavailableExpirationTimeInMs
+          Constants.LocationUnavailableExpirationTimeInMs
       ) {
         unavailableLocation.unavailable = false;
       }
