@@ -380,14 +380,14 @@ export class GlobalEndpointManager {
   }
 
   /**
-    * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
-    * based on the value from database account. 
-    */
+   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
+   * based on the value from database account.
+   */
   private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
     // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
     // we will override it to false.
-    if (this.enablePartitionLevelFailover == true) {
-      if (enablePerPartitionFailoverBehavior == false) {
+    if (this.enablePartitionLevelFailover === true) {
+      if (enablePerPartitionFailoverBehavior === false) {
         this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
         this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
       }
