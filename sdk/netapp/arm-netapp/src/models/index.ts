@@ -630,6 +630,8 @@ export interface CapacityPoolPatch {
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
+  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
+  customThroughputMibps?: number;
 }
 
 /** List of volume resources */
@@ -1345,6 +1347,8 @@ export interface VolumeGroupVolumeProperties {
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /**
    * Restoring
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1457,6 +1461,11 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
+  /**
+   * Space shared by short term clone volume with parent volume in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedSizeInBytes?: number;
 }
 
 /** List of Subvolumes */
@@ -1747,7 +1756,7 @@ export interface CloudErrorBody {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -1940,6 +1949,8 @@ export interface CapacityPool extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilizedThroughputMibps?: number;
+  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
+  customThroughputMibps?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
@@ -2016,6 +2027,8 @@ export interface Volume extends TrackedResource {
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /**
    * Restoring
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2128,6 +2141,11 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
+  /**
+   * Space shared by short term clone volume with parent volume in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedSizeInBytes?: number;
 }
 
 /** Snapshot policy information */
@@ -2242,6 +2260,11 @@ export interface VolumesPopulateAvailabilityZoneHeaders {
 
 /** Defines headers for Volumes_resetCifsPassword operation. */
 export interface VolumesResetCifsPasswordHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_splitCloneFromParent operation. */
+export interface VolumesSplitCloneFromParentHeaders {
   location?: string;
 }
 
@@ -2623,6 +2646,8 @@ export enum KnownServiceLevel {
   Ultra = "Ultra",
   /** Zone redundant storage service level. This will be deprecated soon. */
   StandardZRS = "StandardZRS",
+  /** Flexible service level */
+  Flexible = "Flexible",
 }
 
 /**
@@ -2633,7 +2658,8 @@ export enum KnownServiceLevel {
  * **Standard**: Standard service level \
  * **Premium**: Premium service level \
  * **Ultra**: Ultra service level \
- * **StandardZRS**: Zone redundant storage service level. This will be deprecated soon.
+ * **StandardZRS**: Zone redundant storage service level. This will be deprecated soon. \
+ * **Flexible**: Flexible service level
  */
 export type ServiceLevel = string;
 
@@ -2771,6 +2797,24 @@ export enum KnownReplicationType {
  * **CrossZoneReplication**: Cross zone replication
  */
 export type ReplicationType = string;
+
+/** Known values of {@link AcceptGrowCapacityPoolForShortTermCloneSplit} that the service accepts. */
+export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
+  /** Auto grow capacity pool for short term clone split is accepted. */
+  Accepted = "Accepted",
+  /** Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool. */
+  Declined = "Declined",
+}
+
+/**
+ * Defines values for AcceptGrowCapacityPoolForShortTermCloneSplit. \
+ * {@link KnownAcceptGrowCapacityPoolForShortTermCloneSplit} can be used interchangeably with AcceptGrowCapacityPoolForShortTermCloneSplit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: Auto grow capacity pool for short term clone split is accepted. \
+ * **Declined**: Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool.
+ */
+export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
 
 /** Known values of {@link SecurityStyle} that the service accepts. */
 export enum KnownSecurityStyle {
@@ -3052,26 +3096,23 @@ export type ProvisioningState =
   | "Succeeded";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NetAppResourceCheckNameAvailabilityResponse =
-  CheckAvailabilityResponse;
+export type NetAppResourceCheckNameAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
@@ -3081,27 +3122,24 @@ export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
 }
 
 /** Contains response data for the checkFilePathAvailability operation. */
-export type NetAppResourceCheckFilePathAvailabilityResponse =
-  CheckAvailabilityResponse;
+export type NetAppResourceCheckFilePathAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckQuotaAvailabilityOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkQuotaAvailability operation. */
-export type NetAppResourceCheckQuotaAvailabilityResponse =
-  CheckAvailabilityResponse;
+export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
-export interface NetAppResourceQueryRegionInfoOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQueryRegionInfoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryRegionInfo operation. */
 export type NetAppResourceQueryRegionInfoResponse = RegionInfo;
 
 /** Optional parameters. */
 export interface NetAppResourceQueryNetworkSiblingSetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryNetworkSiblingSet operation. */
 export type NetAppResourceQueryNetworkSiblingSetResponse = NetworkSiblingSet;
@@ -3119,93 +3157,81 @@ export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams
 export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 /** Optional parameters. */
-export interface NetAppResourceUsagesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceUsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NetAppResourceUsagesListResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface NetAppResourceUsagesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceUsagesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NetAppResourceUsagesGetResponse = UsageResult;
 
 /** Optional parameters. */
-export interface NetAppResourceUsagesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceUsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetAppResourceUsagesListNextResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface NetAppResourceQuotaLimitsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQuotaLimitsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
 
 /** Optional parameters. */
-export interface NetAppResourceQuotaLimitsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQuotaLimitsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem;
 
 /** Optional parameters. */
 export interface NetAppResourceQuotaLimitsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetAppResourceQuotaLimitsListNextResponse =
-  SubscriptionQuotaItemList;
+export type NetAppResourceQuotaLimitsListNextResponse = SubscriptionQuotaItemList;
 
 /** Optional parameters. */
-export interface NetAppResourceRegionInfosListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceRegionInfosListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NetAppResourceRegionInfosListResponse = RegionInfosList;
 
 /** Optional parameters. */
-export interface NetAppResourceRegionInfosGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceRegionInfosGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NetAppResourceRegionInfosGetResponse = RegionInfoResource;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetAppResourceRegionInfosListNextResponse = RegionInfosList;
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface AccountsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AccountsListResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccountsGetResponse = NetAppAccount;
 
 /** Optional parameters. */
-export interface AccountsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3216,8 +3242,7 @@ export interface AccountsCreateOrUpdateOptionalParams
 export type AccountsCreateOrUpdateResponse = NetAppAccount;
 
 /** Optional parameters. */
-export interface AccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3225,8 +3250,7 @@ export interface AccountsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3237,8 +3261,7 @@ export interface AccountsUpdateOptionalParams
 export type AccountsUpdateResponse = NetAppAccount;
 
 /** Optional parameters. */
-export interface AccountsRenewCredentialsOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsRenewCredentialsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3246,8 +3269,7 @@ export interface AccountsRenewCredentialsOptionalParams
 }
 
 /** Optional parameters. */
-export interface AccountsTransitionToCmkOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsTransitionToCmkOptionalParams extends coreClient.OperationOptions {
   /** The required parameters to perform encryption transition. */
   body?: EncryptionTransitionRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3269,12 +3291,10 @@ export interface AccountsGetChangeKeyVaultInformationOptionalParams
 }
 
 /** Contains response data for the getChangeKeyVaultInformation operation. */
-export type AccountsGetChangeKeyVaultInformationResponse =
-  GetKeyVaultStatusResponse;
+export type AccountsGetChangeKeyVaultInformationResponse = GetKeyVaultStatusResponse;
 
 /** Optional parameters. */
-export interface AccountsChangeKeyVaultOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsChangeKeyVaultOptionalParams extends coreClient.OperationOptions {
   /** The required parameters to perform encryption migration. */
   body?: ChangeKeyVault;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3287,34 +3307,31 @@ export interface AccountsChangeKeyVaultOptionalParams
 export type AccountsChangeKeyVaultResponse = AccountsChangeKeyVaultHeaders;
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AccountsListBySubscriptionNextResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface AccountsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AccountsListNextResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface PoolsListOptionalParams extends coreClient.OperationOptions { }
+export interface PoolsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PoolsListResponse = CapacityPoolList;
 
 /** Optional parameters. */
-export interface PoolsGetOptionalParams extends coreClient.OperationOptions { }
+export interface PoolsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PoolsGetResponse = CapacityPool;
 
 /** Optional parameters. */
-export interface PoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3344,28 +3361,25 @@ export interface PoolsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PoolsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PoolsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PoolsListNextResponse = CapacityPoolList;
 
 /** Optional parameters. */
-export interface VolumesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type VolumesListResponse = VolumeList;
 
 /** Optional parameters. */
-export interface VolumesGetOptionalParams extends coreClient.OperationOptions { }
+export interface VolumesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VolumesGetResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3376,8 +3390,7 @@ export interface VolumesCreateOrUpdateOptionalParams
 export type VolumesCreateOrUpdateResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3388,8 +3401,7 @@ export interface VolumesUpdateOptionalParams
 export type VolumesUpdateResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
   /** An option to force delete the volume. Will cleanup resources connected to the particular volume */
   forceDelete?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3399,8 +3411,7 @@ export interface VolumesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesPopulateAvailabilityZoneOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesPopulateAvailabilityZoneOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3411,8 +3422,7 @@ export interface VolumesPopulateAvailabilityZoneOptionalParams
 export type VolumesPopulateAvailabilityZoneResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesRevertOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesRevertOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3420,8 +3430,7 @@ export interface VolumesRevertOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesResetCifsPasswordOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesResetCifsPasswordOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3432,8 +3441,18 @@ export interface VolumesResetCifsPasswordOptionalParams
 export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
 
 /** Optional parameters. */
-export interface VolumesBreakFileLocksOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesSplitCloneFromParentOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the splitCloneFromParent operation. */
+export type VolumesSplitCloneFromParentResponse = Volume;
+
+/** Optional parameters. */
+export interface VolumesBreakFileLocksOptionalParams extends coreClient.OperationOptions {
   /** Optional body to provide the ability to clear file locks with selected options */
   body?: BreakFileLocksRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3452,12 +3471,10 @@ export interface VolumesListGetGroupIdListForLdapUserOptionalParams
 }
 
 /** Contains response data for the listGetGroupIdListForLdapUser operation. */
-export type VolumesListGetGroupIdListForLdapUserResponse =
-  GetGroupIdListForLdapUserResponse;
+export type VolumesListGetGroupIdListForLdapUserResponse = GetGroupIdListForLdapUserResponse;
 
 /** Optional parameters. */
-export interface VolumesBreakReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesBreakReplicationOptionalParams extends coreClient.OperationOptions {
   /** Optional body to force break the replication. */
   body?: BreakReplicationRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3467,8 +3484,7 @@ export interface VolumesBreakReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesReestablishReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesReestablishReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3476,22 +3492,19 @@ export interface VolumesReestablishReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesReplicationStatusOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesReplicationStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the replicationStatus operation. */
 export type VolumesReplicationStatusResponse = ReplicationStatus;
 
 /** Optional parameters. */
-export interface VolumesListReplicationsOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesListReplicationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listReplications operation. */
 export type VolumesListReplicationsResponse = ListReplications;
 
 /** Optional parameters. */
-export interface VolumesResyncReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesResyncReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3499,8 +3512,7 @@ export interface VolumesResyncReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesDeleteReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesDeleteReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3508,8 +3520,7 @@ export interface VolumesDeleteReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesAuthorizeReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesAuthorizeReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3517,8 +3528,7 @@ export interface VolumesAuthorizeReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesReInitializeReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesReInitializeReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3526,8 +3536,7 @@ export interface VolumesReInitializeReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesPeerExternalClusterOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesPeerExternalClusterOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3547,8 +3556,7 @@ export interface VolumesAuthorizeExternalReplicationOptionalParams
 }
 
 /** Contains response data for the authorizeExternalReplication operation. */
-export type VolumesAuthorizeExternalReplicationResponse =
-  SvmPeerCommandResponse;
+export type VolumesAuthorizeExternalReplicationResponse = SvmPeerCommandResponse;
 
 /** Optional parameters. */
 export interface VolumesFinalizeExternalReplicationOptionalParams
@@ -3560,8 +3568,7 @@ export interface VolumesFinalizeExternalReplicationOptionalParams
 }
 
 /** Contains response data for the finalizeExternalReplication operation. */
-export type VolumesFinalizeExternalReplicationResponse =
-  VolumesFinalizeExternalReplicationHeaders;
+export type VolumesFinalizeExternalReplicationResponse = VolumesFinalizeExternalReplicationHeaders;
 
 /** Optional parameters. */
 export interface VolumesPerformReplicationTransferOptionalParams
@@ -3573,12 +3580,10 @@ export interface VolumesPerformReplicationTransferOptionalParams
 }
 
 /** Contains response data for the performReplicationTransfer operation. */
-export type VolumesPerformReplicationTransferResponse =
-  VolumesPerformReplicationTransferHeaders;
+export type VolumesPerformReplicationTransferResponse = VolumesPerformReplicationTransferHeaders;
 
 /** Optional parameters. */
-export interface VolumesPoolChangeOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesPoolChangeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3586,8 +3591,7 @@ export interface VolumesPoolChangeOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesRelocateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesRelocateOptionalParams extends coreClient.OperationOptions {
   /** Relocate volume request */
   body?: RelocateVolumeRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3597,8 +3601,7 @@ export interface VolumesRelocateOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesFinalizeRelocationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesFinalizeRelocationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3606,8 +3609,7 @@ export interface VolumesFinalizeRelocationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesRevertRelocationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesRevertRelocationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3615,29 +3617,25 @@ export interface VolumesRevertRelocationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VolumesListNextResponse = VolumeList;
 
 /** Optional parameters. */
-export interface SnapshotsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SnapshotsListResponse = SnapshotsList;
 
 /** Optional parameters. */
-export interface SnapshotsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SnapshotsGetResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3648,8 +3646,7 @@ export interface SnapshotsCreateOptionalParams
 export type SnapshotsCreateResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3660,8 +3657,7 @@ export interface SnapshotsUpdateOptionalParams
 export type SnapshotsUpdateResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3669,8 +3665,7 @@ export interface SnapshotsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SnapshotsRestoreFilesOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsRestoreFilesOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3678,29 +3673,25 @@ export interface SnapshotsRestoreFilesOptionalParams
 }
 
 /** Optional parameters. */
-export interface SnapshotPoliciesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SnapshotPoliciesListResponse = SnapshotPoliciesList;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SnapshotPoliciesGetResponse = SnapshotPolicy;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesCreateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SnapshotPoliciesCreateResponse = SnapshotPolicy;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3711,8 +3702,7 @@ export interface SnapshotPoliciesUpdateOptionalParams
 export type SnapshotPoliciesUpdateResponse = SnapshotPolicy;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3720,29 +3710,25 @@ export interface SnapshotPoliciesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SnapshotPoliciesListVolumesOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesListVolumesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVolumes operation. */
 export type SnapshotPoliciesListVolumesResponse = SnapshotPolicyVolumeList;
 
 /** Optional parameters. */
-export interface BackupPoliciesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupPoliciesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type BackupPoliciesListResponse = BackupPoliciesList;
 
 /** Optional parameters. */
-export interface BackupPoliciesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupPoliciesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BackupPoliciesGetResponse = BackupPolicy;
 
 /** Optional parameters. */
-export interface BackupPoliciesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupPoliciesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3753,8 +3739,7 @@ export interface BackupPoliciesCreateOptionalParams
 export type BackupPoliciesCreateResponse = BackupPolicy;
 
 /** Optional parameters. */
-export interface BackupPoliciesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3765,8 +3750,7 @@ export interface BackupPoliciesUpdateOptionalParams
 export type BackupPoliciesUpdateResponse = BackupPolicy;
 
 /** Optional parameters. */
-export interface BackupPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3774,22 +3758,19 @@ export interface BackupPoliciesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesListByVolumeOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumeQuotaRulesListByVolumeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolume operation. */
 export type VolumeQuotaRulesListByVolumeResponse = VolumeQuotaRulesList;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumeQuotaRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VolumeQuotaRulesGetResponse = VolumeQuotaRule;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeQuotaRulesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3800,8 +3781,7 @@ export interface VolumeQuotaRulesCreateOptionalParams
 export type VolumeQuotaRulesCreateResponse = VolumeQuotaRule;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeQuotaRulesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3812,8 +3792,7 @@ export interface VolumeQuotaRulesUpdateOptionalParams
 export type VolumeQuotaRulesUpdateResponse = VolumeQuotaRule;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeQuotaRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3822,21 +3801,19 @@ export interface VolumeQuotaRulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface VolumeGroupsListByNetAppAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetAppAccount operation. */
 export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 /** Optional parameters. */
-export interface VolumeGroupsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumeGroupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VolumeGroupsGetResponse = VolumeGroupDetails;
 
 /** Optional parameters. */
-export interface VolumeGroupsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeGroupsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3847,8 +3824,7 @@ export interface VolumeGroupsCreateOptionalParams
 export type VolumeGroupsCreateResponse = VolumeGroupDetails;
 
 /** Optional parameters. */
-export interface VolumeGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeGroupsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3856,22 +3832,19 @@ export interface VolumeGroupsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SubvolumesListByVolumeOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SubvolumesListByVolumeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolume operation. */
 export type SubvolumesListByVolumeResponse = SubvolumesList;
 
 /** Optional parameters. */
-export interface SubvolumesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SubvolumesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SubvolumesGetResponse = SubvolumeInfo;
 
 /** Optional parameters. */
-export interface SubvolumesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3882,8 +3855,7 @@ export interface SubvolumesCreateOptionalParams
 export type SubvolumesCreateResponse = SubvolumeInfo;
 
 /** Optional parameters. */
-export interface SubvolumesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3894,8 +3866,7 @@ export interface SubvolumesUpdateOptionalParams
 export type SubvolumesUpdateResponse = SubvolumeInfo;
 
 /** Optional parameters. */
-export interface SubvolumesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3903,8 +3874,7 @@ export interface SubvolumesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SubvolumesGetMetadataOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesGetMetadataOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3915,29 +3885,26 @@ export interface SubvolumesGetMetadataOptionalParams
 export type SubvolumesGetMetadataResponse = SubvolumeModel;
 
 /** Optional parameters. */
-export interface SubvolumesListByVolumeNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SubvolumesListByVolumeNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolumeNext operation. */
 export type SubvolumesListByVolumeNextResponse = SubvolumesList;
 
 /** Optional parameters. */
-export interface BackupsGetLatestStatusOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupsGetLatestStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLatestStatus operation. */
 export type BackupsGetLatestStatusResponse = BackupStatus;
 
 /** Optional parameters. */
 export interface BackupsGetVolumeLatestRestoreStatusOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVolumeLatestRestoreStatus operation. */
 export type BackupsGetVolumeLatestRestoreStatusResponse = RestoreStatus;
 
 /** Optional parameters. */
-export interface BackupsListByVaultOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsListByVaultOptionalParams extends coreClient.OperationOptions {
   /** An option to specify the VolumeResourceId. If present, then only returns the backups under the specified volume */
   filter?: string;
 }
@@ -3946,14 +3913,13 @@ export interface BackupsListByVaultOptionalParams
 export type BackupsListByVaultResponse = BackupsList;
 
 /** Optional parameters. */
-export interface BackupsGetOptionalParams extends coreClient.OperationOptions { }
+export interface BackupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BackupsGetResponse = Backup;
 
 /** Optional parameters. */
-export interface BackupsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3964,8 +3930,7 @@ export interface BackupsCreateOptionalParams
 export type BackupsCreateResponse = Backup;
 
 /** Optional parameters. */
-export interface BackupsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Backup object supplied in the body of the operation. */
   body?: BackupPatch;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3978,8 +3943,7 @@ export interface BackupsUpdateOptionalParams
 export type BackupsUpdateResponse = Backup;
 
 /** Optional parameters. */
-export interface BackupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3990,29 +3954,26 @@ export interface BackupsDeleteOptionalParams
 export type BackupsDeleteResponse = BackupsDeleteHeaders;
 
 /** Optional parameters. */
-export interface BackupsListByVaultNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupsListByVaultNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVaultNext operation. */
 export type BackupsListByVaultNextResponse = BackupsList;
 
 /** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetAppAccount operation. */
 export type BackupVaultsListByNetAppAccountResponse = BackupVaultsList;
 
 /** Optional parameters. */
-export interface BackupVaultsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupVaultsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BackupVaultsGetResponse = BackupVault;
 
 /** Optional parameters. */
-export interface BackupVaultsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupVaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4023,8 +3984,7 @@ export interface BackupVaultsCreateOrUpdateOptionalParams
 export type BackupVaultsCreateOrUpdateResponse = BackupVault;
 
 /** Optional parameters. */
-export interface BackupVaultsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupVaultsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4035,8 +3995,7 @@ export interface BackupVaultsUpdateOptionalParams
 export type BackupVaultsUpdateResponse = BackupVault;
 
 /** Optional parameters. */
-export interface BackupVaultsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupVaultsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4048,7 +4007,7 @@ export type BackupVaultsDeleteResponse = BackupVaultsDeleteHeaders;
 
 /** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetAppAccountNext operation. */
 export type BackupVaultsListByNetAppAccountNextResponse = BackupVaultsList;
@@ -4076,8 +4035,7 @@ export interface BackupsUnderVolumeMigrateBackupsOptionalParams
 }
 
 /** Contains response data for the migrateBackups operation. */
-export type BackupsUnderVolumeMigrateBackupsResponse =
-  BackupsUnderVolumeMigrateBackupsHeaders;
+export type BackupsUnderVolumeMigrateBackupsResponse = BackupsUnderVolumeMigrateBackupsHeaders;
 
 /** Optional parameters. */
 export interface BackupsUnderAccountMigrateBackupsOptionalParams
@@ -4089,12 +4047,10 @@ export interface BackupsUnderAccountMigrateBackupsOptionalParams
 }
 
 /** Contains response data for the migrateBackups operation. */
-export type BackupsUnderAccountMigrateBackupsResponse =
-  BackupsUnderAccountMigrateBackupsHeaders;
+export type BackupsUnderAccountMigrateBackupsResponse = BackupsUnderAccountMigrateBackupsHeaders;
 
 /** Optional parameters. */
-export interface NetAppManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface NetAppManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

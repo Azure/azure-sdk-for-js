@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
-import { UsageMetric } from "../../models/models.js";
+import { listByWorkspace, get } from "../../api/usageMetrics/operations.js";
 import {
   UsageMetricsListByWorkspaceOptionalParams,
   UsageMetricsGetOptionalParams,
 } from "../../api/usageMetrics/options.js";
-import { listByWorkspace, get } from "../../api/usageMetrics/operations.js";
+import { UsageMetric } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UsageMetrics operations. */

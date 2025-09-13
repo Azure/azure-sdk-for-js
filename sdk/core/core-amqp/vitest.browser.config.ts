@@ -13,8 +13,5 @@ export default mergeConfig(
       include: ["process", "buffer"],
     },
     plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
-    test: {
-      include: ["dist-test/browser/**/*.spec.js"],
-    },
   }),
 );

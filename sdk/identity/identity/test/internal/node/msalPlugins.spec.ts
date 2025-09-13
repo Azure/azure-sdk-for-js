@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
-import type { PluginConfiguration } from "../../../src/msal/nodeFlows/msalPlugins.js";
+import type { PluginConfiguration } from "$internal/msal/nodeFlows/msalPlugins.js";
 import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
   msalPlugins,
-} from "../../../src/msal/nodeFlows/msalPlugins.js";
+} from "$internal/msal/nodeFlows/msalPlugins.js";
 
-import type { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient.js";
+import type { MsalClientOptions } from "$internal/msal/nodeFlows/msalClient.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("#generatePluginConfiguration", function () {
@@ -86,7 +86,7 @@ describe("#generatePluginConfiguration", function () {
       options.brokerOptions = { enabled: true, parentWindowHandle };
       assert.throws(
         () => msalPlugins.generatePluginConfiguration(options),
-        /Broker for WAM was requested to be enabled/,
+        /Broker for WAM was requested/,
       );
     });
 

@@ -195,8 +195,11 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           if (!toolCalls) {
             throw new Error("toolCalls should be defined here");
           }
-          assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
-          assert.isUndefined(res.choices[0].message?.function_call);
+          const toolCall = toolCalls[0];
+          if (toolCall.type !== "function") {
+            assert.fail(`Expected tool call type to be 'function', got '${toolCall.type}'`);
+          }
+          assert.equal(toolCall.function.name, getCurrentWeather.name);
         },
         modelsListToSkip: [...toolsModelsToSkip, ...modelsNotSupportedInGA],
       });
@@ -232,7 +235,11 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           if (!toolCalls) {
             throw new Error("toolCalls should be defined here");
           }
-          const argument = toolCalls[0].function.arguments;
+          const toolCall = toolCalls[0];
+          if (toolCall.type !== "function") {
+            assert.fail(`Expected tool call type to be 'function', got '${toolCall.type}'`);
+          }
+          const argument = toolCall.function.arguments;
           assert.isTrue(argument?.includes("assetName"));
         },
         modelsListToSkip: [...toolsModelsToSkip, ...modelsNotSupportedInGA],

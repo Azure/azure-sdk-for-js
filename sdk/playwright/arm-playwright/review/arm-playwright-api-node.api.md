@@ -14,6 +14,7 @@ export function createPlaywrightManagement(credential: TokenCredential, subscrip
 // @public
 export interface PlaywrightManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

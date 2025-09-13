@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/ai-text-analytics": ["./src/index.ts"],
+      "@azure/ai-text-analytics/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

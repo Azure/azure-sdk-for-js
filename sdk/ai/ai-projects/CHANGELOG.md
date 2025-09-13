@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2025-07-10)
+## 1.0.0 (2025-08-06)
 
 Initial stable release of the AI projects client library.
 
@@ -10,6 +10,9 @@ Initial stable release of the AI projects client library.
 - remove `project.evaluations`
 - remove `project.inference.chatCompletions`, `project.inference.embeddings` and `project.inference.imageEmbeddings`. For guidance on obtaining an authenticated `azure-ai-inference` client for your AI Foundry Project,
 refer to the updated samples in the `samples\inference` directory.
+- rename `project.telemetry.getConnectionString` to `project.telemetry.getApplicationInsightsConnectionString`
+- rename `project.inference.azureOpenAI` to `project.getAzureOpenAIClient`
+- remove `project.inference`
 
 ## 1.0.0-beta.10 (2025-07-02)
 

@@ -27,7 +27,10 @@ export default leafCommand(commandInfo, async () => {
   if (proc.status !== 0) {
     log.error(`Package failed to build:
 
-${proc.stdout.toString()}`);
+stdout: ${proc.stdout.toString()}
+
+stderr: ${proc.stderr.toString()}
+`);
     return false;
   }
 

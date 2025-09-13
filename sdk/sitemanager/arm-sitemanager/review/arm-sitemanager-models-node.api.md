@@ -9,7 +9,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -44,8 +44,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20240201Preview = "2024-02-01-preview",
-    V20250301Preview = "2025-03-01-preview"
+    V20250601 = "2025-06-01"
 }
 
 // @public

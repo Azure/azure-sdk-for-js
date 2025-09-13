@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to gets the endpoint to the resource.
  *
  * @summary gets the endpoint to the resource.
  * x-ms-original-file: 2024-12-01/EndpointsGetCustom.json
  */
+
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function hybridConnectivityEndpointsGetCustom(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

@@ -1,8 +1,10 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.3.0 (Unreleased)
 
 ### Features Added
+
+- Added support for Mac OS broker authentication. [#35683](https://github.com/Azure/azure-sdk-for-js/pull/35683)
 
 ### Breaking Changes
 

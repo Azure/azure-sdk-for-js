@@ -39,15 +39,15 @@ app.get("/sync", async (req: express.Request, res: express.Response) => {
     console.error(e);
   }
   try {
-    const account2 = process.env.IDENTITY_STORAGE_NAME_2;
+    const accountUserAssigned = process.env.IDENTITY_STORAGE_NAME_USER_ASSIGNED;
     const credentialUserAssigned = new ManagedIdentityCredential({
       clientId: process.env.IDENTITY_USER_DEFINED_CLIENT_ID,
     });
-    const client2 = new BlobServiceClient(
-      `https://${account2}.blob.core.windows.net`,
+    const clientUserAssigned = new BlobServiceClient(
+      `https://${accountUserAssigned}.blob.core.windows.net`,
       credentialUserAssigned,
     );
-    let iter = client2.listContainers();
+    let iter = clientUserAssigned.listContainers();
     let i = 0;
     console.log("Client with user assigned identity");
     let containerItem = await iter.next();

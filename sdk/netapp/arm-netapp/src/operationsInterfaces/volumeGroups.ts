@@ -61,10 +61,7 @@ export interface VolumeGroups {
     body: VolumeGroupDetails,
     options?: VolumeGroupsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeGroupsCreateResponse>,
-      VolumeGroupsCreateResponse
-    >
+    SimplePollerLike<OperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>
   >;
   /**
    * Create a volume group along with specified volumes

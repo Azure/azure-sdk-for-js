@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity-broker": ["./src/index.ts"],
+      "@azure/identity-broker/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a backup of the Cloud HSM Cluster in the specified subscription
  *
  * @summary create a backup of the Cloud HSM Cluster in the specified subscription
  * x-ms-original-file: 2025-03-31/CloudHsmCluster_CreateOrValidate_Backup_MaximumSet_Gen.json
  */
+
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function cloudHsmClusterCreateBackupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
