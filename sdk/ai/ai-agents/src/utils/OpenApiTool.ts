@@ -64,7 +64,7 @@ export class OpenApiTool {
     if (this._definitions.some((d) => d.openapi.name === openApiFunctionDefinition.name)) {
       throw new Error(`Definition '${openApiFunctionDefinition.name}' already exists and cannot be added again.`);
     }
-    
+
     const defaultParams = openApiFunctionDefinition.defaultParams ?? [];
     const authToUse = openApiFunctionDefinition.auth ?? this._defaultAuth;
 

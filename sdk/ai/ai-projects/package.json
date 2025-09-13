@@ -58,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "@azure/ai-agents": "1.1.0-beta.4",
+    "@azure/ai-agents": "1.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-lro": "^3.0.0",
