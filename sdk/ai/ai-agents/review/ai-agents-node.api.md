@@ -440,6 +440,37 @@ export interface ListAgentsOptionalParams extends OperationOptions {
 export type ListSortOrder = "asc" | "desc";
 
 // @public
+export class MCPTool {
+    constructor(serverLabel: string, serverUrl: string, allowedTools?: string[]);
+    get allowedTools(): string[];
+    allowTool(toolName: string): void;
+    get definitions(): MCPToolDefinition[];
+    disallowTool(toolName: string): void;
+    get headers(): Record<string, string>;
+    static mergeResources(mcpTools: MCPTool[]): ToolResources;
+    get resources(): ToolResources;
+    get serverLabel(): string;
+    get serverUrl(): string;
+    setApprovalMode(requireApproval?: "always" | "never"): void;
+    updateHeaders(key: string, value: string): void;
+}
+
+// @public
+export interface MCPToolDefinition extends ToolDefinition {
+    allowedTools?: string[];
+    serverLabel: string;
+    serverUrl: string;
+    type: "mcp";
+}
+
+// @public
+export interface MCPToolResource {
+    headers: Record<string, string>;
+    requireApproval?: "never" | "always";
+    serverLabel: string;
+}
+
+// @public
 export interface MessageAttachment {
     dataSource?: VectorStoreDataSource;
     fileId?: string;
@@ -772,6 +803,16 @@ export interface OpenApiManagedAuthDetails extends OpenApiAuthDetails {
 // @public
 export interface OpenApiManagedSecurityScheme {
     audience: string;
+}
+
+// @public
+export class OpenApiTool {
+    constructor(openApiFunctionDefinition: OpenApiFunctionDefinition);
+    addDefinition(openApiFunctionDefinition: OpenApiFunctionDefinition): void;
+    static createDefinition(openapi: OpenApiFunctionDefinition): OpenApiToolDefinition;
+    get definitions(): OpenApiToolDefinition[];
+    removeDefinition(name: string): void;
+    get resources(): ToolResources;
 }
 
 // @public

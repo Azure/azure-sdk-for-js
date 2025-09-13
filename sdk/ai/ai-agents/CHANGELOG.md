@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.0-beta.4 (2025-09-12)
+
+### Features Added
+
+- Add `MCPTool.mergeResources` to support multiple MCP tools in one agent
+- Add `OpenApiTool` to easily call multiple open APIs in one agent
+
 ## 1.1.0 (2025-07-31)
 
 For stable version of the client library, the client library now uses version v1 of the AI Foundry [data plane REST APIs](https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1).
