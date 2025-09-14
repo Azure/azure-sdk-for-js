@@ -473,8 +473,11 @@ export class LogBasicScenario implements Scenario {
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
     this._processor = new SimpleLogRecordProcessor(exporter);
-    this._provider = new LoggerProvider();
-    this._provider.addLogRecordProcessor(this._processor);
+
+    // In OpenTelemetry SDK v0.205.0, LoggerProvider uses 'processors' parameter
+    this._provider = new LoggerProvider({
+      processors: [this._processor],
+    });
   }
 
   async run(): Promise<void> {
@@ -501,9 +504,18 @@ export class LogBasicScenario implements Scenario {
 
   cleanup(): void {
     opentelemetry.trace.disable();
+    // Shutdown the logger provider to ensure all logs are flushed
+    if (this._provider) {
+      this._provider.shutdown();
+    }
   }
 
-  flush(): Promise<void> {
+  async flush(): Promise<void> {
+    // First flush the provider to ensure all logs are processed
+    if (this._provider) {
+      await this._provider.forceFlush();
+    }
+    // Then flush the processor
     return this._processor.forceFlush();
   }
 
