@@ -49,7 +49,7 @@ describe("Plugin", () => {
 
     const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
-    assert.equal(requestCount, FAILCOUNT + 1); // Get Database Account + FAILED GET Database + Get Database
+    assert.equal(requestCount, FAILCOUNT + 2); // Get Database Account twice + FAILED GET Database + Get Database
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(
@@ -95,7 +95,7 @@ describe("Plugin", () => {
 
     const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
-    assert.equal(requestCount, 2); // Get Database Account + Get Database
+    assert.equal(requestCount, 3); // Get Database Account twice + Get Database
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(
@@ -148,9 +148,9 @@ describe("Plugin", () => {
 
     const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
-    assert.equal(requestCount, 2); // Get Database Account + Get Database
-    assert.equal(responseCount, 2); // Get Database Account + Get Database
-    assert.equal(innerRequestCount, 2); // Get Database Account + Get Database
+    assert.equal(requestCount, 3); // Get Database Account twice+ Get Database
+    assert.equal(responseCount, 3); // Get Database Account twice + Get Database
+    assert.equal(innerRequestCount, 3); // Get Database Account twice + Get Database
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(
