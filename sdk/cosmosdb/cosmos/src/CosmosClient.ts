@@ -193,7 +193,7 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-        defaultConnectionPolicy.endpointRefreshRateInMs,
+          defaultConnectionPolicy.endpointRefreshRateInMs,
       );
     }
 
