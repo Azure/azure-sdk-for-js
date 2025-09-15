@@ -9,10 +9,11 @@ import { processDistinctQueryAndUpdateRangeMap } from "../PartitionRangeUtils.js
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
-  // TODO: pass on hashedLast result from outside
   private hashedLastResult: string;
 
-  constructor(private executionContext: ExecutionContext) {}
+  constructor(private executionContext: ExecutionContext, hashedLastResult?: string) {
+    this.hashedLastResult = hashedLastResult;
+  }
 
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
@@ -32,7 +33,6 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       return { result, headers: response.headers };
     }
 
-    // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
     const parallelResult = response.result as ParallelQueryResult;
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;

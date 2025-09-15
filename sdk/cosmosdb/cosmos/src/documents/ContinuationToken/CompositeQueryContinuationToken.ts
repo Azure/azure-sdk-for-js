@@ -40,8 +40,11 @@ export function createCompositeQueryContinuationToken(
   offset?: number,
   limit?: number,
 ): CompositeQueryContinuationToken {
-  // const queryRanges = convertRangeMappingsToQueryRangesWithTokens(rangeMappings);
 
+  if(!rangeMappings || rangeMappings.length === 0) {
+    throw new Error("Range mappings are required to create a continuation token");
+  }
+  
   return {
     rid,
     rangeMappings: rangeMappings,

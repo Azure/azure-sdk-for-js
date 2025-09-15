@@ -68,17 +68,26 @@ describe("CompositeQueryContinuationToken", () => {
       assert.equal(token.limit, limit);
     });
 
-    it("should create a token with empty range mappings", () => {
-      const token = createCompositeQueryContinuationToken(mockRid, []);
+    it("should throw error when rangeMappings is empty array", () => {
+      assert.throws(() => {
+        createCompositeQueryContinuationToken(mockRid, []);
+      }, "Range mappings are required to create a continuation token");
+    });
 
-      assert.equal(token.rid, mockRid);
-      assert.deepEqual(token.rangeMappings, []);
+    it("should throw error when rangeMappings is null or undefined", () => {
+      assert.throws(() => {
+        createCompositeQueryContinuationToken(mockRid, null as any);
+      }, "Range mappings are required to create a continuation token");
+
+      assert.throws(() => {
+        createCompositeQueryContinuationToken(mockRid, undefined as any);
+      }, "Range mappings are required to create a continuation token");
     });
   });
 
   describe("addRangeMappingToCompositeToken", () => {
     it("should add a range mapping to existing token", () => {
-      const token = createCompositeQueryContinuationToken(mockRid, []);
+      const token = createCompositeQueryContinuationToken(mockRid, mockRangeMappings);
       const rangeMapping: QueryRangeMapping = {
         itemCount: 5,
         continuationToken: "new-token",
@@ -87,14 +96,14 @@ describe("CompositeQueryContinuationToken", () => {
 
       addRangeMappingToCompositeToken(token, rangeMapping);
 
-      assert.equal(token.rangeMappings.length, 1);
-      assert.equal(token.rangeMappings[0].continuationToken, "new-token");
-      assert.equal(token.rangeMappings[0].queryRange.min, "AA");
-      assert.equal(token.rangeMappings[0].queryRange.max, "BB");
+      assert.equal(token.rangeMappings.length, 3); // 2 original + 1 new
+      assert.equal(token.rangeMappings[2].continuationToken, "new-token");
+      assert.equal(token.rangeMappings[2].queryRange.min, "AA");
+      assert.equal(token.rangeMappings[2].queryRange.max, "BB");
     });
 
     it("should add multiple range mappings", () => {
-      const token = createCompositeQueryContinuationToken(mockRid, []);
+      const token = createCompositeQueryContinuationToken(mockRid, mockRangeMappings);
       const rangeMapping1: QueryRangeMapping = {
         itemCount: 5,
         continuationToken: "token1",
@@ -109,9 +118,9 @@ describe("CompositeQueryContinuationToken", () => {
       addRangeMappingToCompositeToken(token, rangeMapping1);
       addRangeMappingToCompositeToken(token, rangeMapping2);
 
-      assert.equal(token.rangeMappings.length, 2);
-      assert.equal(token.rangeMappings[0].continuationToken, "token1");
-      assert.equal(token.rangeMappings[1].continuationToken, "token2");
+      assert.equal(token.rangeMappings.length, 4); // 2 original + 2 new
+      assert.equal(token.rangeMappings[2].continuationToken, "token1");
+      assert.equal(token.rangeMappings[3].continuationToken, "token2");
     });
   });
 

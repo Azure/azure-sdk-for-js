@@ -1348,6 +1348,184 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         `Streaming test completed: ${allResults.length} total items across ${iterationCount} iterations from ${categoriesEncountered.size} partitions`
       );
     });
+    
+    // TODO: add more asserts
+    it("should handle DISTINCT ORDER BY queries with continuation", async () => {
+      const query = "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC";
+      const queryOptions = { maxItemCount: 3, enableQueryControl: true };
+
+      console.log("\n=== Testing DISTINCT ORDER BY with Continuation ===");
+
+      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      let iterationCount = 0;
+
+      while (queryIterator.hasMoreResults()) {
+        const result = await queryIterator.fetchNext();
+        allResults.push(...result.resources);
+        iterationCount++;
+
+        console.log(`DISTINCT Iteration ${iterationCount}: ${result.resources.length} categories, token: ${result.continuationToken ? "YES" : "NO"}`);
+
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = multiPartitionContainer.items.query(query, {
+            ...queryOptions,
+            continuationToken: result.continuationToken,
+          });
+        }
+      }
+
+      // Validate distinctness and ordering
+      const categories = allResults.map(r => r.category);
+      const uniqueCategories = [...new Set(categories)];
+      expect(categories).toEqual(uniqueCategories); // No duplicates
+      expect(categories).toEqual([...categories].sort()); // Ordered
+      
+      console.log(`DISTINCT ORDER BY: ${allResults.length} unique categories across ${iterationCount} iterations`);
+    });
+
+    it("should handle OFFSET LIMIT queries with continuation", async () => {
+      const query = "SELECT * FROM c ORDER BY c.amount ASC OFFSET 10 LIMIT 20";
+      const queryOptions = { maxItemCount: 8, enableQueryControl: true };
+
+      console.log("\n=== Testing OFFSET LIMIT with Continuation ===");
+
+      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      let iterationCount = 0;
+
+      while (queryIterator.hasMoreResults()) {
+        const result = await queryIterator.fetchNext();
+        allResults.push(...result.resources);
+        iterationCount++;
+
+        console.log(`OFFSET/LIMIT Iteration ${iterationCount}: ${result.resources.length} items, token: ${result.continuationToken ? "YES" : "NO"}`);
+
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = multiPartitionContainer.items.query(query, {
+            ...queryOptions,
+            continuationToken: result.continuationToken,
+          });
+        }
+      }
+
+      // Validate LIMIT constraint
+      expect(allResults.length).toBeLessThanOrEqual(20);
+      console.log(`OFFSET/LIMIT: ${allResults.length} items (≤20) across ${iterationCount} iterations`);
+    });
+
+    it("should handle TOP queries with continuation", async () => {
+      const query = "SELECT TOP 15 * FROM c ORDER BY c.amount DESC";
+      const queryOptions = { maxItemCount: 5, enableQueryControl: true };
+
+      console.log("\n=== Testing TOP with Continuation ===");
+
+      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      let iterationCount = 0;
+
+      while (queryIterator.hasMoreResults()) {
+        const result = await queryIterator.fetchNext();
+        allResults.push(...result.resources);
+        iterationCount++;
+
+        console.log(`TOP Iteration ${iterationCount}: ${result.resources.length} items, token: ${result.continuationToken ? "YES" : "NO"}`);
+
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = multiPartitionContainer.items.query(query, {
+            ...queryOptions,
+            continuationToken: result.continuationToken,
+          });
+        }
+      }
+
+      // Validate TOP constraint and DESC ordering
+      expect(allResults.length).toBeLessThanOrEqual(15);
+      for (let i = 1; i < allResults.length; i++) {
+        expect(allResults[i].amount).toBeLessThanOrEqual(allResults[i - 1].amount);
+      }
+      
+      console.log(`TOP: ${allResults.length} items (≤15) in DESC order across ${iterationCount} iterations`);
+    });
+
+    it("should handle parallel queries (no ORDER BY) with continuation", async () => {
+      const query = "SELECT * FROM c WHERE c.amount > 50";
+      const queryOptions = { maxItemCount: 6, enableQueryControl: true };
+
+      console.log("\n=== Testing Parallel Query with Continuation ===");
+
+      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      let iterationCount = 0;
+      const partitionsEncountered = new Set<string>();
+
+      while (queryIterator.hasMoreResults()) {
+        const result = await queryIterator.fetchNext();
+        allResults.push(...result.resources);
+        iterationCount++;
+
+        result.resources.forEach(item => partitionsEncountered.add(item.category));
+
+        console.log(`Parallel Iteration ${iterationCount}: ${result.resources.length} items from ${[...new Set(result.resources.map(r => r.category))].length} partitions, token: ${result.continuationToken ? "YES" : "NO"}`);
+
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = multiPartitionContainer.items.query(query, {
+            ...queryOptions,
+            continuationToken: result.continuationToken,
+          });
+        }
+      }
+
+      // Validate parallel execution across partitions
+      expect(partitionsEncountered.size).toBeGreaterThan(1);
+      allResults.forEach(item => expect(item.amount).toBeGreaterThan(50));
+      
+      console.log(`Parallel: ${allResults.length} items from ${partitionsEncountered.size} partitions across ${iterationCount} iterations`);
+    });
+
+    it("should handle complex ORDER BY with multiple fields and continuation", async () => {
+      const query = "SELECT * FROM c ORDER BY c.category ASC, c.amount DESC, c.name ASC";
+      const queryOptions = { maxItemCount: 4, enableQueryControl: true };
+
+      console.log("\n=== Testing Complex Multi-Field ORDER BY ===");
+
+      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      let iterationCount = 0;
+
+      while (queryIterator.hasMoreResults()) {
+        const result = await queryIterator.fetchNext();
+        allResults.push(...result.resources);
+        iterationCount++;
+
+        console.log(`Complex ORDER BY Iteration ${iterationCount}: ${result.resources.length} items, token: ${result.continuationToken ? "YES" : "NO"}`);
+
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = multiPartitionContainer.items.query(query, {
+            ...queryOptions,
+            continuationToken: result.continuationToken,
+          });
+        }
+      }
+
+      // Validate complex ordering (category ASC, amount DESC, name ASC)
+      for (let i = 1; i < allResults.length; i++) {
+        const curr = allResults[i];
+        const prev = allResults[i - 1];
+        
+        if (curr.category === prev.category) {
+          if (curr.amount === prev.amount) {
+            expect(curr.name >= prev.name).toBe(true); // name ASC
+          } else {
+            expect(curr.amount <= prev.amount).toBe(true); // amount DESC
+          }
+        } else {
+          expect(curr.category >= prev.category).toBe(true); // category ASC
+        }
+      }
+      
+      console.log(`Complex ORDER BY: ${allResults.length} items properly ordered across ${iterationCount} iterations`);
+    });
   });
 });
 
