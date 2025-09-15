@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import { isNodeLike } from "@azure/core-util";
 import {
@@ -11,7 +11,6 @@ import {
   recorderEnvSetup,
   getGenericBSU,
   getImmutableContainerName,
-  isBrowser,
   getUniqueName,
   configureBlobStorageClient,
   uriSanitizers,
@@ -905,7 +904,7 @@ describe("BlobClient", () => {
     let exceptionCaught = false;
     let anonymousBlobClient;
 
-    if (isBrowser()) {
+    if (!isNodeLike) {
       const anonymousBlobServiceClient = new BlobServiceClient(
         `https://${blobServiceClient.accountName}.blob.core.windows.net/`,
       );

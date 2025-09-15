@@ -82,6 +82,15 @@ export class RestError extends Error {
     Object.defineProperty(this, "request", { value: options.request, enumerable: false });
     Object.defineProperty(this, "response", { value: options.response, enumerable: false });
 
+    // Only include useful agent information in the request for logging, as the full agent object
+    // may contain large binary data.
+    const agent = this.request?.agent
+      ? {
+          maxFreeSockets: this.request.agent.maxFreeSockets,
+          maxSockets: this.request.agent.maxSockets,
+        }
+      : undefined;
+
     // Logging method for util.inspect in Node
     Object.defineProperty(this, custom, {
       value: () => {
@@ -89,7 +98,7 @@ export class RestError extends Error {
         // response get sanitized.
         return `RestError: ${this.message} \n ${errorSanitizer.sanitize({
           ...this,
-          request: this.request,
+          request: { ...this.request, agent },
           response: this.response,
         })}`;
       },

@@ -60,7 +60,7 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
    import { AzureOpenAI } from "openai";
 
    const deployment = "Your deployment name";
-   const apiVersion = "2025-03-01-preview";
+   const apiVersion = "2025-04-01-preview";
    const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
    ```
 
@@ -123,7 +123,7 @@ const azureSearchEndpoint = "<search endpoint>";
 const azureSearchIndexName = "<search index>";
 
 const deployment = "gpt-4-1106-preview";
-const apiVersion = "2025-03-01-preview";
+const apiVersion = "2025-04-01-preview";
 const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 const events = await client.chat.completions.create({
   stream: true,
@@ -176,7 +176,7 @@ const azureSearchEndpoint = "<search endpoint>";
 const azureSearchIndexName = "<search index>";
 
 const deployment = "gpt-4-1106-preview";
-const apiVersion = "2025-03-01-preview";
+const apiVersion = "2025-04-01-preview";
 const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 const events = await client.chat.completions.create({
   messages: [

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Create or replace a workflow.
+ *
+ * @summary Create or replace a workflow.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CreateOrReplaceWorkflow.json
+ */
+
 import type {
   CreateOrReplaceWorkflowParameters,
   PurviewWorkflowClient,
@@ -10,12 +17,6 @@ import { UsernamePasswordCredential } from "@azure/identity";
 import { randomUUID } from "node:crypto";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or replace a workflow.
- *
- * @summary Create or replace a workflow.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/CreateOrReplaceWorkflow.json
- */
 async function workflowCreateOrUpdate(
   client: PurviewWorkflowClient,
   workflow: CreateOrReplaceWorkflowParameters,

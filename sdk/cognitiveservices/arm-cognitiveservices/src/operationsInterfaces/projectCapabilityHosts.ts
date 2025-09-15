@@ -79,7 +79,7 @@ export interface ProjectCapabilityHosts {
    * @param projectName The name of Cognitive Services account's project.
    * @param capabilityHostName The name of the capability host associated with the Cognitive Services
    *                           Resource
-   * @param body CapabilityHost definition.
+   * @param capabilityHost CapabilityHost definition.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -87,7 +87,7 @@ export interface ProjectCapabilityHosts {
     accountName: string,
     projectName: string,
     capabilityHostName: string,
-    body: CapabilityHost,
+    capabilityHost: CapabilityHost,
     options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -102,7 +102,7 @@ export interface ProjectCapabilityHosts {
    * @param projectName The name of Cognitive Services account's project.
    * @param capabilityHostName The name of the capability host associated with the Cognitive Services
    *                           Resource
-   * @param body CapabilityHost definition.
+   * @param capabilityHost CapabilityHost definition.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -110,7 +110,7 @@ export interface ProjectCapabilityHosts {
     accountName: string,
     projectName: string,
     capabilityHostName: string,
-    body: CapabilityHost,
+    capabilityHost: CapabilityHost,
     options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
   ): Promise<ProjectCapabilityHostsCreateOrUpdateResponse>;
 }

@@ -17,7 +17,8 @@ async function hybridConnectivityEndpointsPostListCredentials(): Promise<void> {
   const result = await client.endpoints.listCredentials(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
     "default",
-    { listCredentialsRequest: { serviceName: "SSH" }, expiresin: 10800 });
+    { listCredentialsRequest: { serviceName: "SSH" }, expiresin: 10800 },
+  );
   console.log(result);
 }
 

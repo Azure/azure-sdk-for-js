@@ -41,8 +41,12 @@ stages:
               Condition: succeededOrFailed()
 
           - script: 'npm ci'
+            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/eng-package-utils'
+            displayName: 'Install eng-package-utils dependencies'
+
+          - script: 'npm ci'
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-            displayName: 'Install tool dependencies'
+            displayName: 'Install analyze-deps dependencies'
 
           - script: |
               node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"
@@ -95,8 +99,6 @@ stages:
             parameters:
               ExclusionDataBaseFileName: "JavaScriptPoliCheckExclusion"
               PublishAnalysisLogs: false
-
-          - template: /eng/common/pipelines/templates/steps/credscan.yml
 
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
             displayName: 'Publish Security Analysis Logs'

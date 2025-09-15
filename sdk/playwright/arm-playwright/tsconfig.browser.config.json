@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-playwright": ["./dist/browser/index.d.ts"],
+      "@azure/arm-playwright/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}

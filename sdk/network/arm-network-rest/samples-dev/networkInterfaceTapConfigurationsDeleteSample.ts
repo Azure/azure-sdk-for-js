@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { NetworkInterfaceTapConfigurationsDeleteParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified tap configuration from the NetworkInterface.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary Deletes the specified tap configuration from the NetworkInterface.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceTapConfigurationDelete.json
  */
+
+import type { NetworkInterfaceTapConfigurationsDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteTapConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
@@ -30,7 +32,7 @@ async function deleteTapConfiguration(): Promise<void> {
       tapConfigurationName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

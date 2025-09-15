@@ -4,7 +4,6 @@
 import {
   createRecordedDeidentificationClient,
   createRecorder,
-  getStorageAccountLocation,
   getTestEnvironment,
 } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -16,7 +15,7 @@ import type {
   DeidentificationDocumentDetailsOutput,
 } from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
@@ -28,15 +27,6 @@ const testPollingOptions = {
 
 const TEST_TIMEOUT_MS: number = 200000;
 const NUMBER_OF_DOCUMENTS = 3;
-
-const fakeServiceEndpoint = "https://example.api.deid.azure.com";
-const fakeContinuationTokenSegment = "continuationToken=1234567890";
-const replaceableVariables: Record<string, string> = {
-  DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
-  STORAGE_ACCOUNT_LOCATION:
-    "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
-  CONTINUATION_TOKEN: fakeContinuationTokenSegment,
-};
 
 const generateJobName = (testName?: string): string => {
   let jobName = "js-sdk-job-" + Date.now();
@@ -51,41 +41,14 @@ const OUTPUT_FOLDER = "_output";
 describe("Batch", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
+  let storageAccountLocation: string;
   const environment = getTestEnvironment();
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    await recorder.start({
-      envSetupForPlayback: replaceableVariables,
-      sanitizerOptions: {
-        bodyKeySanitizers: [
-          {
-            value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
-            jsonPath: "$..sourceLocation.location",
-            regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
-          },
-          {
-            value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
-            jsonPath: "$..targetLocation.location",
-            regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
-          },
-        ],
-        generalSanitizers: [
-          {
-            regex: true,
-            value: replaceableVariables.CONTINUATION_TOKEN,
-            target: "continuationToken=[A-Za-z0-9%._~-]+",
-          },
-        ],
-      },
-      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
-    });
+    storageAccountLocation = env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"] as string;
     const credential = createTestCredential();
-    if (process.env.DEID_SERVICE_ENDPOINT) {
-      client = await createRecordedDeidentificationClient(recorder, credential);
-    } else {
-      throw new Error("DEID_SERVICE_ENDPOINT is not set");
-    }
+    client = await createRecordedDeidentificationClient(recorder, credential);
   });
 
   afterEach(async () => {
@@ -98,9 +61,6 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName(`001-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountLocation = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
-        : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
         operation: "Surrogate",
@@ -162,9 +122,6 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName(`002-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountLocation = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
-        : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
         operation: "Surrogate",
@@ -232,9 +189,6 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName(`003-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountLocation = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
-        : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
         operation: "Surrogate",
@@ -323,9 +277,6 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName(`004-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountLocation = isPlaybackMode()
-        ? replaceableVariables.STORAGE_ACCOUNT_LOCATION
-        : getStorageAccountLocation();
 
       const job: DeidentificationJob = {
         operation: "Surrogate",
@@ -366,16 +317,16 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName(`005-${environment}`);
       const inputPrefix = "example_patient_1";
-      const storageAccountLocation = "FAKE_STORAGE_ACCOUNT";
+      const badStorageAccountLocation = "FAKE_STORAGE_ACCOUNT";
 
       const job: DeidentificationJob = {
         operation: "Surrogate",
         sourceLocation: {
-          location: storageAccountLocation,
+          location: badStorageAccountLocation,
           prefix: inputPrefix,
           extensions: ["*"],
         },
-        targetLocation: { location: storageAccountLocation, prefix: OUTPUT_FOLDER },
+        targetLocation: { location: badStorageAccountLocation, prefix: OUTPUT_FOLDER },
       };
 
       const initialResponse = await client.path("/jobs/{name}", jobName).put({ body: job });

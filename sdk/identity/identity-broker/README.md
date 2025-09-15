@@ -19,6 +19,17 @@ useIdentityPlugin(nativeBrokerPlugin);
 
 - An [Azure subscription](https://azure.microsoft.com/free/nodejs/).
 
+> Note: For local development with `@azure/identity-broker`, you may need to install additional tools. [node-gyp](https://github.com/nodejs/node-gyp) is used to compile [addons](https://nodejs.org/api/addons.html) for accessing system APIs. Installation requirements are listed in the [node-gyp README](https://github.com/nodejs/node-gyp#installation).
+
+On Linux, the library uses `libsecret` so you may need to install it. Depending on your distribution, you will need to run the following command:
+
+- Debian/Ubuntu: `sudo apt-get install libsecret-1-dev`
+- Red Hat-based: `sudo yum install libsecret-devel`
+- Arch Linux: `sudo pacman -S libsecret`
+
+> [!NOTE] 
+> Brokered authentication is currently only supported on Windows. Linux and macOS aren't yet supported.
+
 ### Install the package
 
 This package is designed to be used with Azure Identity for JavaScript. Install both `@azure/identity` and this package using `npm`:
@@ -71,6 +82,17 @@ const credential = new InteractiveBrowserCredential({
 ```
 
 After calling `useIdentityPlugin`, the native broker plugin is registered to the `@azure/identity` package and will be available on the `InteractiveBrowserCredential` that supports WAM broker authentication. This credential has `brokerOptions` in the constructor options.
+
+**Notes**: As of `@azure/identity` version 4.11.0-beta.1, `DefaultAzureCredential` provides support to sign-in via the Windows Web Account Manager. Enable native broker in your program as follows:
+
+```ts snippet:using_plugins_dac
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
+import { nativeBrokerPlugin } from "@azure/identity-broker";
+
+useIdentityPlugin(nativeBrokerPlugin);
+
+const credential = new DefaultAzureCredential();
+```
 
 ## Examples
 

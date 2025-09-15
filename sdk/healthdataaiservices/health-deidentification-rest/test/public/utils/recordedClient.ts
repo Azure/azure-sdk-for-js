@@ -2,10 +2,19 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import type { TokenCredential } from "@azure/core-auth";
 import type { DeidentificationClient } from "../../../src/clientDefinitions.js";
 import createClient from "../../../src/deidentificationClient.js";
+
+const envSetupForPlayback: Record<string, string> = {
+  HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT: "https://example.api.deid.azure.com",
+  HEALTHDATAAISERVICES_STORAGE_ACCOUNT_NAME: "fake_storage_account_sas_uri",
+  HEALTHDATAAISERVICES_STORAGE_CONTAINER_NAME: "container-sdk-dev-fakeid",
+  HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION:
+    "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+  CONTINUATION_TOKEN: "continuationToken=1234567890",
+};
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
@@ -13,11 +22,33 @@ import createClient from "../../../src/deidentificationClient.js";
  * read before they are being used.
  */
 export async function createRecorder(testContext: VitestTestContext): Promise<Recorder> {
-  return new Recorder(testContext);
-}
-
-export function getStorageAccountLocation(): string {
-  return `https://${assertEnvironmentVariable("STORAGE_ACCOUNT_NAME")}.blob.core.windows.net/${assertEnvironmentVariable("STORAGE_CONTAINER_NAME")}`;
+  const recorder = new Recorder(testContext);
+  await recorder.start({
+    envSetupForPlayback,
+    sanitizerOptions: {
+      bodyKeySanitizers: [
+        {
+          value: env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"],
+          jsonPath: "$..sourceLocation.location",
+          regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
+        },
+        {
+          value: env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"],
+          jsonPath: "$..targetLocation.location",
+          regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
+        },
+      ],
+      generalSanitizers: [
+        {
+          regex: true,
+          value: env["CONTINUATION_TOKEN"] ?? "",
+          target: "continuationToken=[A-Za-z0-9%._~-]+",
+        },
+      ],
+    },
+    removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
+  });
+  return recorder;
 }
 
 export function getTestEnvironment(): string {
@@ -32,10 +63,7 @@ export async function createRecordedDeidentificationClient(
   recorder: Recorder,
   credentials: TokenCredential,
 ): Promise<DeidentificationClient> {
-  const endpoint = isPlaybackMode()
-    ? "https://example.api.deid.azure.com"
-    : assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
+  const endpoint = assertEnvironmentVariable("HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT");
   const client = await createClient(endpoint, credentials, recorder.configureClientOptions({}));
-
   return client;
 }

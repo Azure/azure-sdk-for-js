@@ -12,7 +12,7 @@
  * https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-import * as crypto from "node:crypto";
+import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import type { AmqpError } from "rhea-promise";
 import { Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";

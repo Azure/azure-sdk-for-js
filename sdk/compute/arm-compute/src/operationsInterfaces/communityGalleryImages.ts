@@ -19,7 +19,7 @@ import {
 export interface CommunityGalleryImages {
   /**
    * List community gallery images inside a gallery.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param options The options parameters.
    */
@@ -30,7 +30,7 @@ export interface CommunityGalleryImages {
   ): PagedAsyncIterableIterator<CommunityGalleryImage>;
   /**
    * Get a community gallery image.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param galleryImageName The name of the community gallery image definition.
    * @param options The options parameters.

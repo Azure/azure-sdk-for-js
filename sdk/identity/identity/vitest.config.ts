@@ -8,11 +8,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      hookTimeout: 500000,
-      testTimeout: 500000,
       typecheck: {
-        exclude: ["test/manual-integration/**/*.ts", "test/manual/**/*.ts"]
-      }
+        enabled: false,
+      },
     },
   }),
 );

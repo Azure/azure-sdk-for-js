@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AgentsContext } from "../../api/agentsContext.js";
-import type { VectorStoreFileBatch } from "../../models/models.js";
+import type { VectorStoreFile, VectorStoreFileBatch } from "../../models/models.js";
 import type {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
@@ -26,7 +26,7 @@ export interface VectorStoreFileBatchesOperations {
     vectorStoreId: string,
     batchId: string,
     options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
-  ) => PagedAsyncIterableIterator<VectorStoreFileBatch>;
+  ) => PagedAsyncIterableIterator<VectorStoreFile>;
   /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
   cancel: (
     vectorStoreId: string,

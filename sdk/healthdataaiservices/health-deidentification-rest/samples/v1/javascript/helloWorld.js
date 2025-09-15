@@ -12,8 +12,7 @@ require("dotenv/config");
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  const serviceEndpoint =
-    process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
+  const serviceEndpoint = process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"];
   const client = createClient(serviceEndpoint, credential);
 
   const content = {

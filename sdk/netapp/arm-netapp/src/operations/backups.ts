@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Backup,
@@ -103,12 +99,7 @@ export class BackupsImpl implements Backups {
     let result: BackupsListByVaultResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVault(
-        resourceGroupName,
-        accountName,
-        backupVaultName,
-        options,
-      );
+      result = await this._listByVault(resourceGroupName, accountName, backupVaultName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -243,12 +234,7 @@ export class BackupsImpl implements Backups {
     backupName: string,
     body: Backup,
     options?: BackupsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsCreateResponse>,
-      BackupsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -259,8 +245,7 @@ export class BackupsImpl implements Backups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -353,12 +338,7 @@ export class BackupsImpl implements Backups {
     backupVaultName: string,
     backupName: string,
     options?: BackupsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsUpdateResponse>,
-      BackupsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<BackupsUpdateResponse>, BackupsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -369,8 +349,7 @@ export class BackupsImpl implements Backups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -459,12 +438,7 @@ export class BackupsImpl implements Backups {
     backupVaultName: string,
     backupName: string,
     options?: BackupsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsDeleteResponse>,
-      BackupsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<BackupsDeleteResponse>, BackupsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -475,8 +449,7 @@ export class BackupsImpl implements Backups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

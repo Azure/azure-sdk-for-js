@@ -6,26 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to The service tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. The PATCH method updates an existing service task, but since service tasks have no mutable custom properties, there is little reason to do so.
+ * This sample demonstrates how to The service tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic) instance. The PATCH method updates an existing service task, but since service tasks have no mutable custom properties, there is little reason to do so.
  *
- * @summary The service tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. The PATCH method updates an existing service task, but since service tasks have no mutable custom properties, there is little reason to do so.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/ServiceTasks_Update.json
+ * @summary The service tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic) instance. The PATCH method updates an existing service task, but since service tasks have no mutable custom properties, there is little reason to do so.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/ServiceTasks_Update.json
  */
 async function tasksUpdate() {
-  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";
   const taskName = "DmsSdkTask";
   const parameters = {
     properties: {
-      input: { serverVersion: "NA" },
-      taskType: "Service.Check.OCI",
+      input: {
+        sourceConnectionInfo: {
+          type: "MySqlConnectionInfo",
+          port: 3306,
+          serverName: "localhost",
+        },
+      },
+      taskType: "ConnectToSource.MySql",
     },
   };
   const credential = new DefaultAzureCredential();
@@ -34,4 +40,8 @@ async function tasksUpdate() {
   console.log(result);
 }
 
-tasksUpdate().catch(console.error);
+async function main() {
+  await tasksUpdate();
+}
+
+main().catch(console.error);

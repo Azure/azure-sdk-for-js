@@ -95,6 +95,7 @@ The following sections provide several code snippets covering some of the most c
 - [Read an item](#read-an-item)
 - [Delete an item](#delete-an-data)
 - [CRUD on Container with hierarchical partition key](#container-hierarchical-partition-key)
+- [Using Excluded Locations](#using-excluded-locations)
 
 ### Create a database
 
@@ -496,6 +497,37 @@ while (iterator.hasMoreResults) {
 Because the change feed is effectively an infinite list of items that encompasses all future writes and updates, the value of `hasMoreResults` is always `true`. When you try to read the change feed and there are no new changes available, you receive a response with `NotModified` status.
 
 More detailed usage guidelines and examples of change feed can be found [here](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=javascript).
+
+### Using Excluded Locations
+
+The `excludedLocations` option at the request level allows user to specify one or more Azure regions that should be excluded from serving the request. This is useful for scenarios where user want to avoid certain regions due to compliance, latency, or availability concerns. When set, Cosmos DB will route the request to other available regions, improving control over data residency and failover behavior.
+
+`excludedLocations` is only applied when `enableEndPointDiscovery` is set to true.
+
+This example shows various APIs supporting Excluded Locations.
+
+```ts snippet:ReadmeSampleWithExcludedLocations
+import { CosmosClient, ChangeFeedStartFrom } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+const city = { id: "1", name: "Olympia", state: "WA" };
+await container.items.upsert(city, { excludedLocations: ["Test Region"] });
+
+const iterator = container.items.getChangeFeedIterator({
+  excludedLocations: ["Test Region"],
+  maxItemCount: 1,
+  changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+});
+
+const response = await iterator.readNext();
+```
 
 ## Error Handling
 

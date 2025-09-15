@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { randomUUID } from "@azure/core-util";
+import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 
 /** An abstract representation of an input tool definition that an agent can use. */
@@ -306,7 +306,7 @@ export function bingGroundingSearchConfigurationArraySerializer(
 }
 
 export function bingGroundingSearchConfigurationArrayDeserializer(
-  result: Array<BingGroundingSearchConfiguration> | undefined,
+  result: Array<BingGroundingSearchConfiguration>,
 ): any[] {
   // Handle the case where result might be undefined
   if (!result) {
@@ -1151,10 +1151,16 @@ export type AgentsResponseFormatOption =
   | ResponseFormatJsonSchemaType;
 
 export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatOption): any {
+  if (typeof item === "object" && item.type === "json_schema") {
+    return responseFormatJsonSchemaTypeSerializer(item);
+  }
   return item;
 }
 
 export function agentsResponseFormatOptionDeserializer(item: any): AgentsResponseFormatOption {
+  if (typeof item === "object" && item.type === "json_schema") {
+    return responseFormatJsonSchemaTypeDeserializer(item);
+  }
   return item;
 }
 
@@ -1373,7 +1379,11 @@ export type MessageRole = "user" | "assistant";
 export type MessageInputContent = string | MessageInputContentBlockUnion[];
 
 export function messageInputContentSerializer(item: MessageInputContent): any {
-  return item;
+  if (typeof item === "string") {
+    return item;
+  }
+
+  return messageInputContentBlockUnionArraySerializer(item);
 }
 
 export function messageInputContentBlockUnionArraySerializer(
@@ -1565,17 +1575,6 @@ export function messageAttachmentToolDefinitionDeserializer(
   return item;
 }
 
-/** Alias for _MessageAttachmentTool */
-export type _MessageAttachmentTool = CodeInterpreterToolDefinition | FileSearchToolDefinition;
-
-export function _messageAttachmentToolSerializer(item: _MessageAttachmentTool): any {
-  return item;
-}
-
-export function _messageAttachmentToolDeserializer(item: any): _MessageAttachmentTool {
-  return item;
-}
-
 /**
  * Controls for how a thread will be truncated prior to the run. Use this to control the initial
  * context window of the run.
@@ -1739,7 +1738,7 @@ export function threadRunDeserializer(item: any): ThreadRun {
     lastError: !item["last_error"] ? item["last_error"] : runErrorDeserializer(item["last_error"]),
     model: item["model"],
     instructions: item["instructions"],
-    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
+    tools: !item["tools"] ? [] : toolDefinitionUnionArrayDeserializer(item["tools"]),
     createdAt: new Date(item["created_at"] * 1000),
     expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
     startedAt: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
@@ -3103,13 +3102,12 @@ export interface _UploadFileRequest {
   filename?: string;
 }
 
-export function _uploadFileRequestSerializer(
-  item: _UploadFileRequest,
-): Array<{ name: "file" | "purpose"; body: any; filename?: string }> {
-  return [
-    { name: "file" as const, body: item["file"], filename: item["filename"] ?? randomUUID() },
-    { name: "purpose" as const, body: item["purpose"] },
-  ];
+export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
+  const filePart = createFilePartDescriptor("file", item["file"], "application/octet-stream");
+  if (!filePart.filename) {
+    filePart.filename = item["filename"];
+  }
+  return [filePart, { name: "purpose", body: item["purpose"] }];
 }
 
 /** A status response from a file deletion operation. */
@@ -4287,27 +4285,17 @@ export function runStepDeltaCodeInterpreterImageOutputObjectDeserializer(
 /** Alias for AgentStreamEvent */
 export type AgentStreamEvent =
   | string
-  | (
-      | ThreadStreamEvent
-      | RunStreamEvent
-      | RunStepStreamEvent
-      | MessageStreamEvent
-      | ErrorEvent
-      | DoneEvent
-    );
-
-export function agentStreamEventDeserializer(item: any): AgentStreamEvent {
-  return item;
-}
-
-/** Alias for _ */
-export type _ =
   | ThreadStreamEvent
   | RunStreamEvent
   | RunStepStreamEvent
   | MessageStreamEvent
   | ErrorEvent
   | DoneEvent;
+
+export function agentStreamEventDeserializer(item: any): AgentStreamEvent {
+  return item;
+}
+
 /** Thread operation related streaming events */
 export enum ThreadStreamEvent {
   /** Event emitted when a thread is created */
@@ -4369,13 +4357,13 @@ export enum MessageStreamEvent {
   /** Event emitted when a message is incomplete */
   ThreadMessageIncomplete = "thread.message.incomplete",
 }
+
 /** Terminal event indicating a server side error while streaming. */
 export enum ErrorEvent {
   /** Server error while streaming */
   Error = "error",
 }
 /** Terminal event indicating the successful end of a stream. */
-
 export enum DoneEvent {
   /** Event emitted when a stream has completed successfully */
   Done = "done",

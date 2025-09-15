@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/keyvault-secrets": ["./src/index.ts"],
+      "@azure/keyvault-secrets/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
