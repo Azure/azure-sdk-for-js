@@ -44,6 +44,7 @@ const databaseAccountResponse = {
       },
     ],
     enableMultipleWriteLocations: true,
+    enablePerPartitionFailoverBehavior: true,
     userReplicationPolicy: {
       asyncReplication: false,
       minReplicaSetSize: 3,
@@ -180,6 +181,7 @@ describe("Excluded Regions with Per Partition Automatic Failover(PPAF)", { timeo
     let lastEndpointCalled = "";
 
     const responses = [
+      databaseAccountResponse,
       databaseAccountResponse,
       collectionResponse,
       readPartitionKeyRangesResponse,

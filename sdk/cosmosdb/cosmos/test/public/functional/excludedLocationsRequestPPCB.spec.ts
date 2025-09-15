@@ -52,6 +52,7 @@ const databaseAccountResponse = {
       },
     ],
     enableMultipleWriteLocations: true,
+    enablePerPartitionFailoverBehavior: true,
     userReplicationPolicy: {
       asyncReplication: false,
       minReplicaSetSize: 3,
@@ -180,6 +181,7 @@ describe("Excluded Regions with PPCB", { timeout: 30000 }, () => {
     let lastEndpointCalled = "";
 
     const responses = [
+      databaseAccountResponse,
       databaseAccountResponse,
       collectionResponse,
       readPartitionKeyRangesResponse,
