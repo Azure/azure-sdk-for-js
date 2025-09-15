@@ -15,6 +15,7 @@ const mockState = {
   getTestRunApiUrl: vi.fn().mockReturnValue("https://example.com/test-run"),
   randomUUID: vi.fn().mockReturnValue("mock-uuid"),
   extractErrorMessage: vi.fn(),
+  validateMptPAT: vi.fn(),
 };
 
 // Mock modules using only inline function definitions to avoid hoisting issues
@@ -24,12 +25,18 @@ vi.mock("../../src/common/httpService.js", () => ({
   })),
 }));
 
-vi.mock("../../src/utils/utils.js", () => ({
-  getTestRunApiUrl: (...args: any[]) => mockState.getTestRunApiUrl(...args),
-  getAccessToken: (...args: any[]) => mockState.getAccessToken(...args),
-  exitWithFailureMessage: (...args: any[]) => mockState.exitWithFailureMessage(...args),
-  extractErrorMessage: (...args: any[]) => mockState.extractErrorMessage(...args),
-}));
+// Partial mock utils: import original then override selected fns
+vi.mock("../../src/utils/utils.js", async (importOriginal) => {
+  const actual: any = await importOriginal();
+  return {
+    ...actual,
+    getTestRunApiUrl: (...args: any[]) => mockState.getTestRunApiUrl(...args),
+    getAccessToken: (...args: any[]) => mockState.getAccessToken(...args),
+    exitWithFailureMessage: (...args: any[]) => mockState.exitWithFailureMessage(...args),
+    extractErrorMessage: (...args: any[]) => mockState.extractErrorMessage(...args),
+    validateMptPAT: (...args: any[]) => mockState.validateMptPAT(...args),
+  };
+});
 
 // Mock the global crypto object since it's not imported but used directly
 Object.defineProperty(globalThis, "crypto", {
@@ -72,6 +79,7 @@ describe("PlaywrightServiceApiCall", () => {
       // Assert
       expect(mockState.getTestRunApiUrl).toHaveBeenCalledTimes(1);
       expect(mockState.getAccessToken).toHaveBeenCalledTimes(1);
+      expect(mockState.validateMptPAT).toHaveBeenCalledTimes(1);
       expect(mockState.callAPI).toHaveBeenCalledWith(
         "PATCH",
         "https://example.com/test-run?api-version=" + Constants.LatestAPIVersion,
@@ -94,6 +102,7 @@ describe("PlaywrightServiceApiCall", () => {
 
       // Verify API was not called
       expect(mockState.callAPI).not.toHaveBeenCalled();
+      expect(mockState.validateMptPAT).not.toHaveBeenCalled();
     });
 
     it("should call exitWithFailureMessage when API returns non-200 status", async () => {
@@ -129,6 +138,7 @@ describe("PlaywrightServiceApiCall", () => {
         ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN,
         errorMessage,
       );
+      expect(mockState.validateMptPAT).toHaveBeenCalledTimes(1);
     });
 
     it("should return empty object when response body is empty", async () => {
@@ -145,6 +155,7 @@ describe("PlaywrightServiceApiCall", () => {
       // Assert
       expect(result).toEqual({});
       expect(mockState.callAPI).toHaveBeenCalledTimes(1);
+      expect(mockState.validateMptPAT).toHaveBeenCalledTimes(1);
     });
   });
 });

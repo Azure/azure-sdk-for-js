@@ -467,7 +467,7 @@ describe("getConnectOptions", () => {
       getConnectOptions({
         serviceAuthType: ServiceAuth.ACCESS_TOKEN,
       }),
-    ).rejects.toThrow(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    ).rejects.toThrow(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN.message);
   });
 
   it("should fetch entra token using credentials passed by customer", async () => {

@@ -26,23 +26,29 @@ export const ServiceErrorMessageConstants = {
     message:
       "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
   },
-  NO_AUTH_ERROR: {
-    key: "NoAuthError",
+  NO_AUTH_ERROR_PAT_TOKEN: {
+    key: "NoAuthErrorPatToken",
+    message:
+      "Please set PLAYWRIGHT_SERVICE_ACCESS_TOKEN env variable when using ACCESS_TOKEN authentication Please refer to https://aka.ms/pww/docs/authentication for more information.",
+  },
+  NO_AUTH_ERROR_ENTRA_TOKEN: {
+    key: "NoAuthErrorEntraToken",
     message:
       "Could not authenticate with the service. Please refer to https://aka.ms/pww/docs/authentication for more information.",
   },
   INVALID_MPT_PAT_ERROR: {
     key: "InvalidMptPatError",
-    message: "The authentication token provided is invalid. Check the token and try again.",
+    message:
+      "The PLAYWRIGHT_SERVICE_ACCESS_TOKEN provided is invalid. Please make sure to set a valid token.",
   },
   EXPIRED_MPT_PAT_ERROR: {
     key: "ExpiredMptPatError",
-    message: "Your authentication token has expired. Create a new token.",
+    message: "The PLAYWRIGHT_SERVICE_ACCESS_TOKEN provided has expired. Create a new token.",
   },
   NO_CRED_ENTRA_AUTH_ERROR: {
     key: "NoCredEntraAuthError",
     message:
-      "Azure credentials not found when using Entra ID authentication. Please refer to https://aka.ms/pww/docs/authentication for more information.",
+      "Missing 'credential' parameter which is required when using ENTRA_ID authentication, Azure credential not provided. See https://aka.ms/pww/docs/authentication for more information.",
   },
   FAILED_TO_CREATE_TEST_RUN: {
     key: "FailedToCreateTestRun",
