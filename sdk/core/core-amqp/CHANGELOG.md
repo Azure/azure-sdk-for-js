@@ -1,14 +1,16 @@
 # Release History
 
-## 4.3.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.4.1 (2025-09-11)
 
 ### Other Changes
+
+- Upgrade `@azure/*` dependencies to latest versions.
+
+## 4.4.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
 
 ## 4.3.6 (2025-03-06)
 

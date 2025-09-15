@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-trustedsigning": ["./src/index.ts"],
+      "@azure/arm-trustedsigning/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/purview-sharing": ["./src/index.ts"],
+      "@azure-rest/purview-sharing/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-recorder",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "./dist/commonjs/index.js",
@@ -15,13 +15,12 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-package && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
     "test:browser:proxy": "dev-tool run test:vitest --browser",
     "test:node": "concurrently \"npm run tests:server\" \"npm run test:node:proxy\" --kill-others --success first",
     "test:node:proxy": "dev-tool run test:vitest",
-    "test:node:esm": "echo skipped",
     "tests:server": "node server.mjs",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -56,18 +55,18 @@
   },
   "devDependencies": {
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^20.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "concurrently": "^8.2.0",
-    "eslint": "^9.9.0",
-    "express": "^4.19.2",
-    "playwright": "^1.41.2",
-    "tslib": "^2.6.2",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "concurrently": "^9.2.1",
+    "eslint": "catalog:",
+    "express": "^5.1.0",
+    "playwright": "catalog:testing",
+    "tslib": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "tshy": {
     "exports": {
@@ -83,7 +82,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

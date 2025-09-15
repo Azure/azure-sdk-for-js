@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NetAppAccount,
@@ -154,11 +150,7 @@ export class AccountsImpl implements Accounts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -182,10 +174,7 @@ export class AccountsImpl implements Accounts {
   private _listBySubscription(
     options?: AccountsListBySubscriptionOptionalParams,
   ): Promise<AccountsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -197,10 +186,7 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     options?: AccountsListOptionalParams,
   ): Promise<AccountsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -233,10 +219,7 @@ export class AccountsImpl implements Accounts {
     body: NetAppAccount,
     options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsCreateOrUpdateResponse>,
-      AccountsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<AccountsCreateOrUpdateResponse>, AccountsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -248,8 +231,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -306,12 +288,7 @@ export class AccountsImpl implements Accounts {
     body: NetAppAccount,
     options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      accountName,
-      body,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, accountName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -336,8 +313,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -389,11 +365,7 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, options);
     return poller.pollUntilDone();
   }
 
@@ -409,12 +381,7 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsUpdateResponse>,
-      AccountsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -425,8 +392,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -483,12 +449,7 @@ export class AccountsImpl implements Accounts {
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      accountName,
-      body,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, accountName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -515,8 +476,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -570,11 +530,7 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsRenewCredentialsOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRenewCredentials(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const poller = await this.beginRenewCredentials(resourceGroupName, accountName, options);
     return poller.pollUntilDone();
   }
 
@@ -606,8 +562,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -664,11 +619,7 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsTransitionToCmkOptionalParams,
   ): Promise<AccountsTransitionToCmkResponse> {
-    const poller = await this.beginTransitionToCmk(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const poller = await this.beginTransitionToCmk(resourceGroupName, accountName, options);
     return poller.pollUntilDone();
   }
 
@@ -700,8 +651,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -778,10 +728,7 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsChangeKeyVaultOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsChangeKeyVaultResponse>,
-      AccountsChangeKeyVaultResponse
-    >
+    SimplePollerLike<OperationState<AccountsChangeKeyVaultResponse>, AccountsChangeKeyVaultResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -793,8 +740,7 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -850,11 +796,7 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsChangeKeyVaultOptionalParams,
   ): Promise<AccountsChangeKeyVaultResponse> {
-    const poller = await this.beginChangeKeyVault(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const poller = await this.beginChangeKeyVault(resourceGroupName, accountName, options);
     return poller.pollUntilDone();
   }
 
@@ -921,11 +863,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1163,11 +1101,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

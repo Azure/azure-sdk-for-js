@@ -122,10 +122,7 @@ export interface BackupVaults {
     parameters: PatchResourceRequestInput,
     options?: BackupVaultsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupVaultsUpdateResponse>,
-      BackupVaultsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>
   >;
   /**
    * Updates a BackupVault resource belonging to a resource group. For example, updating tags for a

@@ -1,4 +1,57 @@
 # Release History
+## 4.6.0 (2025-09-15)
+
+### Features Added
+
+- Excluded Locations Support: This feature adds support for excluded locations, allowing requests to avoid specified Azure regions when performing operations. By excluding certain regions at the request level, applications can control data residency, compliance, and latency, ensuring that operations are served only from preferred regions. This enhances availability and reliability by preventing requests from being routed to undesired or unavailable regions. [docs](https://devblogs.microsoft.com/cosmosdb/new-sdk-options-for-fine-grained-request-routing-to-azure-cosmos-db/)
+
+```js
+const requestOptions = { excludedLocations: ["West US"] };
+const city = { id: "1", name: "Olympia", state: "WA" };
+
+await container.items.upsert(city, requestOptions);
+
+await container.item("1").delete(requestOptions);
+```
+
+### Bugs Fixed
+- [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
+ preventing partitionKeyMismatch error when an optional partition key value is provided in the operationInput
+
+## 4.5.1 (2025-09-01)
+
+### Bugs Fixed
+- [#35739](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue where unavailable regions were incorrectly retained in the read and write region lists, potentially causing latency and connectivity issues. The SDK now properly removes regions that are no longer available from both readable and writable locations
+- [#35822](https://github.com/Azure/azure-sdk-for-js/issues/35822) Fixed an issue where ENOTFOUND error was incorrectly retried with defaultRetryPolicy. This error is now handled as part of EndpointDiscoveryPolicy and retried 120 times.
+
+## 4.5.0 (2025-07-21)
+
+### Features Added
+
+- PPAF (Per Partition Automatic Failover) Support: This feature adds support for Per Partition Automatic Failover (PPAF) and Per Partition Circuit Breaker (PPCB) allowing failover to different regions on a per partition basis instead of account level failovers increasing the availability and reducing the operation latencies on the client side. [docs](https://learn.microsoft.com/azure/cosmos-db/how-to-configure-per-partition-automatic-failover)
+
+The following sample shows how to enable PPAF and PPCB. If `enablePartitionLevelFailover` is set to `true`, by default `enablePartitionLevelCircuitBreaker` will also be set to `true`.
+
+```js
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: {
+    ...defaultConnectionPolicy,
+    enablePartitionLevelFailover: true,
+    enablePartitionLevelCircuitBreaker: true,
+  },
+});
+```
+
+### Bugs Fixed
+
+- [#35054](https://github.com/Azure/azure-sdk-for-js/pull/35054) Fixed an issue with COUNTIF aggregation which ensures that partial results from multiple partitions or batches are correctly summed, producing accurate results for COUNTIF queries.
+- [#35049](https://github.com/Azure/azure-sdk-for-js/pull/35049) Moved `@azure/logger` from the devDependencies to the runtime dependencies in the Cosmos DB client package, ensuring that client loggers can be created at runtime.
+- [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed the RU calculation bug where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
+- [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug enhancing the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
+- [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120*120 times on an inaccessible endpoint.
+- [#34933](https://github.com/Azure/azure-sdk-for-js/pull/34933) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
 
 ## 4.4.1 (2025-05-15)
 

@@ -35,7 +35,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.js";
-import * as crypto from "node:crypto";
+import crypto from "node:crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -657,8 +657,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(getTagsRes.tags, tags);
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("syncUploadFromURL - should fail with copy source error message", async () => {
+  it("syncUploadFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
@@ -684,8 +683,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("stageBlockFromURL - should fail with copy source error message", async () => {
+  it("stageBlockFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 

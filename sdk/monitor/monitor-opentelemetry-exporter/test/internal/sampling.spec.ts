@@ -2,9 +2,32 @@
 // Licensed under the MIT License.
 
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
-import { ApplicationInsightsSampler } from "../../src/sampling.js";
-import { context, SpanKind } from "@opentelemetry/api";
+import { context, trace, TraceFlags, SpanKind } from "@opentelemetry/api";
 import { describe, it, assert } from "vitest";
+import { AzureMonitorSampleRate } from "../../src/utils/constants/applicationinsights.js";
+import { ApplicationInsightsSampler } from "../../src/index.js";
+import { getSamplingHashCode } from "../../src/sampling/samplingUtils.js";
+
+// Helper to create a fake parent span with attributes and context
+function createParentSpan({
+  sampled,
+  sampleRate,
+  isRemote = false,
+}: {
+  sampled: boolean;
+  sampleRate?: number;
+  isRemote?: boolean;
+}): any {
+  return {
+    spanContext: () => ({
+      traceFlags: sampled ? TraceFlags.SAMPLED : 0,
+      isRemote,
+      traceId: "1234567890abcdef1234567890abcdef", // 32 hex chars
+      spanId: "1234567890abcdef", // 16 hex chars
+    }),
+    attributes: sampleRate !== undefined ? { [AzureMonitorSampleRate]: sampleRate } : {},
+  };
+}
 
 describe("Library/ApplicationInsightsSampler", () => {
   const idGenerator = new RandomIdGenerator();
@@ -151,11 +174,65 @@ describe("Library/ApplicationInsightsSampler", () => {
       ];
 
       const csharpMax = 2147483647;
-      const sampler = new ApplicationInsightsSampler();
       for (let i = 0; i < testArray.length; ++i) {
-        const res = sampler["_getSamplingHashCode"](<string>testArray[i][0]);
+        const res = getSamplingHashCode(<string>testArray[i][0]);
         assert.equal(res, (<number>testArray[i][1] / csharpMax) * 100);
       }
+    });
+  });
+
+  describe("ApplicationInsightsSampler - parent sampling scenarios", () => {
+    it("uses parent span's sample rate and SAMPLED flag", () => {
+      const sampler = new ApplicationInsightsSampler(0.1);
+      const parent = createParentSpan({ sampled: true, sampleRate: 75 });
+      const ctx = trace.setSpan(context.active(), parent as any);
+      const result = sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
+      assert.equal(result.decision, SamplingDecision.RECORD_AND_SAMPLED);
+      assert.equal(sampler["_sampleRate"], 10); // Should not update sampler rate only result
+      // Should not add sample rate attribute if 100, but here it's 75 so it should
+      assert.equal(result.attributes?.[AzureMonitorSampleRate], 75);
+    });
+
+    it("uses parent span's sample rate and NOT_RECORD flag", () => {
+      const sampler = new ApplicationInsightsSampler(0.9);
+      const parent = createParentSpan({ sampled: false, sampleRate: 25 });
+      const ctx = trace.setSpan(context.active(), parent as any);
+      const result = sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
+      assert.equal(result.decision, SamplingDecision.NOT_RECORD);
+      assert.equal(sampler["_sampleRate"], 90); // Should not update sampler rate only result
+      assert.equal(result.attributes?.[AzureMonitorSampleRate], 25);
+    });
+
+    it("uses parent span's sample rate if present, even if 100", () => {
+      const sampler = new ApplicationInsightsSampler(0.5);
+      const parent = createParentSpan({ sampled: true, sampleRate: 100 });
+      const ctx = trace.setSpan(context.active(), parent as any);
+      const result = sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
+      assert.equal(result.decision, SamplingDecision.RECORD_AND_SAMPLED);
+      assert.equal(sampler["_sampleRate"], 50); // Should not update sampler rate only result
+      // Should not add sample rate attribute if 100
+      assert.ok(!result.attributes || !(AzureMonitorSampleRate in result.attributes));
+    });
+
+    it("ignores parent span if remote", () => {
+      const sampler = new ApplicationInsightsSampler(0.5);
+      const parent = createParentSpan({ sampled: true, sampleRate: 80, isRemote: true });
+      const ctx = trace.setSpan(context.active(), parent as any);
+      // Should use local logic, not parent's sample rate
+      sampler["_sampleRate"] = 50;
+      sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
+      // The sample rate should remain 50, not 80
+      assert.equal(sampler["_sampleRate"], 50);
+    });
+
+    it("ignores parent sample rate if not present", () => {
+      const sampler = new ApplicationInsightsSampler(0.5);
+      const parent = createParentSpan({ sampled: true });
+      const ctx = trace.setSpan(context.active(), parent as any);
+      sampler["_sampleRate"] = 60;
+      sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
+      // Should not change sample rate
+      assert.equal(sampler["_sampleRate"], 60);
     });
   });
 });

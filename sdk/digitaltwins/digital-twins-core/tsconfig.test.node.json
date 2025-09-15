@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/digital-twins-core": ["./src/index.ts"],
+      "@azure/digital-twins-core/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-datacatalog": ["./src/index.ts"],
+      "@azure/arm-datacatalog/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -237,10 +237,10 @@ export interface UsageName {
   localizedValue?: string;
 }
 
-/** List of Quota Items */
-export interface QuotaItemList {
-  /** A list of QuotaItems */
-  value?: QuotaItem[];
+/** List of Subscription Quota Items */
+export interface SubscriptionQuotaItemList {
+  /** A list of SubscriptionQuotaItems */
+  value?: SubscriptionQuotaItem[];
   /** URL to get the next set of results. */
   nextLink?: string;
 }
@@ -471,22 +471,8 @@ export interface EncryptionIdentity {
   readonly principalId?: string;
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
   userAssignedIdentity?: string;
-  /** ClientId of the multi-tenant AAD Application. Used to access cross-tenant KeyVaults. */
+  /** ClientId of the multi-tenant AAD Application. Used to access cross-tenant keyvaults. */
   federatedClientId?: string;
-}
-
-/** LDAP configuration */
-export interface LdapConfiguration {
-  /** Name of the LDAP configuration domain */
-  domain?: string;
-  /** List of LDAP server IP addresses (IPv4 only) for the LDAP domain. */
-  ldapServers?: string[];
-  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
-  ldapOverTLS?: boolean;
-  /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
-  serverCACertificate?: string;
-  /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
-  certificateCNHost?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -567,8 +553,6 @@ export interface NetAppAccountPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly multiAdStatus?: MultiAdStatus;
-  /** LDAP Configuration for the account. */
-  ldapConfiguration?: LdapConfiguration;
 }
 
 /** Encryption transition request */
@@ -763,16 +747,6 @@ export interface ReplicationObject {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly destinationReplications?: DestinationReplication[];
-  /**
-   * Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
-  /**
-   * Contains human-readable instructions on what the next step is to finish the external replication setup.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly externalReplicationSetupInfo?: string;
 }
 
 /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
@@ -922,30 +896,6 @@ export interface GetGroupIdListForLdapUserRequest {
 export interface GetGroupIdListForLdapUserResponse {
   /** Group Id list */
   groupIdsForLdapUser?: string[];
-}
-
-/** Quota Report for volume */
-export interface ListQuotaReportResponse {
-  /** List of volume quota report records */
-  value?: QuotaReport[];
-  /** URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** Quota report record properties */
-export interface QuotaReport {
-  /** Type of quota */
-  quotaType?: Type;
-  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
-  quotaTarget?: string;
-  /** Specifies the current usage in kibibytes for the user/group quota. */
-  quotaLimitUsedInKiBs?: number;
-  /** Specifies the total size limit in kibibytes for the user/group quota. */
-  quotaLimitTotalInKiBs?: number;
-  /** Percentage of used size compared to total size. */
-  percentageUsed?: number;
-  /** Flag to indicate whether the quota is derived from default quota. */
-  isDerivedQuota?: boolean;
 }
 
 /** Break replication request */
@@ -1393,7 +1343,7 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
@@ -1431,8 +1381,6 @@ export interface VolumeGroupVolumeProperties {
   keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
-  /** Specifies the type of LDAP server for a given NFS volume. */
-  ldapServerType?: LdapServerType;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -1446,7 +1394,7 @@ export interface VolumeGroupVolumeProperties {
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
   coolAccessTieringPolicy?: CoolAccessTieringPolicy;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
   unixPermissions?: string;
   /**
    * When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -1518,8 +1466,6 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly inheritedSizeInBytes?: number;
-  /** Language supported for volume. */
-  language?: VolumeLanguage;
 }
 
 /** List of Subvolumes */
@@ -1704,92 +1650,6 @@ export interface BackupsMigrationRequest {
   backupVaultId: string;
 }
 
-/** List of volume bucket resources */
-export interface BucketList {
-  /** List of volume buckets */
-  value?: Bucket[];
-  /** URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-export interface FileSystemUser {
-  /** The effective NFS User ID and Group ID when accessing the volume data. */
-  nfsUser?: NfsUser;
-  /** The effective CIFS username when accessing the volume data. */
-  cifsUser?: CifsUser;
-}
-
-/** The effective NFS User ID and Group ID when accessing the volume data. */
-export interface NfsUser {
-  /** The NFS user's UID */
-  userId?: number;
-  /** The NFS user's GID */
-  groupId?: number;
-}
-
-/** The effective CIFS username when accessing the volume data. */
-export interface CifsUser {
-  /** The CIFS user's username */
-  username?: string;
-}
-
-/** Properties of the server managing the lifecycle of volume buckets */
-export interface BucketServerProperties {
-  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
-  /**
-   * Certificate Common Name taken from the certificate installed on the bucket server
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificateCommonName?: string;
-  /**
-   * The bucket server's certificate expiry date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificateExpiryDate?: Date;
-  /**
-   * The bucket server's IPv4 address
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddress?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
-  certificateObject?: string;
-}
-
-/** Properties of the server managing the lifecycle of volume buckets */
-export interface BucketServerPatchProperties {
-  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
-  fqdn?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
-  certificateObject?: string;
-}
-
-/** The bucket's Access and Secret key pair Expiry Time expressed as the number of days from now. */
-export interface BucketCredentialsExpiry {
-  /** The number of days from now until the newly generated Access and Secret key pair will expire. */
-  keyPairExpiryDays?: number;
-}
-
-/** Bucket Access Key, Secret Key, and Expiry date and time of the key pair */
-export interface BucketGenerateCredentials {
-  /**
-   * The Access Key that is required along with the Secret Key to access the bucket.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessKey?: string;
-  /**
-   * The Secret Key that is required along with the Access Key to access the bucket.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secretKey?: string;
-  /**
-   * The bucket's Access and Secret key pair expiry date and time (in UTC).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keyPairExpiry?: Date;
-}
-
 /** Identity for the resource. */
 export interface ResourceIdentity {
   /**
@@ -1896,7 +1756,7 @@ export interface CloudErrorBody {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -1906,8 +1766,8 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** Information regarding Quota Item. */
-export interface QuotaItem extends ProxyResource {
+/** Information regarding Subscription Quota Item. */
+export interface SubscriptionQuotaItem extends ProxyResource {
   /**
    * The current quota value.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1918,11 +1778,6 @@ export interface QuotaItem extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly default?: number;
-  /**
-   * The usage quota value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usage?: number;
 }
 
 /** Information regarding regionInfo Item. */
@@ -2031,45 +1886,6 @@ export interface Backup extends ProxyResource {
   readonly isLargeVolume?: boolean;
 }
 
-/** Bucket resource */
-export interface Bucket extends ProxyResource {
-  /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
-  path?: string;
-  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: NetappProvisioningState;
-  /**
-   * The bucket credentials status. There states:
-   *
-   * "NoCredentialsSet": Access and Secret key pair have not been generated.
-   * "CredentialsExpired": Access and Secret key pair have expired.
-   * "Active": The certificate has been installed and credentials are unexpired.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: CredentialsStatus;
-  /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerProperties;
-}
-
-/** Bucket resource */
-export interface BucketPatch extends ProxyResource {
-  /** The volume path mounted inside the bucket. */
-  path?: string;
-  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
-  fileSystemUser?: FileSystemUser;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: NetappProvisioningState;
-  /** Properties of the server managing the lifecycle of volume buckets */
-  server?: BucketServerPatchProperties;
-}
-
 /** NetApp account resource */
 export interface NetAppAccount extends TrackedResource {
   /**
@@ -2100,8 +1916,6 @@ export interface NetAppAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly multiAdStatus?: MultiAdStatus;
-  /** LDAP Configuration for the account. */
-  ldapConfiguration?: LdapConfiguration;
 }
 
 /** Capacity pool resource */
@@ -2209,7 +2023,7 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
@@ -2247,8 +2061,6 @@ export interface Volume extends TrackedResource {
   keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
-  /** Specifies the type of LDAP server for a given NFS volume. */
-  ldapServerType?: LdapServerType;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -2262,7 +2074,7 @@ export interface Volume extends TrackedResource {
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
   coolAccessTieringPolicy?: CoolAccessTieringPolicy;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
   unixPermissions?: string;
   /**
    * When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -2334,8 +2146,6 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly inheritedSizeInBytes?: number;
-  /** Language supported for volume. */
-  language?: VolumeLanguage;
 }
 
 /** Snapshot policy information */
@@ -2468,11 +2278,6 @@ export interface VolumesListGetGroupIdListForLdapUserHeaders {
   location?: string;
 }
 
-/** Defines headers for Volumes_listQuotaReport operation. */
-export interface VolumesListQuotaReportHeaders {
-  location?: string;
-}
-
 /** Defines headers for Volumes_peerExternalCluster operation. */
 export interface VolumesPeerExternalClusterHeaders {
   location?: string;
@@ -2526,30 +2331,6 @@ export interface BackupsUnderVolumeMigrateBackupsHeaders {
 /** Defines headers for BackupsUnderAccount_migrateBackups operation. */
 export interface BackupsUnderAccountMigrateBackupsHeaders {
   location?: string;
-}
-
-/** Defines headers for Buckets_createOrUpdate operation. */
-export interface BucketsCreateOrUpdateHeaders {
-  /** URL that can be used to check the status of the asynchronous operation */
-  location?: string;
-  /** URL that can be used to check the status of the asynchronous operation */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Buckets_update operation. */
-export interface BucketsUpdateHeaders {
-  /** URI to poll the status of the operation */
-  location?: string;
-  /** URL that can be used to check the status of the asynchronous operation */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Buckets_delete operation. */
-export interface BucketsDeleteHeaders {
-  /** URI to poll the status of the operation */
-  location?: string;
-  /** URL that can be used to check the status of the asynchronous operation */
-  azureAsyncOperation?: string;
 }
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
@@ -3017,33 +2798,6 @@ export enum KnownReplicationType {
  */
 export type ReplicationType = string;
 
-/** Known values of {@link ExternalReplicationSetupStatus} that the service accepts. */
-export enum KnownExternalReplicationSetupStatus {
-  /** Your cluster needs to be peered by using the 'peerExternalCluster' action */
-  ClusterPeerRequired = "ClusterPeerRequired",
-  /** The peering needs to be accepted on your cluster before the setup can proceed */
-  ClusterPeerPending = "ClusterPeerPending",
-  /** Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication */
-  VServerPeerRequired = "VServerPeerRequired",
-  /** Need to call 'authorizeExternalReplication' to finish setting up the external replication */
-  ReplicationCreateRequired = "ReplicationCreateRequired",
-  /** External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication */
-  NoActionRequired = "NoActionRequired",
-}
-
-/**
- * Defines values for ExternalReplicationSetupStatus. \
- * {@link KnownExternalReplicationSetupStatus} can be used interchangeably with ExternalReplicationSetupStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ClusterPeerRequired**: Your cluster needs to be peered by using the 'peerExternalCluster' action \
- * **ClusterPeerPending**: The peering needs to be accepted on your cluster before the setup can proceed \
- * **VServerPeerRequired**: Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication \
- * **ReplicationCreateRequired**: Need to call 'authorizeExternalReplication' to finish setting up the external replication \
- * **NoActionRequired**: External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication
- */
-export type ExternalReplicationSetupStatus = string;
-
 /** Known values of {@link AcceptGrowCapacityPoolForShortTermCloneSplit} that the service accepts. */
 export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
   /** Auto grow capacity pool for short term clone split is accepted. */
@@ -3133,24 +2887,6 @@ export enum KnownEncryptionKeySource {
  * **Microsoft.KeyVault**: Customer-managed key encryption
  */
 export type EncryptionKeySource = string;
-
-/** Known values of {@link LdapServerType} that the service accepts. */
-export enum KnownLdapServerType {
-  /** The volume should use Active Directory for LDAP connections. */
-  ActiveDirectory = "ActiveDirectory",
-  /** The volume should use OpenLDAP for LDAP connections. */
-  OpenLdap = "OpenLDAP",
-}
-
-/**
- * Defines values for LdapServerType. \
- * {@link KnownLdapServerType} can be used interchangeably with LdapServerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ActiveDirectory**: The volume should use Active Directory for LDAP connections. \
- * **OpenLDAP**: The volume should use OpenLDAP for LDAP connections.
- */
-export type LdapServerType = string;
 
 /** Known values of {@link CoolAccessRetrievalPolicy} that the service accepts. */
 export enum KnownCoolAccessRetrievalPolicy {
@@ -3245,249 +2981,6 @@ export enum KnownEnableSubvolumes {
  */
 export type EnableSubvolumes = string;
 
-/** Known values of {@link VolumeLanguage} that the service accepts. */
-export enum KnownVolumeLanguage {
-  /** Posix with UTF-8 */
-  CUtf8 = "c.utf-8",
-  /** UTF-8 with 4 byte character support */
-  Utf8Mb4 = "utf8mb4",
-  /** Arabic - Deprecated */
-  Ar = "ar",
-  /** Arabic with UTF-8 */
-  ArUtf8 = "ar.utf-8",
-  /** Croatian - Deprecated */
-  Hr = "hr",
-  /** Croatian with UTF-8 */
-  HrUtf8 = "hr.utf-8",
-  /** Czech - Deprecated */
-  Cs = "cs",
-  /** Czech with UTF-8 */
-  CsUtf8 = "cs.utf-8",
-  /** Danish - Deprecated */
-  Da = "da",
-  /** Danish with UTF-8 */
-  DaUtf8 = "da.utf-8",
-  /** Dutch - Deprecated */
-  Nl = "nl",
-  /** Dutch with UTF-8 */
-  NlUtf8 = "nl.utf-8",
-  /** English - Deprecated */
-  En = "en",
-  /** English with UTF-8 */
-  EnUtf8 = "en.utf-8",
-  /** Finnish - Deprecated */
-  Fi = "fi",
-  /** Finnish with UTF-8 */
-  FiUtf8 = "fi.utf-8",
-  /** French - Deprecated */
-  Fr = "fr",
-  /** French with UTF-8 */
-  FrUtf8 = "fr.utf-8",
-  /** German - Deprecated */
-  De = "de",
-  /** German with UTF-8 */
-  DeUtf8 = "de.utf-8",
-  /** Hebrew - Deprecated */
-  He = "he",
-  /** Hebrew with UTF-8 */
-  HeUtf8 = "he.utf-8",
-  /** Hungarian - Deprecated */
-  Hu = "hu",
-  /** Hungarian with UTF-8 */
-  HuUtf8 = "hu.utf-8",
-  /** Italian - Deprecated */
-  It = "it",
-  /** Italian with UTF-8 */
-  ItUtf8 = "it.utf-8",
-  /** Japanese euc-j - Deprecated */
-  Ja = "ja",
-  /** Japanese euc-j with UTF-8 */
-  JaUtf8 = "ja.utf-8",
-  /** Japanese euc-j - Deprecated */
-  JaV1 = "ja-v1",
-  /** Japanese euc-j with UTF-8 */
-  JaV1Utf8 = "ja-v1.utf-8",
-  /** Japanese pck */
-  JaJpPck = "ja-jp.pck",
-  /** Japanese pck with UTF-8 - Deprecated */
-  JaJpPckUtf8 = "ja-jp.pck.utf-8",
-  /** Japanese cp932 */
-  JaJp932 = "ja-jp.932",
-  /** Japanese cp932 with UTF-8 - Deprecated */
-  JaJp932Utf8 = "ja-jp.932.utf-8",
-  /** Japanese pck - sjis */
-  JaJpPckV2 = "ja-jp.pck-v2",
-  /** Japanese pck - sjis with UTF-8 - Deprecated */
-  JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
-  /** Korean - Deprecated */
-  Ko = "ko",
-  /** Korean with UTF-8 */
-  KoUtf8 = "ko.utf-8",
-  /** Norwegian - Deprecated */
-  No = "no",
-  /** Norwegian with UTF-8 */
-  NoUtf8 = "no.utf-8",
-  /** Polish - Deprecated */
-  Pl = "pl",
-  /** Polish with UTF-8 */
-  PlUtf8 = "pl.utf-8",
-  /** Portuguese - Deprecated */
-  Pt = "pt",
-  /** Portuguese with UTF-8 */
-  PtUtf8 = "pt.utf-8",
-  /** Posix - Deprecated */
-  C = "c",
-  /** Romanian - Deprecated */
-  Ro = "ro",
-  /** Romanian with UTF-8 */
-  RoUtf8 = "ro.utf-8",
-  /** Russian - Deprecated */
-  Ru = "ru",
-  /** Russian with UTF-8 */
-  RuUtf8 = "ru.utf-8",
-  /** Simplified Chinese - Deprecated */
-  Zh = "zh",
-  /** Simplified Chinese with UTF-8 */
-  ZhUtf8 = "zh.utf-8",
-  /** Simplified gbk Chinese */
-  ZhGbk = "zh.gbk",
-  /** Simplified gbk Chinese with UTF-8 - Deprecated */
-  ZhGbkUtf8 = "zh.gbk.utf-8",
-  /** Traditional Chinese BIG 5 */
-  ZhTwBig5 = "zh-tw.big5",
-  /** Traditional Chinese BIG 5 with UTF-8 - Deprecated */
-  ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
-  /** Traditional Chinese EUC-TW */
-  ZhTw = "zh-tw",
-  /** Traditional Chinese EUC-TW with UTF-8 - Deprecated */
-  ZhTwUtf8 = "zh-tw.utf-8",
-  /** Slovak - Deprecated */
-  Sk = "sk",
-  /** Slovak with UTF-8 */
-  SkUtf8 = "sk.utf-8",
-  /** Slovenian - Deprecated */
-  Sl = "sl",
-  /** Slovenian with UTF-8 */
-  SlUtf8 = "sl.utf-8",
-  /** Spanish - Deprecated */
-  Es = "es",
-  /** Spanish with UTF-8 */
-  EsUtf8 = "es.utf-8",
-  /** Swedish - Deprecated */
-  Sv = "sv",
-  /** Swedish with UTF-8 */
-  SvUtf8 = "sv.utf-8",
-  /** Turkish - Deprecated */
-  Tr = "tr",
-  /** Turkish with UTF-8 */
-  TrUtf8 = "tr.utf-8",
-  /** US English - Deprecated */
-  EnUs = "en-us",
-  /** US English with UTF-8 */
-  EnUsUtf8 = "en-us.utf-8",
-}
-
-/**
- * Defines values for VolumeLanguage. \
- * {@link KnownVolumeLanguage} can be used interchangeably with VolumeLanguage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **c.utf-8**: Posix with UTF-8 \
- * **utf8mb4**: UTF-8 with 4 byte character support \
- * **ar**: Arabic - Deprecated \
- * **ar.utf-8**: Arabic with UTF-8 \
- * **hr**: Croatian - Deprecated \
- * **hr.utf-8**: Croatian with UTF-8 \
- * **cs**: Czech - Deprecated \
- * **cs.utf-8**: Czech with UTF-8 \
- * **da**: Danish - Deprecated \
- * **da.utf-8**: Danish with UTF-8 \
- * **nl**: Dutch - Deprecated \
- * **nl.utf-8**: Dutch with UTF-8 \
- * **en**: English - Deprecated \
- * **en.utf-8**: English with UTF-8 \
- * **fi**: Finnish - Deprecated \
- * **fi.utf-8**: Finnish with UTF-8 \
- * **fr**: French - Deprecated \
- * **fr.utf-8**: French with UTF-8 \
- * **de**: German - Deprecated \
- * **de.utf-8**: German with UTF-8 \
- * **he**: Hebrew - Deprecated \
- * **he.utf-8**: Hebrew with UTF-8 \
- * **hu**: Hungarian - Deprecated \
- * **hu.utf-8**: Hungarian with UTF-8 \
- * **it**: Italian - Deprecated \
- * **it.utf-8**: Italian with UTF-8 \
- * **ja**: Japanese euc-j - Deprecated \
- * **ja.utf-8**: Japanese euc-j with UTF-8 \
- * **ja-v1**: Japanese euc-j - Deprecated \
- * **ja-v1.utf-8**: Japanese euc-j with UTF-8 \
- * **ja-jp.pck**: Japanese pck \
- * **ja-jp.pck.utf-8**: Japanese pck with UTF-8 - Deprecated \
- * **ja-jp.932**: Japanese cp932 \
- * **ja-jp.932.utf-8**: Japanese cp932 with UTF-8 - Deprecated \
- * **ja-jp.pck-v2**: Japanese pck - sjis \
- * **ja-jp.pck-v2.utf-8**: Japanese pck - sjis with UTF-8 - Deprecated \
- * **ko**: Korean - Deprecated \
- * **ko.utf-8**: Korean with UTF-8 \
- * **no**: Norwegian - Deprecated \
- * **no.utf-8**: Norwegian with UTF-8 \
- * **pl**: Polish - Deprecated \
- * **pl.utf-8**: Polish with UTF-8 \
- * **pt**: Portuguese - Deprecated \
- * **pt.utf-8**: Portuguese with UTF-8 \
- * **c**: Posix - Deprecated \
- * **ro**: Romanian - Deprecated \
- * **ro.utf-8**: Romanian with UTF-8 \
- * **ru**: Russian - Deprecated \
- * **ru.utf-8**: Russian with UTF-8 \
- * **zh**: Simplified Chinese - Deprecated \
- * **zh.utf-8**: Simplified Chinese with UTF-8 \
- * **zh.gbk**: Simplified gbk Chinese \
- * **zh.gbk.utf-8**: Simplified gbk Chinese with UTF-8 - Deprecated \
- * **zh-tw.big5**: Traditional Chinese BIG 5 \
- * **zh-tw.big5.utf-8**: Traditional Chinese BIG 5 with UTF-8 - Deprecated \
- * **zh-tw**: Traditional Chinese EUC-TW \
- * **zh-tw.utf-8**: Traditional Chinese EUC-TW with UTF-8 - Deprecated \
- * **sk**: Slovak - Deprecated \
- * **sk.utf-8**: Slovak with UTF-8 \
- * **sl**: Slovenian - Deprecated \
- * **sl.utf-8**: Slovenian with UTF-8 \
- * **es**: Spanish - Deprecated \
- * **es.utf-8**: Spanish with UTF-8 \
- * **sv**: Swedish - Deprecated \
- * **sv.utf-8**: Swedish with UTF-8 \
- * **tr**: Turkish - Deprecated \
- * **tr.utf-8**: Turkish with UTF-8 \
- * **en-us**: US English - Deprecated \
- * **en-us.utf-8**: US English with UTF-8
- */
-export type VolumeLanguage = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** Default user quota */
-  DefaultUserQuota = "DefaultUserQuota",
-  /** Default group quota */
-  DefaultGroupQuota = "DefaultGroupQuota",
-  /** Individual user quota */
-  IndividualUserQuota = "IndividualUserQuota",
-  /** Individual group quota */
-  IndividualGroupQuota = "IndividualGroupQuota",
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DefaultUserQuota**: Default user quota \
- * **DefaultGroupQuota**: Default group quota \
- * **IndividualUserQuota**: Individual user quota \
- * **IndividualGroupQuota**: Individual group quota
- */
-export type Type = string;
-
 /** Known values of {@link RelationshipStatus} that the service accepts. */
 export enum KnownRelationshipStatus {
   /** Idle */
@@ -3533,6 +3026,30 @@ export enum KnownMirrorState {
  */
 export type MirrorState = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Default user quota */
+  DefaultUserQuota = "DefaultUserQuota",
+  /** Default group quota */
+  DefaultGroupQuota = "DefaultGroupQuota",
+  /** Individual user quota */
+  IndividualUserQuota = "IndividualUserQuota",
+  /** Individual group quota */
+  IndividualGroupQuota = "IndividualGroupQuota",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultUserQuota**: Default user quota \
+ * **DefaultGroupQuota**: Default group quota \
+ * **IndividualUserQuota**: Individual user quota \
+ * **IndividualGroupQuota**: Individual group quota
+ */
+export type Type = string;
+
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
   /** SAPHana */
@@ -3568,60 +3085,6 @@ export enum KnownBackupType {
  * **Scheduled**: Scheduled backup
  */
 export type BackupType = string;
-
-/** Known values of {@link NetappProvisioningState} that the service accepts. */
-export enum KnownNetappProvisioningState {
-  /** Resource has been created. */
-  Succeeded = "Succeeded",
-  /** Resource creation failed. */
-  Failed = "Failed",
-  /** Resource creation was canceled. */
-  Canceled = "Canceled",
-  /** Resource is getting provisioned */
-  Provisioning = "Provisioning",
-  /** Resource is updating */
-  Updating = "Updating",
-  /** Resource is getting deleted */
-  Deleting = "Deleting",
-  /** Resource has been accepted */
-  Accepted = "Accepted",
-}
-
-/**
- * Defines values for NetappProvisioningState. \
- * {@link KnownNetappProvisioningState} can be used interchangeably with NetappProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Resource has been created. \
- * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled. \
- * **Provisioning**: Resource is getting provisioned \
- * **Updating**: Resource is updating \
- * **Deleting**: Resource is getting deleted \
- * **Accepted**: Resource has been accepted
- */
-export type NetappProvisioningState = string;
-
-/** Known values of {@link CredentialsStatus} that the service accepts. */
-export enum KnownCredentialsStatus {
-  /** Access and Secret key pair have not been generated. */
-  NoCredentialsSet = "NoCredentialsSet",
-  /** Access and Secret key pair have expired. */
-  CredentialsExpired = "CredentialsExpired",
-  /** The certificate has been installed on the bucket server and the bucket credentials are unexpired. */
-  Active = "Active",
-}
-
-/**
- * Defines values for CredentialsStatus. \
- * {@link KnownCredentialsStatus} can be used interchangeably with CredentialsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NoCredentialsSet**: Access and Secret key pair have not been generated. \
- * **CredentialsExpired**: Access and Secret key pair have expired. \
- * **Active**: The certificate has been installed on the bucket server and the bucket credentials are unexpired.
- */
-export type CredentialsStatus = string;
 /** Defines values for ProvisioningState. */
 export type ProvisioningState =
   | "Accepted"
@@ -3633,26 +3096,23 @@ export type ProvisioningState =
   | "Succeeded";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NetAppResourceCheckNameAvailabilityResponse =
-  CheckAvailabilityResponse;
+export type NetAppResourceCheckNameAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
@@ -3662,27 +3122,24 @@ export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
 }
 
 /** Contains response data for the checkFilePathAvailability operation. */
-export type NetAppResourceCheckFilePathAvailabilityResponse =
-  CheckAvailabilityResponse;
+export type NetAppResourceCheckFilePathAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckQuotaAvailabilityOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkQuotaAvailability operation. */
-export type NetAppResourceCheckQuotaAvailabilityResponse =
-  CheckAvailabilityResponse;
+export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
-export interface NetAppResourceQueryRegionInfoOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQueryRegionInfoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryRegionInfo operation. */
 export type NetAppResourceQueryRegionInfoResponse = RegionInfo;
 
 /** Optional parameters. */
 export interface NetAppResourceQueryNetworkSiblingSetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryNetworkSiblingSet operation. */
 export type NetAppResourceQueryNetworkSiblingSetResponse = NetworkSiblingSet;
@@ -3700,85 +3157,81 @@ export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams
 export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 /** Optional parameters. */
-export interface NetAppResourceUsagesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceUsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NetAppResourceUsagesListResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface NetAppResourceUsagesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceUsagesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NetAppResourceUsagesGetResponse = UsageResult;
 
 /** Optional parameters. */
-export interface NetAppResourceUsagesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceUsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetAppResourceUsagesListNextResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface NetAppResourceQuotaLimitsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQuotaLimitsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetAppResourceQuotaLimitsListResponse = QuotaItemList;
+export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
 
 /** Optional parameters. */
-export interface NetAppResourceQuotaLimitsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQuotaLimitsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetAppResourceQuotaLimitsGetResponse = QuotaItem;
+export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem;
 
 /** Optional parameters. */
-export interface NetAppResourceRegionInfosListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceQuotaLimitsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NetAppResourceQuotaLimitsListNextResponse = SubscriptionQuotaItemList;
+
+/** Optional parameters. */
+export interface NetAppResourceRegionInfosListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NetAppResourceRegionInfosListResponse = RegionInfosList;
 
 /** Optional parameters. */
-export interface NetAppResourceRegionInfosGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface NetAppResourceRegionInfosGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NetAppResourceRegionInfosGetResponse = RegionInfoResource;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NetAppResourceRegionInfosListNextResponse = RegionInfosList;
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface AccountsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AccountsListResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccountsGetResponse = NetAppAccount;
 
 /** Optional parameters. */
-export interface AccountsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3789,8 +3242,7 @@ export interface AccountsCreateOrUpdateOptionalParams
 export type AccountsCreateOrUpdateResponse = NetAppAccount;
 
 /** Optional parameters. */
-export interface AccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3798,8 +3250,7 @@ export interface AccountsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3810,8 +3261,7 @@ export interface AccountsUpdateOptionalParams
 export type AccountsUpdateResponse = NetAppAccount;
 
 /** Optional parameters. */
-export interface AccountsRenewCredentialsOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsRenewCredentialsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3819,8 +3269,7 @@ export interface AccountsRenewCredentialsOptionalParams
 }
 
 /** Optional parameters. */
-export interface AccountsTransitionToCmkOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsTransitionToCmkOptionalParams extends coreClient.OperationOptions {
   /** The required parameters to perform encryption transition. */
   body?: EncryptionTransitionRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3842,12 +3291,10 @@ export interface AccountsGetChangeKeyVaultInformationOptionalParams
 }
 
 /** Contains response data for the getChangeKeyVaultInformation operation. */
-export type AccountsGetChangeKeyVaultInformationResponse =
-  GetKeyVaultStatusResponse;
+export type AccountsGetChangeKeyVaultInformationResponse = GetKeyVaultStatusResponse;
 
 /** Optional parameters. */
-export interface AccountsChangeKeyVaultOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsChangeKeyVaultOptionalParams extends coreClient.OperationOptions {
   /** The required parameters to perform encryption migration. */
   body?: ChangeKeyVault;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3860,34 +3307,31 @@ export interface AccountsChangeKeyVaultOptionalParams
 export type AccountsChangeKeyVaultResponse = AccountsChangeKeyVaultHeaders;
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AccountsListBySubscriptionNextResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface AccountsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AccountsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AccountsListNextResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface PoolsListOptionalParams extends coreClient.OperationOptions { }
+export interface PoolsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PoolsListResponse = CapacityPoolList;
 
 /** Optional parameters. */
-export interface PoolsGetOptionalParams extends coreClient.OperationOptions { }
+export interface PoolsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PoolsGetResponse = CapacityPool;
 
 /** Optional parameters. */
-export interface PoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3917,28 +3361,25 @@ export interface PoolsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PoolsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PoolsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PoolsListNextResponse = CapacityPoolList;
 
 /** Optional parameters. */
-export interface VolumesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type VolumesListResponse = VolumeList;
 
 /** Optional parameters. */
-export interface VolumesGetOptionalParams extends coreClient.OperationOptions { }
+export interface VolumesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VolumesGetResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3949,8 +3390,7 @@ export interface VolumesCreateOrUpdateOptionalParams
 export type VolumesCreateOrUpdateResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3961,8 +3401,7 @@ export interface VolumesUpdateOptionalParams
 export type VolumesUpdateResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
   /** An option to force delete the volume. Will cleanup resources connected to the particular volume */
   forceDelete?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3972,8 +3411,7 @@ export interface VolumesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesPopulateAvailabilityZoneOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesPopulateAvailabilityZoneOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3984,8 +3422,7 @@ export interface VolumesPopulateAvailabilityZoneOptionalParams
 export type VolumesPopulateAvailabilityZoneResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesRevertOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesRevertOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3993,8 +3430,7 @@ export interface VolumesRevertOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesResetCifsPasswordOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesResetCifsPasswordOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4005,8 +3441,7 @@ export interface VolumesResetCifsPasswordOptionalParams
 export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
 
 /** Optional parameters. */
-export interface VolumesSplitCloneFromParentOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesSplitCloneFromParentOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4014,12 +3449,10 @@ export interface VolumesSplitCloneFromParentOptionalParams
 }
 
 /** Contains response data for the splitCloneFromParent operation. */
-export type VolumesSplitCloneFromParentResponse =
-  VolumesSplitCloneFromParentHeaders;
+export type VolumesSplitCloneFromParentResponse = Volume;
 
 /** Optional parameters. */
-export interface VolumesBreakFileLocksOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesBreakFileLocksOptionalParams extends coreClient.OperationOptions {
   /** Optional body to provide the ability to clear file locks with selected options */
   body?: BreakFileLocksRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -4038,24 +3471,10 @@ export interface VolumesListGetGroupIdListForLdapUserOptionalParams
 }
 
 /** Contains response data for the listGetGroupIdListForLdapUser operation. */
-export type VolumesListGetGroupIdListForLdapUserResponse =
-  GetGroupIdListForLdapUserResponse;
+export type VolumesListGetGroupIdListForLdapUserResponse = GetGroupIdListForLdapUserResponse;
 
 /** Optional parameters. */
-export interface VolumesListQuotaReportOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the listQuotaReport operation. */
-export type VolumesListQuotaReportResponse = ListQuotaReportResponse;
-
-/** Optional parameters. */
-export interface VolumesBreakReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesBreakReplicationOptionalParams extends coreClient.OperationOptions {
   /** Optional body to force break the replication. */
   body?: BreakReplicationRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -4065,8 +3484,7 @@ export interface VolumesBreakReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesReestablishReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesReestablishReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4074,22 +3492,19 @@ export interface VolumesReestablishReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesReplicationStatusOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesReplicationStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the replicationStatus operation. */
 export type VolumesReplicationStatusResponse = ReplicationStatus;
 
 /** Optional parameters. */
-export interface VolumesListReplicationsOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesListReplicationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listReplications operation. */
 export type VolumesListReplicationsResponse = ListReplications;
 
 /** Optional parameters. */
-export interface VolumesResyncReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesResyncReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4097,8 +3512,7 @@ export interface VolumesResyncReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesDeleteReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesDeleteReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4106,8 +3520,7 @@ export interface VolumesDeleteReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesAuthorizeReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesAuthorizeReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4115,8 +3528,7 @@ export interface VolumesAuthorizeReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesReInitializeReplicationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesReInitializeReplicationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4124,8 +3536,7 @@ export interface VolumesReInitializeReplicationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesPeerExternalClusterOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesPeerExternalClusterOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4145,8 +3556,7 @@ export interface VolumesAuthorizeExternalReplicationOptionalParams
 }
 
 /** Contains response data for the authorizeExternalReplication operation. */
-export type VolumesAuthorizeExternalReplicationResponse =
-  SvmPeerCommandResponse;
+export type VolumesAuthorizeExternalReplicationResponse = SvmPeerCommandResponse;
 
 /** Optional parameters. */
 export interface VolumesFinalizeExternalReplicationOptionalParams
@@ -4158,8 +3568,7 @@ export interface VolumesFinalizeExternalReplicationOptionalParams
 }
 
 /** Contains response data for the finalizeExternalReplication operation. */
-export type VolumesFinalizeExternalReplicationResponse =
-  VolumesFinalizeExternalReplicationHeaders;
+export type VolumesFinalizeExternalReplicationResponse = VolumesFinalizeExternalReplicationHeaders;
 
 /** Optional parameters. */
 export interface VolumesPerformReplicationTransferOptionalParams
@@ -4171,12 +3580,10 @@ export interface VolumesPerformReplicationTransferOptionalParams
 }
 
 /** Contains response data for the performReplicationTransfer operation. */
-export type VolumesPerformReplicationTransferResponse =
-  VolumesPerformReplicationTransferHeaders;
+export type VolumesPerformReplicationTransferResponse = VolumesPerformReplicationTransferHeaders;
 
 /** Optional parameters. */
-export interface VolumesPoolChangeOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesPoolChangeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4184,8 +3591,7 @@ export interface VolumesPoolChangeOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesRelocateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesRelocateOptionalParams extends coreClient.OperationOptions {
   /** Relocate volume request */
   body?: RelocateVolumeRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -4195,8 +3601,7 @@ export interface VolumesRelocateOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesFinalizeRelocationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesFinalizeRelocationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4204,8 +3609,7 @@ export interface VolumesFinalizeRelocationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesRevertRelocationOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumesRevertRelocationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4213,29 +3617,25 @@ export interface VolumesRevertRelocationOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VolumesListNextResponse = VolumeList;
 
 /** Optional parameters. */
-export interface SnapshotsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SnapshotsListResponse = SnapshotsList;
 
 /** Optional parameters. */
-export interface SnapshotsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SnapshotsGetResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4246,8 +3646,7 @@ export interface SnapshotsCreateOptionalParams
 export type SnapshotsCreateResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4258,8 +3657,7 @@ export interface SnapshotsUpdateOptionalParams
 export type SnapshotsUpdateResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4267,8 +3665,7 @@ export interface SnapshotsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SnapshotsRestoreFilesOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsRestoreFilesOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4276,29 +3673,25 @@ export interface SnapshotsRestoreFilesOptionalParams
 }
 
 /** Optional parameters. */
-export interface SnapshotPoliciesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SnapshotPoliciesListResponse = SnapshotPoliciesList;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SnapshotPoliciesGetResponse = SnapshotPolicy;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesCreateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SnapshotPoliciesCreateResponse = SnapshotPolicy;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4309,8 +3702,7 @@ export interface SnapshotPoliciesUpdateOptionalParams
 export type SnapshotPoliciesUpdateResponse = SnapshotPolicy;
 
 /** Optional parameters. */
-export interface SnapshotPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4318,29 +3710,25 @@ export interface SnapshotPoliciesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SnapshotPoliciesListVolumesOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SnapshotPoliciesListVolumesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVolumes operation. */
 export type SnapshotPoliciesListVolumesResponse = SnapshotPolicyVolumeList;
 
 /** Optional parameters. */
-export interface BackupPoliciesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupPoliciesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type BackupPoliciesListResponse = BackupPoliciesList;
 
 /** Optional parameters. */
-export interface BackupPoliciesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupPoliciesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BackupPoliciesGetResponse = BackupPolicy;
 
 /** Optional parameters. */
-export interface BackupPoliciesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupPoliciesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4351,8 +3739,7 @@ export interface BackupPoliciesCreateOptionalParams
 export type BackupPoliciesCreateResponse = BackupPolicy;
 
 /** Optional parameters. */
-export interface BackupPoliciesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4363,8 +3750,7 @@ export interface BackupPoliciesUpdateOptionalParams
 export type BackupPoliciesUpdateResponse = BackupPolicy;
 
 /** Optional parameters. */
-export interface BackupPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4372,22 +3758,19 @@ export interface BackupPoliciesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesListByVolumeOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumeQuotaRulesListByVolumeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolume operation. */
 export type VolumeQuotaRulesListByVolumeResponse = VolumeQuotaRulesList;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumeQuotaRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VolumeQuotaRulesGetResponse = VolumeQuotaRule;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeQuotaRulesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4398,8 +3781,7 @@ export interface VolumeQuotaRulesCreateOptionalParams
 export type VolumeQuotaRulesCreateResponse = VolumeQuotaRule;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeQuotaRulesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4410,8 +3792,7 @@ export interface VolumeQuotaRulesUpdateOptionalParams
 export type VolumeQuotaRulesUpdateResponse = VolumeQuotaRule;
 
 /** Optional parameters. */
-export interface VolumeQuotaRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeQuotaRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4420,21 +3801,19 @@ export interface VolumeQuotaRulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface VolumeGroupsListByNetAppAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetAppAccount operation. */
 export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 /** Optional parameters. */
-export interface VolumeGroupsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VolumeGroupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VolumeGroupsGetResponse = VolumeGroupDetails;
 
 /** Optional parameters. */
-export interface VolumeGroupsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeGroupsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4445,8 +3824,7 @@ export interface VolumeGroupsCreateOptionalParams
 export type VolumeGroupsCreateResponse = VolumeGroupDetails;
 
 /** Optional parameters. */
-export interface VolumeGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VolumeGroupsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4454,22 +3832,19 @@ export interface VolumeGroupsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SubvolumesListByVolumeOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SubvolumesListByVolumeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolume operation. */
 export type SubvolumesListByVolumeResponse = SubvolumesList;
 
 /** Optional parameters. */
-export interface SubvolumesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SubvolumesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SubvolumesGetResponse = SubvolumeInfo;
 
 /** Optional parameters. */
-export interface SubvolumesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4480,8 +3855,7 @@ export interface SubvolumesCreateOptionalParams
 export type SubvolumesCreateResponse = SubvolumeInfo;
 
 /** Optional parameters. */
-export interface SubvolumesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4492,8 +3866,7 @@ export interface SubvolumesUpdateOptionalParams
 export type SubvolumesUpdateResponse = SubvolumeInfo;
 
 /** Optional parameters. */
-export interface SubvolumesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4501,8 +3874,7 @@ export interface SubvolumesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SubvolumesGetMetadataOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubvolumesGetMetadataOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4513,29 +3885,26 @@ export interface SubvolumesGetMetadataOptionalParams
 export type SubvolumesGetMetadataResponse = SubvolumeModel;
 
 /** Optional parameters. */
-export interface SubvolumesListByVolumeNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface SubvolumesListByVolumeNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolumeNext operation. */
 export type SubvolumesListByVolumeNextResponse = SubvolumesList;
 
 /** Optional parameters. */
-export interface BackupsGetLatestStatusOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupsGetLatestStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLatestStatus operation. */
 export type BackupsGetLatestStatusResponse = BackupStatus;
 
 /** Optional parameters. */
 export interface BackupsGetVolumeLatestRestoreStatusOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVolumeLatestRestoreStatus operation. */
 export type BackupsGetVolumeLatestRestoreStatusResponse = RestoreStatus;
 
 /** Optional parameters. */
-export interface BackupsListByVaultOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsListByVaultOptionalParams extends coreClient.OperationOptions {
   /** An option to specify the VolumeResourceId. If present, then only returns the backups under the specified volume */
   filter?: string;
 }
@@ -4544,14 +3913,13 @@ export interface BackupsListByVaultOptionalParams
 export type BackupsListByVaultResponse = BackupsList;
 
 /** Optional parameters. */
-export interface BackupsGetOptionalParams extends coreClient.OperationOptions { }
+export interface BackupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BackupsGetResponse = Backup;
 
 /** Optional parameters. */
-export interface BackupsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4562,8 +3930,7 @@ export interface BackupsCreateOptionalParams
 export type BackupsCreateResponse = Backup;
 
 /** Optional parameters. */
-export interface BackupsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Backup object supplied in the body of the operation. */
   body?: BackupPatch;
   /** Delay to wait until next poll, in milliseconds. */
@@ -4576,8 +3943,7 @@ export interface BackupsUpdateOptionalParams
 export type BackupsUpdateResponse = Backup;
 
 /** Optional parameters. */
-export interface BackupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4588,50 +3954,26 @@ export interface BackupsDeleteOptionalParams
 export type BackupsDeleteResponse = BackupsDeleteHeaders;
 
 /** Optional parameters. */
-export interface BackupsListByVaultNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupsListByVaultNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVaultNext operation. */
 export type BackupsListByVaultNextResponse = BackupsList;
 
 /** Optional parameters. */
-export interface NetAppResourceQuotaLimitsAccountListOptionalParams
-  extends coreClient.OperationOptions { }
-
-/** Contains response data for the list operation. */
-export type NetAppResourceQuotaLimitsAccountListResponse = QuotaItemList;
-
-/** Optional parameters. */
-export interface NetAppResourceQuotaLimitsAccountGetOptionalParams
-  extends coreClient.OperationOptions { }
-
-/** Contains response data for the get operation. */
-export type NetAppResourceQuotaLimitsAccountGetResponse = QuotaItem;
-
-/** Optional parameters. */
-export interface NetAppResourceQuotaLimitsAccountListNextOptionalParams
-  extends coreClient.OperationOptions { }
-
-/** Contains response data for the listNext operation. */
-export type NetAppResourceQuotaLimitsAccountListNextResponse = QuotaItemList;
-
-/** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetAppAccount operation. */
 export type BackupVaultsListByNetAppAccountResponse = BackupVaultsList;
 
 /** Optional parameters. */
-export interface BackupVaultsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface BackupVaultsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BackupVaultsGetResponse = BackupVault;
 
 /** Optional parameters. */
-export interface BackupVaultsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupVaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4642,8 +3984,7 @@ export interface BackupVaultsCreateOrUpdateOptionalParams
 export type BackupVaultsCreateOrUpdateResponse = BackupVault;
 
 /** Optional parameters. */
-export interface BackupVaultsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupVaultsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4654,8 +3995,7 @@ export interface BackupVaultsUpdateOptionalParams
 export type BackupVaultsUpdateResponse = BackupVault;
 
 /** Optional parameters. */
-export interface BackupVaultsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupVaultsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4667,7 +4007,7 @@ export type BackupVaultsDeleteResponse = BackupVaultsDeleteHeaders;
 
 /** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetAppAccountNext operation. */
 export type BackupVaultsListByNetAppAccountNextResponse = BackupVaultsList;
@@ -4695,8 +4035,7 @@ export interface BackupsUnderVolumeMigrateBackupsOptionalParams
 }
 
 /** Contains response data for the migrateBackups operation. */
-export type BackupsUnderVolumeMigrateBackupsResponse =
-  BackupsUnderVolumeMigrateBackupsHeaders;
+export type BackupsUnderVolumeMigrateBackupsResponse = BackupsUnderVolumeMigrateBackupsHeaders;
 
 /** Optional parameters. */
 export interface BackupsUnderAccountMigrateBackupsOptionalParams
@@ -4708,77 +4047,10 @@ export interface BackupsUnderAccountMigrateBackupsOptionalParams
 }
 
 /** Contains response data for the migrateBackups operation. */
-export type BackupsUnderAccountMigrateBackupsResponse =
-  BackupsUnderAccountMigrateBackupsHeaders;
+export type BackupsUnderAccountMigrateBackupsResponse = BackupsUnderAccountMigrateBackupsHeaders;
 
 /** Optional parameters. */
-export interface BucketsListOptionalParams
-  extends coreClient.OperationOptions { }
-
-/** Contains response data for the list operation. */
-export type BucketsListResponse = BucketList;
-
-/** Optional parameters. */
-export interface BucketsGetOptionalParams extends coreClient.OperationOptions { }
-
-/** Contains response data for the get operation. */
-export type BucketsGetResponse = Bucket;
-
-/** Optional parameters. */
-export interface BucketsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type BucketsCreateOrUpdateResponse = Bucket;
-
-/** Optional parameters. */
-export interface BucketsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The bucket details including user details, and the volume path that should be mounted inside the bucket. */
-  body?: BucketPatch;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type BucketsUpdateResponse = Bucket;
-
-/** Optional parameters. */
-export interface BucketsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type BucketsDeleteResponse = BucketsDeleteHeaders;
-
-/** Optional parameters. */
-export interface BucketsGenerateCredentialsOptionalParams
-  extends coreClient.OperationOptions { }
-
-/** Contains response data for the generateCredentials operation. */
-export type BucketsGenerateCredentialsResponse = BucketGenerateCredentials;
-
-/** Optional parameters. */
-export interface BucketsListNextOptionalParams
-  extends coreClient.OperationOptions { }
-
-/** Contains response data for the listNext operation. */
-export type BucketsListNextResponse = BucketList;
-
-/** Optional parameters. */
-export interface NetAppManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface NetAppManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

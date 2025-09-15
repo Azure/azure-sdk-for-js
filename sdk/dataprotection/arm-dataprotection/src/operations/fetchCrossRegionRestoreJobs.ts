@@ -24,9 +24,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FetchCrossRegionRestoreJobs operations. */
-export class FetchCrossRegionRestoreJobsImpl
-  implements FetchCrossRegionRestoreJobs
-{
+export class FetchCrossRegionRestoreJobsImpl implements FetchCrossRegionRestoreJobs {
   private readonly client: DataProtectionClient;
 
   /**
@@ -50,12 +48,7 @@ export class FetchCrossRegionRestoreJobsImpl
     parameters: CrossRegionRestoreJobsRequest,
     options?: FetchCrossRegionRestoreJobsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupJobResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      location,
-      parameters,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, location, parameters, options);
     return {
       next() {
         return iter.next();
@@ -67,13 +60,7 @@ export class FetchCrossRegionRestoreJobsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          location,
-          parameters,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, location, parameters, options, settings);
       },
     };
   }
@@ -88,12 +75,7 @@ export class FetchCrossRegionRestoreJobsImpl
     let result: FetchCrossRegionRestoreJobsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        location,
-        parameters,
-        options,
-      );
+      result = await this._list(resourceGroupName, location, parameters, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -184,7 +166,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,

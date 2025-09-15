@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { PartitionKeyRange } from "../../client/index.js";
 import type { PartitionKeyDefinition, PrimitivePartitionKeyValue } from "../../documents/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../documents/index.js";
+import { isKeyInRange } from "../batch.js";
 import { hashMultiHashPartitionKey } from "./multiHash.js";
 import { hashV1PartitionKey } from "./v1.js";
 import { hashV2PartitionKey } from "./v2.js";
@@ -28,4 +30,26 @@ export function hashPartitionKey(
     case PartitionKeyKind.MultiHash:
       return hashMultiHashPartitionKey(partitionKey);
   }
+}
+
+export function binarySearchOnPartitionKeyRanges(
+  partitionKeyRanges: PartitionKeyRange[],
+  hashedPartitionKey: string,
+): string | undefined {
+  let low = 0;
+  let high = partitionKeyRanges.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const range = partitionKeyRanges[mid];
+
+    if (isKeyInRange(range.minInclusive, range.maxExclusive, hashedPartitionKey)) {
+      return range.id;
+    } else if (hashedPartitionKey.localeCompare(range.minInclusive) < 0) {
+      high = mid - 1;
+    } else {
+      low = mid + 1;
+    }
+  }
+  return undefined;
 }

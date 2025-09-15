@@ -8,14 +8,10 @@
  */
 const path = require("path");
 const fs = require("fs");
-const { fileURLToPath } = require("url");
 const { AIProjectClient } = require("@azure/ai-projects");
 const { isUnexpected } = require("@azure/ai-projects/inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName =

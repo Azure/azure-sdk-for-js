@@ -57,7 +57,6 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
                 displayValueRange(inference.rangeValue);
               }
 
-
             }
           })
       });

@@ -9,8 +9,9 @@ import { Constants } from "../common/constants.js";
 import type { RetryContext } from "./RetryContext.js";
 import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
-import type { ErrorResponse } from "../request/index.js";
+import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
@@ -34,6 +35,8 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private resourceType: ResourceType,
     private operationType: OperationType,
     private enableEndPointDiscovery: boolean,
+    private enablePartitionLevelFailover: boolean,
+    private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {}
 
   /**
@@ -55,6 +58,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string,
+    requestContext?: RequestContext,
   ): Promise<boolean> {
     if (!err) {
       return false;
@@ -62,11 +66,19 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
-    // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
-    if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
+    if (!this.enableEndPointDiscovery) {
       return false;
     }
-    if (!this.enableEndPointDiscovery) {
+    // Mark the partition as unavailable.
+    // Let the Retry logic decide if the request should be retried
+    if (requestContext && this.globalPartitionEndpointManager) {
+      await this.globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      );
+    }
+    // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
+    if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
     }
     if (
@@ -84,8 +96,9 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     );
     const readRequest = isReadRequest(this.operationType);
 
-    if (!canUseMultipleWriteLocations && !readRequest) {
-      // Write requests on single master cannot be retried, no other regions available
+    if (!canUseMultipleWriteLocations && !readRequest && !this.enablePartitionLevelFailover) {
+      // Write requests on single master cannot be retried if partition level failover is disabled.
+      // This means there are no other regions available to serve the writes.
       return false;
     }
     this.failoverRetryCount++;

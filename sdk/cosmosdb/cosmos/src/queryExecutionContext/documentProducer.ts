@@ -16,7 +16,7 @@ import type { Response } from "../request/index.js";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext.js";
 import type { FetchFunctionCallback } from "./defaultQueryExecutionContext.js";
 import { FetchResult, FetchResultType } from "./FetchResult.js";
-import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import { getInitialHeader } from "./headerUtils.js";
 import type { CosmosHeaders } from "./headerUtils.js";
 import type { SqlQuerySpec } from "./index.js";
 
@@ -31,7 +31,6 @@ export class DocumentProducer {
   public previousContinuationToken: string;
   public continuationToken: string;
   public generation: number = 0;
-  private respHeaders: CosmosHeaders;
   private internalExecutionContext: DefaultQueryExecutionContext;
   public startEpk: string;
   public endEpk: string;
@@ -67,7 +66,6 @@ export class DocumentProducer {
 
     this.previousContinuationToken = undefined;
     this.continuationToken = undefined;
-    this.respHeaders = getInitialHeader();
 
     this.internalExecutionContext = new DefaultQueryExecutionContext(
       options,
@@ -139,12 +137,6 @@ export class DocumentProducer {
     return false;
   }
 
-  private _getAndResetActiveResponseHeaders(): CosmosHeaders {
-    const ret = this.respHeaders;
-    this.respHeaders = getInitialHeader();
-    return ret;
-  }
-
   private _updateStates(err: any, allFetched: boolean): void {
     if (err) {
       this.err = err;
@@ -173,7 +165,7 @@ export class DocumentProducer {
   /**
    * Fetches and bufferes the next page of results in internal buffer
    */
-  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<CosmosHeaders> {
     if (this.err) {
       throw this.err;
     }
@@ -208,14 +200,14 @@ export class DocumentProducer {
         headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] =
           queryMetrics;
       }
-      mergeHeaders(this.respHeaders, headerResponse);
+      return headerResponse;
     } catch (err: any) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
         // Split just happend
         // Buffer the error so the execution context can still get the feedResponses in the itemBuffer
         const bufferedError = new FetchResult(undefined, err);
         this.fetchResults.push(bufferedError);
-        mergeHeaders(this.respHeaders, err.headers);
+        return err.headers;
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -259,7 +251,7 @@ export class DocumentProducer {
       throw this.err;
     }
     if (this.allFetched) {
-      return { result: undefined, headers: this._getAndResetActiveResponseHeaders() };
+      return { result: undefined, headers: getInitialHeader() };
     }
     try {
       const { result, headers } = this.current();
@@ -282,22 +274,23 @@ export class DocumentProducer {
       throw this.err;
     }
     if (this.allFetched) {
-      return { result: undefined, headers: this._getAndResetActiveResponseHeaders() };
+      return { result: undefined, headers: getInitialHeader() };
     }
     const resources: any[] = [];
-    const resHeaders: CosmosHeaders = getInitialHeader();
     try {
       while (this.fetchResults.length > 0) {
-        const { result, headers } = this.current();
+        const { result } = this.current();
         this._updateStates(undefined, result === undefined);
-        mergeHeaders(resHeaders, headers);
         if (result === undefined) {
-          return { result: resources.length > 0 ? resources : undefined, headers: resHeaders };
+          return {
+            result: resources.length > 0 ? resources : undefined,
+            headers: getInitialHeader(),
+          };
         } else {
           resources.push(result);
         }
       }
-      return { result: resources, headers: resHeaders };
+      return { result: resources, headers: getInitialHeader() };
     } catch (err: any) {
       this._updateStates(err, err.item === undefined);
       throw err;
@@ -316,15 +309,15 @@ export class DocumentProducer {
         case FetchResultType.Done:
           return {
             result: undefined,
-            headers: this._getAndResetActiveResponseHeaders(),
+            headers: getInitialHeader(),
           };
         case FetchResultType.Exception:
-          fetchResult.error.headers = this._getAndResetActiveResponseHeaders();
+          fetchResult.error.headers = getInitialHeader();
           throw fetchResult.error;
         case FetchResultType.Result:
           return {
             result: fetchResult.feedResponse,
-            headers: this._getAndResetActiveResponseHeaders(),
+            headers: getInitialHeader(),
           };
       }
     }
@@ -333,11 +326,11 @@ export class DocumentProducer {
     if (this.allFetched) {
       return {
         result: undefined,
-        headers: this._getAndResetActiveResponseHeaders(),
+        headers: getInitialHeader(),
       };
     }
 
     // If the internal buffer is empty, return empty result
-    return { result: [], headers: this._getAndResetActiveResponseHeaders() };
+    return { result: [], headers: getInitialHeader() };
   }
 }

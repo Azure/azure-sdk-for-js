@@ -18,7 +18,7 @@ import {
   UsagesListNextOptionalParams,
   UsagesListOptionalParams,
   UsagesListResponse,
-  UsagesListNextResponse
+  UsagesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,14 +35,14 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * This method returns region-specific quotas and resource usage information for the Database Migration
-   * Service.
+   * This method returns region-specific quotas and resource usage information for the Azure Database
+   * Migration Service (classic).
    * @param location The Azure region of the operation
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<Quota> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -57,14 +57,14 @@ export class UsagesImpl implements Usages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: UsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Quota[]> {
     let result: UsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class UsagesImpl implements Usages {
 
   private async *listPagingAll(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): AsyncIterableIterator<Quota> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -94,18 +94,18 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * This method returns region-specific quotas and resource usage information for the Database Migration
-   * Service.
+   * This method returns region-specific quotas and resource usage information for the Azure Database
+   * Migration Service (classic).
    * @param location The Azure region of the operation
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): Promise<UsagesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class UsagesImpl implements Usages {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsagesListNextOptionalParams
+    options?: UsagesListNextOptionalParams,
   ): Promise<UsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -130,44 +130,42 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaList
+      bodyMapper: Mappers.QuotaList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaList
+      bodyMapper: Mappers.QuotaList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

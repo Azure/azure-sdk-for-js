@@ -14,19 +14,15 @@ param (
 
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $deprecatedDependency = "Deprecated-Dependency"
-$dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
+
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
-$pnpmConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "pnpm-config.json"
-Write-Host "Path to pnpm-config.json: $pnpmConfigFile"
-$commonConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "common-versions.json"
-Write-Host "Path to common-versions.json: $commonConfigFile"
 
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
 $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
-# Check and return if an isue already exists to upgrade the package 
+# Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
     if ($issue.title -eq $IssueTitle) {
@@ -40,7 +36,7 @@ function Get-GithubIssue($IssueTitle) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of [$pkgName](https://www.npmjs.com/package/$pkgName). "  
+  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of [$pkgName](https://www.npmjs.com/package/$pkgName). "
   $labels = $dependencyUpgradeLabel
   if ($Package.IsDeprecated) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
@@ -50,7 +46,7 @@ function Set-GitHubIssue($Package) {
   1. Understand the breaking changes between the version being used and the version you want to upgrade to.`n
   2. Identify all packages that take a dependency on this package.`n
   3. Go to the root folder for each such package (/sdk/service-name/package-name) and update package.json to have the new version.`n
-  4. Run rush update to ensure the new version is pulled in.`n
+  4. Run 'pnpm install' to ensure the new version is pulled in.`n
   5. Make relevant changes to absorb the breaking changes.`n
   6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package."
 
@@ -68,50 +64,44 @@ function Set-GitHubIssue($Package) {
     }
     else {
       Write-Host "Found existing issue for package $($Package.Name)"
-    }   
+    }
   }
   else {
     write-Host "Creating issue for $pkgName"
-    $newIssue = New-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Title $issueTitle -Description $issueDesc  
+    $newIssue = New-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Title $issueTitle -Description $issueDesc
     if ($newIssue) {
       $out = Add-GitHubIssueLabels -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Labels $labels -IssueNumber $newIssue.number
     }
   }
 }
 
+# do a update first so we don't report on upgrades that will be in azure sdk bot PR
+Write-Host "Running pnpm update --recursive --no-save"
+pnpm update --recursive --no-save
 
-# Update rush configuration files to alter settings
-if ((Test-Path $pnpmConfigFile) -and (Test-Path $commonConfigFile)) {
-  $pnpmConfigJson = Get-Content -Path $pnpmConfigFile | ConvertFrom-Json
-  $pnpmConfigJson.strictPeerDependencies = $false
-  Set-Content -Path $pnpmConfigFile -Value (ConvertTo-Json -InputObject $pnpmConfigJson)
+Write-Host "Running pnpm outdated --format json --recursive"
+$env:NODE_OPTIONS = "--max-old-space-size=16384"
+$pnpmOutdatedOutput = pnpm outdated --format json --recursive
 
-  $configJson = Get-Content -Path $commonConfigFile | ConvertFrom-Json
-  $configJson.implicitlyPreferredVersions = $true
-  Set-Content -Path $commonConfigFile -Value (ConvertTo-Json -InputObject $configJson)
-}
-else {
-  Write-Error "Failed to find $($pnpmConfigFile) and/or $($commonConfigFile). Verify repo root parameter."
-  exit 1
-}
+$availableUpdates = $pnpmOutdatedOutput | ConvertFrom-Json
 
-# Run rush update --full
-Write-Host "Running rush update"
-$rushUpdateOutput = node common/scripts/install-run-rush.js update --full
-write-host $rushUpdateOutput
-foreach ($line in $rushUpdateOutput) {
-  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) {
+foreach ($update in $availableUpdates.PSObject.Properties) {
+  if ($update.Name -notmatch '^@azure') {
     $p = New-Object PSObject -Property @{
-      Name         = $matches['pkg']  
-      OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])
-      NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
-      IsDeprecated = ($matches['deprecated'] -eq "deprecated")
+      Name         = $update.Name
+      OldVersion   = $update.Value.'wanted'
+      NewVersion   = $update.Value.'latest'
+      IsDeprecated = $update.Value.'isDeprecated'
     }
 
-    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
+    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
+      Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
       Set-GitHubIssue -Package $p
       Start-Sleep -s 5
-    }    
+    }
   }
 }
+
 Write-Host "Verified and filed issues"
+
+exit 0

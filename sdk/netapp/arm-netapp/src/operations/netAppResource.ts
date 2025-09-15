@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CheckNameResourceTypes,
@@ -118,10 +114,7 @@ export class NetAppResourceImpl implements NetAppResource {
     location: string,
     options?: NetAppResourceQueryRegionInfoOptionalParams,
   ): Promise<NetAppResourceQueryRegionInfoResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      queryRegionInfoOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, queryRegionInfoOperationSpec);
   }
 
   /**
@@ -182,8 +175,7 @@ export class NetAppResourceImpl implements NetAppResource {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -289,11 +281,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -318,11 +306,7 @@ const checkFilePathAvailabilityOperationSpec: coreClient.OperationSpec = {
     mapper: { ...Mappers.FilePathAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -347,11 +331,7 @@ const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
     mapper: { ...Mappers.QuotaAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -368,11 +348,7 @@ const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -395,11 +371,7 @@ const queryNetworkSiblingSetOperationSpec: coreClient.OperationSpec = {
     mapper: { ...Mappers.QueryNetworkSiblingSetRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -434,11 +406,7 @@ const updateNetworkSiblingSetOperationSpec: coreClient.OperationSpec = {
     mapper: { ...Mappers.UpdateNetworkSiblingSetRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

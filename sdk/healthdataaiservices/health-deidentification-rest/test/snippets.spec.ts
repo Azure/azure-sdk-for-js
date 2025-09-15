@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeidentificationContent } from "../src/index.js";
-import DeidentificationClient, {
+import type {
+  DeidentificationContent,
   DeidentificationJob,
   DeidentifyDocumentsDefaultResponse,
-  getLongRunningPoller,
-  isUnexpected,
 } from "../src/index.js";
+import DeidentificationClient, { getLongRunningPoller, isUnexpected } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -16,14 +15,16 @@ describe("snippets", () => {
   it("CreateClient", async () => {
     const credential = new DefaultAzureCredential();
     const serviceEndpoint =
-      process.env.DEID_SERVICE_ENDPOINT || "https://example.api.deid.azure.com";
+      process.env.HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT ||
+      "https://example.api.deid.azure.com";
     const client = DeidentificationClient(serviceEndpoint, credential);
   });
 
   it("DeidentifyText", async () => {
     const credential = new DefaultAzureCredential();
     const serviceEndpoint =
-      process.env.DEID_SERVICE_ENDPOINT || "https://example.api.deid.azure.com";
+      process.env.HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT ||
+      "https://example.api.deid.azure.com";
     const client = DeidentificationClient(serviceEndpoint, credential);
     // @ts-preserve-whitespace
     const content: DeidentificationContent = {
@@ -42,8 +43,11 @@ describe("snippets", () => {
   it("DeidentifyDocuments", async () => {
     const credential = new DefaultAzureCredential();
     const serviceEndpoint =
-      process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.deid.azure.com";
-    const storageLocation = `https://${process.env["STORAGE_ACCOUNT_NAME"]}.blob.core.windows.net/${process.env["STORAGE_CONTAINER_NAME"]}`;
+      process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"] ||
+      "https://example.api.deid.azure.com";
+    const storageLocation =
+      process.env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"] ||
+      "https://example.blob.core.windows.net/example-container";
     const inputPrefix = "example_patient_1";
     const outputPrefix = process.env["OUTPUT_PREFIX"] || "_output";
     // @ts-preserve-whitespace

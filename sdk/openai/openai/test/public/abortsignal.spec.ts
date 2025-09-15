@@ -13,6 +13,7 @@ describe.concurrent.each(APIMatrix)("AbortSignal [%s]", (apiVersion: APIVersion)
   describe.concurrent("chat.completions.stream.events.abort", () => {
     testWithDeployments({
       clientsAndDeploymentsInfo,
+      apiVersion,
       modelsListToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "gpt-4o-mini-audio-preview" }],
       run: async (client, model) => {
         try {
@@ -27,7 +28,7 @@ describe.concurrent.each(APIMatrix)("AbortSignal [%s]", (apiVersion: APIVersion)
             stream: true,
           };
 
-          const events = client.beta.chat.completions.stream(params);
+          const events = client.chat.completions.stream(params);
 
           for await (const event of events) {
             assert.isDefined(event);

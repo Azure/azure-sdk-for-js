@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "node:os";
-import * as process from "node:process";
+import os from "node:os";
+import process from "node:process";
 
 /**
  * @internal

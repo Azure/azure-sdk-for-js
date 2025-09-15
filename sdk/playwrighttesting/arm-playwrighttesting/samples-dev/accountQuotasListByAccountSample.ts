@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list quotas for a given account.
  *
  * @summary list quotas for a given account.
  * x-ms-original-file: 2024-12-01/AccountQuotas_ListByAccount.json
  */
+
+import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function accountQuotasListByAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

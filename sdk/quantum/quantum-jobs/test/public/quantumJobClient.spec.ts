@@ -5,7 +5,7 @@ import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import type { QuantumJobClient } from "../../src/index.js";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import type { TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { getRecorderUniqueVariable } from "../utils/recorderUtils.js";

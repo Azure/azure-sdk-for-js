@@ -16,7 +16,7 @@ import {
   ProjectsGetResponse,
   ProjectsDeleteOptionalParams,
   ProjectsUpdateOptionalParams,
-  ProjectsUpdateResponse
+  ProjectsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Projects {
   list(
     groupName: string,
     serviceName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): PagedAsyncIterableIterator<Project>;
   /**
    * The project resource is a nested resource representing a stored migration project. The PUT method
@@ -48,7 +48,7 @@ export interface Projects {
     serviceName: string,
     projectName: string,
     parameters: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams
+    options?: ProjectsCreateOrUpdateOptionalParams,
   ): Promise<ProjectsCreateOrUpdateResponse>;
   /**
    * The project resource is a nested resource representing a stored migration project. The GET method
@@ -62,7 +62,7 @@ export interface Projects {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: ProjectsGetOptionalParams
+    options?: ProjectsGetOptionalParams,
   ): Promise<ProjectsGetResponse>;
   /**
    * The project resource is a nested resource representing a stored migration project. The DELETE method
@@ -76,7 +76,7 @@ export interface Projects {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The project resource is a nested resource representing a stored migration project. The PATCH method
@@ -92,6 +92,6 @@ export interface Projects {
     serviceName: string,
     projectName: string,
     parameters: Project,
-    options?: ProjectsUpdateOptionalParams
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<ProjectsUpdateResponse>;
 }

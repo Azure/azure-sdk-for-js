@@ -12,13 +12,20 @@ import {
   InteractiveBrowserCredential,
   OnBehalfOfCredential,
   useIdentityPlugin,
-} from "../src/index.js";
+} from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 import { setLogLevel } from "@azure/logger";
 import dotenv from "dotenv";
-import { describe, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 describe("snippets", function () {
+  it("defaultazurecredential_vscode", function () {
+    // @ts-ignore
+    useIdentityPlugin(vsCodePlugin);
+    // @ts-ignore
+    const credential = new DefaultAzureCredential();
+  });
+
   it("defaultazurecredential_authenticate", function () {
     // Configure vault URL
     const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
@@ -30,8 +37,7 @@ describe("snippets", function () {
     // @ts-ignore
     const client = new KeyClient(vaultUrl, credential);
   });
-
-  it("chaintedtokencredential_authenticate", function () {
+  snippet: it("chaintedtokencredential_authenticate", function () {
     // Configure variables
     const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
     const tenantId = "<tenant-id>";
@@ -264,6 +270,18 @@ describe("snippets", function () {
       tokenCachePersistenceOptions: {
         enabled: true,
       },
+    });
+  });
+
+  it("defaultazurecredential_requiredEnvVars", function () {
+    // @ts-ignore
+    const credential = new DefaultAzureCredential({
+      requiredEnvVars: [
+        "AZURE_CLIENT_ID",
+        "AZURE_TENANT_ID",
+        "AZURE_CLIENT_SECRET",
+        "AZURE_TOKEN_CREDENTIALS",
+      ],
     });
   });
 });
