@@ -20,7 +20,7 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
   host: string;
 
   /**
- * Initializes a new instance of the ApplicaionInsightsClient class.
+ * Initializes a new instance of the ApplicationInsightsClient class.
    * @param options The parameter options
    */
   constructor(options?: ApplicationInsightsClientOptionalParams) {
