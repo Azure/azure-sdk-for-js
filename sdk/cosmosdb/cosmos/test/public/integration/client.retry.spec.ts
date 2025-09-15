@@ -116,6 +116,7 @@ describe("RetryPolicy", () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
+        databaseAccountResponse,
         collectionResponse,
         { code: 503, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
         { code: 200, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
@@ -143,6 +144,7 @@ describe("RetryPolicy", () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
+        databaseAccountResponse,
         collectionResponse,
         { code: 503, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
         { code: 503, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
@@ -163,6 +165,7 @@ describe("RetryPolicy", () => {
 
     it("when both regions Timeout with retrial window", async () => {
       const responses = [
+        databaseAccountResponse,
         databaseAccountResponse,
         collectionResponse,
         {
@@ -232,6 +235,7 @@ describe("RetryPolicy", () => {
     it("timeout error thrown when retry count exceeds 120", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
+        databaseAccountResponse,
         databaseAccountResponse,
         collectionResponse,
         {

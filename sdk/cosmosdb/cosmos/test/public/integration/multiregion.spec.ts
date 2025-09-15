@@ -111,13 +111,55 @@ const collectionResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
+const readPartitionKeyRangesResponse = {
+  code: 200,
+  result: {
+    PartitionKeyRanges: [
+      {
+        _rid: "JAY0AJIzFhACAAAAAAAAUA==",
+        id: "0",
+        _etag: '"0100f742-0000-4d00-0000-680875d90000"',
+        minInclusive: "",
+        maxExclusive: "05C1DFFFFFFFFC",
+        ridPrefix: 0,
+        _self: "dbs/JAY0AA==/colls/JAY0AJIzFhA=/pkranges/JAY0AJIzFhACAAAAAAAAUA==/",
+        throughputFraction: 0.5,
+        status: "online",
+        parents: [] as unknown[],
+        ownedArchivalPKRangeIds: [] as unknown[],
+        _ts: 1745384921,
+        lsn: 5330,
+      },
+      {
+        _rid: "JAY0AJIzFhADAAAAAAAAUA==",
+        id: "1",
+        _etag: '"0100f842-0000-4d00-0000-680875d90000"',
+        minInclusive: "05C1DFFFFFFFFC",
+        maxExclusive: "FF",
+        ridPrefix: 1,
+        _self: "dbs/JAY0AA==/colls/JAY0AJIzFhA=/pkranges/JAY0AJIzFhADAAAAAAAAUA==/",
+        throughputFraction: 0.5,
+        status: "online",
+        parents: [] as unknown[],
+        ownedArchivalPKRangeIds: [] as unknown[],
+        _ts: 1745384921,
+        lsn: 5330,
+      },
+    ],
+  },
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
 describe("Multi-region tests", { timeout: 30000 }, () => {
   it("Preferred locations should be honored for readEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
       databaseAccountResponse,
+      databaseAccountResponse,
       collectionResponse,
+      readPartitionKeyRangesResponse,
       { code: 200, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
@@ -160,6 +202,7 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
+      databaseAccountResponse,
       databaseAccountResponse,
       collectionResponse,
       {
