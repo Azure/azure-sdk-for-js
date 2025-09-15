@@ -1,10 +1,9 @@
-const { AzureCliCredential } = require("@azure/identity");
-const { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } = require("@azure/playwright");
-const { defineConfig } = require('@playwright/test');
-const config = require("./playwright.config");
+import { AzureCliCredential } from "@azure/identity";
+import { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } from "@azure/playwright";
+import { defineConfig } from '@playwright/test';
+import config from "./playwright.config.js";
 
 const azureCredential = new AzureCliCredential();
-
 const serviceAuthType = ServiceAuth.ENTRA_ID;
 const os = ServiceOS.LINUX;
 
@@ -18,5 +17,7 @@ const playwrightServiceAdditionalOptions = {
   runName: "JavaScript V1 - Sample Run", // Run name for the test run
 };
 
-
-export default defineConfig(config, createAzurePlaywrightConfig(config, playwrightServiceAdditionalOptions));
+export default defineConfig(
+  config,
+  createAzurePlaywrightConfig(config, playwrightServiceAdditionalOptions)
+);
