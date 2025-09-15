@@ -214,6 +214,7 @@ export const Constants = {
 
   // Background refresh time
   DefaultUnavailableLocationExpirationTimeMS: 5 * 60 * 1000,
+  PPAFDynamicEnablementRefreshTimeMS: 5* 60 * 1000,
 
   // Client generated retry count response header
   ThrottleRetryCount: "x-ms-throttle-retry-count",

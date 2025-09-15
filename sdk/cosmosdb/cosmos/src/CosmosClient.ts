@@ -78,7 +78,7 @@ export class CosmosClient {
   public readonly offers: Offers;
   private clientContext: ClientContext;
   private endpointRefresher: NodeJS.Timeout;
-  private dynamicEnablementRefresher: NodeJS.Timeout;
+  private ppafDynamicEnablementRefresher: NodeJS.Timeout;
   /**
    * @internal
    */
@@ -202,7 +202,7 @@ export class CosmosClient {
 
     this.dynamicallyEnablePPAFAndPPCBFlags(
       this.globalPartitionEndpointManager,
-      60000, // 5 minutes
+      Constants.PPAFDynamicEnablementRefreshTimeMS,
     );
   }
 
@@ -345,7 +345,7 @@ export class CosmosClient {
     if (this.globalPartitionEndpointManager) {
       this.globalPartitionEndpointManager.dispose();
     }
-    clearTimeout(this.dynamicEnablementRefresher);
+    clearTimeout(this.ppafDynamicEnablementRefresher);
   }
 
   private async backgroundRefreshEndpointList(
@@ -402,6 +402,6 @@ export class CosmosClient {
     // Running once immediately
     await task();
     // Scheduling it in the background
-    this.dynamicEnablementRefresher = startBackgroundTask(task, refreshRate);
+    this.ppafDynamicEnablementRefresher = startBackgroundTask(task, refreshRate);
   }
 }
