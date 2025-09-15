@@ -80,10 +80,10 @@ export class PartitionRangeManager {
     const mapSize = this.partitionKeyRangeMap.size;
     const result = mapSize > 0;
     // console.log("=== PartitionRangeManager hasUnprocessedRanges DEBUG ===");
-    // console.log("partitionKeyRangeMap.size:", mapSize);
-    // console.log("result:", result);
+    console.log("partitionKeyRangeMap.size:", mapSize);
+    console.log("result:", result);
     if (result) {
-      // console.log("Range IDs in map:", Array.from(this.partitionKeyRangeMap.keys()));
+      console.log("Range IDs in map:", Array.from(this.partitionKeyRangeMap.keys()));
     }
     // console.log("=== END PartitionRangeManager hasUnprocessedRanges DEBUG ===");
     return result;
@@ -122,42 +122,56 @@ export class PartitionRangeManager {
     processedRanges: string[];
     lastRangeBeforePageLimit: QueryRangeMapping | null;
   } {
-    // console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
+    console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
+    console.log(`INPUT: pageSize=${pageSize}, partitionKeyRangeMap.size=${this.partitionKeyRangeMap.size}`);
 
     let endIndex = 0;
     const processedRanges: string[] = [];
     let lastRangeBeforePageLimit: QueryRangeMapping | null = null;
 
-    // Process ranges sequentially until page size is reached
+    // Log all ranges before processing
+    console.log("=== ALL RANGES BEFORE PROCESSING ===");
     for (const [rangeId, value] of this.partitionKeyRangeMap) {
-      // console.log(`=== Processing ORDER BY Range ${rangeId} ===`);
+      console.log(`Range ${rangeId}: itemCount=${value.itemCount}, continuationToken=${value.continuationToken ? 'EXISTS' : 'NULL'}`);
+    }
 
-      // Validate range data
-      if (!value || value.itemCount === undefined) {
-        continue;
-      }
+    // Process ranges sequentially until page size is reached
+    let rangeIndex = 0;
+    for (const [rangeId, value] of this.partitionKeyRangeMap) {
+      rangeIndex++;
+      console.log(`=== Processing ORDER BY Range ${rangeIndex}/${this.partitionKeyRangeMap.size}: ${rangeId} ===`);
 
       const { itemCount } = value;
-      // console.log(`ORDER BY Range ${rangeId}: itemCount ${itemCount}`);
-
-      // Skip empty ranges (0 items)
-      if (itemCount === 0) {
-        processedRanges.push(rangeId);
-        continue;
-      }
+      console.log(`ORDER BY Range ${rangeId}: itemCount=${itemCount}`);
+      console.log(`ORDER BY Range ${rangeId}: continuationToken=${value.continuationToken || 'NULL'}`);
+      console.log(`ORDER BY Range ${rangeId}: partitionKeyRange=${JSON.stringify(value.partitionKeyRange || {})}`);
+      console.log(`Current state: endIndex=${endIndex}, pageSize=${pageSize}, remaining_capacity=${pageSize - endIndex}`);
 
       // Check if this complete range fits within remaining page size capacity
       if (endIndex + itemCount <= pageSize) {
-        // Store this as the potential last range before limit
+        // This range fits completely - consume it entirely and mark as processed
         lastRangeBeforePageLimit = value;
         endIndex += itemCount;
         processedRanges.push(rangeId);
+        console.log(`✓ ORDER BY Range ${rangeId}: CONSUMED COMPLETELY (${itemCount} items)`);
+        console.log(`✓ Updated endIndex=${endIndex}, processedRanges count=${processedRanges.length}`);
+        console.log(`✓ Range ${rangeId} will be saved for continuation: partitionKeyRange=${JSON.stringify(value.partitionKeyRange || {})}`);
       } else {
         // Page limit reached - store the last complete range in continuation token
+        const remainingCapacity = pageSize - endIndex;
+        console.log(`❌ ORDER BY Range ${rangeId}: SKIPPED - Would exceed page limit`);
+        console.log(`❌ Range has ${itemCount} items but only ${remainingCapacity} capacity remaining`);
+        console.log(`❌ THIS IS WHERE DATA LOSS OCCURS - ${itemCount} items from this range are NEVER processed`);
+        console.log(`❌ LOST Range ${rangeId} partitionKeyRange: ${JSON.stringify(value.partitionKeyRange || {})}`);
+        console.log(`❌ LOST Range ${rangeId} continuationToken: ${value.continuationToken || 'NULL'}`);
         break;
       }
     }
 
+    console.log("=== ORDER BY PROCESSING COMPLETE ===");
+    console.log(`RESULT: endIndex=${endIndex}, processedRanges=${processedRanges.length}, lastRangeBeforePageLimit=${lastRangeBeforePageLimit ? 'EXISTS' : 'NULL'}`);
+    console.log(`PROCESSED RANGES: [${processedRanges.join(', ')}]`);
+    
     return { endIndex, processedRanges, lastRangeBeforePageLimit };
   }
 
@@ -185,7 +199,7 @@ export class PartitionRangeManager {
       }
 
       const { itemCount } = value;
-      // console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
+      console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
 
       // Skip empty ranges (0 items)
       if (itemCount === 0) {

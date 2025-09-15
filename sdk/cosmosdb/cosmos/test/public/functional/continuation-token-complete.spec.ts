@@ -530,7 +530,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     await removeAllDatabases(client);
   });
 
-  describe.skip("Token Structure Validation", () => {
+  describe("Token Structure Validation", () => {
     CONTINUATION_TOKEN_TEST_CASES.forEach((testCase) => {
       it(`should validate ${testCase.name}: ${testCase.description}`, async () => {
         const container = testCase.requiresMultiPartition
@@ -713,7 +713,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe.skip("Single Partition Scenarios", () => {
+  describe("Single Partition Scenarios", () => {
     it("should handle large result sets with multiple continuation tokens", async () => {
       const query = "SELECT * FROM c ORDER BY c.sequence ASC";
       const maxItemCount = 5;
@@ -820,7 +820,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe.skip("Multi-Partition Scenarios", () => {
+  describe("Multi-Partition Scenarios", () => {
     it("should handle cross-partition queries with composite tokens", async () => {
       const query = "SELECT * FROM c WHERE c.amount > 30";
 
@@ -973,7 +973,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe.skip("Token Edge Cases and Serialization", () => {
+  describe("Token Edge Cases and Serialization", () => {
     it("should handle very large tokens", async () => {
       // Create a query that might generate larger tokens
       const query =
@@ -1146,26 +1146,47 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const queryOptions = { maxItemCount: 10, enableQueryControl: true };
 
       console.log("\n=== Testing Multi-Iteration Continuation ===");
+      console.log(`Query: ${query}`);
+      console.log(`Options:`, queryOptions);
 
       let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
       const allResults: any[] = [];
       let iterationCount = 0;
 
       while (queryIterator.hasMoreResults()) {
+        console.log(`\n--- Starting iteration ${iterationCount + 1} ---`);
+        
         const result = await queryIterator.fetchNext();
         allResults.push(...result.resources);
         iterationCount++;
 
         console.log(
-          `Iteration ${iterationCount}: ${result.resources.length} items, continuationToken: ${result.continuationToken ? "YES" : "NO"}`,
-        );
+          `✓ Iteration ${iterationCount}: ${result.resources.length} items received, running total: ${allResults.length} items`);
+        console.log(`  continuationToken: ${result.continuationToken ? "YES" : "NO"}`);
+        
+        if (result.resources.length > 0) {
+          console.log(`  First item: ${JSON.stringify({id: result.resources[0].id, amount: result.resources[0].amount})}`);
+          console.log(`  Last item: ${JSON.stringify({id: result.resources[result.resources.length - 1].id, amount: result.resources[result.resources.length - 1].amount})}`);
+          
+          // Log all items in this iteration for detailed analysis
+          console.log(`  === ALL ${result.resources.length} ITEMS IN ITERATION ${iterationCount} ===`);
+          result.resources.forEach((item, index) => {
+            console.log(`    [${index}] id=${item.id}, amount=${item.amount}, _rid=${item._rid || 'undefined'}`);
+          });
+        }
 
         if (result.continuationToken && queryIterator.hasMoreResults()) {
+          console.log(`  Creating new iterator with continuation token...`);
           // Create new iterator with continuation token
           queryIterator = multiPartitionContainer.items.query(query, {
             ...queryOptions,
             continuationToken: result.continuationToken,
           });
+          console.log(`  ✓ New iterator created`);
+        } else if (!result.continuationToken) {
+          console.log(`  ❌ No continuation token - query should be complete`);
+        } else if (!queryIterator.hasMoreResults()) {
+          console.log(`  ❌ Iterator reports no more results`);
         }
       }
 
@@ -1176,9 +1197,8 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       if (allResults.length > 0) {
         console.log(
-          `First 10 items by amount:`,
+          `All 80 items by amount:`,
           allResults
-            .slice(0, 10)
             .map((item) => ({ id: item.id, amount: item.amount, amountType: typeof item.amount })),
         );
         if (allResults.length > 10) {
@@ -1220,6 +1240,125 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       expect(allResults.length).toBeGreaterThan(10);
       console.log(
         `Multi-iteration test: ${allResults.length} total items across ${iterationCount} iterations`,
+      );
+    });
+
+    it("should handle streaming continuation tokens for SELECT * query", async () => {
+      const query = "SELECT * FROM c";
+      const queryOptions = { maxItemCount: 15, enableQueryControl: true };
+
+      console.log("\n=== Testing Streaming Continuation for SELECT * ===");
+      console.log(`Query: ${query}`);
+      console.log(`Options:`, queryOptions);
+
+      let queryIterator = multiPartitionContainer.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      let iterationCount = 0;
+      const categoriesEncountered = new Set<string>();
+
+      while (queryIterator.hasMoreResults()) {
+        console.log(`\n--- Starting streaming iteration ${iterationCount + 1} ---`);
+        
+        const result = await queryIterator.fetchNext();
+        allResults.push(...result.resources);
+        iterationCount++;
+
+        // Track categories (partitions) encountered
+        result.resources.forEach((item) => {
+          categoriesEncountered.add(item.category);
+        });
+
+        console.log(
+          `✓ Stream iteration ${iterationCount}: ${result.resources.length} items received, running total: ${allResults.length} items`
+        );
+        console.log(`  continuationToken: ${result.continuationToken ? "YES" : "NO"}`);
+        console.log(`  Categories in this batch: ${[...new Set(result.resources.map(r => r.category))].join(", ")}`);
+        
+        if (result.resources.length > 0) {
+          console.log(`  First item: ${JSON.stringify({id: result.resources[0].id, category: result.resources[0].category, amount: result.resources[0].amount})}`);
+          console.log(`  Last item: ${JSON.stringify({id: result.resources[result.resources.length - 1].id, category: result.resources[result.resources.length - 1].category, amount: result.resources[result.resources.length - 1].amount})}`);
+          
+          // Log first 5 items in this iteration for analysis
+          console.log(`  === FIRST 5 ITEMS IN STREAM ITERATION ${iterationCount} ===`);
+          result.resources.slice(0, 5).forEach((item, index) => {
+            console.log(`    [${index}] id=${item.id}, category=${item.category}, amount=${item.amount}, _rid=${item._rid || 'undefined'}`);
+          });
+        }
+
+        if (result.continuationToken && queryIterator.hasMoreResults()) {
+          console.log(`  Creating new iterator with continuation token for streaming...`);
+          // Create new iterator with continuation token
+          queryIterator = multiPartitionContainer.items.query(query, {
+            ...queryOptions,
+            continuationToken: result.continuationToken,
+          });
+          console.log(`  ✓ New streaming iterator created`);
+        } else if (!result.continuationToken) {
+          console.log(`  ❌ No continuation token - streaming query should be complete`);
+        } else if (!queryIterator.hasMoreResults()) {
+          console.log(`  ❌ Iterator reports no more results`);
+        }
+      }
+
+      // Debug: Show what we collected from streaming
+      console.log(`\n=== DEBUGGING STREAMING RESULTS ===`);
+      console.log(`Total items collected: ${allResults.length}`);
+      console.log(`Total streaming iterations: ${iterationCount}`);
+      console.log(`Categories encountered: ${[...categoriesEncountered].join(", ")} (${categoriesEncountered.size} total)`);
+
+      // Group items by category to analyze distribution
+      const categoryDistribution = new Map<string, number>();
+      allResults.forEach((item) => {
+        const count = categoryDistribution.get(item.category) || 0;
+        categoryDistribution.set(item.category, count + 1);
+      });
+
+      console.log(`Category distribution:`, Object.fromEntries(categoryDistribution));
+
+      if (allResults.length > 0) {
+        console.log(
+          `First 10 streamed items:`,
+          allResults.slice(0, 10).map((item) => ({ 
+            id: item.id, 
+            category: item.category, 
+            amount: item.amount,
+            name: item.name 
+          }))
+        );
+        if (allResults.length > 10) {
+          console.log(
+            `Last 10 streamed items:`,
+            allResults.slice(-10).map((item) => ({
+              id: item.id,
+              category: item.category,
+              amount: item.amount,
+              name: item.name
+            }))
+          );
+        }
+      }
+
+      // Validate we got data from multiple partitions
+      expect(categoriesEncountered.size).toBeGreaterThan(1);
+      console.log(`✓ Streaming accessed ${categoriesEncountered.size} partitions`);
+
+      // Validate we got a reasonable amount of data
+      expect(allResults.length).equal(80);
+      console.log(`✓ Streaming collected ${allResults.length} total items`);
+
+      // Validate each item has expected properties
+      allResults.forEach((item, index) => {
+        expect(item.id).toBeDefined();
+        expect(item.category).toBeDefined();
+        expect(item.amount).toBeDefined();
+        expect(typeof item.amount).toBe('number');
+        if (index === 0) {
+          console.log(`✓ Item structure validation passed for first item: ${JSON.stringify({id: item.id, category: item.category, amount: item.amount})}`);
+        }
+      });
+
+      console.log(
+        `Streaming test completed: ${allResults.length} total items across ${iterationCount} iterations from ${categoriesEncountered.size} partitions`
       );
     });
   });

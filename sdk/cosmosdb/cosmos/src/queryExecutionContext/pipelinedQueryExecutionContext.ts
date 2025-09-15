@@ -357,11 +357,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private async _handleSupportedQueryFetch(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
+    console.log("=== _handleSupportedQueryFetch START ===");
+    console.log(`fetchBuffer.length=${this.fetchBuffer.length}, pageSize=${this.pageSize}`);
+    console.log(`hasUnprocessedRanges=${this.continuationTokenManager.hasUnprocessedRanges()}`);
+
     // Process buffered data if available and has unprocessed ranges
     if (this.fetchBuffer.length > 0 && this.continuationTokenManager.hasUnprocessedRanges()) {
+      console.log("=== PROCESSING BUFFERED DATA ===");
+      console.log(`Before processing: fetchBuffer.length=${this.fetchBuffer.length}`);
+      
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+      console.log(`fetchBufferEndIndexForCurrentPage returned: endIndex=${endIndex}, processedRanges=[${processedRanges.join(', ')}]`);
+      
       const temp = this.fetchBuffer.slice(0, endIndex);
+      console.log(`BUFFER SLICE: taking items [0, ${endIndex}) = ${temp.length} items from buffer`);
+      
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+      console.log(`BUFFER REMAINING: ${this.fetchBuffer.length} items left in fetchBuffer after slice`);
 
       // Now pass the actual documents being returned to create the continuation token
       this.continuationTokenManager.processRangesForCurrentPage(this.pageSize, temp);
@@ -369,56 +381,83 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
+      console.log(`=== RETURNING BUFFERED RESULTS: ${temp.length} items ===`);
       return { result: temp, headers: this.fetchMoreRespHeaders };
     }
 
+    console.log("=== FETCHING NEW DATA FROM ENDPOINT ===");
     // Fetch new data from endpoint
     this.fetchBuffer = [];
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
+    console.log(`New response received: buffer.length=${response?.result?.buffer?.length || 0}`);
+
     // Process response and update continuation token manager
     if (response?.result?.partitionKeyRangeMap) {
+      console.log(`Setting partitionKeyRangeMap with ${response.result.partitionKeyRangeMap.size} ranges`);
       this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
     }
 
     if (response?.result?.updatedContinuationRanges) {
+      console.log("Processing partition range changes");
       this.continuationTokenManager.handlePartitionRangeChanges(
         response.result.updatedContinuationRanges,
       );
     }
 
     if (response?.result?.orderByItems) {
+      console.log(`Setting orderByItemsArray with ${response.result.orderByItems.length} items`);
       this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItems);
     }
 
-    const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
-
+    
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
+      const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+      console.log("=== EMPTY RESPONSE - RETURNING EMPTY RESULT ===");
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
       return this.createEmptyResultWithHeaders(response?.headers);
     }
+    
     this.fetchBuffer = response.result.buffer;
+    console.log("=== CALCULATING END INDEX FOR NEW DATA ===");
+    const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+    console.log(`fetchBufferEndIndexForCurrentPage returned: endIndex=${endIndex}, processedRanges=[${processedRanges.join(', ')}]`);
+
+    console.log(`NEW BUFFER SET: fetchBuffer.length=${this.fetchBuffer.length}`);
 
     const temp = this.fetchBuffer.slice(0, endIndex);
+    console.log(`NEW BUFFER SLICE: taking items [0, ${endIndex}) = ${temp.length} items from new buffer`);
+    
     this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+    console.log(`NEW BUFFER REMAINING: ${this.fetchBuffer.length} items left in fetchBuffer after slice`);
 
     this._clearProcessedRangeMetadata(processedRanges, endIndex);
     this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
+    console.log(`=== RETURNING NEW RESULTS: ${temp.length} items ===`);
     return { result: temp, headers: this.fetchMoreRespHeaders };
   }
 
   private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
+    console.log("=== fetchBufferEndIndexForCurrentPage START ===");
+    console.log(`Input: pageSize=${this.pageSize}, fetchBuffer.length=${this.fetchBuffer.length}`);
+    
     const result = this.continuationTokenManager.processRangesForCurrentPage(
       this.pageSize,
       this.fetchBuffer.slice(0, this.fetchBuffer.length),
     );
+    
+    console.log(`fetchBufferEndIndexForCurrentPage RESULT: endIndex=${result.endIndex}, processedRanges=[${result.processedRanges.join(', ')}]`);
     return result;
   }
 
   private _clearProcessedRangeMetadata(processedRanges: string[], endIndex: number): void {
+    console.log(`=== CLEARING PROCESSED RANGE METADATA ===`);
+    console.log(`Removing ${processedRanges.length} processed ranges: [${processedRanges.join(', ')}]`);
+    console.log(`Slicing orderByItemsArray at endIndex=${endIndex}`);
+    
     processedRanges.forEach((rangeId) => {
       this.continuationTokenManager.removePartitionRangeMapping(rangeId);
     });
