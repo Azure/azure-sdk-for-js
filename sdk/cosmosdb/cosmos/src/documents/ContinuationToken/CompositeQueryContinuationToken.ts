@@ -111,8 +111,8 @@ export function convertRangeMappingToQueryRange(
   const pkRange = rangeMapping.partitionKeyRange;
 
   // Prefer EPK boundaries if they exist, otherwise use logical boundaries
-  const minInclusive = pkRange.epkMin || pkRange.minInclusive;
-  const maxExclusive = pkRange.epkMax || pkRange.maxExclusive;
+  const minInclusive = pkRange.minInclusive;
+  const maxExclusive = pkRange.maxExclusive;
 
   const queryRange = new QueryRange(
     minInclusive,

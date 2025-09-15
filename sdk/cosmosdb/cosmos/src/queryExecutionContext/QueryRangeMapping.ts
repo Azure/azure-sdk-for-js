@@ -1,24 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PartitionKeyRange } from "../index.js";
-
-/**
- * @hidden
- * Extended partition key range that includes effective partition key (EPK) boundaries
- * for handling partition split and merge scenarios
- */
-export interface ExtendedPartitionKeyRange extends PartitionKeyRange {
-  /**
-   * Effective partition key minimum boundary (used for split/merge operations)
-   */
-  epkMin?: string;
-
-  /**
-   * Effective partition key maximum boundary (used for split/merge operations)
-   */
-  epkMax?: string;
-}
+import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange.js";
 
 /**
  * @hidden
@@ -37,9 +20,9 @@ export interface QueryRangeMapping {
   continuationToken: string | null;
 
   /**
-   * The extended partition key range this mapping belongs to (includes EPK boundaries)
+   * The partition key range this mapping belongs to
    */
-  partitionKeyRange?: ExtendedPartitionKeyRange;
+  partitionKeyRange?: PartitionKeyRange;
 
   /**
    * Hash of the last document result for this partition key range (for distinct queries)
