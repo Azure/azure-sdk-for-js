@@ -67,6 +67,7 @@ export class DatabaseAccount {
   /** Gets the UserConsistencyPolicy settings. */
   public readonly consistencyPolicy: ConsistencyLevel;
   public readonly enableMultipleWritableLocations: boolean;
+  public readonly enablePerPartitionFailoverBehavior: boolean = false;
 
   // TODO: body - any
   public constructor(body: { [key: string]: any }, headers: CosmosHeaders) {
@@ -89,6 +90,11 @@ export class DatabaseAccount {
         body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === "true";
     } else {
       this.enableMultipleWritableLocations = false;
+    }
+    if (body[Constants.ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR]) {
+      this.enablePerPartitionFailoverBehavior =
+        body[Constants.ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR] === true ||
+        body[Constants.ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR] === "true";
     }
   }
 }

@@ -54,6 +54,6 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,
   enableBackgroundEndpointRefreshing: true,
-  enablePartitionLevelFailover: false,
-  enablePartitionLevelCircuitBreaker: false,
+  enablePartitionLevelFailover: true,
+  enablePartitionLevelCircuitBreaker: true,
 });
