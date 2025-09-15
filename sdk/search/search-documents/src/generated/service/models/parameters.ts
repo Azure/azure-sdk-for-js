@@ -12,8 +12,11 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  KnowledgeAgent as KnowledgeAgentMapper,
+  KnowledgeSource as KnowledgeSourceMapper,
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
   DocumentKeysOrIds as DocumentKeysOrIdsMapper,
+  IndexerResyncBody as IndexerResyncBodyMapper,
   SearchIndexer as SearchIndexerMapper,
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
   SkillNames as SkillNamesMapper,
@@ -35,9 +38,9 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const dataSource: OperationParameter = {
-  parameterPath: "dataSource",
-  mapper: SearchIndexerDataSourceMapper,
+export const knowledgeAgent: OperationParameter = {
+  parameterPath: "knowledgeAgent",
+  mapper: KnowledgeAgentMapper,
 };
 
 export const accept: OperationParameter = {
@@ -64,10 +67,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const dataSourceName: OperationURLParameter = {
-  parameterPath: "dataSourceName",
+export const agentName: OperationURLParameter = {
+  parameterPath: "agentName",
   mapper: {
-    serializedName: "dataSourceName",
+    serializedName: "agentName",
     required: true,
     type: {
       name: "String",
@@ -111,6 +114,38 @@ export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     serializedName: "api-version",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const knowledgeSource: OperationParameter = {
+  parameterPath: "knowledgeSource",
+  mapper: KnowledgeSourceMapper,
+};
+
+export const sourceName: OperationURLParameter = {
+  parameterPath: "sourceName",
+  mapper: {
+    serializedName: "sourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const dataSource: OperationParameter = {
+  parameterPath: "dataSource",
+  mapper: SearchIndexerDataSourceMapper,
+};
+
+export const dataSourceName: OperationURLParameter = {
+  parameterPath: "dataSourceName",
+  mapper: {
+    serializedName: "dataSourceName",
     required: true,
     type: {
       name: "String",
@@ -163,6 +198,11 @@ export const overwrite: OperationQueryParameter = {
       name: "Boolean",
     },
   },
+};
+
+export const indexerResync: OperationParameter = {
+  parameterPath: "indexerResync",
+  mapper: IndexerResyncBodyMapper,
 };
 
 export const indexer: OperationParameter = {

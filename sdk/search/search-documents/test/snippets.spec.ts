@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import {
   AzureKeyCredential,
@@ -12,7 +13,6 @@ import {
   SearchIndexerClient,
   SelectFields,
 } from "../src/index.js";
-import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_APIKey", async () => {
