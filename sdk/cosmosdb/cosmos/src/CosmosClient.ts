@@ -23,6 +23,7 @@ import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import { startBackgroundTask } from "./utils/time.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -77,6 +78,7 @@ export class CosmosClient {
   public readonly offers: Offers;
   private clientContext: ClientContext;
   private endpointRefresher: NodeJS.Timeout;
+  private dynamicEnablementRefresher: NodeJS.Timeout;
   /**
    * @internal
    */
@@ -169,6 +171,8 @@ export class CosmosClient {
       this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
         optionsOrConnectionString,
         globalEndpointManager,
+        async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
+          this.getDatabaseAccountInternal(diagnosticNode, opts),
       );
     }
 
@@ -195,6 +199,11 @@ export class CosmosClient {
 
     this.databases = new Databases(this, this.clientContext, this.encryptionManager);
     this.offers = new Offers(this, this.clientContext);
+
+    this.dynamicallyEnablePPAFAndPPCBFlags(
+      this.globalPartitionEndpointManager,
+      60000, // 5 minutes
+    );
   }
 
   private initializeClientConfigDiagnostic(
@@ -336,6 +345,7 @@ export class CosmosClient {
     if (this.globalPartitionEndpointManager) {
       this.globalPartitionEndpointManager.dispose();
     }
+    clearTimeout(this.dynamicEnablementRefresher);
   }
 
   private async backgroundRefreshEndpointList(
@@ -367,5 +377,31 @@ export class CosmosClient {
    */
   public async updateHostFramework(hostFramework: string): Promise<void> {
     this.clientContext.refreshUserAgent(hostFramework);
+  }
+
+  /**
+   * Dynamically enable/disable the Per Partition Level Failover (PPAF) and Per Partition Level Circuit Breaker (PPCB) flags
+   * based on the value from database account.
+   * @param globalPartitionEndpointManager - Instance of GlobalPartitionEndpointManager
+   * @param refreshRate - Rate in milliseconds at which the client will refresh the PPAF and PPCB flags in the background
+   * @internal
+   */
+  private async dynamicallyEnablePPAFAndPPCBFlags(
+    globalPartitionEndpointManager: GlobalPartitionEndpointManager,
+    refreshRate: number,
+  ) {
+    const task = async () => {
+      try {
+        return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+          return globalPartitionEndpointManager.refreshPPAFAndPPCBFlags(diagnosticNode);
+        }, this.clientContext);
+      } catch (e: any) {
+        console.warn("Failed to dynamically enable or disable ppaf & ppcb flags", e);
+      }
+    };
+    // Running once immediately
+    await task();
+    // Scheduling it in the background
+    this.dynamicEnablementRefresher = startBackgroundTask(task, refreshRate);
   }
 }

@@ -12,6 +12,11 @@ import { PartitionKeyRangeFailoverInfo } from "./PartitionKeyRangeFailoverInfo.j
 import { normalizeEndpoint } from "./utils/checkURL.js";
 import { startBackgroundTask } from "./utils/time.js";
 import { assertNotUndefined } from "./utils/typeChecks.js";
+import { withMetadataDiagnostics } from "./utils/diagnostics.js";
+import { MetadataLookUpType } from "./CosmosDiagnostics.js";
+import type { DatabaseAccount } from "./documents/index.js";
+import type { RequestOptions } from "./index.js";
+import type { ResourceResponse } from "./request/index.js";
 
 /**
  * @hidden
@@ -23,9 +28,13 @@ export class GlobalPartitionEndpointManager {
     string,
     PartitionKeyRangeFailoverInfo
   >;
+  private enablePartitionLevelFailover: boolean;
+  private enablePartitionLevelCircuitBreaker: boolean;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
   private circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
+  private defaultEndpoint: string;
+  private isRefreshing: boolean;
 
   /**
    * @internal
@@ -33,15 +42,29 @@ export class GlobalPartitionEndpointManager {
   constructor(
     options: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
+    private readDatabaseAccount: (
+      diagnosticNode: DiagnosticNodeInternal,
+      opts: RequestOptions,
+    ) => Promise<ResourceResponse<DatabaseAccount>>,
   ) {
     this.partitionKeyRangeToLocationForWrite = new Map<string, PartitionKeyRangeFailoverInfo>();
     this.partitionKeyRangeToLocationForReadAndWrite = new Map<
       string,
       PartitionKeyRangeFailoverInfo
     >();
+
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.enablePartitionLevelCircuitBreaker =
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      options.connectionPolicy.enablePartitionLevelFailover;
+
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    this.initiateCircuitBreakerFailbackLoop();
+    if (this.enablePartitionLevelCircuitBreaker) {
+      this.initiateCircuitBreakerFailbackLoop();
+    }
+    this.defaultEndpoint = options.endpoint;
+    this.isRefreshing = false;
   }
 
   /**
@@ -128,6 +151,39 @@ export class GlobalPartitionEndpointManager {
   public dispose(): void {
     if (this.circuitBreakerFailbackBackgroundRefresher) {
       clearTimeout(this.circuitBreakerFailbackBackgroundRefresher);
+    }
+  }
+
+  /**
+   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
+   * based on the value from database account.
+   */
+  public async refreshPPAFAndPPCBFlags(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      const resourceResponse = await withMetadataDiagnostics(
+        async (metadataNode: DiagnosticNodeInternal) => {
+          return this.readDatabaseAccount(metadataNode, {
+            urlConnection: this.defaultEndpoint,
+          });
+        },
+        diagnosticNode,
+        MetadataLookUpType.DatabaseAccountLookUp,
+      );
+      if (resourceResponse && resourceResponse.resource) {
+        const enablePerPartitionFailoverBehavior =
+          resourceResponse.resource.enablePerPartitionFailoverBehavior;
+        // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
+        // we will override it to false
+        if (enablePerPartitionFailoverBehavior === false) {
+          this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
+          this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+          if (this.enablePartitionLevelCircuitBreaker === false) {
+            this.dispose();
+          }
+        }
+      }
+      this.isRefreshing = false;
     }
   }
 
@@ -296,7 +352,7 @@ export class GlobalPartitionEndpointManager {
     requestContext: RequestContext,
   ): boolean {
     return (
-      this.globalEndpointManager.enablePartitionLevelFailover &&
+      this.enablePartitionLevelFailover &&
       !isReadRequest(requestContext.operationType) &&
       !this.globalEndpointManager.canUseMultipleWriteLocations(
         requestContext.resourceType,
@@ -313,10 +369,7 @@ export class GlobalPartitionEndpointManager {
   private isRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
   ): boolean {
-    const enablePartitionLevelCircuitBreaker =
-      this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
-      this.globalEndpointManager.enablePartitionLevelFailover;
-    if (!enablePartitionLevelCircuitBreaker) {
+    if (!this.enablePartitionLevelCircuitBreaker) {
       return false;
     }
     if (isReadRequest(requestContext.operationType)) {
@@ -376,12 +429,6 @@ export class GlobalPartitionEndpointManager {
    */
   private initiateCircuitBreakerFailbackLoop(): void {
     this.circuitBreakerFailbackBackgroundRefresher = startBackgroundTask(async () => {
-      const enablePartitionLevelCircuitBreaker =
-        this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
-        this.globalEndpointManager.enablePartitionLevelFailover;
-      if (!enablePartitionLevelCircuitBreaker) {
-        return;
-      }
       try {
         await this.openConnectionToUnhealthyEndpointsWithFailback();
       } catch (err) {
