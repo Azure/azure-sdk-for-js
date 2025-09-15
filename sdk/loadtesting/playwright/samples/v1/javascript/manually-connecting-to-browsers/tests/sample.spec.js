@@ -1,4 +1,4 @@
-import playwright, { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { getConnectOptions, ServiceOS } from "@azure/playwright";
 import { AzureCliCredential } from "@azure/identity";
 
