@@ -1,6 +1,6 @@
 {
   "name": "@azure/playwright",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.1",
   "description": "Package to integrate your Playwright test suite with Azure Playwright service",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/playwright/README.md",
   "sdk-type": "client",
@@ -9,7 +9,7 @@
     "azure",
     "cloud",
     "playwright",
-    "playwright service"
+    "playwright workspaces"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

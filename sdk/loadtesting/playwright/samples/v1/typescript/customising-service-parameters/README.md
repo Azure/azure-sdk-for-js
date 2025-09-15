@@ -1,20 +1,20 @@
 ## Learn about different available service parameters and how to use them
 
-Follow the steps listed in this [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/playwright/README.md) to integrate your existing Playwright test suite with the Azure Playwright service.
+Follow the steps listed in this [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/playwright/README.md) to integrate your existing Playwright test suite with the Playwright workspaces.
 
 This guide explains the different options available to you in the `playwright.service.config.ts` file and how to use them.
 
 Here is the updated `playwright.service.config.ts` file with all the available options:
 
 ```typescript
-import { getServiceConfig, ServiceOS } from "@azure/playwright";
+import { createAzurePlaywrightConfig, ServiceOS } from "@azure/playwright";
 import { defineConfig } from "@playwright/test";
 import { AzureCliCredential } from "@azure/identity";
 import config from "./playwright.config";
 
 export default defineConfig(
   config,
-  getServiceConfig(config, {
+  createAzurePlaywrightConfig(config, {
     os: ServiceOS.WINDOWS, // Select the operating system where you want to run tests.
     credential: new AzureCliCredential(), // Select the authentication method you want to use with Entra.
   })
@@ -31,6 +31,7 @@ export default defineConfig(
         - `ServiceOS.LINUX` for Linux OS.
     - **Default Value**: `ServiceOS.LINUX`
     - **Example**:
+
       ```typescript
       os: ServiceOS.WINDOWS
       ```
@@ -38,6 +39,7 @@ export default defineConfig(
 2. **`credential`**:
     - **Description**: This setting allows you to select the authentication method you want to use with Entra.
     - **Example**:
+
       ```typescript
       credential: new AzureCliCredential()
       ```
@@ -45,6 +47,7 @@ export default defineConfig(
 4. **`runName`**:
     - **Description**: This setting allows you to set a run name for every test run in the service portal.
     - **Example**:
+
       ```typescript
-      runName: "Playwright Service Test" 
+      runName: "Playwright Workspaces Test" 
       ```

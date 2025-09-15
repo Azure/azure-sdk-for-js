@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to implements global CheckNameAvailability operations
+ * This sample demonstrates how to checks if a Playwright workspace name is available globally.
  *
- * @summary implements global CheckNameAvailability operations
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaces_CheckNameAvailability.json
+ * @summary checks if a Playwright workspace name is available globally.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaces_CheckNameAvailability.json
  */
 
 import { PlaywrightManagementClient } from "@azure/arm-playwright";

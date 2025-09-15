@@ -68,8 +68,8 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-util": "^1.11.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-util": "^1.13.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

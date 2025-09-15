@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.0.0",
-  "description": "A generated SDK for ContainerServiceClient.",
+  "version": "2.1.0-beta.1",
+  "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -16,6 +16,7 @@
       "./api/autoUpgradeProfiles": "./src/api/autoUpgradeProfiles/index.ts",
       "./api/fleetUpdateStrategies": "./src/api/fleetUpdateStrategies/index.ts",
       "./api/updateRuns": "./src/api/updateRuns/index.ts",
+      "./api/gates": "./src/api/gates/index.ts",
       "./api/fleetMembers": "./src/api/fleetMembers/index.ts",
       "./api/fleets": "./src/api/fleets/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
@@ -33,6 +34,8 @@
     "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "keywords": [
     "node",
     "azure",
@@ -45,10 +48,9 @@
   "license": "MIT",
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "sdk-type": "mgmt",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -66,13 +68,13 @@
     ]
   },
   "dependencies": {
+    "@azure/core-util": "^1.12.0",
     "@azure-rest/core-client": "^2.3.1",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "@azure/core-util": "^1.11.0",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -116,8 +118,6 @@
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview"
   },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -226,6 +226,24 @@
       "require": {
         "types": "./dist/commonjs/api/updateRuns/index.d.ts",
         "default": "./dist/commonjs/api/updateRuns/index.js"
+      }
+    },
+    "./api/gates": {
+      "browser": {
+        "types": "./dist/browser/api/gates/index.d.ts",
+        "default": "./dist/browser/api/gates/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/gates/index.d.ts",
+        "default": "./dist/react-native/api/gates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gates/index.d.ts",
+        "default": "./dist/esm/api/gates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gates/index.d.ts",
+        "default": "./dist/commonjs/api/gates/index.js"
       }
     },
     "./api/fleetMembers": {

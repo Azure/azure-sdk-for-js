@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
-import { CveResource } from "../../models/models.js";
-import { CvesListByFirmwareOptionalParams } from "../../api/cves/options.js";
 import { listByFirmware } from "../../api/cves/operations.js";
+import { CvesListByFirmwareOptionalParams } from "../../api/cves/options.js";
+import { CveResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Cves operations. */

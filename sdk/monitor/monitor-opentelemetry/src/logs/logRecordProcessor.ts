@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { MetricHandler } from "../metrics/handler.js";
-import type { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { Logger } from "../shared/logging/index.js";
 
 /**
@@ -16,7 +16,7 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     this._metricHandler = metricHandler;
   }
 
-  public onEmit(logRecord: LogRecord): void {
+  public onEmit(logRecord: SdkLogRecord): void {
     try {
       this._metricHandler.recordLog(logRecord);
     } catch (error) {
