@@ -23,6 +23,8 @@ export class GlobalPartitionEndpointManager {
     string,
     PartitionKeyRangeFailoverInfo
   >;
+  private enablePartitionLevelFailover: boolean;
+  private enablePartitionLevelCircuitBreaker: boolean;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
   private circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
@@ -39,9 +41,17 @@ export class GlobalPartitionEndpointManager {
       string,
       PartitionKeyRangeFailoverInfo
     >();
+
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.enablePartitionLevelCircuitBreaker =
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      options.connectionPolicy.enablePartitionLevelFailover;
+
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    this.initiateCircuitBreakerFailbackLoop();
+    if (this.enablePartitionLevelCircuitBreaker) {
+      this.initiateCircuitBreakerFailbackLoop();
+    }
   }
 
   /**
@@ -296,7 +306,7 @@ export class GlobalPartitionEndpointManager {
     requestContext: RequestContext,
   ): boolean {
     return (
-      this.globalEndpointManager.enablePartitionLevelFailover &&
+      this.enablePartitionLevelFailover &&
       !isReadRequest(requestContext.operationType) &&
       !this.globalEndpointManager.canUseMultipleWriteLocations(
         requestContext.resourceType,
@@ -313,10 +323,7 @@ export class GlobalPartitionEndpointManager {
   private isRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
   ): boolean {
-    const enablePartitionLevelCircuitBreaker =
-      this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
-      this.globalEndpointManager.enablePartitionLevelFailover;
-    if (!enablePartitionLevelCircuitBreaker) {
+    if (!this.enablePartitionLevelCircuitBreaker) {
       return false;
     }
     if (isReadRequest(requestContext.operationType)) {
@@ -376,12 +383,6 @@ export class GlobalPartitionEndpointManager {
    */
   private initiateCircuitBreakerFailbackLoop(): void {
     this.circuitBreakerFailbackBackgroundRefresher = startBackgroundTask(async () => {
-      const enablePartitionLevelCircuitBreaker =
-        this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
-        this.globalEndpointManager.enablePartitionLevelFailover;
-      if (!enablePartitionLevelCircuitBreaker) {
-        return;
-      }
       try {
         await this.openConnectionToUnhealthyEndpointsWithFailback();
       } catch (err) {
