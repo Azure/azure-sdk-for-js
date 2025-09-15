@@ -45,6 +45,7 @@ const databaseAccountResponse = () => ({
       },
     ],
     enableMultipleWriteLocations: true,
+    enablePerPartitionFailoverBehavior: false,
     userReplicationPolicy: {
       asyncReplication: false,
       minReplicaSetSize: 3,
@@ -139,6 +140,46 @@ const WriteForbiddenResponse = {
   headers: {},
 };
 
+const readPartitionKeyRangesResponse = {
+  code: 200,
+  result: {
+    PartitionKeyRanges: [
+      {
+        _rid: "JAY0AJIzFhACAAAAAAAAUA==",
+        id: "0",
+        _etag: '"0100f742-0000-4d00-0000-680875d90000"',
+        minInclusive: "",
+        maxExclusive: "05C1DFFFFFFFFC",
+        ridPrefix: 0,
+        _self: "dbs/JAY0AA==/colls/JAY0AJIzFhA=/pkranges/JAY0AJIzFhACAAAAAAAAUA==/",
+        throughputFraction: 0.5,
+        status: "online",
+        parents: [] as unknown[],
+        ownedArchivalPKRangeIds: [] as unknown[],
+        _ts: 1745384921,
+        lsn: 5330,
+      },
+      {
+        _rid: "JAY0AJIzFhADAAAAAAAAUA==",
+        id: "1",
+        _etag: '"0100f842-0000-4d00-0000-680875d90000"',
+        minInclusive: "05C1DFFFFFFFFC",
+        maxExclusive: "FF",
+        ridPrefix: 1,
+        _self: "dbs/JAY0AA==/colls/JAY0AJIzFhA=/pkranges/JAY0AJIzFhADAAAAAAAAUA==/",
+        throughputFraction: 0.5,
+        status: "online",
+        parents: [] as unknown[],
+        ownedArchivalPKRangeIds: [] as unknown[],
+        _ts: 1745384921,
+        lsn: 5330,
+      },
+    ],
+  },
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
 describe("Region Failover", () => {
   let responses: any[];
 
@@ -147,13 +188,16 @@ describe("Region Failover", () => {
     let lastEndpointCalled = "";
     responses = [
       databaseAccountResponse(),
+      databaseAccountResponse(),
       collectionResponse,
       readResponse,
       WriteForbiddenResponse,
       databaseAccountResponse(),
       readResponse,
     ];
-    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const options: CosmosClientOptions = { endpoint, key: masterKey,
+      connectionPolicy: { enablePartitionLevelFailover: false, enablePartitionLevelCircuitBreaker: false }
+     };
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
@@ -189,13 +233,17 @@ describe("Region Failover", () => {
     let lastEndpointCalled = "";
     responses = [
       databaseAccountResponse(),
+      databaseAccountResponse(),
       collectionResponse,
       readResponse,
       DatabaseAccountNotFoundResponse,
       databaseAccountResponse(),
       readResponse,
     ];
-    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const options: CosmosClientOptions = {
+      endpoint, key: masterKey,
+      connectionPolicy: { enablePartitionLevelFailover: false, enablePartitionLevelCircuitBreaker: false }
+    };
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
@@ -231,6 +279,7 @@ describe("Region Failover", () => {
     let lastEndpointCalled = "";
     responses = [
       databaseAccountResponse(),
+      databaseAccountResponse(),
       collectionResponse,
       readResponse,
       DatabaseAccountNotFoundResponse,
@@ -239,7 +288,10 @@ describe("Region Failover", () => {
       databaseAccountResponse(),
       readResponse,
     ];
-    const options: CosmosClientOptions = { endpoint, key: masterKey };
+    const options: CosmosClientOptions = {
+      endpoint, key: masterKey,
+      connectionPolicy: { enablePartitionLevelFailover: false, enablePartitionLevelCircuitBreaker: false }
+    };
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,

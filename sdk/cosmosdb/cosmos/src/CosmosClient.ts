@@ -168,13 +168,15 @@ export class CosmosClient {
           "enableEndpointDiscovery must be set to true to use partition level failover or circuit breaker.",
         );
       }
-      this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
-        optionsOrConnectionString,
-        globalEndpointManager,
-        async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
-          this.getDatabaseAccountInternal(diagnosticNode, opts),
-      );
+      
     }
+
+    this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+      optionsOrConnectionString,
+      globalEndpointManager,
+      async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
+        this.getDatabaseAccountInternal(diagnosticNode, opts),
+    );
 
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
