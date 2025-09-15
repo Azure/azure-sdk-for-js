@@ -178,9 +178,7 @@ export class GlobalPartitionEndpointManager {
         if (enablePerPartitionFailoverBehavior === false) {
           this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
           this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
-          if (this.enablePartitionLevelCircuitBreaker === false) {
-            this.dispose();
-          }
+          this.dispose();
         }
       }
       this.isRefreshing = false;
