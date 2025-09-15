@@ -182,6 +182,7 @@ describe("Per Partition Circuit Breaker", { timeout: 30000 }, () => {
 
     const responses = [
       databaseAccountResponse,
+      databaseAccountResponse,
       collectionResponse,
       readPartitionKeyRangesResponse,
       ...Array.from({ length: 11 }).flatMap(() => [ServiceUnavailableResponse, SuccessResponse]),

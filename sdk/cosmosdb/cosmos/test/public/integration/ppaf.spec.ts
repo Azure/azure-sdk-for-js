@@ -182,6 +182,7 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
 
     const responses = [
       databaseAccountResponse,
+      databaseAccountResponse,
       collectionResponse,
       readPartitionKeyRangesResponse,
       SuccessResponse,
