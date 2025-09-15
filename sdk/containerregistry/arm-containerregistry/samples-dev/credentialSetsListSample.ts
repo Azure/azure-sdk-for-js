@@ -3,33 +3,22 @@
 
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all credential set resources for the specified container registry.
+ * This sample demonstrates how to lists all credential set resources for the specified container registry.
  *
- * @summary Lists all credential set resources for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/CredentialSetList.json
+ * @summary lists all credential set resources for the specified container registry.
+ * x-ms-original-file: 2025-05-01-preview/CredentialSetList.json
  */
 async function credentialSetList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.credentialSets.list(
-    resourceGroupName,
-    registryName,
-  )) {
+  for await (const item of client.credentialSets.list("myResourceGroup", "myRegistry")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

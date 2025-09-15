@@ -4,14 +4,22 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgentPool extends TrackedResource {
+    properties?: AgentPoolProperties;
+}
+
+// @public
+export interface AgentPoolProperties {
     count?: number;
     os?: OS;
     readonly provisioningState?: ProvisioningState;
@@ -20,9 +28,8 @@ export interface AgentPool extends TrackedResource {
 }
 
 // @public
-export interface AgentPoolListResult {
-    nextLink?: string;
-    value?: AgentPool[];
+export interface AgentPoolPropertiesUpdateParameters {
+    count?: number;
 }
 
 // @public
@@ -31,97 +38,46 @@ export interface AgentPoolQueueStatus {
 }
 
 // @public
-export interface AgentPools {
-    beginCreate(resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsCreateResponse>, AgentPoolsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolsCreateOptionalParams): Promise<AgentPoolsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: AgentPoolUpdateParameters, options?: AgentPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: AgentPoolUpdateParameters, options?: AgentPoolsUpdateOptionalParams): Promise<AgentPoolsUpdateResponse>;
-    get(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
-    getQueueStatus(resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsGetQueueStatusOptionalParams): Promise<AgentPoolsGetQueueStatusResponse>;
-    list(resourceGroupName: string, registryName: string, options?: AgentPoolsListOptionalParams): PagedAsyncIterableIterator<AgentPool>;
-}
-
-// @public
-export interface AgentPoolsCreateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AgentPoolsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AgentPoolsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AgentPoolsCreateResponse = AgentPool;
-
-// @public
-export interface AgentPoolsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AgentPoolsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
-
-// @public
-export interface AgentPoolsGetOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentPoolsGetQueueStatusOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsGetQueueStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AgentPoolsGetQueueStatusResponse = AgentPoolQueueStatus;
-
-// @public
-export type AgentPoolsGetResponse = AgentPool;
-
-// @public
-export interface AgentPoolsListNextOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AgentPoolsListNextResponse = AgentPoolListResult;
-
-// @public
-export interface AgentPoolsListOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsOperations {
+    create: (resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolsCreateOptionalParams) => PollerLike<OperationState<AgentPool>, AgentPool>;
+    delete: (resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams) => Promise<AgentPool>;
+    getQueueStatus: (resourceGroupName: string, registryName: string, agentPoolName: string, options?: AgentPoolsGetQueueStatusOptionalParams) => Promise<AgentPoolQueueStatus>;
+    list: (resourceGroupName: string, registryName: string, options?: AgentPoolsListOptionalParams) => PagedAsyncIterableIterator<AgentPool>;
+    update: (resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: AgentPoolUpdateParameters, options?: AgentPoolsUpdateOptionalParams) => PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
 // @public
-export type AgentPoolsListResponse = AgentPoolListResult;
-
-// @public
-export interface AgentPoolsUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AgentPoolsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AgentPoolsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AgentPoolsUpdateResponse = AgentPool;
 
 // @public
 export interface AgentPoolUpdateParameters {
-    count?: number;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    properties?: AgentPoolPropertiesUpdateParameters;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -158,6 +114,16 @@ export interface AuthInfoUpdateParameters {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface BaseImageDependency {
     digest?: string;
     registry?: string;
@@ -191,41 +157,33 @@ export interface BaseImageTriggerUpdateParameters {
 }
 
 // @public (undocumented)
-export class ContainerRegistryTasksManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryTasksManagementClientOptionalParams);
-    // (undocumented)
-    agentPools: AgentPools;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    registries: Registries;
-    // (undocumented)
-    runs: Runs;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    taskRuns: TaskRuns;
-    // (undocumented)
-    tasks: Tasks;
+export class ContainerRegistryTasksManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerRegistryTasksManagementClientOptionalParams);
+    readonly agentPools: AgentPoolsOperations;
+    readonly pipeline: Pipeline;
+    readonly registries: RegistriesOperations;
+    readonly runs: RunsOperations;
+    readonly taskRuns: TaskRunsOperations;
+    readonly tasks: TasksOperations;
 }
 
 // @public
-export interface ContainerRegistryTasksManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ContainerRegistryTasksManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface Credentials {
-    customRegistries?: {
-        [propertyName: string]: CustomRegistryCredentials;
-    };
+    customRegistries?: Record<string, CustomRegistryCredentials>;
     sourceRegistry?: SourceRegistryCredentials;
 }
 
@@ -305,7 +263,7 @@ export interface EncodedTaskStepUpdateParameters extends TaskStepUpdateParameter
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -353,16 +311,11 @@ export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface IdentityProperties {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserIdentityProperties;
-    };
+    userAssignedIdentities?: Record<string, UserIdentityProperties>;
 }
 
 // @public
@@ -382,22 +335,31 @@ export interface ImageUpdateTrigger {
 
 // @public
 export enum KnownArchitecture {
+    // (undocumented)
+    _386 = "386",
+    // (undocumented)
     Amd64 = "amd64",
+    // (undocumented)
     Arm = "arm",
+    // (undocumented)
     Arm64 = "arm64",
-    ThreeHundredEightySix = "386",
+    // (undocumented)
     X86 = "x86"
 }
 
 // @public
 export enum KnownBaseImageDependencyType {
+    // (undocumented)
     BuildTime = "BuildTime",
+    // (undocumented)
     RunTime = "RunTime"
 }
 
 // @public
 export enum KnownBaseImageTriggerType {
+    // (undocumented)
     All = "All",
+    // (undocumented)
     Runtime = "Runtime"
 }
 
@@ -411,106 +373,153 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOS {
+    // (undocumented)
     Linux = "Linux",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownRunStatus {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Error = "Error",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Queued = "Queued",
+    // (undocumented)
     Running = "Running",
+    // (undocumented)
     Started = "Started",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
 export enum KnownRunType {
+    // (undocumented)
     AutoBuild = "AutoBuild",
+    // (undocumented)
     AutoRun = "AutoRun",
+    // (undocumented)
     QuickBuild = "QuickBuild",
+    // (undocumented)
     QuickRun = "QuickRun"
 }
 
 // @public
 export enum KnownSecretObjectType {
+    // (undocumented)
     Opaque = "Opaque",
+    // (undocumented)
     Vaultsecret = "Vaultsecret"
 }
 
 // @public
 export enum KnownSourceControlType {
+    // (undocumented)
     Github = "Github",
+    // (undocumented)
     VisualStudioTeamService = "VisualStudioTeamService"
 }
 
 // @public
 export enum KnownSourceRegistryLoginMode {
+    // (undocumented)
     Default = "Default",
+    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownSourceTriggerEvent {
+    // (undocumented)
     Commit = "commit",
+    // (undocumented)
     Pullrequest = "pullrequest"
 }
 
 // @public
 export enum KnownStepType {
+    // (undocumented)
     Docker = "Docker",
+    // (undocumented)
     EncodedTask = "EncodedTask",
+    // (undocumented)
     FileTask = "FileTask"
 }
 
 // @public
 export enum KnownTaskStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTokenType {
+    // (undocumented)
     OAuth = "OAuth",
+    // (undocumented)
     PAT = "PAT"
 }
 
 // @public
 export enum KnownTriggerStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownUpdateTriggerPayloadType {
+    // (undocumented)
     Default = "Default",
+    // (undocumented)
     Token = "Token"
 }
 
 // @public
 export enum KnownVariant {
+    // (undocumented)
     V6 = "v6",
+    // (undocumented)
     V7 = "v7",
+    // (undocumented)
     V8 = "v8"
+}
+
+// @public
+export enum KnownVersions {
+    V20250301Preview = "2025-03-01-preview"
 }
 
 // @public
 export type OS = string;
 
-// @public (undocumented)
+// @public
 export interface OverrideTaskStepProperties {
     arguments?: Argument[];
     contextPath?: string;
@@ -518,6 +527,18 @@ export interface OverrideTaskStepProperties {
     target?: string;
     updateTriggerToken?: string;
     values?: SetValue[];
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -542,24 +563,18 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Registries {
-    getBuildSourceUploadUrl(resourceGroupName: string, registryName: string, options?: RegistriesGetBuildSourceUploadUrlOptionalParams): Promise<RegistriesGetBuildSourceUploadUrlResponse>;
-    scheduleRun(resourceGroupName: string, registryName: string, runRequest: RunRequestUnion, options?: RegistriesScheduleRunOptionalParams): Promise<RegistriesScheduleRunResponse>;
+export interface RegistriesGetBuildSourceUploadUrlOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegistriesGetBuildSourceUploadUrlOptionalParams extends coreClient.OperationOptions {
+export interface RegistriesOperations {
+    getBuildSourceUploadUrl: (resourceGroupName: string, registryName: string, options?: RegistriesGetBuildSourceUploadUrlOptionalParams) => Promise<SourceUploadDefinition>;
+    scheduleRun: (resourceGroupName: string, registryName: string, runRequest: RunRequestUnion, options?: RegistriesScheduleRunOptionalParams) => Promise<Run>;
 }
 
 // @public
-export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition;
-
-// @public
-export interface RegistriesScheduleRunOptionalParams extends coreClient.OperationOptions {
+export interface RegistriesScheduleRunOptionalParams extends OperationOptions {
 }
-
-// @public
-export type RegistriesScheduleRunResponse = Run;
 
 // @public
 export interface Resource {
@@ -573,7 +588,28 @@ export interface Resource {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerRegistryTasksManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface Run extends ProxyResource {
+    properties?: RunProperties;
+}
+
+// @public
+export interface RunGetLogResult {
+    logArtifactLink?: string;
+    logLink?: string;
+}
+
+// @public
+export interface RunProperties {
     agentConfiguration?: AgentProperties;
     agentPoolName?: string;
     createTime?: Date;
@@ -599,80 +635,49 @@ export interface Run extends ProxyResource {
 }
 
 // @public
-export interface RunGetLogResult {
-    logArtifactLink?: string;
-    logLink?: string;
-}
-
-// @public
-export interface RunListResult {
-    nextLink?: string;
-    value?: Run[];
-}
-
-// @public
 export interface RunRequest {
     agentPoolName?: string;
     isArchiveEnabled?: boolean;
     logTemplate?: string;
-    type: "DockerBuildRequest" | "EncodedTaskRunRequest" | "FileTaskRunRequest" | "TaskRunRequest";
-}
-
-// @public (undocumented)
-export type RunRequestUnion = RunRequest | DockerBuildRequest | EncodedTaskRunRequest | FileTaskRunRequest | TaskRunRequest;
-
-// @public
-export interface Runs {
-    cancel(resourceGroupName: string, registryName: string, runId: string, options?: RunsCancelOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, runId: string, options?: RunsGetOptionalParams): Promise<RunsGetResponse>;
-    getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options?: RunsGetLogSasUrlOptionalParams): Promise<RunsGetLogSasUrlResponse>;
-    list(resourceGroupName: string, registryName: string, options?: RunsListOptionalParams): PagedAsyncIterableIterator<Run>;
-    update(resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: RunUpdateParameters, options?: RunsUpdateOptionalParams): Promise<RunsUpdateResponse>;
+    type: string;
 }
 
 // @public
-export interface RunsCancelOptionalParams extends coreClient.OperationOptions {
+export type RunRequestUnion = DockerBuildRequest | FileTaskRunRequest | TaskRunRequest | EncodedTaskRunRequest | RunRequest;
+
+// @public
+export interface RunsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RunsGetLogSasUrlOptionalParams extends coreClient.OperationOptions {
+export interface RunsGetLogSasUrlOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RunsGetLogSasUrlResponse = RunGetLogResult;
-
-// @public
-export interface RunsGetOptionalParams extends coreClient.OperationOptions {
+export interface RunsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RunsGetResponse = Run;
-
-// @public
-export interface RunsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RunsListNextResponse = RunListResult;
-
-// @public
-export interface RunsListOptionalParams extends coreClient.OperationOptions {
+export interface RunsListOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type RunsListResponse = RunListResult;
+export interface RunsOperations {
+    cancel: (resourceGroupName: string, registryName: string, runId: string, options?: RunsCancelOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, registryName: string, runId: string, options?: RunsGetOptionalParams) => Promise<Run>;
+    getLogSasUrl: (resourceGroupName: string, registryName: string, runId: string, options?: RunsGetLogSasUrlOptionalParams) => Promise<RunGetLogResult>;
+    list: (resourceGroupName: string, registryName: string, options?: RunsListOptionalParams) => PagedAsyncIterableIterator<Run>;
+    update: (resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: RunUpdateParameters, options?: RunsUpdateOptionalParams) => Promise<Run>;
+}
 
 // @public
 export type RunStatus = string;
 
 // @public
-export interface RunsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RunsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type RunsUpdateResponse = Run;
 
 // @public
 export type RunType = string;
@@ -777,11 +782,16 @@ export interface SystemData {
 
 // @public
 export interface Task extends TrackedResource {
+    identity?: IdentityProperties;
+    properties?: TaskProperties;
+}
+
+// @public
+export interface TaskProperties {
     agentConfiguration?: AgentProperties;
     agentPoolName?: string;
     readonly creationDate?: Date;
     credentials?: Credentials;
-    identity?: IdentityProperties;
     isSystemTask?: boolean;
     logTemplate?: string;
     platform?: PlatformProperties;
@@ -793,25 +803,37 @@ export interface Task extends TrackedResource {
 }
 
 // @public
-export interface TaskListResult {
-    nextLink?: string;
-    value?: Task[];
+export interface TaskPropertiesUpdateParameters {
+    agentConfiguration?: AgentProperties;
+    agentPoolName?: string;
+    credentials?: Credentials;
+    logTemplate?: string;
+    platform?: PlatformUpdateParameters;
+    status?: TaskStatus;
+    step?: TaskStepUpdateParametersUnion;
+    timeout?: number;
+    trigger?: TriggerUpdateParameters;
 }
 
 // @public
 export interface TaskRun extends ProxyResource {
-    forceUpdateTag?: string;
     identity?: IdentityProperties;
     location?: string;
+    properties?: TaskRunProperties;
+}
+
+// @public
+export interface TaskRunProperties {
+    forceUpdateTag?: string;
     readonly provisioningState?: ProvisioningState;
     runRequest?: RunRequestUnion;
     readonly runResult?: Run;
 }
 
 // @public
-export interface TaskRunListResult {
-    nextLink?: string;
-    value?: TaskRun[];
+export interface TaskRunPropertiesUpdateParameters {
+    forceUpdateTag?: string;
+    runRequest?: RunRequestUnion;
 }
 
 // @public
@@ -822,138 +844,78 @@ export interface TaskRunRequest extends RunRequest {
 }
 
 // @public
-export interface TaskRuns {
-    beginCreate(resourceGroupName: string, registryName: string, taskRunName: string, taskRun: TaskRun, options?: TaskRunsCreateOptionalParams): Promise<SimplePollerLike<OperationState<TaskRunsCreateResponse>, TaskRunsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, taskRunName: string, taskRun: TaskRun, options?: TaskRunsCreateOptionalParams): Promise<TaskRunsCreateResponse>;
-    beginUpdate(resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: TaskRunUpdateParameters, options?: TaskRunsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TaskRunsUpdateResponse>, TaskRunsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: TaskRunUpdateParameters, options?: TaskRunsUpdateOptionalParams): Promise<TaskRunsUpdateResponse>;
-    delete(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsGetOptionalParams): Promise<TaskRunsGetResponse>;
-    getDetails(resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsGetDetailsOptionalParams): Promise<TaskRunsGetDetailsResponse>;
-    list(resourceGroupName: string, registryName: string, options?: TaskRunsListOptionalParams): PagedAsyncIterableIterator<TaskRun>;
-}
-
-// @public
-export interface TaskRunsCreateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface TaskRunsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TaskRunsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TaskRunsCreateResponse = TaskRun;
-
-// @public
-export interface TaskRunsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TaskRunsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TaskRunsGetDetailsOptionalParams extends coreClient.OperationOptions {
+export interface TaskRunsGetDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TaskRunsGetDetailsResponse = TaskRun;
-
-// @public
-export interface TaskRunsGetOptionalParams extends coreClient.OperationOptions {
+export interface TaskRunsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TaskRunsGetResponse = TaskRun;
-
-// @public
-export interface TaskRunsListNextOptionalParams extends coreClient.OperationOptions {
+export interface TaskRunsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TaskRunsListNextResponse = TaskRunListResult;
-
-// @public
-export interface TaskRunsListOptionalParams extends coreClient.OperationOptions {
+export interface TaskRunsOperations {
+    create: (resourceGroupName: string, registryName: string, taskRunName: string, taskRun: TaskRun, options?: TaskRunsCreateOptionalParams) => PollerLike<OperationState<TaskRun>, TaskRun>;
+    delete: (resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsGetOptionalParams) => Promise<TaskRun>;
+    getDetails: (resourceGroupName: string, registryName: string, taskRunName: string, options?: TaskRunsGetDetailsOptionalParams) => Promise<TaskRun>;
+    list: (resourceGroupName: string, registryName: string, options?: TaskRunsListOptionalParams) => PagedAsyncIterableIterator<TaskRun>;
+    update: (resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: TaskRunUpdateParameters, options?: TaskRunsUpdateOptionalParams) => PollerLike<OperationState<TaskRun>, TaskRun>;
 }
 
 // @public
-export type TaskRunsListResponse = TaskRunListResult;
-
-// @public
-export interface TaskRunsUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface TaskRunsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TaskRunsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type TaskRunsUpdateResponse = TaskRun;
 
 // @public
 export interface TaskRunUpdateParameters {
-    forceUpdateTag?: string;
     identity?: IdentityProperties;
     location?: string;
-    runRequest?: RunRequestUnion;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    properties?: TaskRunPropertiesUpdateParameters;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface Tasks {
-    create(resourceGroupName: string, registryName: string, taskName: string, taskCreateParameters: Task, options?: TasksCreateOptionalParams): Promise<TasksCreateResponse>;
-    delete(resourceGroupName: string, registryName: string, taskName: string, options?: TasksDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, taskName: string, options?: TasksGetOptionalParams): Promise<TasksGetResponse>;
-    getDetails(resourceGroupName: string, registryName: string, taskName: string, options?: TasksGetDetailsOptionalParams): Promise<TasksGetDetailsResponse>;
-    list(resourceGroupName: string, registryName: string, options?: TasksListOptionalParams): PagedAsyncIterableIterator<Task>;
-    update(resourceGroupName: string, registryName: string, taskName: string, taskUpdateParameters: TaskUpdateParameters, options?: TasksUpdateOptionalParams): Promise<TasksUpdateResponse>;
+export interface TasksCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TasksCreateOptionalParams extends coreClient.OperationOptions {
+export interface TasksDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TasksCreateResponse = Task;
-
-// @public
-export interface TasksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TasksGetDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TasksGetDetailsOptionalParams extends coreClient.OperationOptions {
+export interface TasksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TasksGetDetailsResponse = Task;
-
-// @public
-export interface TasksGetOptionalParams extends coreClient.OperationOptions {
+export interface TasksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TasksGetResponse = Task;
-
-// @public
-export interface TasksListNextOptionalParams extends coreClient.OperationOptions {
+export interface TasksOperations {
+    create: (resourceGroupName: string, registryName: string, taskName: string, taskCreateParameters: Task, options?: TasksCreateOptionalParams) => Promise<Task>;
+    delete: (resourceGroupName: string, registryName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, registryName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<Task>;
+    getDetails: (resourceGroupName: string, registryName: string, taskName: string, options?: TasksGetDetailsOptionalParams) => Promise<Task>;
+    list: (resourceGroupName: string, registryName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<Task>;
+    update: (resourceGroupName: string, registryName: string, taskName: string, taskUpdateParameters: TaskUpdateParameters, options?: TasksUpdateOptionalParams) => Promise<Task>;
 }
-
-// @public
-export type TasksListNextResponse = TaskListResult;
-
-// @public
-export interface TasksListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TasksListResponse = TaskListResult;
 
 // @public
 export type TaskStatus = string;
@@ -963,44 +925,31 @@ export interface TaskStepProperties {
     readonly baseImageDependencies?: BaseImageDependency[];
     contextAccessToken?: string;
     contextPath?: string;
-    type: "Docker" | "EncodedTask" | "FileTask";
+    type: StepType;
 }
 
-// @public (undocumented)
-export type TaskStepPropertiesUnion = TaskStepProperties | DockerBuildStep | EncodedTaskStep | FileTaskStep;
+// @public
+export type TaskStepPropertiesUnion = DockerBuildStep | FileTaskStep | EncodedTaskStep | TaskStepProperties;
 
 // @public
 export interface TaskStepUpdateParameters {
     contextAccessToken?: string;
     contextPath?: string;
-    type: "Docker" | "EncodedTask" | "FileTask";
-}
-
-// @public (undocumented)
-export type TaskStepUpdateParametersUnion = TaskStepUpdateParameters | DockerBuildStepUpdateParameters | EncodedTaskStepUpdateParameters | FileTaskStepUpdateParameters;
-
-// @public
-export interface TasksUpdateOptionalParams extends coreClient.OperationOptions {
+    type: StepType;
 }
 
 // @public
-export type TasksUpdateResponse = Task;
+export type TaskStepUpdateParametersUnion = DockerBuildStepUpdateParameters | FileTaskStepUpdateParameters | EncodedTaskStepUpdateParameters | TaskStepUpdateParameters;
+
+// @public
+export interface TasksUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface TaskUpdateParameters {
-    agentConfiguration?: AgentProperties;
-    agentPoolName?: string;
-    credentials?: Credentials;
     identity?: IdentityProperties;
-    logTemplate?: string;
-    platform?: PlatformUpdateParameters;
-    status?: TaskStatus;
-    step?: TaskStepUpdateParametersUnion;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    timeout?: number;
-    trigger?: TriggerUpdateParameters;
+    properties?: TaskPropertiesUpdateParameters;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1010,7 +959,7 @@ export interface TimerTrigger {
     status?: TriggerStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface TimerTriggerDescriptor {
     scheduleOccurrence?: string;
     timerTriggerName?: string;
@@ -1029,9 +978,7 @@ export type TokenType = string;
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1054,7 +1001,7 @@ export interface TriggerUpdateParameters {
 // @public
 export type UpdateTriggerPayloadType = string;
 
-// @public (undocumented)
+// @public
 export interface UserIdentityProperties {
     readonly clientId?: string;
     readonly principalId?: string;

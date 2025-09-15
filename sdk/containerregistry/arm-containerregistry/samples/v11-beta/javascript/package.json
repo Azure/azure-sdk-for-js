@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-containerregistry-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-containerregistry client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -14,6 +14,7 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"

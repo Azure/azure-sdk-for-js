@@ -3,35 +3,22 @@
 
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all archives for the specified container registry and package type.
+ * This sample demonstrates how to lists all archives for the specified container registry and package type.
  *
- * @summary Lists all archives for the specified container registry and package type.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/ArchiveList.json
+ * @summary lists all archives for the specified container registry and package type.
+ * x-ms-original-file: 2025-05-01-preview/ArchiveList.json
  */
 async function archiveList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const packageType = "myPackageType";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.archives.list(
-    resourceGroupName,
-    registryName,
-    packageType,
-  )) {
+  for await (const item of client.archives.list("myResourceGroup", "myRegistry", "myPackageType")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

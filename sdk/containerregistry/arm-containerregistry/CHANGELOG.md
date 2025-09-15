@@ -1,109 +1,112 @@
 # Release History
 
-## 11.0.0-beta.6 (2025-09-12)
+## 11.0.0-beta.6 (2025-09-15)
 Compared with version 10.1.0
 
 ### Features Added
-  - Added operation group Archives
-  - Added operation group ArchiveVersions
-  - Added operation group CacheRules
-  - Added operation group ConnectedRegistries
-  - Added operation group CredentialSets
-  - Added operation group ExportPipelines
-  - Added operation group ImportPipelines
-  - Added operation group PipelineRuns
+  - Added operation group ArchivesOperations
+  - Added operation group ArchiveVersionsOperations
+  - Added operation group CacheRulesOperations
+  - Added operation group ConnectedRegistriesOperations
+  - Added operation group CredentialSetsOperations
+  - Added operation group ExportPipelinesOperations
+  - Added operation group ImportPipelinesOperations
+  - Added operation group PipelineRunsOperations
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation RegistriesOperations.create
+  - Added operation RegistriesOperations.delete
+  - Added operation RegistriesOperations.generateCredentials
+  - Added operation RegistriesOperations.importImage
+  - Added operation RegistriesOperations.update
+  - Added operation ReplicationsOperations.create
+  - Added operation ReplicationsOperations.delete
+  - Added operation ReplicationsOperations.update
+  - Added operation ScopeMapsOperations.create
+  - Added operation ScopeMapsOperations.delete
+  - Added operation ScopeMapsOperations.update
+  - Added operation TokensOperations.create
+  - Added operation TokensOperations.delete
+  - Added operation TokensOperations.update
+  - Added operation WebhooksOperations.create
+  - Added operation WebhooksOperations.delete
+  - Added operation WebhooksOperations.update
   - Added Interface ActivationProperties
   - Added Interface Archive
-  - Added Interface ArchiveListResult
   - Added Interface ArchivePackageSourceProperties
   - Added Interface ArchiveProperties
-  - Added Interface ArchivesCreateHeaders
   - Added Interface ArchivesCreateOptionalParams
-  - Added Interface ArchivesDeleteHeaders
   - Added Interface ArchivesDeleteOptionalParams
   - Added Interface ArchivesGetOptionalParams
   - Added Interface ArchivesListOptionalParams
   - Added Interface ArchivesUpdateOptionalParams
   - Added Interface ArchiveUpdateParameters
+  - Added Interface ArchiveUpdateProperties
   - Added Interface ArchiveVersion
-  - Added Interface ArchiveVersionListResult
-  - Added Interface ArchiveVersionsCreateHeaders
+  - Added Interface ArchiveVersionProperties
   - Added Interface ArchiveVersionsCreateOptionalParams
-  - Added Interface ArchiveVersionsDeleteHeaders
   - Added Interface ArchiveVersionsDeleteOptionalParams
   - Added Interface ArchiveVersionsGetOptionalParams
   - Added Interface ArchiveVersionsListOptionalParams
   - Added Interface AuthCredential
   - Added Interface AzureADAuthenticationAsArmPolicy
   - Added Interface CacheRule
-  - Added Interface CacheRulesCreateHeaders
+  - Added Interface CacheRuleProperties
   - Added Interface CacheRulesCreateOptionalParams
-  - Added Interface CacheRulesDeleteHeaders
   - Added Interface CacheRulesDeleteOptionalParams
   - Added Interface CacheRulesGetOptionalParams
   - Added Interface CacheRulesListOptionalParams
-  - Added Interface CacheRulesListResult
-  - Added Interface CacheRulesUpdateHeaders
   - Added Interface CacheRulesUpdateOptionalParams
   - Added Interface CacheRuleUpdateParameters
-  - Added Interface ConnectedRegistriesCreateHeaders
+  - Added Interface CacheRuleUpdateProperties
   - Added Interface ConnectedRegistriesCreateOptionalParams
-  - Added Interface ConnectedRegistriesDeactivateHeaders
   - Added Interface ConnectedRegistriesDeactivateOptionalParams
-  - Added Interface ConnectedRegistriesDeleteHeaders
   - Added Interface ConnectedRegistriesDeleteOptionalParams
   - Added Interface ConnectedRegistriesGetOptionalParams
   - Added Interface ConnectedRegistriesListOptionalParams
-  - Added Interface ConnectedRegistriesUpdateHeaders
   - Added Interface ConnectedRegistriesUpdateOptionalParams
   - Added Interface ConnectedRegistry
-  - Added Interface ConnectedRegistryListResult
+  - Added Interface ConnectedRegistryProperties
   - Added Interface ConnectedRegistryUpdateParameters
+  - Added Interface ConnectedRegistryUpdateProperties
   - Added Interface CredentialHealth
   - Added Interface CredentialSet
-  - Added Interface CredentialSetListResult
-  - Added Interface CredentialSetsCreateHeaders
+  - Added Interface CredentialSetProperties
   - Added Interface CredentialSetsCreateOptionalParams
-  - Added Interface CredentialSetsDeleteHeaders
   - Added Interface CredentialSetsDeleteOptionalParams
   - Added Interface CredentialSetsGetOptionalParams
   - Added Interface CredentialSetsListOptionalParams
-  - Added Interface CredentialSetsUpdateHeaders
   - Added Interface CredentialSetsUpdateOptionalParams
   - Added Interface CredentialSetUpdateParameters
-  - Added Interface DebianArchivePackageSourceProperties
-  - Added Interface DebianArchiveProperties
+  - Added Interface CredentialSetUpdateProperties
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ExportPipeline
-  - Added Interface ExportPipelineListResult
-  - Added Interface ExportPipelinesCreateHeaders
+  - Added Interface ExportPipelineProperties
   - Added Interface ExportPipelinesCreateOptionalParams
-  - Added Interface ExportPipelinesDeleteHeaders
   - Added Interface ExportPipelinesDeleteOptionalParams
   - Added Interface ExportPipelinesGetOptionalParams
   - Added Interface ExportPipelinesListOptionalParams
   - Added Interface ExportPipelineTargetProperties
   - Added Interface GarbageCollectionProperties
   - Added Interface ImportPipeline
-  - Added Interface ImportPipelineListResult
-  - Added Interface ImportPipelinesCreateHeaders
+  - Added Interface ImportPipelineProperties
   - Added Interface ImportPipelinesCreateOptionalParams
-  - Added Interface ImportPipelinesDeleteHeaders
   - Added Interface ImportPipelinesDeleteOptionalParams
   - Added Interface ImportPipelinesGetOptionalParams
   - Added Interface ImportPipelinesListOptionalParams
   - Added Interface ImportPipelineSourceProperties
   - Added Interface LoggingProperties
   - Added Interface LoginServerProperties
+  - Added Interface OperationPropertiesDefinition
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
   - Added Interface ParentProperties
   - Added Interface PipelineRun
-  - Added Interface PipelineRunListResult
+  - Added Interface PipelineRunProperties
   - Added Interface PipelineRunRequest
   - Added Interface PipelineRunResponse
-  - Added Interface PipelineRunsCreateHeaders
   - Added Interface PipelineRunsCreateOptionalParams
-  - Added Interface PipelineRunsDeleteHeaders
   - Added Interface PipelineRunsDeleteOptionalParams
   - Added Interface PipelineRunsGetOptionalParams
   - Added Interface PipelineRunsListOptionalParams
@@ -113,107 +116,69 @@ Compared with version 10.1.0
   - Added Interface PipelineSourceTriggerProperties
   - Added Interface PipelineTriggerDescriptor
   - Added Interface PipelineTriggerProperties
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
   - Added Interface ProgressProperties
+  - Added Interface RegistryProperties
+  - Added Interface RegistryPropertiesUpdateParameters
+  - Added Interface ReplicationProperties
+  - Added Interface ReplicationUpdateParametersProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ScopeMapProperties
+  - Added Interface ScopeMapPropertiesUpdateParameters
   - Added Interface SoftDeletePolicy
   - Added Interface StatusDetailProperties
   - Added Interface SyncProperties
   - Added Interface SyncUpdateProperties
   - Added Interface TlsCertificateProperties
   - Added Interface TlsProperties
+  - Added Interface TokenProperties
+  - Added Interface TokenUpdateProperties
   - Added Interface TrackedResource
-  - Interface ContainerRegistryManagementClientOptionalParams has a new optional parameter apiVersion
+  - Added Interface WebhookProperties
+  - Added Interface WebhookPropertiesCreateParameters
+  - Added Interface WebhookPropertiesUpdateParameters
+  - Interface OperationDefinition has a new optional parameter properties
   - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
   - Interface Policies has a new optional parameter softDeletePolicy
-  - Interface PrivateEndpointConnectionsCreateOrUpdateHeaders has a new optional parameter retryAfter
-  - Interface PrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
+  - Interface PrivateEndpointConnection has a new optional parameter properties
+  - Interface PrivateLinkResource has a new optional parameter properties
   - Interface PrivateLinkResource has a new optional parameter systemData
-  - Interface RegistriesCreateHeaders has a new optional parameter retryAfter
-  - Interface RegistriesDeleteHeaders has a new optional parameter retryAfter
-  - Interface RegistriesGenerateCredentialsHeaders has a new optional parameter retryAfter
-  - Interface RegistriesImportImageHeaders has a new optional parameter retryAfter
-  - Interface RegistriesUpdateHeaders has a new optional parameter retryAfter
-  - Interface Registry has a new optional parameter anonymousPullEnabled
-  - Interface Registry has a new optional parameter autoGeneratedDomainNameLabelScope
-  - Interface Registry has a new optional parameter metadataSearch
-  - Interface Registry has a new optional parameter networkRuleBypassAllowedForTasks
-  - Interface Registry has a new optional parameter roleAssignmentMode
+  - Interface Registry has a new optional parameter properties
   - Interface RegistryNameCheckRequest has a new optional parameter autoGeneratedDomainNameLabelScope
   - Interface RegistryNameCheckRequest has a new optional parameter resourceGroupName
   - Interface RegistryNameStatus has a new optional parameter availableLoginServerName
-  - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
-  - Interface RegistryUpdateParameters has a new optional parameter metadataSearch
-  - Interface RegistryUpdateParameters has a new optional parameter networkRuleBypassAllowedForTasks
-  - Interface RegistryUpdateParameters has a new optional parameter roleAssignmentMode
-  - Interface ReplicationsCreateHeaders has a new optional parameter retryAfter
-  - Interface ReplicationsDeleteHeaders has a new optional parameter retryAfter
-  - Interface ReplicationsUpdateHeaders has a new optional parameter retryAfter
-  - Interface ScopeMapsCreateHeaders has a new optional parameter retryAfter
-  - Interface ScopeMapsDeleteHeaders has a new optional parameter retryAfter
-  - Interface ScopeMapsUpdateHeaders has a new optional parameter retryAfter
-  - Interface TokensCreateHeaders has a new optional parameter retryAfter
-  - Interface TokensDeleteHeaders has a new optional parameter retryAfter
-  - Interface TokensUpdateHeaders has a new optional parameter retryAfter
-  - Interface WebhooksCreateHeaders has a new optional parameter retryAfter
-  - Interface WebhooksDeleteHeaders has a new optional parameter retryAfter
-  - Interface WebhooksUpdateHeaders has a new optional parameter retryAfter
+  - Interface RegistryUpdateParameters has a new optional parameter properties
+  - Interface Replication has a new optional parameter properties
+  - Interface ReplicationUpdateParameters has a new optional parameter properties
+  - Interface ScopeMap has a new optional parameter properties
+  - Interface ScopeMapUpdateParameters has a new optional parameter properties
+  - Interface Token has a new optional parameter properties
+  - Interface TokenUpdateParameters has a new optional parameter properties
+  - Interface Webhook has a new optional parameter properties
+  - Interface WebhookCreateParameters has a new optional parameter properties
+  - Interface WebhookUpdateParameters has a new optional parameter properties
   - Added Type Alias ActivationStatus
-  - Added Type Alias ArchivesCreateResponse
-  - Added Type Alias ArchivesDeleteResponse
-  - Added Type Alias ArchivesGetResponse
-  - Added Type Alias ArchivesListNextResponse
-  - Added Type Alias ArchivesListResponse
-  - Added Type Alias ArchivesUpdateResponse
-  - Added Type Alias ArchiveVersionsCreateResponse
-  - Added Type Alias ArchiveVersionsDeleteResponse
-  - Added Type Alias ArchiveVersionsGetResponse
-  - Added Type Alias ArchiveVersionsListNextResponse
-  - Added Type Alias ArchiveVersionsListResponse
   - Added Type Alias AuditLogStatus
   - Added Type Alias AutoGeneratedDomainNameLabelScope
   - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
-  - Added Type Alias CacheRulesCreateResponse
-  - Added Type Alias CacheRulesDeleteResponse
-  - Added Type Alias CacheRulesGetResponse
-  - Added Type Alias CacheRulesListNextResponse
-  - Added Type Alias CacheRulesListResponse
-  - Added Type Alias CacheRulesUpdateResponse
+  - Added Type Alias AzureSupportedClouds
   - Added Type Alias CertificateType
-  - Added Type Alias ConnectedRegistriesCreateResponse
-  - Added Type Alias ConnectedRegistriesGetResponse
-  - Added Type Alias ConnectedRegistriesListNextResponse
-  - Added Type Alias ConnectedRegistriesListResponse
-  - Added Type Alias ConnectedRegistriesUpdateResponse
   - Added Type Alias ConnectedRegistryMode
   - Added Type Alias ConnectionState
+  - Added Type Alias ContainerRegistryResourceType
   - Added Type Alias CredentialHealthStatus
   - Added Type Alias CredentialName
-  - Added Type Alias CredentialSetsCreateResponse
-  - Added Type Alias CredentialSetsDeleteResponse
-  - Added Type Alias CredentialSetsGetResponse
-  - Added Type Alias CredentialSetsListNextResponse
-  - Added Type Alias CredentialSetsListResponse
-  - Added Type Alias CredentialSetsUpdateResponse
-  - Added Type Alias ExportPipelinesCreateResponse
-  - Added Type Alias ExportPipelinesGetResponse
-  - Added Type Alias ExportPipelinesListNextResponse
-  - Added Type Alias ExportPipelinesListResponse
-  - Added Type Alias ImportPipelinesCreateResponse
-  - Added Type Alias ImportPipelinesGetResponse
-  - Added Type Alias ImportPipelinesListNextResponse
-  - Added Type Alias ImportPipelinesListResponse
   - Added Type Alias LogLevel
   - Added Type Alias MetadataSearch
   - Added Type Alias PackageSourceType
   - Added Type Alias PipelineOptions
-  - Added Type Alias PipelineRunsCreateResponse
-  - Added Type Alias PipelineRunsGetResponse
-  - Added Type Alias PipelineRunsListNextResponse
-  - Added Type Alias PipelineRunsListResponse
   - Added Type Alias PipelineRunSourceType
   - Added Type Alias PipelineRunTargetType
   - Added Type Alias PipelineSourceType
   - Added Type Alias RoleAssignmentMode
   - Added Type Alias TlsStatus
+  - Added Enum AzureClouds
   - Added Enum KnownActivationStatus
   - Added Enum KnownAuditLogStatus
   - Added Enum KnownAutoGeneratedDomainNameLabelScope
@@ -232,22 +197,55 @@ Compared with version 10.1.0
   - Added Enum KnownPipelineSourceType
   - Added Enum KnownRoleAssignmentMode
   - Added Enum KnownTlsStatus
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation group AgentPools
-  - Removed operation group Runs
-  - Removed operation group TaskRuns
-  - Removed operation group Tasks
+  - Removed operation PrivateEndpointConnections.beginCreateOrUpdate
+  - Removed operation PrivateEndpointConnections.beginCreateOrUpdateAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation Registries.beginCreate
+  - Removed operation Registries.beginCreateAndWait
+  - Removed operation Registries.beginDelete
+  - Removed operation Registries.beginDeleteAndWait
+  - Removed operation Registries.beginGenerateCredentials
+  - Removed operation Registries.beginGenerateCredentialsAndWait
+  - Removed operation Registries.beginImportImage
+  - Removed operation Registries.beginImportImageAndWait
   - Removed operation Registries.beginScheduleRun
   - Removed operation Registries.beginScheduleRunAndWait
+  - Removed operation Registries.beginUpdate
+  - Removed operation Registries.beginUpdateAndWait
   - Removed operation Registries.getBuildSourceUploadUrl
-  - Class ContainerRegistryManagementClient no longer has parameter agentPools
-  - Class ContainerRegistryManagementClient no longer has parameter runs
-  - Class ContainerRegistryManagementClient no longer has parameter taskRuns
-  - Class ContainerRegistryManagementClient no longer has parameter tasks
+  - Removed operation Replications.beginCreate
+  - Removed operation Replications.beginCreateAndWait
+  - Removed operation Replications.beginDelete
+  - Removed operation Replications.beginDeleteAndWait
+  - Removed operation Replications.beginUpdate
+  - Removed operation Replications.beginUpdateAndWait
+  - Removed operation ScopeMaps.beginCreate
+  - Removed operation ScopeMaps.beginCreateAndWait
+  - Removed operation ScopeMaps.beginDelete
+  - Removed operation ScopeMaps.beginDeleteAndWait
+  - Removed operation ScopeMaps.beginUpdate
+  - Removed operation ScopeMaps.beginUpdateAndWait
+  - Removed operation Tokens.beginCreate
+  - Removed operation Tokens.beginCreateAndWait
+  - Removed operation Tokens.beginDelete
+  - Removed operation Tokens.beginDeleteAndWait
+  - Removed operation Tokens.beginUpdate
+  - Removed operation Tokens.beginUpdateAndWait
+  - Removed operation Webhooks.beginCreate
+  - Removed operation Webhooks.beginCreateAndWait
+  - Removed operation Webhooks.beginDelete
+  - Removed operation Webhooks.beginDeleteAndWait
+  - Removed operation Webhooks.beginUpdate
+  - Removed operation Webhooks.beginUpdateAndWait
+  - Operation Registries.listUsages has a new signature
   - Removed Interface ActiveDirectoryObject
   - Removed Interface AgentPool
   - Removed Interface AgentPoolQueueStatus
+  - Removed Interface AgentPoolsOperations
   - Removed Interface AgentPoolsCreateOptionalParams
   - Removed Interface AgentPoolsDeleteOptionalParams
   - Removed Interface AgentPoolsGetOptionalParams
@@ -286,6 +284,7 @@ Compared with version 10.1.0
   - Removed Interface Run
   - Removed Interface RunFilter
   - Removed Interface RunRequest
+  - Removed Interface RunsOperations
   - Removed Interface RunsCancelOptionalParams
   - Removed Interface RunsGetLogSasUrlOptionalParams
   - Removed Interface RunsGetOptionalParams
@@ -305,6 +304,7 @@ Compared with version 10.1.0
   - Removed Interface Task
   - Removed Interface TaskRun
   - Removed Interface TaskRunRequest
+  - Removed Interface TaskRunsOperations
   - Removed Interface TaskRunsCreateOptionalParams
   - Removed Interface TaskRunsDeleteOptionalParams
   - Removed Interface TaskRunsGetDetailsOptionalParams
@@ -312,6 +312,7 @@ Compared with version 10.1.0
   - Removed Interface TaskRunsListOptionalParams
   - Removed Interface TaskRunsUpdateOptionalParams
   - Removed Interface TaskRunUpdateParameters
+  - Removed Interface TasksOperations
   - Removed Interface TasksCreateOptionalParams
   - Removed Interface TasksDeleteOptionalParams
   - Removed Interface TasksGetDetailsOptionalParams
@@ -326,9 +327,73 @@ Compared with version 10.1.0
   - Removed Interface TimerTriggerUpdateParameters
   - Removed Interface TriggerProperties
   - Removed Interface TriggerUpdateParameters
+  - Interface IPRule has a new required parameter ipAddressOrRange
   - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
+  - Interface IPRule no longer has parameter iPAddressOrRange
+  - Interface OperationDefinition no longer has parameter serviceSpecification
+  - Interface PrivateEndpointConnection no longer has parameter privateEndpoint
+  - Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection no longer has parameter provisioningState
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
+  - Interface Registry no longer has parameter adminUserEnabled
+  - Interface Registry no longer has parameter creationDate
+  - Interface Registry no longer has parameter dataEndpointEnabled
+  - Interface Registry no longer has parameter dataEndpointHostNames
+  - Interface Registry no longer has parameter encryption
+  - Interface Registry no longer has parameter loginServer
+  - Interface Registry no longer has parameter networkRuleBypassOptions
+  - Interface Registry no longer has parameter networkRuleSet
+  - Interface Registry no longer has parameter policies
+  - Interface Registry no longer has parameter privateEndpointConnections
+  - Interface Registry no longer has parameter provisioningState
+  - Interface Registry no longer has parameter publicNetworkAccess
+  - Interface Registry no longer has parameter status
+  - Interface Registry no longer has parameter zoneRedundancy
+  - Interface RegistryUpdateParameters no longer has parameter adminUserEnabled
+  - Interface RegistryUpdateParameters no longer has parameter dataEndpointEnabled
+  - Interface RegistryUpdateParameters no longer has parameter encryption
+  - Interface RegistryUpdateParameters no longer has parameter networkRuleBypassOptions
+  - Interface RegistryUpdateParameters no longer has parameter networkRuleSet
+  - Interface RegistryUpdateParameters no longer has parameter policies
+  - Interface RegistryUpdateParameters no longer has parameter publicNetworkAccess
+  - Interface Replication no longer has parameter provisioningState
+  - Interface Replication no longer has parameter regionEndpointEnabled
+  - Interface Replication no longer has parameter status
+  - Interface Replication no longer has parameter zoneRedundancy
+  - Interface ReplicationUpdateParameters no longer has parameter regionEndpointEnabled
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
+  - Interface ScopeMap no longer has parameter actions
+  - Interface ScopeMap no longer has parameter creationDate
+  - Interface ScopeMap no longer has parameter description
+  - Interface ScopeMap no longer has parameter provisioningState
+  - Interface ScopeMap no longer has parameter typePropertiesType
+  - Interface ScopeMapUpdateParameters no longer has parameter actions
+  - Interface ScopeMapUpdateParameters no longer has parameter description
+  - Interface Token no longer has parameter creationDate
+  - Interface Token no longer has parameter credentials
+  - Interface Token no longer has parameter provisioningState
+  - Interface Token no longer has parameter scopeMapId
+  - Interface Token no longer has parameter status
+  - Interface TokenUpdateParameters no longer has parameter credentials
+  - Interface TokenUpdateParameters no longer has parameter scopeMapId
+  - Interface TokenUpdateParameters no longer has parameter status
+  - Interface Webhook no longer has parameter actions
+  - Interface Webhook no longer has parameter provisioningState
+  - Interface Webhook no longer has parameter scope
+  - Interface Webhook no longer has parameter status
+  - Interface WebhookCreateParameters no longer has parameter actions
+  - Interface WebhookCreateParameters no longer has parameter customHeaders
+  - Interface WebhookCreateParameters no longer has parameter scope
+  - Interface WebhookCreateParameters no longer has parameter serviceUri
+  - Interface WebhookCreateParameters no longer has parameter status
+  - Interface WebhookUpdateParameters no longer has parameter actions
+  - Interface WebhookUpdateParameters no longer has parameter customHeaders
+  - Interface WebhookUpdateParameters no longer has parameter scope
+  - Interface WebhookUpdateParameters no longer has parameter serviceUri
+  - Interface WebhookUpdateParameters no longer has parameter status
   - Removed Type Alias Architecture
   - Removed Type Alias BaseImageDependencyType
   - Removed Type Alias BaseImageTriggerType

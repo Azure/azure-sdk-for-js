@@ -3,35 +3,26 @@
 
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists recent events for the specified webhook.
+ * This sample demonstrates how to lists recent events for the specified webhook.
  *
- * @summary Lists recent events for the specified webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/WebhookListEvents.json
+ * @summary lists recent events for the specified webhook.
+ * x-ms-original-file: 2025-05-01-preview/WebhookListEvents.json
  */
 async function webhookListEvents(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const webhookName = "myWebhook";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.webhooks.listEvents(
-    resourceGroupName,
-    registryName,
-    webhookName,
+    "myResourceGroup",
+    "myRegistry",
+    "myWebhook",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

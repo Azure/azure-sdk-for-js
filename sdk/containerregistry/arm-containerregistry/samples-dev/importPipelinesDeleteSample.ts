@@ -3,33 +3,18 @@
 
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes an import pipeline from a container registry.
+ * This sample demonstrates how to deletes an import pipeline from a container registry.
  *
- * @summary Deletes an import pipeline from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2025-05-01-preview/examples/ImportPipelineDelete.json
+ * @summary deletes an import pipeline from a container registry.
+ * x-ms-original-file: 2025-05-01-preview/ImportPipelineDelete.json
  */
 async function importPipelineDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const importPipelineName = "myImportPipeline";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.importPipelines.beginDeleteAndWait(
-    resourceGroupName,
-    registryName,
-    importPipelineName,
-  );
-  console.log(result);
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  await client.importPipelines.delete("myResourceGroup", "myRegistry", "myImportPipeline");
 }
 
 async function main(): Promise<void> {
