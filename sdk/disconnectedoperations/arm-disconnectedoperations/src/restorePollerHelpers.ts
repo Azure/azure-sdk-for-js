@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeClient } from "./edgeClient.js";
+import type { DisconnectedOperationsManagementClient } from "./disconnectedOperationsManagementClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
@@ -32,7 +32,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: EdgeClient,
+  client: DisconnectedOperationsManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
@@ -70,6 +70,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   deserializer: Function;
   expectedStatuses: string[];
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { EdgeClient } = require("@azure/arm-disconnectedoperations");
+const { DisconnectedOperationsManagementClient } = require("@azure/arm-disconnectedoperations");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function artifactsListDownloadUri() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "301DCB09-82EC-4777-A56C-6FFF26BCC814";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsManagementClient(credential, subscriptionId);
   const result = await client.artifacts.listDownloadUri(
     "rgdisconnectedoperations",
     "L4z_-S",

@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { EdgeClient } from "./edgeClient.js";
+export { DisconnectedOperationsManagementClient } from "./disconnectedOperationsManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   DisconnectedOperation,
@@ -47,7 +47,7 @@ export {
   ArtifactDownloadResult,
   KnownVersions,
 } from "./models/index.js";
-export { EdgeClientOptionalParams } from "./api/index.js";
+export { DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
 export {
   ArtifactsListDownloadUriOptionalParams,
   ArtifactsGetOptionalParams,

@@ -21,27 +21,27 @@ export interface UrlTemplateOptions {
 // ---------------------
 // helpers
 // ---------------------
-function encodeComponent(val: string, reserved?: boolean, op?: string) {
+function encodeComponent(val: string, reserved?: boolean, op?: string): string {
   return (reserved ?? op === "+") || op === "#"
     ? encodeReservedComponent(val)
     : encodeRFC3986URIComponent(val);
 }
 
-function encodeReservedComponent(str: string) {
+function encodeReservedComponent(str: string): string {
   return str
     .split(/(%[0-9A-Fa-f]{2})/g)
     .map((part) => (!/%[0-9A-Fa-f]/.test(part) ? encodeURI(part) : part))
     .join("");
 }
 
-function encodeRFC3986URIComponent(str: string) {
+function encodeRFC3986URIComponent(str: string): string {
   return encodeURIComponent(str).replace(
     /[!'()*]/g,
     (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
   );
 }
 
-function isDefined(val: any) {
+function isDefined(val: any): boolean {
   return val !== undefined && val !== null;
 }
 
@@ -49,7 +49,7 @@ function getNamedAndIfEmpty(op?: string): [boolean, string] {
   return [!!op && [";", "?", "&"].includes(op), !!op && ["?", "&"].includes(op) ? "=" : ""];
 }
 
-function getFirstOrSep(op?: string, isFirst = false) {
+function getFirstOrSep(op?: string, isFirst = false): string {
   if (isFirst) {
     return !op || op === "+" ? "" : op;
   } else if (!op || op === "+" || op === "#") {
@@ -61,7 +61,7 @@ function getFirstOrSep(op?: string, isFirst = false) {
   }
 }
 
-function getExpandedValue(option: ValueOptions) {
+function getExpandedValue(option: ValueOptions): string {
   let isFirst = option.isFirst;
   const { op, varName, varValue: value, reserved } = option;
   const vals: string[] = [];
@@ -73,7 +73,11 @@ function getExpandedValue(option: ValueOptions) {
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (named && varName) {
         vals.push(`${encodeURIComponent(varName)}`);
-        val === "" ? vals.push(ifEmpty) : vals.push("=");
+        if (val === "") {
+          vals.push(ifEmpty);
+        } else {
+          vals.push("=");
+        }
       }
       vals.push(encodeComponent(val, reserved, op));
       isFirst = false;
@@ -88,7 +92,11 @@ function getExpandedValue(option: ValueOptions) {
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (key) {
         vals.push(`${encodeURIComponent(key)}`);
-        named && val === "" ? vals.push(ifEmpty) : vals.push("=");
+        if (named && val === "") {
+          vals.push(ifEmpty);
+        } else {
+          vals.push("=");
+        }
       }
       vals.push(encodeComponent(val, reserved, op));
       isFirst = false;
@@ -97,7 +105,7 @@ function getExpandedValue(option: ValueOptions) {
   return vals.join("");
 }
 
-function getNonExpandedValue(option: ValueOptions) {
+function getNonExpandedValue(option: ValueOptions): string | undefined {
   const { op, varName, varValue: value, isFirst, reserved } = option;
   const vals: string[] = [];
   const first = getFirstOrSep(op, isFirst);
@@ -143,7 +151,11 @@ function getVarValue(option: ValueOptions): string | undefined {
     if (named && varName) {
       // No need to encode varName considering it is already encoded
       vals.push(varName);
-      val === "" ? vals.push(ifEmpty) : vals.push("=");
+      if (val === "") {
+        vals.push(ifEmpty);
+      } else {
+        vals.push("=");
+      }
     }
     if (modifier && modifier !== "*") {
       val = val.substring(0, parseInt(modifier, 10));
@@ -165,7 +177,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, (_, expr, text) => {
+  return template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -177,7 +189,7 @@ export function expandUrlTemplate(
     const varList = expr.split(/,/g);
     const result = [];
     for (const varSpec of varList) {
-      const varMatch = /([^:\*]*)(?::(\d+)|(\*))?/.exec(varSpec);
+      const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }

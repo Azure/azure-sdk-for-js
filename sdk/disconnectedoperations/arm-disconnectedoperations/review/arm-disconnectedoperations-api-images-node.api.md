@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, name: string, imageName: string, options?: ImagesGetOptionalParams): Promise<Image>;
+export function get(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, imageName: string, options?: ImagesGetOptionalParams): Promise<Image>;
 
 // @public
 export interface ImagesGetOptionalParams extends OperationOptions {
@@ -26,10 +26,10 @@ export interface ImagesListDownloadUriOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listByDisconnectedOperation(context: EdgeContext, resourceGroupName: string, name: string, options?: ImagesListByDisconnectedOperationOptionalParams): PagedAsyncIterableIterator<Image>;
+export function listByDisconnectedOperation(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, options?: ImagesListByDisconnectedOperationOptionalParams): PagedAsyncIterableIterator<Image>;
 
 // @public
-export function listDownloadUri(context: EdgeContext, resourceGroupName: string, name: string, imageName: string, options?: ImagesListDownloadUriOptionalParams): Promise<ImageDownloadResult>;
+export function listDownloadUri(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, imageName: string, options?: ImagesListDownloadUriOptionalParams): Promise<ImageDownloadResult>;
 
 // (No @packageDocumentation comment for this package)
 

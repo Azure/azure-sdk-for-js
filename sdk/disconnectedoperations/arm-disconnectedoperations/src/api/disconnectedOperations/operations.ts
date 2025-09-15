@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeContext as Client } from "../index.js";
+import type { DisconnectedOperationsManagementContext as Client } from "../index.js";
 import type {
   DisconnectedOperation,
   DisconnectedOperationCreateOrUpdate,

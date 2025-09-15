@@ -151,6 +151,21 @@ export interface DisconnectedOperationsListBySubscriptionOptionalParams extends 
 export interface DisconnectedOperationsListDeploymentManifestOptionalParams extends OperationOptions {
 }
 
+// @public (undocumented)
+export class DisconnectedOperationsManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsManagementClientOptionalParams);
+    readonly artifacts: ArtifactsOperations;
+    readonly disconnectedOperations: DisconnectedOperationsOperations;
+    readonly images: ImagesOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface DisconnectedOperationsManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
 // @public
 export interface DisconnectedOperationsOperations {
     createOrUpdate: (resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
@@ -177,21 +192,6 @@ export interface DisconnectedOperationUpdateProperties {
     connectionIntent?: ConnectionIntent;
     deviceVersion?: string;
     registrationStatus?: RegistrationStatus;
-}
-
-// @public (undocumented)
-export class EdgeClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeClientOptionalParams);
-    readonly artifacts: ArtifactsOperations;
-    readonly disconnectedOperations: DisconnectedOperationsOperations;
-    readonly images: ImagesOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface EdgeClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -349,7 +349,7 @@ export interface Resource {
 export type ResourceProvisioningState = string;
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EdgeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DisconnectedOperationsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

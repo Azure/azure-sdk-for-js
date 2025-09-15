@@ -20,13 +20,13 @@ export interface ArtifactsListDownloadUriOptionalParams extends OperationOptions
 }
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, name: string, imageName: string, artifactName: string, options?: ArtifactsGetOptionalParams): Promise<Artifact>;
+export function get(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, imageName: string, artifactName: string, options?: ArtifactsGetOptionalParams): Promise<Artifact>;
 
 // @public
-export function listByParent(context: EdgeContext, resourceGroupName: string, name: string, imageName: string, options?: ArtifactsListByParentOptionalParams): PagedAsyncIterableIterator<Artifact>;
+export function listByParent(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, imageName: string, options?: ArtifactsListByParentOptionalParams): PagedAsyncIterableIterator<Artifact>;
 
 // @public
-export function listDownloadUri(context: EdgeContext, resourceGroupName: string, name: string, imageName: string, artifactName: string, options?: ArtifactsListDownloadUriOptionalParams): Promise<ArtifactDownloadResult>;
+export function listDownloadUri(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, imageName: string, artifactName: string, options?: ArtifactsListDownloadUriOptionalParams): Promise<ArtifactDownloadResult>;
 
 // (No @packageDocumentation comment for this package)
 

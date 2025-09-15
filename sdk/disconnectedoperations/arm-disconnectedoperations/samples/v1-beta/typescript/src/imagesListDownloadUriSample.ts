@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "@azure/arm-disconnectedoperations";
+import { DisconnectedOperationsManagementClient } from "@azure/arm-disconnectedoperations";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function imagesListDownloadUri(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "51DB5DE7-A66C-4789-BFFF-9F75C95A0201";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsManagementClient(credential, subscriptionId);
   const result = await client.images.listDownloadUri(
     "rgdisconnectedOperations",
     "g_-5-160",
