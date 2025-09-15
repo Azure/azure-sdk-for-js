@@ -637,6 +637,7 @@ export const Constants: {
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
+    PPAFDynamicEnablementRefreshTimeMS: number;
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
     CurrentVersion: string;
