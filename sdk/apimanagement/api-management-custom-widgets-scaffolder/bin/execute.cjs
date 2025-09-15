@@ -15,25 +15,6 @@ var glob = require('glob');
 var mustache = require('mustache');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
-function _interopNamespaceDefault(e) {
-    var n = Object.create(null);
-    if (e) {
-        Object.keys(e).forEach(function (k) {
-            if (k !== 'default') {
-                var d = Object.getOwnPropertyDescriptor(e, k);
-                Object.defineProperty(n, k, d.get ? d : {
-                    enumerable: true,
-                    get: function () { return e[k]; }
-                });
-            }
-        });
-    }
-    n.default = e;
-    return Object.freeze(n);
-}
-
-var fs__namespace = /*#__PURE__*/_interopNamespaceDefault(fs$1);
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**
@@ -164,18 +145,22 @@ const promptServiceInformation = async (partial) => {
         },
         {
             name: "managementApiEndpoint",
-            type: "list",
+            type: "select",
             message: fieldIdToName.managementApiEndpoint,
             choices: [
                 {
-                    name: "management.azure.com (if you're not sure what to select, use this option)",
-                    value: "management.azure.com",
+                    name: "https://management.azure.com (if you're not sure what to select, use this option)",
+                    value: "https://management.azure.com",
                 },
-                { name: "management.usgovcloudapi.net", value: "management.usgovcloudapi.net" },
-                { name: "management.chinacloudapi.cn", value: "management.chinacloudapi.cn" },
+                {
+                    name: "https://management.usgovcloudapi.net",
+                    value: "https://management.usgovcloudapi.net",
+                },
+                {
+                    name: "https://management.chinacloudapi.cn",
+                    value: "https://management.chinacloudapi.cn",
+                },
             ],
-            transformer: prefixUrlProtocol,
-            validate: validateDeployConfig.managementApiEndpoint,
         },
         {
             name: "apiVersion",
@@ -481,7 +466,7 @@ const buildGetConfig = (gray, red) => {
         }
         else {
             gray("Retrieved from the command parameters");
-            Object.entries(configPartial).forEach(([key, value]) => { var _a; return value != null && gray(`${(_a = fieldIdToName[key]) !== null && _a !== void 0 ? _a : key}: ${value}`); });
+            Object.entries(configPartial).forEach(([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`));
             return configPartial;
         }
     };
@@ -541,12 +526,12 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
     const renderTemplate = async (file) => {
         const isTemplate = file.endsWith(templateSuffix);
         const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
-        let fileData = await fs__namespace.readFile(file, { encoding });
+        let fileData = await fs$1.readFile(file, { encoding });
         if (isTemplate) {
             fileData = mustache.render(fileData, {
                 name,
                 displayName: widgetConfig.displayName,
-                config: JSON.stringify(Object.assign(Object.assign({}, widgetConfig), { name }), null, "\t"),
+                config: JSON.stringify({ ...widgetConfig, name }, null, "\t"),
                 configDeploy: JSON.stringify(deploymentConfig, null, "\t"),
                 configAdditional: JSON.stringify(configAdditional, null, "\t"),
                 serverSettings: JSON.stringify(serverSettings, null, "\t"),
@@ -562,8 +547,8 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
             .replace(templateSuffix, "");
         const newFilePath = node_path.join(process.cwd(), widgetFolderName(name), relativePath);
         const dir = node_path.parse(newFilePath).dir;
-        await fs__namespace.mkdir(dir, { recursive: true });
-        await fs__namespace.writeFile(newFilePath, fileData, { encoding });
+        await fs$1.mkdir(dir, { recursive: true });
+        await fs$1.writeFile(newFilePath, fileData, { encoding });
     };
     const templates = await getTemplates(widgetConfig.technology);
     for (const file of Object.values(templates)) {

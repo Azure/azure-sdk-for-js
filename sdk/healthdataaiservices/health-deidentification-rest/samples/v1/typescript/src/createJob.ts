@@ -15,9 +15,8 @@ import "dotenv/config";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const serviceEndpoint =
-    process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.deid.azure.com";
-  const storageLocation = `https://${process.env["STORAGE_ACCOUNT_NAME"]}.blob.core.windows.net/${process.env["STORAGE_CONTAINER_NAME"]}`;
+  const serviceEndpoint = process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"] as string;
+  const storageLocation = process.env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"] as string;
   const inputPrefix = "example_patient_1";
   const outputPrefix = process.env["OUTPUT_PREFIX"] || "_output";
   // @ts-preserve-whitespace
@@ -36,7 +35,7 @@ export async function main(): Promise<void> {
   }
   // @ts-preserve-whitespace
   const poller = await getLongRunningPoller(client, response);
-  const finalOutput =  await poller.pollUntilDone();
+  const finalOutput = await poller.pollUntilDone();
   console.log(finalOutput.body);
 }
 

@@ -7,9 +7,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "tsc -p .",
-    "test:browser": "karma start --single-run",
-    "test:node": "mocha --require tsx --require source-map-support/register --reporter mocha-multi-reporter.js  --reporter-option output=test-results.xml --timeout 350000 --full-trace \"dist-esm/**/{,!(browser)/**/}*.spec.js\" --exit",
+    "build": "echo skipped.",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts",
+    "test:node": "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts --test-timeout 180000 --hook-timeout 180000",
     "test": "npm run test:node && echo skipped: npm run test:browser"
   },
   "repository": {

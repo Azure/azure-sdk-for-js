@@ -9,7 +9,7 @@ describe.concurrent.for(APIMatrix)("Text to speech [%s]", (apiVersion: APIVersio
   const clientsAndDeploymentsInfo = createClientsAndDeployments(
     apiVersion,
     { audio: "true" },
-    { modelsToSkip: [{ name: "whisper" }] },
+    { modelsToSkip: [{ name: "whisper" }, { name: "gpt-4o-transcribe" }] },
   );
 
   describe("audio.speech.create", () => {
@@ -18,6 +18,7 @@ describe.concurrent.for(APIMatrix)("Text to speech [%s]", (apiVersion: APIVersio
       async () => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
+          apiVersion,
           run: (client, deployment) =>
             client.audio.speech.create({
               model: deployment,

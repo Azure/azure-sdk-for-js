@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "path";
-import * as fs from "fs/promises";
+import path from "node:path";
+import fs from "node:fs/promises";
 import type { CompilerOptions } from "typescript";
 
 export type Config = {

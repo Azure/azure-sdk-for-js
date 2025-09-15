@@ -41,6 +41,13 @@ extends:
         autobaseline:
           isMainPipeline: true
           enableForGitHub: true
+      codeql:
+        compiled:
+          enabled: false
+          justificationForDisabling: "Codeql times out the normal build jobs so we only run it in our aggregate-reports pipeline."
+      componentgovernance:
+        enabled: false
+        justificationForDisabling: "To reduce redundant CG runs across all our pipeline jobs we are disabling and only running in our main build job."
       # Turn off the build warnings caused by disabling some sdl checks
       createAdoIssuesForJustificationsForDisablement: false
       sourceAnalysisPool:
@@ -52,7 +59,6 @@ extends:
           - repository: azure-sdk-build-tools
       credscan:
         suppressionsFile: '$(Build.SourcesDirectory)/eng/CredScanSuppression.json'
-        toolVersion: '2.3.12.23'
       eslint:
         enabled: false
         justificationForDisabling: "ESLint injected task has failures because it uses an old version of mkdirp. We should not fail for tools not controlled by the repo. See: https://dev.azure.com/azure-sdk/internal/_build/results?buildId=3556850"
@@ -60,11 +66,5 @@ extends:
         compiled: true
         break: true
       policy: M365
-      codeql:
-        # Exclude api management custom widgets repo and test files from CodeQL analysis
-        excludePathPatterns: "sdk/apimanagement/api-management-custom-widgets-tools, sdk/apimanagement/api-management-custom-widgets-scaffolder, sdk/**/test/**/*.ts"
-        compiled:
-          enabled: false
-          justificationForDisabling: "CodeQL times our pipelines out by running for hours before being force canceled."
 
     stages: ${{ parameters.stages }}

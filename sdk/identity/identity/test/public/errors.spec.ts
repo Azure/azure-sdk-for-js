@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AggregateAuthenticationError } from "../../src/index.js";
+import { AggregateAuthenticationError } from "@azure/identity";
 import { describe, it, assert } from "vitest";
 
 describe("AggregateAuthenticationError", function () {

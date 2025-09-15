@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-dashboard": ["./src/index.ts"],
+      "@azure/arm-dashboard/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

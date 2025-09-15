@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/batch",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Batch Service Rest Level Client",
   "engines": {
     "node": ">=20.0.0"
@@ -8,7 +8,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -35,7 +35,8 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "files": [
-    "dist",
+    "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
@@ -44,51 +45,43 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch-rest/README.md",
-  "prettier": "./node_modules/@azure/eslint-plugin-azure-sdk/prettier.json",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
       {
         "path": "src/batchClient.ts",
-        "prefix": "package-version"
+        "prefix": "userAgentInfo"
       }
     ]
   },
-  "//sampleConfiguration": {
-    "productName": "Azure Batch provides Cloud-scale job scheduling and compute management.",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true
-  },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.2",
-    "@azure/logger": "^1.1.4",
-    "tslib": "^2.8.1"
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.6.2",
+    "moment": "~2.30.1"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure/core-util": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.5.0",
-    "@types/node": "^20.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure/core-util": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "moment": "^2.30.1",
-    "playwright": "^1.41.2",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && npm run extract-api",
-    "build:samples": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm dist-test temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -97,11 +90,10 @@
     "generate:client": "echo skipped",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "exports": {

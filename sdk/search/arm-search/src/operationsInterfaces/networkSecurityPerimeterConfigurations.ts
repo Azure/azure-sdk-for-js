@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   NetworkSecurityPerimeterConfiguration,
   NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
@@ -39,7 +39,7 @@ export interface NetworkSecurityPerimeterConfigurations {
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   get(
@@ -56,7 +56,7 @@ export interface NetworkSecurityPerimeterConfigurations {
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   beginReconcile(
@@ -78,7 +78,7 @@ export interface NetworkSecurityPerimeterConfigurations {
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   beginReconcileAndWait(

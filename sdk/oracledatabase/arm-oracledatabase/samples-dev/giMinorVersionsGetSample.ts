@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get a GiMinorVersion
  *
  * @summary get a GiMinorVersion
  * x-ms-original-file: 2025-03-01/GiMinorVersions_Get_MaximumSet_Gen.json
  */
+
+import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function giMinorVersionsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -25,6 +25,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [DatabaseManagement.js][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.js][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
 | [EntraAuth.js][entraauth]                                                                                                   | Uses Entra Auth credentials to authenticate with the CosmosClient.                                                    |
+| [ExcludedLocations.js][excludedlocations]                                                                                   | Demonstrates Cosmos DB operations with excluded regions/locations.                                                    |
 | [ExecuteBulkOperations.js][executebulkoperations]                                                                           | Shows CRUD operations using executeBulkOperations API.                                                                |
 | [HierarchicalPartitioning.js][hierarchicalpartitioning]                                                                     | Shows various operations on containers with Hierarchical Partitioning.                                                |
 | [IndexManagement.js][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
@@ -86,6 +87,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/DatabaseManagement.js
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Diagnostics.js
 [entraauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/EntraAuth.js
+[excludedlocations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ExcludedLocations.js
 [executebulkoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ExecuteBulkOperations.js
 [hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/HierarchicalPartitioning.js
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/IndexManagement.js

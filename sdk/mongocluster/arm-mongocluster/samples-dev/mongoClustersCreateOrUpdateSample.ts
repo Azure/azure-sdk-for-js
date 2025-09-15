@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2025-04-01-preview/MongoClusters_Create.json
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_Create.json
  */
+
+import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createsANewMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +34,7 @@ async function createsANewMongoClusterResource(): Promise<void> {
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2025-04-01-preview/MongoClusters_CreateGeoReplica.json
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_CreateGeoReplica.json
  */
 async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -61,7 +62,52 @@ async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2025-04-01-preview/MongoClusters_CreatePITR.json
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_CreateGeoReplica_CMK.json
+ */
+async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const result = await client.mongoClusters.createOrUpdate(
+    "TestResourceGroup",
+    "myReplicaMongoCluster",
+    {
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+            {},
+        },
+      },
+      location: "centralus",
+      properties: {
+        createMode: "GeoReplica",
+        replicaParameters: {
+          sourceResourceId:
+            "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/mySourceMongoCluster",
+          sourceLocation: "eastus",
+        },
+        encryption: {
+          customerManagedKeyEncryption: {
+            keyEncryptionKeyIdentity: {
+              identityType: "UserAssignedIdentity",
+              userAssignedIdentityResourceId:
+                "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+            },
+            keyEncryptionKeyUrl: "https://myVault.vault.azure.net/keys/myKey",
+          },
+        },
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ *
+ * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_CreatePITR.json
  */
 async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -85,7 +131,88 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<vo
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2025-04-01-preview/MongoClusters_Create_SSDv2.json
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_CreatePITR_CMK.json
+ */
+async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const result = await client.mongoClusters.createOrUpdate("TestResourceGroup", "myMongoCluster", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
+    location: "westus2",
+    properties: {
+      createMode: "PointInTimeRestore",
+      restoreParameters: {
+        pointInTimeUTC: new Date("2023-01-13T20:07:35Z"),
+        sourceResourceId:
+          "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/myOtherMongoCluster",
+      },
+      encryption: {
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: {
+            identityType: "UserAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+          },
+          keyEncryptionKeyUrl: "https://myVault.vault.azure.net/keys/myKey",
+        },
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ *
+ * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_Create_CMK.json
+ */
+async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const result = await client.mongoClusters.createOrUpdate("TestResourceGroup", "myMongoCluster", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
+    location: "westus2",
+    properties: {
+      administrator: { userName: "mongoAdmin", password: "password" },
+      storage: { sizeGb: 32 },
+      compute: { tier: "M30" },
+      sharding: { shardCount: 1 },
+      highAvailability: { targetMode: "Disabled" },
+      encryption: {
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: {
+            identityType: "UserAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+          },
+          keyEncryptionKeyUrl: "https://myVault.vault.azure.net/keys/myKey",
+        },
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ *
+ * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_Create_SSDv2.json
  */
 async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -114,7 +241,10 @@ async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise
 async function main(): Promise<void> {
   await createsANewMongoClusterResource();
   await createsAReplicaMongoClusterResourceFromASourceResource();
+  await createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource();
   await createsAMongoClusterResourceFromAPointInTimeRestore();
+  await createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore();
+  await createsANewMongoClusterResourceWithCustomerManagedKeyEncryption();
   await createsANewMongoClusterResourceWithPremiumSSDv2Storage();
 }
 

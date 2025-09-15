@@ -8,7 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 export * from "./models/streamingModels.js";
-export * from "./utils.js";
+export * from "./utils/utils.js";
 export { AgentsClient } from "./agentsClient.js";
 export {
   ToolDefinition,

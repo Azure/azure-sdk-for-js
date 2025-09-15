@@ -48,7 +48,7 @@ describe("DataProtection test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     vaultName = "swaggerExample";
   });
 

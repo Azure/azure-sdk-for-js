@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   JavaComponent,
@@ -59,11 +55,7 @@ export class JavaComponentsImpl implements JavaComponents {
     environmentName: string,
     options?: JavaComponentsListOptionalParams,
   ): PagedAsyncIterableIterator<JavaComponent> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +67,7 @@ export class JavaComponentsImpl implements JavaComponents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
       },
     };
   }
@@ -101,12 +88,7 @@ export class JavaComponentsImpl implements JavaComponents {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        environmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -119,11 +101,7 @@ export class JavaComponentsImpl implements JavaComponents {
     environmentName: string,
     options?: JavaComponentsListOptionalParams,
   ): AsyncIterableIterator<JavaComponent> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      environmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
       yield* page;
     }
   }
@@ -194,8 +172,7 @@ export class JavaComponentsImpl implements JavaComponents {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -285,10 +262,7 @@ export class JavaComponentsImpl implements JavaComponents {
     javaComponentEnvelope: JavaComponent,
     options?: JavaComponentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JavaComponentsUpdateResponse>,
-      JavaComponentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<JavaComponentsUpdateResponse>, JavaComponentsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -300,8 +274,7 @@ export class JavaComponentsImpl implements JavaComponents {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -388,10 +361,7 @@ export class JavaComponentsImpl implements JavaComponents {
     name: string,
     options?: JavaComponentsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JavaComponentsDeleteResponse>,
-      JavaComponentsDeleteResponse
-    >
+    SimplePollerLike<OperationState<JavaComponentsDeleteResponse>, JavaComponentsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -403,8 +373,7 @@ export class JavaComponentsImpl implements JavaComponents {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -461,12 +430,7 @@ export class JavaComponentsImpl implements JavaComponents {
     name: string,
     options?: JavaComponentsDeleteOptionalParams,
   ): Promise<JavaComponentsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      environmentName,
-      name,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, environmentName, name, options);
     return poller.pollUntilDone();
   }
 
@@ -529,8 +493,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName1,
     Parameters.name,
+    Parameters.environmentName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -561,10 +525,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName1,
     Parameters.name,
+    Parameters.environmentName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -594,10 +558,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName1,
     Parameters.name,
+    Parameters.environmentName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -626,8 +590,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName1,
     Parameters.name,
+    Parameters.environmentName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

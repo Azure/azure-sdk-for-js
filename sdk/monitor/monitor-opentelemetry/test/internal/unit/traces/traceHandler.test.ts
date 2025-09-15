@@ -14,7 +14,7 @@ import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MockInstance } from "vitest";
 import { expect, afterEach, assert, beforeAll, describe, it, afterAll, vi } from "vitest";
-import type * as Http from "node:http";
+import type Http from "node:http";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
@@ -227,8 +227,19 @@ describe("Library/TraceHandler", () => {
     });
 
     it("http should not track if instrumentations are disabled", () => {
-      createHandler({ enabled: false });
-      // No HTTP instrumentation should be created
+      // Disable all instrumentations
+      _config.instrumentationOptions = {
+        http: { enabled: false },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      // No instrumentations should be created
       expect(handler.getInstrumentations()).toHaveLength(0);
     });
   });

@@ -11,10 +11,8 @@
  * @summary The project resource is a nested resource representing a stored migration project. The PATCH method updates an existing project.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Projects_Update.json
  */
-import {
-  Project,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { Project } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function projectsUpdate(): Promise<void> {
@@ -25,16 +23,11 @@ async function projectsUpdate(): Promise<void> {
   const parameters: Project = {
     location: "southcentralus",
     sourcePlatform: "SQL",
-    targetPlatform: "SQLDB"
+    targetPlatform: "SQLDB",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.projects.update(
-    groupName,
-    serviceName,
-    projectName,
-    parameters
-  );
+  const result = await client.projects.update(groupName, serviceName, projectName, parameters);
   console.log(result);
 }
 

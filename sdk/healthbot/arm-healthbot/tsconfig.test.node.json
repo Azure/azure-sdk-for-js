@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-healthbot": ["./src/index.ts"],
+      "@azure/arm-healthbot/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

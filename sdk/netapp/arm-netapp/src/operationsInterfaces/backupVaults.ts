@@ -99,10 +99,7 @@ export interface BackupVaults {
     body: BackupVaultPatch,
     options?: BackupVaultsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupVaultsUpdateResponse>,
-      BackupVaultsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>
   >;
   /**
    * Patch the specified NetApp Backup Vault
@@ -132,10 +129,7 @@ export interface BackupVaults {
     backupVaultName: string,
     options?: BackupVaultsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupVaultsDeleteResponse>,
-      BackupVaultsDeleteResponse
-    >
+    SimplePollerLike<OperationState<BackupVaultsDeleteResponse>, BackupVaultsDeleteResponse>
   >;
   /**
    * Delete the specified Backup Vault

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-postgresql": ["./src/index.ts"],
+      "@azure/arm-postgresql/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

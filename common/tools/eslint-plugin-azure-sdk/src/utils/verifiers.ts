@@ -7,7 +7,7 @@
 
 import { TSESTree, TSESLint } from "@typescript-eslint/utils";
 import { readFileSync, statSync } from "node:fs";
-import * as path from "node:path";
+import path from "node:path";
 
 interface StructureData {
   outer: string;

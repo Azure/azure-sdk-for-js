@@ -19,19 +19,6 @@ export {
   CustomCredential,
   SASCredentials,
   NoAuthenticationCredentials,
-  Evaluation,
-  EvaluatorId,
-  EvaluatorIds,
-  EvaluationWithOptionalName,
-  InputData,
-  InputDataUnion,
-  InputDataset,
-  EvaluatorConfiguration,
-  AgentEvaluationRequest,
-  AgentEvaluationSamplingConfiguration,
-  AgentEvaluationRedactionConfiguration,
-  AgentEvaluation,
-  AgentEvaluationResult,
   DatasetVersion,
   DatasetVersionUnion,
   DatasetType,
@@ -55,12 +42,6 @@ export {
   DeploymentType,
   ModelDeployment,
   Sku,
-  RedTeam,
-  AttackStrategy,
-  RiskCategory,
-  TargetConfig,
-  TargetConfigUnion,
-  AzureOpenAIModelConfiguration,
   PendingUploadType,
   KnownVersions,
 } from "./models/index.js";
@@ -84,30 +65,19 @@ export {
   DeploymentsGetOptionalParams,
 } from "./api/deployments/index.js";
 export {
-  EvaluationsCreateAgentEvaluationOptionalParams,
-  EvaluationsCreateOptionalParams,
-  EvaluationsListOptionalParams,
-  EvaluationsGetOptionalParams,
-} from "./api/evaluations/index.js";
-export {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
   IndexesGetOptionalParams,
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
-export {
-  RedTeamsCreateOptionalParams,
-  RedTeamsListOptionalParams,
-  RedTeamsGetOptionalParams,
-} from "./api/redTeams/index.js";
+export { AzureOpenAIClientOptions, GetAzureOpenAIClientOptions } from "./api/inference/options.js";
+export { InferenceOperations } from "./classic/inference/index.js";
 export { TelemetryOperations } from "./classic/telemetry/index.js";
 export {
   ConnectionsOperations,
   DatasetsOperations,
   DeploymentsOperations,
-  EvaluationsOperations,
   IndexesOperations,
-  RedTeamsOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -13,6 +13,7 @@ import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 import { ChangeFeedMode } from "./ChangeFeedMode.js";
 import { decryptChangeFeedResponse } from "./changeFeedUtils.js";
+import { computePartitionKeyRangeId } from "../ClientUtils.js";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -162,6 +163,10 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.sessionToken = this.changeFeedOptions.sessionToken;
     }
 
+    if (this.changeFeedOptions.excludedLocations) {
+      feedOptions.excludedLocations = this.changeFeedOptions.excludedLocations;
+    }
+
     const continuation = this.continuationToken.Continuation;
     if (continuation) {
       feedOptions.accessCondition = {
@@ -187,6 +192,14 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.containerRid = this.container._rid;
     }
     try {
+      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
+      const partitionKeyRangeId = await computePartitionKeyRangeId(
+        diagnosticNode,
+        convertToInternalPartitionKey(this.partitionKey),
+        this.clientContext.partitionKeyRangeCache,
+        isPartitionLevelFailOverEnabled,
+        this.container,
+      );
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
         path: this.resourceLink,
         resourceType: ResourceType.item,
@@ -196,6 +209,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         query: undefined,
         options: feedOptions,
         partitionKey: this.partitionKey,
+        partitionKeyRangeId,
       }) as Promise<any>);
       return new ChangeFeedIteratorResponse(
         response.result,

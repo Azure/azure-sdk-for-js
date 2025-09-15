@@ -5,7 +5,7 @@ Getting Started - Generate the RLC REST-level client libraries with Swagger
 
 Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in `azure-sdk-for-js` repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
 
-:warning: Note: if you’re generating from Cadl with RLC, please read [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md) for Cadl specific details.
+:warning: Note: if you’re generating from TypeSpec with RLC, please read [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md) for TypeSpec specific details.
 
 # Project folder and name convention
 
@@ -95,28 +95,9 @@ We are working on to automatically generate everything right now, but currently,
     **After the first generation, you need to switch `generate-metadata: false` as we have some manual changes in this file and don't want them get overwritten by generated ones.**
 
     ---  
-  
-1. **Edit rush.json**  
-    As the libraries in this `azure-sdk-for-js` repository are managed by rush, you need to add an entry in `rush.json` under projects section for the first time to make sure it works. For example:
 
-    ```json
-        {
-          "packageName": "@azure-rest/agrifood-farming",
-          "projectFolder": "sdk/agrifood/agrifood-farming-rest",
-          "versionPolicyName": "client"
-        },
-    ```
 
-    Here, you also need to replace the `packageName`, `projectFolder` into your own services'.
-
-    ---  
-    **NOTE**
-
-    About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
-
-    ---  
-
-1. **Run autorest to generate the SDK**  
+2. **Run autorest to generate the SDK**  
 
     Now, you can run this command in swagger folder you just created.
 
@@ -128,10 +109,10 @@ We are working on to automatically generate everything right now, but currently,
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
-    rush update
-    rush build -t <your-package-name>
+    pnpm update
+    pnpm build --filter=<your-package-name>...
     cd <your-sdk-folder>
-    rushx pack
+    pnpm pack
     ```
     
     But, we still need to add some tests for it.
@@ -174,15 +155,15 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use `export` to set env variable:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}...
+    export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you could use `SET`:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    SET TEST_MODE=record&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}...
+    SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     You can also run the `playback` mode test if your apis don't have breaking changes and you've already done the recording before.
@@ -190,15 +171,15 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    export TEST_MODE=playback && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}...
+    export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you can use:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}...
+    SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
 3. **Push recording to assets repo**
@@ -260,19 +241,19 @@ Besides the generated samples, we also recommand you to add your HERO sample sce
 After you have finished the generation and added your own tests or samples, You can use the following command to format the code.
 
 ```shell
-cd ${PROJECT_ROOT} && rushx format
+cd ${PROJECT_ROOT} && pnpm format
 ```
  
 Also we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
 
 ```shell
-cd ${PROJECT_ROOT} && rushx lint
+cd ${PROJECT_ROOT} && pnpm lint
 ```
 
 And we could use `lint:fix` if there are any errors.
 
 ```shell
-cd ${PROJECT_ROOT} && rushx lint:fix
+cd ${PROJECT_ROOT} && pnpm lint:fix
 ```
 
 # How to do customizations
@@ -284,11 +265,11 @@ You may want to do your customizations based on generated code. We collect some 
 Now, we can use the exact same steps to build an releasable artifact.
 
 ```shell
-rush update
-rush build -t <your-package-name>
+pnpm install
+pnpm build --filter=<your-package-name>...
 cd <your-sdk-folder>
-export TEST_MODE=record && rushx test
-rushx pack
+export TEST_MODE=record && pnpm test
+pnpm pack
 ```
 You may send this artifact to your customer if your services are still in private preview and some customers want to try it out.
 

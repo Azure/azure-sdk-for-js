@@ -23,6 +23,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agentsImageInputWithBase64.js][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.js][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
 | [agentsImageInputWithUrl.js][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
+| [agentsLocalTelemetry.js][agentslocaltelemetry]                               | This sample demonstrates how to enable telemetry for AIAgentClient at local development.                                   |
+| [agentsRemoteTelemetry.js][agentsremotetelemetry]                             | This sample demonstrates how to enable remote telemetry for AIAgentClient at production.                                   |
 | [agentsWithFunctionTool.js][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
 | [agentsWithOpenApi.js][agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
 | [agentsWithToolset.js][agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                     |
@@ -90,6 +92,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithBase64.js
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithFile.js
 [agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithUrl.js
+[agentslocaltelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsLocalTelemetry.js
+[agentsremotetelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsRemoteTelemetry.js
 [agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithFunctionTool.js
 [agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithOpenApi.js
 [agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithToolset.js

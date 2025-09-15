@@ -41,7 +41,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Export logs that show Api requests made by this subscription in the given time window to show
    * throttling activities.
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * @param location The name of Azure region.
    * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
    * @param options The options parameters.
    */
@@ -113,7 +113,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Export logs that show Api requests made by this subscription in the given time window to show
    * throttling activities.
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * @param location The name of Azure region.
    * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
    * @param options The options parameters.
    */
@@ -132,8 +132,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
+   * @param location The name of Azure region.
+   * @param parameters The request body
    * @param options The options parameters.
    */
   async beginExportThrottledRequests(
@@ -203,8 +203,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
+   * @param location The name of Azure region.
+   * @param parameters The request body
    * @param options The options parameters.
    */
   async beginExportThrottledRequestsAndWait(
@@ -243,12 +243,12 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -274,12 +274,12 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters35,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

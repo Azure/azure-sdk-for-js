@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { ApplicationInsightsSampler } from "./sampling.js";
+export { ApplicationInsightsSampler } from "./sampling/percentageSampler.js";
+export { RateLimitedSampler } from "./sampling/rateLimitedSampler.js";
 export { AzureMonitorBaseExporter } from "./export/base.js";
 export { AzureMonitorTraceExporter } from "./export/trace.js";
 export { AzureMonitorMetricExporter } from "./export/metric.js";

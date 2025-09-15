@@ -14,6 +14,8 @@ export const APIM_ON_CHANGE_MESSAGE_KEY = "customInputValueChangedMSAPIM";
  */
 export const APIM_ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";
 
+const g: any = globalThis;
+
 /**
  * Base of a values obj
  */
@@ -55,8 +57,7 @@ function parseWidgetData<Values extends ValuesCommon>(
     return urlEditorParams;
   } catch (e) {
     console.error(
-      `Could not get '${APIM_EDITOR_DATA_KEY}' from the search params of the URL:\n` +
-        self.location,
+      `Could not get '${APIM_EDITOR_DATA_KEY}' from the search params of the URL:\n` + g.location,
       e,
     );
     return { values: {}, environment: "error", instanceId: "error" };
@@ -74,7 +75,7 @@ export function getWidgetDataPure<Values extends ValuesCommon>(
  * Intended mostly for internal use, API might change. Consider using getValues or getEditorValues instead.
  */
 export function getWidgetData<Values extends ValuesCommon>(): EditorData<Values> {
-  return getWidgetDataPure(new URLSearchParams(self.location.search));
+  return getWidgetDataPure(new URLSearchParams(g.location?.search ?? ""));
 }
 
 export function getEditorValuesPure<Values extends ValuesCommon>(
@@ -87,7 +88,7 @@ export function getEditorValuesPure<Values extends ValuesCommon>(
  * Function to get values you've set in the admin editor window.
  */
 export function getEditorValues<Values extends ValuesCommon>(): Partial<Values> {
-  return getEditorValuesPure<Values>(new URLSearchParams(self.location.search));
+  return getEditorValuesPure<Values>(new URLSearchParams(g.location?.search ?? ""));
 }
 
 export function getValuesPure<Values extends ValuesCommon>(
@@ -110,7 +111,7 @@ export function getValuesPure<Values extends ValuesCommon>(
  * @param valuesDefault - object with your default values to use, just import valuesDefault object from values.ts folder
  */
 export function getValues<Values extends ValuesCommon>(valuesDefault: Values): Values {
-  return getValuesPure(valuesDefault, new URLSearchParams(self.location.search));
+  return getValuesPure(valuesDefault, new URLSearchParams(g.location?.search ?? ""));
 }
 
 /**
@@ -131,7 +132,7 @@ export function onChangeWithOrigin<Values extends ValuesCommon>(
   values: Values,
 ): void {
   Object.entries(values).forEach(([key, value]) => {
-    self.parent.postMessage({ [APIM_ON_CHANGE_MESSAGE_KEY]: { key, value, instanceId } }, origin);
+    g.parent?.postMessage?.({ [APIM_ON_CHANGE_MESSAGE_KEY]: { key, value, instanceId } }, origin);
   });
 }
 
@@ -191,22 +192,22 @@ export async function askForSecrets(targetModule: TargetModule): Promise<Secrets
       resolve(secrets);
     };
 
-    self.addEventListener("message", receiveSecrets);
+    g.addEventListener?.("message", receiveSecrets);
 
     const message = {
       [APIM_ASK_FOR_SECRETS_MESSAGE_KEY]: {
         instanceId,
-        origin: self.location.origin,
+        origin: g.location?.origin,
         targetModule,
       },
     };
 
     if (targetModule === "app" && environment === "development") {
-      self.parent.parent.postMessage(message, "*");
+      g.parent?.parent?.postMessage?.(message, "*");
     } else {
-      self.parent.postMessage(message, "*");
+      g.parent?.postMessage?.(message, "*");
     }
   });
 
-  return promise.finally(() => self.removeEventListener("message", receiveSecrets));
+  return promise.finally(() => g.removeEventListener?.("message", receiveSecrets));
 }

@@ -37,6 +37,20 @@ export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCre
 }
 
 /**
+ * The commonly supported environment variables for the {@link DefaultAzureCredential} class.
+ */
+export type DefaultAzureCredentialEnvVars =
+  | "AZURE_TOKEN_CREDENTIALS"
+  | "AZURE_CLIENT_ID"
+  | "AZURE_TENANT_ID"
+  | "AZURE_CLIENT_SECRET"
+  | "AZURE_CLIENT_CERTIFICATE_PATH"
+  | "AZURE_CLIENT_CERTIFICATE_PASSWORD"
+  | "AZURE_ADDITIONALLY_ALLOWED_TENANTS"
+  | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN"
+  | "AZURE_FEDERATED_TOKEN_FILE";
+
+/**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
 export interface DefaultAzureCredentialOptions
@@ -54,4 +68,12 @@ export interface DefaultAzureCredentialOptions
    * Process timeout for credentials should be provided in milliseconds.
    */
   processTimeoutInMs?: number;
+  /**
+   * List of environment variables that must be defined at runtime.
+   * If any variable in this list is missing or set to an empty value,
+   * {@link DefaultAzureCredential} constructor will throw an error.
+   * Use this to enforce that your application has the necessary environment configuration before
+   * continuing execution.
+   */
+  requiredEnvVars?: DefaultAzureCredentialEnvVars | DefaultAzureCredentialEnvVars[];
 }

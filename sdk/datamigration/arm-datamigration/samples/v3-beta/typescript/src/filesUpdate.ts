@@ -11,10 +11,8 @@
  * @summary This method updates an existing file.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Files_Update.json
  */
-import {
-  ProjectFile,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { ProjectFile } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function filesUpdate(): Promise<void> {
@@ -24,7 +22,7 @@ async function filesUpdate(): Promise<void> {
   const projectName = "DmsSdkProject";
   const fileName = "x114d023d8";
   const parameters: ProjectFile = {
-    properties: { filePath: "DmsSdkFilePath/DmsSdkFile.sql" }
+    properties: { filePath: "DmsSdkFilePath/DmsSdkFile.sql" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -33,7 +31,7 @@ async function filesUpdate(): Promise<void> {
     serviceName,
     projectName,
     fileName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

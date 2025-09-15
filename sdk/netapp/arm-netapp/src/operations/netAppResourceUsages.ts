@@ -103,10 +103,7 @@ export class NetAppResourceUsagesImpl implements NetAppResourceUsages {
     location: string,
     options?: NetAppResourceUsagesListOptionalParams,
   ): Promise<NetAppResourceUsagesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -120,10 +117,7 @@ export class NetAppResourceUsagesImpl implements NetAppResourceUsages {
     usageType: string,
     options?: NetAppResourceUsagesGetOptionalParams,
   ): Promise<NetAppResourceUsagesGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, usageType, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, usageType, options }, getOperationSpec);
   }
 
   /**
@@ -137,10 +131,7 @@ export class NetAppResourceUsagesImpl implements NetAppResourceUsages {
     nextLink: string,
     options?: NetAppResourceUsagesListNextOptionalParams,
   ): Promise<NetAppResourceUsagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -158,11 +149,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

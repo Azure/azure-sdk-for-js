@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary This sample demonstrates how to make a batched search address request.
+ */
+
 import type { GeocodingBatchResponseOutput } from "@azure-rest/maps-search";
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * @summary This sample demonstrates how to make a batched search address request.
- */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

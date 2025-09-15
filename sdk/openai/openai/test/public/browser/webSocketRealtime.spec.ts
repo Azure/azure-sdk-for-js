@@ -20,6 +20,7 @@ describe.for([APIVersion.v2024_10_01_preview])(
     describe("websocket.azure", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) => {
           const rt = await OpenAIRealtimeWebSocket.azure(client as AzureOpenAI, {
             deploymentName,

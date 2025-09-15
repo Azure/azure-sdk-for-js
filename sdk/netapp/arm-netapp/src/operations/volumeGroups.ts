@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VolumeGroup,
@@ -54,11 +50,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     accountName: string,
     options?: VolumeGroupsListByNetAppAccountOptionalParams,
   ): PagedAsyncIterableIterator<VolumeGroup> {
-    const iter = this.listByNetAppAccountPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listByNetAppAccountPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -87,11 +79,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     _settings?: PageSettings,
   ): AsyncIterableIterator<VolumeGroup[]> {
     let result: VolumeGroupsListByNetAppAccountResponse;
-    result = await this._listByNetAppAccount(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    result = await this._listByNetAppAccount(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
@@ -160,10 +148,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     body: VolumeGroupDetails,
     options?: VolumeGroupsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeGroupsCreateResponse>,
-      VolumeGroupsCreateResponse
-    >
+    SimplePollerLike<OperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -175,8 +160,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -267,8 +251,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -321,12 +304,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     volumeGroupName: string,
     options?: VolumeGroupsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      volumeGroupName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, volumeGroupName, options);
     return poller.pollUntilDone();
   }
 }

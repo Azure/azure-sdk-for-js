@@ -1,8 +1,11 @@
-const { getServiceConfig } = require("@azure/playwright");
-const { defineConfig } = require('@playwright/test');
-const { DefaultAzureCredential } = require("@azure/identity");
-const config = require("./playwright.config");
+import { createAzurePlaywrightConfig } from "@azure/playwright";
+import { defineConfig } from '@playwright/test';
+import { DefaultAzureCredential } from "@azure/identity";
+import config from "./playwright.config.js";
 
-export default defineConfig(config, getServiceConfig(config, {
+export default defineConfig(
+  config,
+  createAzurePlaywrightConfig(config, {
     credential: new DefaultAzureCredential()
-}));
+  })
+);

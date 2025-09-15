@@ -6,13 +6,14 @@ import type { ConnectionsOperations } from "../connections/index.js";
 /** Interface representing telemetry operations */
 export interface TelemetryOperations {
   /** Get appInsight connection string */
-  getConnectionString: () => Promise<string>;
+  getApplicationInsightsConnectionString: () => Promise<string>;
 }
 
 function _getTelemetry(connections: ConnectionsOperations): TelemetryOperations {
   const telemetryOperations = createTelemetryOperations(connections);
   return {
-    getConnectionString: () => telemetryOperations.getConnectionString(),
+    getApplicationInsightsConnectionString: () =>
+      telemetryOperations.getApplicationInsightsConnectionString(),
   };
 }
 export function _getTelemetryOperations(connections: ConnectionsOperations): TelemetryOperations {
