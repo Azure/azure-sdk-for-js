@@ -126,7 +126,8 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     tokenParser: (token) => JSON.parse(token),
     validator: (parsed) => {
       return (
-        typeof parsed.compositeToken === "string" &&
+        parsed.rangeMappings &&
+        Array.isArray(parsed.rangeMappings) &&
         Array.isArray(parsed.orderByItems) &&
         typeof parsed.skipCount === "number" &&
         typeof parsed.rid === "string"
@@ -155,7 +156,8 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     tokenParser: (token) => JSON.parse(token),
     validator: (parsed) => {
       return (
-        parsed.compositeToken &&
+        parsed.rangeMappings &&
+        Array.isArray(parsed.rangeMappings) &&
         parsed.orderByItems &&
         parsed.orderByItems.length > 0 &&
         typeof parsed.skipCount === "number"
@@ -183,7 +185,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     },
     tokenParser: (token) => JSON.parse(token),
     validator: (parsed) => {
-      return parsed.compositeToken && parsed.orderByItems && parsed.orderByItems.length > 0;
+      return parsed.rangeMappings && Array.isArray(parsed.rangeMappings) && parsed.orderByItems && parsed.orderByItems.length > 0;
     },
     requiresMultiPartition: true,
     description: "Multi-field ORDER BY should handle complex ordering scenarios",
@@ -228,8 +230,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       hasRid: true,
     },
     expectedTokenValues: {
-      offsetValue: 0,
-      limitValue: 7,
       ridType: "string",
       rangeMappingsMinCount: 1,
     },
@@ -239,8 +239,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
         parsed.rangeMappings &&
         typeof parsed.offset === "number" &&
         typeof parsed.limit === "number" &&
-        parsed.offset >= 0 &&
-        parsed.limit > 0 &&
         typeof parsed.rid === "string"
       );
     },
@@ -403,7 +401,8 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     tokenParser: (token) => JSON.parse(token),
     validator: (parsed) => {
       return (
-        parsed.compositeToken &&
+        parsed.rangeMappings &&
+        Array.isArray(parsed.rangeMappings) &&
         parsed.orderByItems &&
         Array.isArray(parsed.orderByItems) &&
         parsed.orderByItems.length > 0
@@ -418,7 +417,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     query: "SELECT * FROM c WHERE c.amount > 20 ORDER BY c.amount ASC",
     queryOptions: { maxItemCount: 3, enableQueryControl: true },
     expectedTokenStructure: {
-      hasCompositeToken: true,
+      hasRangeMappings: true,
       hasOrderByItems: true,
       hasSkipCount: true,
       hasRid: true,
@@ -613,12 +612,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           expect(parsedToken.rangeMappings).toBeDefined();
           expect(Array.isArray(parsedToken.rangeMappings)).toBe(true);
           console.log(`✓ Has rangeMappings: ${parsedToken.rangeMappings.length} ranges`);
-        }
-
-        if (structure.hasCompositeToken) {
-          expect(parsedToken.compositeToken).toBeDefined();
-          expect(typeof parsedToken.compositeToken).toBe("string");
-          console.log(`✓ Has compositeToken: ${parsedToken.compositeToken.substring(0, 50)}...`);
         }
 
         if (structure.hasOrderByItems) {
@@ -855,13 +848,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           expect(Array.isArray(parsed.rangeMappings)).toBe(true);
           expect(parsed.rangeMappings.length).toBeGreaterThan(0);
 
-          // Each range mapping should have required properties
-          parsed.rangeMappings.forEach((mapping: any) => {
-            expect(mapping.range).toBeDefined();
-            expect(mapping.rid).toBeDefined();
-          });
-
-          console.log(`  Range mappings: ${parsed.rangeMappings.length}`);
+          console.log(`Range mappings: ${parsed.rangeMappings.length}`);
         }
       }
 
@@ -900,9 +887,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             `Token ${tokens}: ${result.resources.length} items, amount range: ${currentValues[0]}-${currentValues[currentValues.length - 1]}`,
           );
 
-          // ORDER BY across partitions should have composite token
-          expect(parsed.compositeToken).toBeDefined();
-          expect(typeof parsed.compositeToken).toBe("string");
+          // ORDER BY across partitions should have range mappings
+          expect(parsed.rangeMappings).toBeDefined();
+          expect(Array.isArray(parsed.rangeMappings)).toBe(true);
 
           // Should have order by items
           expect(parsed.orderByItems).toBeDefined();

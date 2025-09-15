@@ -201,14 +201,6 @@ export class PartitionRangeManager {
       const { itemCount } = value;
       console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
 
-      // Skip empty ranges (0 items)
-      if (itemCount === 0) {
-        processedRanges.push(rangeId);
-        processedRangeMappings.push(value);
-        rangesAggregatedInCurrentToken++;
-        continue;
-      }
-
       // Check if this complete range fits within remaining page size capacity
       if (endIndex + itemCount <= pageSize) {
         // Track this as the last partition before potential cutoff
