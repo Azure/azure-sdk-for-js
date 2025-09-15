@@ -502,11 +502,11 @@ export class LogBasicScenario implements Scenario {
     });
   }
 
-  cleanup(): void {
+  async cleanup(): Promise<void> {
     opentelemetry.trace.disable();
     // Shutdown the logger provider to ensure all logs are flushed
     if (this._provider) {
-      this._provider.shutdown();
+      await this._provider.shutdown();
     }
   }
 
