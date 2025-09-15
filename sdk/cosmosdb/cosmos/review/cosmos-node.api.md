@@ -82,6 +82,7 @@ export class ChangeFeedIterator<T> {
 export interface ChangeFeedIteratorOptions {
     changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
+    excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
 }
@@ -1040,6 +1041,7 @@ export type DiagnosticDataValue = {
         url: string;
     }>;
     partitionKeyRangeFailoverInfo: string;
+    excludedLocations: string[];
 };
 
 // @public
@@ -1329,7 +1331,7 @@ export class GlobalEndpointManager {
     preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
 }
 
 // @public (undocumented)
@@ -2386,6 +2388,7 @@ export interface SharedOptions {
     bypassIntegratedCache?: boolean;
     consistencyLevel?: string;
     disableRUPerMinuteUsage?: boolean;
+    excludedLocations?: string[];
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

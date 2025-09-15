@@ -97,12 +97,15 @@ export async function execute({
           requestContext.resourceType,
           requestContext.operationType,
           retryContext.retryLocationServerIndex,
+          requestContext.options,
         );
       } else {
         requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
+          0,
+          requestContext.options,
         );
       }
       const startTimeUTCInMs = getCurrentTimestampInMs();
