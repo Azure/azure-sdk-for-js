@@ -12,6 +12,16 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/api-extractor-base.json",
+        "$TURBO_ROOT$/tsconfig.json",
+        "$TURBO_ROOT$/tsconfig.src.build.json",
+        "!review/*.api.md",
+        "!CHANGELOG.md",
+        "!LICENSE",
+        "!README.md"
+      ],
       "outputs": ["dist/**", "review/*", "temp/*", "dist-esm/**", "dist-test/**", "types/**"]
     },
     "build:samples": {
