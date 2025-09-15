@@ -193,7 +193,7 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-          defaultConnectionPolicy.endpointRefreshRateInMs,
+        defaultConnectionPolicy.endpointRefreshRateInMs,
       );
     }
 
@@ -202,7 +202,7 @@ export class CosmosClient {
 
     this.dynamicallyEnablePPAFAndPPCBFlags(
       this.globalPartitionEndpointManager,
-      Constants.PPAFDynamicEnablementRefreshTimeMS,
+      Constants.DynamicEnablementRefreshTimeMS,
     );
   }
 
