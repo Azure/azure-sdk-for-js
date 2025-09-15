@@ -64,6 +64,14 @@ export function createOrderByQueryContinuationToken(
   limit?: number,
   hashedLastResult?: string,
 ): OrderByQueryContinuationToken {
+  if (!rangeMappings || rangeMappings.length === 0) {
+    throw new Error("rangeMappings must contain at least one element");
+  }
+  
+  if (!orderByItems || orderByItems.length === 0) {
+    throw new Error("orderByItems must contain at least one element");
+  }
+  
   return {
     rangeMappings,
     orderByItems,
@@ -94,16 +102,4 @@ export function parseOrderByQueryContinuationToken(
   tokenString: string,
 ): OrderByQueryContinuationToken {
   return JSON.parse(tokenString);
-}
-
-/**
- * Gets all range mappings from the OrderBy continuation token
- * @param token - The OrderBy continuation token
- * @returns Array of QueryRangeWithContinuationToken
- * @internal
- */
-export function getRangeMappingsFromOrderByToken(
-  token: OrderByQueryContinuationToken,
-): QueryRangeWithContinuationToken[] {
-  return token.rangeMappings || [];
 }
