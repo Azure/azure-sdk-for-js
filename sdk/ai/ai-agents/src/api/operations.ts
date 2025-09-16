@@ -496,12 +496,11 @@ export async function submitToolOutputsToRunStreaming(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
   const streamOptions = { ...options, stream: true };
 
   return processStream(
-    _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, streamOptions),
+    _submitToolOutputsToRunSend(context, threadId, runId, streamOptions),
   );
 }
