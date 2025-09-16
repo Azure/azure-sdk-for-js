@@ -1,11 +1,18 @@
 # Release History
 
-## 1.1.0-beta.4 (2025-09-12)
+## 1.1.0-beta.4 (2025-09-17)
 
 ### Features Added
 
 - Add `MCPTool.mergeResources` to support multiple MCP tools in one agent
 - Add `OpenApiTool` to easily call multiple open APIs in one agent
+- Add `messages.delete` to support delete message in thread
+- Add back the features removed in previous stable release:
+  - MCP tool
+  - Deep Research tool
+  - Sharepoint tool
+  - BingCustomSearch tool
+  - MicrosoftFabric tool
 
 ## 1.1.0 (2025-07-31)
 
