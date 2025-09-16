@@ -69,7 +69,7 @@
     "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/logger": "^1.1.4",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.34",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.35",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
     "@microsoft/applicationinsights-web-snippet": "^1.2.1",
     "@opentelemetry/api": "^1.9.0",
