@@ -307,6 +307,54 @@ describe("LinkEntity unit tests", () => {
       }
     });
 
+    it("handles close() errors during abort signal check", async () => {
+      const abortController = new AbortController();
+      abortController.abort(); // Pre-abort the signal
+
+      // Mock a link that throws an error when close() is called
+      const mockCloseError = new Error("Mock close error during abort");
+      let closeErrorLogged = false;
+
+      // Mock the logger to capture warning messages
+      const originalLogger = linkEntity["_logger"];
+      const mockLogger = {
+        ...originalLogger,
+        warning: (...args: any[]) => {
+          if (args[0].includes("Error occurred while closing link during abort check")) {
+            closeErrorLogged = true;
+          }
+          originalLogger.warning(...args);
+        },
+      };
+      linkEntity["_logger"] = mockLogger;
+
+      // Mock createRheaLink to return a link that throws on close
+      const orig = linkEntity["createRheaLink"];
+      linkEntity["createRheaLink"] = async () => {
+        return {
+          isOpen: () => true,
+          close: async () => {
+            throw mockCloseError;
+          },
+        } as any;
+      };
+
+      try {
+        await linkEntity.initLink({}, abortController.signal);
+        assert.fail("Should have thrown");
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+        assert.equal(err.message, StandardAbortMessage);
+      }
+
+      // Verify that the close error was logged as a warning
+      assert.isTrue(closeErrorLogged, "Expected close error to be logged as warning");
+
+      // Restore original methods
+      linkEntity["createRheaLink"] = orig;
+      linkEntity["_logger"] = originalLogger;
+    });
+
     it("can use a custom name via options", async () => {
       assert.match(linkEntity.name, /some initial name-/);
 

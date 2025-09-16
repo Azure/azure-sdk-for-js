@@ -171,6 +171,74 @@ describe("BatchingReceiver unit tests", () => {
       assert.isEmpty(listeners);
       assert.isEmpty(callsDoneAfterAbort);
     });
+
+    it("handles close() errors during abort signal cleanup", async () => {
+      const abortController = new AbortController();
+
+      const receiver = new BatchingReceiver(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        {
+          receiveMode: "peekLock",
+          lockRenewer: undefined,
+          skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
+        },
+      );
+      closeables.push(receiver);
+
+      // Mock a receiver that throws an error when close() is called
+      const mockCloseError = new Error("Mock close error");
+      let closeErrorLogged = false;
+
+      receiver["_init"] = async () => {
+        return {
+          addCredit: () => {},
+          drain: true, // This will trigger the close() call in abort cleanup
+          close: async () => {
+            throw mockCloseError;
+          },
+          on: () => {},
+          once: () => {},
+        } as any;
+      };
+
+      // Mock the logger to capture warning messages
+      const originalLogger = receiver["_batchingReceiverLite"]["_logger"];
+      const mockLogger = {
+        ...originalLogger,
+        warning: (...args: any[]) => {
+          if (args[0].includes("Error occurred while closing receiver during abort cleanup")) {
+            closeErrorLogged = true;
+          }
+          originalLogger.warning(...args);
+        },
+      };
+      receiver["_batchingReceiverLite"]["_logger"] = mockLogger;
+
+      // Start a receive operation and then abort it
+      const receivePromise = receiver.receive(1, 60 * 1000, 60 * 1000, {
+        abortSignal: abortController.signal,
+      });
+
+      // Allow some time for the operation to start
+      await new Promise(resolve => setTimeout(resolve, 10));
+
+      // Abort the operation
+      abortController.abort();
+
+      try {
+        await receivePromise;
+        assert.fail("Should have thrown");
+      } catch (err: any) {
+        assert.equal(err.message, StandardAbortMessage);
+        assert.equal(err.name, "AbortError");
+      }
+
+      // Verify that the close error was logged as a warning
+      assert.isTrue(closeErrorLogged, "Expected close error to be logged as warning");
+    });
   });
 
   /**
