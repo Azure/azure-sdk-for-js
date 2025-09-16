@@ -82,7 +82,7 @@ export async function main() {
       enabled: true,
       refresh: {
         enabled: true,
-        refreshIntervalInMs: 5000,
+        // refreshIntervalInMs: 30_000, // Optional. Default: 30 seconds
       },
     },
   });
@@ -95,24 +95,31 @@ export async function main() {
   let isEnabled = await featureManager.isEnabled(featureFlagName);
   console.log(`Is featureFlag enabled? ${isEnabled}`);
 
+  const targetingContext: ITargetingContext = { userId: "test@contoso.com" };
+  isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
+  console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
+
   console.log(`========> Update the featureFlag <======== `);
 
+  // Update the feature flag to be enabled
   sampleFeatureFlag.value.enabled = true;
 
   // Updating the config setting
   await appConfigClient.setConfigurationSetting(sampleFeatureFlag);
 
-  // Wait for refresh interval to elapse
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  while (!isEnabled) {
+    console.log("Waiting for feature flag to be refreshed...");
+    // Waiting for refresh interval to elapse
+    await new Promise((resolve) => setTimeout(resolve, 10_000));
+    await appConfigProvider.refresh();
 
-  await appConfigProvider.refresh();
-
-  isEnabled = await featureManager.isEnabled(featureFlagName);
-  console.log(`Is featureFlag enabled? ${isEnabled}`);
-
-  const targetingContext: ITargetingContext = { userId: "test@contoso.com" };
-  isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
-  console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
+    // The feature flag will not be enabled for everyone as targeting filter is configured
+    isEnabled = await featureManager.isEnabled(featureFlagName);
+    console.log(`Is featureFlag enabled? ${isEnabled}`);
+   
+    isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
+    console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
+  }
 
   await cleanupSampleValues([sampleFeatureFlag.key], appConfigClient);
 }
