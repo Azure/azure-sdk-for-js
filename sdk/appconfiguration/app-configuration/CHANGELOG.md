@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -13,11 +15,12 @@
 ## 1.9.0 (2025-04-08)
 
 ### Features Added
- - Include all the changes from 1.9.0-beta.1 version
- 
+
+- Include all the changes from 1.9.0-beta.1 version
+
 ### Other Changes
 
-- Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
+- Update README with a link to [_`@azure/app-configuration-provider`_](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
 
 ## 1.9.0-beta.1 (2025-03-11)
 
@@ -144,7 +147,6 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
-
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
@@ -181,7 +183,6 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ### Features Added
 
 - Special configuration settings - feature flag and secret reference are now supported. 🎉
-
   - For types, use `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`.
   - Use `parseFeatureFlag` and `parseSecretReference` methods to parse the configuration settings into feature flag and secret reference respectively.
 
