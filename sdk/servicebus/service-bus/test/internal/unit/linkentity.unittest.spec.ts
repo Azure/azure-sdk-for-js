@@ -315,15 +315,15 @@ describe("LinkEntity unit tests", () => {
       const mockCloseError = new Error("Mock close error during abort");
       let closeErrorLogged = false;
 
-      // Mock the logger to capture warning messages
+      // Mock the logger to capture logError calls
       const originalLogger = linkEntity["_logger"];
       const mockLogger = {
         ...originalLogger,
-        warning: (...args: any[]) => {
-          if (args[0].includes("Error occurred while closing link during abort check")) {
+        logError: (err: any, ...args: any[]) => {
+          if (args[0] && args[0].includes("Error occurred while closing link during abort check")) {
             closeErrorLogged = true;
           }
-          originalLogger.warning(...args);
+          originalLogger.logError(err, ...args);
         },
       };
       linkEntity["_logger"] = mockLogger;
@@ -347,8 +347,8 @@ describe("LinkEntity unit tests", () => {
         assert.equal(err.message, StandardAbortMessage);
       }
 
-      // Verify that the close error was logged as a warning
-      assert.isTrue(closeErrorLogged, "Expected close error to be logged as warning");
+      // Verify that the close error was logged as an error
+      assert.isTrue(closeErrorLogged, "Expected close error to be logged via logError");
 
       // Restore original methods
       linkEntity["createRheaLink"] = orig;

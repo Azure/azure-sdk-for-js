@@ -204,15 +204,15 @@ describe("BatchingReceiver unit tests", () => {
         } as any;
       };
 
-      // Mock the logger to capture warning messages
+      // Mock the logger to capture logError calls
       const originalLogger = receiver["_batchingReceiverLite"]["_logger"];
       const mockLogger = {
         ...originalLogger,
-        warning: (...args: any[]) => {
-          if (args[0].includes("Error occurred while closing receiver during abort cleanup")) {
+        logError: (err: any, ...args: any[]) => {
+          if (args[0] && args[0].includes("Error occurred while closing receiver during abort cleanup")) {
             closeErrorLogged = true;
           }
-          originalLogger.warning(...args);
+          originalLogger.logError(err, ...args);
         },
       };
       receiver["_batchingReceiverLite"]["_logger"] = mockLogger;
@@ -236,8 +236,8 @@ describe("BatchingReceiver unit tests", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      // Verify that the close error was logged as a warning
-      assert.isTrue(closeErrorLogged, "Expected close error to be logged as warning");
+      // Verify that the close error was logged as an error
+      assert.isTrue(closeErrorLogged, "Expected close error to be logged via logError");
     });
   });
 
