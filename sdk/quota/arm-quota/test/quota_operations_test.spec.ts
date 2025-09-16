@@ -40,7 +40,11 @@ describe("quota test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureQuotaExtensionAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AzureQuotaExtensionAPI(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     scope = "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus";
   });
 
