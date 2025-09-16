@@ -630,7 +630,7 @@ export function platformPropertiesDeserializer(item: any): PlatformProperties {
 export enum KnownArchitecture {
   Amd64 = "amd64",
   X86 = "x86",
-  _386 = "386",
+  ThreeHundredEightySix = "386",
   Arm = "arm",
   Arm64 = "arm64",
 }

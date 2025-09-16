@@ -258,13 +258,13 @@ export interface ImageUpdateTrigger {
 // @public
 export enum KnownArchitecture {
     // (undocumented)
-    _386 = "386",
-    // (undocumented)
     Amd64 = "amd64",
     // (undocumented)
     Arm = "arm",
     // (undocumented)
     Arm64 = "arm64",
+    // (undocumented)
+    ThreeHundredEightySix = "386",
     // (undocumented)
     X86 = "x86"
 }
