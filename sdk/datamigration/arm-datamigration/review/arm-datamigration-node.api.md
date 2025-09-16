@@ -784,6 +784,8 @@ export interface DatabaseMigrationsSqlDb {
     beginCreateOrUpdateAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlDbCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams): Promise<void>;
+    beginRetry(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlDbRetryResponse>, DatabaseMigrationsSqlDbRetryResponse>>;
+    beginRetryAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams): Promise<DatabaseMigrationsSqlDbRetryResponse>;
     get(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbGetOptionalParams): Promise<DatabaseMigrationsSqlDbGetResponse>;
 }
 
@@ -819,6 +821,15 @@ export interface DatabaseMigrationsSqlDbGetOptionalParams extends coreClient.Ope
 export type DatabaseMigrationsSqlDbGetResponse = DatabaseMigrationSqlDb;
 
 // @public
+export interface DatabaseMigrationsSqlDbRetryOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatabaseMigrationsSqlDbRetryResponse = DatabaseMigrationSqlDb;
+
+// @public
 export interface DatabaseMigrationsSqlMi {
     beginCancel(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCancelAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams): Promise<void>;
@@ -826,6 +837,8 @@ export interface DatabaseMigrationsSqlMi {
     beginCreateOrUpdateAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlMi, options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlMiCreateOrUpdateResponse>;
     beginCutover(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCutoverAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlMiDeleteResponse>, DatabaseMigrationsSqlMiDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams): Promise<DatabaseMigrationsSqlMiDeleteResponse>;
     get(resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiGetOptionalParams): Promise<DatabaseMigrationsSqlMiGetResponse>;
 }
 
@@ -851,6 +864,16 @@ export interface DatabaseMigrationsSqlMiCutoverOptionalParams extends coreClient
 }
 
 // @public
+export interface DatabaseMigrationsSqlMiDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatabaseMigrationsSqlMiDeleteResponse = DatabaseMigrationSqlMi;
+
+// @public
 export interface DatabaseMigrationsSqlMiGetOptionalParams extends coreClient.OperationOptions {
     expand?: string;
     migrationOperationId?: string;
@@ -867,6 +890,8 @@ export interface DatabaseMigrationsSqlVm {
     beginCreateOrUpdateAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: DatabaseMigrationSqlVm, options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse>;
     beginCutover(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCutoverAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlVmDeleteResponse>, DatabaseMigrationsSqlVmDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams): Promise<DatabaseMigrationsSqlVmDeleteResponse>;
     get(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmGetOptionalParams): Promise<DatabaseMigrationsSqlVmGetResponse>;
 }
 
@@ -890,6 +915,16 @@ export interface DatabaseMigrationsSqlVmCutoverOptionalParams extends coreClient
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface DatabaseMigrationsSqlVmDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DatabaseMigrationsSqlVmDeleteResponse = DatabaseMigrationSqlVm;
 
 // @public
 export interface DatabaseMigrationsSqlVmGetOptionalParams extends coreClient.OperationOptions {
