@@ -15,6 +15,8 @@ import {
   CallRecordingStopRecordingOptionalParams,
   CallRecordingPauseRecordingOptionalParams,
   CallRecordingResumeRecordingOptionalParams,
+  CallRecordingGetRecordingResultOptionalParams,
+  CallRecordingGetRecordingResultResponse,
 } from "../models/index.js";
 
 /** Interface representing a CallRecording. */
@@ -64,4 +66,13 @@ export interface CallRecording {
     recordingId: string,
     options?: CallRecordingResumeRecordingOptionalParams,
   ): Promise<void>;
+  /**
+   * Get recording result. This includes the download URLs for the recording chunks.
+   * @param recordingId The recording id.
+   * @param options The options parameters.
+   */
+  getRecordingResult(
+    recordingId: string,
+    options?: CallRecordingGetRecordingResultOptionalParams,
+  ): Promise<CallRecordingGetRecordingResultResponse>;
 }
