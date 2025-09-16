@@ -4,6 +4,7 @@ pr: none
 jobs:
 - job: 'PnpmUpdate'
   displayName: 'Pnpm Update'
+  timeoutInMinutes: 180
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
 
