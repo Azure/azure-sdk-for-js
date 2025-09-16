@@ -5,6 +5,7 @@ import {
   getAccessToken,
   extractErrorMessage,
   exitWithFailureMessage,
+  validateMptPAT,
 } from "./utils.js";
 import { HttpService } from "../common/httpService.js";
 import { TestRunCreatePayload } from "../common/types.js";
@@ -31,6 +32,7 @@ export class PlaywrightServiceApiCall {
     if (!token) {
       throw new Error("PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.");
     }
+    validateMptPAT(exitWithFailureMessage);
     const url = new URL(baseUrl);
     url.searchParams.set("api-version", Constants.LatestAPIVersion);
     const method = "PATCH";
