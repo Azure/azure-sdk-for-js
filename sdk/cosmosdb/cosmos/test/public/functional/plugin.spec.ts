@@ -148,7 +148,7 @@ describe("Plugin", () => {
 
     const client = new CosmosClient({ ...options, plugins } as any);
     const response = await client.database("foo").read();
-    assert.equal(requestCount, 3); // Get Database Account twice+ Get Database
+    assert.equal(requestCount, 3); // Get Database Account twice + Get Database
     assert.equal(responseCount, 3); // Get Database Account twice + Get Database
     assert.equal(innerRequestCount, 3); // Get Database Account twice + Get Database
     assert.notEqual(response, undefined);
