@@ -7,6 +7,8 @@
 import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
+import type { MetricReader } from '@opentelemetry/sdk-metrics';
+import { NodeSDK } from '@opentelemetry/sdk-node';
 import type { Resource } from '@opentelemetry/resources';
 import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 
@@ -20,6 +22,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     logRecordProcessors?: LogRecordProcessor[];
+    metricReaders?: MetricReader[];
     resource?: Resource;
     samplingRatio?: number;
     spanProcessors?: SpanProcessor[];
@@ -31,6 +34,9 @@ export interface BrowserSdkLoaderOptions {
     connectionString?: string;
     enabled?: boolean;
 }
+
+// @internal
+export function _getSdkInstance(): NodeSDK | undefined;
 
 // @public
 export interface InstrumentationOptions {

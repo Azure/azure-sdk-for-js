@@ -364,7 +364,7 @@ describe("createAzurePlaywrightConfig", () => {
     });
   });
 
-  it("should set token credentials if passed on playwright service entra singleton object", async () => {
+  it("should set token credentials if passed on Playwright workspaces entra singleton object", async () => {
     const accessToken = "token";
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
     const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(

@@ -134,7 +134,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
-@@ -263,11 +268,11 @@
+@@ -267,11 +272,11 @@
  export function deserializeAuthenticationRecord(serializedRecord: string): AuthenticationRecord;
  
  // @public
@@ -149,7 +149,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
-@@ -287,10 +292,11 @@
+@@ -291,10 +296,11 @@
  export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
  
  // @public
@@ -163,7 +163,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-@@ -326,9 +332,9 @@
+@@ -330,9 +336,9 @@
  export type IdentityPlugin = (context: unknown) => void;
  
  // @public
@@ -174,7 +174,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
  }
  
-@@ -357,15 +363,13 @@
+@@ -361,15 +367,13 @@
  
  // @public
  export const logger: AzureLogger;
@@ -194,7 +194,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
-@@ -388,12 +392,11 @@
+@@ -392,12 +396,11 @@
  }
  
  // @public
@@ -210,7 +210,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface OnBehalfOfCredentialAssertionOptions {
-@@ -443,25 +446,26 @@
+@@ -447,25 +450,26 @@
          enableUnsafeSupportLogging?: boolean;
      };
  }
@@ -244,7 +244,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
-@@ -469,10 +473,10 @@
+@@ -473,10 +477,10 @@
  }
  
  // @public

@@ -6,12 +6,12 @@ import type {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../../shared/config.js";
 import type { Meter, ObservableGauge, ObservableResult } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode, ValueType, context } from "@opentelemetry/api";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type {
   DocumentIngress,
   Exception,
@@ -514,7 +514,7 @@ export class LiveMetrics {
    * Record LogRecord metrics, add attribute so data is not aggregated again in ingestion
    * @internal
    */
-  public recordLog(logRecord: LogRecord): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     if (this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];

@@ -539,3 +539,12 @@ export function validateClientEncryptionPolicy(
     );
   }
 }
+
+/**
+ * Checks if excluded locations can be applied to the given resource type
+ * @param resourceType - The resource type to check
+ * @returns true if excluded locations can be applied, false otherwise
+ */
+export function canApplyExcludedLocations(resourceType: ResourceType): boolean {
+  return resourceType === ResourceType.item;
+}

@@ -7,24 +7,85 @@ import * as createFunctionsDac from "$internal/credentials/defaultAzureCredentia
 describe("DefaultAzureCredential", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllEnvs();
     delete process.env.AZURE_TOKEN_CREDENTIALS;
+  });
+
+  it("should not throw if requiredEnvVars is an empty array", () => {
+    expect(() => new DefaultAzureCredential({ requiredEnvVars: [] })).not.toThrowError();
   });
 
   it("should create a DefaultAzureCredential instance", () => {
     const credential = new DefaultAzureCredential();
     expect(credential).toBeInstanceOf(DefaultAzureCredential);
   });
+
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "randomValue";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "randomValue");
     expect(() => new DefaultAzureCredential()).toThrowError(
       `Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev' or any of these credentials - EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential.`,
     );
   });
   it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "prod";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
     expect(() => new DefaultAzureCredential()).not.toThrowError();
-    process.env.AZURE_TOKEN_CREDENTIALS = "dev";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "dev");
     expect(() => new DefaultAzureCredential()).not.toThrowError();
+  });
+
+  it("should throw if env var in requiredEnvVars is missing (single)", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
+    expect(
+      () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
+    ).toThrowError(
+      /Required environment variable 'AZURE_TOKEN_CREDENTIALS' for DefaultAzureCredential is not set or empty\./,
+    );
+  });
+
+  it("should not throw if env var in requiredEnvVars is present (single)", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    expect(
+      () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
+    ).not.toThrowError();
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
+  });
+
+  it("should throw if any env vars in requiredEnvVars are missing (array)", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    vi.stubEnv("AZURE_CLIENT_ID", undefined);
+    expect(
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
+    ).toThrowError(
+      /Required environment variable 'AZURE_CLIENT_ID' for DefaultAzureCredential is not set or empty\./,
+    );
+  });
+
+  it("should throw if multiple env vars in requiredEnvVars are missing (array)", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
+    vi.stubEnv("AZURE_CLIENT_ID", "");
+    expect(
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
+    ).toThrowError(
+      /Required environment variables 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
+    );
+  });
+
+  it("should not throw if all env vars in requiredEnvVars are present (array)", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");
+    expect(
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
+    ).not.toThrowError();
+    vi.unstubAllEnvs();
   });
 });
 
@@ -35,7 +96,7 @@ describe("create functions", () => {
   });
 
   it("calls only createEnvironmentCredential when AZURE_TOKEN_CREDENTIALS is 'EnvironmentCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "EnvironmentCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "EnvironmentCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
 
     new DefaultAzureCredential();
@@ -50,7 +111,7 @@ describe("create functions", () => {
   });
 
   it("calls only createDefaultManagedIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'ManagedIdentityCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -64,7 +125,7 @@ describe("create functions", () => {
   });
 
   it("calls only createDefaultWorkloadIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'WorkloadIdentityCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "WorkloadIdentityCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "WorkloadIdentityCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -78,7 +139,7 @@ describe("create functions", () => {
   });
 
   it("calls only createDefaultVisualStudioCodeCredential when AZURE_TOKEN_CREDENTIALS is 'VisualStudioCodeCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "VisualStudioCodeCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "VisualStudioCodeCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -92,7 +153,7 @@ describe("create functions", () => {
   });
 
   it("calls only createDefaultAzureCliCredential when AZURE_TOKEN_CREDENTIALS is 'AzureCliCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "AzureCliCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "AzureCliCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -106,7 +167,7 @@ describe("create functions", () => {
   });
 
   it("calls only createDefaultAzurePowershellCredential when AZURE_TOKEN_CREDENTIALS is 'AzurePowerShellCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "AzurePowerShellCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "AzurePowerShellCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -120,7 +181,7 @@ describe("create functions", () => {
   });
 
   it("calls only createDefaultAzureDeveloperCliCredential when AZURE_TOKEN_CREDENTIALS is 'AzureDeveloperCliCredential'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "AzureDeveloperCliCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "AzureDeveloperCliCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -134,7 +195,7 @@ describe("create functions", () => {
   });
 
   it("calls only prod credential functions when AZURE_TOKEN_CREDENTIALS is 'prod'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "prod";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -148,7 +209,7 @@ describe("create functions", () => {
   });
 
   it("calls only dev credential functions when AZURE_TOKEN_CREDENTIALS is 'dev'", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "dev";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "dev");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -162,7 +223,7 @@ describe("create functions", () => {
   });
 
   it("handles case-insensitive credential names (lowercase)", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "managedidentitycredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "managedidentitycredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 
@@ -176,7 +237,7 @@ describe("create functions", () => {
   });
 
   it("handles case-insensitive credential names (mixed case)", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "AzuReCLIcredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "AzuReCLIcredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
 

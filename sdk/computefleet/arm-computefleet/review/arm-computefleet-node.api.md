@@ -70,6 +70,13 @@ export interface ApplicationProfile {
 // @public
 export type ArchitectureType = string;
 
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
 // @public (undocumented)
 export class AzureFleetClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureFleetClientOptionalParams);
@@ -81,7 +88,11 @@ export class AzureFleetClient {
 // @public
 export interface AzureFleetClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BaseVirtualMachineProfile {
@@ -115,6 +126,9 @@ export type CachingTypes = string;
 export interface CapacityReservationProfile {
     capacityReservationGroup?: SubResource;
 }
+
+// @public
+export type CapacityType = string;
 
 // @public
 export interface ComputeProfile {
@@ -178,6 +192,26 @@ export interface EncryptionIdentity {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EvictionPolicy = string;
 
 // @public
@@ -189,9 +223,14 @@ export interface Fleet extends TrackedResource {
 }
 
 // @public
+export type FleetMode = string;
+
+// @public
 export interface FleetProperties {
     additionalLocationsProfile?: AdditionalLocationsProfile;
+    capacityType?: CapacityType;
     computeProfile: ComputeProfile;
+    mode?: FleetMode;
     readonly provisioningState?: ProvisioningState;
     regularPriorityProfile?: RegularPriorityProfile;
     spotPriorityProfile?: SpotPriorityProfile;
@@ -199,6 +238,12 @@ export interface FleetProperties {
     readonly uniqueId?: string;
     vmAttributes?: VMAttributes;
     vmSizesProfile: VmSizeProfile[];
+    zoneAllocationPolicy?: ZoneAllocationPolicy;
+}
+
+// @public
+export interface FleetsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -228,12 +273,20 @@ export interface FleetsListVirtualMachineScaleSetsOptionalParams extends Operati
 }
 
 // @public
+export interface FleetsListVirtualMachinesOptionalParams extends OperationOptions {
+    filter?: string;
+    skiptoken?: string;
+}
+
+// @public
 export interface FleetsOperations {
+    cancel: (resourceGroupName: string, fleetName: string, options?: FleetsCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
     delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) => Promise<Fleet>;
     listByResourceGroup: (resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Fleet>;
     listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Fleet>;
+    listVirtualMachines: (resourceGroupName: string, name: string, options?: FleetsListVirtualMachinesOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
     listVirtualMachineScaleSets: (resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     update: (resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
 }
@@ -287,7 +340,7 @@ export enum KnownAcceleratorManufacturer {
 
 // @public
 export enum KnownAcceleratorType {
-    FPGA = "FPGA",
+    Fpga = "FPGA",
     GPU = "GPU"
 }
 
@@ -307,6 +360,12 @@ export enum KnownCachingTypes {
     None = "None",
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownCapacityType {
+    VCpu = "VCpu",
+    VM = "VM"
 }
 
 // @public
@@ -346,7 +405,7 @@ export enum KnownDiffDiskPlacement {
 // @public
 export enum KnownDiskControllerTypes {
     NVMe = "NVMe",
-    SCSI = "SCSI"
+    Scsi = "SCSI"
 }
 
 // @public
@@ -376,6 +435,12 @@ export enum KnownDomainNameLabelScopeTypes {
 export enum KnownEvictionPolicy {
     Deallocate = "Deallocate",
     Delete = "Delete"
+}
+
+// @public
+export enum KnownFleetMode {
+    Instance = "Instance",
+    Managed = "Managed"
 }
 
 // @public
@@ -531,6 +596,14 @@ export enum KnownStorageAccountTypes {
 }
 
 // @public
+export enum KnownVersions {
+    V20231101Preview = "2023-11-01-preview",
+    V20240501Preview = "2024-05-01-preview",
+    V20241101 = "2024-11-01",
+    V20250701Preview = "2025-07-01-preview"
+}
+
+// @public
 export enum KnownVMAttributeSupport {
     Excluded = "Excluded",
     Included = "Included",
@@ -546,6 +619,15 @@ export enum KnownVMCategory {
     HighPerformanceCompute = "HighPerformanceCompute",
     MemoryOptimized = "MemoryOptimized",
     StorageOptimized = "StorageOptimized"
+}
+
+// @public
+export enum KnownVMOperationStatus {
+    Canceled = "Canceled",
+    CancelFailedStatusUnknown = "CancelFailedStatusUnknown",
+    Creating = "Creating",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -567,6 +649,12 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownZoneDistributionStrategy {
+    BestEffortSingleZone = "BestEffortSingleZone",
+    Prioritized = "Prioritized"
 }
 
 // @public
@@ -643,8 +731,8 @@ export type OperatingSystemTypes = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -887,9 +975,19 @@ export interface VirtualHardDisk {
 }
 
 // @public
+export interface VirtualMachine {
+    readonly error?: ApiError;
+    readonly id: string;
+    readonly name: string;
+    readonly operationStatus: VMOperationStatus;
+    readonly type?: string;
+}
+
+// @public
 export interface VirtualMachineScaleSet {
     readonly error?: ApiError;
     readonly id: string;
+    readonly name: string;
     readonly operationStatus: ProvisioningState;
     readonly type?: string;
 }
@@ -899,7 +997,7 @@ export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
-    diskIOPSReadWrite?: number;
+    diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     lun: number;
@@ -1125,6 +1223,9 @@ export interface VMGalleryApplication {
 }
 
 // @public
+export type VMOperationStatus = string;
+
+// @public
 export interface VmSizeProfile {
     name: string;
     rank?: number;
@@ -1171,6 +1272,21 @@ export interface WinRMConfiguration {
 export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
+}
+
+// @public
+export interface ZoneAllocationPolicy {
+    distributionStrategy: ZoneDistributionStrategy;
+    zonePreferences?: ZonePreference[];
+}
+
+// @public
+export type ZoneDistributionStrategy = string;
+
+// @public
+export interface ZonePreference {
+    rank?: number;
+    zone: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -149,11 +149,10 @@
 # ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @xirzec
+/sdk/eventhub/ @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Event Hubs
-# AzureSdkOwners: @xirzec
-# ServiceOwners: @axisc
+# ServiceOwners: @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
@@ -182,11 +181,10 @@
 # AzureSdkOwners: @maorleger
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @xirzec
+/sdk/servicebus/ @skarri-microsoft @EldertGrootenboer
 
 # ServiceLabel: %Service Bus
-# AzureSdkOwners: @xirzec
-# ServiceOwners: @EldertGrootenboer
+# ServiceOwners: @skarri-microsoft @EldertGrootenboer
 
 # PRLabel: %Storage
 # ServiceLabel: %Storage
@@ -287,11 +285,10 @@
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
 
 # PRLabel: %Schema Registry
-/sdk/schemaregistry/ @xirzec
+/sdk/schemaregistry/ @axisc @sjkwak @hmlam
 
 # ServiceLabel: %Schema Registry
-# AzureSdkOwners: @xirzec
-# ServiceOwners: @axisc
+# ServiceOwners: @axisc @sjkwak @hmlam
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @HarshaNalluru @jeremymeng
@@ -317,7 +314,7 @@
 /sdk/networkcloud/ @Azure/azure-sdk-write-networkcloud
 
 # PRLabel: %Search
-/sdk/search/ @dgetu @Azure/azsdk-search
+/sdk/search/ @Azure/azure-sdk-write-search @Azure/azsdk-search
 
 # ServiceLabel: %Search
 # AzureSdkOwners: @dgetu
@@ -328,7 +325,7 @@
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @puagarwa @ShreyaAnand
+/sdk/playwrighttesting/ @azure/testing-services
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -1327,9 +1324,6 @@
 # ServiceLabel: %Digital Twins %Service Attention
 # ServiceOwners:          @sourabhguha @inesk-vt
 
-# ServiceLabel: %Event Hubs %Service Attention
-# ServiceOwners:          @kasun04
-
 # ServiceLabel: %Functions %Service Attention
 # ServiceOwners:          @ahmedelnably @fabiocav
 
@@ -1475,19 +1469,13 @@
 # ServiceOwners:          @derek1ee
 
 # ServiceLabel: %Search %Service Attention
-# ServiceOwners:          @bleroy @tjacobhi @markheff @miwelsh
+# ServiceOwners:          @kuanlu95 @mattgotteiner
 
 # ServiceLabel: %Security %Service Attention
 # ServiceOwners:          @chlahav
 
-# ServiceLabel: %Service Attention %Service Bus
-# ServiceOwners:          @EldertGrootenboer
-
 # ServiceLabel: %Service Attention %Service Fabric
 # ServiceOwners:          @QingChenmsft @vaishnavk @juhacket
-
-# ServiceLabel: %Schema Registry %Service Attention
-# ServiceOwners:          @arerlend
 
 # ServiceLabel: %Service Attention %SignalR
 # ServiceOwners:          @sffamily @chenkennt
@@ -1647,6 +1635,9 @@ sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 
 ###########
 # Config
