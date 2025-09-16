@@ -47,14 +47,6 @@ const SDK_OWNED = [
   "@azure/core-util",
   "@azure/logger",
   "@typespec/ts-http-runtime",
-  // eventgrid
-  "@azure/eventgrid",
-  "@azure/eventgrid-namespaces",
-  "@azure/eventgrid-systemevents",
-  // eventhubs
-  "@azure/event-hubs",
-  "@azure/eventhubs-checkpointstore-table",
-  "@azure/eventhubs-checkpointstore-blob",
 
   "@azure/ai-form-recognizer",
 
@@ -75,7 +67,6 @@ const SDK_OWNED = [
   "@azure/ai-metrics-advisor",
   // ...
   "@azure/monitor-ingestion",
-  "@azure/monitor-query",
 
   "@azure/notification-hubs",
 
@@ -84,8 +75,6 @@ const SDK_OWNED = [
   "@azure/schema-registry",
 
   "@azure/search-documents",
-
-  "@azure/service-bus",
 
   "@azure/data-tables",
 
