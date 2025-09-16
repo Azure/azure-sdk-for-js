@@ -38,6 +38,9 @@ export class GlobalEndpointManager {
   private enableMultipleWriteLocations: boolean;
 
   public preferredLocationsCount: number;
+  public enablePartitionLevelFailover: boolean;
+  public enablePartitionLevelCircuitBreaker: boolean;
+
   /**
    * @param options - The document client instance.
    * @internal
@@ -55,6 +58,10 @@ export class GlobalEndpointManager {
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.enablePartitionLevelCircuitBreaker =
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      options.connectionPolicy.enablePartitionLevelFailover;
   }
 
   /**
@@ -195,6 +202,7 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
+      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailoverBehavior);
     }
 
     const locations = isReadRequest(operationType)
@@ -258,15 +266,19 @@ export class GlobalEndpointManager {
    *  and then updating the locations cache.
    *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
-  public async refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  public async refreshEndpointList(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<DatabaseAccount> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
+        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
       }
       this.isRefreshing = false;
+      return databaseAccount;
     }
   }
 
@@ -414,5 +426,18 @@ export class GlobalEndpointManager {
     }
 
     return null;
+  }
+
+  /**
+   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
+   * based on the value from database account.
+   */
+  private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
+    // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
+    // we will override it to false.
+    if (enablePerPartitionFailoverBehavior === false) {
+      this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
+      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+    }
   }
 }

@@ -635,6 +635,7 @@ export const Constants: {
     WriteRequestFailureCountThreshold: number;
     ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
+    ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
@@ -928,6 +929,8 @@ export class DatabaseAccount {
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
+    // (undocumented)
+    readonly enablePerPartitionFailoverBehavior: boolean;
     // @deprecated
     get MaxMediaStorageUsageInMB(): number;
     readonly maxMediaStorageUsageInMB: number;
@@ -1309,6 +1312,10 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
+    // (undocumented)
+    enablePartitionLevelCircuitBreaker: boolean;
+    // (undocumented)
+    enablePartitionLevelFailover: boolean;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
