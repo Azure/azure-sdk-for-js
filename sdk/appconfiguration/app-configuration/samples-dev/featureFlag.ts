@@ -116,7 +116,7 @@ export async function main() {
     // The feature flag will not be enabled for everyone as targeting filter is configured
     isEnabled = await featureManager.isEnabled(featureFlagName);
     console.log(`Is featureFlag enabled? ${isEnabled}`);
-   
+
     isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
     console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
   }
