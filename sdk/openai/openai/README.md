@@ -34,7 +34,7 @@ Install the Azure OpenAI client library and the OpenAI library for JavaScript wi
 npm install openai @azure/openai
 ```
 
-### Create and authenticate a `AzureOpenAI`
+### Create and authenticate an `OpenAI`
 
 There are several ways to authenticate with the Azure OpenAI service and the recommended way is to use Microsoft Entra ID for secure, keyless authentication via the [Azure Identity library][azure_identity]. To get started:
 
@@ -57,11 +57,10 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 3. Create the client by passing in the token provider:
 
    ```ts snippet:ignore
-   import { AzureOpenAI } from "openai";
+   import { OpenAI } from "openai";
 
-   const deployment = "Your deployment name";
-   const apiVersion = "2025-04-01-preview";
-   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+   const endpoint = "Your Azure OpenAI endpoint";
+   const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
    ```
 
 Grant access to your Azure OpenAI resource to your trusted entities by following instructions in [How to configure Azure OpenAI Service with Microsoft Entra ID authentication](https://learn.microsoft.com/azure/ai-services/openai/how-to/managed-identity).
@@ -109,7 +108,7 @@ This TypeScript example generates chat responses to input chat questions about y
 
 ```ts snippet:ReadmeSampleAnalyzeBusinessData
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 
 // Import OpenAI Type Helpers
 import "@azure/openai/types";
@@ -119,12 +118,12 @@ const scope = "https://cognitiveservices.azure.com/.default";
 const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
 // Your Azure Cognitive Search endpoint, and index name
+const endpoint = "<azure openai endpoint>";
 const azureSearchEndpoint = "<search endpoint>";
 const azureSearchIndexName = "<search index>";
 
-const deployment = "gpt-4-1106-preview";
-const apiVersion = "2025-04-01-preview";
-const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+const deployment = "gpt-4o";
+const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
 const events = await client.chat.completions.create({
   stream: true,
   messages: [
@@ -134,7 +133,7 @@ const events = await client.chat.completions.create({
     },
   ],
   max_tokens: 128,
-  model: "",
+  model: deployment,
   data_sources: [
     {
       type: "azure_search",
@@ -162,7 +161,7 @@ Azure OpenAI Service includes a content filtering system that works alongside co
 
 ```ts snippet:ReadmeSampleContentFilteredChatCompletions
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 
 // Import OpenAI Type Helpers
 import "@azure/openai/types";
@@ -172,12 +171,10 @@ const scope = "https://cognitiveservices.azure.com/.default";
 const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
 // Your Azure Cognitive Search endpoint, and index name
-const azureSearchEndpoint = "<search endpoint>";
-const azureSearchIndexName = "<search index>";
+const endpoint = "<azure openai endpoint>";
 
-const deployment = "gpt-4-1106-preview";
-const apiVersion = "2025-04-01-preview";
-const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+const deployment = "gpt-4o";
+const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
 const events = await client.chat.completions.create({
   messages: [
     { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
@@ -185,7 +182,7 @@ const events = await client.chat.completions.create({
     { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
     { role: "user", content: "What's the best way to train a parrot?" },
   ],
-  model: "",
+  model: deployment,
   max_tokens: 128,
   stream: true,
 });

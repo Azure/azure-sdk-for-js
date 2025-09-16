@@ -8,38 +8,36 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import "@azure/openai/types";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
+
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 
 export async function main(): Promise<void> {
   console.log("== Streaming Chat Completions Sample ==");
 
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-35-turbo";
-  const apiVersion = "2025-04-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const deployment = "gpt-4o";
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
   const events = await client.chat.completions.create({
-    messages: [
-      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-      { role: "user", content: "Can you help me?" },
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-      { role: "user", content: "What's the best way to train a parrot?" },
-    ],
-    model: "",
+    messages: [{ role: "user", content: "< a prompt with content issues >" }],
+    model: deployment,
     max_tokens: 128,
     stream: true,
   });
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(`Chunk: ${choice.delta?.content}`);
+      const content = choice.delta?.content;
+      if (content) {
+        process.stdout.write(content);
+      }
       const filterResults = choice.content_filter_results;
       if (!filterResults) {
         continue;
@@ -50,18 +48,18 @@ export async function main(): Promise<void> {
         );
       } else {
         const { hate, sexual, self_harm, violence } = filterResults;
-        console.log(
-          `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
-        );
-        console.log(
-          `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
-        );
-        console.log(
-          `\tSelf-harm category is filtered: ${self_harm?.filtered}, with ${self_harm?.severity} severity`,
-        );
-        console.log(
-          `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
-        );
+        if (hate && hate.filtered) {
+          console.log("\tHate content was filtered with severity", hate.severity);
+        }
+        if (sexual && sexual.filtered) {
+          console.log("\tSexual content was filtered with severity", sexual.severity);
+        }
+        if (self_harm && self_harm.filtered) {
+          console.log("\tSelf-harm content was filtered with severity", self_harm.severity);
+        }
+        if (violence && violence.filtered) {
+          console.log("\tViolent content was filtered with severity", violence.severity);
+        }
       }
     }
   }

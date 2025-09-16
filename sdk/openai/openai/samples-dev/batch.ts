@@ -8,22 +8,23 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI, toFile } from "openai";
+import { OpenAI, toFile } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
+
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 
 export async function main(): Promise<void> {
   console.log("== Batch Chat Completions Sample ==");
 
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
+
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-4-turbo";
-  const apiVersion = "2025-04-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const deployment = "gpt-4o";
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
 
   const batchContent = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deployment}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -17,12 +17,12 @@ describe("snippets", () => {
     const azureADTokenProvider = getBearerTokenProvider(credential, scope);
     // @ts-preserve-whitespace
     // Your Azure Cognitive Search endpoint, and index name
+    const endpoint = "<azure openai endpoint>";
     const azureSearchEndpoint = "<search endpoint>";
     const azureSearchIndexName = "<search index>";
     // @ts-preserve-whitespace
-    const deployment = "gpt-4-1106-preview";
-    const apiVersion = "2025-04-01-preview";
-    const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+    const deployment = "gpt-4o";
+    const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
     const events = await client.chat.completions.create({
       stream: true,
       messages: [
@@ -33,7 +33,7 @@ describe("snippets", () => {
         },
       ],
       max_tokens: 128,
-      model: "",
+      model: deployment,
       data_sources: [
         {
           type: "azure_search",
@@ -64,12 +64,10 @@ describe("snippets", () => {
     const azureADTokenProvider = getBearerTokenProvider(credential, scope);
     // @ts-preserve-whitespace
     // Your Azure Cognitive Search endpoint, and index name
-    const azureSearchEndpoint = "<search endpoint>";
-    const azureSearchIndexName = "<search index>";
+    const endpoint = "<azure openai endpoint>";
     // @ts-preserve-whitespace
-    const deployment = "gpt-4-1106-preview";
-    const apiVersion = "2025-04-01-preview";
-    const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+    const deployment = "gpt-4o";
+    const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
     const events = await client.chat.completions.create({
       messages: [
         { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
@@ -77,7 +75,7 @@ describe("snippets", () => {
         { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
         { role: "user", content: "What's the best way to train a parrot?" },
       ],
-      model: "",
+      model: deployment,
       max_tokens: 128,
       stream: true,
     });
