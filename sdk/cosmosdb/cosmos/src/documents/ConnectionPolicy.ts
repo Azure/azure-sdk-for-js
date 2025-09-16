@@ -6,7 +6,7 @@ import { ConnectionMode } from "./ConnectionMode.js";
 /**
  * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.
  */
-export interface  ConnectionPolicy {
+export interface ConnectionPolicy {
   /** Determines which mode to connect to Cosmos with. (Currently only supports Gateway option) */
   connectionMode?: ConnectionMode;
   /** Request timeout (time to wait for response from network peer). Represented in milliseconds. */

@@ -1329,7 +1329,7 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForWrite(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void>;
     // (undocumented)
     preferredLocationsCount: number;
-    refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
+    refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<DatabaseAccount>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
 }
