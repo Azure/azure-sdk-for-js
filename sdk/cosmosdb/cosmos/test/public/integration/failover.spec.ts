@@ -195,9 +195,14 @@ describe("Region Failover", () => {
       databaseAccountResponse(),
       readResponse,
     ];
-    const options: CosmosClientOptions = { endpoint, key: masterKey,
-      connectionPolicy: { enablePartitionLevelFailover: false, enablePartitionLevelCircuitBreaker: false }
-     };
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
+    };
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
@@ -241,8 +246,12 @@ describe("Region Failover", () => {
       readResponse,
     ];
     const options: CosmosClientOptions = {
-      endpoint, key: masterKey,
-      connectionPolicy: { enablePartitionLevelFailover: false, enablePartitionLevelCircuitBreaker: false }
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
     };
     const plugins: PluginConfig[] = [
       {
@@ -289,8 +298,12 @@ describe("Region Failover", () => {
       readResponse,
     ];
     const options: CosmosClientOptions = {
-      endpoint, key: masterKey,
-      connectionPolicy: { enablePartitionLevelFailover: false, enablePartitionLevelCircuitBreaker: false }
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
     };
     const plugins: PluginConfig[] = [
       {
