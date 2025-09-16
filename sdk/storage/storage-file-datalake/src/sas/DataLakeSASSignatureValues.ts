@@ -112,6 +112,13 @@ export interface DataLakeSASSignatureValues {
   identifier?: string;
 
   /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
+
+  /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
   encryptionScope?: string;
@@ -1192,7 +1199,7 @@ function generateBlobSASQueryParametersUDK20250705(
     dataLakeSASSignatureValues.agentObjectId,
     dataLakeSASSignatureValues.correlationId,
     undefined, // SignedKeyDelegatedUserTenantId, will be added in a future release.
-    undefined, // SignedDelegatedUserObjectId, will be added in future release.
+    dataLakeSASSignatureValues.delegatedUserObjectId, // SignedDelegatedUserObjectId, will be added in future release.
     dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
     dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
     version,
@@ -1232,6 +1239,7 @@ function generateBlobSASQueryParametersUDK20250705(
       dataLakeSASSignatureValues.agentObjectId,
       dataLakeSASSignatureValues.correlationId,
       dataLakeSASSignatureValues.encryptionScope,
+      dataLakeSASSignatureValues.delegatedUserObjectId
     ),
     stringToSign: stringToSign,
   };

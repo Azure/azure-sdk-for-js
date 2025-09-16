@@ -364,7 +364,7 @@ describe("ContainerClient", () => {
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
   });
   
-  it.only("listBlobsFlat with startFrom", async () => {
+  it("listBlobsFlat with startFrom", async () => {
     const blobClients = [];
     let startFrom = "";
     for (let i = 0; i < 3; i++) {
@@ -395,7 +395,7 @@ describe("ContainerClient", () => {
     }
   });
   
-  it.only("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat with startFrom", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat with startFrom", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     let startFrom = "";
@@ -439,7 +439,7 @@ describe("ContainerClient", () => {
     }
   });
   
-  it.only("listBlobsFlat with startFrom with special char", async () => {
+  it("listBlobsFlat with startFrom with special char", async () => {
     const blobClients = [];
     
     const dirName = "first_dir\uFFFF/";
@@ -872,7 +872,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it.only("listBlobsByHierarchy with startFrom", async () => {
+  it("listBlobsByHierarchy with startFrom", async () => {
     const blobClients = [];
     let startFrom = "";
     for (let i = 0; i < 3; i++) {
@@ -907,7 +907,7 @@ describe("ContainerClient", () => {
     }
   });
   
-  it.only("listBlobsByHierarchy with startFrom with special char", async () => {
+  it("listBlobsByHierarchy with startFrom with special char", async () => {
     const blobClients = [];
     
     const dirName = "first_dir\uFFFF";
@@ -940,7 +940,7 @@ describe("ContainerClient", () => {
     }
   });
   
-  it.only("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsByHierarchy with startFrom", async () => {
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsByHierarchy with startFrom", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     let startFrom = "";
