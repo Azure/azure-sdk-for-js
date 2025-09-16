@@ -204,12 +204,14 @@ export function playwrightWorkspaceDeserializer(item: any): PlaywrightWorkspace 
 export interface PlaywrightWorkspaceProperties {
   /** The status of the last resource operation. */
   readonly provisioningState?: ProvisioningState;
-  /** The workspace data plane URI. */
+  /** The workspace data plane service API URI. */
   readonly dataplaneUri?: string;
-  /** This property sets the connection region for client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
+  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
   regionalAffinity?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
+  /** Enables the workspace to use local authentication through service access tokens for operations. */
   localAuth?: EnablementStatus;
+  /** The workspace ID in GUID format. */
+  readonly workspaceId?: string;
 }
 
 export function playwrightWorkspacePropertiesSerializer(item: PlaywrightWorkspaceProperties): any {
@@ -227,6 +229,7 @@ export function playwrightWorkspacePropertiesDeserializer(
     dataplaneUri: item["dataplaneUri"],
     regionalAffinity: item["regionalAffinity"],
     localAuth: item["localAuth"],
+    workspaceId: item["workspaceId"],
   };
 }
 
@@ -238,11 +241,11 @@ export enum KnownProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Creation in progress.. */
+  /** Resource creation is in progress. */
   Creating = "Creating",
-  /** Deletion in progress.. */
+  /** Resource deletion is in progress. */
   Deleting = "Deleting",
-  /** Request accepted for processing.. */
+  /** Request has been accepted for processing. */
   Accepted = "Accepted",
 }
 
@@ -254,17 +257,17 @@ export enum KnownProvisioningState {
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
- * **Creating**: Creation in progress.. \
- * **Deleting**: Deletion in progress.. \
- * **Accepted**: Request accepted for processing..
+ * **Creating**: Resource creation is in progress. \
+ * **Deleting**: Resource deletion is in progress. \
+ * **Accepted**: Request has been accepted for processing.
  */
 export type ProvisioningState = string;
 
 /** The enablement status of a feature. */
 export enum KnownEnablementStatus {
-  /** The feature is Enabled. */
+  /** The feature is enabled. */
   Enabled = "Enabled",
-  /** The feature is Disabled. */
+  /** The feature is disabled. */
   Disabled = "Disabled",
 }
 
@@ -273,8 +276,8 @@ export enum KnownEnablementStatus {
  * {@link KnownEnablementStatus} can be used interchangeably with EnablementStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: The feature is Enabled. \
- * **Disabled**: The feature is Disabled.
+ * **Enabled**: The feature is enabled. \
+ * **Disabled**: The feature is disabled.
  */
 export type EnablementStatus = string;
 
@@ -402,9 +405,9 @@ export function playwrightWorkspaceUpdateSerializer(item: PlaywrightWorkspaceUpd
 
 /** The updatable properties of the PlaywrightWorkspace. */
 export interface PlaywrightWorkspaceUpdateProperties {
-  /** This property sets the connection region for client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
+  /** Controls the connection region for client workers to cloud-hosted browsers. When enabled, workers connect to browsers in the closest Azure region for lower latency. When disabled, workers connect to browsers in the Azure region where the workspace was created. */
   regionalAffinity?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
+  /** Enables the workspace to use local authentication through service access tokens for operations. */
   localAuth?: EnablementStatus;
 }
 
@@ -518,7 +521,7 @@ export function playwrightQuotaDeserializer(item: any): PlaywrightQuota {
 
 /** Subscription-level location-based Playwright quota resource properties. */
 export interface PlaywrightQuotaProperties {
-  /** The subscription-level location-based Playwright quota resource free-trial properties. */
+  /** The subscription-level location-based Playwright quota free trial properties. */
   readonly freeTrial?: FreeTrialProperties;
   /** The status of the last resource operation. */
   readonly provisioningState?: ProvisioningState;
@@ -533,11 +536,11 @@ export function playwrightQuotaPropertiesDeserializer(item: any): PlaywrightQuot
   };
 }
 
-/** Subscription-level location-based Playwright quota resource free-trial properties. */
+/** Subscription-level location-based Playwright quota free trial properties. */
 export interface FreeTrialProperties {
-  /** Playwright workspace-id that has free-trial in the subscription. */
+  /** The workspace ID in GUID format that has free trial enabled in the subscription. */
   readonly workspaceId: string;
-  /** The free-trial state. */
+  /** The free trial state. */
   readonly state: FreeTrialState;
 }
 
@@ -548,35 +551,35 @@ export function freeTrialPropertiesDeserializer(item: any): FreeTrialProperties 
   };
 }
 
-/** The free-trial state. */
+/** The free trial state. */
 export enum KnownFreeTrialState {
-  /** The free-trial is Active. */
+  /** The free trial is active and available for use. */
   Active = "Active",
-  /** The free-trial is Expired. */
+  /** The free trial has expired and is no longer available. */
   Expired = "Expired",
-  /** The free-trial is Not Applicable. */
+  /** The free trial is not applicable for this resource. */
   NotApplicable = "NotApplicable",
 }
 
 /**
- * The free-trial state. \
+ * The free trial state. \
  * {@link KnownFreeTrialState} can be used interchangeably with FreeTrialState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active**: The free-trial is Active. \
- * **Expired**: The free-trial is Expired. \
- * **NotApplicable**: The free-trial is Not Applicable.
+ * **Active**: The free trial is active and available for use. \
+ * **Expired**: The free trial has expired and is no longer available. \
+ * **NotApplicable**: The free trial is not applicable for this resource.
  */
 export type FreeTrialState = string;
 
-/** Playwright quota names. */
+/** Available Playwright quota types. */
 export enum KnownQuotaName {
   /** Quota for execution duration in minutes. */
   ExecutionMinutes = "ExecutionMinutes",
 }
 
 /**
- * Playwright quota names. \
+ * Available Playwright quota types. \
  * {@link KnownQuotaName} can be used interchangeably with QuotaName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -641,7 +644,7 @@ export function playwrightWorkspaceQuotaDeserializer(item: any): PlaywrightWorks
 
 /** Playwright workspace quota resource properties. */
 export interface PlaywrightWorkspaceQuotaProperties {
-  /** The Playwright workspace quota resource free-trial properties. */
+  /** The Playwright workspace quota free trial properties. */
   readonly freeTrial?: PlaywrightWorkspaceFreeTrialProperties;
   /** The status of the last resource operation. */
   readonly provisioningState?: ProvisioningState;
@@ -658,17 +661,17 @@ export function playwrightWorkspaceQuotaPropertiesDeserializer(
   };
 }
 
-/** Playwright workspace quota resource resource free-trial properties. */
+/** Playwright workspace quota free trial properties. */
 export interface PlaywrightWorkspaceFreeTrialProperties {
-  /** The free-trial createdAt utcDateTime. */
+  /** The free trial creation timestamp in UTC. */
   readonly createdAt: Date;
-  /** The free-trial expiryAt utcDateTime. */
+  /** The free trial expiration timestamp in UTC. */
   readonly expiryAt: Date;
-  /** The free-trial allocated limit value eg. allocated free execution minutes. */
+  /** The allocated limit value (e.g., allocated free execution minutes). */
   readonly allocatedValue: number;
-  /** The free-trial used value eg. used free execution minutes. */
+  /** The used value (e.g., used free execution minutes). */
   readonly usedValue: number;
-  /** The free-trial percentage used. */
+  /** The percentage of the free trial quota used. */
   readonly percentageUsed: number;
 }
 
@@ -709,8 +712,8 @@ export function playwrightWorkspaceQuotaArrayDeserializer(
   });
 }
 
-/** Playwright service Management API Versions. */
+/** Available versions of the Playwright Service Management API. */
 export enum KnownVersions {
-  /** 2025-07-01-preview version */
-  V20250701Preview = "2025-07-01-preview",
+  /** Stable version 2025-09-01 with general availability features for Playwright workspace management. */
+  V20250901 = "2025-09-01",
 }

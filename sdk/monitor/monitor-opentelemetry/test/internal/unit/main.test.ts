@@ -5,8 +5,10 @@ import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
-import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
@@ -17,7 +19,7 @@ import {
 } from "../../../src/types.js";
 import { getOsPrefix } from "../../../src/utils/common.js";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import type { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
+import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { describe, it, beforeEach, afterEach, expect, assert, vi, afterAll } from "vitest";
@@ -134,7 +136,7 @@ describe("Main functions", () => {
       forceFlush: () => {
         return Promise.resolve();
       },
-      onEmit(_logRecord: LogRecord, _context?: Context) {
+      onEmit(_logRecord: SdkLogRecord, _context?: Context) {
         /* no-op */
       },
       shutdown: () => {
@@ -497,6 +499,95 @@ describe("Main functions", () => {
       "CUSTOMER_SDKSTATS feature should not be detected when env var is undefined",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
+    void shutdownAzureMonitor();
+  });
+
+  it("should create both AzureMonitor and OTLP metric exporters when OTLP environment variables are set", () => {
+    // Create OTLP metric exporter and reader
+    const otlpExporter = new OTLPMetricExporter({
+      url: "http://localhost:4318/v1/metrics",
+    });
+    const otlpMetricReader = new PeriodicExportingMetricReader({
+      exporter: otlpExporter,
+      exportIntervalMillis: 60000,
+    });
+
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      metricReaders: [otlpMetricReader],
+    };
+
+    // Initialize the SDK
+    useAzureMonitor(config);
+
+    // Get the internal SDK instance
+    const internalSdk = _getSdkInstance();
+    assert.ok(internalSdk, "Internal SDK should be available");
+
+    // Access the meter provider from the SDK
+    const meterProvider = internalSdk["_meterProvider"];
+    assert.ok(meterProvider, "MeterProvider should be available from SDK");
+
+    // Extract metric readers from the meter provider's internal structure
+    const sharedState = meterProvider["_sharedState"];
+    let metricReaders = null;
+    let foundProperty = null;
+
+    if (sharedState && sharedState.metricCollectors) {
+      // Extract metric readers from metricCollectors
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/no-unsafe-return
+      metricReaders = sharedState.metricCollectors.map((collector: any) => collector._metricReader);
+      foundProperty = "_sharedState.metricCollectors[].._metricReader";
+    }
+
+    assert.ok(
+      metricReaders,
+      `MetricReaders should be available from MeterProvider via property: ${foundProperty}`,
+    );
+    assert.ok(Array.isArray(metricReaders), "MetricReaders should be an array");
+
+    // Should have exactly 2 metric readers: Azure Monitor + OTLP
+    assert.strictEqual(
+      metricReaders.length,
+      2,
+      "Should have both Azure Monitor and OTLP metric readers",
+    );
+
+    // Check that we have both types of metric readers
+    let hasAzureMonitorReader = false;
+    let hasOTLPReader = false;
+
+    for (const reader of metricReaders) {
+      const readerConstructor = reader.constructor.name;
+
+      if (readerConstructor === "PeriodicExportingMetricReader") {
+        // Check if this is the OTLP reader by examining the exporter
+        const exporter = reader["_exporter"];
+        if (exporter && exporter.constructor.name === "OTLPMetricExporter") {
+          hasOTLPReader = true;
+          // Verify the OTLP exporter has the correct URL configuration
+          const delegate = exporter["_delegate"];
+          if (delegate) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/no-unsafe-member-access
+            const transportParams = delegate._transport._transport._parameters;
+            assert.strictEqual(
+              transportParams.url,
+              "http://localhost:4318/v1/metrics",
+              "OTLP exporter should have correct URL",
+            );
+          }
+        } else {
+          // This should be the Azure Monitor reader
+          hasAzureMonitorReader = true;
+        }
+      }
+    }
+
+    assert.ok(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
+    assert.ok(hasOTLPReader, "Should have OTLP metric reader");
+
     void shutdownAzureMonitor();
   });
 });

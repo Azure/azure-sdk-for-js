@@ -1,0 +1,62 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ComputeScheduleClient } from "@azure/arm-computeschedule";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ *
+ * @summary virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDeallocate_MaximumSet_Gen.json
+ */
+async function scheduledActionsVirtualMachinesExecuteDeallocateMaximumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const client = new ComputeScheduleClient(credential, subscriptionId);
+  const result = await client.scheduledActions.virtualMachinesExecuteDeallocate(
+    "ykcaptgboliddcfyaiuimj",
+    {
+      executionParameters: {
+        optimizationPreference: "Cost",
+        retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
+      },
+      resources: {
+        ids: [
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
+        ],
+      },
+      correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ *
+ * @summary virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDeallocate_MinimumSet_Gen.json
+ */
+async function scheduledActionsVirtualMachinesExecuteDeallocateMinimumSet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const client = new ComputeScheduleClient(credential, subscriptionId);
+  const result = await client.scheduledActions.virtualMachinesExecuteDeallocate("qqfrkswrovcice", {
+    executionParameters: {},
+    resources: {
+      ids: [
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
+      ],
+    },
+    correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
+  });
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await scheduledActionsVirtualMachinesExecuteDeallocateMaximumSet();
+  await scheduledActionsVirtualMachinesExecuteDeallocateMinimumSet();
+}
+
+main().catch(console.error);

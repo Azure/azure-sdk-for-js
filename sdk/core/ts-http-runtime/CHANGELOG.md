@@ -1,14 +1,12 @@
 # Release History
 
-## 0.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 0.3.1 (2025-09-11)
 
 ### Other Changes
+
+- Improve RestError logging by including only essential agent information in the request [#35839](https://github.com/Azure/azure-sdk-for-js/pull/35839)
+- Avoid regex for matching log level [#34247](https://github.com/Azure/azure-sdk-for-js/pull/34247)
+- Upgrade `@azure/*` dependencies to latest versions.
 
 ## 0.3.0 (2025-07-10)
 

@@ -219,7 +219,8 @@ export class AzurePowerShellCredential implements TokenCredential {
 
       const claimsValue = options.claims;
       if (claimsValue && claimsValue.trim()) {
-        let loginCmd = `Connect-AzAccount -ClaimsChallenge ${claimsValue}`;
+        const encodedClaims = btoa(claimsValue);
+        let loginCmd = `Connect-AzAccount -ClaimsChallenge ${encodedClaims}`;
 
         const tenantIdFromOptions = options.tenantId;
         if (tenantIdFromOptions) {

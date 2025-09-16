@@ -6,9 +6,11 @@
 
 import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: IoTFirmwareDefenseContext, resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
+export function $delete(context: IoTFirmwareDefenseContext, resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function create(context: IoTFirmwareDefenseContext, resourceGroupName: string, workspaceName: string, resource: Workspace, options?: WorkspacesCreateOptionalParams): Promise<Workspace>;
@@ -34,6 +36,7 @@ export interface WorkspacesCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface WorkspacesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

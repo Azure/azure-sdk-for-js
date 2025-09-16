@@ -16,7 +16,7 @@ import { ServiceErrorMessageConstants } from "./messages.js";
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
   public runId: string;
-  public timeout: number;
+  public connectTimeout: number;
   public slowMo: number;
   public exposeNetwork: string;
   public runName: string;
@@ -28,7 +28,7 @@ class PlaywrightServiceConfig {
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
     this.runName = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || "";
     this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] || "";
-    this.timeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
+    this.connectTimeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
     this.slowMo = DefaultConnectOptionsConstants.DEFAULT_SLOW_MO;
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
     this.apiVersion =
@@ -108,8 +108,8 @@ class PlaywrightServiceConfig {
     if (options?.slowMo) {
       this.slowMo = options.slowMo;
     }
-    if (options?.timeout) {
-      this.timeout = options.timeout;
+    if (options?.connectTimeout) {
+      this.connectTimeout = options.connectTimeout;
     }
   };
 }

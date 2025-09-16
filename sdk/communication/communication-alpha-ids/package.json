@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/communication-alpha-ids",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "SDK for Azure Communication Services which facilitates Alpha IDs administration.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

@@ -419,6 +419,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       feedOptions.sessionToken = this.changeFeedOptions.sessionToken;
     }
 
+    if (this.changeFeedOptions.excludedLocations) {
+      feedOptions.excludedLocations = this.changeFeedOptions.excludedLocations;
+    }
+
     if (feedRange.continuationToken) {
       feedOptions.accessCondition = {
         type: Constants.HttpHeaders.IfNoneMatch,

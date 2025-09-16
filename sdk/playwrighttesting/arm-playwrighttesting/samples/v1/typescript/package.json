@@ -1,7 +1,7 @@
 {
   "name": "@azure-samples/arm-playwrighttesting-ts",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "@azure/arm-playwrighttesting client library samples for TypeScript",
   "engines": {
     "node": ">=20.0.0"

@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -101,6 +101,7 @@
       "EntraAuth.ts",
       "AlterQueryThroughput.ts",
       "Bulk.ts",
+      "ExcludedLocations.ts",
       "ExecuteBulkOperations.ts",
       "BulkUpdateWithSproc.ts",
       "ChangeFeed.ts",

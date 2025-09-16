@@ -205,6 +205,12 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
   $packageBefore = Get-PackageJsonContentFromPackage -package $package -workingDirectory $workingDirectory
   $name = $packageBefore.name
 
+  if (!$packageBefore.version.Contains("-alpha")) {
+    Write-Error "The package $name with version $($packageBefore.version) is not a dev version (i.e. doesn't contain '-alpha') so not going to include in publishing."
+    # Return false to indicate no changes so it doesn't get added to the publish set.
+    return $false
+  }
+
   $packageAfterName = npm pack $name@dev --pack --pack-destination $workingDirectory 2> $workingDirectory/error.txt
   if ($LastExitCode -ne 0) {
     Get-Content -Path $workingDirectory/error.txt | Out-Host
