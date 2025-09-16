@@ -25,6 +25,8 @@ function createMockGlobalEndpointManager(): GlobalEndpointManager {
       { name: "region3", databaseAccountEndpoint: "https://region3.documents.azure.com:443/" },
     ],
     canUseMultipleWriteLocations: () => false,
+    enablePartitionLevelFailover: true,
+    enablePartitionLevelCircuitBreaker: true,
   } as unknown as GlobalEndpointManager;
 }
 
@@ -108,6 +110,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return false if enablePartitionLevelFailover is false", async () => {
       const mockGEM = createMockGlobalEndpointManager();
+      mockGEM.enablePartitionLevelFailover = false;
       const managerNoPreferred = new GlobalPartitionEndpointManager(
         {
           connectionPolicy: {
