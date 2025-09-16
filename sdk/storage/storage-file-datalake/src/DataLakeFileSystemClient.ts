@@ -599,6 +599,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           continuation,
           ...updatedOptions,
           upn: options.userPrincipalName,
+          beginFrom: options.startFrom,
         });
 
         const response = rawResponse as FileSystemListPathsResponse;

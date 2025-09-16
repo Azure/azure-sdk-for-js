@@ -128,7 +128,7 @@ describe("BlobClient", () => {
     await leaseClient.releaseLease();
   });
 
-  it.only("Set and get blob tags should work with modifed condition", async () => {
+  it("Set and get blob tags should work with modifed condition", async () => {
     const tags = {
       tag1: "val1",
       tag2: "val2",

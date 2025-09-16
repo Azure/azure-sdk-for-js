@@ -477,10 +477,10 @@ export interface ListPathsOptions extends CommonOptions {
   userPrincipalName?: boolean;
   /** Optional. 
    * A relative path within the specified directory where the listing will start from. 
-   * For example, a recursive listing under directory folder1/folder2 with beginFrom as folder3/readmefile.txt will start listing from folder1/folder2/folder3/readmefile.txt. 
+   * For example, a recursive listing under directory folder1/folder2 with startFrom as folder3/readmefile.txt will start listing from folder1/folder2/folder3/readmefile.txt. 
    * Please note that, multiple entity levels are supported for recursive listing. Non-recursive listing supports only one entity level. 
    * An error will appear if multiple entity levels are specified for non-recursive listing. */
-  beginFrom?: string;
+  startFrom?: string;
 }
 
 export interface ListPathsSegmentOptions extends ListPathsOptions {
