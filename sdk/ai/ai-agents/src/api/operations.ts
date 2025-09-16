@@ -23,7 +23,6 @@ import {
   MessageStreamEvent,
   RunStepStreamEvent,
   RunStreamEvent,
-  ToolOutput,
   messageDeltaChunkDeserializer,
   runStepDeltaChunkDeserializer,
   runStepDeserializer,

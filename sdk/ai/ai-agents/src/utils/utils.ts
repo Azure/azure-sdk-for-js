@@ -22,7 +22,6 @@ import type {
   BingGroundingSearchConfiguration,
   ConnectedAgentToolDefinition,
 } from "../index.js";
-import { MCPTool } from "./MCPTool.js";
 import { OpenApiTool } from "./OpenApiTool.js";
 /**
  * Determines if the given output is of the specified type.
