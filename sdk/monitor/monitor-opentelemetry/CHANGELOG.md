@@ -1,5 +1,11 @@
 # Release History
 
+### 1.14.0 (2025-09-16)
+
+### Other Changes
+
+- Update exporter version.
+
 ### 1.13.1 (2025-09-10)
 
 ### Bugs Fixed

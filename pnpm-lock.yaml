@@ -814,7 +814,7 @@ importers:
         specifier: catalog:internal
         version: 4.11.1
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.34
+        specifier: 1.0.0-beta.35
         version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
@@ -923,7 +923,7 @@ importers:
         specifier: catalog:internal
         version: 4.11.1
       '@azure/monitor-opentelemetry':
-        specifier: ^1.13.0
+        specifier: ^1.14.0
         version: link:../../monitor/monitor-opentelemetry
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
@@ -17643,7 +17643,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.34
+        specifier: 1.0.0-beta.35
         version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.7
@@ -17852,7 +17852,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
-        specifier: ^1.13.1
+        specifier: ^1.14.0
         version: link:../monitor-opentelemetry
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -17938,7 +17938,7 @@ importers:
         specifier: catalog:internal
         version: 4.11.1
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.34
+        specifier: 1.0.0-beta.35
         version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -18017,7 +18017,7 @@ importers:
         specifier: catalog:internal
         version: 4.11.1
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.34
+        specifier: 1.0.0-beta.35
         version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
