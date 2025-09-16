@@ -1,12 +1,22 @@
 # Release History
 
-### 1.14.0 (2025-09-16)
+## 1.14.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.14.0 (2025-09-16)
 
 ### Other Changes
 
 - Update exporter version.
 
-### 1.13.1 (2025-09-10)
+## 1.13.1 (2025-09-10)
 
 ### Bugs Fixed
 
@@ -16,7 +26,7 @@
 
 - Update OpenTelemetry dependencies.
 
-### 1.13.0 (2025-09-05)
+## 1.13.0 (2025-09-05)
 
 ### Features Added
 
