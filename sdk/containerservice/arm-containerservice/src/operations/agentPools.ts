@@ -11,12 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   AgentPool,
@@ -78,12 +74,7 @@ export class AgentPoolsImpl implements AgentPools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, resourceName, options, settings);
       },
     };
   }
@@ -104,12 +95,7 @@ export class AgentPoolsImpl implements AgentPools {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        resourceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, resourceName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -122,11 +108,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     options?: AgentPoolsListOptionalParams,
   ): AsyncIterableIterator<AgentPool> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      resourceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, resourceName, options)) {
       yield* page;
     }
   }
@@ -161,8 +143,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -296,8 +277,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -383,12 +363,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsDeleteResponse>,
-      AgentPoolsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -399,8 +374,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -456,12 +430,7 @@ export class AgentPoolsImpl implements AgentPools {
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
   ): Promise<AgentPoolsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      resourceName,
-      agentPoolName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, resourceName, agentPoolName, options);
     return poller.pollUntilDone();
   }
 
@@ -514,8 +483,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -633,8 +601,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -853,10 +820,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.ignorePodDisruptionBudget,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.ignorePodDisruptionBudget],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

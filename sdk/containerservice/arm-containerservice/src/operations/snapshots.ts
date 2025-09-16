@@ -48,9 +48,7 @@ export class SnapshotsImpl implements Snapshots {
    * Gets a list of snapshots in the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: SnapshotsListOptionalParams,
-  ): PagedAsyncIterableIterator<Snapshot> {
+  public list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -119,11 +117,7 @@ export class SnapshotsImpl implements Snapshots {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -143,11 +137,7 @@ export class SnapshotsImpl implements Snapshots {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -159,10 +149,7 @@ export class SnapshotsImpl implements Snapshots {
     resourceGroupName: string,
     options?: SnapshotsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Snapshot> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -171,9 +158,7 @@ export class SnapshotsImpl implements Snapshots {
    * Gets a list of snapshots in the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: SnapshotsListOptionalParams,
-  ): Promise<SnapshotsListResponse> {
+  private _list(options?: SnapshotsListOptionalParams): Promise<SnapshotsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -273,10 +258,7 @@ export class SnapshotsImpl implements Snapshots {
     nextLink: string,
     options?: SnapshotsListNextOptionalParams,
   ): Promise<SnapshotsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -327,11 +309,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -436,11 +414,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -16,9 +16,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing ResolvePrivateLinkServiceId operations. */
-export class ResolvePrivateLinkServiceIdImpl
-  implements ResolvePrivateLinkServiceId
-{
+export class ResolvePrivateLinkServiceIdImpl implements ResolvePrivateLinkServiceId {
   private readonly client: ContainerServiceClient;
 
   /**

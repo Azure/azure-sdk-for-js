@@ -104,9 +104,7 @@ export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
-      ),
+      Pattern: new RegExp("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"),
       MaxLength: 63,
       MinLength: 1,
     },
@@ -221,9 +219,7 @@ export const mode: OperationURLParameter = {
   parameterPath: "mode",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
-      ),
+      Pattern: new RegExp("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"),
       MaxLength: 24,
       MinLength: 1,
     },

@@ -47,12 +47,7 @@ export class MachinesImpl implements Machines {
     agentPoolName: string,
     options?: MachinesListOptionalParams,
   ): PagedAsyncIterableIterator<Machine> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      resourceName,
-      agentPoolName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, resourceName, agentPoolName, options);
     return {
       next() {
         return iter.next();
@@ -85,12 +80,7 @@ export class MachinesImpl implements Machines {
     let result: MachinesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        options,
-      );
+      result = await this._list(resourceGroupName, resourceName, agentPoolName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
