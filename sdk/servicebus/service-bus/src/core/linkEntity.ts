@@ -348,8 +348,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
         // This should take care of closing the link and it's underlying session. This should also
         // remove them from the internal map.
-        await link.close();
-        this._logger.verbose(`${this._logPrefix} closed.`);
+        link.close().catch((closeError: any) => {
+          this._logger.logError(closeError, `${this._logPrefix} Additional error occurred during link close cleanup: ${closeError?.message || closeError}`);
+        });
+        this._logger.verbose(`${this._logPrefix} close initiated.`);
       } catch (err: any) {
         this._logger.logError(err, `${this._logPrefix} An error occurred while closing the link`);
       }

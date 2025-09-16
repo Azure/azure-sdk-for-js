@@ -374,7 +374,9 @@ export class BatchingReceiverLite {
       );
       // Close the receiver link since we have not received the receiver drain event
       // to prevent out-of-sync state between local and remote
-      await receiver.close();
+      receiver.close().catch((closeError: any) => {
+        logger.warning(`${loggingPrefix} Error occurred while closing receiver after drain timeout: ${closeError?.message || closeError}`);
+      });
     }
 
     // Turn off draining.
