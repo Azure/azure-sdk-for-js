@@ -54,7 +54,7 @@ export class CustomTraceExample {
         CustomTraceExample.doWork(parentSpan, trace, context);
       }
     } finally {
-      // Be sure to end the span.
+      // Be sure to end the current span.
       parentSpan.end();
     }
   }
