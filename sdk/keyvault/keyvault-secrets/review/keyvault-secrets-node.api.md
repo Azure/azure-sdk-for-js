@@ -89,7 +89,7 @@ export interface ListPropertiesOfSecretsOptions extends coreClient.OperationOpti
 export interface ListPropertiesOfSecretVersionsOptions extends coreClient.OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export const logger: AzureLogger;
 
 export { PagedAsyncIterableIterator }

@@ -42,7 +42,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "tsp-client update -d -o src/generated --emitter-options=\"generate-metadata=false;generate-test=false\"",
+    "generate:client": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",

@@ -209,7 +209,9 @@ export type CertificateTags = {
 export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
     emails?: string[];
+    ipAddresses?: string[];
     upns?: string[];
+    uris?: string[];
 }
 
 // @public
@@ -425,7 +427,7 @@ export type ListPropertiesOfCertificateVersionsOptions = coreClient.OperationOpt
 // @public
 export type ListPropertiesOfIssuersOptions = coreClient.OperationOptions;
 
-// @public
+// @public (undocumented)
 export const logger: AzureLogger;
 
 // @public
