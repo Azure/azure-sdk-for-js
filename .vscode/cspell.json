@@ -556,7 +556,8 @@
     {
       "filename": "sdk/web-pubsub/web-pubsub-client/review/**/*.md",
       "words": [
-        "protobuf"
+        "protobuf",
+        "unacked"
       ]
     }
   ]

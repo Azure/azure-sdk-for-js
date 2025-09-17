@@ -5,7 +5,7 @@
  * @summary Basic usage of web-pubsub-client
  */
 
-const { WebPubSubClient } = require("@azure/web-pubsub-client");
+const { createStreamHandler, WebPubSubClient } = require("@azure/web-pubsub-client");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -56,6 +56,24 @@ async function main() {
     }
   });
 
+  client.onStream(groupName, (e) => {
+    const streamHandler = createStreamHandler();
+    const data = [];
+    streamHandler.onMessage((message) => {
+      data.push(message);
+    });
+
+    streamHandler.onComplete(() => {
+      console.log(`Stream ${e.message.streamId} completed with data: ${data.join(" ")}`);
+    });
+
+    streamHandler.onError((error) => {
+      console.error(`Stream error: ${error.message}`);
+    });
+
+    return streamHandler;
+  });
+
   await client.start();
 
   await client.joinGroup(groupName);
@@ -70,6 +88,16 @@ async function main() {
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
     "binary",
   );
+
+  const stream = client.stream(groupName);
+  stream.onError((error) => {
+    console.error(`Stream publish error: ${error.message}`);
+  });
+  console.log("Publishing stream messages!");
+  await stream.publish("Hello", "text");
+  await stream.publish("World", "text");
+  await stream.complete("!", "text");
+
   await delay(1000);
   client.stop();
 }
