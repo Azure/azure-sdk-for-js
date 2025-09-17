@@ -62,7 +62,6 @@ describe("request url query parameters", () => {
 
       // Regex enforces exact ordering of query params: api-version, key, label
       queryOrderRegex = /\?api-version=[^&]+&key=\*&label=dev$/;
-      console.log("Captured URL for listConfigurationSettings:", getCapturedUrl());
       assert.match(
         getCapturedUrl()!,
         queryOrderRegex,

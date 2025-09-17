@@ -24,7 +24,6 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     });
     const response = await policy.sendRequest(request, mockNext());
     const finalUrl = response.headers.get("url-lookup")!;
-    console.log(finalUrl);
     expect(
       finalUrl.endsWith("?%24select=key&after=abcdefg&api-version=2023-11-01&key=*&label=dev"),
     ).toBe(true);
