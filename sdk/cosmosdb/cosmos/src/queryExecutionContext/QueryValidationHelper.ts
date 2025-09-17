@@ -8,6 +8,7 @@ import { ErrorResponse } from "../request/ErrorResponse.js";
  * @param isNonStreamingOrderBy - Whether this is a non-streaming ORDER BY query
  * @param isGroupByQuery - Whether this is a GROUP BY query
  * @param isUnorderedDistinctQuery - Whether this is an unordered DISTINCT query
+ * @param isHybridSearchQuery - Whether this is a hybrid search query
  * @hidden
  */
 export function validateContinuationTokenUsage(
@@ -15,6 +16,7 @@ export function validateContinuationTokenUsage(
   isNonStreamingOrderBy: boolean,
   isGroupByQuery: boolean,
   isUnorderedDistinctQuery: boolean,
+  isHybridSearchQuery: boolean = false,
 ): void {
   if (!continuationToken) {
     return;
@@ -30,6 +32,10 @@ export function validateContinuationTokenUsage(
 
   if (isUnorderedDistinctQuery) {
     throw new ErrorResponse(getUnorderedDistinctErrorMessage());
+  }
+
+  if (isHybridSearchQuery) {
+    throw new ErrorResponse(getHybridSearchErrorMessage());
   }
 }
 
@@ -57,5 +63,15 @@ function getUnorderedDistinctErrorMessage(): string {
     "Continuation tokens are not supported for unordered DISTINCT queries. " +
     "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
     "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported."
+  );
+}
+
+/** @hidden */
+function getHybridSearchErrorMessage(): string {
+  return (
+    "Continuation tokens are not supported for hybrid search queries. " +
+    "Hybrid search queries require processing and ranking of all component query results " +
+    "to compute accurate Reciprocal Rank Fusion (RRF) scores and cannot be resumed from an intermediate state. " +
+    "Consider removing the continuation token and using fetchAll() instead for complete results."
   );
 }
