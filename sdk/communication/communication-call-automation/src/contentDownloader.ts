@@ -107,13 +107,13 @@ export class ContentDownloaderImpl {
       options.length = options.offset + options.length - 1;
     }
 
-    let rangeHeader = "bytes=" + options.offset;
-    if (options.length) rangeHeader += "-" + options.length;
+    let rangeHeader = "bytes=" + options.offset + "-";
+    if (options.length) rangeHeader += options.length;
 
     opt.headers?.set("OriginalUrl", sourceLocationUrl);
     opt.headers?.set("x-ms-host", endpoint.host);
     opt.headers?.set("accept", "application/json");
-    if (options.length && options.offset) {
+    if (options.offset !== undefined) {
       opt.headers?.set("Range", rangeHeader);
     }
 
