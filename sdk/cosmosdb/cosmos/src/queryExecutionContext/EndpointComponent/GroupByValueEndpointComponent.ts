@@ -127,7 +127,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     }
     this.completed = true;
 
-    // Return in the new structure format using the utility function
     const result = createParallelQueryResult(this.aggregateResultArray, new Map());
 
     return {
