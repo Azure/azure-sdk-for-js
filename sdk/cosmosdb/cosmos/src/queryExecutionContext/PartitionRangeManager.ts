@@ -12,13 +12,6 @@ export class PartitionRangeManager {
   private partitionKeyRangeMap: Map<string, QueryRangeMapping> = new Map();
 
   /**
-   * Gets the partition key range map
-   */
-  public getPartitionKeyRangeMap(): Map<string, QueryRangeMapping> {
-    return this.partitionKeyRangeMap;
-  }
-
-  /**
    * Checks if a continuation token indicates an exhausted partition
    * @param continuationToken - The continuation token to check
    * @returns true if the partition is exhausted (null, empty, or "null" string)
@@ -38,7 +31,7 @@ export class PartitionRangeManager {
    * @param rangeId - Unique identifier for the partition range
    * @param mapping - The QueryRangeMapping to add
    */
-  public addPartitionRangeMapping(rangeId: string, mapping: QueryRangeMapping): void {
+  private addPartitionRangeMapping(rangeId: string, mapping: QueryRangeMapping): void {
     if (!this.partitionKeyRangeMap.has(rangeId)) {
       this.partitionKeyRangeMap.set(rangeId, mapping);
     }
@@ -64,29 +57,10 @@ export class PartitionRangeManager {
   }
 
   /**
-   * Resets and initializes the partition key range map with new mappings
-   * @param partitionKeyRangeMap - New partition key range map to set
-   */
-  public resetInitializePartitionKeyRangeMap(
-    partitionKeyRangeMap: Map<string, QueryRangeMapping>,
-  ): void {
-    this.partitionKeyRangeMap = partitionKeyRangeMap;
-  }
-
-  /**
    * Checks if there are any unprocessed ranges in the sliding window
    */
   public hasUnprocessedRanges(): boolean {
-    const mapSize = this.partitionKeyRangeMap.size;
-    const result = mapSize > 0;
-    // console.log("=== PartitionRangeManager hasUnprocessedRanges DEBUG ===");
-    console.log("partitionKeyRangeMap.size:", mapSize);
-    console.log("result:", result);
-    if (result) {
-      console.log("Range IDs in map:", Array.from(this.partitionKeyRangeMap.keys()));
-    }
-    // console.log("=== END PartitionRangeManager hasUnprocessedRanges DEBUG ===");
-    return result;
+    return this.partitionKeyRangeMap.size > 0;
   }
 
   /**
@@ -100,17 +74,15 @@ export class PartitionRangeManager {
     }
 
     return rangeMappings.filter((mapping) => {
-      // Check if mapping is valid
       if (!mapping) {
         return false;
       }
-      // Check if this mapping has an exhausted continuation token
       const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
 
       if (isExhausted) {
-        return false; // Filter out exhausted mappings
+        return false; 
       }
-      return true; // Keep non-exhausted mappings
+      return true; 
     });
   }
 
@@ -122,55 +94,22 @@ export class PartitionRangeManager {
     processedRanges: string[];
     lastRangeBeforePageLimit: QueryRangeMapping | null;
   } {
-    console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
-    console.log(`INPUT: pageSize=${pageSize}, partitionKeyRangeMap.size=${this.partitionKeyRangeMap.size}`);
-
     let endIndex = 0;
     const processedRanges: string[] = [];
     let lastRangeBeforePageLimit: QueryRangeMapping | null = null;
-
-    // Log all ranges before processing
-    console.log("=== ALL RANGES BEFORE PROCESSING ===");
-    for (const [rangeId, value] of this.partitionKeyRangeMap) {
-      console.log(`Range ${rangeId}: itemCount=${value.itemCount}, continuationToken=${value.continuationToken ? 'EXISTS' : 'NULL'}`);
-    }
-
-    // Process ranges sequentially until page size is reached
     let rangeIndex = 0;
     for (const [rangeId, value] of this.partitionKeyRangeMap) {
       rangeIndex++;
-      console.log(`=== Processing ORDER BY Range ${rangeIndex}/${this.partitionKeyRangeMap.size}: ${rangeId} ===`);
-
       const { itemCount } = value;
-      console.log(`ORDER BY Range ${rangeId}: itemCount=${itemCount}`);
-      console.log(`ORDER BY Range ${rangeId}: continuationToken=${value.continuationToken || 'NULL'}`);
-      console.log(`ORDER BY Range ${rangeId}: partitionKeyRange=${JSON.stringify(value.partitionKeyRange || {})}`);
-      console.log(`Current state: endIndex=${endIndex}, pageSize=${pageSize}, remaining_capacity=${pageSize - endIndex}`);
-
       // Check if this complete range fits within remaining page size capacity
       if (endIndex + itemCount <= pageSize) {
-        // This range fits completely - consume it entirely and mark as processed
         lastRangeBeforePageLimit = value;
         endIndex += itemCount;
         processedRanges.push(rangeId);
-        console.log(`✓ ORDER BY Range ${rangeId}: CONSUMED COMPLETELY (${itemCount} items)`);
-        console.log(`✓ Updated endIndex=${endIndex}, processedRanges count=${processedRanges.length}`);
-        console.log(`✓ Range ${rangeId} will be saved for continuation: partitionKeyRange=${JSON.stringify(value.partitionKeyRange || {})}`);
       } else {
-        // Page limit reached - store the last complete range in continuation token
-        const remainingCapacity = pageSize - endIndex;
-        console.log(`❌ ORDER BY Range ${rangeId}: SKIPPED - Would exceed page limit`);
-        console.log(`❌ Range has ${itemCount} items but only ${remainingCapacity} capacity remaining`);
-        console.log(`❌ THIS IS WHERE DATA LOSS OCCURS - ${itemCount} items from this range are NEVER processed`);
-        console.log(`❌ LOST Range ${rangeId} partitionKeyRange: ${JSON.stringify(value.partitionKeyRange || {})}`);
-        console.log(`❌ LOST Range ${rangeId} continuationToken: ${value.continuationToken || 'NULL'}`);
         break;
       }
     }
-
-    console.log("=== ORDER BY PROCESSING COMPLETE ===");
-    console.log(`RESULT: endIndex=${endIndex}, processedRanges=${processedRanges.length}, lastRangeBeforePageLimit=${lastRangeBeforePageLimit ? 'EXISTS' : 'NULL'}`);
-    console.log(`PROCESSED RANGES: [${processedRanges.join(', ')}]`);
     
     return { endIndex, processedRanges, lastRangeBeforePageLimit };
   }
@@ -199,11 +138,7 @@ export class PartitionRangeManager {
       }
 
       const { itemCount } = value;
-      console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
-
-      // Check if this complete range fits within remaining page size capacity
       if (endIndex + itemCount <= pageSize) {
-        // Track this as the last partition before potential cutoff
         lastPartitionBeforeCutoff = { rangeId, mapping: value };
         endIndex += itemCount;
         processedRanges.push(rangeId);
