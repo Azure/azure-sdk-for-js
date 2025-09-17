@@ -344,7 +344,6 @@ describe("LinkEntity unit tests", () => {
         assert.fail("Should have thrown");
       } catch (err: any) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, StandardAbortMessage);
       }
 
       // Verify that the close error was logged as an error

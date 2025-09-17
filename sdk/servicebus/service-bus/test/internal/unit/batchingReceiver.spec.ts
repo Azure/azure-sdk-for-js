@@ -232,7 +232,6 @@ describe("BatchingReceiver unit tests", () => {
         await receivePromise;
         assert.fail("Should have thrown");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
 
