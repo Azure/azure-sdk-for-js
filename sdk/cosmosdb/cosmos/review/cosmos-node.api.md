@@ -1311,8 +1311,6 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
-    enablePartitionLevelCircuitBreaker: boolean;
-    enablePartitionLevelFailover: boolean;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;

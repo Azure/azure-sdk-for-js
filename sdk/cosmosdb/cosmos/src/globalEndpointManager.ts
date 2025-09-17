@@ -38,9 +38,15 @@ export class GlobalEndpointManager {
   private enableMultipleWriteLocations: boolean;
 
   public preferredLocationsCount: number;
-  /** Flag to enable/disable the Per Partition Level Failover (PPAF) */
+  /**
+   * Flag to enable/disable the Per Partition Level Failover (PPAF)
+   * @internal
+   */
   public enablePartitionLevelFailover: boolean;
-  /** Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB) */
+  /**
+   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB)
+   * @internal
+   */
   public enablePartitionLevelCircuitBreaker: boolean;
 
   /**
