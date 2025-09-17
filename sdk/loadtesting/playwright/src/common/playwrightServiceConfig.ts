@@ -8,14 +8,15 @@ import {
   ServiceAuth,
 } from "./constants.js";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
-import { getAndSetRunId, getRunName } from "../utils/utils.js";
+import { getAndSetRunId, getRunName, ValidateRunID } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 import { state } from "./state.js";
+import { ServiceErrorMessageConstants } from "./messages.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
   public runId: string;
-  public timeout: number;
+  public connectTimeout: number;
   public slowMo: number;
   public exposeNetwork: string;
   public runName: string;
@@ -27,7 +28,7 @@ class PlaywrightServiceConfig {
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
     this.runName = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || "";
     this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] || "";
-    this.timeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
+    this.connectTimeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
     this.slowMo = DefaultConnectOptionsConstants.DEFAULT_SLOW_MO;
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
     this.apiVersion =
@@ -56,7 +57,28 @@ class PlaywrightServiceConfig {
     }
   }
 
-  setOptions = (options?: PlaywrightServiceAdditionalOptions): void => {
+  validateOptions = (options?: PlaywrightServiceAdditionalOptions): void => {
+    if (!options) return;
+
+    const isUsingServiceConfig =
+      process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] === "true";
+    if (isUsingServiceConfig) {
+      if (options.serviceAuthType || options.runId || options.runName) {
+        const errorMessage = ServiceErrorMessageConstants.INVALID_PARAM_WITH_SERVICE_CONFIG.message;
+        throw new Error(errorMessage);
+      }
+      return;
+    }
+  };
+
+  setOptions = (
+    options?: PlaywrightServiceAdditionalOptions,
+    isGetConnectOptions: boolean = false,
+  ): void => {
+    if (isGetConnectOptions) {
+      this.validateOptions(options);
+    }
+
     if (options?.exposeNetwork) {
       this.exposeNetwork = options.exposeNetwork;
     }
@@ -68,6 +90,7 @@ class PlaywrightServiceConfig {
     }
     if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]) {
       if (options?.runId) {
+        ValidateRunID(options.runId);
         this.runId = options.runId;
         process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = this.runId;
       } else {
@@ -85,8 +108,8 @@ class PlaywrightServiceConfig {
     if (options?.slowMo) {
       this.slowMo = options.slowMo;
     }
-    if (options?.timeout) {
-      this.timeout = options.timeout;
+    if (options?.connectTimeout) {
+      this.connectTimeout = options.connectTimeout;
     }
   };
 }

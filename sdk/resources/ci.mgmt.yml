@@ -12,6 +12,7 @@ trigger:
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
       - sdk/resources/arm-resources
       - sdk/resources/arm-resourcesdeployments
+      - sdk/resources/arm-resourcesbicep
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
       - sdk/resources/arm-resources
       - sdk/resources/arm-resourcesdeployments
+      - sdk/resources/arm-resourcesbicep
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -46,3 +48,5 @@ extends:
         safeName: azurearmresourcesprofile20200901hybrid
       - name: azure-arm-resourcesdeployments
         safeName: azurearmresourcesdeployments
+      - name: azure-arm-resourcesbicep
+        safeName: azurearmresourcesbicep

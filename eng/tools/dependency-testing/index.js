@@ -1,4 +1,22 @@
-let argv = require("yargs")
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// @ts-check
+
+import process from "node:process";
+import fs from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import semver from "semver";
+import { getPackageSpec, readFileJson, writePackageJson } from "@azure-tools/eng-package-utils";
+
+// crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
+// For more details see - https://www.npmjs.com/package/cross-spawn
+import crossSpawn from "cross-spawn";
+
+const argv = yargs(hideBin(process.argv))
   .options({
     "artifact-name": {
       type: "string",
@@ -33,14 +51,6 @@ let argv = require("yargs")
     },
   })
   .help().argv;
-
-const fs = require("fs");
-const path = require("path");
-const semver = require("semver");
-const packageUtils = require("@azure-tools/eng-package-utils");
-// crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
-// For more details see - https://www.npmjs.com/package/cross-spawn
-let crossSpawn = require("cross-spawn");
 
 /**
  * This function outputs the complete local path to the test or test/public folder for devops jobs
@@ -93,7 +103,7 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
  * This inserts the package.json from the templates into the test folder.
  * It computes the different versions of the dependencies/ dev-dep in this package.json
  * depending on the type of version testing being done.
- * @param {*} repoRoot  - root of the repository given as input
+ * @param {*} normalizedRoot  - root of the repository given as input
  * @param {*} packageJsonContents - the package's package.json contents
  * @param {*} targetPackagePath - path for the package for which the min/max testing is being run
  * @param {*} targetPackageName - name of the package for which the min/max testing is being run
@@ -102,7 +112,7 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
  * @returns
  */
 async function insertPackageJson(
-  repoRoot,
+  normalizedRoot,
   packageJsonContents,
   targetPackagePath,
   targetPackageName,
@@ -110,7 +120,7 @@ async function insertPackageJson(
   testFolder,
 ) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const testPackageJson = await packageUtils.readFileJson("./templates/package.json");
+  const testPackageJson = await readFileJson("./templates/package.json");
   if (packageJsonContents.name.startsWith("@azure/")) {
     testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
   } else if (packageJsonContents.name.startsWith("@azure-rest/")) {
@@ -121,65 +131,63 @@ async function insertPackageJson(
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
 
   testPackageJson.devDependencies = {};
-  depList = {};
+  const depList = {};
   let allowedVersionList = {};
   depList[targetPackageName] = packageJsonContents.version; //works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
-  for (const package of Object.keys(packageJsonContents.dependencies)) {
-    depList[package] = packageJsonContents.dependencies[package];
-    depList[package] = await findAppropriateVersion(
-      package,
-      packageJsonContents.dependencies[package],
-      repoRoot,
+  for (const pkg of Object.keys(packageJsonContents.dependencies)) {
+    depList[pkg] = packageJsonContents.dependencies[pkg];
+    depList[pkg] = await findAppropriateVersion(
+      pkg,
+      packageJsonContents.dependencies[pkg],
+      normalizedRoot,
       versionType,
     );
-    if (packageJsonContents.dependencies[package] !== depList[package]) {
-      console.log(package);
-      allowedVersionList[package] = depList[package];
-      console.log(allowedVersionList[package]);
+    if (packageJsonContents.dependencies[pkg] !== depList[pkg]) {
+      console.log(pkg);
+      allowedVersionList[pkg] = depList[pkg];
+      console.log(allowedVersionList[pkg]);
     }
   }
   testPackageJson.dependencies = depList;
 
-  for (const package of Object.keys(packageJsonContents.devDependencies)) {
-    testPackageJson.devDependencies[package] = packageJsonContents.devDependencies[package];
-    if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
+  for (const pkg of Object.keys(packageJsonContents.devDependencies)) {
+    testPackageJson.devDependencies[pkg] = packageJsonContents.devDependencies[pkg];
+    if (pkg.startsWith("@azure/") || pkg.startsWith("@azure-rest/")) {
       console.log(
-        "packagejson version before func call = " + packageJsonContents.devDependencies[package],
+        "packagejson version before func call = " + packageJsonContents.devDependencies[pkg],
       );
-      let packageVersion = packageJsonContents.devDependencies[package];
-      testPackageJson.devDependencies[package] = await findAppropriateVersion(
-        package,
+      let packageVersion = packageJsonContents.devDependencies[pkg];
+      testPackageJson.devDependencies[pkg] = await findAppropriateVersion(
+        pkg,
         packageVersion,
-        repoRoot,
+        normalizedRoot,
         versionType,
       );
-      console.log("packagejson version = " + packageJsonContents.devDependencies[package]);
-      if (
-        packageJsonContents.devDependencies[package] !== testPackageJson.devDependencies[package]
-      ) {
-        console.log(package);
-        allowedVersionList[package] = testPackageJson.devDependencies[package];
-        console.log(allowedVersionList[package]);
+      console.log("packagejson version = " + packageJsonContents.devDependencies[pkg]);
+      if (packageJsonContents.devDependencies[pkg] !== testPackageJson.devDependencies[pkg]) {
+        console.log(pkg);
+        allowedVersionList[pkg] = testPackageJson.devDependencies[pkg];
+        console.log(allowedVersionList[pkg]);
       }
     }
   }
   const testPackageJsonPath = path.join(testPath, "package.json");
-  await packageUtils.writePackageJson(testPackageJsonPath, testPackageJson);
+  await writePackageJson(testPackageJsonPath, testPackageJson);
   console.log(allowedVersionList);
   return allowedVersionList;
 }
 
 /**
  * Verifies if a package is a utility or not. We don't want to run min-max testing for utilities
- * @param {*} package - the package that you want to verify
- * @param {*} repoRoot - root of the repository given as input
- * @returns {bool}- true or false
+ * @param {*} pkg - the package that you want to verify
+ * @param {*} normalizedRoot - root of the repository given as input
+ * @returns {Promise<boolean>}- true or false
  */
-async function isPackageAUtility(package, repoRoot) {
-  let thisPackage = await getPackageFromRush(repoRoot, package);
+async function isPackageAUtility(pkg, normalizedRoot) {
+  let thisPackage = await getPackageFromPnpm(normalizedRoot, pkg);
   if (thisPackage && thisPackage.versionPolicyName === "utility") {
-    console.log(thisPackage.packageName + " utility");
+    console.log(`${thisPackage.packageName} utility`);
     return true;
   }
   return false;
@@ -188,19 +196,19 @@ async function isPackageAUtility(package, repoRoot) {
 /**
  * This is the main heart of the min-max testing.
  * Decides the appropriate versions to be pinned of the dependencies or dev-dep in the package.json
- * @param {*} package - the package which is a depenency or dev-dependency of the targetPackage. We want to decide what version this package should be pinned to.
+ * @param {*} pkg - the package which is a dependency or dev-dependency of the targetPackage. We want to decide what version this package should be pinned to.
  * @param {*} packageJsonDepVersion - the dependency version range of the {package} in the targetPackage's package.json
- * @param {*} repoRoot - root of the repository given as input
+ * @param {*} normalizedRoot - root of the repository given as input
  * @param {*} versionType - min or max or same
  * @returns
  */
-async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, versionType) {
-  console.log("checking " + package + " = " + packageJsonDepVersion);
-  let isUtility = await isPackageAUtility(package, repoRoot);
+async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot, versionType) {
+  console.log("checking " + pkg + " = " + packageJsonDepVersion);
+  let isUtility = await isPackageAUtility(pkg, normalizedRoot);
   if (isUtility) {
     return packageJsonDepVersion;
   }
-  let allNPMVersionsString = await getVersions(package);
+  let allNPMVersionsString = await getVersions(pkg);
   if (allNPMVersionsString) {
     let allVersions = JSON.parse(allNPMVersionsString);
     if (typeof allVersions === "string") {
@@ -214,9 +222,9 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
       } else {
         //issue a warning
         console.warn(
-          `No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver min version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
-        let version = await getPackageVersion(repoRoot, package);
+        let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
         return version;
       }
@@ -228,9 +236,9 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
       } else {
         //issue a warning
         console.warn(
-          `No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver max version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
-        let version = await getPackageVersion(repoRoot, package);
+        let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
         return version;
       }
@@ -240,12 +248,15 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
   }
 }
 
-async function getPackageVersion(repoRoot, package) {
-  let thisPackage = await getPackageFromRush(repoRoot, package);
+async function getPackageVersion(normalizedRoot, pkg) {
+  let thisPackage = await getPackageFromPnpm(normalizedRoot, pkg);
+  if (!thisPackage) {
+    throw new Error(`Package is not found in pnpm workspace for artifact ${pkg}`);
+  }
   console.log(thisPackage);
-  let thisPackagePath = path.join(repoRoot, thisPackage.projectFolder);
+  let thisPackagePath = path.join(normalizedRoot, thisPackage.projectFolder);
   let thisPackageJsonPath = path.join(thisPackagePath, "package.json");
-  let thisPackageJsonContents = await packageUtils.readFileJson(thisPackageJsonPath);
+  let thisPackageJsonContents = await readFileJson(thisPackageJsonPath);
   console.log(thisPackageJsonContents);
   return thisPackageJsonContents.version;
 }
@@ -270,9 +281,9 @@ function fromDir(startPath, filter, resList) {
   return resList;
 }
 
-async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath, testFolder) {
+function copyRepoFile(normalizedRoot, relativePath, fileName, targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const sourcePath = path.join(repoRoot, relativePath, fileName);
+  const sourcePath = path.join(normalizedRoot, relativePath, fileName);
   const destPath = path.join(testPath, fileName);
   console.log(`copying file from ${sourcePath} to ${destPath}`);
   fs.copyFileSync(sourcePath, destPath);
@@ -288,41 +299,40 @@ function copyVitestConfig(targetPackagePath, testFolder) {
 
 async function insertTsConfigJson(targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
-  let tsConfigJson = await packageUtils.readFileJson("./templates/tsconfig.json");
+  let tsConfigJson = await readFileJson("./templates/tsconfig.json");
 
   const tsConfigPath = path.join(testPath, "tsconfig.json");
-  await packageUtils.writePackageJson(tsConfigPath, tsConfigJson);
+  await writePackageJson(tsConfigPath, tsConfigJson);
 }
 
 async function readAndReplaceSourceReferences(filePath, packageName) {
-  let fileContent = await packageUtils.readFile(filePath);
+  const fileContent = await readFile(filePath, { encoding: "utf8" });
   console.log("Reading filePath = " + filePath);
-  testAssetsContent = fileContent.replace(
+  const testAssetsContent = fileContent.replace(
     'path.resolve(path.join(process.cwd(), "assets"',
     'path.resolve(path.join(process.cwd(),"..","..", "assets"',
   );
   // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
-  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z/]+[\"\']+/g);
+  const internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z/]+[\"\']+/g);
   let writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
     console.log(internalrefs);
     console.log("This file has internal references will be replaced by empty content");
   } else {
-    let replaceText = '"' + packageName + '"';
+    const replaceText = '"' + packageName + '"';
     //Regex for public api references to be replaced by package name
     writeContent = testAssetsContent.replace(/[\"\']+[..//]*src[//]*[\"\']+/g, replaceText);
   }
-  await packageUtils.writeFile(filePath, writeContent);
+  await writeFile(filePath, writeContent);
 }
 
 async function replaceSourceReferences(targetPackagePath, packageName, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
-  let resList = [];
-  resList = fromDir(testPath, ".ts", resList);
+  const resList = fromDir(testPath, ".ts", []);
   console.dir(resList);
-  let resPromises = [];
-  for (let eachFile of resList) {
+  const resPromises = [];
+  for (const eachFile of resList) {
     resPromises.push(readAndReplaceSourceReferences(eachFile, packageName));
   }
   await Promise.all(resPromises);
@@ -330,7 +340,7 @@ async function replaceSourceReferences(targetPackagePath, packageName, testFolde
 
 async function getVersions(packageName) {
   const promise = new Promise(async (res, rej) => {
-    let npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"], {
+    const npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"], {
       stdout: "inherit",
     });
     let stdOut = "";
@@ -360,30 +370,53 @@ async function getVersions(packageName) {
   }
 }
 
-async function updateRushConfig(repoRoot, targetPackage, testFolder) {
-  let rushSpec = await packageUtils.getRushSpec(repoRoot);
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
-  const testPath = path.join(targetPackagePath, testFolder);
-  const testPackageJsonPath = path.join(testPath, "package.json");
-  let testPackageJson = await packageUtils.readFileJson(testPackageJsonPath);
-  let testProjectFolder = targetPackage.projectFolder + "/" + testFolder;
-  const testPackageEntry = {
-    packageName: testPackageJson.name,
-    projectFolder: testProjectFolder,
-    versionPolicyName: "client",
-  };
-  rushSpec.projects.push(testPackageEntry);
-  rushSpec.projectFolderMaxDepth = 5;
-  const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
-  await packageUtils.writePackageJson(rushPath, rushSpec);
-}
+let results = undefined;
 
-async function getPackageFromRush(repoRoot, packageName) {
-  const rushSpec = await packageUtils.getRushSpec(repoRoot);
-  const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName == packageName,
-  );
-  return targetPackage;
+async function getPackageFromPnpm(normalizedRoot, packageName) {
+  if (results === undefined) {
+    const listPackagesCommandExec = new Promise(async (res, rej) => {
+      const pnpmProcess = crossSpawn(
+        "pnpm",
+        ["list", "--recursive", "--json", "--depth=1", "--only-projects"],
+        {
+          stdout: "inherit",
+          cwd: normalizedRoot,
+        },
+      );
+      let stdOut = "";
+      let stdErr = "";
+      pnpmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
+      pnpmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
+      pnpmProcess.on("close", (code) => {
+        console.log(`pnpm list --recursive --json --depth=1 process exit code: ${code}`);
+        if (code !== 0) {
+          rej(`Process exits with code ${code}`);
+          return;
+        }
+        res({ code, stdOut, stdErr });
+      });
+    });
+
+    const listPackagesCommand = await listPackagesCommandExec;
+    const pnpmPackages = JSON.parse(listPackagesCommand.stdOut);
+    const projects = [];
+
+    for (const pkg of pnpmPackages) {
+      if (pkg.path.startsWith(normalizedRoot)) {
+        const projectFolder = pkg.path.slice(normalizedRoot.length);
+        const packageJsonPath = path.join(pkg.path, "package.json");
+        const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
+        projects.push({
+          packageName: pkg.name,
+          projectFolder,
+          versionPolicyName: packageJson["sdk-type"] || "unknown",
+        });
+      }
+    }
+    results = { projects };
+  }
+
+  return results.projects.find((project) => project.packageName === packageName);
 }
 
 async function main(argv) {
@@ -393,17 +426,30 @@ async function main(argv) {
   const sourceDir = argv["source-dir"];
   const testFolder = argv["test-folder"];
   const dryRun = argv["dry-run"];
-
   let packageName = artifactName;
   if (!artifactName.startsWith("@")) {
     packageName = artifactName.replace(/"?([a-z]*)"?-/i, "@$1/");
   }
-  const targetPackage = await getPackageFromRush(repoRoot, packageName);
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  const normalizedRoot = path.normalize(path.join(process.cwd(), repoRoot));
+  console.dir({
+    artifactName,
+    repoRoot,
+    normalizedRoot,
+    versionType,
+    sourceDir,
+    testFolder,
+    dryRun,
+  });
+
+  const targetPackage = await getPackageFromPnpm(normalizedRoot, packageName);
+  if (!targetPackage) {
+    throw new Error(`Package is not found in pnpm workspace for artifact ${artifactName}`);
+  }
+  const targetPackagePath = path.join(normalizedRoot, targetPackage.projectFolder);
 
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
+  const packageJsonContents = await readFileJson(packageJsonLocation);
   await insertPackageJson(
     repoRoot,
     packageJsonContents,
@@ -421,7 +467,6 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
 main(argv);

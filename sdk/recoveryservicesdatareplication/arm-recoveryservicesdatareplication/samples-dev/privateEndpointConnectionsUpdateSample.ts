@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to updated the private endpoint connection status (Approval/Rejected). This gets invoked by resource admin.
  *
  * @summary updated the private endpoint connection status (Approval/Rejected). This gets invoked by resource admin.
  * x-ms-original-file: 2024-09-01/PrivateEndpointConnection_Update.json
  */
+
+import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function updatesThePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";

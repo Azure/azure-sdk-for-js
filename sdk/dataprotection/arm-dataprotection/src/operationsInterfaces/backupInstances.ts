@@ -22,6 +22,9 @@ import {
   ValidateForBackupRequest,
   BackupInstancesValidateForBackupOptionalParams,
   BackupInstancesValidateForBackupResponse,
+  ValidateForModifyBackupRequest,
+  BackupInstancesValidateForModifyBackupOptionalParams,
+  BackupInstancesValidateForModifyBackupResponse,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultResponse,
   CrossRegionRestoreRequestObject,
@@ -201,6 +204,41 @@ export interface BackupInstances {
     parameters: ValidateForBackupRequest,
     options?: BackupInstancesValidateForBackupOptionalParams,
   ): Promise<BackupInstancesValidateForBackupResponse>;
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateForModifyBackup(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForModifyBackupResponse>,
+      BackupInstancesValidateForModifyBackupResponse
+    >
+  >;
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateForModifyBackupAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams,
+  ): Promise<BackupInstancesValidateForModifyBackupResponse>;
   /**
    * Get result of backup instance creation operation
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

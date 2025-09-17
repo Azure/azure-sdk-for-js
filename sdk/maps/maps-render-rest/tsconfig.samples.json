@@ -3,6 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@azure-rest/maps-render": ["./dist/esm"]
-    }
+    },
+    "lib": ["DOM"]
   }
 }

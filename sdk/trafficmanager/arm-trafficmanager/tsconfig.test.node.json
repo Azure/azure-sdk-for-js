@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-trafficmanager": ["./src/index.ts"],
+      "@azure/arm-trafficmanager/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

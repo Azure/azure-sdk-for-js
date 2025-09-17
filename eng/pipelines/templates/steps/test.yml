@@ -14,18 +14,25 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      node common/scripts/install-run-rush.js install
-    displayName: "Install dependencies"
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
+      pnpm install
+    displayName: "Install library dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --verbose -p max
+      node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
+    env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_CACHE: local:rw,remote:r
+      TURBO_TOKEN: faketoken
     displayName: "Build libraries"
 
   - template: ../steps/use-node-test-version.yml
@@ -33,17 +40,13 @@ steps:
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/testproxy/test-proxy-standalone-tool.yml
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci --verbose -p max
+      node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci --verbose -p max
+      node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
@@ -55,11 +58,10 @@ steps:
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
-  # Retry for 30 seconds, since this command may fail with error "Another rush command is already
-  # running in this repository" if the previous rush command was killed.
+  # Retry for 30 seconds.
   - pwsh: |
       for ($i=0; $i -lt 30; $i++) {
-        node eng/tools/rush-runner/index.js unlink
+        pnpm purge
         if ($lastexitcode -eq 0) {
           break
         }
@@ -68,7 +70,7 @@ steps:
         }
       }
     condition: always()
-    displayName: "Unlink dependencies"
+    displayName: "Purge dependencies"
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
   # PublishTestResults.searchFolder only supports absolute paths, not relative.

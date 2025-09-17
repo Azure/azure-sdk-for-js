@@ -1,6 +1,33 @@
 # Release History
 
-## 1.12.0 ()
+### 1.14.0 (2025-09-16)
+
+### Other Changes
+
+- Update exporter version.
+
+### 1.13.1 (2025-09-10)
+
+### Bugs Fixed
+
+- Fix support for multiple metric exporters and OTLP metric exporter creation.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
+### 1.13.0 (2025-09-05)
+
+### Features Added
+
+- All instrumentations apart from bunyan and winston are now enabled by default.
+
+### Bugs Fixed
+
+- Fix declaration of the preview customer statsbeat enablement environment variable.
+- Change customer statsbeat feature name to customer SDK Stats.
+
+## 1.12.0 (2025-08-04)
 
 ### Features Added
 
@@ -10,6 +37,7 @@
 
 - Add customer statsbeat feature to feature statsbeat.
 - Add multi-ikey feature to feature statsbeat.
+- Silence noisy warnings about expected async attributes and the @azure/core-tracing load order not being populated.
 
 ## 1.11.1 (2025-06-09)
 

@@ -210,6 +210,7 @@ export const Constants = {
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
+  ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR: "enablePerPartitionFailoverBehavior",
 
   // Background refresh time
   DefaultUnavailableLocationExpirationTimeMS: 5 * 60 * 1000,
@@ -223,7 +224,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.5.0",
+  SDKVersion: "4.6.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",

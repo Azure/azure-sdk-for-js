@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ExpressRouteCircuitAuthorizationsListParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all authorizations in an express route circuit.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary Gets all authorizations in an express route circuit.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitAuthorizationList.json
  */
+
+import type { ExpressRouteCircuitAuthorizationsListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listExpressRouteCircuitAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

@@ -108,11 +108,12 @@ useAzureMonitor(options);
       <pre><code class="language-javascript">
 {
   http: { enabled: true },
-  azureSdk: { enabled: false },
-  mongoDb: { enabled: false },
-  mySql: { enabled: false },
-  postgreSql: { enabled: false },
-  redis: { enabled: false },
+  azureSdk: { enabled: true },
+  mongoDb: { enabled: true },
+  mySql: { enabled: true },
+  postgreSql: { enabled: true },
+  redis: { enabled: true },
+  redis4: { enabled: true },
   bunyan: { enabled: false }, 
   winston: { enabled: false } 
 }
@@ -196,6 +197,8 @@ process.env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = "path/to/customConfig.js
 
 The following OpenTelemetry Instrumentation libraries are included as part of Azure Monitor OpenTelemetry.
 
+**Note:** The Azure SDK, MongoDB, MySQL, PostgreSQL, Redis, and Redis-4 instrumentations are enabled by default for distributed tracing. The HTTP/HTTPS instrumentation is also enabled by default. All other instrumentations are disabled by default and can be enabled by setting `enabled: true` in the instrumentation options.
+
 > _Warning:_ Instrumentation libraries are based on experimental OpenTelemetry specifications. Microsoft's _preview_ support commitment is to ensure that the following libraries emit data to Azure Monitor Application Insights, but it's possible that breaking changes or experimental mapping will block some data elements.
 
 ### Distributed Tracing
@@ -251,6 +254,7 @@ Further information on usage of the browser SDK loader can be found [here](https
 You might set the Cloud Role Name and the Cloud Role Instance via [OpenTelemetry Resource](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) attributes.
 
 ```ts snippet:ReadmeSampleSetRoleNameAndInstance
+import { emptyResource } from "@opentelemetry/resources";
 import {
   ATTR_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -261,7 +265,7 @@ import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monito
 // ----------------------------------------
 // Setting role name and role instance
 // ----------------------------------------
-const customResource = Resource.EMPTY;
+const customResource = emptyResource();
 customResource.attributes[ATTR_SERVICE_NAME] = "my-helloworld-service";
 customResource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "my-namespace";
 customResource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "my-instance";
@@ -331,7 +335,7 @@ Use a custom span processor and log record processor in order to attach and corr
 import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Span, Context, trace } from "@opentelemetry/api";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
-import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
+import { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
@@ -358,7 +362,7 @@ class LogRecordEnrichingProcessor implements LogRecordProcessor {
   async shutdown(): Promise<void> {
     // shutdown code here
   }
-  onEmit(_logRecord: LogRecord, _context: Context): void {
+  onEmit(_logRecord: SdkLogRecord, _context: Context): void {
     const parentSpan = trace.getSpan(_context);
     if (parentSpan && "name" in parentSpan) {
       // If the parent span has a name we can assume it is a ReadableSpan and cast it.
@@ -452,7 +456,7 @@ You may want to collect metrics beyond what is collected by [instrumentation lib
 
 The OpenTelemetry API offers six metric "instruments" to cover a variety of metric scenarios and you'll need to pick the correct "Aggregation Type" when visualizing metrics in Metrics Explorer. This requirement is true when using the OpenTelemetry Metric API to send metrics and when using an instrumentation library.
 
-The following table shows the recommended aggregation types] for each of the OpenTelemetry Metric Instruments.
+The following table shows the recommended aggregation types for each of the OpenTelemetry Metric Instruments.
 
 | OpenTelemetry Instrument                             | Azure Monitor Aggregation Type                             |
 | ---------------------------------------------------- | ---------------------------------------------------------- |

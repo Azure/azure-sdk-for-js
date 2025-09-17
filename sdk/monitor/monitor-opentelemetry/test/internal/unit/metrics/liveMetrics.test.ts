@@ -3,7 +3,8 @@
 
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
-import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { createMockSdkLogRecord } from "../../../utils/breezeTestUtils.js";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import {
@@ -51,22 +52,28 @@ describe("#LiveMetrics", () => {
     autoCollect["isCollectingData"] = true;
     autoCollect.activateMetrics({ collectionInterval: 100 });
 
-    const loggerProvider = new LoggerProvider();
-    const logger = loggerProvider.getLogger("testLogger") as any;
-
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
+    const resource = resourceFromAttributes({});
+    const traceLog = createMockSdkLogRecord(
+      resource,
       { name: "test" },
       {
         body: "testMessage",
-        timestamp: 1234567890,
       },
     );
     autoCollect.recordLog(traceLog as any);
-    traceLog.attributes["exception.type"] = "testExceptionType";
-    traceLog.attributes["exception.message"] = "testExceptionMessage";
+
+    // Create separate exception logs
     for (let i = 0; i < 5; i++) {
-      autoCollect.recordLog(traceLog as any);
+      const exceptionLog = createMockSdkLogRecord(
+        resource,
+        { name: "test" },
+        {
+          body: "testMessage",
+        },
+      );
+      exceptionLog.attributes["exception.type"] = "testExceptionType";
+      exceptionLog.attributes["exception.message"] = "testExceptionMessage";
+      autoCollect.recordLog(exceptionLog as any);
     }
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
@@ -298,22 +305,28 @@ describe("#LiveMetrics", () => {
     autoCollect["isCollectingData"] = true;
     autoCollect.activateMetrics({ collectionInterval: 100 });
 
-    const loggerProvider = new LoggerProvider();
-    const logger = loggerProvider.getLogger("testLogger") as any;
-
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
+    const resource = resourceFromAttributes({});
+    const traceLog = createMockSdkLogRecord(
+      resource,
       { name: "test" },
       {
         body: "testMessage",
-        timestamp: 1234567890,
       },
     );
     autoCollect.recordLog(traceLog as any);
-    traceLog.attributes["exception.type"] = "testExceptionType";
-    traceLog.attributes["exception.message"] = "testExceptionMessage";
+
+    // Create separate exception logs
     for (let i = 0; i < 5; i++) {
-      autoCollect.recordLog(traceLog as any);
+      const exceptionLog = createMockSdkLogRecord(
+        resource,
+        { name: "test" },
+        {
+          body: "testMessage",
+        },
+      );
+      exceptionLog.attributes["exception.type"] = "testExceptionType";
+      exceptionLog.attributes["exception.message"] = "testExceptionMessage";
+      autoCollect.recordLog(exceptionLog as any);
     }
     const clientSpan: any = {
       kind: SpanKind.CLIENT,

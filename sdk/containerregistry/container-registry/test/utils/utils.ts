@@ -4,14 +4,11 @@
 import { AzureAuthorityHosts } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import {
   ContainerRegistryContentClient,
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
 } from "../../src/index.js";
-import { createXhrHttpClient } from "@azure-tools/test-utils-vitest";
-import { isNodeLike } from "@azure/core-util";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -104,18 +101,16 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const httpClient = isNodeLike || isLiveMode() ? undefined : createXhrHttpClient();
   const clientOptions = {
     audience,
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
-    httpClient,
   };
 
   if (options.anonymous) {
     return new ContainerRegistryClient(endpoint, recorder.configureClientOptions(clientOptions));
   }
 
-  const credential = createTestCredential({ ...tokenCredentialOptions, httpClient });
+  const credential = createTestCredential({ ...tokenCredentialOptions });
 
   return new ContainerRegistryClient(
     endpoint,

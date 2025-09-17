@@ -74,7 +74,7 @@ From this point forward, we'll assume that you're developing (perhaps contributi
   // ... more of your package.json properties
 }
 ```
-Do `rush update` and `rush build -t .` to install and build the latest dependencies.
+Do `pnpm install` and `pnpm build --filter @azure-tools/test-recorder...` to install and build the latest dependencies.
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 

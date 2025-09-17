@@ -53,11 +53,7 @@ export class CertificatesImpl implements Certificates {
     environmentName: string,
     options?: CertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<Certificate> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -69,12 +65,7 @@ export class CertificatesImpl implements Certificates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
       },
     };
   }
@@ -95,12 +86,7 @@ export class CertificatesImpl implements Certificates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        environmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -113,11 +99,7 @@ export class CertificatesImpl implements Certificates {
     environmentName: string,
     options?: CertificatesListOptionalParams,
   ): AsyncIterableIterator<Certificate> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      environmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
       yield* page;
     }
   }
@@ -308,7 +290,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.certificateName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -353,7 +335,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.certificateName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

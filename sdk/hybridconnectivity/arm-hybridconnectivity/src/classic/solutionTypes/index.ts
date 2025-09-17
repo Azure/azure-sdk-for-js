@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
-import { SolutionTypeResource } from "../../models/models.js";
-import {
-  SolutionTypesListBySubscriptionOptionalParams,
-  SolutionTypesListByResourceGroupOptionalParams,
-  SolutionTypesGetOptionalParams,
-} from "../../api/solutionTypes/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
   get,
 } from "../../api/solutionTypes/operations.js";
+import {
+  SolutionTypesListBySubscriptionOptionalParams,
+  SolutionTypesListByResourceGroupOptionalParams,
+  SolutionTypesGetOptionalParams,
+} from "../../api/solutionTypes/options.js";
+import { SolutionTypeResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SolutionTypes operations. */

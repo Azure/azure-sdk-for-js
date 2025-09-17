@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/synapse-monitoring": ["./src/index.ts"],
+      "@azure/synapse-monitoring/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

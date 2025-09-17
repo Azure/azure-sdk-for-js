@@ -24,9 +24,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FetchSecondaryRecoveryPoints operations. */
-export class FetchSecondaryRecoveryPointsImpl
-  implements FetchSecondaryRecoveryPoints
-{
+export class FetchSecondaryRecoveryPointsImpl implements FetchSecondaryRecoveryPoints {
   private readonly client: DataProtectionClient;
 
   /**
@@ -51,12 +49,7 @@ export class FetchSecondaryRecoveryPointsImpl
     parameters: FetchSecondaryRPsRequestParameters,
     options?: FetchSecondaryRecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      location,
-      parameters,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, location, parameters, options);
     return {
       next() {
         return iter.next();
@@ -68,13 +61,7 @@ export class FetchSecondaryRecoveryPointsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          location,
-          parameters,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, location, parameters, options, settings);
       },
     };
   }
@@ -89,12 +76,7 @@ export class FetchSecondaryRecoveryPointsImpl
     let result: FetchSecondaryRecoveryPointsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        location,
-        parameters,
-        options,
-      );
+      result = await this._list(resourceGroupName, location, parameters, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -186,12 +168,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters16,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken,
-  ],
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

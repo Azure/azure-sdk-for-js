@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VisualStudioCodeCredential } from "../../../src/index.js";
+import { VisualStudioCodeCredential } from "@azure/identity";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("VisualStudioCodeCredential (internal)", function () {
@@ -12,7 +12,7 @@ describe("VisualStudioCodeCredential (internal)", function () {
     credential = new VisualStudioCodeCredential();
     (credential as any).preparePromise = undefined;
 
-    msalPluginsModule = await import("../../../src/msal/nodeFlows/msalPlugins.js");
+    msalPluginsModule = await import("$internal/msal/nodeFlows/msalPlugins.js");
   });
 
   afterEach(function () {
@@ -84,6 +84,27 @@ describe("VisualStudioCodeCredential (internal)", function () {
       control.setVSCodeBroker(mockBroker);
 
       expect(msalPluginsModule.vsCodeBrokerInfo).toEqual({ broker: mockBroker });
+    });
+
+    it("should set disableAutomaticAuthentication to true", async function () {
+      vi.spyOn(msalPluginsModule, "hasVSCodePlugin").mockReturnValue(true);
+      Object.defineProperty(msalPluginsModule, "vsCodeAuthRecordPath", {
+        value: "/path/authRecord.json",
+        writable: true,
+        configurable: true,
+      });
+      (credential as any).loadAuthRecord = vi.fn().mockResolvedValue({});
+      const mockGetToken = vi
+        .fn()
+        .mockResolvedValue({ token: "mockToken", expiresOnTimestamp: Date.now() + 3600 });
+      (credential as any).prepare = async function () {
+        this.msalClient = { getTokenByInteractiveRequest: mockGetToken };
+      };
+      await credential.getToken(["scope1"]);
+      expect(mockGetToken).toHaveBeenCalledWith(
+        ["scope1"],
+        expect.objectContaining({ disableAutomaticAuthentication: true }),
+      );
     });
   });
 });

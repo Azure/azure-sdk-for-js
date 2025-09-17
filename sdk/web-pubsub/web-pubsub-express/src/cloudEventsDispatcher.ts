@@ -302,7 +302,7 @@ async function readUserEventRequest(
     case "application/octet-stream":
       return {
         context: getContext(request, origin),
-        data: await utils.readRequestBody(request),
+        data: (await utils.readRequestBody(request)) as any,
         dataType: "binary",
       };
     case "application/json":

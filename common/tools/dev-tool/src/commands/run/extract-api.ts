@@ -17,18 +17,11 @@ import { createPrinter } from "../../util/printer";
 import path from "node:path";
 import { readFile, writeFile, unlink, mkdir, rm, stat } from "node:fs/promises";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import { existsSync } from "node:fs";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
-  {
-    "merge-subpath-exports": {
-      shortName: "mse",
-      kind: "boolean",
-      default: true,
-      description: "whether to include subpath export APIs.",
-    },
-  },
 );
 
 const log = createPrinter("extract-api");
@@ -59,6 +52,22 @@ async function getTsconfigFile(projectPath: string, runtime: string): Promise<st
   }
 }
 
+interface ApiJson {
+  metadata: Record<string, unknown>;
+  members: {
+    kind: string;
+    name: string;
+    canonicalReference: string;
+    members: {
+      kind: string;
+      name: string;
+      canonicalReference: string;
+      docComment: string;
+      excerptTokens: { kind: string; text: string; canonicalReference?: string }[];
+    }[];
+  }[];
+}
+
 async function buildExportConfiguration(
   packageJson: { exports: Record<string, Record<string, { types: string }>> },
   projectRoot: string,
@@ -69,11 +78,12 @@ async function buildExportConfiguration(
   const exportEntries: ExportEntry[] = [];
   for (const [pathKey, entry] of Object.entries(exports)) {
     if (pathKey === "./package.json") continue;
-    const baseName = pathKey === "." ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-") + "-";
+    const isMainExport = pathKey === ".";
+    const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-");
     const common = {
       path: pathKey,
-      isSubpath: pathKey !== ".",
-      suppressForgottenExportErrors: pathKey !== ".",
+      isSubpath: !isMainExport,
+      suppressForgottenExportErrors: !isMainExport,
     };
     for (const [key, value] of Object.entries(entry)) {
       if (key === "require") continue;
@@ -82,7 +92,7 @@ async function buildExportConfiguration(
         ...common,
         runtime,
         tsconfigPath: await getTsconfigFile(projectRoot, runtime),
-        baseName: baseName + runtime,
+        baseName,
         mainEntryPointFilePath: path.resolve(projectRoot, value.types),
       });
     }
@@ -170,6 +180,17 @@ For the complete API surface, see the corresponding -node.api.md file.
   return [preamble, "```diff", diff, "```"].join("\n");
 }
 
+function resolveTemplate(template: string, projectInfo: ProjectInfo): string {
+  return template
+    .replace(/<projectFolder>/g, projectInfo.path)
+    .replace(/<unscopedPackageName>/g, getUnscopedPackageName(projectInfo.name));
+}
+
+function createNameWithRuntime(entry: ExportEntry): string {
+  const baseName = entry.baseName ? `${entry.baseName}-` : "";
+  return `${baseName}${entry.runtime}`;
+}
+
 async function extractApiForEntry(
   entry: ExportEntry,
   baseConfig: IConfigFile,
@@ -177,33 +198,33 @@ async function extractApiForEntry(
   pkgPath: string,
   projectInfo: ProjectInfo,
 ): Promise<string> {
-  const reportFolder = baseConfig.apiReport?.reportFolder?.replace(
-    /<projectFolder>/g,
-    projectInfo.path,
-  );
+  const baseReportFolder = baseConfig.apiReport?.reportFolder || `<projectFolder>/review`;
+  const reportFolder = resolveTemplate(baseReportFolder, projectInfo);
   if (!reportFolder) {
     log.error("API report folder is not configured in api-extractor.json");
     throw new Error("API report folder is not configured");
   }
-  const reportFile = baseConfig.apiReport?.reportFileName?.replace(
-    /<unscopedPackageName>/g,
-    projectInfo.name.split("/")[1],
-  );
+  const baseReportFileName = baseConfig.apiReport?.reportFileName || `<unscopedPackageName>.api.md`;
+  const reportFile = resolveTemplate(baseReportFileName, projectInfo);
   if (!reportFile) {
     log.error("API report file name is not configured in api-extractor.json");
     throw new Error("API report file name is not configured");
   }
   const reportDir = path.resolve(reportFolder);
-  const tempReportFileName = `${path.basename(reportFile, ".api.md")}-${entry.baseName}.api.md`;
+  const tempReportFileName = `${path.basename(reportFile, ".api.md")}-${createNameWithRuntime(entry)}.api.md`;
   const tempReportPath = path.join(reportDir, tempReportFileName);
+
+  const baseApiJsonPath =
+    baseConfig.docModel?.apiJsonFilePath || `<projectFolder>/temp/<unscopedPackageName>.api.json`;
+  const apiJsonFilePath = resolveTemplate(baseApiJsonPath, projectInfo).replace(
+    ".api.json",
+    `-${createNameWithRuntime(entry)}.api.json`,
+  );
 
   const docModel: IConfigDocModel = {
     ...baseConfig.docModel,
     enabled: true,
-    apiJsonFilePath: baseConfig.docModel?.apiJsonFilePath?.replace(
-      ".api.json",
-      `-${entry.baseName}.api.json`,
-    ),
+    apiJsonFilePath,
   };
 
   const apiReport: IConfigApiReport = {
@@ -231,6 +252,7 @@ async function extractApiForEntry(
   }
 
   extractApi(newConfig, configPath, pkgPath);
+
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
   return content;
@@ -245,13 +267,78 @@ async function writeRuntimeApiFiles(
     for (const [exportPath, content] of Object.entries(pathFiles)) {
       const pathSuffix =
         exportPath === "." ? "" : `-${exportPath.replace(/^\.\//, "").replace(/\//g, "-")}`;
-      const prefix = `${packageName}${pathSuffix}-${runtime}`;
-      const filename = runtime === "node" ? `${prefix}.api.md` : `${prefix}.api.diff.md`;
+      const isNodeRuntime = runtime === "node";
+      const filename = `${packageName}${pathSuffix}-${runtime}${isNodeRuntime ? ".api.md" : ".api.diff.md"}`;
       const filePath = path.join(reviewDirPath, filename);
       await writeFile(filePath, content);
-      log.info(`Written ${runtime} API ${runtime === "node" ? "file" : "diff"} to ${filename}`);
+      log.info(`Written ${runtime} API ${isNodeRuntime ? "file" : "diff"} to ${filename}`);
     }
   }
+}
+
+function getUnscopedPackageName(packageName: string): string {
+  return packageName.includes("/") ? packageName.split("/")[1] : packageName;
+}
+
+async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
+  const content = await readFile(fullPath, { encoding: "utf-8" });
+  return JSON.parse(content) as ApiJson;
+}
+
+async function buildMergedApiJson(
+  unscopedPackageName: string,
+  reportTempDir: string,
+  exports: ExportEntry[],
+  dependencies: Record<string, string>,
+  useMerged: boolean = false,
+): Promise<string | undefined> {
+  const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
+  if (!mainNodeExport) {
+    log.debug("No main node export found, skipping API JSON merge");
+    return;
+  }
+  const mainApiJsonPath = path.join(
+    reportTempDir,
+    `${unscopedPackageName}-${createNameWithRuntime(mainNodeExport)}.api.json`,
+  );
+
+  if (!existsSync(mainApiJsonPath)) {
+    log.debug(`Main API JSON file ${mainApiJsonPath} not found, skipping merge`);
+    return;
+  }
+
+  const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
+  apiJson.metadata.dependencies = dependencies;
+
+  for (const subpath of exports) {
+    if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
+    const nameWithRuntime = createNameWithRuntime(subpath);
+    const p = path.join(reportTempDir, `${unscopedPackageName}-${nameWithRuntime}.api.json`);
+    if (!existsSync(p)) {
+      log.debug(`${p} not there`);
+      continue;
+    }
+
+    log.debug(`loading api package for "${nameWithRuntime}"`);
+    const subpathApiJson = await loadApiJsonForSubPath(p);
+    const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
+    if (!entryPoint) {
+      log.debug(`No EntryPoint found in ${p}`);
+      continue;
+    }
+    entryPoint.name = subpath.baseName;
+    entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
+    apiJson.members.push(entryPoint);
+    log.debug(`deleting ${p} after merging its entrypoint`);
+    await unlink(p);
+  }
+
+  const augmentedApiJsonPath = useMerged
+    ? mainApiJsonPath
+    : mainApiJsonPath.replace(".api.json", `.augmented.json`);
+  log.info(`writing merged api to ${augmentedApiJsonPath}`);
+  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  return augmentedApiJsonPath;
 }
 
 export default leafCommand(commandInfo, async () => {
@@ -295,8 +382,8 @@ export default leafCommand(commandInfo, async () => {
         projectInfo,
       );
 
-      if (!runtimeApiFiles["node"]) runtimeApiFiles["node"] = {};
-      runtimeApiFiles["node"][exportPath] = nodeContent;
+      runtimeApiFiles.node ??= {};
+      runtimeApiFiles.node[exportPath] = nodeContent;
 
       for (const e of entries) {
         const runtime = e.runtime;
@@ -304,14 +391,24 @@ export default leafCommand(commandInfo, async () => {
         const content = await extractApiForEntry(e, baseConfig, configPath, pkgPath, projectInfo);
         const diff = createApiDiff(nodeContent, content, runtime);
         if (!diff) continue;
-        if (!runtimeApiFiles[runtime]) runtimeApiFiles[runtime] = {};
+        runtimeApiFiles[runtime] ??= {};
         runtimeApiFiles[runtime][exportPath] = diff;
       }
     }
-    const unscoped = projectInfo.name.includes("/")
-      ? projectInfo.name.split("/")[1]
-      : projectInfo.name;
+    const unscoped = getUnscopedPackageName(projectInfo.name);
     await writeRuntimeApiFiles(runtimeApiFiles, reviewDir, unscoped);
+
+    if (baseConfig.docModel?.enabled) {
+      const reportTempDir = path.join(projectInfo.path, "temp");
+      const nodeExports = exports.filter((e) => e.runtime === "node");
+      await buildMergedApiJson(
+        unscoped,
+        reportTempDir,
+        nodeExports,
+        pkgJson["dependencies"] || {},
+        true,
+      );
+    }
   } else {
     success = extractApi(baseConfig, configPath, pkgPath);
   }

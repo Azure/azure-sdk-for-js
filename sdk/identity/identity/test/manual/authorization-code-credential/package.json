@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/express": "^4.17.12",
+    "@types/express": "^5.0.3",
     "dotenv": "^16.0.0",
-    "express": "^4.17.1",
+    "express": "^5.1.0",
     "open": "^8.2.1",
     "qs": "^6.10.1",
     "ts-node": "latest"

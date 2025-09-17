@@ -25,4 +25,10 @@ export interface ChangeFeedIteratorOptions {
    * Signals the mode in which the change feed needs to start.
    */
   changeFeedMode?: ChangeFeedMode;
+
+  /**
+   * Excludes one or more Azure regions for the operation.
+   * <p>This option is only applied when enableEndPointDiscovery is set to true.</p>
+   */
+  excludedLocations?: string[];
 }

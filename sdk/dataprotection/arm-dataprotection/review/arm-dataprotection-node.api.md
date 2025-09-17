@@ -43,6 +43,14 @@ export interface AdhocBasedTriggerContext extends TriggerContext {
 }
 
 // @public
+export interface AdlsBlobBackupDatasourceParameters extends BlobBackupDatasourceParameters {
+    objectType: "AdlsBlobBackupDatasourceParameters";
+}
+
+// @public
+export type AKSVolumeTypes = string;
+
+// @public
 export type AlertsState = string;
 
 // @public
@@ -147,6 +155,7 @@ export interface AzureBackupJobResource extends DppResource {
 
 // @public
 export interface AzureBackupJobResourceList extends DppResourceList {
+    nextLink?: string;
     value?: AzureBackupJobResource[];
 }
 
@@ -178,6 +187,7 @@ export interface AzureBackupRecoveryPointResource extends DppResource {
 
 // @public
 export interface AzureBackupRecoveryPointResourceList extends DppResourceList {
+    nextLink?: string;
     value?: AzureBackupRecoveryPointResource[];
 }
 
@@ -256,11 +266,11 @@ export type BackupCriteriaUnion = BackupCriteria | ScheduleBasedBackupCriteria;
 
 // @public
 export interface BackupDatasourceParameters {
-    objectType: "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters";
+    objectType: "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters";
 }
 
 // @public (undocumented)
-export type BackupDatasourceParametersUnion = BackupDatasourceParameters | KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParameters;
+export type BackupDatasourceParametersUnion = BackupDatasourceParameters | KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion;
 
 // @public
 export interface BackupInstance {
@@ -287,6 +297,7 @@ export interface BackupInstanceResource extends DppProxyResource {
 
 // @public
 export interface BackupInstanceResourceList extends DppResourceList {
+    nextLink?: string;
     value?: BackupInstanceResource[];
 }
 
@@ -318,6 +329,8 @@ export interface BackupInstances {
     beginValidateCrossRegionRestoreAndWait(resourceGroupName: string, location: string, parameters: ValidateCrossRegionRestoreRequestObject, options?: BackupInstancesValidateCrossRegionRestoreOptionalParams): Promise<BackupInstancesValidateCrossRegionRestoreResponse>;
     beginValidateForBackup(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForBackupResponse>, BackupInstancesValidateForBackupResponse>>;
     beginValidateForBackupAndWait(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<BackupInstancesValidateForBackupResponse>;
+    beginValidateForModifyBackup(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateForModifyBackupRequest, options?: BackupInstancesValidateForModifyBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForModifyBackupResponse>, BackupInstancesValidateForModifyBackupResponse>>;
+    beginValidateForModifyBackupAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateForModifyBackupRequest, options?: BackupInstancesValidateForModifyBackupOptionalParams): Promise<BackupInstancesValidateForModifyBackupResponse>;
     beginValidateForRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForRestoreResponse>, BackupInstancesValidateForRestoreResponse>>;
     beginValidateForRestoreAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<BackupInstancesValidateForRestoreResponse>;
     get(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams): Promise<BackupInstancesGetResponse>;
@@ -574,6 +587,22 @@ export interface BackupInstancesValidateForBackupOptionalParams extends coreClie
 export type BackupInstancesValidateForBackupResponse = OperationJobExtendedInfo;
 
 // @public
+export interface BackupInstancesValidateForModifyBackupHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface BackupInstancesValidateForModifyBackupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupInstancesValidateForModifyBackupResponse = OperationJobExtendedInfo;
+
+// @public
 export interface BackupInstancesValidateForRestoreHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -692,6 +721,7 @@ export interface BackupVaultResource extends DppTrackedResource {
 
 // @public
 export interface BackupVaultResourceList extends DppResourceList {
+    nextLink?: string;
     value?: BackupVaultResource[];
 }
 
@@ -792,6 +822,7 @@ export interface BaseBackupPolicyResource extends DppResource {
 
 // @public
 export interface BaseBackupPolicyResourceList extends DppResourceList {
+    nextLink?: string;
     value?: BaseBackupPolicyResource[];
 }
 
@@ -822,8 +853,11 @@ export type BcdrSecurityLevel = string;
 // @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
     containersList: string[];
-    objectType: "BlobBackupDatasourceParameters";
+    objectType: "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters";
 }
+
+// @public (undocumented)
+export type BlobBackupDatasourceParametersUnion = BlobBackupDatasourceParameters | AdlsBlobBackupDatasourceParameters;
 
 // @public
 export interface CheckNameAvailabilityRequest {
@@ -1129,6 +1163,7 @@ export interface DeletedBackupInstanceResource extends DppResource {
 
 // @public
 export interface DeletedBackupInstanceResourceList extends DppResourceList {
+    nextLink?: string;
     value?: DeletedBackupInstanceResource[];
 }
 
@@ -1571,6 +1606,7 @@ export interface ItemPathBasedRestoreCriteria extends ItemLevelRestoreCriteria {
     isPathRelativeToBackupItem: boolean;
     itemPath: string;
     objectType: "ItemPathBasedRestoreCriteria";
+    renameTo?: string;
     subItemPathPrefix?: string[];
 }
 
@@ -1633,6 +1669,12 @@ export enum KnownAbsoluteMarker {
     FirstOfMonth = "FirstOfMonth",
     FirstOfWeek = "FirstOfWeek",
     FirstOfYear = "FirstOfYear"
+}
+
+// @public
+export enum KnownAKSVolumeTypes {
+    AzureDisk = "AzureDisk",
+    AzureFileShareSMB = "AzureFileShareSMB"
 }
 
 // @public
@@ -1927,6 +1969,7 @@ export interface KubernetesClusterBackupDatasourceParameters extends BackupDatas
     includeClusterScopeResources: boolean;
     includedNamespaces?: string[];
     includedResourceTypes?: string[];
+    includedVolumeTypes?: AKSVolumeTypes[];
     labelSelectors?: string[];
     objectType: "KubernetesClusterBackupDatasourceParameters";
     snapshotVolumes: boolean;
@@ -2255,6 +2298,7 @@ export interface ResourceGuardProxyBaseResource extends DppResource {
 
 // @public
 export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+    nextLink?: string;
     value?: ResourceGuardProxyBaseResource[];
 }
 
@@ -2265,6 +2309,7 @@ export interface ResourceGuardResource extends DppBaseTrackedResource {
 
 // @public
 export interface ResourceGuardResourceList extends DppTrackedResourceList {
+    nextLink?: string;
     value?: ResourceGuardResource[];
 }
 
@@ -2747,6 +2792,11 @@ export interface ValidateCrossRegionRestoreRequestObject {
 
 // @public
 export interface ValidateForBackupRequest {
+    backupInstance: BackupInstance;
+}
+
+// @public
+export interface ValidateForModifyBackupRequest {
     backupInstance: BackupInstance;
 }
 

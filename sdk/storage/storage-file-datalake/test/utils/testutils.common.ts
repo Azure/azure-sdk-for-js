@@ -7,6 +7,7 @@ import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import type { FindReplaceSanitizer } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
+import { isNodeLike } from "@azure/core-util";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -36,7 +37,7 @@ const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid"];
-if (isBrowser()) {
+if (!isNodeLike) {
   sasParams.push("_");
 }
 export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
@@ -109,10 +110,6 @@ export class SimpleTokenCredential implements TokenCredential {
   }
 }
 
-export function isBrowser(): boolean {
-  return typeof self !== "undefined";
-}
-
 export function getUniqueName(prefix: string): string {
   return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)
     .toString()
@@ -120,11 +117,11 @@ export function getUniqueName(prefix: string): string {
 }
 
 export function base64encode(content: string): string {
-  return isBrowser() ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 export function base64decode(encodedString: string): string {
-  return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 type BlobMetadata = { [propertyName: string]: string };

@@ -16,7 +16,6 @@ import {
   getTokenDataLakeServiceClient,
   recorderEnvSetup,
   getGenericDataLakeServiceClient,
-  isBrowser,
   getEncryptionScope,
   getUniqueName,
   configureStorageClient,
@@ -81,7 +80,7 @@ describe("DataLakeServiceClient", () => {
       },
     };
 
-    if (!isBrowser()) {
+    if (isNodeLike) {
       serviceProperties.cors = [
         {
           allowedHeaders: "*",
@@ -97,7 +96,7 @@ describe("DataLakeServiceClient", () => {
     await delay(5 * 1000);
 
     let properties = await serviceClient.getProperties();
-    if (!isBrowser()) {
+    if (isNodeLike) {
       assert.deepStrictEqual(serviceProperties.cors, properties.cors);
     }
     assert.deepStrictEqual(serviceProperties.blobAnalyticsLogging, properties.blobAnalyticsLogging);

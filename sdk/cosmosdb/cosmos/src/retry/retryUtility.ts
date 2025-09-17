@@ -61,6 +61,7 @@ export async function execute({
         retryPolicies = {
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
+            requestContext.resourceType,
             requestContext.operationType,
             requestContext.globalPartitionEndpointManager,
           ),
@@ -96,12 +97,15 @@ export async function execute({
           requestContext.resourceType,
           requestContext.operationType,
           retryContext.retryLocationServerIndex,
+          requestContext.options,
         );
       } else {
         requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
+          0,
+          requestContext.options,
         );
       }
       const startTimeUTCInMs = getCurrentTimestampInMs();
@@ -138,6 +142,7 @@ export async function execute({
         }
 
         if (
+          err.code === StatusCodes.ENOTFOUND ||
           err.code === "REQUEST_SEND_ERROR" ||
           (err.code === StatusCodes.Forbidden &&
             (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||

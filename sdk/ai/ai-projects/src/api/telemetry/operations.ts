@@ -32,7 +32,7 @@ export function createTelemetryOperations(
      * @returns The Application Insights connection string.
      * @throws RestError if an Application Insights connection does not exist for this project.
      */
-    async getConnectionString(): Promise<string> {
+    async getApplicationInsightsConnectionString(): Promise<string> {
       if (!state._connectionString) {
         // Get all Application Insights connections that are marked as default
         const connections: Connection[] = [];
@@ -84,5 +84,5 @@ export interface CreateTelemetryOperations {
    * @returns The Application Insights connection string.
    * @throws RestError if an Application Insights connection does not exist for this project.
    */
-  getConnectionString(): Promise<string>;
+  getApplicationInsightsConnectionString(): Promise<string>;
 }

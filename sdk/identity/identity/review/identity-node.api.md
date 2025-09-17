@@ -249,8 +249,12 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 }
 
 // @public
+export type DefaultAzureCredentialEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET" | "AZURE_CLIENT_CERTIFICATE_PATH" | "AZURE_CLIENT_CERTIFICATE_PASSWORD" | "AZURE_ADDITIONALLY_ALLOWED_TENANTS" | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN" | "AZURE_FEDERATED_TOKEN_FILE";
+
+// @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     processTimeoutInMs?: number;
+    requiredEnvVars?: DefaultAzureCredentialEnvVars | DefaultAzureCredentialEnvVars[];
     tenantId?: string;
 }
 

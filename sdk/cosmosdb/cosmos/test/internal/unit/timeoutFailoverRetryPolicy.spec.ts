@@ -13,7 +13,6 @@ import { TimeoutError } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
-import type { RequestContext } from "../../../src/index.js";
 import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 
 describe("TimeoutFailoverRetryPolicy", () => {
@@ -77,15 +76,6 @@ describe("TimeoutFailoverRetryPolicy", () => {
   let retryCtx: RetryContext;
   let timeoutErr: TimeoutError;
   let locEndpoint: string;
-  const rqContext: RequestContext = {
-    globalEndpointManager: gem,
-    connectionPolicy: undefined,
-    requestAgent: undefined,
-    method: undefined,
-    options: undefined,
-    plugins: undefined,
-    globalPartitionEndpointManager: gpem,
-  };
 
   beforeEach(async () => {
     retryPolicy = new TimeoutFailoverRetryPolicy(

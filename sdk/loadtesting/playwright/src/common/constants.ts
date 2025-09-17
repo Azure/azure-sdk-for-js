@@ -64,7 +64,7 @@ export const Constants = {
   SevenDaysInMS: 7 * 24 * 60 * 60 * 1000,
   OneDayInMS: 24 * 60 * 60 * 1000,
   MinimumSupportedPlaywrightVersion: "1.47.0",
-  LatestAPIVersion: "2025-07-01-preview",
+  LatestAPIVersion: "2025-09-01",
   HTTP_CALL_TIMEOUT: 10000,
 };
 
@@ -77,4 +77,5 @@ export const InternalEnvironmentVariables = {
   MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
   MPT_SERVICE_OS: "_MPT_SERVICE_OS",
   ONE_TIME_OPERATION_FLAG: "_ONE_TIME_OPERATION_FLAG",
+  USING_SERVICE_CONFIG: "_USING_SERVICE_CONFIG",
 };

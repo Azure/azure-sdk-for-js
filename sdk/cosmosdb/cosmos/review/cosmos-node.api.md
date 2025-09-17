@@ -82,6 +82,7 @@ export class ChangeFeedIterator<T> {
 export interface ChangeFeedIteratorOptions {
     changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
+    excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
 }
@@ -634,6 +635,7 @@ export const Constants: {
     WriteRequestFailureCountThreshold: number;
     ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
+    ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
@@ -927,6 +929,7 @@ export class DatabaseAccount {
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
+    readonly enablePerPartitionFailoverBehavior: boolean;
     // @deprecated
     get MaxMediaStorageUsageInMB(): number;
     readonly maxMediaStorageUsageInMB: number;
@@ -1037,6 +1040,7 @@ export type DiagnosticDataValue = {
         url: string;
     }>;
     partitionKeyRangeFailoverInfo: string;
+    excludedLocations: string[];
 };
 
 // @public
@@ -1322,7 +1326,7 @@ export class GlobalEndpointManager {
     preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
 }
 
 // @public (undocumented)
@@ -2379,6 +2383,7 @@ export interface SharedOptions {
     bypassIntegratedCache?: boolean;
     consistencyLevel?: string;
     disableRUPerMinuteUsage?: boolean;
+    excludedLocations?: string[];
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

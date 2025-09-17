@@ -1,37 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
  *
  * @summary virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitStart_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesSubmitStart_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+
+import { ComputeScheduleClient } from "@azure/arm-computeschedule";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function scheduledActionsVirtualMachinesSubmitStartMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesSubmitStart("bgyvpodcjmcmbxohvil", {
+  const result = await client.scheduledActions.virtualMachinesSubmitStart("pxtvvk", {
     schedule: {
-      deadline: "2025-04-15T19:47:04.403Z",
-      userRequestDeadline: "2025-04-15T19:47:04.403Z",
-      timezone: "qacufsmctpgjozovlsihrzoctatcsj",
-      userRequestTimezone: "upnmayfebiadztdktxzq",
+      userRequestDeadline: "2025-04-17T00:23:56.803Z",
+      userRequestTimezone: "aigbjdnldtzkteqi",
       deadlineType: "Unknown",
     },
     executionParameters: {
       optimizationPreference: "Cost",
-      retryPolicy: { retryCount: 25, retryWindowInMinutes: 4 },
+      retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
     },
     resources: {
       ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
       ],
     },
-    correlationId: "bvmpxvbd",
+    correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
   });
   console.log(result);
 }
@@ -40,28 +39,32 @@ async function scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedB
  * This sample demonstrates how to virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
  *
  * @summary virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitStart_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesSubmitStart_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitStartMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesSubmitStartMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesSubmitStart("hdttrxnbswit", {
-    schedule: { deadlineType: "Unknown" },
+  const result = await client.scheduledActions.virtualMachinesSubmitStart("ufrcsuw", {
+    schedule: {
+      userRequestDeadline: "2025-04-17T00:23:56.803Z",
+      userRequestTimezone: "aigbjdnldtzkteqi",
+      deadlineType: "Unknown",
+    },
     executionParameters: {},
     resources: {
       ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
       ],
     },
-    correlationId: "bvmpxvbd",
+    correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedByMaximumSetRule();
-  await scheduledActionsVirtualMachinesSubmitStartMinimumSetGenGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesSubmitStartMaximumSet();
+  await scheduledActionsVirtualMachinesSubmitStartMinimumSet();
 }
 
 main().catch(console.error);
