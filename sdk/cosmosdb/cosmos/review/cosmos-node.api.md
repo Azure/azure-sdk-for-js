@@ -929,7 +929,6 @@ export class DatabaseAccount {
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
-    // (undocumented)
     readonly enablePerPartitionFailoverBehavior: boolean;
     // @deprecated
     get MaxMediaStorageUsageInMB(): number;
@@ -1312,9 +1311,7 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
-    // (undocumented)
     enablePartitionLevelCircuitBreaker: boolean;
-    // (undocumented)
     enablePartitionLevelFailover: boolean;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)

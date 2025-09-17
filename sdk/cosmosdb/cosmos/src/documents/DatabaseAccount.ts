@@ -67,6 +67,9 @@ export class DatabaseAccount {
   /** Gets the UserConsistencyPolicy settings. */
   public readonly consistencyPolicy: ConsistencyLevel;
   public readonly enableMultipleWritableLocations: boolean;
+  /**
+   * Indicates whether per-partition failover behavior is enabled for the database account.
+   */
   public readonly enablePerPartitionFailoverBehavior: boolean = false;
 
   // TODO: body - any
