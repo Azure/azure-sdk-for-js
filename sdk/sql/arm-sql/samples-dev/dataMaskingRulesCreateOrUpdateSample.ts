@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DataMaskingRule, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates a database data masking rule.
  *
  * @summary Creates or updates a database data masking rule.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateDefaultMax.json
  */
-
-import type { DataMaskingRule } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createOrUpdateDataMaskingRuleForDefaultMax(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -48,8 +48,10 @@ async function createOrUpdateDataMaskingRuleForDefaultMax(): Promise<void> {
  */
 async function createOrUpdateDataMaskingRuleForDefaultMin(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -79,8 +81,10 @@ async function createOrUpdateDataMaskingRuleForDefaultMin(): Promise<void> {
  */
 async function createOrUpdateDataMaskingRuleForNumbers(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -112,8 +116,10 @@ async function createOrUpdateDataMaskingRuleForNumbers(): Promise<void> {
  */
 async function createOrUpdateDataMaskingRuleForText(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const serverName = "sqlcrudtest-2080";
   const databaseName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";

@@ -1,27 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  RecoverableDatabasesGetOptionalParams,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Gets a recoverable database.
  *
  * @summary Gets a recoverable database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/RecoverableDatabaseGet.json
  */
-
-import type { RecoverableDatabasesGetOptionalParams } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function getARecoverableDatabase(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "recoverabledatabasetest-6852";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "recoverabledatabasetest-6852";
   const serverName = "recoverabledatabasetest-2080";
   const databaseName = "recoverabledatabasetest-9187";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.recoverableDatabases.get(resourceGroupName, serverName, databaseName);
+  const result = await client.recoverableDatabases.get(
+    resourceGroupName,
+    serverName,
+    databaseName,
+  );
   console.log(result);
 }
 
@@ -33,8 +40,10 @@ async function getARecoverableDatabase(): Promise<void> {
  */
 async function getsARecoverableDatabaseWithExpandEqualsKeys(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "recoverabledatabasetest-6852";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "recoverabledatabasetest-6852";
   const serverName = "recoverabledatabasetest-2080";
   const databaseName = "recoverabledatabasetest-9187";
   const expand = "keys";

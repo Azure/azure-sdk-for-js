@@ -24321,7 +24321,7 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: ^1.9.2
+        specifier: ^1.9.3
         version: link:../../core/core-client
       '@azure/core-lro':
         specifier: ^2.5.4
@@ -24330,7 +24330,7 @@ importers:
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.19.1
         version: link:../../core/core-rest-pipeline
       tslib:
         specifier: ^2.8.1
