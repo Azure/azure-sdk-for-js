@@ -29,17 +29,16 @@ function CreateUpdate-TspLocation([System.Object]$tspConfig, [string]$TypeSpecPr
     Write-Host "created service folder $serviceDir"
   }
 
-  # Create package-dir if not exist
-  $packageDir = Get-PackageDir $tspConfig
-  $packageDir = Join-Path $serviceDir $packageDir
-  if (!(Test-Path -Path $packageDir)) {
-    New-Item -Path $packageDir -ItemType Directory | Out-Null
-    Write-Host "created package folder $packageDir"
+  # Create package-directory if not exist
+  $emitterOutputDir = Get-EmitterOutputDir $tspConfig
+  if (!(Test-Path -Path $emitterOutputDir)) {
+    New-Item -Path $emitterOutputDir -ItemType Directory | Out-Null
+    Write-Host "created emitterOutputDir folder $emitterOutputDir"
     $isNewSdkProject.Value = $true
   }
 
   # Load tsp-location.yaml if exist
-  $tspLocationYamlPath = Join-Path $packageDir "tsp-location.yaml"
+  $tspLocationYamlPath = Join-Path $emitterOutputDir "tsp-location.yaml"
   $tspLocationYaml = @{}
   if (Test-Path -Path $tspLocationYamlPath) {
     $tspLocationYaml = Get-Content -Path $tspLocationYamlPath -Raw | ConvertFrom-Yaml
@@ -76,7 +75,7 @@ function Get-ServiceDir([System.Object]$tspConfig, [string]$repoRoot) {
   $serviceDir = Join-Path $repoRoot $serviceDir
   return $serviceDir
 }
-function Get-PackageDir([System.Object]$tspConfig) {
+function Get-EmitterOutputDir([System.Object]$tspConfig) {
   $emitterName = ""
   if (Test-Path "Function:$GetEmitterNameFn") {
     $emitterName = &$GetEmitterNameFn
@@ -85,22 +84,20 @@ function Get-PackageDir([System.Object]$tspConfig) {
     Write-Error "Missing $GetEmitterNameFn function in {$Language} SDK repo script."
     exit 1
   }
-  $packageDir = ""
-  if ($tspConfig["options"] -and $tspConfig["options"]["$emitterName"] -and $tspConfig["options"]["$emitterName"]["package-dir"]) {
-    $packageDir = $tspConfig["options"]["$emitterName"]["package-dir"]
+  $emitterOutputDir = ""
+  if ($tspConfig["options"] -and $tspConfig["options"]["$emitterName"] -and $tspConfig["options"]["$emitterName"]["emitter-output-dir"]) {
+    $emitterOutputDir = $tspConfig["options"]["$emitterName"]["emitter-output-dir"]
   }
   else {
-    Write-Error "Missing package-dir in $emitterName options of tspconfig.yaml. Please refer to https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml for the right schema."
+    Write-Error "Missing emitter-output-dir in $emitterName options of tspconfig.yaml. Please refer to https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml for the right schema."
     exit 1
   }
-  return $packageDir
+  return $emitterOutputDir
 }
 
 function Get-TspLocationFolder([System.Object]$tspConfig, [string]$repoRoot) {
-  $serviceDir = Get-ServiceDir $tspConfig $repoRoot
-  $packageDir = Get-PackageDir $tspConfig
-  $packageDir = Join-Path $serviceDir $packageDir
-  return $packageDir
+  $emitterOutputDir = Get-EmitterOutputDir $tspConfig
+  return $emitterOutputDir
 }
 
 $sdkRepoRootPath =  (Join-Path $PSScriptRoot .. .. ..)
