@@ -3,7 +3,7 @@
 
 /**
  * @summary Demonstrates how to run generate custom metrics that will be sent to Azure Monitor
- * 
+ *
  * Works in both CommonJS and ESM environments.
  */
 

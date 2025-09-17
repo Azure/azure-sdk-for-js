@@ -3,7 +3,7 @@
  *
  * This example demonstrates how to configure Azure Monitor OpenTelemetry
  * using the APPLICATIONINSIGHTS_CONNECTION_STRING environment variable.
- * 
+ *
  * Works in both CommonJS and ESM environments.
  */
 

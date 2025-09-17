@@ -3,7 +3,7 @@
  *
  * This example demonstrates how to redact URL query strings from telemetry data
  * to protect sensitive information like SAS tokens.
- * 
+ *
  * Works in both CommonJS and ESM environments.
  */
 
@@ -11,9 +11,9 @@
  * Factory function to create a RedactQueryStringProcessor with proper types
  */
 async function createRedactQueryStringProcessor() {
-  // Import semantic conventions  
+  // Import semantic conventions
   const semanticConventions = await import("@opentelemetry/semantic-conventions");
-  
+
   // For TypeScript interface/type, we need to use a different approach
   // Since Span is an interface, we'll use it as a type annotation when available
   type SpanLike = {
@@ -50,10 +50,9 @@ async function createRedactQueryStringProcessor() {
 
       // Remove query strings by keeping only the part before '?'
       if (httpRouteIndex !== -1) {
-        span.attributes[SEMATTRS_HTTP_ROUTE] = String(span.attributes[SEMATTRS_HTTP_ROUTE]).substring(
-          0,
-          httpRouteIndex,
-        );
+        span.attributes[SEMATTRS_HTTP_ROUTE] = String(
+          span.attributes[SEMATTRS_HTTP_ROUTE],
+        ).substring(0, httpRouteIndex);
       }
       if (httpUrlIndex !== -1) {
         span.attributes[SEMATTRS_HTTP_URL] = String(span.attributes[SEMATTRS_HTTP_URL]).substring(
