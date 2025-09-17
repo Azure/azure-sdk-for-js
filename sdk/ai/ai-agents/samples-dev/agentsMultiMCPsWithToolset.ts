@@ -17,7 +17,7 @@ import type {
   ToolApproval,
   RunStepToolCallDetails,
 } from "@azure/ai-agents";
-import { AgentsClient, MCPTool, ToolUtility, ToolSet, isOutputOfType } from "@azure/ai-agents";
+import { AgentsClient, ToolSet, isOutputOfType } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
