@@ -6,7 +6,7 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 
 ### Prerequisites
 
-- Node.js 18+
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Azure Application Insights resource
 - Connection string from your Application Insights resource
 
@@ -112,7 +112,7 @@ node dist/01-basic-connection.js
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `APPLICATIONINSIGHTS_CONNECTION_STRING` | Azure Monitor connection string | Required |
+| `APPLICATIONINSIGHTS_CONNECTION_STRING` | Azure Monitor connection string ||
 | `OTEL_METRIC_EXPORT_INTERVAL` | Metric export interval (ms) | 60000 |
 | `OTEL_SERVICE_NAME` | Service name for telemetry | azure-monitor-opentelemetry-samples |
 | `OTEL_SERVICE_VERSION` | Service version | 1.0.0 |
