@@ -45,7 +45,10 @@ async function main() {
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${eventMessage.data.status}`);
+        {
+          const threadRun = eventMessage.data;
+          console.log(`ThreadRun status: ${threadRun.status}`);
+        }
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {

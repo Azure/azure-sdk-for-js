@@ -55,8 +55,8 @@ export class MCPTool {
    * Get the MCP tool definition.
    * @returns A list containing the MCP tool definition
    */
-  get definitions(): MCPToolDefinition[] {
-    return [this._definition];
+  get definition(): MCPToolDefinition {
+    return this._definition;
   }
 
   /**

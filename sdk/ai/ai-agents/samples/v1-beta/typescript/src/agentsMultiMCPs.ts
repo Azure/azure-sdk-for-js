@@ -63,7 +63,7 @@ export async function main(): Promise<void> {
     name: "my-mcp-agent",
     instructions:
       "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
-    tools: mcpTools.map((tool) => tool.definitions[0]),
+    tools: mcpTools.map((tool) => tool.definition),
   });
   console.log(`Created agent, agent ID : ${agent.id}`);
   console.log(`MCP Server 1: ${mcpTool1.serverLabel} at ${mcpTool1.serverUrl}`);

@@ -554,7 +554,7 @@ export class MCPTool {
     constructor(serverLabel: string, serverUrl: string, allowedTools?: string[]);
     get allowedTools(): string[];
     allowTool(toolName: string): void;
-    get definitions(): MCPToolDefinition[];
+    get definition(): MCPToolDefinition;
     disallowTool(toolName: string): void;
     get headers(): Record<string, string>;
     static mergeResources(mcpTools: MCPTool[]): ToolResources;
@@ -1775,6 +1775,14 @@ export class ToolSet {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
+    addMCPTool(options: {
+        serverLabel: string;
+        serverUrl: string;
+        allowedTools?: string[];
+    }): {
+        definition: MCPToolDefinition;
+        resources: ToolResources;
+    };
     addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
     };
@@ -1808,6 +1816,11 @@ export class ToolUtility {
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
     };
+    static createMCPTool(options: {
+        serverLabel: string;
+        serverUrl: string;
+        allowedTools?: string[];
+    }): MCPTool;
     static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
     };

@@ -24,8 +24,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agentsImageInputWithFile.js][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
 | [agentsImageInputWithUrl.js][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
 | [agentsLocalTelemetry.js][agentslocaltelemetry]                               | This sample demonstrates how to enable telemetry for AIAgentClient at local development.                                   |
-| [agentsMCPs.js][agentsmcps]                                                   | demonstrates how to use agent operations with the MCP tool.                                                                |
 | [agentsMultiMCPs.js][agentsmultimcps]                                         | demonstrates how to use agent operations with multiple MCP servers.                                                        |
+| [agentsMultiMCPsWithToolset.js][agentsmultimcpswithtoolset]                   | demonstrates how to use agent operations with multiple MCP servers.                                                        |
 | [agentsRemoteTelemetry.js][agentsremotetelemetry]                             | This sample demonstrates how to enable remote telemetry for AIAgentClient at production.                                   |
 | [agentsWithFunctionTool.js][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
 | [agentsWithOpenApi.js][agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
@@ -95,8 +95,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithFile.js
 [agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithUrl.js
 [agentslocaltelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsLocalTelemetry.js
-[agentsmcps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsMCPs.js
 [agentsmultimcps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsMultiMCPs.js
+[agentsmultimcpswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsMultiMCPsWithToolset.js
 [agentsremotetelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsRemoteTelemetry.js
 [agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithFunctionTool.js
 [agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithOpenApi.js

@@ -17,7 +17,7 @@ import type {
   ToolApproval,
   RunStepToolCallDetails,
 } from "@azure/ai-agents";
-import { AgentsClient, MCPTool, ToolUtility, isOutputOfType } from "@azure/ai-agents";
+import { AgentsClient, MCPTool, ToolUtility, ToolSet, isOutputOfType } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -40,35 +40,29 @@ async function sleep(ms: number): Promise<void> {
 export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
-  // Initialize agent MCP tool
-  const mcpTool1 = ToolUtility.createMCPTool({
+  const toolSet = new ToolSet();
+  toolSet.addMCPTool({
     serverLabel: mcpServerLabel1,
     serverUrl: mcpServerUrl1,
-    allowedTools: [], // Optional: specify allowed tools
+    allowedTools: ["search_azure_rest_api_code"], // Optional: specify allowed tools
   });
   // You can also add or remove allowed tools dynamically
-  const searchApiCode = "search_azure_rest_api_code";
-  mcpTool1.allowTool(searchApiCode);
-  console.log(`mcpTool1 Allowed tools: ${mcpTool1.allowedTools}`);
 
-  const mcpTool2 = ToolUtility.createMCPTool({
+  toolSet.addMCPTool({
     serverLabel: mcpServerLabel2,
     serverUrl: mcpServerUrl2,
     allowedTools: ["microsoft_docs_search"], // Optional: specify allowed tools
   });
-  console.log(`mcpTool2 Allowed tools: ${mcpTool2.allowedTools}`);
-  const mcpTools = [mcpTool1, mcpTool2];
 
   // Create agent with MCP tool
   const agent = await client.createAgent(modelDeploymentName, {
     name: "my-mcp-agent",
     instructions:
       "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
-    tools: mcpTools.map((tool) => tool.definition),
+    // tools: mcpTools.map((tool) => tool.definition),
+    tools: toolSet.toolDefinitions,
   });
   console.log(`Created agent, agent ID : ${agent.id}`);
-  console.log(`MCP Server 1: ${mcpTool1.serverLabel} at ${mcpTool1.serverUrl}`);
-  console.log(`MCP Server 2: ${mcpTool2.serverLabel} at ${mcpTool2.serverUrl}`);
 
   // Create thread for communication
   const thread = await client.threads.create();
@@ -81,12 +75,8 @@ export async function main(): Promise<void> {
     "Please summarize the Azure REST API specifications Readme and Give me the Azure CLI commands to create an Azure Container App with a managed identity",
   );
   console.log(`Created message, message ID: ${message.id}`);
-  mcpTool1.updateHeaders("SuperSecret", "123456");
-  mcpTool2.setApprovalMode("never");  // Disable approval for MS Learn MCP tool
-  const toolResources = MCPTool.mergeResources(mcpTools);
-  console.log(toolResources);
   let run = await client.runs.create(thread.id, agent.id, {
-    toolResources: toolResources,
+    toolResources: toolSet.toolResources,
   });
   console.log(`Created run, run ID: ${run.id}`);
 
@@ -120,7 +110,9 @@ export async function main(): Promise<void> {
           toolApprovals.push({
             toolCallId: toolCall.id,
             approve: true,
-            headers: mcpTool1.headers,
+            headers: {
+              "SuperSecret": "123456"
+            },
           });
         }
       }
@@ -175,18 +167,6 @@ export async function main(): Promise<void> {
       console.log(`${msg.role.toUpperCase()}: ${messageContent.text.value}`);
       console.log("-".repeat(50));
     }
-  }
-
-  // Example of dynamic tool management
-  console.log("\nDemonstrating dynamic tool management:");
-  console.log(`Current allowed tools: ${mcpTool1.allowedTools}`);
-
-  // Remove a tool
-  try {
-    mcpTool1.disallowTool(searchApiCode);
-    console.log(`After removing ${searchApiCode}: ${mcpTool1.allowedTools}`);
-  } catch (error) {
-    console.log(`Error removing tool: ${error}`);
   }
 
   // Delete the agent when done
