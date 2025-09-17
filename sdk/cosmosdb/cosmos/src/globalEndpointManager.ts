@@ -268,9 +268,7 @@ export class GlobalEndpointManager {
    *  and then updating the locations cache.
    *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
-  public async refreshEndpointList(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<DatabaseAccount> {
+  public async refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
@@ -280,7 +278,6 @@ export class GlobalEndpointManager {
         this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
       }
       this.isRefreshing = false;
-      return databaseAccount;
     }
   }
 

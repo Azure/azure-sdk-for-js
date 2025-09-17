@@ -41,7 +41,12 @@ export class GlobalPartitionEndpointManager {
     >();
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    this.initiateCircuitBreakerFailbackLoop();
+    if (
+      this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
+      this.globalEndpointManager.enablePartitionLevelFailover
+    ) {
+      this.initiateCircuitBreakerFailbackLoop();
+    }
   }
 
   /**
@@ -391,6 +396,15 @@ export class GlobalPartitionEndpointManager {
    * location for the partition key range.
    */
   private async openConnectionToUnhealthyEndpointsWithFailback(): Promise<void> {
+    // If partition level circuit breaker or failover is not enabled, dispose the timer.
+    const enablePartitionLevelCircuitBreaker =
+      this.globalEndpointManager.enablePartitionLevelCircuitBreaker ||
+      this.globalEndpointManager.enablePartitionLevelFailover;
+    if (!enablePartitionLevelCircuitBreaker) {
+      this.dispose();
+      return;
+    }
+
     for (const pkRange of this.partitionKeyRangeToLocationForReadAndWrite.keys()) {
       const partitionFailover = this.partitionKeyRangeToLocationForReadAndWrite.get(pkRange);
       if (!partitionFailover) continue;

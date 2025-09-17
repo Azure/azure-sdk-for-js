@@ -346,12 +346,7 @@ export class CosmosClient {
       try {
         return withDiagnostics(
           async (diagnosticNode: DiagnosticNodeInternal) => {
-            const databaseAccount = await globalEndpointManager.refreshEndpointList(diagnosticNode);
-            if (databaseAccount && databaseAccount.enablePerPartitionFailoverBehavior === false) {
-              if (this.globalPartitionEndpointManager) {
-                this.globalPartitionEndpointManager.dispose();
-              }
-            }
+            return globalEndpointManager.refreshEndpointList(diagnosticNode);
           },
           this.clientContext,
           DiagnosticNodeType.BACKGROUND_REFRESH_THREAD,
