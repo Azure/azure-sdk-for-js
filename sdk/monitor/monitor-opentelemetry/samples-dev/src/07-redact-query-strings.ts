@@ -28,7 +28,7 @@ async function createRedactQueryStringProcessor() {
       return Promise.resolve();
     }
 
-    onStart(span: any, parentContext: any) {
+    onStart(_span: any, _parentContext: any) {
       // No action needed on span start
       return;
     }
