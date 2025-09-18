@@ -37,7 +37,7 @@ export function urlQueryParamNormalizationPolicy(): PipelinePolicy {
       for (const p of collected) {
         normalized.append(p.lower, p.value);
       }
-      Object.assign(request, { url: `${base}?${normalized.toString()}` });
+      request.url = `${base}?${normalized.toString()}`;
       return next(request);
     },
   };
