@@ -8,27 +8,32 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import "@azure/openai/types";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
 
-// Your Azure Cognitive Search endpoint, and index name
-const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
-const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
+const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"];
+const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"];
 
 export async function main(): Promise<void> {
   console.log("== On Your Data Sample ==");
 
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
+  if (!azureSearchEndpoint) {
+    throw new Error("Please set the AZURE_SEARCH_ENDPOINT environment variable.");
+  }
+  if (!azureSearchIndexName) {
+    throw new Error("Please set the AZURE_SEARCH_INDEX environment variable.");
+  }
+
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2025-04-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const deployment = "gpt-4";
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
   const events = await client.chat.completions.create({
     stream: true,
     messages: [
@@ -39,7 +44,7 @@ export async function main(): Promise<void> {
       },
     ],
     max_tokens: 128,
-    model: "",
+    model: deployment,
     data_sources: [
       {
         type: "azure_search",
