@@ -73,7 +73,7 @@ export async function _updateDeserialize(
  * The subscriptions share the GroupQuotaLimits assigned to the GroupQuota. If the GroupQuotaLimits is used, then submit a groupQuotaLimit request for the specific resource - provider/location/resource.
  * Once the GroupQuota Enforcement is enabled then, it cannot be deleted or reverted back. To disable GroupQuota Enforcement -
  * 1. Remove all the subscriptions from the groupQuota using the delete API for Subscriptions (Check the example - GroupQuotaSubscriptions_Delete).
- * 2. Ten delete the GroupQuota (Check the example - GroupQuotas_Delete).
+ * 2. Then delete the GroupQuota (Check the example - GroupQuotas_Delete).
  */
 export function update(
   context: Client,
