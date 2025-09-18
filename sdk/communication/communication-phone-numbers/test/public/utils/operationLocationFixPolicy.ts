@@ -51,7 +51,6 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
           // Common LRO result endpoints for Azure Communication Services
           fixedUrl = `${SANITIZED_BASE_URL}/availablePhoneNumbers/searchResults/00000000-0000-0000-0000-000000000000${queryParams ? `?${queryParams}` : ""}`;
 
-          // eslint-disable-next-line no-param-reassign
           request.url = fixedUrl;
         }
 
@@ -66,7 +65,6 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
             fixedUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/search_00000000-0000-0000-0000-000000000000${queryParams ? `?${queryParams}` : ""}`;
           }
 
-          // eslint-disable-next-line no-param-reassign
           request.url = fixedUrl;
         }
       }
