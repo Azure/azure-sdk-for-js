@@ -13,6 +13,7 @@ import type {
   QueryRange,
   Response,
 } from "../request/index.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
@@ -20,7 +21,9 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
-import { SqlQuerySpec } from "./SqlQuerySpec.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { type ParallelQueryResult } from "./ParallelQueryResult.js";
+import { validateContinuationTokenUsage } from "./QueryValidationHelper.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -57,6 +60,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
+    // Validate continuation token usage - hybrid queries don't support continuation tokens
+    validateContinuationTokenUsage(this.options.continuationToken, false, false, false, true);
+
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
@@ -166,7 +172,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
         if (result && result.result) {
-          for (const item of result.result) {
+          const resultData = (result.result as ParallelQueryResult).buffer;
+          for (const item of resultData) {
             const globalStatistics: GlobalStatistics = item;
             if (globalStatistics) {
               // iterate over the components update placeholders from globalStatistics
@@ -200,10 +207,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           const componentExecutionContext = this.componentsExecutionContext.pop();
           if (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+
+            // Handle both old array format and new ParallelQueryResult format
+            const resultData = (result.result as ParallelQueryResult).buffer;
+            if (resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -222,10 +231,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         for (const componentExecutionContext of this.componentsExecutionContext) {
           while (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+
+            // Handle both old array format and new ParallelQueryResult format
+            const resultData = (result.result as ParallelQueryResult).buffer;
+            if (resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -384,10 +395,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const componentExecutionContext = this.componentsExecutionContext[0];
         if (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+
+          // Handle both old array format and new ParallelQueryResult format
+          const resultData = Array.isArray(result.result)
+            ? result.result
+            : (result.result as ParallelQueryResult).buffer;
+          if (resultData) {
+            resultData.forEach((item: any) => {
               this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
@@ -405,10 +420,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         // add check for enable query control
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+
+          // Handle both old array format and new ParallelQueryResult format
+          const resultData = Array.isArray(result.result)
+            ? result.result
+            : (result.result as ParallelQueryResult).buffer;
+          if (resultData) {
+            resultData.forEach((item: any) => {
               hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
