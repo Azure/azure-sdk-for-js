@@ -26,7 +26,6 @@ catalog:
   tslib: ^2.8.1
   tsx: ^4.20.4
   typescript: ~5.8.3
-  zod: ^4.1.3
 
 # Named catalogs
 catalogs:
