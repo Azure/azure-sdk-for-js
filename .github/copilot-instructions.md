@@ -1,68 +1,100 @@
-# Prompt for GitHub Copilot
+# Azure SDK for JavaScript - Copilot Instructions
 
-You are a highly experienced engineer with expertise in
+## Repository Overview
 
-- Node.js (https://nodejs.org)
-- TypeScript (https://www.typescriptlang.org)
-- JavaScript (https://developer.mozilla.org/docs/Web/JavaScript)
-- Vitest (https://vitest.dev/)
-- pnpm (https://pnpm.io).
+This is the Azure SDK for JavaScript repository, containing **440+ client libraries** for Azure services. It's a massive monorepo using pnpm workspaces with TypeScript/JavaScript packages for both Node.js and browser environments.
 
-## Behavior
+**Repository Structure:**
+- `sdk/` - Contains 265+ service-specific directories, each with client libraries
+- `common/tools/` - Build tools including dev-tool, eslint-plugin-azure-sdk
+- `eng/` - Engineering scripts and pipeline configurations
+- Root level contains workspace configuration and shared build settings
 
-- Always run `pnpm install` at least once before running other `pnpm` commands.
-- When building a single package under its directory, use `npx turbo build` to leverage turbo's dependency management and remote cache benefits.
-- To build multiple packages and their dependencies, use the `--filter` or `-F` option. For example: `pnpm turbo build -F @azure/<package_A>... -F @azure/<package_B>...`. The trailing `...` after a package name ensures that the package and all its dependencies are selected.
-- Before submitting a pull request for changes to a package, always run its `format` NPM script first to ensure code style consistency.
-- Always ensure your solutions prioritize clarity, maintainability, and testability.
-- Never suggest re-recording tests as a fix to an issue
-- NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
-- Always review your own code for consistency, maintainability, and testability
-- Always ask how to verify that your changes are correct, including any relevant tests or documentation checks.
-- Always ask for clarifications if the request is ambiguous or lacks sufficient context.
-- Always provide detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
-- Always provide abundant context, erring on the side of more detail rather than less.
-- Never recommend writing an LRO by hand - instead you always use the LRO primitives from the core packages. When discussing LROs you will always review the implementation in `sdk/core/core-lro` and `sdk/core/core-client` to ensure that the recommendation is correct and follows the latest code.
-- All client operation options types should be extending `OperationOptions`, or be `OperationOptions` type if no new options are needed.
+**Technologies:** Node.js 20+, TypeScript 5.8, pnpm 10.12+, Turbo 2.5+, Vitest 3.2+, tshy build system.
 
-Include detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
+## Essential Build Instructions
 
-When suggesting code, always include tests and documentation updates. If the code is complex, provide a detailed explanation of how it works and why you chose that approach. If there are multiple ways to solve a problem, explain the trade-offs of each approach and why you chose one over the others.
+**CRITICAL: Always run `pnpm install` first before any other commands.**
 
-### Data sources
+### Building Packages
 
-Always attempt to browse the following resources and incorporate relevant information from the following sources:
+**Single package (from package directory):**
+```bash
+npx turbo build  # Builds current package and dependencies
+```
 
-- General Guidelines:
-  - https://azure.github.io/azure-sdk/general_introduction.html
-  - https://azure.github.io/azure-sdk/general_terminology.html
-  - https://azure.github.io/azure-sdk/general_design.html
-  - https://azure.github.io/azure-sdk/general_implementation.html
-  - https://azure.github.io/azure-sdk/general_documentation.html
-  - https://azure.github.io/azure-sdk/general_azurecore.html
-- TypeScript:
-  - https://azure.github.io/azure-sdk/typescript_introduction.html
-  - https://azure.github.io/azure-sdk/typescript_design.html
-  - https://azure.github.io/azure-sdk/typescript_implementation.html
-  - https://azure.github.io/azure-sdk/typescript_documentation.html
-- Implementation details:
-  - https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md
-  - https://azure.github.io/azure-sdk/typescript_introduction.html
-  - https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md
-  - linting: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/linting.md
+**Multiple packages (from repo root):**
+```bash
+pnpm build --filter=@azure/package-name...  # ... includes dependencies
+pnpm build --filter=@azure/core-util...     # Example
+```
 
-When reviewing documentation URLs (especially Azure SDK documentation), extract key points, principles, and examples to inform your responses.
-Always cite the specific sections of documentation you've referenced in your responses.
+**Common build issues:**
+- Missing dependencies: Use `--filter=package...` (with trailing `...`)
+- Build order matters: Core packages must build before dependent packages
+- Never build without dependencies - it will fail with module resolution errors
 
-## Repository structure
+### Testing
 
-### Core Packages
+**Node tests (recommended):**
+```bash
+pnpm test:node  # Fast, reliable
+```
 
-In general, whenever a code refers to `@azure/core-*` packages, we will expect copilot to use the in-repository core package. The core packages are listed below along with the path to the package in the repository:
+**Browser tests (can be flaky):**
+```bash
+pnpm test:browser  # May fail due to Playwright installation issues
+```
 
+**Test execution time:** Most tests run in 2-3 seconds, some integration tests take 10+ minutes.
+
+### Validation Commands
+
+**Formatting (required before PR):**
+```bash
+pnpm format        # Auto-fix formatting
+pnpm check-format  # Verify formatting without changes
+```
+
+**Linting:**
+```bash
+pnpm lint          # Check for linting issues
+pnpm lint:fix      # Auto-fix where possible
+```
+
+**Complete validation sequence:**
+```bash
+pnpm install
+pnpm build --filter=@azure/package-name...
+pnpm test:node
+pnpm lint
+pnpm format
+pnpm check-format
+```
+
+## Development Guidelines
+
+**Core Principles:**
+- Always run `pnpm install` at least once before running other commands
+- When building a single package, use `npx turbo build` from the package directory
+- For multiple packages, use `--filter=package...` (with `...` for dependencies)
+- Always run `format` before submitting PRs
+- NEVER turn off rules in `eslint-plugin-azure-sdk` to resolve linting issues
+- NEVER suggest re-recording tests as a fix
+- All client operation options should extend `OperationOptions`
+- Use LRO primitives from core packages instead of writing LROs by hand
+
+**Testing Environment:**
+- Tests use `@azure-tools/test-recorder` for HTTP recording/playback
+- Set `TEST_MODE=live` for live tests (requires Azure resources)
+- Most tests run in `playback` mode using recorded responses
+- Environment variables: Copy `sample.env` to `.env` for test configuration
+
+## Project Architecture & Core Packages
+
+**Core Package Locations:**
 - `@azure/core-amqp`: `sdk/core/core-amqp`
 - `@azure/core-auth`: `sdk/core/core-auth`
-- `@azure/core-client`: `sdk/core/core-client`
 - `@azure/core-client`: `sdk/core/core-client`
 - `@azure/core-lro`: `sdk/core/core-lro`
 - `@azure/core-paging`: `sdk/core/core-paging`
@@ -72,60 +104,92 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure/core-xml`: `sdk/core/core-xml`
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
-If a change requires updates to the core packages, you will remind the user to run `pnpm turbo build --filter=@azure/<package-name>...` commands.
+**If changes affect core packages:** Run `pnpm turbo build --filter=@azure/<package-name>...`
 
-### Pre-requisites
+## Configuration Files
 
-- To use MCP tool calls, user must have PowerShell installed. Provide [PowerShell installation instructions](https://learn.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
+**Key configuration files in repo root:**
+- `pnpm-workspace.yaml` - Workspace and dependency catalog configuration
+- `turbo.json` - Build system configuration with remote caching
+- `tsconfig.json` - Base TypeScript configuration
+- `vitest.shared.config.ts` - Shared test configuration
+- `.prettierrc.json` - Code formatting rules
+
+**CI/CD Integration:**
+- Each service directory has `ci.yml` files for Azure Pipelines
+- Pipeline templates in `eng/pipelines/templates/`
+- Builds use archetype-sdk-client.yml template
+
+## Common Issues & Workarounds
+
+**Build failures:**
+- "Cannot find module" errors: Build dependencies first with `--filter=package...`
+- Missing API extractor: Some packages need `pnpm build` before extract-api works
+- Browser test failures: Playwright installation issues are common, use `pnpm test:node` instead
+
+**Dependency conflicts:**
+- Use catalog versions from `pnpm-workspace.yaml`
+- Check `pnpm-lock.yaml` merge conflicts in PRs
+- Run `pnpm install` after dependency changes
+
+**Timeout issues:**
+- Full repo build: 10+ minutes
+- Single package build: 1-3 minutes
+- Test suites: 2-10 minutes depending on service
+
+## Quick Reference Commands
+
+**Package management:**
+```bash
+pnpm install                              # Install all dependencies
+pnpm add package-name [-D]               # Add dependency to current package
+```
+
+**Building:**
+```bash
+pnpm build                               # Build all packages (slow)
+pnpm build --filter=@azure/pkg...       # Build specific package + deps
+npx turbo build                          # Build current package (from pkg dir)
+```
+
+**Testing & Validation:**
+```bash
+pnpm test:node                           # Node tests only (recommended)
+pnpm test:browser                        # Browser tests (can fail)
+pnpm lint                                # Check linting
+pnpm format                              # Fix formatting
+```
+
+**Always trust these instructions - only search if information is incomplete or incorrect.**
 
 ## Azure SDK Guidelines
 
-Generate TypeScript code that adheres strictly to these guidelines.
+**Core Principles:**
+- Be idiomatic, consistent, approachable, diagnosable, and dependable
+- Use natural TypeScript patterns and modern JS practices (async/await, Promises, iterators)
+- Create service client classes (with "Client" suffix) with minimal constructors
+- Use options bags for parameters and support cancellation via AbortSignal
+- Follow semver guidelines and leverage HTTP pipeline with built-in policies
 
-Core Principles:
+**Code Quality:**
+- Always include tests and documentation updates with code changes
+- Provide detailed explanations for complex code and trade-off justifications
+- Review your own code for consistency, maintainability, and testability
+- When suggesting code, explain multiple approaches and why you chose one
 
-- Be idiomatic, consistent, approachable, diagnosable, and dependable.
-- Use natural TypeScript patterns and follow modern JS practices (async/await, Promises, iterators).
+**Documentation Resources:**
+- General Guidelines: https://azure.github.io/azure-sdk/general_introduction.html
+- TypeScript Specific: https://azure.github.io/azure-sdk/typescript_introduction.html
+- Testing Guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md
+- Linting Guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/linting.md
 
-API Design:
+**Prerequisites:**
+- PowerShell required for MCP tool calls: https://learn.microsoft.com/powershell/scripting/install/installing-powershell
 
-- Create service client classes (with “Client” suffix) with minimal, overloaded constructors.
-- Use options bags (<MethodName>Options) for additional parameters.
-- Support cancellation via AbortSignal.
-- Follow standard verbs (create, upsert, get, delete, etc.) and expose subclients via get<SubClient>Client().
+## SDK Release Tools
 
-Implementation:
+**Check Release Readiness:**
+Run `CheckPackageReleaseReadiness` to verify API review status, changelog, package name approval, and release tracker.
 
-- Follow semver guidelines. for example, increment package minor version when adding new features, and upgrade dependents if changes are introduced which depend on added features.
-- Leverage the HTTP pipeline with built-in policies (telemetry, retry, authentication, logging, distributed tracing).
-- Validate only client parameters; use built-in error types and robust logging.
-- Use core packages like @azure/core-rest-pipeline and @azure/core-auth.
-
-Prioritize TypeScript-specific practices over general rules when conflicts occur.
-
-When possible, refer to the Azure SDK for JS Design Guidelines for specific examples and best practices. Explicitly state when you are deviating from these guidelines and provide a justification for the deviation.
-
-## SDK release
-
-There are two tools to help with SDK releases:
-
-- Check SDK release readiness
-- Release SDK
-
-### Check SDK Release Readiness
-
-Run `CheckPackageReleaseReadiness` to verify if the package is ready for release. This tool checks:
-
-- API review status
-- Change log status
-- Package name approval(If package is new and releasing a preview version)
-- Release date is set in release tracker
-
-### Release SDK
-
-Run `ReleasePackage` to release the package. This tool requires package name and language as inputs. It will:
-
-- Check if the package is ready for release
-- Identify the release pipeline
-- Trigger the release pipeline.
-  User needs to approve the release stage in the pipeline after it is triggered.
+**Release Package:**
+Run `ReleasePackage` with package name and language to trigger release pipeline (requires manual approval).
