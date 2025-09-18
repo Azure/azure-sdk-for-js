@@ -196,12 +196,18 @@ const options: CosmosClientOptions = {
   key: masterKey,
   connectionPolicy: {
     preferredLocations: ["East US", "Australia East", "West US"],
+    enablePartitionLevelFailover: false,
+    enablePartitionLevelCircuitBreaker: false,
   },
 };
 
 const options1: CosmosClientOptions = {
   endpoint,
   key: masterKey,
+  connectionPolicy: {
+    enablePartitionLevelFailover: false,
+    enablePartitionLevelCircuitBreaker: false,
+  },
 };
 
 const options2: CosmosClientOptions = {
@@ -209,6 +215,8 @@ const options2: CosmosClientOptions = {
   key: masterKey,
   connectionPolicy: {
     preferredLocations: ["East US", "Australia East"],
+    enablePartitionLevelFailover: false,
+    enablePartitionLevelCircuitBreaker: false,
   },
 };
 

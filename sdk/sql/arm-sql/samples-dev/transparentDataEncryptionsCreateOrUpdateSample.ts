@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  LogicalDatabaseTransparentDataEncryption,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Updates a logical database's transparent data encryption configuration.
  *
  * @summary Updates a logical database's transparent data encryption configuration.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/TransparentDataEncryptionUpdate.json
  */
-
-import type { LogicalDatabaseTransparentDataEncryption } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateADatabaseTransparentDataEncryptionStateWithMinimalParameters(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "securitytde-42-rg";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "securitytde-42-rg";
   const serverName = "securitytde-42";
   const databaseName = "testdb";
   const tdeName = "current";
@@ -25,13 +28,14 @@ async function updateADatabaseTransparentDataEncryptionStateWithMinimalParameter
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.transparentDataEncryptions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    tdeName,
-    parameters,
-  );
+  const result =
+    await client.transparentDataEncryptions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      tdeName,
+      parameters,
+    );
   console.log(result);
 }
 
