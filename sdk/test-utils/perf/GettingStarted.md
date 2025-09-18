@@ -23,7 +23,7 @@
 
 ## [Sample perf test project](#sample-perf-test-project)
 
-A [sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template-perf-tests) has been created which demonstrates a basic perf test against the existing `@azure/template` project. Take a look at this sample to see the standard perf test project structure.
+A [sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/perf-tests) has been created which demonstrates a basic perf test against the existing `@azure/template` project. Take a look at this sample to see the standard perf test project structure.
 
 ## [Setting up the project](#setting-up-the-project)
 
@@ -31,12 +31,12 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 1.  Create a new folder for the perf tests.
 
-    Path- `sdk/<service>/<service-sdk>-perf-tests`
+    Path- `sdk/<service>/<service-sdk>/perf-tests`
 
-    (Create the `<service-sdk>-perf-tests` folder if that doesn't exist)
+    (Create the `perf-tests` folder inside the package directory if that doesn't exist)
 
-2.  Tests will live under `sdk/<service>/<service-sdk>-perf-tests/test`
-3.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/<service-sdk>-perf-tests` folder.
+2.  Tests will live under `sdk/<service>/<service-sdk>/perf-tests/test`
+3.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake/perf-tests/package.json) at `sdk/<service>/<service-sdk>/perf-tests` folder.
 
     Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
 
@@ -58,14 +58,14 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```
 
 4.  Run `pnpm install` and commit the changes to the `pnpm-lock` file.
-5.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template-perf-tests).
-6.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
+5.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/perf-tests).
+6.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>/perf-tests`.
 
 ## [Writing perf tests](#writing-perf-tests)
 
 ### [Entry Point](#entry-point)
 
-Add an `index.ts` at `sdk/<service>/<service-sdk>-perf-tests/src/`.
+Add an `index.ts` at `sdk/<service>/<service-sdk>/perf-tests/src/`.
 
 ```js
 import { createPerfProgram } from "@azure-tools/test-perf";
@@ -86,7 +86,7 @@ perfProgram.run();
 
 Base class would have all the common code that would be repeated for each of the tests - common code such as creating the client, creating a base resource, etc.
 
-Create a new file such as `serviceName.spec.ts` at `sdk/<service>/<service-sdk>-perf-tests/test/`.
+Create a new file such as `serviceName.spec.ts` at `sdk/<service>/<service-sdk>/perf-tests/test/`.
 
 ```js
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
@@ -185,7 +185,7 @@ To run a particular test, use `npm run perf-test:node` - takes the test class na
 
 ### [Adding Readme/Instructions](#adding-readme/instructions)
 
-Refer to [the README for the template project](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template-perf-tests/README.md) and create a similar set of instructions for your perf project.
+Refer to [the README for the template project](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/perf-tests/README.md) and create a similar set of instructions for your perf project.
 
 ### [Testing an older version](#testing-an-older-version)
 
@@ -193,7 +193,7 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 
 - In the perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
 - `pnpm install` (generates a new pnpm-lock file)
-- Navigate to `sdk\storage\<service-sdk>-perf-tests`
+- Navigate to `sdk\storage\<service-sdk>\perf-tests`
 - `pnpm build --filter=perf-<service-sdk>`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
