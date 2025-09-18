@@ -1471,40 +1471,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/appconfiguration/app-configuration/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/app-configuration':
-        specifier: 1.8.0
-        version: 1.8.0
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/appconfiguration/arm-appconfiguration:
     dependencies:
       '@azure/abort-controller':
@@ -1568,6 +1534,40 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+
+  sdk/appconfiguration/perf-tests/app-configuration:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/app-configuration':
+        specifier: 1.8.0
+        version: 1.8.0
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   sdk/appcontainers/arm-appcontainers:
     dependencies:
@@ -3565,14 +3565,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/cognitivelanguage/ai-language-text/perf-tests:
+  sdk/cognitivelanguage/perf-tests/ai-language-text:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/ai-language-text':
         specifier: ^1.1.0
-        version: link:..
+        version: link:../../ai-language-text
       '@azure/identity':
         specifier: ^4.5.0
         version: link:../../../identity/identity
@@ -5939,14 +5939,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/containerregistry/container-registry/perf-tests:
+  sdk/containerregistry/perf-tests/container-registry:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/container-registry':
         specifier: ^1.1.0
-        version: link:..
+        version: link:../../container-registry
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -6755,52 +6755,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/core/core-rest-pipeline/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/core-auth':
-        specifier: ^1.10.0
-        version: link:../../core-auth
-      '@azure/core-rest-pipeline':
-        specifier: ^1.22.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-      undici:
-        specifier: ^7.1.0
-        version: 7.16.0
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/express':
-        specifier: ^5.0.3
-        version: 5.0.3
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      concurrently:
-        specifier: ^9.2.1
-        version: 9.2.1
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      express:
-        specifier: ^5.1.0
-        version: 5.1.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/core/core-sse:
     dependencies:
       tslib:
@@ -7024,6 +6978,52 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+
+  sdk/core/perf-tests/core-rest-pipeline:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/core-auth':
+        specifier: ^1.10.0
+        version: link:../../core-auth
+      '@azure/core-rest-pipeline':
+        specifier: ^1.22.0
+        version: link:../../core-rest-pipeline
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+      undici:
+        specifier: ^7.1.0
+        version: 7.16.0
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/express':
+        specifier: ^5.0.3
+        version: 5.0.3
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      concurrently:
+        specifier: ^9.2.1
+        version: 9.2.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      express:
+        specifier: ^5.1.0
+        version: 5.1.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   sdk/core/ts-http-runtime:
     dependencies:
@@ -10502,14 +10502,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/eventgrid/eventgrid/perf-tests:
+  sdk/eventgrid/perf-tests/eventgrid:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/eventgrid':
         specifier: ^5.11.0
-        version: link:..
+        version: link:../../eventgrid
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -10791,43 +10791,6 @@ importers:
         specifier: ^8.2.0
         version: 8.18.3
 
-  sdk/eventhub/event-hubs/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/core-amqp':
-        specifier: ^4.3.6
-        version: link:../../../core/core-amqp
-      '@azure/event-hubs':
-        specifier: ^6.0.0-beta.1
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      moment:
-        specifier: ^2.30.1
-        version: 2.30.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/eventhub/eventhubs-checkpointstore-blob:
     dependencies:
       '@azure/abort-controller':
@@ -11052,6 +11015,43 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+
+  sdk/eventhub/perf-tests/event-hubs:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/core-amqp':
+        specifier: ^4.3.6
+        version: link:../../../core/core-amqp
+      '@azure/event-hubs':
+        specifier: ^6.0.0-beta.1
+        version: link:../../event-hubs
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      moment:
+        specifier: ^2.30.1
+        version: 2.30.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   sdk/extendedlocation/arm-extendedlocation:
     dependencies:
@@ -11464,14 +11464,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/formrecognizer/ai-form-recognizer/perf-tests:
+  sdk/formrecognizer/perf-tests/ai-form-recognizer:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/ai-form-recognizer':
         specifier: ^5.0.0
-        version: link:..
+        version: link:../../ai-form-recognizer
       '@azure/identity':
         specifier: ^4.8.0
         version: link:../../../identity/identity
@@ -13021,14 +13021,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/identity/identity/perf-tests:
+  sdk/identity/perf-tests/identity:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: link:..
+        version: link:../../identity
       '@azure/identity-cache-persistence':
         specifier: ^1.2.0
         version: link:../../identity-cache-persistence
@@ -13999,40 +13999,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/keyvault/keyvault-certificates/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/identity':
-        specifier: ^4.8.0
-        version: link:../../../identity/identity
-      '@azure/keyvault-certificates':
-        specifier: ^4.9.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/keyvault/keyvault-common:
     dependencies:
       '@azure/abort-controller':
@@ -14173,40 +14139,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/keyvault/keyvault-keys/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/identity':
-        specifier: ^4.8.0
-        version: link:../../../identity/identity
-      '@azure/keyvault-keys':
-        specifier: ^4.9.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/keyvault/keyvault-secrets:
     dependencies:
       '@azure-rest/core-client':
@@ -14286,7 +14218,75 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/keyvault/keyvault-secrets/perf-tests:
+  sdk/keyvault/perf-tests/keyvault-certificates:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/identity':
+        specifier: ^4.8.0
+        version: link:../../../identity/identity
+      '@azure/keyvault-certificates':
+        specifier: ^4.9.0
+        version: link:../../keyvault-certificates
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
+  sdk/keyvault/perf-tests/keyvault-keys:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/identity':
+        specifier: ^4.8.0
+        version: link:../../../identity/identity
+      '@azure/keyvault-keys':
+        specifier: ^4.9.0
+        version: link:../../keyvault-keys
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
+  sdk/keyvault/perf-tests/keyvault-secrets:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
@@ -14296,7 +14296,7 @@ importers:
         version: link:../../../identity/identity
       '@azure/keyvault-secrets':
         specifier: ^4.9.0
-        version: link:..
+        version: link:../../keyvault-secrets
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -16963,14 +16963,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/metricsadvisor/ai-metrics-advisor/perf-tests:
+  sdk/metricsadvisor/perf-tests/ai-metrics-advisor:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/ai-metrics-advisor':
         specifier: ^1.0.0
-        version: link:..
+        version: link:../../ai-metrics-advisor
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -17600,40 +17600,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/monitor/monitor-ingestion/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: workspace:^
-        version: link:../../../test-utils/perf
-      '@azure/identity':
-        specifier: ^4.8.0
-        version: link:../../../identity/identity
-      '@azure/monitor-ingestion':
-        specifier: ^1.1.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/monitor/monitor-opentelemetry:
     dependencies:
       '@azure/core-auth':
@@ -17852,46 +17818,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/monitor/monitor-opentelemetry/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/monitor-opentelemetry':
-        specifier: ^1.14.0
-        version: link:..
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.0
-      '@opentelemetry/api-logs':
-        specifier: ^0.200.0
-        version: 0.200.0
-      '@opentelemetry/sdk-logs':
-        specifier: ^0.200.0
-        version: 0.200.0(@opentelemetry/api@1.9.0)
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/monitor/monitor-query-logs:
     dependencies:
       '@azure-rest/core-client':
@@ -18058,6 +17984,80 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+
+  sdk/monitor/perf-tests/monitor-ingestion:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: workspace:^
+        version: link:../../../test-utils/perf
+      '@azure/identity':
+        specifier: ^4.8.0
+        version: link:../../../identity/identity
+      '@azure/monitor-ingestion':
+        specifier: ^1.1.0
+        version: link:../../monitor-ingestion
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
+  sdk/monitor/perf-tests/monitor-opentelemetry:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/monitor-opentelemetry':
+        specifier: ^1.14.0
+        version: link:../../monitor-opentelemetry
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
+      '@opentelemetry/api-logs':
+        specifier: ^0.200.0
+        version: 0.200.0
+      '@opentelemetry/sdk-logs':
+        specifier: ^0.200.0
+        version: 0.200.0(@opentelemetry/api@1.9.0)
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   sdk/msi/arm-msi:
     dependencies:
@@ -22536,6 +22536,43 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
+  sdk/schemaregistry/perf-tests/schema-registry-avro:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/identity':
+        specifier: ^4.8.0
+        version: link:../../../identity/identity
+      '@azure/schema-registry':
+        specifier: 1.3.0
+        version: 1.3.0
+      '@azure/schema-registry-avro':
+        specifier: ^1.1.0
+        version: link:../../schema-registry-avro
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
   sdk/schemaregistry/schema-registry:
     dependencies:
       '@azure-rest/core-client':
@@ -22687,43 +22724,6 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
-
-  sdk/schemaregistry/schema-registry-avro/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/identity':
-        specifier: ^4.8.0
-        version: link:../../../identity/identity
-      '@azure/schema-registry':
-        specifier: 1.3.0
-        version: 1.3.0
-      '@azure/schema-registry-avro':
-        specifier: ^1.1.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
 
   sdk/schemaregistry/schema-registry-json:
     dependencies:
@@ -22929,6 +22929,40 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
+  sdk/search/perf-tests/search-documents:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/identity':
+        specifier: ^4.8.0
+        version: link:../../../identity/identity
+      '@azure/search-documents':
+        specifier: 12.1.0
+        version: 12.1.0
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
   sdk/search/search-documents:
     dependencies:
       '@azure/core-auth':
@@ -23010,40 +23044,6 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
-
-  sdk/search/search-documents/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/identity':
-        specifier: ^4.8.0
-        version: link:../../../identity/identity
-      '@azure/search-documents':
-        specifier: 12.1.0
-        version: 12.1.0
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
 
   sdk/security/arm-security:
     dependencies:
@@ -23475,6 +23475,40 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
+  sdk/servicebus/perf-tests/service-bus:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/service-bus':
+        specifier: ^7.9.5
+        version: 7.9.5
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
   sdk/servicebus/service-bus:
     dependencies:
       '@azure/abort-controller':
@@ -23616,40 +23650,6 @@ importers:
       ws:
         specifier: ^8.0.0
         version: 8.18.3
-
-  sdk/servicebus/service-bus/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/service-bus':
-        specifier: ^7.9.5
-        version: 7.9.5
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
 
   sdk/servicefabric/arm-servicefabric:
     dependencies:
@@ -24638,6 +24638,102 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
+  sdk/storage/perf-tests/storage-blob:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/core-rest-pipeline':
+        specifier: ^1.19.1
+        version: link:../../../core/core-rest-pipeline
+      '@azure/storage-blob':
+        specifier: ^12.27.0
+        version: link:../../storage-blob
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
+  sdk/storage/perf-tests/storage-file-datalake:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/storage-file-datalake':
+        specifier: ^12.26.0
+        version: link:../../storage-file-datalake
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
+  sdk/storage/perf-tests/storage-file-share:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/storage-file-share':
+        specifier: ^12.27.0
+        version: link:../../storage-file-share
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
   sdk/storage/storage-blob:
     dependencies:
       '@azure/abort-controller':
@@ -24814,40 +24910,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/storage/storage-blob/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
-        version: link:../../../core/core-rest-pipeline
-      '@azure/storage-blob':
-        specifier: ^12.27.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/storage/storage-common:
     dependencies:
       '@azure/abort-controller':
@@ -25000,37 +25062,6 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/storage/storage-file-datalake/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/storage-file-datalake':
-        specifier: ^12.26.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   sdk/storage/storage-file-share:
     dependencies:
       '@azure/abort-controller':
@@ -25121,37 +25152,6 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
-
-  sdk/storage/storage-file-share/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/storage-file-share':
-        specifier: ^12.27.0
-        version: link:..
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
 
   sdk/storage/storage-internal-avro:
     dependencies:
@@ -26570,14 +26570,51 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/tables/data-tables/perf-tests:
+  sdk/tables/perf-tests/data-tables:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/data-tables':
         specifier: ^13.3.0
-        version: link:..
+        version: link:../../data-tables
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../../common/tools/eslint-plugin-azure-sdk
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.14
+      eslint:
+        specifier: 'catalog:'
+        version: 9.35.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+
+  sdk/template/perf-tests/template:
+    dependencies:
+      '@azure-tools/test-perf':
+        specifier: ^1.0.0
+        version: link:../../../test-utils/perf
+      '@azure/app-configuration':
+        specifier: 1.8.0
+        version: 1.8.0
+      '@azure/identity':
+        specifier: ^4.8.0
+        version: link:../../../identity/identity
+      '@azure/template':
+        specifier: 1.0.13-beta.1
+        version: 1.0.13-beta.1
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -26731,43 +26768,6 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
-
-  sdk/template/template/perf-tests:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: link:../../../test-utils/perf
-      '@azure/app-configuration':
-        specifier: 1.8.0
-        version: 1.8.0
-      '@azure/identity':
-        specifier: ^4.8.0
-        version: link:../../../identity/identity
-      '@azure/template':
-        specifier: 1.0.13-beta.1
-        version: 1.0.13-beta.1
-      dotenv:
-        specifier: ^16.0.0
-        version: 16.6.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../../common/tools/eslint-plugin-azure-sdk
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.14
-      eslint:
-        specifier: 'catalog:'
-        version: 9.35.0
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
 
   sdk/templatespecs/arm-templatespecs:
     dependencies:
@@ -27172,14 +27172,14 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.14)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.14)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
-  sdk/textanalytics/ai-text-analytics/perf-tests:
+  sdk/textanalytics/perf-tests/ai-text-analytics:
     dependencies:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../../test-utils/perf
       '@azure/ai-text-analytics':
         specifier: ^5.1.0
-        version: link:..
+        version: link:../../ai-text-analytics
       '@azure/identity':
         specifier: ^4.8.0
         version: link:../../../identity/identity

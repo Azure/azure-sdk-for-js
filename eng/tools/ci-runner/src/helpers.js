@@ -129,7 +129,7 @@ const getPackageJSONs = (searchDir) => {
     .readdirSync(searchDir)
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
-  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
+  // This gets all the directories with package.json at the `sdk/<service>/perf-tests/<service-sdk>` level excluding "-track-1" perf test packages
   let perfTestDirectories = [];
   const searchPerfTestDir = path.join(searchDir, "perf-tests");
   if (fs.existsSync(searchPerfTestDir)) {

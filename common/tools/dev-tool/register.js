@@ -48,7 +48,7 @@ require("dotenv").config();
 let tsconfigPath;
 if (existsSync("../../../tsconfig.json")) {
   tsconfigPath = "../../../tsconfig.json";
-} else if (cwd.includes("/perf-tests") && existsSync("../../../../tsconfig.json")) {
+} else if (cwd.includes("/perf-tests/") && existsSync("../../../../tsconfig.json")) {
   tsconfigPath = "../../../../tsconfig.json";
 } else {
   console.info(
