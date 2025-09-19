@@ -11,20 +11,14 @@ export interface _CertificateListResult {
   readonly nextLink?: string;
 }
 
-export function _certificateListResultDeserializer(
-  item: any,
-): _CertificateListResult {
+export function _certificateListResultDeserializer(item: any): _CertificateListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : certificateItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : certificateItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function certificateItemArrayDeserializer(
-  result: Array<CertificateItem>,
-): any[] {
+export function certificateItemArrayDeserializer(result: Array<CertificateItem>): any[] {
   return result.map((item) => {
     return certificateItemDeserializer(item);
   });
@@ -75,33 +69,21 @@ export interface CertificateAttributes {
   readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
-export function certificateAttributesSerializer(
-  item: CertificateAttributes,
-): any {
+export function certificateAttributesSerializer(item: CertificateAttributes): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"]
-      ? item["notBefore"]
-      : (item["notBefore"].getTime() / 1000) | 0,
-    exp: !item["expires"]
-      ? item["expires"]
-      : (item["expires"].getTime() / 1000) | 0,
+    nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
+    exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
   };
 }
 
-export function certificateAttributesDeserializer(
-  item: any,
-): CertificateAttributes {
+export function certificateAttributesDeserializer(item: any): CertificateAttributes {
   return {
     enabled: item["enabled"],
     notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
     expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
-    created: !item["created"]
-      ? item["created"]
-      : new Date(item["created"] * 1000),
-    updated: !item["updated"]
-      ? item["updated"]
-      : new Date(item["updated"] * 1000),
+    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
+    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
   };
@@ -148,9 +130,7 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : _keyVaultErrorErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : _keyVaultErrorErrorDeserializer(item["error"]),
   };
 }
 
@@ -171,9 +151,7 @@ export interface _KeyVaultErrorError {
   readonly innerError?: ErrorModel;
 }
 
-export function _keyVaultErrorErrorDeserializer(
-  item: any,
-): _KeyVaultErrorError {
+export function _keyVaultErrorErrorDeserializer(item: any): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
@@ -213,9 +191,7 @@ export interface DeletedCertificateBundle {
   readonly deletedDate?: Date;
 }
 
-export function deletedCertificateBundleDeserializer(
-  item: any,
-): DeletedCertificateBundle {
+export function deletedCertificateBundleDeserializer(item: any): DeletedCertificateBundle {
   return {
     id: item["id"],
     kid: item["kid"],
@@ -225,9 +201,7 @@ export function deletedCertificateBundleDeserializer(
       : typeof item["x5t"] === "string"
         ? stringToUint8Array(item["x5t"], "base64url")
         : item["x5t"],
-    policy: !item["policy"]
-      ? item["policy"]
-      : certificatePolicyDeserializer(item["policy"]),
+    policy: !item["policy"] ? item["policy"] : certificatePolicyDeserializer(item["policy"]),
     cer: !item["cer"]
       ? item["cer"]
       : typeof item["cer"] === "string"
@@ -243,9 +217,7 @@ export function deletedCertificateBundleDeserializer(
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
       : new Date(item["scheduledPurgeDate"] * 1000),
-    deletedDate: !item["deletedDate"]
-      ? item["deletedDate"]
-      : new Date(item["deletedDate"] * 1000),
+    deletedDate: !item["deletedDate"] ? item["deletedDate"] : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -432,9 +404,7 @@ export interface X509CertificateProperties {
   validityInMonths?: number;
 }
 
-export function x509CertificatePropertiesSerializer(
-  item: X509CertificateProperties,
-): any {
+export function x509CertificatePropertiesSerializer(item: X509CertificateProperties): any {
   return {
     subject: item["subject"],
     ekus: !item["ekus"]
@@ -454,9 +424,7 @@ export function x509CertificatePropertiesSerializer(
   };
 }
 
-export function x509CertificatePropertiesDeserializer(
-  item: any,
-): X509CertificateProperties {
+export function x509CertificatePropertiesDeserializer(item: any): X509CertificateProperties {
   return {
     subject: item["subject"],
     ekus: !item["ekus"]
@@ -486,9 +454,7 @@ export interface SubjectAlternativeNames {
   upns?: string[];
 }
 
-export function subjectAlternativeNamesSerializer(
-  item: SubjectAlternativeNames,
-): any {
+export function subjectAlternativeNamesSerializer(item: SubjectAlternativeNames): any {
   return {
     emails: !item["emails"]
       ? item["emails"]
@@ -508,9 +474,7 @@ export function subjectAlternativeNamesSerializer(
   };
 }
 
-export function subjectAlternativeNamesDeserializer(
-  item: any,
-): SubjectAlternativeNames {
+export function subjectAlternativeNamesDeserializer(item: any): SubjectAlternativeNames {
   return {
     emails: !item["emails"]
       ? item["emails"]
@@ -569,17 +533,13 @@ export enum KnownKeyUsageType {
  */
 export type KeyUsageType = string;
 
-export function lifetimeActionArraySerializer(
-  result: Array<LifetimeAction>,
-): any[] {
+export function lifetimeActionArraySerializer(result: Array<LifetimeAction>): any[] {
   return result.map((item) => {
     return lifetimeActionSerializer(item);
   });
 }
 
-export function lifetimeActionArrayDeserializer(
-  result: Array<LifetimeAction>,
-): any[] {
+export function lifetimeActionArrayDeserializer(result: Array<LifetimeAction>): any[] {
   return result.map((item) => {
     return lifetimeActionDeserializer(item);
   });
@@ -595,21 +555,15 @@ export interface LifetimeAction {
 
 export function lifetimeActionSerializer(item: LifetimeAction): any {
   return {
-    trigger: !item["trigger"]
-      ? item["trigger"]
-      : triggerSerializer(item["trigger"]),
+    trigger: !item["trigger"] ? item["trigger"] : triggerSerializer(item["trigger"]),
     action: !item["action"] ? item["action"] : actionSerializer(item["action"]),
   };
 }
 
 export function lifetimeActionDeserializer(item: any): LifetimeAction {
   return {
-    trigger: !item["trigger"]
-      ? item["trigger"]
-      : triggerDeserializer(item["trigger"]),
-    action: !item["action"]
-      ? item["action"]
-      : actionDeserializer(item["action"]),
+    trigger: !item["trigger"] ? item["trigger"] : triggerDeserializer(item["trigger"]),
+    action: !item["action"] ? item["action"] : actionDeserializer(item["action"]),
   };
 }
 
@@ -699,9 +653,7 @@ export function contactsSerializer(item: Contacts): any {
 export function contactsDeserializer(item: any): Contacts {
   return {
     id: item["id"],
-    contactList: !item["contacts"]
-      ? item["contacts"]
-      : contactArrayDeserializer(item["contacts"]),
+    contactList: !item["contacts"] ? item["contacts"] : contactArrayDeserializer(item["contacts"]),
   };
 }
 
@@ -751,13 +703,9 @@ export interface _CertificateIssuerListResult {
   readonly nextLink?: string;
 }
 
-export function _certificateIssuerListResultDeserializer(
-  item: any,
-): _CertificateIssuerListResult {
+export function _certificateIssuerListResultDeserializer(item: any): _CertificateIssuerListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : certificateIssuerItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : certificateIssuerItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -778,9 +726,7 @@ export interface CertificateIssuerItem {
   provider?: string;
 }
 
-export function certificateIssuerItemDeserializer(
-  item: any,
-): CertificateIssuerItem {
+export function certificateIssuerItemDeserializer(item: any): CertificateIssuerItem {
   return {
     id: item["id"],
     provider: item["provider"],
@@ -852,9 +798,7 @@ export function organizationDetailsSerializer(item: OrganizationDetails): any {
   };
 }
 
-export function organizationDetailsDeserializer(
-  item: any,
-): OrganizationDetails {
+export function organizationDetailsDeserializer(item: any): OrganizationDetails {
   return {
     id: item["id"],
     adminDetails: !item["admin_details"]
@@ -863,17 +807,13 @@ export function organizationDetailsDeserializer(
   };
 }
 
-export function administratorDetailsArraySerializer(
-  result: Array<AdministratorDetails>,
-): any[] {
+export function administratorDetailsArraySerializer(result: Array<AdministratorDetails>): any[] {
   return result.map((item) => {
     return administratorDetailsSerializer(item);
   });
 }
 
-export function administratorDetailsArrayDeserializer(
-  result: Array<AdministratorDetails>,
-): any[] {
+export function administratorDetailsArrayDeserializer(result: Array<AdministratorDetails>): any[] {
   return result.map((item) => {
     return administratorDetailsDeserializer(item);
   });
@@ -891,9 +831,7 @@ export interface AdministratorDetails {
   phone?: string;
 }
 
-export function administratorDetailsSerializer(
-  item: AdministratorDetails,
-): any {
+export function administratorDetailsSerializer(item: AdministratorDetails): any {
   return {
     first_name: item["firstName"],
     last_name: item["lastName"],
@@ -902,9 +840,7 @@ export function administratorDetailsSerializer(
   };
 }
 
-export function administratorDetailsDeserializer(
-  item: any,
-): AdministratorDetails {
+export function administratorDetailsDeserializer(item: any): AdministratorDetails {
   return {
     firstName: item["first_name"],
     lastName: item["last_name"],
@@ -930,12 +866,8 @@ export function issuerAttributesSerializer(item: IssuerAttributes): any {
 export function issuerAttributesDeserializer(item: any): IssuerAttributes {
   return {
     enabled: item["enabled"],
-    created: !item["created"]
-      ? item["created"]
-      : new Date(item["created"] * 1000),
-    updated: !item["updated"]
-      ? item["updated"]
-      : new Date(item["updated"] * 1000),
+    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
+    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
   };
 }
 
@@ -1010,9 +942,7 @@ export interface CertificateCreateParameters {
   preserveCertOrder?: boolean;
 }
 
-export function certificateCreateParametersSerializer(
-  item: CertificateCreateParameters,
-): any {
+export function certificateCreateParametersSerializer(item: CertificateCreateParameters): any {
   return {
     policy: !item["certificatePolicy"]
       ? item["certificatePolicy"]
@@ -1049,9 +979,7 @@ export interface CertificateOperation {
   requestId?: string;
 }
 
-export function certificateOperationDeserializer(
-  item: any,
-): CertificateOperation {
+export function certificateOperationDeserializer(item: any): CertificateOperation {
   return {
     id: item["id"],
     issuerParameters: !item["issuer"]
@@ -1065,9 +993,7 @@ export function certificateOperationDeserializer(
     cancellationRequested: item["cancellation_requested"],
     status: item["status"],
     statusDetails: item["status_details"],
-    error: !item["error"]
-      ? item["error"]
-      : _keyVaultErrorErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : _keyVaultErrorErrorDeserializer(item["error"]),
     target: item["target"],
     preserveCertOrder: item["preserveCertOrder"],
     requestId: item["request_id"],
@@ -1090,9 +1016,7 @@ export interface CertificateImportParameters {
   preserveCertOrder?: boolean;
 }
 
-export function certificateImportParametersSerializer(
-  item: CertificateImportParameters,
-): any {
+export function certificateImportParametersSerializer(item: CertificateImportParameters): any {
   return {
     value: item["base64EncodedCertificate"],
     pwd: item["password"],
@@ -1141,9 +1065,7 @@ export function certificateBundleDeserializer(item: any): CertificateBundle {
       : typeof item["x5t"] === "string"
         ? stringToUint8Array(item["x5t"], "base64url")
         : item["x5t"],
-    policy: !item["policy"]
-      ? item["policy"]
-      : certificatePolicyDeserializer(item["policy"]),
+    policy: !item["policy"] ? item["policy"] : certificatePolicyDeserializer(item["policy"]),
     cer: !item["cer"]
       ? item["cer"]
       : typeof item["cer"] === "string"
@@ -1168,9 +1090,7 @@ export interface CertificateUpdateParameters {
   tags?: Record<string, string>;
 }
 
-export function certificateUpdateParametersSerializer(
-  item: CertificateUpdateParameters,
-): any {
+export function certificateUpdateParametersSerializer(item: CertificateUpdateParameters): any {
   return {
     policy: !item["certificatePolicy"]
       ? item["certificatePolicy"]
@@ -1204,9 +1124,7 @@ export interface CertificateMergeParameters {
   tags?: Record<string, string>;
 }
 
-export function certificateMergeParametersSerializer(
-  item: CertificateMergeParameters,
-): any {
+export function certificateMergeParametersSerializer(item: CertificateMergeParameters): any {
   return {
     x5c: item["x509Certificates"].map((p: any) => {
       return uint8ArrayToString(p, "base64");
@@ -1224,9 +1142,7 @@ export interface BackupCertificateResult {
   readonly value?: Uint8Array;
 }
 
-export function backupCertificateResultDeserializer(
-  item: any,
-): BackupCertificateResult {
+export function backupCertificateResultDeserializer(item: any): BackupCertificateResult {
   return {
     value: !item["value"]
       ? item["value"]
@@ -1242,9 +1158,7 @@ export interface CertificateRestoreParameters {
   certificateBundleBackup: Uint8Array;
 }
 
-export function certificateRestoreParametersSerializer(
-  item: CertificateRestoreParameters,
-): any {
+export function certificateRestoreParametersSerializer(item: CertificateRestoreParameters): any {
   return {
     value: uint8ArrayToString(item["certificateBundleBackup"], "base64url"),
   };
@@ -1262,9 +1176,7 @@ export function _deletedCertificateListResultDeserializer(
   item: any,
 ): _DeletedCertificateListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : deletedCertificateItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : deletedCertificateItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -1295,9 +1207,7 @@ export interface DeletedCertificateItem {
   readonly deletedDate?: Date;
 }
 
-export function deletedCertificateItemDeserializer(
-  item: any,
-): DeletedCertificateItem {
+export function deletedCertificateItemDeserializer(item: any): DeletedCertificateItem {
   return {
     id: item["id"],
     attributes: !item["attributes"]
@@ -1313,9 +1223,7 @@ export function deletedCertificateItemDeserializer(
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
       : new Date(item["scheduledPurgeDate"] * 1000),
-    deletedDate: !item["deletedDate"]
-      ? item["deletedDate"]
-      : new Date(item["deletedDate"] * 1000),
+    deletedDate: !item["deletedDate"] ? item["deletedDate"] : new Date(item["deletedDate"] * 1000),
   };
 }
 

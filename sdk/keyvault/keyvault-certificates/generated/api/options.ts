@@ -4,12 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface RecoverDeletedCertificateOptionalParams
-  extends OperationOptions {}
+export interface RecoverDeletedCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PurgeDeletedCertificateOptionalParams
-  extends OperationOptions {}
+export interface PurgeDeletedCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetDeletedCertificateOptionalParams extends OperationOptions {}
@@ -32,16 +30,13 @@ export interface BackupCertificateOptionalParams extends OperationOptions {}
 export interface MergeCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DeleteCertificateOperationOptionalParams
-  extends OperationOptions {}
+export interface DeleteCertificateOperationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GetCertificateOperationOptionalParams
-  extends OperationOptions {}
+export interface GetCertificateOperationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface UpdateCertificateOperationOptionalParams
-  extends OperationOptions {}
+export interface UpdateCertificateOperationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetCertificateOptionalParams extends OperationOptions {}
@@ -50,8 +45,7 @@ export interface GetCertificateOptionalParams extends OperationOptions {}
 export interface UpdateCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface UpdateCertificatePolicyOptionalParams
-  extends OperationOptions {}
+export interface UpdateCertificatePolicyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetCertificatePolicyOptionalParams extends OperationOptions {}
@@ -69,15 +63,13 @@ export interface ImportCertificateOptionalParams extends OperationOptions {}
 export interface CreateCertificateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DeleteCertificateIssuerOptionalParams
-  extends OperationOptions {}
+export interface DeleteCertificateIssuerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetCertificateIssuerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface UpdateCertificateIssuerOptionalParams
-  extends OperationOptions {}
+export interface UpdateCertificateIssuerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SetCertificateIssuerOptionalParams extends OperationOptions {}
@@ -89,16 +81,13 @@ export interface GetCertificateIssuersOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DeleteCertificateContactsOptionalParams
-  extends OperationOptions {}
+export interface DeleteCertificateContactsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GetCertificateContactsOptionalParams
-  extends OperationOptions {}
+export interface GetCertificateContactsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SetCertificateContactsOptionalParams
-  extends OperationOptions {}
+export interface SetCertificateContactsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DeleteCertificateOptionalParams extends OperationOptions {}

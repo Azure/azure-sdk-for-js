@@ -102,15 +102,13 @@ export function _recoverDeletedCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _recoverDeletedCertificateDeserialize(
@@ -132,11 +130,7 @@ export async function recoverDeletedCertificate(
   certificateName: string,
   options: RecoverDeletedCertificateOptionalParams = { requestOptions: {} },
 ): Promise<CertificateBundle> {
-  const result = await _recoverDeletedCertificateSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _recoverDeletedCertificateSend(context, certificateName, options);
   return _recoverDeletedCertificateDeserialize(result);
 }
 
@@ -155,15 +149,13 @@ export function _purgeDeletedCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _purgeDeletedCertificateDeserialize(
@@ -185,11 +177,7 @@ export async function purgeDeletedCertificate(
   certificateName: string,
   options: PurgeDeletedCertificateOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _purgeDeletedCertificateSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _purgeDeletedCertificateSend(context, certificateName, options);
   return _purgeDeletedCertificateDeserialize(result);
 }
 
@@ -208,15 +196,13 @@ export function _getDeletedCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeletedCertificateDeserialize(
@@ -238,11 +224,7 @@ export async function getDeletedCertificate(
   certificateName: string,
   options: GetDeletedCertificateOptionalParams = { requestOptions: {} },
 ): Promise<DeletedCertificateBundle> {
-  const result = await _getDeletedCertificateSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _getDeletedCertificateSend(context, certificateName, options);
   return _getDeletedCertificateDeserialize(result);
 }
 
@@ -261,15 +243,13 @@ export function _getDeletedCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeletedCertificatesDeserialize(
@@ -313,17 +293,15 @@ export function _restoreCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateRestoreParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateRestoreParametersSerializer(parameters),
+  });
 }
 
 export async function _restoreCertificateDeserialize(
@@ -364,15 +342,13 @@ export function _backupCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _backupCertificateDeserialize(
@@ -394,11 +370,7 @@ export async function backupCertificate(
   certificateName: string,
   options: BackupCertificateOptionalParams = { requestOptions: {} },
 ): Promise<BackupCertificateResult> {
-  const result = await _backupCertificateSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _backupCertificateSend(context, certificateName, options);
   return _backupCertificateDeserialize(result);
 }
 
@@ -418,17 +390,15 @@ export function _mergeCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateMergeParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateMergeParametersSerializer(parameters),
+  });
 }
 
 export async function _mergeCertificateDeserialize(
@@ -451,12 +421,7 @@ export async function mergeCertificate(
   parameters: CertificateMergeParameters,
   options: MergeCertificateOptionalParams = { requestOptions: {} },
 ): Promise<CertificateBundle> {
-  const result = await _mergeCertificateSend(
-    context,
-    certificateName,
-    parameters,
-    options,
-  );
+  const result = await _mergeCertificateSend(context, certificateName, parameters, options);
   return _mergeCertificateDeserialize(result);
 }
 
@@ -475,15 +440,13 @@ export function _deleteCertificateOperationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteCertificateOperationDeserialize(
@@ -505,11 +468,7 @@ export async function deleteCertificateOperation(
   certificateName: string,
   options: DeleteCertificateOperationOptionalParams = { requestOptions: {} },
 ): Promise<CertificateOperation> {
-  const result = await _deleteCertificateOperationSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _deleteCertificateOperationSend(context, certificateName, options);
   return _deleteCertificateOperationDeserialize(result);
 }
 
@@ -528,15 +487,13 @@ export function _getCertificateOperationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificateOperationDeserialize(
@@ -558,11 +515,7 @@ export async function getCertificateOperation(
   certificateName: string,
   options: GetCertificateOperationOptionalParams = { requestOptions: {} },
 ): Promise<CertificateOperation> {
-  const result = await _getCertificateOperationSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _getCertificateOperationSend(context, certificateName, options);
   return _getCertificateOperationDeserialize(result);
 }
 
@@ -582,17 +535,15 @@ export function _updateCertificateOperationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateOperationUpdateParameterSerializer(certificateOperation),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateOperationUpdateParameterSerializer(certificateOperation),
+  });
 }
 
 export async function _updateCertificateOperationDeserialize(
@@ -641,15 +592,13 @@ export function _getCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificateDeserialize(
@@ -672,12 +621,7 @@ export async function getCertificate(
   certificateVersion: string,
   options: GetCertificateOptionalParams = { requestOptions: {} },
 ): Promise<CertificateBundle> {
-  const result = await _getCertificateSend(
-    context,
-    certificateName,
-    certificateVersion,
-    options,
-  );
+  const result = await _getCertificateSend(context, certificateName, certificateVersion, options);
   return _getCertificateDeserialize(result);
 }
 
@@ -699,17 +643,15 @@ export function _updateCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateUpdateParametersSerializer(parameters),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateUpdateParametersSerializer(parameters),
+  });
 }
 
 export async function _updateCertificateDeserialize(
@@ -759,17 +701,15 @@ export function _updateCertificatePolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificatePolicySerializer(certificatePolicy),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificatePolicySerializer(certificatePolicy),
+  });
 }
 
 export async function _updateCertificatePolicyDeserialize(
@@ -816,15 +756,13 @@ export function _getCertificatePolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificatePolicyDeserialize(
@@ -846,11 +784,7 @@ export async function getCertificatePolicy(
   certificateName: string,
   options: GetCertificatePolicyOptionalParams = { requestOptions: {} },
 ): Promise<CertificatePolicy> {
-  const result = await _getCertificatePolicySend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _getCertificatePolicySend(context, certificateName, options);
   return _getCertificatePolicyDeserialize(result);
 }
 
@@ -870,15 +804,13 @@ export function _getCertificateVersionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificateVersionsDeserialize(
@@ -925,17 +857,15 @@ export function _importCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateImportParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateImportParametersSerializer(parameters),
+  });
 }
 
 export async function _importCertificateDeserialize(
@@ -958,12 +888,7 @@ export async function importCertificate(
   parameters: CertificateImportParameters,
   options: ImportCertificateOptionalParams = { requestOptions: {} },
 ): Promise<CertificateBundle> {
-  const result = await _importCertificateSend(
-    context,
-    certificateName,
-    parameters,
-    options,
-  );
+  const result = await _importCertificateSend(context, certificateName, parameters, options);
   return _importCertificateDeserialize(result);
 }
 
@@ -983,17 +908,15 @@ export function _createCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateCreateParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateCreateParametersSerializer(parameters),
+  });
 }
 
 export async function _createCertificateDeserialize(
@@ -1016,12 +939,7 @@ export async function createCertificate(
   parameters: CertificateCreateParameters,
   options: CreateCertificateOptionalParams = { requestOptions: {} },
 ): Promise<CertificateOperation> {
-  const result = await _createCertificateSend(
-    context,
-    certificateName,
-    parameters,
-    options,
-  );
+  const result = await _createCertificateSend(context, certificateName, parameters, options);
   return _createCertificateDeserialize(result);
 }
 
@@ -1040,15 +958,13 @@ export function _deleteCertificateIssuerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteCertificateIssuerDeserialize(
@@ -1070,11 +986,7 @@ export async function deleteCertificateIssuer(
   issuerName: string,
   options: DeleteCertificateIssuerOptionalParams = { requestOptions: {} },
 ): Promise<IssuerBundle> {
-  const result = await _deleteCertificateIssuerSend(
-    context,
-    issuerName,
-    options,
-  );
+  const result = await _deleteCertificateIssuerSend(context, issuerName, options);
   return _deleteCertificateIssuerDeserialize(result);
 }
 
@@ -1093,15 +1005,13 @@ export function _getCertificateIssuerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificateIssuerDeserialize(
@@ -1143,17 +1053,15 @@ export function _updateCertificateIssuerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateIssuerUpdateParametersSerializer(parameter),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateIssuerUpdateParametersSerializer(parameter),
+  });
 }
 
 export async function _updateCertificateIssuerDeserialize(
@@ -1176,12 +1084,7 @@ export async function updateCertificateIssuer(
   parameter: CertificateIssuerUpdateParameters,
   options: UpdateCertificateIssuerOptionalParams = { requestOptions: {} },
 ): Promise<IssuerBundle> {
-  const result = await _updateCertificateIssuerSend(
-    context,
-    issuerName,
-    parameter,
-    options,
-  );
+  const result = await _updateCertificateIssuerSend(context, issuerName, parameter, options);
   return _updateCertificateIssuerDeserialize(result);
 }
 
@@ -1201,17 +1104,15 @@ export function _setCertificateIssuerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: certificateIssuerSetParametersSerializer(parameter),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: certificateIssuerSetParametersSerializer(parameter),
+  });
 }
 
 export async function _setCertificateIssuerDeserialize(
@@ -1234,12 +1135,7 @@ export async function setCertificateIssuer(
   parameter: CertificateIssuerSetParameters,
   options: SetCertificateIssuerOptionalParams = { requestOptions: {} },
 ): Promise<IssuerBundle> {
-  const result = await _setCertificateIssuerSend(
-    context,
-    issuerName,
-    parameter,
-    options,
-  );
+  const result = await _setCertificateIssuerSend(context, issuerName, parameter, options);
   return _setCertificateIssuerDeserialize(result);
 }
 
@@ -1257,15 +1153,13 @@ export function _getCertificateIssuersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificateIssuersDeserialize(
@@ -1308,15 +1202,13 @@ export function _deleteCertificateContactsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteCertificateContactsDeserialize(
@@ -1354,15 +1246,13 @@ export function _getCertificateContactsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificateContactsDeserialize(
@@ -1401,17 +1291,15 @@ export function _setCertificateContactsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: contactsSerializer(contacts),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: contactsSerializer(contacts),
+  });
 }
 
 export async function _setCertificateContactsDeserialize(
@@ -1452,15 +1340,13 @@ export function _deleteCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteCertificateDeserialize(
@@ -1482,11 +1368,7 @@ export async function deleteCertificate(
   certificateName: string,
   options: DeleteCertificateOptionalParams = { requestOptions: {} },
 ): Promise<DeletedCertificateBundle> {
-  const result = await _deleteCertificateSend(
-    context,
-    certificateName,
-    options,
-  );
+  const result = await _deleteCertificateSend(context, certificateName, options);
   return _deleteCertificateDeserialize(result);
 }
 
@@ -1505,15 +1387,13 @@ export function _getCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getCertificatesDeserialize(

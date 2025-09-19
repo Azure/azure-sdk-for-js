@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
-} from "./api/index.js";
+import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
 import {
   CertificateItem,
   DeletedCertificateBundle,
@@ -190,12 +186,7 @@ export class KeyVaultClient {
     certificateOperation: CertificateOperationUpdateParameter,
     options: UpdateCertificateOperationOptionalParams = { requestOptions: {} },
   ): Promise<CertificateOperation> {
-    return updateCertificateOperation(
-      this._client,
-      certificateName,
-      certificateOperation,
-      options,
-    );
+    return updateCertificateOperation(this._client, certificateName, certificateOperation, options);
   }
 
   /** Gets information about a specific certificate. This operation requires the certificates/get permission. */
@@ -204,12 +195,7 @@ export class KeyVaultClient {
     certificateVersion: string,
     options: GetCertificateOptionalParams = { requestOptions: {} },
   ): Promise<CertificateBundle> {
-    return getCertificate(
-      this._client,
-      certificateName,
-      certificateVersion,
-      options,
-    );
+    return getCertificate(this._client, certificateName, certificateVersion, options);
   }
 
   /** The UpdateCertificate operation applies the specified update on the given certificate; the only elements updated are the certificate's attributes. This operation requires the certificates/update permission. */
@@ -234,12 +220,7 @@ export class KeyVaultClient {
     certificatePolicy: CertificatePolicy,
     options: UpdateCertificatePolicyOptionalParams = { requestOptions: {} },
   ): Promise<CertificatePolicy> {
-    return updateCertificatePolicy(
-      this._client,
-      certificateName,
-      certificatePolicy,
-      options,
-    );
+    return updateCertificatePolicy(this._client, certificateName, certificatePolicy, options);
   }
 
   /** The GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission. */
@@ -264,12 +245,7 @@ export class KeyVaultClient {
     parameters: CertificateImportParameters,
     options: ImportCertificateOptionalParams = { requestOptions: {} },
   ): Promise<CertificateBundle> {
-    return importCertificate(
-      this._client,
-      certificateName,
-      parameters,
-      options,
-    );
+    return importCertificate(this._client, certificateName, parameters, options);
   }
 
   /** If this is the first version, the certificate resource is created. This operation requires the certificates/create permission. */
@@ -278,12 +254,7 @@ export class KeyVaultClient {
     parameters: CertificateCreateParameters,
     options: CreateCertificateOptionalParams = { requestOptions: {} },
   ): Promise<CertificateOperation> {
-    return createCertificate(
-      this._client,
-      certificateName,
-      parameters,
-      options,
-    );
+    return createCertificate(this._client, certificateName, parameters, options);
   }
 
   /** The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from the vault. This operation requires the certificates/manageissuers/deleteissuers permission. */
@@ -308,12 +279,7 @@ export class KeyVaultClient {
     parameter: CertificateIssuerUpdateParameters,
     options: UpdateCertificateIssuerOptionalParams = { requestOptions: {} },
   ): Promise<IssuerBundle> {
-    return updateCertificateIssuer(
-      this._client,
-      issuerName,
-      parameter,
-      options,
-    );
+    return updateCertificateIssuer(this._client, issuerName, parameter, options);
   }
 
   /** The SetCertificateIssuer operation adds or updates the specified certificate issuer. This operation requires the certificates/setissuers permission. */
