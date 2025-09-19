@@ -13,7 +13,7 @@ import type { FilePosixProperties, ShareClient, ShareServiceClient } from "../sr
 import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { DirectoryCreateResponse } from "../src/generatedModels.js";
-import { truncatedISO8061Date } from "../src/utils/utils.common.js";
+import { truncatedISO8601Date } from "../src/utils/utils.common.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { isBrowser } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
@@ -163,9 +163,9 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileChangeOn!), truncatedISO8601Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -202,8 +202,8 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -244,8 +244,8 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -324,12 +324,12 @@ describe("DirectoryClient", () => {
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
     assert.equal(
-      truncatedISO8061Date(result.fileCreatedOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!),
+      truncatedISO8601Date(result.fileCreatedOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileCreatedOn!),
     );
     assert.equal(
-      truncatedISO8061Date(result.fileLastWriteOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
+      truncatedISO8601Date(result.fileLastWriteOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
@@ -363,9 +363,9 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileChangeOn!), truncatedISO8601Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -1461,9 +1461,9 @@ describe("DirectoryClient", () => {
 
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
-      fileCreationTime: truncatedISO8061Date(creationDate),
-      fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
-      fileChangeTime: truncatedISO8061Date(changedTime),
+      fileCreationTime: truncatedISO8601Date(creationDate),
+      fileLastWriteTime: truncatedISO8601Date(lastwriteTime),
+      fileChangeTime: truncatedISO8601Date(changedTime),
     };
 
     const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
@@ -1483,15 +1483,15 @@ describe("DirectoryClient", () => {
     const properties = await result.destinationDirectoryClient.getProperties();
     assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
     assert.ok(
-      truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
+      truncatedISO8601Date(properties.fileCreatedOn!) === truncatedISO8601Date(creationDate),
       "Creation time should be expected",
     );
     assert.ok(
-      truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
+      truncatedISO8601Date(properties.fileLastWriteOn!) === truncatedISO8601Date(lastwriteTime),
       "Last write time should be expected",
     );
     assert.ok(
-      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changedTime),
+      truncatedISO8601Date(properties.fileChangeOn!) === truncatedISO8601Date(changedTime),
       "Changed time should be expected",
     );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
@@ -1709,12 +1709,12 @@ describe("DirectoryClient - OAuth", () => {
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
     assert.equal(
-      truncatedISO8061Date(result.fileCreatedOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!),
+      truncatedISO8601Date(result.fileCreatedOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileCreatedOn!),
     );
     assert.equal(
-      truncatedISO8061Date(result.fileLastWriteOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
+      truncatedISO8601Date(result.fileLastWriteOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
@@ -1748,9 +1748,9 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileChangeOn!), truncatedISO8601Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -1981,12 +1981,12 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
     assert.equal(
-      truncatedISO8061Date(result.fileCreatedOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!),
+      truncatedISO8601Date(result.fileCreatedOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileCreatedOn!),
     );
     assert.equal(
-      truncatedISO8061Date(result.fileLastWriteOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
+      truncatedISO8601Date(result.fileLastWriteOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
@@ -2224,12 +2224,12 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
     assert.equal(
-      truncatedISO8061Date(result.fileCreatedOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!),
+      truncatedISO8601Date(result.fileCreatedOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileCreatedOn!),
     );
     assert.equal(
-      truncatedISO8061Date(result.fileLastWriteOn!),
-      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
+      truncatedISO8601Date(result.fileLastWriteOn!),
+      truncatedISO8601Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
