@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a mongo cluster.
  *
  * @summary gets information about a mongo cluster.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_Get.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_Get.json
  */
 async function getsAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

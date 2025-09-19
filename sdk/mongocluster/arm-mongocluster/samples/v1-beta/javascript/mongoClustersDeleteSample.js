@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a mongo cluster.
  *
  * @summary deletes a mongo cluster.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_Delete.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_Delete.json
  */
 async function deletesAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
