@@ -46,10 +46,7 @@ describe("quota test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    client1 = new AzureQuotaExtensionAPI(
-      credential,
-      recorder.configureClientOptions({}),
-    );
+    client1 = new AzureQuotaExtensionAPI(credential, recorder.configureClientOptions({}));
     scope = "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus";
   });
 

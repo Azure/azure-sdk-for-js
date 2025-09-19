@@ -43,10 +43,7 @@ export class AzureQuotaExtensionAPI {
   public readonly pipeline: Pipeline;
 
   /** Microsoft Azure Quota Resource Provider */
-  constructor(
-    credential: TokenCredential,
-    options?: AzureQuotaExtensionAPIOptionalParams,
-  );
+  constructor(credential: TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
