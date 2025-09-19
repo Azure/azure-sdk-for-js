@@ -1105,10 +1105,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  function parseJwt (token: string) {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+  function parseJwt(token: string) {
+    return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
   }
-  
+
   it("GenerateUserDelegationSAS with skuoid should work for container", async (ctx) => {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
@@ -1126,8 +1126,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       ctx.skip();
     }
     const credential = createTestCredential();
-    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token!
-    const jwtObj = parseJwt(token);
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
 
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -1155,17 +1155,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: SERVICE_VERSION,
-        delegatedUserObjectId: jwtObj.oid
+        delegatedUserObjectId: jwtObj.oid,
       },
       userDelegationKey,
       accountName,
     );
 
     const sasClient = `${containerClient.url}?${containerSAS}`;
-    const containerClientWithSAS = new ContainerClient(
-      sasClient,
-      newPipeline(credential),
-    );
+    const containerClientWithSAS = new ContainerClient(sasClient, newPipeline(credential));
     configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
@@ -1243,7 +1240,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await containerClient.delete();
   });
-  
+
   it("GenerateUserDelegationSAS with skuoid should work for blob", async (ctx) => {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
@@ -1261,8 +1258,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       ctx.skip();
     }
     const credential = createTestCredential();
-    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token!
-    const jwtObj = parseJwt(token);
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
 
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -1304,7 +1301,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         delegatedUserObjectId: jwtObj.oid,
-        version: "2025-07-05"
+        version: "2025-07-05",
       },
       userDelegationKey,
       accountName,
@@ -1323,7 +1320,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await containerClient.delete();
   });
-
 
   it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential

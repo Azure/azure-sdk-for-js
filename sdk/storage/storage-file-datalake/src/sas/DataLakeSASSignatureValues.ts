@@ -1239,7 +1239,7 @@ function generateBlobSASQueryParametersUDK20250705(
       dataLakeSASSignatureValues.agentObjectId,
       dataLakeSASSignatureValues.correlationId,
       dataLakeSASSignatureValues.encryptionScope,
-      dataLakeSASSignatureValues.delegatedUserObjectId
+      dataLakeSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

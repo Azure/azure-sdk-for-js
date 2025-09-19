@@ -117,7 +117,7 @@ import type {
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
   FileShareTokenIntent,
-  BlobModifiedAccessConditions  
+  BlobModifiedAccessConditions,
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,

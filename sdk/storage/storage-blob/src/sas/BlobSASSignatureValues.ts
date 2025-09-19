@@ -1204,7 +1204,7 @@ function generateBlobSASQueryParametersUDK20250705(
       blobSASSignatureValues.preauthorizedAgentObjectId,
       blobSASSignatureValues.correlationId,
       blobSASSignatureValues.encryptionScope,
-      blobSASSignatureValues.delegatedUserObjectId
+      blobSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };
