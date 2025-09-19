@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
- *
- * @summary The operation to get all extensions of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MaximumSet_Gen.json
- */
-
 import {
   VirtualMachineExtensionsListOptionalParams,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
+ *
+ * @summary The operation to get all extensions of a Virtual Machine.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MaximumSet_Gen.json
+ */
 async function virtualMachineExtensionListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -37,7 +36,7 @@ async function virtualMachineExtensionListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
  *
  * @summary The operation to get all extensions of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionListMinimumSetGen(): Promise<void> {
   const subscriptionId =

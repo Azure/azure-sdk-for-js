@@ -1,5 +1,51 @@
 # Release History
 
+## 23.1.0 (2025-09-16)
+
+### Features Added
+  - Added operation VirtualMachineScaleSets.beginScaleOut
+  - Added operation VirtualMachineScaleSets.beginScaleOutAndWait
+  - Added Interface AllInstancesDown
+  - Added Interface MaxInstancePercentPerZonePolicy
+  - Added Interface ScheduleProfile
+  - Added Interface VirtualMachineScaleSetsScaleOutHeaders
+  - Added Interface VirtualMachineScaleSetsScaleOutOptionalParams
+  - Added Interface VMScaleSetScaleOutInput
+  - Added Interface VMScaleSetScaleOutInputProperties
+  - Added Interface ZoneAllocationPolicy
+  - Interface CapacityReservation has a new optional parameter scheduleProfile
+  - Interface CapacityReservationGroup has a new optional parameter reservationType
+  - Interface CapacityReservationGroupUpdate has a new optional parameter reservationType
+  - Interface CapacityReservationUpdate has a new optional parameter scheduleProfile
+  - Interface EventGridAndResourceGraph has a new optional parameter scheduledEventsApiVersion
+  - Interface OrchestrationServiceSummary has a new optional parameter lastStatusChangeTime
+  - Interface OrchestrationServiceSummary has a new optional parameter latestOperationStatus
+  - Interface ProxyAgentSettings has a new optional parameter addProxyAgentExtension
+  - Interface ResiliencyPolicy has a new optional parameter zoneAllocationPolicy
+  - Interface ScheduledEventsPolicy has a new optional parameter allInstancesDown
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter tags
+  - Interface VirtualMachinePublicIPAddressConfiguration has a new optional parameter tags
+  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter galleryScriptReferenceId
+  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter scriptShell
+  - Interface VirtualMachineScaleSet has a new optional parameter highSpeedInterconnectPlacement
+  - Interface VirtualMachineScaleSet has a new optional parameter placement
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetPublicIPAddressConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter tags
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToExclude
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToInclude
+  - Added Type Alias HighSpeedInterconnectPlacement
+  - Added Type Alias OrchestrationServiceOperationStatus
+  - Added Type Alias ReservationType
+  - Added Type Alias ScriptShellTypes
+  - Added Enum KnownHighSpeedInterconnectPlacement
+  - Added Enum KnownOrchestrationServiceOperationStatus
+  - Added Enum KnownReservationType
+  - Added Enum KnownScriptShellTypes
+  - Enum KnownOrchestrationServiceNames has a new value AutomaticZoneRebalancing
+  - Enum KnownZonePlacementPolicyType has a new value Auto
+
 ## 23.0.0 (2025-07-21)
 
 ### Features Added

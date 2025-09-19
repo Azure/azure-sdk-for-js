@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update an availability set.
- *
- * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
- */
-
 import { AvailabilitySet, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update an availability set.
+ *
+ * @summary Create or update an availability set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
+ */
 async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -37,7 +36,7 @@ async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> 
  * This sample demonstrates how to Create or update an availability set.
  *
  * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
  */
 async function createAnAvailabilitySet(): Promise<void> {
   const subscriptionId =

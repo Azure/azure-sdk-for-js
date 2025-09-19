@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
- *
- * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
- */
-
 import {
   ResourceSkusListOptionalParams,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
+ *
+ * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
+ */
 async function listsAllAvailableResourceSkUs(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

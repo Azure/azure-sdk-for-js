@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- *
- * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MaximumSet_Gen.json
- */
-
 import {
   VirtualMachineScaleSetVMReimageParameters,
   VirtualMachineScaleSetVMsReimageOptionalParams,
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
+ *
+ * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MaximumSet_Gen.json
+ */
 async function virtualMachineScaleSetVMReimageMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -45,7 +44,7 @@ async function virtualMachineScaleSetVMReimageMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
  *
  * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMReimageMinimumSetGen(): Promise<void> {
   const subscriptionId =

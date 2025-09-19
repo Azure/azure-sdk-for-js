@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- *
- * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
- */
-
 import {
   VirtualMachineScaleSetVMInstanceRequiredIDs,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+ *
+ * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
+ */
 async function virtualMachineScaleSetUpdateInstancesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -39,7 +38,7 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen(): Promise<voi
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMinimumSetGen(): Promise<void> {
   const subscriptionId =
