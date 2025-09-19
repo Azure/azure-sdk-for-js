@@ -128,6 +128,111 @@ describe("BlobClient", () => {
     await leaseClient.releaseLease();
   });
 
+  it("Set and get blob tags should work with modifed condition", async () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2",
+    };
+    const properties = await blockBlobClient.getProperties();
+    try {
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifNoneMatch: properties.etag,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+
+    const modifiedTime = properties.lastModified;
+    modifiedTime?.setMinutes(modifiedTime.getMinutes() + 2);
+    try {
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifModifiedSince: modifiedTime,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+
+    try {
+      modifiedTime?.setMinutes(modifiedTime.getMinutes() - 5);
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifUnmodifiedSince: modifiedTime,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+
+    try {
+      await blockBlobClient.setTags(tags, {
+        conditions: {
+          ifMatch: "Invalid etag",
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.code, "ConditionNotMet", ex.msg);
+    }
+    await blockBlobClient.setTags(tags, {
+      conditions: {
+        ifMatch: properties.etag,
+      },
+    });
+
+    const properties2 = await blockBlobClient.getProperties();
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifNoneMatch: properties2.etag,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+
+    const modifiedTime2 = properties.lastModified;
+    modifiedTime2?.setMinutes(modifiedTime2.getMinutes() + 2);
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifModifiedSince: modifiedTime2,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+
+    modifiedTime2?.setMinutes(modifiedTime2.getMinutes() - 5);
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifUnmodifiedSince: modifiedTime2,
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+
+    try {
+      await blockBlobClient.getTags({
+        conditions: {
+          ifMatch: "Invalid etag",
+        },
+      });
+    } catch (ex: any) {
+      assert.deepStrictEqual(ex.details.errorCode, "ConditionNotMet", ex.msg);
+    }
+    const response = await blockBlobClient.getTags({
+      conditions: {
+        ifMatch: properties.etag,
+      },
+    });
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
   it("Set blob tags should work", async () => {
     const tags = {
       tag1: "val1",
