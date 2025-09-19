@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: AzureQuotaExtensionAPIContext, scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+export function createOrUpdate(context: AzureQuotaExtensionAPIContext, resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 
 // @public
-export function get(context: AzureQuotaExtensionAPIContext, scope: string, resourceName: string, options?: QuotaGetOptionalParams): Promise<CurrentQuotaLimitBase>;
+export function get(context: AzureQuotaExtensionAPIContext, resourceName: string, scope: string, options?: QuotaGetOptionalParams): Promise<CurrentQuotaLimitBase>;
 
 // @public
 export function list(context: AzureQuotaExtensionAPIContext, scope: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
@@ -37,7 +37,7 @@ export interface QuotaUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: AzureQuotaExtensionAPIContext, scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+export function update(context: AzureQuotaExtensionAPIContext, resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 
 // (No @packageDocumentation comment for this package)
 

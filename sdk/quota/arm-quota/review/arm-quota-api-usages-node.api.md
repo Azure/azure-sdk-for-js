@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: AzureQuotaExtensionAPIContext, scope: string, resourceName: string, options?: UsagesGetOptionalParams): Promise<CurrentUsagesBase>;
+export function get(context: AzureQuotaExtensionAPIContext, resourceName: string, scope: string, options?: UsagesGetOptionalParams): Promise<CurrentUsagesBase>;
 
 // @public
 export function list(context: AzureQuotaExtensionAPIContext, scope: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<CurrentUsagesBase>;

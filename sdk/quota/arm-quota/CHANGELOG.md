@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2025-09-16)
+## 2.0.0 (2025-09-19)
 
 ### Features Added
   - Added operation group GroupQuotaLocationSettingsOperations

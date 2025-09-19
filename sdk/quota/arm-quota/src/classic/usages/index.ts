@@ -19,8 +19,8 @@ export interface UsagesOperations {
   ) => PagedAsyncIterableIterator<CurrentUsagesBase>;
   /** Get the current usage of a resource. */
   get: (
-    scope: string,
     resourceName: string,
+    scope: string,
     options?: UsagesGetOptionalParams,
   ) => Promise<CurrentUsagesBase>;
 }
@@ -28,8 +28,8 @@ export interface UsagesOperations {
 function _getUsages(context: AzureQuotaExtensionAPIContext) {
   return {
     list: (scope: string, options?: UsagesListOptionalParams) => list(context, scope, options),
-    get: (scope: string, resourceName: string, options?: UsagesGetOptionalParams) =>
-      get(context, scope, resourceName, options),
+    get: (resourceName: string, scope: string, options?: UsagesGetOptionalParams) =>
+      get(context, resourceName, scope, options),
   };
 }
 

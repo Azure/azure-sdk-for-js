@@ -615,10 +615,10 @@ export interface QuotaOperationOperations {
 
 // @public
 export interface QuotaOperations {
-    createOrUpdate: (scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
-    get: (scope: string, resourceName: string, options?: QuotaGetOptionalParams) => Promise<CurrentQuotaLimitBase>;
+    createOrUpdate: (resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+    get: (resourceName: string, scope: string, options?: QuotaGetOptionalParams) => Promise<CurrentQuotaLimitBase>;
     list: (scope: string, options?: QuotaListOptionalParams) => PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
-    update: (scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
+    update: (resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
 
 // @public
@@ -803,7 +803,7 @@ export interface UsagesObject {
 
 // @public
 export interface UsagesOperations {
-    get: (scope: string, resourceName: string, options?: UsagesGetOptionalParams) => Promise<CurrentUsagesBase>;
+    get: (resourceName: string, scope: string, options?: UsagesGetOptionalParams) => Promise<CurrentUsagesBase>;
     list: (scope: string, options?: UsagesListOptionalParams) => PagedAsyncIterableIterator<CurrentUsagesBase>;
 }
 

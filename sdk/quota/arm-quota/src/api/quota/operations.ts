@@ -75,8 +75,8 @@ export function list(
 
 export function _updateSend(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -122,8 +122,8 @@ export async function _updateDeserialize(
  */
 export function update(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase> {
@@ -131,15 +131,15 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, scope, resourceName, createQuotaRequest, options),
+      _updateSend(context, resourceName, scope, createQuotaRequest, options),
     resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -185,8 +185,8 @@ export async function _createOrUpdateDeserialize(
  */
 export function createOrUpdate(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase> {
@@ -194,15 +194,15 @@ export function createOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, scope, resourceName, createQuotaRequest, options),
+      _createOrUpdateSend(context, resourceName, scope, createQuotaRequest, options),
     resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
 
 export function _getSend(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   options: QuotaGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -241,10 +241,10 @@ export async function _getDeserialize(
 /** Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request. */
 export async function get(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   options: QuotaGetOptionalParams = { requestOptions: {} },
 ): Promise<CurrentQuotaLimitBase> {
-  const result = await _getSend(context, scope, resourceName, options);
+  const result = await _getSend(context, resourceName, scope, options);
   return _getDeserialize(result);
 }

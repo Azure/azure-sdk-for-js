@@ -52,7 +52,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   return _resourceUsageListDeserializer(result.body);
 }
 
-/** Gets the GroupQuotas usages and limits(quota). Location is required parameter. */
+/** Gets the GroupQuotas usages and limits(quota). Location is required paramter. */
 export function list(
   context: Client,
   managementGroupId: string,

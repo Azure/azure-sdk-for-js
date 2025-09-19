@@ -67,8 +67,8 @@ export function list(
 
 export function _getSend(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   options: UsagesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -105,10 +105,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cu
 /** Get the current usage of a resource. */
 export async function get(
   context: Client,
-  scope: string,
   resourceName: string,
+  scope: string,
   options: UsagesGetOptionalParams = { requestOptions: {} },
 ): Promise<CurrentUsagesBase> {
-  const result = await _getSend(context, scope, resourceName, options);
+  const result = await _getSend(context, resourceName, scope, options);
   return _getDeserialize(result);
 }

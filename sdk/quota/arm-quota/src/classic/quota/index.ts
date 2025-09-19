@@ -26,8 +26,8 @@ export interface QuotaOperations {
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
    */
   update: (
-    scope: string,
     resourceName: string,
+    scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams,
   ) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
@@ -37,15 +37,15 @@ export interface QuotaOperations {
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
    */
   createOrUpdate: (
-    scope: string,
     resourceName: string,
+    scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
   /** Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request. */
   get: (
-    scope: string,
     resourceName: string,
+    scope: string,
     options?: QuotaGetOptionalParams,
   ) => Promise<CurrentQuotaLimitBase>;
 }
@@ -54,19 +54,19 @@ function _getQuota(context: AzureQuotaExtensionAPIContext) {
   return {
     list: (scope: string, options?: QuotaListOptionalParams) => list(context, scope, options),
     update: (
-      scope: string,
       resourceName: string,
+      scope: string,
       createQuotaRequest: CurrentQuotaLimitBase,
       options?: QuotaUpdateOptionalParams,
-    ) => update(context, scope, resourceName, createQuotaRequest, options),
+    ) => update(context, resourceName, scope, createQuotaRequest, options),
     createOrUpdate: (
-      scope: string,
       resourceName: string,
+      scope: string,
       createQuotaRequest: CurrentQuotaLimitBase,
       options?: QuotaCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, scope, resourceName, createQuotaRequest, options),
-    get: (scope: string, resourceName: string, options?: QuotaGetOptionalParams) =>
-      get(context, scope, resourceName, options),
+    ) => createOrUpdate(context, resourceName, scope, createQuotaRequest, options),
+    get: (resourceName: string, scope: string, options?: QuotaGetOptionalParams) =>
+      get(context, resourceName, scope, options),
   };
 }
 
