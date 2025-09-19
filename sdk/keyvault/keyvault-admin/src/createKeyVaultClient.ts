@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
+import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
+import { KeyVaultClient } from "./keyVaultClient.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import type { AccessControlClientOptions } from "./accessControlModels.js";
 import type { KeyVaultBackupClientOptions } from "./backupClientModels.js";
 import type { SettingsClientOptions } from "./settingsClientModels.js";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants.js";
-import { logger } from "./log.js";
+import { logger } from "./logger.js";
 
 export function createKeyVaultClient(
   vaultUrl: string,

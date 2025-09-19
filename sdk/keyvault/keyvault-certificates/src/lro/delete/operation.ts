@@ -10,7 +10,7 @@ import type {
 } from "../../certificatesModels.js";
 import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
 import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations.js";
 import { tracingClient } from "../../tracing.js";
 

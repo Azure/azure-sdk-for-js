@@ -9,7 +9,7 @@ import type {
 } from "../../secretsModels.js";
 import type { KeyVaultSecretPollOperationState } from "../keyVaultSecretPoller.js";
 import { KeyVaultSecretPollOperation } from "../keyVaultSecretPoller.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import { getSecretFromSecretBundle } from "../../transformations.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../../tracing.js";

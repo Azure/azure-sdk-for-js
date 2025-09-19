@@ -425,7 +425,7 @@ export type ListPropertiesOfCertificateVersionsOptions = coreClient.OperationOpt
 // @public
 export type ListPropertiesOfIssuersOptions = coreClient.OperationOptions;
 
-// @public
+// @public (undocumented)
 export const logger: AzureLogger;
 
 // @public
