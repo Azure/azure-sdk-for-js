@@ -4,11 +4,8 @@
 import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
-import type { DeletionRecoveryLevel } from "./generated/src/models/index.js";
-import {
-  JsonWebKeyOperation as KeyOperation,
-  JsonWebKeyType as KeyType,
-} from "./generated/src/models/index.js";
+import type { DeletionRecoveryLevel } from "./models/models.js";
+import { JsonWebKeyOperation as KeyOperation, JsonWebKeyType as KeyType } from "./models/models.js";
 
 import type { KeyCurveName } from "./cryptographyClientModels.js";
 

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
-} from "./api/index.js";
+import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
 import {
   KeyCreateParameters,
   KeyBundle,
@@ -132,12 +128,7 @@ export class KeyVaultClient {
     keyRotationPolicy: KeyRotationPolicy,
     options: UpdateKeyRotationPolicyOptionalParams = { requestOptions: {} },
   ): Promise<KeyRotationPolicy> {
-    return updateKeyRotationPolicy(
-      this._client,
-      keyName,
-      keyRotationPolicy,
-      options,
-    );
+    return updateKeyRotationPolicy(this._client, keyName, keyRotationPolicy, options);
   }
 
   /** The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. */

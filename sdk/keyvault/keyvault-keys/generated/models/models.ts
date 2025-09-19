@@ -137,12 +137,8 @@ export interface KeyAttributes {
 export function keyAttributesSerializer(item: KeyAttributes): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"]
-      ? item["notBefore"]
-      : (item["notBefore"].getTime() / 1000) | 0,
-    exp: !item["expires"]
-      ? item["expires"]
-      : (item["expires"].getTime() / 1000) | 0,
+    nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
+    exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
   };
 }
@@ -152,12 +148,8 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     enabled: item["enabled"],
     notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
     expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
-    created: !item["created"]
-      ? item["created"]
-      : new Date(item["created"] * 1000),
-    updated: !item["updated"]
-      ? item["updated"]
-      : new Date(item["updated"] * 1000),
+    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
+    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
     exportable: item["exportable"],
@@ -372,9 +364,7 @@ export function jsonWebKeySerializer(item: JsonWebKey): any {
     p: !item["p"] ? item["p"] : uint8ArrayToString(item["p"], "base64url"),
     q: !item["q"] ? item["q"] : uint8ArrayToString(item["q"], "base64url"),
     k: !item["k"] ? item["k"] : uint8ArrayToString(item["k"], "base64url"),
-    key_hsm: !item["t"]
-      ? item["t"]
-      : uint8ArrayToString(item["t"], "base64url"),
+    key_hsm: !item["t"] ? item["t"] : uint8ArrayToString(item["t"], "base64url"),
     crv: item["crv"],
     x: !item["x"] ? item["x"] : uint8ArrayToString(item["x"], "base64url"),
     y: !item["y"] ? item["y"] : uint8ArrayToString(item["y"], "base64url"),
@@ -462,9 +452,7 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : _keyVaultErrorErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : _keyVaultErrorErrorDeserializer(item["error"]),
   };
 }
 
@@ -485,9 +473,7 @@ export interface _KeyVaultErrorError {
   readonly innerError?: ErrorModel;
 }
 
-export function _keyVaultErrorErrorDeserializer(
-  item: any,
-): _KeyVaultErrorError {
+export function _keyVaultErrorErrorDeserializer(item: any): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
@@ -560,9 +546,7 @@ export function deletedKeyBundleDeserializer(item: any): DeletedKeyBundle {
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
       : new Date(item["scheduledPurgeDate"] * 1000),
-    deletedDate: !item["deletedDate"]
-      ? item["deletedDate"]
-      : new Date(item["deletedDate"] * 1000),
+    deletedDate: !item["deletedDate"] ? item["deletedDate"] : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -605,9 +589,7 @@ export interface _KeyListResult {
 
 export function _keyListResultDeserializer(item: any): _KeyListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : keyItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : keyItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -663,9 +645,7 @@ export interface KeyRestoreParameters {
   keyBundleBackup: Uint8Array;
 }
 
-export function keyRestoreParametersSerializer(
-  item: KeyRestoreParameters,
-): any {
+export function keyRestoreParametersSerializer(item: KeyRestoreParameters): any {
   return { value: uint8ArrayToString(item["keyBundleBackup"], "base64url") };
 }
 
@@ -683,19 +663,13 @@ export interface KeyOperationsParameters {
   tag?: Uint8Array;
 }
 
-export function keyOperationsParametersSerializer(
-  item: KeyOperationsParameters,
-): any {
+export function keyOperationsParametersSerializer(item: KeyOperationsParameters): any {
   return {
     alg: item["algorithm"],
     value: uint8ArrayToString(item["value"], "base64url"),
     iv: !item["iv"] ? item["iv"] : uint8ArrayToString(item["iv"], "base64url"),
-    aad: !item["aad"]
-      ? item["aad"]
-      : uint8ArrayToString(item["aad"], "base64url"),
-    tag: !item["tag"]
-      ? item["tag"]
-      : uint8ArrayToString(item["tag"], "base64url"),
+    aad: !item["aad"] ? item["aad"] : uint8ArrayToString(item["aad"], "base64url"),
+    tag: !item["tag"] ? item["tag"] : uint8ArrayToString(item["tag"], "base64url"),
   };
 }
 
@@ -911,9 +885,7 @@ export interface KeyReleaseParameters {
   enc?: KeyEncryptionAlgorithm;
 }
 
-export function keyReleaseParametersSerializer(
-  item: KeyReleaseParameters,
-): any {
+export function keyReleaseParametersSerializer(item: KeyReleaseParameters): any {
   return {
     target: item["targetAttestationToken"],
     nonce: item["nonce"],
@@ -962,20 +934,14 @@ export interface _DeletedKeyListResult {
   readonly nextLink?: string;
 }
 
-export function _deletedKeyListResultDeserializer(
-  item: any,
-): _DeletedKeyListResult {
+export function _deletedKeyListResultDeserializer(item: any): _DeletedKeyListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : deletedKeyItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : deletedKeyItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function deletedKeyItemArrayDeserializer(
-  result: Array<DeletedKeyItem>,
-): any[] {
+export function deletedKeyItemArrayDeserializer(result: Array<DeletedKeyItem>): any[] {
   return result.map((item) => {
     return deletedKeyItemDeserializer(item);
   });
@@ -1011,9 +977,7 @@ export function deletedKeyItemDeserializer(item: any): DeletedKeyItem {
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
       : new Date(item["scheduledPurgeDate"] * 1000),
-    deletedDate: !item["deletedDate"]
-      ? item["deletedDate"]
-      : new Date(item["deletedDate"] * 1000),
+    deletedDate: !item["deletedDate"] ? item["deletedDate"] : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -1050,17 +1014,13 @@ export function keyRotationPolicyDeserializer(item: any): KeyRotationPolicy {
   };
 }
 
-export function lifetimeActionsArraySerializer(
-  result: Array<LifetimeActions>,
-): any[] {
+export function lifetimeActionsArraySerializer(result: Array<LifetimeActions>): any[] {
   return result.map((item) => {
     return lifetimeActionsSerializer(item);
   });
 }
 
-export function lifetimeActionsArrayDeserializer(
-  result: Array<LifetimeActions>,
-): any[] {
+export function lifetimeActionsArrayDeserializer(result: Array<LifetimeActions>): any[] {
   return result.map((item) => {
     return lifetimeActionsDeserializer(item);
   });
@@ -1076,12 +1036,8 @@ export interface LifetimeActions {
 
 export function lifetimeActionsSerializer(item: LifetimeActions): any {
   return {
-    trigger: !item["trigger"]
-      ? item["trigger"]
-      : lifetimeActionsTriggerSerializer(item["trigger"]),
-    action: !item["action"]
-      ? item["action"]
-      : lifetimeActionsTypeSerializer(item["action"]),
+    trigger: !item["trigger"] ? item["trigger"] : lifetimeActionsTriggerSerializer(item["trigger"]),
+    action: !item["action"] ? item["action"] : lifetimeActionsTypeSerializer(item["action"]),
   };
 }
 
@@ -1090,9 +1046,7 @@ export function lifetimeActionsDeserializer(item: any): LifetimeActions {
     trigger: !item["trigger"]
       ? item["trigger"]
       : lifetimeActionsTriggerDeserializer(item["trigger"]),
-    action: !item["action"]
-      ? item["action"]
-      : lifetimeActionsTypeDeserializer(item["action"]),
+    action: !item["action"] ? item["action"] : lifetimeActionsTypeDeserializer(item["action"]),
   };
 }
 
@@ -1104,18 +1058,14 @@ export interface LifetimeActionsTrigger {
   timeBeforeExpiry?: string;
 }
 
-export function lifetimeActionsTriggerSerializer(
-  item: LifetimeActionsTrigger,
-): any {
+export function lifetimeActionsTriggerSerializer(item: LifetimeActionsTrigger): any {
   return {
     timeAfterCreate: item["timeAfterCreate"],
     timeBeforeExpiry: item["timeBeforeExpiry"],
   };
 }
 
-export function lifetimeActionsTriggerDeserializer(
-  item: any,
-): LifetimeActionsTrigger {
+export function lifetimeActionsTriggerDeserializer(item: any): LifetimeActionsTrigger {
   return {
     timeAfterCreate: item["timeAfterCreate"],
     timeBeforeExpiry: item["timeBeforeExpiry"],
@@ -1132,9 +1082,7 @@ export function lifetimeActionsTypeSerializer(item: LifetimeActionsType): any {
   return { type: item["type"] };
 }
 
-export function lifetimeActionsTypeDeserializer(
-  item: any,
-): LifetimeActionsType {
+export function lifetimeActionsTypeDeserializer(item: any): LifetimeActionsType {
   return {
     type: item["type"],
   };
@@ -1153,23 +1101,15 @@ export interface KeyRotationPolicyAttributes {
   readonly updated?: Date;
 }
 
-export function keyRotationPolicyAttributesSerializer(
-  item: KeyRotationPolicyAttributes,
-): any {
+export function keyRotationPolicyAttributesSerializer(item: KeyRotationPolicyAttributes): any {
   return { expiryTime: item["expiryTime"] };
 }
 
-export function keyRotationPolicyAttributesDeserializer(
-  item: any,
-): KeyRotationPolicyAttributes {
+export function keyRotationPolicyAttributesDeserializer(item: any): KeyRotationPolicyAttributes {
   return {
     expiryTime: item["expiryTime"],
-    created: !item["created"]
-      ? item["created"]
-      : new Date(item["created"] * 1000),
-    updated: !item["updated"]
-      ? item["updated"]
-      : new Date(item["updated"] * 1000),
+    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
+    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
   };
 }
 
@@ -1179,9 +1119,7 @@ export interface GetRandomBytesRequest {
   count: number;
 }
 
-export function getRandomBytesRequestSerializer(
-  item: GetRandomBytesRequest,
-): any {
+export function getRandomBytesRequestSerializer(item: GetRandomBytesRequest): any {
   return { count: item["count"] };
 }
 

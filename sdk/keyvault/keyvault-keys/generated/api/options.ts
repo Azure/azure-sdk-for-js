@@ -10,8 +10,7 @@ export interface GetKeyAttestationOptionalParams extends OperationOptions {}
 export interface GetRandomBytesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface UpdateKeyRotationPolicyOptionalParams
-  extends OperationOptions {}
+export interface UpdateKeyRotationPolicyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetKeyRotationPolicyOptionalParams extends OperationOptions {}
