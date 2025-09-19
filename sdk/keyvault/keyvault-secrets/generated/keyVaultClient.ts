@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
-} from "./api/index.js";
+import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
 import {
   SecretSetParameters,
   SecretBundle,
@@ -150,13 +146,7 @@ export class KeyVaultClient {
     parameters: SecretUpdateParameters,
     options: UpdateSecretOptionalParams = { requestOptions: {} },
   ): Promise<SecretBundle> {
-    return updateSecret(
-      this._client,
-      secretName,
-      secretVersion,
-      parameters,
-      options,
-    );
+    return updateSecret(this._client, secretName, secretVersion, parameters, options);
   }
 
   /** The DELETE operation applies to any secret stored in Azure Key Vault. DELETE cannot be applied to an individual version of a secret. This operation requires the secrets/delete permission. */

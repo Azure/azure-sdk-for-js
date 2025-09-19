@@ -26,8 +26,7 @@ export function createKeyVault(
   credential: TokenCredential,
   options: KeyVaultClientOptionalParams = {},
 ): KeyVaultContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? String(endpointParam);
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-keyvault-secrets/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -38,9 +37,7 @@ export function createKeyVault(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://vault.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://vault.azure.net/.default"],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
