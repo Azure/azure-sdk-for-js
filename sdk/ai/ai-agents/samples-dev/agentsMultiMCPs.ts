@@ -14,6 +14,7 @@ import type {
   MessageTextContent,
   SubmitToolApprovalAction,
   RequiredMcpToolCall,
+  ThreadMessage,
   ToolApproval,
   RunStepToolCallDetails,
 } from "@azure/ai-agents";
@@ -163,7 +164,7 @@ export async function main(): Promise<void> {
   console.log("-".repeat(50));
 
   const messagesIterator = client.messages.list(thread.id);
-  const messages: any[] = [];
+  const messages: ThreadMessage[] = [];
 
   for await (const msg of messagesIterator) {
     messages.unshift(msg); // Add to beginning to maintain chronological order
