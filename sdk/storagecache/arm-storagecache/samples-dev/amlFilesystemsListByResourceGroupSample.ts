@@ -1,25 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns all AML file systems the user has access to under a resource group.
- *
- * @summary Returns all AML file systems the user has access to under a resource group.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/amlFilesystems_ListByResourceGroup.json
- */
-
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Returns all AML file systems the user has access to under a resource group.
+ *
+ * @summary Returns all AML file systems the user has access to under a resource group.
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/amlFilesystems_ListByResourceGroup.json
+ */
 async function amlFilesystemsListByResourceGroup(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.amlFilesystems.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.amlFilesystems.listByResourceGroup(
+    resourceGroupName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
