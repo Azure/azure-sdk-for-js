@@ -67,4 +67,12 @@ describe("quota test", () => {
     }
     console.log(resArray);
   });
+
+  it("quotaOperation list test", async () => {
+    const resArray = new Array();
+    for await (const item of client.quotaOperation.list()) {
+      resArray.push(item);
+    }
+    console.log(resArray);
+  });
 });
