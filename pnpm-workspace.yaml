@@ -1,4 +1,5 @@
 linkWorkspacePackages: true
+minimumReleaseAge: 1440
 
 packages:
   - 'sdk/**'
