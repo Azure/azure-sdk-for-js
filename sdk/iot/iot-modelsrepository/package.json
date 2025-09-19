@@ -1,6 +1,6 @@
 {
   "name": "@azure/iot-modelsrepository",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Device Model Repository Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

@@ -2,7 +2,7 @@
   "name": "@azure-rest/ai-translation-text",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An isomorphic client library for the Azure Cognitive Translator Service",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/README.md",
   "keywords": [

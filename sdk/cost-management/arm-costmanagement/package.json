@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for CostManagementClient.",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "engines": {
     "node": ">=20.0.0"
   },

@@ -4,16 +4,6 @@
 
 - Updated `@azure/core-tracing` to `1.0.0` GA.
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.4 (2021-09-07)
 
 ### Other Changes

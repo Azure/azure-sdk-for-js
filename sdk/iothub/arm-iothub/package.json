@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for IotHubClient.",
-  "version": "6.3.1",
+  "version": "6.3.2",
   "engines": {
     "node": ">=20.0.0"
   },

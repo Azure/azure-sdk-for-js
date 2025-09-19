@@ -65,7 +65,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventhub-profile-2020-09-01-hybrid/2.1.1`;
+    const packageDetails = `azsdk-js-arm-eventhub-profile-2020-09-01-hybrid/2.1.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

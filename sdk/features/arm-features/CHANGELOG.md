@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 3.1.2 (Unreleased)
 
 ### Features Added
 

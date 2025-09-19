@@ -64,7 +64,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-digitaltwins/3.3.1`;
+    const packageDetails = `azsdk-js-arm-digitaltwins/3.3.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

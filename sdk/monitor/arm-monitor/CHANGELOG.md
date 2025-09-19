@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.0-beta.6 (Unreleased)
+## 8.0.0-beta.7 (Unreleased)
 
 ### Features Added
 

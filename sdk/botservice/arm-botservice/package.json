@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureBotService.",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "engines": {
     "node": ">=20.0.0"
   },

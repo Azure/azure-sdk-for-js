@@ -2,7 +2,7 @@
   "name": "@azure-rest/maps-route",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "A client library for Azure Maps maps-route",
   "keywords": [
     "node",

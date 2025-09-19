@@ -2,7 +2,7 @@
   "name": "@azure-rest/purview-workflow",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for PurviewWorkflow.",
   "keywords": [
     "node",

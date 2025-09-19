@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/defender-easm",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for EasmClient.",
   "engines": {
     "node": ">=20.0.0"

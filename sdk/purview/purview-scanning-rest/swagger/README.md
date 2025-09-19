@@ -16,7 +16,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/purview/data-plane/Azure.Analytics.Purview.Scanning/stable/2023-09-01/scanningService.json
-package-version: 1.0.0-beta.4
+package-version: 1.0.0-beta.5
 rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"

@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureAnalysisServices.",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "engines": {
     "node": ">=20.0.0"
   },
