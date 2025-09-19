@@ -32,6 +32,7 @@ describe("quota test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureQuotaExtensionAPI;
+  let client1: AzureQuotaExtensionAPI;
   let scope: string;
 
   beforeEach(async (ctx) => {
@@ -45,6 +46,10 @@ describe("quota test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
+    client1 = new AzureQuotaExtensionAPI(
+      credential,
+      recorder.configureClientOptions({}),
+    );
     scope = "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus";
   });
 
@@ -54,7 +59,7 @@ describe("quota test", () => {
 
   it("quota list test", async () => {
     const resArray = new Array();
-    for await (const item of client.quota.list(scope)) {
+    for await (const item of client1.quota.list(scope)) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -62,7 +67,7 @@ describe("quota test", () => {
 
   it("usage list test", async () => {
     const resArray = new Array();
-    for await (const item of client.usages.list(scope)) {
+    for await (const item of client1.usages.list(scope)) {
       resArray.push(item);
     }
     console.log(resArray);

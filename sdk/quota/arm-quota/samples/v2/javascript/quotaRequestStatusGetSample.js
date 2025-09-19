@@ -12,8 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function quotaRequestStatus() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quotaRequestStatus.get(
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus",
     "2B5C8515-37D8-4B6A-879B-CD641A2CF605",
@@ -29,8 +28,7 @@ async function quotaRequestStatus() {
  */
 async function quotaRequestFailed() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quotaRequestStatus.get(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
     "2B5C8515-37D8-4B6A-879B-CD641A2CF605",
@@ -46,8 +44,7 @@ async function quotaRequestFailed() {
  */
 async function quotaRequestInProgress() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quotaRequestStatus.get(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
     "2B5C8515-37D8-4B6A-879B-CD641A2CF605",

@@ -33,6 +33,7 @@ export enum AzureClouds {
 
 // @public (undocumented)
 export class AzureQuotaExtensionAPI {
+    constructor(credential: TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureQuotaExtensionAPIOptionalParams);
     readonly groupQuotaLimits: GroupQuotaLimitsOperations;
     readonly groupQuotaLimitsRequest: GroupQuotaLimitsRequestOperations;

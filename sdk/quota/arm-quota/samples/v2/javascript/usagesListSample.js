@@ -12,8 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function quotasListUsagesForCompute() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.usages.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
@@ -32,8 +31,7 @@ async function quotasListUsagesForCompute() {
  */
 async function quotasListUsagesMachineLearningServices() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.usages.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.MachineLearningServices/locations/eastus",
@@ -52,8 +50,7 @@ async function quotasListUsagesMachineLearningServices() {
  */
 async function quotasListUsagesForNetwork() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.usages.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus",
