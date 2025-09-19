@@ -361,11 +361,10 @@ export class ToolSet {
    * @param options - The options for configuring the MCP tool.
    * @returns An object containing the definition and resources for the MCP tool
    */
-  addMCPTool(options: {
-    serverLabel: string;
-    serverUrl: string;
-    allowedTools?: string[];
-  }): { definition: MCPToolDefinition; resources: ToolResources } {
+  addMCPTool(options: { serverLabel: string; serverUrl: string; allowedTools?: string[] }): {
+    definition: MCPToolDefinition;
+    resources: ToolResources;
+  } {
     const tool = ToolUtility.createMCPTool(options);
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };

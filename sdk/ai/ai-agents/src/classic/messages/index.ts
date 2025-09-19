@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import { MessageRole, MessageInputContent, ThreadMessage, MessageDeletionStatus } from "../../models/models.js";
+import {
+  MessageRole,
+  MessageInputContent,
+  ThreadMessage,
+  MessageDeletionStatus,
+} from "../../models/models.js";
 import {
   MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
@@ -22,8 +27,11 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Messages operations. */
 export interface MessagesOperations {
   /** Deletes an existing message on an existing thread. */
-  delete: (threadId: string, messageId: string, options?: MessagesDeleteOptionalParams) => 
-    Promise<MessageDeletionStatus>;
+  delete: (
+    threadId: string,
+    messageId: string,
+    options?: MessagesDeleteOptionalParams,
+  ) => Promise<MessageDeletionStatus>;
   /** Modifies an existing message on an existing thread. */
   update: (
     threadId: string,

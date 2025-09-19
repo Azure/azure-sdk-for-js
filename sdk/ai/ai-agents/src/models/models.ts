@@ -405,14 +405,10 @@ export interface MicrosoftFabricToolDefinition extends ToolDefinition {
   fabricDataagent: FabricDataAgentToolParameters;
 }
 
-export function microsoftFabricToolDefinitionSerializer(
-  item: MicrosoftFabricToolDefinition,
-): any {
+export function microsoftFabricToolDefinitionSerializer(item: MicrosoftFabricToolDefinition): any {
   return {
     type: item["type"],
-    fabric_dataagent: fabricDataAgentToolParametersSerializer(
-      item["fabricDataagent"],
-    ),
+    fabric_dataagent: fabricDataAgentToolParametersSerializer(item["fabricDataagent"]),
   };
 }
 
@@ -421,9 +417,7 @@ export function microsoftFabricToolDefinitionDeserializer(
 ): MicrosoftFabricToolDefinition {
   return {
     type: item["type"],
-    fabricDataagent: fabricDataAgentToolParametersDeserializer(
-      item["fabric_dataagent"],
-    ),
+    fabricDataagent: fabricDataAgentToolParametersDeserializer(item["fabric_dataagent"]),
   };
 }
 
@@ -436,9 +430,7 @@ export interface FabricDataAgentToolParameters {
   connectionList?: ToolConnection[];
 }
 
-export function fabricDataAgentToolParametersSerializer(
-  item: FabricDataAgentToolParameters,
-): any {
+export function fabricDataAgentToolParametersSerializer(item: FabricDataAgentToolParameters): any {
   return {
     connections: !item["connectionList"]
       ? item["connectionList"]
@@ -456,17 +448,13 @@ export function fabricDataAgentToolParametersDeserializer(
   };
 }
 
-export function toolConnectionArraySerializer(
-  result: Array<ToolConnection>,
-): any[] {
+export function toolConnectionArraySerializer(result: Array<ToolConnection>): any[] {
   return result.map((item) => {
     return toolConnectionSerializer(item);
   });
 }
 
-export function toolConnectionArrayDeserializer(
-  result: Array<ToolConnection>,
-): any[] {
+export function toolConnectionArrayDeserializer(result: Array<ToolConnection>): any[] {
   return result.map((item) => {
     return toolConnectionDeserializer(item);
   });
@@ -496,20 +484,14 @@ export interface SharepointToolDefinition extends ToolDefinition {
   sharepointGrounding: SharepointGroundingToolParameters;
 }
 
-export function sharepointToolDefinitionSerializer(
-  item: SharepointToolDefinition,
-): any {
+export function sharepointToolDefinitionSerializer(item: SharepointToolDefinition): any {
   return {
     type: item["type"],
-    sharepoint_grounding: sharepointGroundingToolParametersSerializer(
-      item["sharepointGrounding"],
-    ),
+    sharepoint_grounding: sharepointGroundingToolParametersSerializer(item["sharepointGrounding"]),
   };
 }
 
-export function sharepointToolDefinitionDeserializer(
-  item: any,
-): SharepointToolDefinition {
+export function sharepointToolDefinitionDeserializer(item: any): SharepointToolDefinition {
   return {
     type: item["type"],
     sharepointGrounding: sharepointGroundingToolParametersDeserializer(
@@ -817,9 +799,7 @@ export function bingCustomSearchToolDefinitionSerializer(
 ): any {
   return {
     type: item["type"],
-    bing_custom_search: bingCustomSearchToolParametersSerializer(
-      item["bingCustomSearch"],
-    ),
+    bing_custom_search: bingCustomSearchToolParametersSerializer(item["bingCustomSearch"]),
   };
 }
 
@@ -828,9 +808,7 @@ export function bingCustomSearchToolDefinitionDeserializer(
 ): BingCustomSearchToolDefinition {
   return {
     type: item["type"],
-    bingCustomSearch: bingCustomSearchToolParametersDeserializer(
-      item["bing_custom_search"],
-    ),
+    bingCustomSearch: bingCustomSearchToolParametersDeserializer(item["bing_custom_search"]),
   };
 }
 
@@ -895,9 +873,7 @@ export interface BingCustomSearchConfiguration {
   freshness?: string;
 }
 
-export function bingCustomSearchConfigurationSerializer(
-  item: BingCustomSearchConfiguration,
-): any {
+export function bingCustomSearchConfigurationSerializer(item: BingCustomSearchConfiguration): any {
   return {
     connection_id: item["connectionId"],
     instance_name: item["instanceName"],
@@ -977,18 +953,14 @@ export interface DeepResearchToolDefinition extends ToolDefinition {
   deepResearch: DeepResearchDetails;
 }
 
-export function deepResearchToolDefinitionSerializer(
-  item: DeepResearchToolDefinition,
-): any {
+export function deepResearchToolDefinitionSerializer(item: DeepResearchToolDefinition): any {
   return {
     type: item["type"],
     deep_research: deepResearchDetailsSerializer(item["deepResearch"]),
   };
 }
 
-export function deepResearchToolDefinitionDeserializer(
-  item: any,
-): DeepResearchToolDefinition {
+export function deepResearchToolDefinitionDeserializer(item: any): DeepResearchToolDefinition {
   return {
     type: item["type"],
     deepResearch: deepResearchDetailsDeserializer(item["deep_research"]),
@@ -1006,22 +978,18 @@ export interface DeepResearchDetails {
 export function deepResearchDetailsSerializer(item: DeepResearchDetails): any {
   return {
     deep_research_model: item["model"],
-    bing_grounding_connections:
-      deepResearchBingGroundingConnectionArraySerializer(
-        item["bingGroundingConnections"],
-      ),
+    bing_grounding_connections: deepResearchBingGroundingConnectionArraySerializer(
+      item["bingGroundingConnections"],
+    ),
   };
 }
 
-export function deepResearchDetailsDeserializer(
-  item: any,
-): DeepResearchDetails {
+export function deepResearchDetailsDeserializer(item: any): DeepResearchDetails {
   return {
     model: item["deep_research_model"],
-    bingGroundingConnections:
-      deepResearchBingGroundingConnectionArrayDeserializer(
-        item["bing_grounding_connections"],
-      ),
+    bingGroundingConnections: deepResearchBingGroundingConnectionArrayDeserializer(
+      item["bing_grounding_connections"],
+    ),
   };
 }
 
@@ -1204,9 +1172,7 @@ export function browserAutomationToolDefinitionSerializer(
 ): any {
   return {
     type: item["type"],
-    browser_automation: browserAutomationToolParametersSerializer(
-      item["browserAutomation"],
-    ),
+    browser_automation: browserAutomationToolParametersSerializer(item["browserAutomation"]),
   };
 }
 
@@ -1215,9 +1181,7 @@ export function browserAutomationToolDefinitionDeserializer(
 ): BrowserAutomationToolDefinition {
   return {
     type: item["type"],
-    browserAutomation: browserAutomationToolParametersDeserializer(
-      item["browser_automation"],
-    ),
+    browserAutomation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
   };
 }
 
@@ -1231,9 +1195,7 @@ export function browserAutomationToolParametersSerializer(
   item: BrowserAutomationToolParameters,
 ): any {
   return {
-    connection: browserAutomationToolConnectionParametersSerializer(
-      item["connection"],
-    ),
+    connection: browserAutomationToolConnectionParametersSerializer(item["connection"]),
   };
 }
 
@@ -1241,9 +1203,7 @@ export function browserAutomationToolParametersDeserializer(
   item: any,
 ): BrowserAutomationToolParameters {
   return {
-    connection: browserAutomationToolConnectionParametersDeserializer(
-      item["connection"],
-    ),
+    connection: browserAutomationToolConnectionParametersDeserializer(item["connection"]),
   };
 }
 
@@ -1294,9 +1254,7 @@ export function toolResourcesSerializer(item: ToolResources): any {
     azure_ai_search: !item["azureAISearch"]
       ? item["azureAISearch"]
       : azureAISearchToolResourceSerializer(item["azureAISearch"]),
-    mcp: !item["mcp"]
-      ? item["mcp"]
-      : mcpToolResourceArraySerializer(item["mcp"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpToolResourceArraySerializer(item["mcp"]),
   };
 }
 
@@ -1311,9 +1269,7 @@ export function toolResourcesDeserializer(item: any): ToolResources {
     azureAISearch: !item["azure_ai_search"]
       ? item["azure_ai_search"]
       : azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
-    mcp: !item["mcp"]
-      ? item["mcp"]
-      : mcpToolResourceArrayDeserializer(item["mcp"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpToolResourceArrayDeserializer(item["mcp"]),
   };
 }
 
@@ -1584,17 +1540,13 @@ export type AzureAISearchQueryType =
   | "vector_simple_hybrid"
   | "vector_semantic_hybrid";
 
-export function mcpToolResourceArraySerializer(
-  result: Array<MCPToolResource>,
-): any[] {
+export function mcpToolResourceArraySerializer(result: Array<MCPToolResource>): any[] {
   return result.map((item) => {
     return mcpToolResourceSerializer(item);
   });
 }
 
-export function mcpToolResourceArrayDeserializer(
-  result: Array<MCPToolResource>,
-): any[] {
+export function mcpToolResourceArrayDeserializer(result: Array<MCPToolResource>): any[] {
   return result.map((item) => {
     return mcpToolResourceDeserializer(item);
   });
@@ -1631,19 +1583,13 @@ export function mcpToolResourceDeserializer(item: any): MCPToolResource {
 }
 
 /** Alias for MCPRequiredApproval */
-export type MCPRequiredApproval =
-  | string
-  | "never"
-  | "always"
-  | MCPApprovalPerTool;
+export type MCPRequiredApproval = string | "never" | "always" | MCPApprovalPerTool;
 
 export function mcpRequiredApprovalSerializer(item: MCPRequiredApproval): any {
   return item;
 }
 
-export function mcpRequiredApprovalDeserializer(
-  item: any,
-): MCPRequiredApproval {
+export function mcpRequiredApprovalDeserializer(item: any): MCPRequiredApproval {
   return item;
 }
 
@@ -1657,23 +1603,15 @@ export interface MCPApprovalPerTool {
 
 export function mcpApprovalPerToolSerializer(item: MCPApprovalPerTool): any {
   return {
-    never: !item["never"]
-      ? item["never"]
-      : mcpToolListSerializer(item["never"]),
-    always: !item["always"]
-      ? item["always"]
-      : mcpToolListSerializer(item["always"]),
+    never: !item["never"] ? item["never"] : mcpToolListSerializer(item["never"]),
+    always: !item["always"] ? item["always"] : mcpToolListSerializer(item["always"]),
   };
 }
 
 export function mcpApprovalPerToolDeserializer(item: any): MCPApprovalPerTool {
   return {
-    never: !item["never"]
-      ? item["never"]
-      : mcpToolListDeserializer(item["never"]),
-    always: !item["always"]
-      ? item["always"]
-      : mcpToolListDeserializer(item["always"]),
+    never: !item["never"] ? item["never"] : mcpToolListDeserializer(item["never"]),
+    always: !item["always"] ? item["always"] : mcpToolListDeserializer(item["always"]),
   };
 }
 
@@ -2442,7 +2380,10 @@ export function requiredActionDeserializer(item: any): RequiredAction {
 }
 
 /** Alias for RequiredActionUnion */
-export type RequiredActionUnion = SubmitToolOutputsAction | SubmitToolApprovalAction | RequiredAction;
+export type RequiredActionUnion =
+  | SubmitToolOutputsAction
+  | SubmitToolApprovalAction
+  | RequiredAction;
 
 export function requiredActionUnionDeserializer(item: any): RequiredActionUnion {
   switch (item.type) {
@@ -2509,7 +2450,10 @@ export function requiredToolCallDeserializer(item: any): RequiredToolCall {
 }
 
 /** Alias for RequiredToolCallUnion */
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredMcpToolCall | RequiredToolCall;
+export type RequiredToolCallUnion =
+  | RequiredFunctionToolCall
+  | RequiredMcpToolCall
+  | RequiredToolCall;
 
 export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
   switch (item.type) {
@@ -2569,9 +2513,7 @@ export interface RequiredMcpToolCall extends RequiredToolCall {
   serverLabel: string;
 }
 
-export function requiredMcpToolCallDeserializer(
-  item: any,
-): RequiredMcpToolCall {
+export function requiredMcpToolCallDeserializer(item: any): RequiredMcpToolCall {
   return {
     type: item["type"],
     id: item["id"],
@@ -2589,14 +2531,10 @@ export interface SubmitToolApprovalAction extends RequiredAction {
   submitToolApproval: SubmitToolApprovalDetails;
 }
 
-export function submitToolApprovalActionDeserializer(
-  item: any,
-): SubmitToolApprovalAction {
+export function submitToolApprovalActionDeserializer(item: any): SubmitToolApprovalAction {
   return {
     type: item["type"],
-    submitToolApproval: submitToolApprovalDetailsDeserializer(
-      item["submit_tool_approval"],
-    ),
+    submitToolApproval: submitToolApprovalDetailsDeserializer(item["submit_tool_approval"]),
   };
 }
 
@@ -2606,9 +2544,7 @@ export interface SubmitToolApprovalDetails {
   toolCalls: RequiredToolCallUnion[];
 }
 
-export function submitToolApprovalDetailsDeserializer(
-  item: any,
-): SubmitToolApprovalDetails {
+export function submitToolApprovalDetailsDeserializer(item: any): SubmitToolApprovalDetails {
   return {
     toolCalls: requiredToolCallUnionArrayDeserializer(item["tool_calls"]),
   };
@@ -3116,9 +3052,7 @@ export interface MessageDeletionStatus {
   object: "thread.message.deleted";
 }
 
-export function messageDeletionStatusDeserializer(
-  item: any,
-): MessageDeletionStatus {
+export function messageDeletionStatusDeserializer(item: any): MessageDeletionStatus {
   return {
     id: item["id"],
     deleted: item["deleted"],
@@ -3186,9 +3120,7 @@ export function toolOutputArraySerializer(result: Array<ToolOutput>): any[] {
   });
 }
 
-export function toolApprovalArraySerializer(
-  result: Array<ToolApproval>,
-): any[] {
+export function toolApprovalArraySerializer(result: Array<ToolApproval>): any[] {
   return result.map((item) => {
     return toolApprovalSerializer(item);
   });
@@ -3713,9 +3645,7 @@ export function runStepBrowserAutomationToolCallDeserializer(
   return {
     type: item["type"],
     id: item["id"],
-    browserAutomation: browserAutomationToolCallDetailsDeserializer(
-      item["browser_automation"],
-    ),
+    browserAutomation: browserAutomationToolCallDetailsDeserializer(item["browser_automation"]),
   };
 }
 
@@ -3806,9 +3736,7 @@ export interface RunStepSharepointToolCall extends RunStepToolCall {
   sharePoint: Record<string, string>;
 }
 
-export function runStepSharepointToolCallDeserializer(
-  item: any,
-): RunStepSharepointToolCall {
+export function runStepSharepointToolCallDeserializer(item: any): RunStepSharepointToolCall {
   return {
     type: item["type"],
     id: item["id"],
@@ -3866,15 +3794,11 @@ export interface RunStepAzureFunctionToolCall extends RunStepToolCall {
   azureFunction: AzureFunctionToolCallDetails;
 }
 
-export function runStepAzureFunctionToolCallDeserializer(
-  item: any,
-): RunStepAzureFunctionToolCall {
+export function runStepAzureFunctionToolCallDeserializer(item: any): RunStepAzureFunctionToolCall {
   return {
     type: item["type"],
     id: item["id"],
-    azureFunction: azureFunctionToolCallDetailsDeserializer(
-      item["azure_function"],
-    ),
+    azureFunction: azureFunctionToolCallDetailsDeserializer(item["azure_function"]),
   };
 }
 
@@ -3891,9 +3815,7 @@ export interface AzureFunctionToolCallDetails {
   output?: string;
 }
 
-export function azureFunctionToolCallDetailsDeserializer(
-  item: any,
-): AzureFunctionToolCallDetails {
+export function azureFunctionToolCallDetailsDeserializer(item: any): AzureFunctionToolCallDetails {
   return {
     name: item["name"],
     arguments: item["arguments"],
@@ -3967,15 +3889,11 @@ export interface RunStepDeepResearchToolCall extends RunStepToolCall {
   deepResearch: RunStepDeepResearchToolCallDetails;
 }
 
-export function runStepDeepResearchToolCallDeserializer(
-  item: any,
-): RunStepDeepResearchToolCall {
+export function runStepDeepResearchToolCallDeserializer(item: any): RunStepDeepResearchToolCall {
   return {
     type: item["type"],
     id: item["id"],
-    deepResearch: runStepDeepResearchToolCallDetailsDeserializer(
-      item["deep_research"],
-    ),
+    deepResearch: runStepDeepResearchToolCallDetailsDeserializer(item["deep_research"]),
   };
 }
 
@@ -4030,9 +3948,7 @@ export interface RunStepConnectedAgent {
   agentId?: string;
 }
 
-export function runStepConnectedAgentDeserializer(
-  item: any,
-): RunStepConnectedAgent {
+export function runStepConnectedAgentDeserializer(item: any): RunStepConnectedAgent {
   return {
     name: item["name"],
     arguments: item["arguments"],
@@ -4051,9 +3967,7 @@ export interface RunStepActivityDetails extends RunStepDetails {
   activities: RunStepDetailsActivity[];
 }
 
-export function runStepActivityDetailsDeserializer(
-  item: any,
-): RunStepActivityDetails {
+export function runStepActivityDetailsDeserializer(item: any): RunStepActivityDetails {
   return {
     type: item["type"],
     activities: runStepDetailsActivityArrayDeserializer(item["activities"]),
@@ -4080,9 +3994,7 @@ export interface RunStepDetailsActivity {
   tools: Record<string, ActivityFunctionDefinition>;
 }
 
-export function runStepDetailsActivityDeserializer(
-  item: any,
-): RunStepDetailsActivity {
+export function runStepDetailsActivityDeserializer(item: any): RunStepDetailsActivity {
   return {
     type: item["type"],
     id: item["id"],
@@ -4096,9 +4008,7 @@ export function activityFunctionDefinitionRecordDeserializer(
 ): Record<string, ActivityFunctionDefinition> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : activityFunctionDefinitionDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : activityFunctionDefinitionDeserializer(item[key]);
   });
   return result;
 }
@@ -4111,9 +4021,7 @@ export interface ActivityFunctionDefinition {
   parameters: ActivityFunctionParameters;
 }
 
-export function activityFunctionDefinitionDeserializer(
-  item: any,
-): ActivityFunctionDefinition {
+export function activityFunctionDefinitionDeserializer(item: any): ActivityFunctionDefinition {
   return {
     description: item["description"],
     parameters: activityFunctionParametersDeserializer(item["parameters"]),
@@ -4132,9 +4040,7 @@ export interface ActivityFunctionParameters {
   additionalProperties?: boolean;
 }
 
-export function activityFunctionParametersDeserializer(
-  item: any,
-): ActivityFunctionParameters {
+export function activityFunctionParametersDeserializer(item: any): ActivityFunctionParameters {
   return {
     type: item["type"],
     properties: functionArgumentRecordDeserializer(item["properties"]),
@@ -4150,9 +4056,7 @@ export function functionArgumentRecordDeserializer(
 ): Record<string, FunctionArgument> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : functionArgumentDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : functionArgumentDeserializer(item[key]);
   });
   return result;
 }
@@ -5292,7 +5196,9 @@ export function runStepDeltaToolCallUnionDeserializer(item: any): RunStepDeltaTo
       return runStepDeltaOpenAPIToolCallDeserializer(item as RunStepDeltaOpenAPIToolCall);
 
     case "connected_agent":
-      return runStepDeltaConnectedAgentToolCallDeserializer(item as RunStepDeltaConnectedAgentToolCall);
+      return runStepDeltaConnectedAgentToolCallDeserializer(
+        item as RunStepDeltaConnectedAgentToolCall,
+      );
 
     case "function":
       return runStepDeltaFunctionToolCallDeserializer(item as RunStepDeltaFunctionToolCall);
@@ -5306,22 +5212,32 @@ export function runStepDeltaToolCallUnionDeserializer(item: any): RunStepDeltaTo
       );
 
     case "bing_grounding":
-      return runStepDeltaBingGroundingToolCallDeserializer(item as RunStepDeltaBingGroundingToolCall);
+      return runStepDeltaBingGroundingToolCallDeserializer(
+        item as RunStepDeltaBingGroundingToolCall,
+      );
 
     case "bing_custom_search":
-      return runStepDeltaCustomBingGroundingToolCallDeserializer(item as RunStepDeltaCustomBingGroundingToolCall);
+      return runStepDeltaCustomBingGroundingToolCallDeserializer(
+        item as RunStepDeltaCustomBingGroundingToolCall,
+      );
 
     case "azure_function":
-      return runStepDeltaAzureFunctionToolCallDeserializer(item as RunStepDeltaAzureFunctionToolCall);
+      return runStepDeltaAzureFunctionToolCallDeserializer(
+        item as RunStepDeltaAzureFunctionToolCall,
+      );
 
     case "deep_research":
       return runStepDeltaDeepResearchToolCallDeserializer(item as RunStepDeltaDeepResearchToolCall);
 
     case "azure_ai_search":
-      return runStepDeltaAzureAISearchToolCallDeserializer(item as RunStepDeltaAzureAISearchToolCall);
+      return runStepDeltaAzureAISearchToolCallDeserializer(
+        item as RunStepDeltaAzureAISearchToolCall,
+      );
 
     case "fabric_dataagent":
-      return runStepDeltaMicrosoftFabricToolCallDeserializer(item as RunStepDeltaMicrosoftFabricToolCall);
+      return runStepDeltaMicrosoftFabricToolCallDeserializer(
+        item as RunStepDeltaMicrosoftFabricToolCall,
+      );
 
     case "sharepoint_grounding":
       return runStepDeltaSharepointToolCallDeserializer(item as RunStepDeltaSharepointToolCall);
@@ -5341,9 +5257,7 @@ export interface RunStepDeltaMcpToolCall extends RunStepDeltaToolCall {
   arguments: string;
 }
 
-export function runStepDeltaMcpToolCallDeserializer(
-  item: any,
-): RunStepDeltaMcpToolCall {
+export function runStepDeltaMcpToolCallDeserializer(item: any): RunStepDeltaMcpToolCall {
   return {
     index: item["index"],
     id: item["id"],
@@ -5360,9 +5274,7 @@ export interface RunStepDeltaOpenAPIToolCall extends RunStepDeltaToolCall {
   openAPI: Record<string, string>;
 }
 
-export function runStepDeltaOpenAPIToolCallDeserializer(
-  item: any,
-): RunStepDeltaOpenAPIToolCall {
+export function runStepDeltaOpenAPIToolCallDeserializer(item: any): RunStepDeltaOpenAPIToolCall {
   return {
     index: item["index"],
     id: item["id"],
@@ -5372,8 +5284,7 @@ export function runStepDeltaOpenAPIToolCallDeserializer(
 }
 
 /** Represents the invocation of connected agent as a part of a streaming run step. */
-export interface RunStepDeltaConnectedAgentToolCall
-  extends RunStepDeltaToolCall {
+export interface RunStepDeltaConnectedAgentToolCall extends RunStepDeltaToolCall {
   /** The object type, which is always "connected_agent". */
   type: "connected_agent";
   /** The collection of tool calls for the tool call detail item. */
@@ -5597,8 +5508,7 @@ export function runStepDeltaCodeInterpreterImageOutputObjectDeserializer(
 }
 
 /** Represents the bing grounding tool call in a streaming run step. */
-export interface RunStepDeltaBingGroundingToolCall
-  extends RunStepDeltaToolCall {
+export interface RunStepDeltaBingGroundingToolCall extends RunStepDeltaToolCall {
   /** The object type, which is always "bing_grounding". */
   type: "bing_grounding";
   /** The dictionary with request and response from Bing Grounding search tool. */
@@ -5617,8 +5527,7 @@ export function runStepDeltaBingGroundingToolCallDeserializer(
 }
 
 /** Represents the Bing Custom Search tool call in a streaming run step. */
-export interface RunStepDeltaCustomBingGroundingToolCall
-  extends RunStepDeltaToolCall {
+export interface RunStepDeltaCustomBingGroundingToolCall extends RunStepDeltaToolCall {
   /** The object type, which is always 'bing_custom_search'. */
   type: "bing_custom_search";
   /** The dictionary with request and response from Bing Custom Search tool. */
@@ -5637,8 +5546,7 @@ export function runStepDeltaCustomBingGroundingToolCallDeserializer(
 }
 
 /** Represents the Azure Function tool call in a streaming run step. */
-export interface RunStepDeltaAzureFunctionToolCall
-  extends RunStepDeltaToolCall {
+export interface RunStepDeltaAzureFunctionToolCall extends RunStepDeltaToolCall {
   /** The object type, which is always 'azure_function'. */
   type: "azure_function";
   /** Partial description of an Azure function call. */
@@ -5652,9 +5560,7 @@ export function runStepDeltaAzureFunctionToolCallDeserializer(
     index: item["index"],
     id: item["id"],
     type: item["type"],
-    azureFunction: azureFunctionToolCallDetailsDeserializer(
-      item["azure_function"],
-    ),
+    azureFunction: azureFunctionToolCallDetailsDeserializer(item["azure_function"]),
   };
 }
 
@@ -5673,15 +5579,12 @@ export function runStepDeltaDeepResearchToolCallDeserializer(
     index: item["index"],
     id: item["id"],
     type: item["type"],
-    deepResearch: runStepDeepResearchToolCallDetailsDeserializer(
-      item["deep_research"],
-    ),
+    deepResearch: runStepDeepResearchToolCallDetailsDeserializer(item["deep_research"]),
   };
 }
 
 /** Represents the Azure AI Search in a streaming run step. */
-export interface RunStepDeltaAzureAISearchToolCall
-  extends RunStepDeltaToolCall {
+export interface RunStepDeltaAzureAISearchToolCall extends RunStepDeltaToolCall {
   /** The object type, which is always "azure_ai_search". */
   type: "azure_ai_search";
   /** Reserved for future use. */
@@ -5700,8 +5603,7 @@ export function runStepDeltaAzureAISearchToolCallDeserializer(
 }
 
 /** Represents the Microsoft Fabric tool call in a streaming run step. */
-export interface RunStepDeltaMicrosoftFabricToolCall
-  extends RunStepDeltaToolCall {
+export interface RunStepDeltaMicrosoftFabricToolCall extends RunStepDeltaToolCall {
   /** The object type, which is always 'fabric_dataagent' */
   type: "fabric_dataagent";
   /** Fabric input and output. */
@@ -5746,9 +5648,7 @@ export interface RunStepDeltaMCPObject extends RunStepDeltaDetail {
   toolCalls?: RunStepDeltaMcpToolCall[];
 }
 
-export function runStepDeltaMCPObjectDeserializer(
-  item: any,
-): RunStepDeltaMCPObject {
+export function runStepDeltaMCPObjectDeserializer(item: any): RunStepDeltaMCPObject {
   return {
     type: item["type"],
     toolCalls: !item["tool_calls"]
@@ -5773,9 +5673,7 @@ export interface RunStepDeltaOpenAPIObject extends RunStepDeltaDetail {
   toolCalls?: RunStepDeltaOpenAPIToolCall[];
 }
 
-export function runStepDeltaOpenAPIObjectDeserializer(
-  item: any,
-): RunStepDeltaOpenAPIObject {
+export function runStepDeltaOpenAPIObjectDeserializer(item: any): RunStepDeltaOpenAPIObject {
   return {
     type: item["type"],
     toolCalls: !item["tool_calls"]

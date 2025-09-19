@@ -107,8 +107,12 @@ export function _submitToolOutputsToRunSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      tool_outputs: options?.toolOutputs?.length ? toolOutputArraySerializer(options?.toolOutputs) : undefined,
-      tool_approvals: options?.toolApprovals?.length ? toolApprovalArraySerializer(options?.toolApprovals) : undefined,
+      tool_outputs: options?.toolOutputs?.length
+        ? toolOutputArraySerializer(options?.toolOutputs)
+        : undefined,
+      tool_approvals: options?.toolApprovals?.length
+        ? toolApprovalArraySerializer(options?.toolApprovals)
+        : undefined,
       stream: options?.stream ?? false,
     },
   });
@@ -135,12 +139,7 @@ export function submitToolOutputsToRun(
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): AgentRunResponse {
   async function executeSubmitToolOutputsToRun(): Promise<ThreadRun> {
-    const result = await _submitToolOutputsToRunSend(
-      context,
-      threadId,
-      runId,
-      options,
-    );
+    const result = await _submitToolOutputsToRunSend(context, threadId, runId, options);
 
     return _submitToolOutputsToRunDeserialize(result);
   }

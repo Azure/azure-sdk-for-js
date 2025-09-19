@@ -62,17 +62,21 @@ export class OpenApiTool {
    */
   public addDefinition(openApiFunctionDefinition: OpenApiFunctionDefinition): void {
     if (this._definitions.some((d) => d.openapi.name === openApiFunctionDefinition.name)) {
-      throw new Error(`Definition '${openApiFunctionDefinition.name}' already exists and cannot be added again.`);
+      throw new Error(
+        `Definition '${openApiFunctionDefinition.name}' already exists and cannot be added again.`,
+      );
     }
 
     const defaultParams = openApiFunctionDefinition.defaultParams ?? [];
     const authToUse = openApiFunctionDefinition.auth ?? this._defaultAuth;
 
-    this._definitions.push(OpenApiTool.createDefinition({
-      ...openApiFunctionDefinition,
-      defaultParams,
-      auth: authToUse,
-    }));
+    this._definitions.push(
+      OpenApiTool.createDefinition({
+        ...openApiFunctionDefinition,
+        defaultParams,
+        auth: authToUse,
+      }),
+    );
   }
 
   /**
@@ -83,7 +87,11 @@ export class OpenApiTool {
     const index = this._definitions.findIndex((d) => d.openapi.name === name);
     if (index !== -1) {
       this._definitions.splice(index, 1);
-      logger.info("Definition '%s' removed. Total definitions: %d.", name, this._definitions.length);
+      logger.info(
+        "Definition '%s' removed. Total definitions: %d.",
+        name,
+        this._definitions.length,
+      );
       return;
     }
     throw new Error(`Definition with the name '${name}' does not exist.`);

@@ -499,7 +499,5 @@ export async function submitToolOutputsToRunStreaming(
 ): Promise<AgentEventMessageStream> {
   const streamOptions = { ...options, stream: true };
 
-  return processStream(
-    _submitToolOutputsToRunSend(context, threadId, runId, streamOptions),
-  );
+  return processStream(_submitToolOutputsToRunSend(context, threadId, runId, streamOptions));
 }
