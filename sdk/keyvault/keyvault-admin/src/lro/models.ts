@@ -3,14 +3,14 @@
 
 // TODO: merge with backupClientModels
 
-import type { KeyVaultClient } from "../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../keyVaultClient.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   KeyVaultBackupResult,
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "../backupClientModels.js";
-import type { OperationStatus } from "../generated/src/index.js";
+import type { OperationStatus } from "../index.js";
 
 /**
  * Common parameters to a Key Vault Admin Poller.

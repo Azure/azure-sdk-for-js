@@ -463,7 +463,7 @@ export interface ListPropertiesOfKeysOptions extends coreClient.OperationOptions
 export interface ListPropertiesOfKeyVersionsOptions extends coreClient.OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export const logger: AzureLogger;
 
 export { PagedAsyncIterableIterator }
