@@ -363,7 +363,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.notStrictEqual(blobURLs[0].url.indexOf(result.segment.blobItems![0].name), -1);
   });
-  
+
   it("listBlobsFlat with startFrom", async () => {
     const blobClients = [];
     let startFrom = "";
@@ -379,11 +379,14 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = (await containerClient.listBlobsFlat(
-      {
-        startFrom: startFrom
-      }
-    ).byPage().next()).value;
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -394,7 +397,7 @@ describe("ContainerClient", () => {
       await blob.delete();
     }
   });
-  
+
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsFlat with startFrom", async () => {
     const blobClients = [];
     const prefix = "blockblob";
@@ -413,7 +416,7 @@ describe("ContainerClient", () => {
     let i = 1;
     let iter = containerClient
       .listBlobsFlat({
-        startFrom: startFrom
+        startFrom: startFrom,
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
@@ -424,9 +427,7 @@ describe("ContainerClient", () => {
     // Gets next marker
     const marker = response.continuationToken;
     // Passing next marker as continuationToken
-    iter = containerClient
-      .listBlobsFlat()
-      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    iter = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
     // Gets 2 blobs
     for (const blob of response.segment.blobItems) {
@@ -438,10 +439,10 @@ describe("ContainerClient", () => {
       await blob.delete();
     }
   });
-  
+
   it("listBlobsFlat with startFrom with special char", async () => {
     const blobClients = [];
-    
+
     const dirName = "first_dir\uFFFF/";
     let startFrom = "";
     for (let i = 0; i < 3; i++) {
@@ -456,11 +457,14 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = (await containerClient.listBlobsFlat(
-      {
-        startFrom: startFrom
-      }
-    ).byPage().next()).value;
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -875,7 +879,7 @@ describe("ContainerClient", () => {
     let startFrom = "";
     for (let i = 0; i < 3; i++) {
       const blobName = getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`);
-      if ( i === 1) {
+      if (i === 1) {
         startFrom = blobName;
       }
       const blobClient = containerClient.getBlobClient(blobName);
@@ -885,9 +889,14 @@ describe("ContainerClient", () => {
     }
 
     const delimiter = "/";
-    const result = (await containerClient.listBlobsByHierarchy(delimiter, {
-      startFrom: startFrom
-    }).byPage().next()).value;
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, {
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
@@ -904,10 +913,10 @@ describe("ContainerClient", () => {
       await blob.delete();
     }
   });
-  
+
   it("listBlobsByHierarchy with startFrom with special char", async () => {
     const blobClients = [];
-    
+
     const dirName = "first_dir\uFFFF";
     let startFrom = "";
     for (let i = 0; i < 3; i++) {
@@ -922,11 +931,14 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = (await containerClient.listBlobsByHierarchy("/",
-      {
-        startFrom: startFrom
-      }
-    ).byPage().next()).value;
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy("/", {
+          startFrom: startFrom,
+        })
+        .byPage()
+        .next()
+    ).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -937,7 +949,7 @@ describe("ContainerClient", () => {
       await blob.delete();
     }
   });
-  
+
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listBlobsByHierarchy with startFrom", async () => {
     const blobClients = [];
     const prefix = "blockblob";
@@ -956,7 +968,7 @@ describe("ContainerClient", () => {
     let i = 1;
     let iter = containerClient
       .listBlobsByHierarchy("/", {
-        startFrom: startFrom
+        startFrom: startFrom,
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;

@@ -807,8 +807,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  function parseJwt (token: string) {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+  function parseJwt(token: string) {
+    return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
   }
 
   it("GenerateUserDelegationSAS with skuoid should work for filesystem", async function (ctx) {
@@ -816,7 +816,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       // The token is sanitized in recording, we cannot get the object id from it.
       ctx.skip();
     }
-    
+
     // Try to get DataLakeServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
@@ -831,10 +831,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     if (serviceClientWithToken === undefined) {
       ctx.skip();
     }
-    
+
     const credential = createTestCredential();
-    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token!
-    const jwtObj = parseJwt(token);
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
 
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -858,7 +858,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2025-07-05",
-        delegatedUserObjectId: jwtObj.oid
+        delegatedUserObjectId: jwtObj.oid,
       },
       userDelegationKey,
       accountName,
@@ -948,7 +948,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await fileSystemClient.deleteIfExists();
   });
-  
+
   it("GenerateUserDelegationSAS with skuoid should work for file", async function (ctx) {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
@@ -968,10 +968,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     if (serviceClientWithToken === undefined) {
       ctx.skip();
     }
-    
+
     const credential = createTestCredential();
-    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token!
-    const jwtObj = parseJwt(token);
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
 
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -1016,10 +1016,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
-    const fileClientWithSAS = new DataLakeFileClient(
-      sasClient,
-      newPipeline(credential),
-    );
+    const fileClientWithSAS = new DataLakeFileClient(sasClient, newPipeline(credential));
     configureStorageClient(recorder, fileClientWithSAS);
 
     const properties = await fileClientWithSAS.getProperties();

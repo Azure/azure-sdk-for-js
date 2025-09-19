@@ -63,13 +63,13 @@ export interface SASQueryParametersOptions {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
-    
+
   /**
    * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
    * issued to the user specified in this value.
-   */  
-  delegatedUserObjectId?: string
+   */
+  delegatedUserObjectId?: string;
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
@@ -338,7 +338,7 @@ export class SASQueryParameters {
     preauthorizedAgentObjectId?: string,
     correlationId?: string,
     encryptionScope?: string,
-    delegatedUserObjectId?: string
+    delegatedUserObjectId?: string,
   );
 
   /**
@@ -371,7 +371,7 @@ export class SASQueryParameters {
     preauthorizedAgentObjectId?: string,
     correlationId?: string,
     encryptionScope?: string,
-    delegatedUserObjectId?: string
+    delegatedUserObjectId?: string,
   ) {
     this.version = version;
     this.signature = signature;

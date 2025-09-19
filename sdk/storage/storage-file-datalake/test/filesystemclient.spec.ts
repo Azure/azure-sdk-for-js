@@ -217,7 +217,7 @@ describe("DataLakeFileSystemClient", () => {
 
   it("listPaths with startFrom", async () => {
     const fileClients = [];
-    const dirBase = recorder.variable(`dir`, getUniqueName(`dir`));    
+    const dirBase = recorder.variable(`dir`, getUniqueName(`dir`));
     const fileBase = recorder.variable(`file`, getUniqueName(`file`));
 
     const dirName0 = dirBase + "0";
@@ -252,25 +252,33 @@ describe("DataLakeFileSystemClient", () => {
       expectedNames.push(fileClient.name);
     }
 
-    const result = (await fileSystemClient.listPaths({
-      startFrom: dirName0
-    }).byPage().next())
-      .value as FileSystemListPathsResponse;
+    const result = (
+      await fileSystemClient
+        .listPaths({
+          startFrom: dirName0,
+        })
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, 2);
-    assert.deepStrictEqual(result.pathItems![0].name!, dirName0);    
+    assert.deepStrictEqual(result.pathItems![0].name!, dirName0);
 
-    const result1 = (await fileSystemClient.listPaths({
-      startFrom: startFrom,
-      recursive: true,
-    }).byPage().next())
-      .value as FileSystemListPathsResponse;
+    const result1 = (
+      await fileSystemClient
+        .listPaths({
+          startFrom: startFrom,
+          recursive: true,
+        })
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
     assert.deepStrictEqual(result1.continuation, undefined);
     assert.deepStrictEqual(result1.pathItems!.length, 6);
     const paths = [];
 
-    for (const path of result1.pathItems!){
+    for (const path of result1.pathItems!) {
       paths.push(path.name);
     }
     assert.deepStrictEqual(paths, expectedNames);
