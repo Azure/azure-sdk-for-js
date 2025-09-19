@@ -1,5 +1,12 @@
 # Release History
 
+## 22.3.0 (2025-09-16)
+
+### Features Added
+  - Interface ManagedCluster has a new optional parameter kind
+  - Enum KnownManagedClusterSKUName has a new value Automatic
+  - Enum KnownOssku has a new value AzureLinux3
+
 ## 23.0.0-beta.3 (2025-07-25)
 Compared with version 22.2.0
 
