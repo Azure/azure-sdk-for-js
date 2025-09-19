@@ -2,7 +2,7 @@
   "name": "@azure-rest/purview-sharing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "A generated SDK for PurviewSharing.",
   "keywords": [
     "node",

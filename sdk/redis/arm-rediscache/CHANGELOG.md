@@ -1,6 +1,6 @@
 # Release History
 
-## 8.2.1 (Unreleased)
+## 8.2.2 (Unreleased)
 
 ### Features Added
 

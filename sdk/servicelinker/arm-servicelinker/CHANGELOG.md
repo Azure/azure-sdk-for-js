@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.0-beta.2 (Unreleased)
+## 2.2.0-beta.3 (Unreleased)
 
 ### Features Added
 

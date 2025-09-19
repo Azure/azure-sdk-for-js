@@ -1,6 +1,6 @@
 # Release History
 
-## 9.2.1 (Unreleased)
+## 9.2.2 (Unreleased)
 
 ### Features Added
 

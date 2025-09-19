@@ -1,6 +1,6 @@
 # Release History
 
-## 6.1.1 (Unreleased)
+## 6.1.2 (Unreleased)
 
 ### Features Added
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0-beta.2 (Unreleased)
+## 10.0.0-beta.3 (Unreleased)
 
 ### Features Added
 

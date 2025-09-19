@@ -2,7 +2,7 @@
   "name": "@azure-rest/maps-search",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "A generated SDK for MapsSearchClient.",
   "keywords": [
     "node",

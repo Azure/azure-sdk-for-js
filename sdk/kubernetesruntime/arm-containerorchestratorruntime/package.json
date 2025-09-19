@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerorchestratorruntime",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A generated SDK for KubernetesRuntimeClient.",
   "engines": {
     "node": ">=20.0.0"
