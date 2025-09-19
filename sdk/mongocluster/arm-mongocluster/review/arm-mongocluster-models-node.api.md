@@ -328,7 +328,8 @@ export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20241001Preview = "2024-10-01-preview",
     V20250401Preview = "2025-04-01-preview",
-    V20250701Preview = "2025-07-01-preview"
+    V20250701Preview = "2025-07-01-preview",
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -541,9 +542,7 @@ export interface ShardingProperties {
 
 // @public
 export interface StorageProperties {
-    iops?: number;
     sizeGb?: number;
-    throughput?: number;
     type?: StorageType;
 }
 
