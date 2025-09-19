@@ -18,7 +18,7 @@ extends:
       - template: /eng/pipelines/templates/variables/globals.yml
       - template: /eng/pipelines/templates/variables/image.yml
       - name: configPath
-        value: ./common/tools/turborepo-remote-cache
+        value: ./eng/containers/turborepo-remote-cache
       - name: containerRegistry
         value: 'azsdkengsys'
       - name: imageRepository

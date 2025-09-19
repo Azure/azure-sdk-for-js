@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
+    "types": ["trusted-types"],
     "paths": {
       "@azure/core-xml": ["./dist/browser/index.d.ts"],
       "@azure/core-xml/*": ["./dist/browser/*"],

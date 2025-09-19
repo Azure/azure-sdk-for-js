@@ -743,6 +743,7 @@ describe("BaseSender", () => {
         envelopes,
         "CLIENT_EXCEPTION",
         "Circular redirect",
+        "Client exception",
       );
     });
 
@@ -750,11 +751,8 @@ describe("BaseSender", () => {
       // Disable network statsbeat to trigger CLIENT_EXCEPTION path
       (testSender as any).networkStatsbeatMetrics = null;
 
-      // Mock a non-retriable status code response (this will trigger the CLIENT_EXCEPTION path)
-      testSender.sendMock.mockResolvedValue({
-        statusCode: 400, // Non-retriable status code
-        result: "Bad Request",
-      });
+      // Mock a network error that throws an exception
+      testSender.sendMock.mockRejectedValue(new Error("Error message"));
 
       const envelopes = [
         {
@@ -773,10 +771,11 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
+        "Error message",
       );
     });
 
-    it("should not capture exception.message for NON_RETRYABLE_STATUS_CODE", async () => {
+    it("should not capture exception.message for status code errors", async () => {
       testSender.sendMock.mockResolvedValue({
         statusCode: 400,
         result: "Bad Request",
@@ -798,9 +797,9 @@ describe("BaseSender", () => {
       expect(result.code).toBe(ExportResultCode.FAILED);
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
 
-      // Verify exception.message is not passed for non-client exceptions
+      // Verify exception.message is not passed for status code errors
       const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
-      expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
+      expect(call.length).toBe(2); // envelopes array, drop code (no drop reason)
     });
 
     it("should handle successful export without calling error tracking", async () => {

@@ -16,7 +16,6 @@ import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 import { describe, it, assert, beforeAll } from "vitest";
-
 describe("test batch operations", () => {
   describe("v2 multi partition container", async () => {
     let container: Container;
@@ -98,6 +97,93 @@ describe("test batch operations", () => {
       assert.strictEqual(response.result[2].statusCode, 200);
       assert.strictEqual(response.result[3].statusCode, 204);
       assert.strictEqual(response.result[4].statusCode, 200);
+    });
+
+    it("executes batch with optional partition key value in input", async () => {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: "i1", key: "B", school: "high" },
+          partitionKey: "B",
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: "i2", key: "B", school: "elementary" },
+          partitionKey: "B",
+        },
+        {
+          operationType: BulkOperationType.Replace,
+          id: "i1",
+          resourceBody: { id: "i1", key: "B", school: "junior high" },
+          partitionKey: "B",
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: "i1",
+          partitionKey: "B",
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          id: "i2",
+          partitionKey: "B",
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
+            condition: "from c where NOT IS_DEFINED(c.newImproved)",
+          },
+        },
+      ];
+
+      const response = await container.items.batch(operations, "B");
+      assert(isOperationResponse(response.result[0]));
+      assert.strictEqual(response.result[0].statusCode, 201);
+      assert.strictEqual(response.result[1].statusCode, 201);
+      assert.strictEqual(response.result[2].statusCode, 200);
+      assert.strictEqual(response.result[3].statusCode, 204);
+      assert.strictEqual(response.result[4].statusCode, 200);
+    });
+
+    it("should fail if some of operation input partitionKey does not match with batch partitionKey", async () => {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: "id1", key: "B", school: "high" },
+          partitionKey: "B",
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: "id2", key: "B", school: "elementary" },
+          partitionKey: "A",
+        },
+        {
+          operationType: BulkOperationType.Replace,
+          id: "id1",
+          resourceBody: { id: "id1", key: "B", school: "junior high" },
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: "id1",
+          partitionKey: "B",
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          id: "id2",
+          partitionKey: "B",
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
+            condition: "from c where NOT IS_DEFINED(c.newImproved)",
+          },
+        },
+      ];
+
+      try {
+        await container.items.batch(operations, "B");
+      } catch (e: any) {
+        assert.ok(
+          e.message.includes(
+            "One or more operations within the batch request have a different partition key value than the request.",
+          ),
+        );
+      }
     });
 
     it("rolls back prior operations when one fails", async () => {

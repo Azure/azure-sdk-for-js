@@ -21,7 +21,6 @@ export function wrapAbortSignalLikePolicy(): PipelinePolicy {
       }
 
       const { abortSignal, cleanup } = wrapAbortSignalLike(request.abortSignal);
-      // eslint-disable-next-line no-param-reassign
       request.abortSignal = abortSignal;
       try {
         return await next(request);

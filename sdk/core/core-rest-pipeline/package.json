@@ -85,11 +85,11 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.8.0",
-    "@azure/core-tracing": "^1.0.1",
-    "@azure/core-util": "^1.11.0",
-    "@azure/logger": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.10.0",
+    "@azure/core-tracing": "^1.3.0",
+    "@azure/core-util": "^1.13.0",
+    "@azure/logger": "^1.3.0",
     "@typespec/ts-http-runtime": "^0.3.0",
     "tslib": "^2.6.2"
   },

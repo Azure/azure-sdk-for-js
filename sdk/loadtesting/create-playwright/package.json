@@ -1,6 +1,6 @@
 {
   "name": "@azure/create-playwright",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Package to setup @azure/playwright",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/create-playwright/README.md",
   "sdk-type": "client",

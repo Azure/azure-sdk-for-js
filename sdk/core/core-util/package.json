@@ -68,12 +68,12 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@typespec/ts-http-runtime": "^0.3.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",

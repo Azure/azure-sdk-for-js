@@ -278,21 +278,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The type used for update operations of the Site. */
@@ -361,8 +354,6 @@ export function siteArrayDeserializer(result: Array<Site>): any[] {
 
 /** Supported API Versions */
 export enum KnownVersions {
-  /** API Version - 2024-02-01-preview */
-  V20240201Preview = "2024-02-01-preview",
-  /** API Version - 2025-03-01-preview */
-  V20250301Preview = "2025-03-01-preview",
+  /** API Version - 2025-06-01 */
+  V20250601 = "2025-06-01",
 }

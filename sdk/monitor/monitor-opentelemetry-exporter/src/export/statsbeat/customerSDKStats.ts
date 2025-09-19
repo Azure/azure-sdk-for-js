@@ -9,12 +9,19 @@ import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
-import { CustomerSDKStats, DropCode, RetryCode } from "./types.js";
+import {
+  CustomerSDKStats,
+  DropCode,
+  RetryCode,
+  ExceptionType,
+  DropReason,
+  RetryReason,
+} from "./types.js";
 import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { BreezePerformanceCounterNames } from "../../types.js";
-import type { MetricsData } from "../../generated/index.js";
+import type { MetricsData, RemoteDependencyData, RequestData } from "../../generated/index.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 
 /**
@@ -161,11 +168,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
     for (const [telemetry_type, count] of counter.totalItemSuccessCount.entries()) {
-      attributes.telemetry_type = telemetry_type;
-      observableResult.observe(this.itemSuccessCountGauge, count, {
-        ...attributes,
-      });
-      counter.totalItemSuccessCount.set(telemetry_type, 0);
+      // Only send metrics if count is greater than zero
+      if (count > 0) {
+        attributes.telemetry_type = telemetry_type;
+        observableResult.observe(this.itemSuccessCountGauge, count, {
+          ...attributes,
+        });
+        counter.totalItemSuccessCount.set(telemetry_type, 0);
+      }
     }
   }
 
@@ -180,25 +190,39 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       telemetry_type: TelemetryType.UNKNOWN,
     };
 
-    // Iterate through the nested Map structure: telemetry_type -> drop.code -> reason -> count
+    // Iterate through the nested Map structure: telemetry_type -> drop.code -> reason -> telemetry_success -> count
     for (const [telemetryType, dropCodeMap] of counter.totalItemDropCount.entries()) {
       for (const [dropCode, reasonMap] of dropCodeMap.entries()) {
-        for (const [reason, count] of reasonMap.entries()) {
-          const attributes = { ...baseAttributes };
-          attributes.telemetry_type = telemetryType;
-          attributes["drop.code"] = dropCode;
+        for (const [reason, successMap] of reasonMap.entries()) {
+          for (const [success, count] of successMap.entries()) {
+            const attributes = { ...baseAttributes };
+            attributes.telemetry_type = telemetryType;
+            attributes["drop.code"] = dropCode;
 
-          // Include drop.reason for all case
-          if (reason) {
-            (attributes as any)["drop.reason"] = reason;
+            // Include drop.reason for all cases
+            if (reason) {
+              (attributes as any)["drop.reason"] = reason;
+            }
+
+            // Include telemetry_success only for request/dependency telemetry when success is not null
+            if (
+              (telemetryType === TelemetryType.REQUEST ||
+                telemetryType === TelemetryType.DEPENDENCY) &&
+              success !== null
+            ) {
+              (attributes as any)["telemetry_success"] = success;
+            }
+
+            // Only send metrics if count is greater than zero
+            if (count > 0) {
+              observableResult.observe(this.itemDropCountGauge, count, {
+                ...attributes,
+              });
+            }
+
+            // Reset the count to 0
+            successMap.set(success, 0);
           }
-
-          observableResult.observe(this.itemDropCountGauge, count, {
-            ...attributes,
-          });
-
-          // Reset the count to 0
-          reasonMap.set(reason, 0);
         }
       }
     }
@@ -228,9 +252,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
             (attributes as any)["retry.reason"] = reason;
           }
 
-          observableResult.observe(this.itemRetryCountGauge, count, {
-            ...attributes,
-          });
+          // Only send metrics if count is greater than zero
+          if (count > 0) {
+            observableResult.observe(this.itemRetryCountGauge, count, {
+              ...attributes,
+            });
+          }
 
           // Reset the count to 0
           reasonMap.set(reason, 0);
@@ -259,41 +286,57 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
   /**
    * Tracks dropped items
-   * @param envelopes - Number of envelopes dropped
+   * @param envelopes - Array of envelopes dropped
    * @param dropCode - The drop code indicating the reason for drop
-   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override when dropCode is CLIENT_EXCEPTION
    */
   public countDroppedItems(
     envelopes: Envelope[],
     dropCode: DropCode | number,
     exceptionMessage?: string,
+    exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
 
     for (const envelope of envelopes) {
       telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
-      // Get or create the dropCode map for this telemetry_type
+
       let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
       if (!dropCodeMap) {
-        dropCodeMap = new Map<DropCode | number, Map<string, number>>();
+        dropCodeMap = new Map<DropCode | number, Map<string, Map<boolean | null, number>>>();
         counter.totalItemDropCount.set(telemetry_type, dropCodeMap);
       }
 
       // Get or create the reason map for this dropCode
       let reasonMap = dropCodeMap.get(dropCode);
       if (!reasonMap) {
-        reasonMap = new Map<string, number>();
+        reasonMap = new Map<string, Map<boolean | null, number>>();
         dropCodeMap.set(dropCode, reasonMap);
       }
 
       // Generate a low-cardinality, informative reason description
-      const reason = this.getDropReason(dropCode, exceptionMessage);
+      const reason = this.getDropReason(dropCode, exceptionMessage, exceptionType);
 
-      // Update the count for this reason
-      const currentCount = reasonMap.get(reason) || 0;
-      reasonMap.set(reason, currentCount + 1);
+      // Get or create the success map for this reason
+      let successMap = reasonMap.get(reason);
+      if (!successMap) {
+        successMap = new Map<boolean | null, number>();
+        reasonMap.set(reason, successMap);
+      }
+
+      // For non-request/dependency telemetry or when success is not provided, use null as the success key
+      const individualTelemetrySuccess = this.getTelemetrySuccessFromEnvelope(envelope);
+      const successKey =
+        (telemetry_type === TelemetryType.REQUEST || telemetry_type === TelemetryType.DEPENDENCY) &&
+        individualTelemetrySuccess !== undefined
+          ? individualTelemetrySuccess
+          : null;
+
+      // Update the count for this reason and success combination
+      const currentCount = successMap.get(successKey) || 0;
+      successMap.set(successKey, currentCount + 1);
     }
   }
 
@@ -301,15 +344,24 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Generates a low-cardinality, informative description for drop reasons
    * @param dropCode - The drop code (enum value or status code number)
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getDropReason(dropCode: DropCode | number, exceptionMessage?: string): string {
+  private getDropReason(
+    dropCode: DropCode | number,
+    exceptionMessage?: string,
+    exceptionType?: ExceptionType,
+  ): string {
     if (dropCode === DropCode.CLIENT_EXCEPTION) {
-      // For client exceptions, derive a low-cardinality reason from the exception message
+      // If an explicit exception type is provided, use it
+      if (exceptionType) {
+        return exceptionType;
+      }
+      // For client exceptions, derive a well-known exception category from the exception message
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "unknown_exception";
+      return ExceptionType.CLIENT_EXCEPTION; // Default to "Client exception" if no message provided
     }
 
     // Handle status code drop codes (numeric values)
@@ -319,54 +371,48 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     // Handle other enum drop codes
     switch (dropCode) {
-      case DropCode.CLIENT_EXPIRED_DATA:
-        return "expired_data";
       case DropCode.CLIENT_READONLY:
-        return "readonly_mode";
-      case DropCode.CLIENT_STALE_DATA:
-        return "stale_data";
+        return DropReason.CLIENT_READONLY;
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
-        return "persistence_full";
-      case DropCode.NON_RETRYABLE_STATUS_CODE:
-        return "non_retryable_status";
+        return DropReason.CLIENT_PERSISTENCE_CAPACITY;
+      case DropCode.CLIENT_STORAGE_DISABLED:
+        return DropReason.CLIENT_STORAGE_DISABLED;
       case DropCode.UNKNOWN:
       default:
-        return "unknown_reason";
+        return DropReason.UNKNOWN;
     }
   }
 
   /**
-   * Categorizes exception messages into low-cardinality groups
+   * Categorizes exception messages into well-known exception categories
    * @param exceptionMessage - The exception message to categorize
-   * @returns A low-cardinality category string
+   * @returns A well-known exception category string
    */
-  private categorizeExceptionMessage(exceptionMessage: string): string {
+  private categorizeExceptionMessage(exceptionMessage: string): ExceptionType {
     const message = exceptionMessage.toLowerCase();
 
     if (message.includes("timeout") || message.includes("timed out")) {
-      return "timeout_exception";
-    }
-    if (message.includes("network") || message.includes("connection")) {
-      return "network_exception";
+      return ExceptionType.TIMEOUT_EXCEPTION;
     }
     if (
-      message.includes("auth") ||
-      message.includes("unauthorized") ||
-      message.includes("forbidden")
+      message.includes("network") ||
+      message.includes("connection") ||
+      message.includes("dns") ||
+      message.includes("socket")
     ) {
-      return "auth_exception";
+      return ExceptionType.NETWORK_EXCEPTION;
     }
-    if (message.includes("parsing") || message.includes("parse") || message.includes("invalid")) {
-      return "parsing_exception";
-    }
-    if (message.includes("disk") || message.includes("storage") || message.includes("file")) {
-      return "storage_exception";
-    }
-    if (message.includes("memory") || message.includes("out of memory")) {
-      return "memory_exception";
+    if (
+      message.includes("disk") ||
+      message.includes("storage") ||
+      message.includes("file") ||
+      message.includes("persist")
+    ) {
+      return ExceptionType.STORAGE_EXCEPTION;
     }
 
-    return "other_exception";
+    // Default to Client exception for any other cases
+    return ExceptionType.CLIENT_EXCEPTION;
   }
 
   /**
@@ -378,36 +424,36 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     if (statusCode >= 400 && statusCode < 500) {
       switch (statusCode) {
         case 400:
-          return "bad_request";
+          return "Bad request";
         case 401:
-          return "unauthorized";
+          return "Unauthorized";
         case 403:
-          return "forbidden";
+          return "Forbidden";
         case 404:
-          return "not_found";
+          return "Not found";
         case 408:
-          return "request_timeout";
+          return "Request timeout";
         case 413:
-          return "payload_too_large";
+          return "Payload too large";
         case 429:
-          return "too_many_requests";
+          return "Too many requests";
         default:
-          return "client_error_4xx";
+          return "Client error 4xx";
       }
     }
 
     if (statusCode >= 500 && statusCode < 600) {
       switch (statusCode) {
         case 500:
-          return "internal_server_error";
+          return "Internal server error";
         case 502:
-          return "bad_gateway";
+          return "Bad gateway";
         case 503:
-          return "service_unavailable";
+          return "Service unavailable";
         case 504:
-          return "gateway_timeout";
+          return "Gateway timeout";
         default:
-          return "server_error_5xx";
+          return "Server error 5xx";
       }
     }
 
@@ -417,13 +463,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Tracks retried envelopes
    * @param envelopes - Number of envelopes retried
    * @param retryCode - The retry code indicating the reason for retry
-   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override when retryCode is CLIENT_EXCEPTION
    */
   public countRetryItems(
     envelopes: Envelope[],
     retryCode: RetryCode | number,
     exceptionMessage?: string,
+    exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -445,7 +492,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
 
       // Generate a low-cardinality, informative reason description
-      const reason = this.getRetryReason(retryCode, exceptionMessage);
+      const reason = this.getRetryReason(retryCode, exceptionMessage, exceptionType);
 
       // Update the count for this reason
       const currentCount = reasonMap.get(reason) || 0;
@@ -457,15 +504,24 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Generates a low-cardinality, informative description for retry reasons
    * @param retryCode - The retry code (enum value or status code number)
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string): string {
+  private getRetryReason(
+    retryCode: RetryCode | number,
+    exceptionMessage?: string,
+    exceptionType?: ExceptionType,
+  ): string {
     if (retryCode === RetryCode.CLIENT_EXCEPTION) {
+      // If an explicit exception type is provided, use it
+      if (exceptionType) {
+        return exceptionType;
+      }
       // For client exceptions, derive a low-cardinality reason from the exception message
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "unknown_exception";
+      return ExceptionType.CLIENT_EXCEPTION;
     }
 
     // Handle status code retry codes (numeric values)
@@ -476,12 +532,10 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     // Handle other enum retry codes
     switch (retryCode) {
       case RetryCode.CLIENT_TIMEOUT:
-        return "client_timeout";
-      case RetryCode.RETRYABLE_STATUS_CODE:
-        return "retryable_status";
+        return RetryReason.CLIENT_TIMEOUT;
       case RetryCode.UNKNOWN:
       default:
-        return "unknown_reason";
+        return RetryReason.UNKNOWN;
     }
   }
 
@@ -536,6 +590,28 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
     }
     return TelemetryType.UNKNOWN;
+  }
+
+  /**
+   * Extract telemetry success value from an envelope for REQUEST and DEPENDENCY telemetry types
+   * @param envelope - The envelope to extract success value from
+   * @returns The success value if available, undefined otherwise
+   */
+  public getTelemetrySuccessFromEnvelope(envelope: Envelope): boolean | undefined {
+    if (!envelope.data || !envelope.data.baseData) {
+      return undefined;
+    }
+
+    const baseType = envelope.data.baseType;
+    if (baseType === "RequestData") {
+      const requestData = envelope.data.baseData as RequestData;
+      return requestData.success;
+    } else if (baseType === "RemoteDependencyData") {
+      const dependencyData = envelope.data.baseData as RemoteDependencyData;
+      return dependencyData.success;
+    }
+
+    return undefined;
   }
 
   /**

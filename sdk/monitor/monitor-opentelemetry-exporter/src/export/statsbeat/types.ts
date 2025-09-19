@@ -64,15 +64,22 @@ export class NetworkStatsbeat {
 export class CustomerSDKStats {
   public totalItemSuccessCount: Map<TelemetryType, number>;
 
-  // Nested Map structure: telemetry_type -> drop.code -> drop.reason -> count
-  public totalItemDropCount: Map<TelemetryType, Map<DropCode | number, Map<string, number>>>;
+  // telemetry_type -> drop.code -> drop.reason -> success -> count
+  // success can be true/false for request/dependency telemetry, or null for other types
+  public totalItemDropCount: Map<
+    TelemetryType,
+    Map<DropCode | number, Map<string, Map<boolean | null, number>>>
+  >;
 
   // Nested Map structure: telemetry_type -> retry.code -> retry.reason -> count
   public totalItemRetryCount: Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>;
 
   constructor() {
     this.totalItemSuccessCount = new Map<TelemetryType, number>();
-    this.totalItemDropCount = new Map<TelemetryType, Map<DropCode | number, Map<string, number>>>();
+    this.totalItemDropCount = new Map<
+      TelemetryType,
+      Map<DropCode | number, Map<string, Map<boolean | null, number>>>
+    >();
     this.totalItemRetryCount = new Map<
       TelemetryType,
       Map<RetryCode | number, Map<string, number>>
@@ -180,11 +187,8 @@ export enum TelemetryType {
 
 export enum DropCode {
   CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
-  CLIENT_EXPIRED_DATA = "CLIENT_EXPIRED_DATA",
   CLIENT_READONLY = "CLIENT_READONLY",
-  CLIENT_STALE_DATA = "CLIENT_STALE_DATA",
   CLIENT_PERSISTENCE_CAPACITY = "CLIENT_PERSISTENCE_CAPACITY",
-  NON_RETRYABLE_STATUS_CODE = "NON_RETRYABLE_STATUS_CODE",
   CLIENT_STORAGE_DISABLED = "CLIENT_STORAGE_DISABLED",
   UNKNOWN = "UNKNOWN",
 }
@@ -192,7 +196,6 @@ export enum DropCode {
 export enum RetryCode {
   CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
   CLIENT_TIMEOUT = "CLIENT_TIMEOUT",
-  RETRYABLE_STATUS_CODE = "RETRYABLE_STATUS_CODE",
   UNKNOWN = "UNKNOWN",
 }
 
@@ -223,6 +226,35 @@ export interface VirtualMachineInfo {
 export enum StatsbeatFeatureType {
   FEATURE = 0,
   INSTRUMENTATION = 1,
+}
+
+/**
+ * Exception types for client exceptions
+ * @internal
+ */
+export enum ExceptionType {
+  CLIENT_EXCEPTION = "Client exception",
+  NETWORK_EXCEPTION = "Network exception",
+  STORAGE_EXCEPTION = "Storage exception",
+  TIMEOUT_EXCEPTION = "Timeout exception",
+}
+
+/**
+ * Reasons for dropping telemetry
+ */
+export enum DropReason {
+  CLIENT_READONLY = "Client readonly",
+  CLIENT_PERSISTENCE_CAPACITY = "Client persistence capacity",
+  CLIENT_STORAGE_DISABLED = "Client local storage disabled",
+  UNKNOWN = "Unknown reason",
+}
+
+/**
+ * Reasons for retrying telemetry
+ */
+export enum RetryReason {
+  CLIENT_TIMEOUT = "Client timeout",
+  UNKNOWN = "Unknown reason",
 }
 
 /**
