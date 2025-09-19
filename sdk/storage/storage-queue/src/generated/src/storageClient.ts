@@ -11,9 +11,14 @@ import {
   ServiceImpl,
   QueueImpl,
   MessagesImpl,
-  MessageIdImpl
+  MessageIdImpl,
 } from "./operations/index.js";
-import { Service, Queue, Messages, MessageId } from "./operationsInterfaces/index.js";
+import {
+  Service,
+  Queue,
+  Messages,
+  MessageId,
+} from "./operationsInterfaces/index.js";
 import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
@@ -36,7 +41,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: StorageClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-azure-storage-queue/12.28.0`;
@@ -49,9 +54,9 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{url}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{url}",
     };
     super(optionsWithDefaults);
     // Parameter assignments

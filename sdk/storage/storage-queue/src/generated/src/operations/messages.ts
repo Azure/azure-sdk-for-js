@@ -20,7 +20,7 @@ import {
   MessagesEnqueueOptionalParams,
   MessagesEnqueueResponse,
   MessagesPeekOptionalParams,
-  MessagesPeekResponse
+  MessagesPeekResponse,
 } from "../models/index.js";
 
 /** Class containing Messages operations. */
@@ -40,7 +40,7 @@ export class MessagesImpl implements Messages {
    * @param options The options parameters.
    */
   dequeue(
-    options?: MessagesDequeueOptionalParams
+    options?: MessagesDequeueOptionalParams,
   ): Promise<MessagesDequeueResponse> {
     return this.client.sendOperationRequest({ options }, dequeueOperationSpec);
   }
@@ -63,11 +63,11 @@ export class MessagesImpl implements Messages {
    */
   enqueue(
     queueMessage: QueueMessage,
-    options?: MessagesEnqueueOptionalParams
+    options?: MessagesEnqueueOptionalParams,
   ): Promise<MessagesEnqueueResponse> {
     return this.client.sendOperationRequest(
       { queueMessage, options },
-      enqueueOperationSpec
+      enqueueOperationSpec,
     );
   }
 
@@ -92,56 +92,56 @@ const dequeueOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DequeuedMessageItem" }
-          }
+            type: { name: "Composite", className: "DequeuedMessageItem" },
+          },
         },
         serializedName: "DequeuedMessagesList",
         xmlName: "QueueMessagesList",
         xmlIsWrapped: true,
-        xmlElementName: "QueueMessage"
+        xmlElementName: "QueueMessage",
       },
-      headersMapper: Mappers.MessagesDequeueHeaders
+      headersMapper: Mappers.MessagesDequeueHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.MessagesDequeueExceptionHeaders
-    }
+      headersMapper: Mappers.MessagesDequeueExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.numberOfMessages,
-    Parameters.visibilityTimeout
+    Parameters.visibilityTimeout,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const clearOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
   httpMethod: "DELETE",
   responses: {
     204: {
-      headersMapper: Mappers.MessagesClearHeaders
+      headersMapper: Mappers.MessagesClearHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.MessagesClearExceptionHeaders
-    }
+      headersMapper: Mappers.MessagesClearExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const enqueueOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
@@ -151,37 +151,39 @@ const enqueueOperationSpec: coreClient.OperationSpec = {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "EnqueuedMessage" } }
+          element: {
+            type: { name: "Composite", className: "EnqueuedMessage" },
+          },
         },
         serializedName: "EnqueuedMessageList",
         xmlName: "QueueMessagesList",
         xmlIsWrapped: true,
-        xmlElementName: "QueueMessage"
+        xmlElementName: "QueueMessage",
       },
-      headersMapper: Mappers.MessagesEnqueueHeaders
+      headersMapper: Mappers.MessagesEnqueueHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.MessagesEnqueueExceptionHeaders
-    }
+      headersMapper: Mappers.MessagesEnqueueExceptionHeaders,
+    },
   },
   requestBody: Parameters.queueMessage,
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.visibilityTimeout,
-    Parameters.messageTimeToLive
+    Parameters.messageTimeToLive,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const peekOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
@@ -192,32 +194,32 @@ const peekOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "PeekedMessageItem" }
-          }
+            type: { name: "Composite", className: "PeekedMessageItem" },
+          },
         },
         serializedName: "PeekedMessagesList",
         xmlName: "QueueMessagesList",
         xmlIsWrapped: true,
-        xmlElementName: "QueueMessage"
+        xmlElementName: "QueueMessage",
       },
-      headersMapper: Mappers.MessagesPeekHeaders
+      headersMapper: Mappers.MessagesPeekHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.MessagesPeekExceptionHeaders
-    }
+      headersMapper: Mappers.MessagesPeekExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.numberOfMessages,
-    Parameters.peekonly
+    Parameters.peekonly,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
