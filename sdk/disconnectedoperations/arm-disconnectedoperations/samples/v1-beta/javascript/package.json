@@ -1,0 +1,33 @@
+{
+  "name": "@azure-samples/arm-disconnectedoperations-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-disconnectedoperations client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/disconnectedoperations/arm-disconnectedoperations"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/disconnectedoperations/arm-disconnectedoperations",
+  "dependencies": {
+    "@azure/arm-disconnectedoperations": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.9.0"
+  }
+}
