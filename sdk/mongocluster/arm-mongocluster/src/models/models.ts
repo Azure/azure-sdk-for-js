@@ -557,27 +557,16 @@ export interface StorageProperties {
   sizeGb?: number;
   /** The type of storage to provision the cluster servers with. */
   type?: StorageType;
-  /** The IOPs of the storage assigned to each server. Only applicable if the type is 'PremiumSSDv2'. */
-  iops?: number;
-  /** The throughput of the storage assigned to each server. Only applicable if the type is 'PremiumSSDv2'. */
-  throughput?: number;
 }
 
 export function storagePropertiesSerializer(item: StorageProperties): any {
-  return {
-    sizeGb: item["sizeGb"],
-    type: item["type"],
-    iops: item["iops"],
-    throughput: item["throughput"],
-  };
+  return { sizeGb: item["sizeGb"], type: item["type"] };
 }
 
 export function storagePropertiesDeserializer(item: any): StorageProperties {
   return {
     sizeGb: item["sizeGb"],
     type: item["type"],
-    iops: item["iops"],
-    throughput: item["throughput"],
   };
 }
 
@@ -1200,7 +1189,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -2000,4 +1989,6 @@ export enum KnownVersions {
   V20250401Preview = "2025-04-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
   V20250701Preview = "2025-07-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-08-01-preview. */
+  V20250801Preview = "2025-08-01-preview",
 }

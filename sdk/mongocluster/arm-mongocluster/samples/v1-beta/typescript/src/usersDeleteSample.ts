@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a mongo cluster user.
  *
  * @summary deletes a mongo cluster user.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_UserDelete.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_UserDelete.json
  */
 async function deletesAUserOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
