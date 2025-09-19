@@ -3,41 +3,35 @@
 ## 2.0.0 (2025-09-19)
 
 ### Features Added
-  - Added operation group MonitoredSubscriptions
-  - Added operation Monitors.beginUpdate
-  - Added operation Monitors.beginUpdateAndWait
-  - Added operation Organizations.beginResubscribe
-  - Added operation Organizations.beginResubscribeAndWait
-  - Added Interface AssociateTrafficFilterAssociateHeaders
-  - Added Interface CreateAndAssociateIPFilterCreateHeaders
-  - Added Interface CreateAndAssociatePLFilterCreateHeaders
-  - Added Interface DetachTrafficFilterUpdateHeaders
+  - Added operation group MonitoredSubscriptionsOperations
+  - Added operation AssociateTrafficFilterOperations.associate
+  - Added operation CreateAndAssociateIPFilterOperations.create
+  - Added operation CreateAndAssociatePLFilterOperations.create
+  - Added operation DetachTrafficFilterOperations.update
+  - Added operation MonitorOperations.upgrade
+  - Added operation MonitorsOperations.create
+  - Added operation MonitorsOperations.delete
+  - Added operation OrganizationsOperations.resubscribe
+  - Added operation TagRulesOperations.delete
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
   - Added Interface MonitoredSubscription
   - Added Interface MonitoredSubscriptionProperties
-  - Added Interface MonitoredSubscriptionPropertiesList
-  - Added Interface MonitoredSubscriptionsCreateorUpdateHeaders
   - Added Interface MonitoredSubscriptionsCreateorUpdateOptionalParams
-  - Added Interface MonitoredSubscriptionsDeleteHeaders
   - Added Interface MonitoredSubscriptionsDeleteOptionalParams
   - Added Interface MonitoredSubscriptionsGetOptionalParams
   - Added Interface MonitoredSubscriptionsListOptionalParams
-  - Added Interface MonitoredSubscriptionsUpdateHeaders
   - Added Interface MonitoredSubscriptionsUpdateOptionalParams
-  - Added Interface MonitorsCreateHeaders
-  - Added Interface MonitorsDeleteHeaders
-  - Added Interface MonitorsUpdateHeaders
-  - Added Interface MonitorUpgradeHeaders
-  - Added Interface OrganizationsResubscribeHeaders
   - Added Interface OrganizationsResubscribeOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
   - Added Interface ProjectDetails
   - Added Interface ProxyResource
   - Added Interface Resource
+  - Added Interface RestorePollerOptions
   - Added Interface ResubscribeProperties
   - Added Interface SubscriptionList
-  - Added Interface TagRulesDeleteHeaders
   - Added Interface TrackedResource
   - Interface ConnectedPartnerResourceProperties has a new optional parameter type
   - Interface DeploymentInfoResponse has a new optional parameter configurationType
@@ -47,44 +41,47 @@
   - Interface MarketplaceSaaSInfoMarketplaceSubscription has a new optional parameter publisherId
   - Interface MonitorProperties has a new optional parameter hostingType
   - Interface MonitorProperties has a new optional parameter projectDetails
-  - Interface MonitorsUpdateOptionalParams has a new optional parameter resumeFrom
   - Interface MonitorsUpdateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface OpenAIIntegrationProperties has a new optional parameter openAIConnectorId
   - Interface OpenAIIntegrationRPModel has a new optional parameter systemData
-  - Added Type Alias AssociateTrafficFilterAssociateResponse
+  - Added Type Alias AzureSupportedClouds
   - Added Type Alias ConfigurationType
-  - Added Type Alias DetachTrafficFilterUpdateResponse
   - Added Type Alias HostingType
-  - Added Type Alias MonitoredSubscriptionsCreateorUpdateResponse
-  - Added Type Alias MonitoredSubscriptionsDeleteResponse
-  - Added Type Alias MonitoredSubscriptionsGetResponse
-  - Added Type Alias MonitoredSubscriptionsListNextResponse
-  - Added Type Alias MonitoredSubscriptionsListResponse
-  - Added Type Alias MonitoredSubscriptionsUpdateResponse
-  - Added Type Alias MonitorUpgradeResponse
   - Added Type Alias Operation
-  - Added Type Alias OrganizationsResubscribeResponse
   - Added Type Alias ProjectType
   - Added Type Alias Status
+  - Added Enum AzureClouds
   - Added Enum KnownConfigurationType
   - Added Enum KnownHostingType
   - Added Enum KnownOperation
   - Added Enum KnownProjectType
   - Added Enum KnownStatus
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Monitors.update
-  - Operation AssociateTrafficFilter.beginAssociateAndWait has a new signature
-  - Operation DetachTrafficFilter.beginUpdateAndWait has a new signature
-  - Operation Monitor.beginUpgradeAndWait has a new signature
-  - Parameter value of interface ConnectedPartnerResourcesListResponse is now required
-  - Parameter value of interface ElasticMonitorResourceListResponse is now required
-  - Parameter value of interface ElasticVersionsListResponse is now required
-  - Parameter value of interface MonitoredResourceListResponse is now required
-  - Parameter value of interface MonitoringTagRulesListResponse is now required
-  - Parameter value of interface OpenAIIntegrationRPModelListResponse is now required
-  - Parameter value of interface OperationListResult is now required
-  - Parameter value of interface VMHostListResponse is now required
+  - Removed operation AssociateTrafficFilter.beginAssociate
+  - Removed operation AssociateTrafficFilter.beginAssociateAndWait
+  - Removed operation CreateAndAssociateIPFilter.beginCreate
+  - Removed operation CreateAndAssociateIPFilter.beginCreateAndWait
+  - Removed operation CreateAndAssociatePLFilter.beginCreate
+  - Removed operation CreateAndAssociatePLFilter.beginCreateAndWait
+  - Removed operation DetachTrafficFilter.beginUpdate
+  - Removed operation DetachTrafficFilter.beginUpdateAndWait
+  - Removed operation Monitor.beginUpgrade
+  - Removed operation Monitor.beginUpgradeAndWait
+  - Removed operation Monitors.beginCreate
+  - Removed operation Monitors.beginCreateAndWait
+  - Removed operation Monitors.beginDelete
+  - Removed operation Monitors.beginDeleteAndWait
+  - Removed operation TagRules.beginDelete
+  - Removed operation TagRules.beginDeleteAndWait
+  - Removed Interface ConnectedPartnerResourcesListResponse
+  - Removed Interface ElasticMonitorResourceListResponse
+  - Removed Interface ElasticVersionsListResponse
+  - Removed Interface MonitoredResourceListResponse
+  - Removed Interface MonitoringTagRulesListResponse
+  - Removed Interface OpenAIIntegrationRPModelListResponse
+  - Removed Interface VMHostListResponse
 
     
 ## 1.0.0 (2024-10-17)
