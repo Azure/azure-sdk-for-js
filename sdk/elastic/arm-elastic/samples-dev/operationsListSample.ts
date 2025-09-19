@@ -6,9 +6,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all operations provided by Microsoft.Elastic.
+ * This sample demonstrates how to List the operations for the provider
  *
- * @summary List all operations provided by Microsoft.Elastic.
+ * @summary List the operations for the provider
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/Operations_List.json
  */
 async function operationsList(): Promise<void> {

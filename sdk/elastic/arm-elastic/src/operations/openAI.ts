@@ -157,8 +157,8 @@ export class OpenAIImpl implements OpenAI {
    * Create or update an OpenAI integration rule for a given Elastic monitor resource, enabling advanced
    * AI-driven observability and monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param integrationName OpenAI Integration name
+   * @param monitorName
+   * @param integrationName
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -292,7 +292,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

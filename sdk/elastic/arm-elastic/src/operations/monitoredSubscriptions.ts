@@ -165,8 +165,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
    * Add subscriptions to be monitored by the Elastic monitor resource, enabling observability and
    * monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   async beginCreateorUpdate(
@@ -229,6 +229,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -238,8 +239,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
    * Add subscriptions to be monitored by the Elastic monitor resource, enabling observability and
    * monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   async beginCreateorUpdateAndWait(
@@ -261,8 +262,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
    * Update subscriptions to be monitored by the Elastic monitor resource, ensuring optimal observability
    * and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -325,6 +326,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -334,8 +336,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
    * Update subscriptions to be monitored by the Elastic monitor resource, ensuring optimal observability
    * and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -421,6 +423,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -534,7 +537,7 @@ const createorUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -567,7 +570,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

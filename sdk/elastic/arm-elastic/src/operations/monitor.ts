@@ -15,7 +15,10 @@ import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import { MonitorUpgradeOptionalParams } from "../models/index.js";
+import {
+  MonitorUpgradeOptionalParams,
+  MonitorUpgradeResponse,
+} from "../models/index.js";
 
 /** Class containing Monitor operations. */
 export class MonitorImpl implements Monitor {
@@ -40,11 +43,16 @@ export class MonitorImpl implements Monitor {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorUpgradeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorUpgradeResponse>,
+      MonitorUpgradeResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<MonitorUpgradeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -84,9 +92,13 @@ export class MonitorImpl implements Monitor {
       args: { resourceGroupName, monitorName, options },
       spec: upgradeOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MonitorUpgradeResponse,
+      OperationState<MonitorUpgradeResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -103,7 +115,7 @@ export class MonitorImpl implements Monitor {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorUpgradeOptionalParams,
-  ): Promise<void> {
+  ): Promise<MonitorUpgradeResponse> {
     const poller = await this.beginUpgrade(
       resourceGroupName,
       monitorName,
@@ -119,15 +131,23 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/upgrade",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.MonitorUpgradeHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MonitorUpgradeHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MonitorUpgradeHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MonitorUpgradeHeaders,
+    },
     default: {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
   },
-  requestBody: Parameters.body7,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

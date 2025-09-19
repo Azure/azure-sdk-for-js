@@ -52,8 +52,8 @@ export interface MonitoredSubscriptions {
    * Add subscriptions to be monitored by the Elastic monitor resource, enabling observability and
    * monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   beginCreateorUpdate(
@@ -71,8 +71,8 @@ export interface MonitoredSubscriptions {
    * Add subscriptions to be monitored by the Elastic monitor resource, enabling observability and
    * monitoring.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   beginCreateorUpdateAndWait(
@@ -85,8 +85,8 @@ export interface MonitoredSubscriptions {
    * Update subscriptions to be monitored by the Elastic monitor resource, ensuring optimal observability
    * and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   beginUpdate(
@@ -104,8 +104,8 @@ export interface MonitoredSubscriptions {
    * Update subscriptions to be monitored by the Elastic monitor resource, ensuring optimal observability
    * and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param monitorName
+   * @param configurationName
    * @param options The options parameters.
    */
   beginUpdateAndWait(

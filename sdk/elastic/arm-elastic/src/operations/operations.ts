@@ -33,7 +33,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Microsoft.Elastic.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
@@ -87,7 +87,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Microsoft.Elastic.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(

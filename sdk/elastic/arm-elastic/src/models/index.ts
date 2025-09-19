@@ -6,11 +6,11 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Result of GET request to list the Microsoft.Elastic operations. */
+/** Represents a paginated list of operations. */
 export interface OperationListResult {
-  /** List of operations supported by the Microsoft.Elastic provider. */
-  value?: OperationResult[];
-  /** URL to get the next set of operation list results if there are any. */
+  /** The list of operations. */
+  value: OperationResult[];
+  /** The URL to get the next set of results, if any. */
   nextLink?: string;
 }
 
@@ -26,15 +26,15 @@ export interface OperationResult {
   origin?: string;
 }
 
-/** The object that represents the operation. */
+/** Represents the display information for an operation. */
 export interface OperationDisplay {
-  /** Service provider, i.e., Microsoft.Elastic. */
+  /** The service provider of the operation. */
   provider?: string;
-  /** Type on which the operation is performed, e.g., 'monitors'. */
+  /** The resource type of the operation. */
   resource?: string;
-  /** Operation type, e.g., read, write, delete, etc. */
+  /** The name of the operation. */
   operation?: string;
-  /** Description of the operation, e.g., 'Write monitors'. */
+  /** A description of the operation. */
   description?: string;
 }
 
@@ -59,54 +59,98 @@ export interface ErrorResponseBody {
   details?: ErrorResponseBody[];
 }
 
-/** Response of a list operation. */
-export interface ElasticMonitorResourceListResponse {
-  /** Results of a list operation. */
-  value?: ElasticMonitorResource[];
-  /** Link to the next set of results, if any. */
+/** List of elastic versions available in a region. */
+export interface ElasticVersionsListResponse {
+  /** The ElasticVersionListFormat items on this page */
+  value: ElasticVersionListFormat[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Monitor resource. */
-export interface ElasticMonitorResource {
-  /**
-   * ARM id of the monitor resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the monitor resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the monitor resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The kind of the Elastic resource - observability, security, search etc. */
-  kind?: string;
-  /** SKU of the monitor resource. */
-  sku?: ResourceSku;
-  /** Properties of the monitor resource. */
-  properties?: MonitorProperties;
-  /** Identity properties of the monitor resource. */
-  identity?: IdentityProperties;
-  /** The tags of the monitor resource. */
-  tags?: { [propertyName: string]: string };
-  /** The location of the monitor resource */
-  location: string;
-  /**
-   * The system metadata relating to this resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+/** Elastic Version List Format */
+export interface ElasticVersionListFormat {
+  /** Elastic Version Properties */
+  properties?: ElasticVersionListProperties;
 }
 
-/** Microsoft.Elastic SKU. */
-export interface ResourceSku {
-  /** Name of the SKU. */
-  name: string;
+/** Elastic Version Properties */
+export interface ElasticVersionListProperties {
+  /** Available elastic version of the given region */
+  version?: string;
+}
+
+/** The Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
+export interface ElasticOrganizationToAzureSubscriptionMappingResponse {
+  /** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
+  properties?: ElasticOrganizationToAzureSubscriptionMappingResponseProperties;
+}
+
+/** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
+export interface ElasticOrganizationToAzureSubscriptionMappingResponseProperties {
+  /** The Azure Subscription ID to which the Organization belongs and gets billed into. This is empty for a new user OR a user without an Elastic Organization. */
+  billedAzureSubscriptionId?: string;
+  /**
+   * Marketplace SaaS Info of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** The Elastic Organization Id. */
+  elasticOrganizationId?: string;
+  /** The Elastic Organization Name. */
+  elasticOrganizationName?: string;
+}
+
+/** Marketplace SAAS Info of the resource. */
+export interface MarketplaceSaaSInfo {
+  /** Marketplace Subscription */
+  marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription;
+  /** Marketplace Subscription Details: SAAS Name */
+  marketplaceName?: string;
+  /** Marketplace Subscription Details: Resource URI */
+  marketplaceResourceId?: string;
+  /** Marketplace Subscription Details: SaaS Subscription Status */
+  marketplaceStatus?: string;
+  /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
+  billedAzureSubscriptionId?: string;
+  /** Flag specifying if the Marketplace status is subscribed or not. */
+  subscribed?: boolean;
+}
+
+/** Marketplace Subscription */
+export interface MarketplaceSaaSInfoMarketplaceSubscription {
+  /** Marketplace Subscription Id. This is a GUID-formatted string. */
+  id?: string;
+  /** Publisher Id of the Marketplace offer. */
+  publisherId?: string;
+  /** Offer Id of the Marketplace offer, */
+  offerId?: string;
+}
+
+/** Email Id of the User Organization, of which the API Key must be returned */
+export interface UserEmailId {
+  /** The User email Id */
+  emailId?: string;
+}
+
+/** The User Api Key created for the Organization associated with the User Email Id that was passed in the request */
+export interface UserApiKeyResponse {
+  properties?: UserApiKeyResponseProperties;
+}
+
+export interface UserApiKeyResponseProperties {
+  /**
+   * The User Api Key Generated based on GenerateApiKey flag. This is applicable for non-Portal clients only.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  apiKey?: string;
+}
+
+/** Response of a list operation. */
+export interface ElasticMonitorResourceListResponse {
+  /** The ElasticMonitorResource items on this page */
+  value: ElasticMonitorResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Properties specific to the monitor resource. */
@@ -265,6 +309,12 @@ export interface ProjectDetails {
   configurationType?: ConfigurationType;
 }
 
+/** Represents the SKU of a resource. */
+export interface ResourceSku {
+  /** The name of the SKU. */
+  name: string;
+}
+
 /** Identity properties. */
 export interface IdentityProperties {
   /**
@@ -281,6 +331,30 @@ export interface IdentityProperties {
   type?: ManagedIdentityTypes;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -295,26 +369,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** List of elastic versions available in a region. */
-export interface ElasticVersionsListResponse {
-  /** Results of a list operation. */
-  value?: ElasticVersionListFormat[];
-  /** Link to the next set of results, if any. */
-  nextLink?: string;
-}
-
-/** Elastic Version List Format */
-export interface ElasticVersionListFormat {
-  /** Elastic Version Properties */
-  properties?: ElasticVersionListProperties;
-}
-
-/** Elastic Version Properties */
-export interface ElasticVersionListProperties {
-  /** Available elastic version of the given region */
-  version?: string;
 }
 
 /** Monitor resource update parameters. */
@@ -372,107 +426,114 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-export interface MonitoredSubscriptionPropertiesList {
-  value?: MonitoredSubscriptionProperties[];
+/** The properties of the request required for creating user on elastic side */
+export interface ExternalUserInfo {
+  /** Username of the user to be created or updated */
+  userName?: string;
+  /** Full name of the user to be created or updated */
+  fullName?: string;
+  /**
+   * Password of the user to be created or updated
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  password?: string;
+  /** Email id of the user to be created or updated */
+  emailId?: string;
+  /** Roles to be assigned for  created or updated user */
+  roles?: string[];
+}
+
+/** The properties of the response we got from elastic while creating external user */
+export interface ExternalUserCreationResponse {
+  /**
+   * Shows if user is created or updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: boolean;
+}
+
+/** Marketplace Subscription and Organization details to which resource gets billed into. */
+export interface BillingInfoResponse {
+  /** Marketplace Subscription details */
+  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** Partner Billing Entity details: Organization Info */
+  partnerBillingEntity?: PartnerBillingEntity;
+}
+
+/** Partner Billing details associated with the resource. */
+export interface PartnerBillingEntity {
+  /** The Elastic Organization Id. */
+  id?: string;
+  /** The Elastic Organization Name. */
+  name?: string;
+  /** Link to the elastic organization page */
+  partnerEntityUri?: string;
+}
+
+/** List of elastic traffic filters in the account */
+export interface ElasticTrafficFilterResponse {
+  /** List of elastic traffic filters in the account */
+  rulesets?: ElasticTrafficFilter[];
+}
+
+/** Elastic traffic filter object */
+export interface ElasticTrafficFilter {
+  /** Id of the elastic filter */
+  id?: string;
+  /** Name of the elastic filter */
+  name?: string;
+  /** Description of the elastic filter */
+  description?: string;
+  /** Region of the elastic filter */
+  region?: string;
+  /** Type of the elastic filter */
+  type?: Type;
+  /** IncludeByDefault for the elastic filter */
+  includeByDefault?: boolean;
+  /** Rules in the elastic filter */
+  rules?: ElasticTrafficFilterRule[];
+}
+
+/** Elastic traffic filter rule object */
+export interface ElasticTrafficFilterRule {
+  /** IP of the elastic filter rule */
+  source?: string;
+  /** Description of the elastic filter rule */
+  description?: string;
+  /** Guid of Private Endpoint in the elastic filter rule */
+  azureEndpointGuid?: string;
+  /** Name of the Private Endpoint in the elastic filter rule */
+  azureEndpointName?: string;
+  /** Id of the elastic filter rule */
+  id?: string;
+}
+
+/** List of all active elastic deployments. */
+export interface ConnectedPartnerResourcesListResponse {
+  /** The ConnectedPartnerResourcesListFormat items on this page */
+  value: ConnectedPartnerResourcesListFormat[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-export interface MonitoredSubscriptionProperties {
-  /**
-   * Name of the monitored subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The id of the monitored subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the monitored subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
+/** Connected Partner Resources List Format */
+export interface ConnectedPartnerResourcesListFormat {
+  /** Connected Partner Resource Properties */
+  properties?: ConnectedPartnerResourceProperties;
 }
 
-/** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-export interface SubscriptionList {
-  /** The operation for the patch on the resource. */
-  operation?: Operation;
-  /** List of subscriptions and the state of the monitoring. */
-  monitoredSubscriptionList?: MonitoredSubscription[];
-  /**
-   * Provisioning State of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** The list of subscriptions and it's monitoring status by current Elastic monitor. */
-export interface MonitoredSubscription {
-  /** The subscriptionId to be monitored. */
-  subscriptionId?: string;
-  /** The state of monitoring. */
-  status?: Status;
-  /** The reason of not monitoring the subscription. */
-  error?: string;
-  /** Definition of the properties for a TagRules resource. */
-  tagRules?: MonitoringTagRulesProperties;
-}
-
-/** Definition of the properties for a TagRules resource. */
-export interface MonitoringTagRulesProperties {
-  /**
-   * Provisioning state of the monitoring tag rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Rules for sending logs. */
-  logRules?: LogRules;
-}
-
-/** Set of rules for sending logs for the Monitor resource. */
-export interface LogRules {
-  /** Flag specifying if AAD logs should be sent for the Monitor resource. */
-  sendAadLogs?: boolean;
-  /** Flag specifying if subscription logs should be sent for the Monitor resource. */
-  sendSubscriptionLogs?: boolean;
-  /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
-  sendActivityLogs?: boolean;
-  /** List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: FilteringTag[];
-}
-
-/** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
-export interface FilteringTag {
-  /** The name (also known as the key) of the tag. */
-  name?: string;
-  /** The value of the tag. */
-  value?: string;
-  /** Valid actions for a filtering tag. */
-  action?: TagAction;
-}
-
-/** Response of a list operation. */
-export interface MonitoredResourceListResponse {
-  /** Results of a list operation. */
-  value?: MonitoredResource[];
-  /** Link to the next set of results, if any. */
-  nextLink?: string;
-}
-
-/** The properties of a resource currently being monitored by the Elastic monitor resource. */
-export interface MonitoredResource {
-  /** The ARM id of the resource. */
-  id?: string;
-  /** Flag indicating the status of the resource for sending logs operation to Elastic. */
-  sendingLogs?: SendingLogs;
-  /** Reason for why the resource is sending logs (or why it is not sending). */
-  reasonForLogsStatus?: string;
+/** Connected Partner Resource Properties */
+export interface ConnectedPartnerResourceProperties {
+  /** Elastic resource name */
+  partnerDeploymentName?: string;
+  /** URL of the resource in Elastic cloud. */
+  partnerDeploymentUri?: string;
+  /** The azure resource Id of the resource. */
+  azureResourceId?: string;
+  /** The location of the resource. */
+  location?: string;
+  /** The hosting type of the resource. */
+  type?: string;
 }
 
 /** The properties of deployment in Elastic cloud corresponding to the Elastic monitor resource. */
@@ -524,128 +585,118 @@ export interface DeploymentInfoResponse {
   readonly configurationType?: string;
 }
 
-/** Marketplace SAAS Info of the resource. */
-export interface MarketplaceSaaSInfo {
-  /** Marketplace Subscription */
-  marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription;
-  /** Marketplace Subscription Details: SAAS Name */
-  marketplaceName?: string;
-  /** Marketplace Subscription Details: Resource URI */
-  marketplaceResourceId?: string;
-  /** Marketplace Subscription Details: SaaS Subscription Status */
-  marketplaceStatus?: string;
-  /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
-  billedAzureSubscriptionId?: string;
-  /** Flag specifying if the Marketplace status is subscribed or not. */
-  subscribed?: boolean;
-}
-
-/** Marketplace Subscription */
-export interface MarketplaceSaaSInfoMarketplaceSubscription {
-  /** Marketplace Subscription Id. This is a GUID-formatted string. */
-  id?: string;
-  /** Publisher Id of the Marketplace offer. */
-  publisherId?: string;
-  /** Offer Id of the Marketplace offer, */
-  offerId?: string;
-}
-
-/** The properties of the request required for creating user on elastic side */
-export interface ExternalUserInfo {
-  /** Username of the user to be created or updated */
-  userName?: string;
-  /** Full name of the user to be created or updated */
-  fullName?: string;
-  /** Password of the user to be created or updated */
-  password?: string;
-  /** Email id of the user to be created or updated */
-  emailId?: string;
-  /** Roles to be assigned for  created or updated user */
-  roles?: string[];
-}
-
-/** The properties of the response we got from elastic while creating external user */
-export interface ExternalUserCreationResponse {
-  /**
-   * Shows if user is created or updated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: boolean;
-}
-
-/** Marketplace Subscription and Organization details to which resource gets billed into. */
-export interface BillingInfoResponse {
-  /** Marketplace Subscription details */
-  marketplaceSaasInfo?: MarketplaceSaaSInfo;
-  /** Partner Billing Entity details: Organization Info */
-  partnerBillingEntity?: PartnerBillingEntity;
-}
-
-/** Partner Billing details associated with the resource. */
-export interface PartnerBillingEntity {
-  /** The Elastic Organization Id. */
-  id?: string;
-  /** The Elastic Organization Name. */
-  name?: string;
-  /** Link to the elastic organization page */
-  partnerEntityUri?: string;
-}
-
-/**  List of all active elastic deployments. */
-export interface ConnectedPartnerResourcesListResponse {
-  /** Results of a list operation. */
-  value?: ConnectedPartnerResourcesListFormat[];
-  /** Link to the next set of results, if any. */
+/** Response of a list operation. */
+export interface MonitoredResourceListResponse {
+  /** The MonitoredResource items on this page */
+  value: MonitoredResource[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Connected Partner Resources List Format */
-export interface ConnectedPartnerResourcesListFormat {
-  /** Connected Partner Resource Properties */
-  properties?: ConnectedPartnerResourceProperties;
+/** The properties of a resource currently being monitored by the Elastic monitor resource. */
+export interface MonitoredResource {
+  /** The ARM id of the resource. */
+  id?: string;
+  /** Flag indicating the status of the resource for sending logs operation to Elastic. */
+  sendingLogs?: SendingLogs;
+  /** Reason for why the resource is sending logs (or why it is not sending). */
+  reasonForLogsStatus?: string;
 }
 
-/** Connected Partner Resource Properties */
-export interface ConnectedPartnerResourceProperties {
-  /** Elastic resource name */
-  partnerDeploymentName?: string;
-  /** URL of the resource in Elastic cloud. */
-  partnerDeploymentUri?: string;
-  /** The azure resource Id of the resource. */
-  azureResourceId?: string;
-  /** The location of the resource. */
-  location?: string;
-  /** The hosting type of the resource. */
-  type?: string;
+/** Stack Versions that this version can upgrade to */
+export interface UpgradableVersionsList {
+  /** Current version of the elastic monitor */
+  currentVersion?: string;
+  /** Stack Versions that this version can upgrade to */
+  upgradableVersions?: string[];
+}
+
+/** Response of a list operation. */
+export interface VMHostListResponse {
+  /** The VMResources items on this page */
+  value: VMResources[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The vm resource properties that is currently being monitored by the Elastic monitor resource. */
+export interface VMResources {
+  /** The ARM id of the VM resource. */
+  vmResourceId?: string;
+}
+
+/** Paged collection of MonitoredSubscriptionProperties items */
+export interface MonitoredSubscriptionPropertiesList {
+  /** The MonitoredSubscriptionProperties items on this page */
+  value: MonitoredSubscriptionProperties[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
+export interface SubscriptionList {
+  /** The operation for the patch on the resource. */
+  operation?: Operation;
+  /** List of subscriptions and the state of the monitoring. */
+  monitoredSubscriptionList?: MonitoredSubscription[];
+  /**
+   * Provisioning State of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The list of subscriptions and it's monitoring status by current Elastic monitor. */
+export interface MonitoredSubscription {
+  /** The subscriptionId to be monitored. */
+  subscriptionId: string;
+  /** The state of monitoring. */
+  status?: Status;
+  /** The reason of not monitoring the subscription. */
+  error?: string;
+  /** Definition of the properties for a TagRules resource. */
+  tagRules?: MonitoringTagRulesProperties;
+}
+
+/** Definition of the properties for a TagRules resource. */
+export interface MonitoringTagRulesProperties {
+  /**
+   * Provisioning state of the monitoring tag rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Rules for sending logs. */
+  logRules?: LogRules;
+}
+
+/** Set of rules for sending logs for the Monitor resource. */
+export interface LogRules {
+  /** Flag specifying if AAD logs should be sent for the Monitor resource. */
+  sendAadLogs?: boolean;
+  /** Flag specifying if subscription logs should be sent for the Monitor resource. */
+  sendSubscriptionLogs?: boolean;
+  /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
+  sendActivityLogs?: boolean;
+  /** List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
+  filteringTags?: FilteringTag[];
+}
+
+/** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
+export interface FilteringTag {
+  /** The name (also known as the key) of the tag. */
+  name?: string;
+  /** The value of the tag. */
+  value?: string;
+  /** Valid actions for a filtering tag. */
+  action?: TagAction;
 }
 
 /** Response of a list operation. */
 export interface OpenAIIntegrationRPModelListResponse {
-  /** Results of a list operation. */
-  value?: OpenAIIntegrationRPModel[];
-  /** Link to the next set of results, if any. */
+  /** The OpenAIIntegrationRPModel items on this page */
+  value: OpenAIIntegrationRPModel[];
+  /** The link to the next page of items */
   nextLink?: string;
-}
-
-/** Capture properties of Open AI resource Integration. */
-export interface OpenAIIntegrationRPModel {
-  /**
-   * Name of the integration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The id of the integration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the integration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Open AI Integration details. */
-  properties?: OpenAIIntegrationProperties;
 }
 
 /** Open AI Integration details. */
@@ -656,7 +707,10 @@ export interface OpenAIIntegrationProperties {
   openAIResourceEndpoint?: string;
   /** The connector id of Open AI resource */
   openAIConnectorId?: string;
-  /** Value of API key for Open AI resource */
+  /**
+   * Value of API key for Open AI resource
+   * This value contains a credential. Consider obscuring before showing to users
+   */
   key?: string;
   /**
    * Last Update Timestamp for key updation
@@ -677,159 +731,6 @@ export interface OpenAIIntegrationStatusResponseProperties {
   status?: string;
 }
 
-/** Response of a list operation. */
-export interface MonitoringTagRulesListResponse {
-  /** Results of a list operation. */
-  value?: MonitoringTagRules[];
-  /** Link to the next set of results, if any. */
-  nextLink?: string;
-}
-
-/** Capture logs and metrics of Azure resources based on ARM tags. */
-export interface MonitoringTagRules {
-  /**
-   * Name of the rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The id of the rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Properties of the monitoring tag rules. */
-  properties?: MonitoringTagRulesProperties;
-  /**
-   * The system metadata relating to this resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Response of a list operation. */
-export interface VMHostListResponse {
-  /** Results of a list operation. */
-  value?: VMResources[];
-  /** Link to the next Vm resource Id, if any. */
-  nextLink?: string;
-}
-
-/** The vm resource properties that is currently being monitored by the Elastic monitor resource. */
-export interface VMResources {
-  /** The ARM id of the VM resource. */
-  vmResourceId?: string;
-}
-
-/** The vm ingestion details to install an agent. */
-export interface VMIngestionDetailsResponse {
-  /** The cloudId of given Elastic monitor resource. */
-  cloudId?: string;
-  /** Ingestion details to install agent on given VM. */
-  ingestionKey?: string;
-}
-
-/** Update VM resource collection. */
-export interface VMCollectionUpdate {
-  /** ARM id of the VM resource. */
-  vmResourceId?: string;
-  /** Operation to be performed for given VM. */
-  operationName?: OperationName;
-}
-
-/** Stack Versions that this version can upgrade to */
-export interface UpgradableVersionsList {
-  /** Current version of the elastic monitor */
-  currentVersion?: string;
-  /** Stack Versions that this version can upgrade to */
-  upgradableVersions?: string[];
-}
-
-/** Upgrade elastic monitor version */
-export interface ElasticMonitorUpgrade {
-  /** Version to which the elastic monitor should be upgraded to */
-  version?: string;
-}
-
-/** List of elastic traffic filters in the account */
-export interface ElasticTrafficFilterResponse {
-  /** List of elastic traffic filters in the account */
-  rulesets?: ElasticTrafficFilter[];
-}
-
-/** Elastic traffic filter object */
-export interface ElasticTrafficFilter {
-  /** Id of the elastic filter */
-  id?: string;
-  /** Name of the elastic filter */
-  name?: string;
-  /** Description of the elastic filter */
-  description?: string;
-  /** Region of the elastic filter */
-  region?: string;
-  /** Type of the elastic filter */
-  type?: Type;
-  /** IncludeByDefault for the elastic filter */
-  includeByDefault?: boolean;
-  /** Rules in the elastic filter */
-  rules?: ElasticTrafficFilterRule[];
-}
-
-/** Elastic traffic filter rule object */
-export interface ElasticTrafficFilterRule {
-  /** IP of the elastic filter rule */
-  source?: string;
-  /** Description of the elastic filter rule */
-  description?: string;
-  /** Guid of Private Endpoint in the elastic filter rule */
-  azureEndpointGuid?: string;
-  /** Name of the Private Endpoint in the elastic filter rule */
-  azureEndpointName?: string;
-  /** Id of the elastic filter rule */
-  id?: string;
-}
-
-/** Email Id of the User Organization, of which the API Key must be returned */
-export interface UserEmailId {
-  /** The User email Id */
-  emailId?: string;
-}
-
-/** The User Api Key created for the Organization associated with the User Email Id that was passed in the request */
-export interface UserApiKeyResponse {
-  properties?: UserApiKeyResponseProperties;
-}
-
-export interface UserApiKeyResponseProperties {
-  /** The User Api Key Generated based on GenerateApiKey flag. This is applicable for non-Portal clients only. */
-  apiKey?: string;
-}
-
-/** The Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
-export interface ElasticOrganizationToAzureSubscriptionMappingResponse {
-  /** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
-  properties?: ElasticOrganizationToAzureSubscriptionMappingResponseProperties;
-}
-
-/** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
-export interface ElasticOrganizationToAzureSubscriptionMappingResponseProperties {
-  /** The Azure Subscription ID to which the Organization belongs and gets billed into. This is empty for a new user OR a user without an Elastic Organization. */
-  billedAzureSubscriptionId?: string;
-  /**
-   * Marketplace SaaS Info of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
-  /** The Elastic Organization Id. */
-  elasticOrganizationId?: string;
-  /** The Elastic Organization Name. */
-  elasticOrganizationName?: string;
-}
-
 /** Resubscribe Properties */
 export interface ResubscribeProperties {
   /** Newly selected plan Id to create the new Marketplace subscription for Resubscribe */
@@ -844,24 +745,180 @@ export interface ResubscribeProperties {
   organizationId?: string;
 }
 
-/** Defines headers for Monitors_update operation. */
-export interface MonitorsUpdateHeaders {
-  location?: string;
+/** Response of a list operation. */
+export interface MonitoringTagRulesListResponse {
+  /** The MonitoringTagRules items on this page */
+  value: MonitoringTagRules[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** Defines headers for MonitoredSubscriptions_update operation. */
-export interface MonitoredSubscriptionsUpdateHeaders {
-  location?: string;
+/** Upgrade elastic monitor version */
+export interface ElasticMonitorUpgrade {
+  /** Version to which the elastic monitor should be upgraded to */
+  version?: string;
 }
 
-/** Defines headers for MonitoredSubscriptions_delete operation. */
-export interface MonitoredSubscriptionsDeleteHeaders {
-  location?: string;
+/** Update VM resource collection. */
+export interface VMCollectionUpdate {
+  /** ARM id of the VM resource. */
+  vmResourceId?: string;
+  /** Operation to be performed for given VM. */
+  operationName?: OperationName;
+}
+
+/** The vm ingestion details to install an agent. */
+export interface VMIngestionDetailsResponse {
+  /** The cloudId of given Elastic monitor resource. */
+  cloudId?: string;
+  /**
+   * Ingestion details to install agent on given VM.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  ingestionKey?: string;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Monitor resource. */
+export interface ElasticMonitorResource extends TrackedResource {
+  /** Properties of the monitor resource. */
+  properties?: MonitorProperties;
+  /** The kind of the Elastic resource - observability, security, search etc. */
+  kind?: string;
+  /** SKU of the monitor resource. */
+  sku?: ResourceSku;
+  /** Identity properties of the monitor resource. */
+  identity?: IdentityProperties;
+}
+
+/** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
+export interface MonitoredSubscriptionProperties extends ProxyResource {
+  /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
+  properties?: SubscriptionList;
+}
+
+/** Capture properties of Open AI resource Integration. */
+export interface OpenAIIntegrationRPModel extends ProxyResource {
+  /** Open AI Integration details. */
+  properties?: OpenAIIntegrationProperties;
+}
+
+/** Capture logs and metrics of Azure resources based on ARM tags. */
+export interface MonitoringTagRules extends ProxyResource {
+  /** Properties of the monitoring tag rules. */
+  properties?: MonitoringTagRulesProperties;
 }
 
 /** Defines headers for Organizations_resubscribe operation. */
 export interface OrganizationsResubscribeHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Monitors_create operation. */
+export interface MonitorsCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Monitors_update operation. */
+export interface MonitorsUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Monitors_delete operation. */
+export interface MonitorsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AssociateTrafficFilter_associate operation. */
+export interface AssociateTrafficFilterAssociateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for CreateAndAssociateIPFilter_create operation. */
+export interface CreateAndAssociateIPFilterCreateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for CreateAndAssociatePLFilter_create operation. */
+export interface CreateAndAssociatePLFilterCreateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for DetachTrafficFilter_update operation. */
+export interface DetachTrafficFilterUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for MonitoredSubscriptions_createorUpdate operation. */
+export interface MonitoredSubscriptionsCreateorUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for MonitoredSubscriptions_update operation. */
+export interface MonitoredSubscriptionsUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for MonitoredSubscriptions_delete operation. */
+export interface MonitoredSubscriptionsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for TagRules_delete operation. */
+export interface TagRulesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Monitor_upgrade operation. */
+export interface MonitorUpgradeHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -1044,6 +1101,60 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Ip */
+  Ip = "ip",
+  /** AzurePrivateEndpoint */
+  AzurePrivateEndpoint = "azure_private_endpoint",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ip** \
+ * **azure_private_endpoint**
+ */
+export type Type = string;
+
+/** Known values of {@link ElasticDeploymentStatus} that the service accepts. */
+export enum KnownElasticDeploymentStatus {
+  /** Healthy */
+  Healthy = "Healthy",
+  /** Unhealthy */
+  Unhealthy = "Unhealthy",
+}
+
+/**
+ * Defines values for ElasticDeploymentStatus. \
+ * {@link KnownElasticDeploymentStatus} can be used interchangeably with ElasticDeploymentStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy** \
+ * **Unhealthy**
+ */
+export type ElasticDeploymentStatus = string;
+
+/** Known values of {@link SendingLogs} that the service accepts. */
+export enum KnownSendingLogs {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for SendingLogs. \
+ * {@link KnownSendingLogs} can be used interchangeably with SendingLogs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type SendingLogs = string;
+
 /** Known values of {@link Operation} that the service accepts. */
 export enum KnownOperation {
   /** AddBegin */
@@ -1113,42 +1224,6 @@ export enum KnownTagAction {
  */
 export type TagAction = string;
 
-/** Known values of {@link SendingLogs} that the service accepts. */
-export enum KnownSendingLogs {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False",
-}
-
-/**
- * Defines values for SendingLogs. \
- * {@link KnownSendingLogs} can be used interchangeably with SendingLogs,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **True** \
- * **False**
- */
-export type SendingLogs = string;
-
-/** Known values of {@link ElasticDeploymentStatus} that the service accepts. */
-export enum KnownElasticDeploymentStatus {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy",
-}
-
-/**
- * Defines values for ElasticDeploymentStatus. \
- * {@link KnownElasticDeploymentStatus} can be used interchangeably with ElasticDeploymentStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy**
- */
-export type ElasticDeploymentStatus = string;
-
 /** Known values of {@link OperationName} that the service accepts. */
 export enum KnownOperationName {
   /** Add */
@@ -1167,24 +1242,6 @@ export enum KnownOperationName {
  */
 export type OperationName = string;
 
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** Ip */
-  Ip = "ip",
-  /** AzurePrivateEndpoint */
-  AzurePrivateEndpoint = "azure_private_endpoint",
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ip** \
- * **azure_private_endpoint**
- */
-export type Type = string;
-
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -1198,6 +1255,52 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface ElasticVersionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ElasticVersionsListOperationResponse = ElasticVersionsListResponse;
+
+/** Optional parameters. */
+export interface ElasticVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ElasticVersionsListNextResponse = ElasticVersionsListResponse;
+
+/** Optional parameters. */
+export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getElasticToAzureSubscriptionMapping operation. */
+export type OrganizationsGetElasticToAzureSubscriptionMappingResponse =
+  ElasticOrganizationToAzureSubscriptionMappingResponse;
+
+/** Optional parameters. */
+export interface OrganizationsGetApiKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body */
+  body?: UserEmailId;
+}
+
+/** Contains response data for the getApiKey operation. */
+export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
+
+/** Optional parameters. */
+export interface OrganizationsResubscribeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resubscribe Properties */
+  body?: ResubscribeProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resubscribe operation. */
+export type OrganizationsResubscribeResponse = ElasticMonitorResource;
 
 /** Optional parameters. */
 export interface MonitorsListOptionalParams
@@ -1274,18 +1377,165 @@ export type MonitorsListByResourceGroupNextResponse =
   ElasticMonitorResourceListResponse;
 
 /** Optional parameters. */
-export interface ElasticVersionsListOptionalParams
+export interface AssociateTrafficFilterAssociateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Ruleset Id of the filter */
+  rulesetId?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the associate operation. */
+export type AssociateTrafficFilterAssociateResponse =
+  AssociateTrafficFilterAssociateHeaders;
+
+/** Optional parameters. */
+export interface CreateAndAssociateIPFilterCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** List of ips */
+  ips?: string;
+  /** Name of the traffic filter */
+  name?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CreateAndAssociatePLFilterCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Name of the traffic filter */
+  name?: string;
+  /** Guid of the private endpoint */
+  privateEndpointGuid?: string;
+  /** Name of the private endpoint */
+  privateEndpointName?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExternalUserCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Elastic External User Creation Parameters */
+  body?: ExternalUserInfo;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ExternalUserCreateOrUpdateResponse = ExternalUserCreationResponse;
+
+/** Optional parameters. */
+export interface TrafficFiltersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Ruleset Id of the filter */
+  rulesetId?: string;
+}
+
+/** Optional parameters. */
+export interface DetachAndDeleteTrafficFilterDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Ruleset Id of the filter */
+  rulesetId?: string;
+}
+
+/** Optional parameters. */
+export interface DetachTrafficFilterUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Ruleset Id of the filter */
+  rulesetId?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DetachTrafficFilterUpdateResponse =
+  DetachTrafficFilterUpdateHeaders;
+
+/** Optional parameters. */
+export interface BillingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+/** Optional parameters. */
+export interface AllTrafficFiltersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ElasticVersionsListOperationResponse = ElasticVersionsListResponse;
+export type AllTrafficFiltersListResponse = ElasticTrafficFilterResponse;
 
 /** Optional parameters. */
-export interface ElasticVersionsListNextOptionalParams
+export interface ListAssociatedTrafficFiltersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ListAssociatedTrafficFiltersListResponse =
+  ElasticTrafficFilterResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectedPartnerResourcesListOperationResponse =
+  ConnectedPartnerResourcesListResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ElasticVersionsListNextResponse = ElasticVersionsListResponse;
+export type ConnectedPartnerResourcesListNextResponse =
+  ConnectedPartnerResourcesListResponse;
+
+/** Optional parameters. */
+export interface DeploymentInfoListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DeploymentInfoListResponse = DeploymentInfoResponse;
+
+/** Optional parameters. */
+export interface MonitoredResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MonitoredResourcesListResponse = MonitoredResourceListResponse;
+
+/** Optional parameters. */
+export interface MonitoredResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MonitoredResourcesListNextResponse = MonitoredResourceListResponse;
+
+/** Optional parameters. */
+export interface UpgradableVersionsDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the details operation. */
+export type UpgradableVersionsDetailsResponse = UpgradableVersionsList;
+
+/** Optional parameters. */
+export interface VMHostListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VMHostListOperationResponse = VMHostListResponse;
+
+/** Optional parameters. */
+export interface VMHostListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VMHostListNextResponse = VMHostListResponse;
 
 /** Optional parameters. */
 export interface MonitoredSubscriptionsListOptionalParams
@@ -1354,60 +1604,6 @@ export type MonitoredSubscriptionsListNextResponse =
   MonitoredSubscriptionPropertiesList;
 
 /** Optional parameters. */
-export interface MonitoredResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MonitoredResourcesListResponse = MonitoredResourceListResponse;
-
-/** Optional parameters. */
-export interface MonitoredResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type MonitoredResourcesListNextResponse = MonitoredResourceListResponse;
-
-/** Optional parameters. */
-export interface DeploymentInfoListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DeploymentInfoListResponse = DeploymentInfoResponse;
-
-/** Optional parameters. */
-export interface ExternalUserCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Elastic External User Creation Parameters */
-  body?: ExternalUserInfo;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ExternalUserCreateOrUpdateResponse = ExternalUserCreationResponse;
-
-/** Optional parameters. */
-export interface BillingInfoGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BillingInfoGetResponse = BillingInfoResponse;
-
-/** Optional parameters. */
-export interface ConnectedPartnerResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ConnectedPartnerResourcesListOperationResponse =
-  ConnectedPartnerResourcesListResponse;
-
-/** Optional parameters. */
-export interface ConnectedPartnerResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ConnectedPartnerResourcesListNextResponse =
-  ConnectedPartnerResourcesListResponse;
-
-/** Optional parameters. */
 export interface OpenAIListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
@@ -1455,6 +1651,13 @@ export interface TagRulesListOptionalParams
 export type TagRulesListResponse = MonitoringTagRulesListResponse;
 
 /** Optional parameters. */
+export interface TagRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TagRulesGetResponse = MonitoringTagRules;
+
+/** Optional parameters. */
 export interface TagRulesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** request body of MonitoringTagRules */
@@ -1463,13 +1666,6 @@ export interface TagRulesCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type TagRulesCreateOrUpdateResponse = MonitoringTagRules;
-
-/** Optional parameters. */
-export interface TagRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TagRulesGetResponse = MonitoringTagRules;
 
 /** Optional parameters. */
 export interface TagRulesDeleteOptionalParams
@@ -1488,40 +1684,6 @@ export interface TagRulesListNextOptionalParams
 export type TagRulesListNextResponse = MonitoringTagRulesListResponse;
 
 /** Optional parameters. */
-export interface VMHostListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type VMHostListOperationResponse = VMHostListResponse;
-
-/** Optional parameters. */
-export interface VMHostListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type VMHostListNextResponse = VMHostListResponse;
-
-/** Optional parameters. */
-export interface VMIngestionDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the details operation. */
-export type VMIngestionDetailsOperationResponse = VMIngestionDetailsResponse;
-
-/** Optional parameters. */
-export interface VMCollectionUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** VM resource Id */
-  body?: VMCollectionUpdate;
-}
-
-/** Optional parameters. */
-export interface UpgradableVersionsDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the details operation. */
-export type UpgradableVersionsDetailsResponse = UpgradableVersionsList;
-
-/** Optional parameters. */
 export interface MonitorUpgradeOptionalParams
   extends coreClient.OperationOptions {
   /** Elastic Monitor Upgrade Parameters */
@@ -1532,116 +1694,22 @@ export interface MonitorUpgradeOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the upgrade operation. */
+export type MonitorUpgradeResponse = MonitorUpgradeHeaders;
+
 /** Optional parameters. */
-export interface AllTrafficFiltersListOptionalParams
+export interface VMCollectionUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** VM resource Id */
+  body?: VMCollectionUpdate;
+}
+
+/** Optional parameters. */
+export interface VMIngestionDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type AllTrafficFiltersListResponse = ElasticTrafficFilterResponse;
-
-/** Optional parameters. */
-export interface ListAssociatedTrafficFiltersListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ListAssociatedTrafficFiltersListResponse =
-  ElasticTrafficFilterResponse;
-
-/** Optional parameters. */
-export interface CreateAndAssociateIPFilterCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** List of ips */
-  ips?: string;
-  /** Name of the traffic filter */
-  name?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CreateAndAssociatePLFilterCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Name of the traffic filter */
-  name?: string;
-  /** Guid of the private endpoint */
-  privateEndpointGuid?: string;
-  /** Name of the private endpoint */
-  privateEndpointName?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface AssociateTrafficFilterAssociateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Ruleset Id of the filter */
-  rulesetId?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DetachAndDeleteTrafficFilterDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Ruleset Id of the filter */
-  rulesetId?: string;
-}
-
-/** Optional parameters. */
-export interface DetachTrafficFilterUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Ruleset Id of the filter */
-  rulesetId?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TrafficFiltersDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Ruleset Id of the filter */
-  rulesetId?: string;
-}
-
-/** Optional parameters. */
-export interface OrganizationsGetApiKeyOptionalParams
-  extends coreClient.OperationOptions {
-  /** Email Id parameter of the User Organization, of which the API Key must be returned */
-  body?: UserEmailId;
-}
-
-/** Contains response data for the getApiKey operation. */
-export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
-
-/** Optional parameters. */
-export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getElasticToAzureSubscriptionMapping operation. */
-export type OrganizationsGetElasticToAzureSubscriptionMappingResponse =
-  ElasticOrganizationToAzureSubscriptionMappingResponse;
-
-/** Optional parameters. */
-export interface OrganizationsResubscribeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Resubscribe Properties */
-  body?: ResubscribeProperties;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the resubscribe operation. */
-export type OrganizationsResubscribeResponse = ElasticMonitorResource;
+/** Contains response data for the details operation. */
+export type VMIngestionDetailsOperationResponse = VMIngestionDetailsResponse;
 
 /** Optional parameters. */
 export interface MicrosoftElasticOptionalParams

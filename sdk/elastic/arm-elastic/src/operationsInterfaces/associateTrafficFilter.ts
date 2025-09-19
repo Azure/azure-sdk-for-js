@@ -5,7 +5,10 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { AssociateTrafficFilterAssociateOptionalParams } from "../models/index.js";
+import {
+  AssociateTrafficFilterAssociateOptionalParams,
+  AssociateTrafficFilterAssociateResponse,
+} from "../models/index.js";
 
 /** Interface representing a AssociateTrafficFilter. */
 export interface AssociateTrafficFilter {
@@ -19,7 +22,12 @@ export interface AssociateTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: AssociateTrafficFilterAssociateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AssociateTrafficFilterAssociateResponse>,
+      AssociateTrafficFilterAssociateResponse
+    >
+  >;
   /**
    * Associate a traffic filter with your Elastic monitor resource to control and manage network traffic.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -30,5 +38,5 @@ export interface AssociateTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: AssociateTrafficFilterAssociateOptionalParams,
-  ): Promise<void>;
+  ): Promise<AssociateTrafficFilterAssociateResponse>;
 }

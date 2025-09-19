@@ -15,7 +15,10 @@ import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import { AssociateTrafficFilterAssociateOptionalParams } from "../models/index.js";
+import {
+  AssociateTrafficFilterAssociateOptionalParams,
+  AssociateTrafficFilterAssociateResponse,
+} from "../models/index.js";
 
 /** Class containing AssociateTrafficFilter operations. */
 export class AssociateTrafficFilterImpl implements AssociateTrafficFilter {
@@ -39,11 +42,16 @@ export class AssociateTrafficFilterImpl implements AssociateTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: AssociateTrafficFilterAssociateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AssociateTrafficFilterAssociateResponse>,
+      AssociateTrafficFilterAssociateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<AssociateTrafficFilterAssociateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -83,7 +91,10 @@ export class AssociateTrafficFilterImpl implements AssociateTrafficFilter {
       args: { resourceGroupName, monitorName, options },
       spec: associateOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AssociateTrafficFilterAssociateResponse,
+      OperationState<AssociateTrafficFilterAssociateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -102,7 +113,7 @@ export class AssociateTrafficFilterImpl implements AssociateTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: AssociateTrafficFilterAssociateOptionalParams,
-  ): Promise<void> {
+  ): Promise<AssociateTrafficFilterAssociateResponse> {
     const poller = await this.beginAssociate(
       resourceGroupName,
       monitorName,
@@ -118,10 +129,18 @@ const associateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/associateTrafficFilter",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AssociateTrafficFilterAssociateHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AssociateTrafficFilterAssociateHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AssociateTrafficFilterAssociateHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AssociateTrafficFilterAssociateHeaders,
+    },
     default: {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },

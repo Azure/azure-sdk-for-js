@@ -56,7 +56,7 @@ export interface Monitors {
    * Create a new Elastic monitor resource in your Azure subscription, enabling observability and
    * monitoring of your Azure resources through Elastic.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   beginCreate(
@@ -73,7 +73,7 @@ export interface Monitors {
    * Create a new Elastic monitor resource in your Azure subscription, enabling observability and
    * monitoring of your Azure resources through Elastic.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   beginCreateAndWait(
@@ -85,7 +85,7 @@ export interface Monitors {
    * Update an existing Elastic monitor resource in your Azure subscription, ensuring optimal
    * observability and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   beginUpdate(
@@ -102,7 +102,7 @@ export interface Monitors {
    * Update an existing Elastic monitor resource in your Azure subscription, ensuring optimal
    * observability and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   beginUpdateAndWait(

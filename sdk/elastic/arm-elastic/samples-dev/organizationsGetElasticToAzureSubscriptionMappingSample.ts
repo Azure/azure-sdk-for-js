@@ -6,9 +6,13 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in user.
+ * This sample demonstrates how to >;
+  /**
+Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in user.
  *
- * @summary Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in user.
+ * @summary >;
+  /**
+Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in user.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/Organizations_GetElasticToAzureSubscriptionMapping.json
  */
 async function organizationsGetElasticToAzureSubscriptionMapping(): Promise<void> {

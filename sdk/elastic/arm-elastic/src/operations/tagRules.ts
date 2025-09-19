@@ -22,10 +22,10 @@ import {
   TagRulesListNextOptionalParams,
   TagRulesListOptionalParams,
   TagRulesListResponse,
-  TagRulesCreateOrUpdateOptionalParams,
-  TagRulesCreateOrUpdateResponse,
   TagRulesGetOptionalParams,
   TagRulesGetResponse,
+  TagRulesCreateOrUpdateOptionalParams,
+  TagRulesCreateOrUpdateResponse,
   TagRulesDeleteOptionalParams,
   TagRulesListNextResponse,
 } from "../models/index.js";
@@ -139,26 +139,6 @@ export class TagRulesImpl implements TagRules {
   }
 
   /**
-   * Create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control
-   * over observability based on resource tags.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Tag Rule Set resource name
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesCreateOrUpdateOptionalParams,
-  ): Promise<TagRulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, ruleSetName, options },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
    * Get detailed information about a tag rule set for a given Elastic monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
@@ -174,6 +154,26 @@ export class TagRulesImpl implements TagRules {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, ruleSetName, options },
       getOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control
+   * over observability based on resource tags.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName
+   * @param ruleSetName
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    options?: TagRulesCreateOrUpdateOptionalParams,
+  ): Promise<TagRulesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, ruleSetName, options },
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -237,6 +237,7 @@ export class TagRulesImpl implements TagRules {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -308,30 +309,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/tagRules/{ruleSetName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitoringTagRules,
-    },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
-    },
-  },
-  requestBody: Parameters.body5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName,
-    Parameters.ruleSetName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/tagRules/{ruleSetName}",
   httpMethod: "GET",
@@ -352,6 +329,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/tagRules/{ruleSetName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoringTagRules,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {

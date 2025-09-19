@@ -6,16 +6,26 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  OrganizationsGetApiKeyOptionalParams,
-  OrganizationsGetApiKeyResponse,
   OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
   OrganizationsGetElasticToAzureSubscriptionMappingResponse,
+  OrganizationsGetApiKeyOptionalParams,
+  OrganizationsGetApiKeyResponse,
   OrganizationsResubscribeOptionalParams,
   OrganizationsResubscribeResponse,
 } from "../models/index.js";
 
 /** Interface representing a Organizations. */
 export interface Organizations {
+  /**
+   * >;
+   *   /**
+   * Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in
+   * user.
+   * @param options The options parameters.
+   */
+  getElasticToAzureSubscriptionMapping(
+    options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  ): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
   /**
    * Fetch the User API Key from the internal database, if it was generated and stored during the
    * creation of the Elasticsearch Organization.
@@ -24,14 +34,6 @@ export interface Organizations {
   getApiKey(
     options?: OrganizationsGetApiKeyOptionalParams,
   ): Promise<OrganizationsGetApiKeyResponse>;
-  /**
-   * Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in
-   * user.
-   * @param options The options parameters.
-   */
-  getElasticToAzureSubscriptionMapping(
-    options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
-  ): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
   /**
    * Resubscribe the Elasticsearch Organization.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

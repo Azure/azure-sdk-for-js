@@ -14,57 +14,57 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  MonitorsImpl,
   ElasticVersionsImpl,
-  MonitoredSubscriptionsImpl,
-  MonitoredResourcesImpl,
-  DeploymentInfoImpl,
-  ExternalUserImpl,
-  BillingInfoImpl,
-  ConnectedPartnerResourcesImpl,
-  OpenAIImpl,
-  TagRulesImpl,
-  VMHostImpl,
-  VMIngestionImpl,
-  VMCollectionImpl,
-  UpgradableVersionsImpl,
-  MonitorImpl,
-  AllTrafficFiltersImpl,
-  ListAssociatedTrafficFiltersImpl,
+  OrganizationsImpl,
+  MonitorsImpl,
+  AssociateTrafficFilterImpl,
   CreateAndAssociateIPFilterImpl,
   CreateAndAssociatePLFilterImpl,
-  AssociateTrafficFilterImpl,
+  ExternalUserImpl,
+  TrafficFiltersImpl,
   DetachAndDeleteTrafficFilterImpl,
   DetachTrafficFilterImpl,
-  TrafficFiltersImpl,
-  OrganizationsImpl,
+  BillingInfoImpl,
+  AllTrafficFiltersImpl,
+  ListAssociatedTrafficFiltersImpl,
+  ConnectedPartnerResourcesImpl,
+  DeploymentInfoImpl,
+  MonitoredResourcesImpl,
+  UpgradableVersionsImpl,
+  VMHostImpl,
+  MonitoredSubscriptionsImpl,
+  OpenAIImpl,
+  TagRulesImpl,
+  MonitorImpl,
+  VMCollectionImpl,
+  VMIngestionImpl,
 } from "./operations/index.js";
 import {
   Operations,
-  Monitors,
   ElasticVersions,
-  MonitoredSubscriptions,
-  MonitoredResources,
-  DeploymentInfo,
-  ExternalUser,
-  BillingInfo,
-  ConnectedPartnerResources,
-  OpenAI,
-  TagRules,
-  VMHost,
-  VMIngestion,
-  VMCollection,
-  UpgradableVersions,
-  Monitor,
-  AllTrafficFilters,
-  ListAssociatedTrafficFilters,
+  Organizations,
+  Monitors,
+  AssociateTrafficFilter,
   CreateAndAssociateIPFilter,
   CreateAndAssociatePLFilter,
-  AssociateTrafficFilter,
+  ExternalUser,
+  TrafficFilters,
   DetachAndDeleteTrafficFilter,
   DetachTrafficFilter,
-  TrafficFilters,
-  Organizations,
+  BillingInfo,
+  AllTrafficFilters,
+  ListAssociatedTrafficFilters,
+  ConnectedPartnerResources,
+  DeploymentInfo,
+  MonitoredResources,
+  UpgradableVersions,
+  VMHost,
+  MonitoredSubscriptions,
+  OpenAI,
+  TagRules,
+  Monitor,
+  VMCollection,
+  VMIngestion,
 } from "./operationsInterfaces/index.js";
 import { MicrosoftElasticOptionalParams } from "./models/index.js";
 
@@ -156,34 +156,34 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2025-06-01";
     this.operations = new OperationsImpl(this);
-    this.monitors = new MonitorsImpl(this);
     this.elasticVersions = new ElasticVersionsImpl(this);
-    this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
-    this.monitoredResources = new MonitoredResourcesImpl(this);
-    this.deploymentInfo = new DeploymentInfoImpl(this);
-    this.externalUser = new ExternalUserImpl(this);
-    this.billingInfo = new BillingInfoImpl(this);
-    this.connectedPartnerResources = new ConnectedPartnerResourcesImpl(this);
-    this.openAI = new OpenAIImpl(this);
-    this.tagRules = new TagRulesImpl(this);
-    this.vMHost = new VMHostImpl(this);
-    this.vMIngestion = new VMIngestionImpl(this);
-    this.vMCollection = new VMCollectionImpl(this);
-    this.upgradableVersions = new UpgradableVersionsImpl(this);
-    this.monitor = new MonitorImpl(this);
-    this.allTrafficFilters = new AllTrafficFiltersImpl(this);
-    this.listAssociatedTrafficFilters = new ListAssociatedTrafficFiltersImpl(
-      this,
-    );
+    this.organizations = new OrganizationsImpl(this);
+    this.monitors = new MonitorsImpl(this);
+    this.associateTrafficFilter = new AssociateTrafficFilterImpl(this);
     this.createAndAssociateIPFilter = new CreateAndAssociateIPFilterImpl(this);
     this.createAndAssociatePLFilter = new CreateAndAssociatePLFilterImpl(this);
-    this.associateTrafficFilter = new AssociateTrafficFilterImpl(this);
+    this.externalUser = new ExternalUserImpl(this);
+    this.trafficFilters = new TrafficFiltersImpl(this);
     this.detachAndDeleteTrafficFilter = new DetachAndDeleteTrafficFilterImpl(
       this,
     );
     this.detachTrafficFilter = new DetachTrafficFilterImpl(this);
-    this.trafficFilters = new TrafficFiltersImpl(this);
-    this.organizations = new OrganizationsImpl(this);
+    this.billingInfo = new BillingInfoImpl(this);
+    this.allTrafficFilters = new AllTrafficFiltersImpl(this);
+    this.listAssociatedTrafficFilters = new ListAssociatedTrafficFiltersImpl(
+      this,
+    );
+    this.connectedPartnerResources = new ConnectedPartnerResourcesImpl(this);
+    this.deploymentInfo = new DeploymentInfoImpl(this);
+    this.monitoredResources = new MonitoredResourcesImpl(this);
+    this.upgradableVersions = new UpgradableVersionsImpl(this);
+    this.vMHost = new VMHostImpl(this);
+    this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
+    this.openAI = new OpenAIImpl(this);
+    this.tagRules = new TagRulesImpl(this);
+    this.monitor = new MonitorImpl(this);
+    this.vMCollection = new VMCollectionImpl(this);
+    this.vMIngestion = new VMIngestionImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -216,28 +216,28 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  monitors: Monitors;
   elasticVersions: ElasticVersions;
-  monitoredSubscriptions: MonitoredSubscriptions;
-  monitoredResources: MonitoredResources;
-  deploymentInfo: DeploymentInfo;
-  externalUser: ExternalUser;
-  billingInfo: BillingInfo;
-  connectedPartnerResources: ConnectedPartnerResources;
-  openAI: OpenAI;
-  tagRules: TagRules;
-  vMHost: VMHost;
-  vMIngestion: VMIngestion;
-  vMCollection: VMCollection;
-  upgradableVersions: UpgradableVersions;
-  monitor: Monitor;
-  allTrafficFilters: AllTrafficFilters;
-  listAssociatedTrafficFilters: ListAssociatedTrafficFilters;
+  organizations: Organizations;
+  monitors: Monitors;
+  associateTrafficFilter: AssociateTrafficFilter;
   createAndAssociateIPFilter: CreateAndAssociateIPFilter;
   createAndAssociatePLFilter: CreateAndAssociatePLFilter;
-  associateTrafficFilter: AssociateTrafficFilter;
+  externalUser: ExternalUser;
+  trafficFilters: TrafficFilters;
   detachAndDeleteTrafficFilter: DetachAndDeleteTrafficFilter;
   detachTrafficFilter: DetachTrafficFilter;
-  trafficFilters: TrafficFilters;
-  organizations: Organizations;
+  billingInfo: BillingInfo;
+  allTrafficFilters: AllTrafficFilters;
+  listAssociatedTrafficFilters: ListAssociatedTrafficFilters;
+  connectedPartnerResources: ConnectedPartnerResources;
+  deploymentInfo: DeploymentInfo;
+  monitoredResources: MonitoredResources;
+  upgradableVersions: UpgradableVersions;
+  vMHost: VMHost;
+  monitoredSubscriptions: MonitoredSubscriptions;
+  openAI: OpenAI;
+  tagRules: TagRules;
+  monitor: Monitor;
+  vMCollection: VMCollection;
+  vMIngestion: VMIngestion;
 }

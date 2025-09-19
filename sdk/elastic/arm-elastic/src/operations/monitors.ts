@@ -223,7 +223,7 @@ export class MonitorsImpl implements Monitors {
    * Create a new Elastic monitor resource in your Azure subscription, enabling observability and
    * monitoring of your Azure resources through Elastic.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   async beginCreate(
@@ -295,7 +295,7 @@ export class MonitorsImpl implements Monitors {
    * Create a new Elastic monitor resource in your Azure subscription, enabling observability and
    * monitoring of your Azure resources through Elastic.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -315,7 +315,7 @@ export class MonitorsImpl implements Monitors {
    * Update an existing Elastic monitor resource in your Azure subscription, ensuring optimal
    * observability and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -387,7 +387,7 @@ export class MonitorsImpl implements Monitors {
    * Update an existing Elastic monitor resource in your Azure subscription, ensuring optimal
    * observability and performance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
+   * @param monitorName
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -461,6 +461,7 @@ export class MonitorsImpl implements Monitors {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -598,7 +599,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -630,7 +631,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

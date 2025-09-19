@@ -15,7 +15,10 @@ import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import { DetachTrafficFilterUpdateOptionalParams } from "../models/index.js";
+import {
+  DetachTrafficFilterUpdateOptionalParams,
+  DetachTrafficFilterUpdateResponse,
+} from "../models/index.js";
 
 /** Class containing DetachTrafficFilter operations. */
 export class DetachTrafficFilterImpl implements DetachTrafficFilter {
@@ -40,11 +43,16 @@ export class DetachTrafficFilterImpl implements DetachTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: DetachTrafficFilterUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DetachTrafficFilterUpdateResponse>,
+      DetachTrafficFilterUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<DetachTrafficFilterUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -84,7 +92,10 @@ export class DetachTrafficFilterImpl implements DetachTrafficFilter {
       args: { resourceGroupName, monitorName, options },
       spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DetachTrafficFilterUpdateResponse,
+      OperationState<DetachTrafficFilterUpdateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -104,7 +115,7 @@ export class DetachTrafficFilterImpl implements DetachTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: DetachTrafficFilterUpdateOptionalParams,
-  ): Promise<void> {
+  ): Promise<DetachTrafficFilterUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       monitorName,
@@ -120,10 +131,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/detachTrafficFilter",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DetachTrafficFilterUpdateHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DetachTrafficFilterUpdateHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DetachTrafficFilterUpdateHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DetachTrafficFilterUpdateHeaders,
+    },
     default: {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },

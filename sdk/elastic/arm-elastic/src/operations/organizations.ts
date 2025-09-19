@@ -16,10 +16,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  OrganizationsGetApiKeyOptionalParams,
-  OrganizationsGetApiKeyResponse,
   OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
   OrganizationsGetElasticToAzureSubscriptionMappingResponse,
+  OrganizationsGetApiKeyOptionalParams,
+  OrganizationsGetApiKeyResponse,
   OrganizationsResubscribeOptionalParams,
   OrganizationsResubscribeResponse,
 } from "../models/index.js";
@@ -37,20 +37,8 @@ export class OrganizationsImpl implements Organizations {
   }
 
   /**
-   * Fetch the User API Key from the internal database, if it was generated and stored during the
-   * creation of the Elasticsearch Organization.
-   * @param options The options parameters.
-   */
-  getApiKey(
-    options?: OrganizationsGetApiKeyOptionalParams,
-  ): Promise<OrganizationsGetApiKeyResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getApiKeyOperationSpec,
-    );
-  }
-
-  /**
+   * >;
+   *   /**
    * Retrieve mapping details between the Elastic Organization and Azure Subscription for the logged-in
    * user.
    * @param options The options parameters.
@@ -61,6 +49,20 @@ export class OrganizationsImpl implements Organizations {
     return this.client.sendOperationRequest(
       { options },
       getElasticToAzureSubscriptionMappingOperationSpec,
+    );
+  }
+
+  /**
+   * Fetch the User API Key from the internal database, if it was generated and stored during the
+   * creation of the Elasticsearch Organization.
+   * @param options The options parameters.
+   */
+  getApiKey(
+    options?: OrganizationsGetApiKeyOptionalParams,
+  ): Promise<OrganizationsGetApiKeyResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      getApiKeyOperationSpec,
     );
   }
 
@@ -157,24 +159,6 @@ export class OrganizationsImpl implements Organizations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getApiKeyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UserApiKeyResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
-    },
-  },
-  requestBody: Parameters.body8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getElasticToAzureSubscriptionMappingOperationSpec: coreClient.OperationSpec =
   {
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getElasticOrganizationToAzureSubscriptionMapping",
@@ -193,6 +177,24 @@ const getElasticToAzureSubscriptionMappingOperationSpec: coreClient.OperationSpe
     headerParameters: [Parameters.accept],
     serializer,
   };
+const getApiKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UserApiKeyResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const resubscribeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/resubscribe",
   httpMethod: "POST",
@@ -213,7 +215,7 @@ const resubscribeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

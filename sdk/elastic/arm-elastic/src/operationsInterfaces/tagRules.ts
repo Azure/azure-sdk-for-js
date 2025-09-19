@@ -9,10 +9,10 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MonitoringTagRules,
   TagRulesListOptionalParams,
-  TagRulesCreateOrUpdateOptionalParams,
-  TagRulesCreateOrUpdateResponse,
   TagRulesGetOptionalParams,
   TagRulesGetResponse,
+  TagRulesCreateOrUpdateOptionalParams,
+  TagRulesCreateOrUpdateResponse,
   TagRulesDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -32,20 +32,6 @@ export interface TagRules {
     options?: TagRulesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoringTagRules>;
   /**
-   * Create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control
-   * over observability based on resource tags.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Tag Rule Set resource name
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesCreateOrUpdateOptionalParams,
-  ): Promise<TagRulesCreateOrUpdateResponse>;
-  /**
    * Get detailed information about a tag rule set for a given Elastic monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
@@ -58,6 +44,20 @@ export interface TagRules {
     ruleSetName: string,
     options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse>;
+  /**
+   * Create or update a tag rule set for a given Elastic monitor resource, enabling fine-grained control
+   * over observability based on resource tags.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName
+   * @param ruleSetName
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    options?: TagRulesCreateOrUpdateOptionalParams,
+  ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
    * Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over
    * observability based on resource tags.

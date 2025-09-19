@@ -14,7 +14,7 @@ import {
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all operations provided by Microsoft.Elastic.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(

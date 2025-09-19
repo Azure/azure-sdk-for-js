@@ -5,7 +5,10 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { DetachTrafficFilterUpdateOptionalParams } from "../models/index.js";
+import {
+  DetachTrafficFilterUpdateOptionalParams,
+  DetachTrafficFilterUpdateResponse,
+} from "../models/index.js";
 
 /** Interface representing a DetachTrafficFilter. */
 export interface DetachTrafficFilter {
@@ -20,7 +23,12 @@ export interface DetachTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: DetachTrafficFilterUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DetachTrafficFilterUpdateResponse>,
+      DetachTrafficFilterUpdateResponse
+    >
+  >;
   /**
    * Detach an existing traffic filter from your Elastic monitor resource, removing its network traffic
    * control capabilities.
@@ -32,5 +40,5 @@ export interface DetachTrafficFilter {
     resourceGroupName: string,
     monitorName: string,
     options?: DetachTrafficFilterUpdateOptionalParams,
-  ): Promise<void>;
+  ): Promise<DetachTrafficFilterUpdateResponse>;
 }

@@ -5,7 +5,10 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { MonitorUpgradeOptionalParams } from "../models/index.js";
+import {
+  MonitorUpgradeOptionalParams,
+  MonitorUpgradeResponse,
+} from "../models/index.js";
 
 /** Interface representing a Monitor. */
 export interface Monitor {
@@ -20,7 +23,12 @@ export interface Monitor {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorUpgradeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorUpgradeResponse>,
+      MonitorUpgradeResponse
+    >
+  >;
   /**
    * Upgrade the Elastic monitor resource to a newer version, ensuring optimal observability and
    * performance.
@@ -32,5 +40,5 @@ export interface Monitor {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorUpgradeOptionalParams,
-  ): Promise<void>;
+  ): Promise<MonitorUpgradeResponse>;
 }

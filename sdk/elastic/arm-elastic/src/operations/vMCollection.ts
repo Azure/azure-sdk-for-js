@@ -53,7 +53,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

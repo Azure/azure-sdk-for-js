@@ -24,8 +24,14 @@ export type AllTrafficFiltersListResponse = ElasticTrafficFilterResponse;
 
 // @public
 export interface AssociateTrafficFilter {
-    beginAssociate(resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginAssociateAndWait(resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams): Promise<void>;
+    beginAssociate(resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams): Promise<SimplePollerLike<OperationState<AssociateTrafficFilterAssociateResponse>, AssociateTrafficFilterAssociateResponse>>;
+    beginAssociateAndWait(resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams): Promise<AssociateTrafficFilterAssociateResponse>;
+}
+
+// @public
+export interface AssociateTrafficFilterAssociateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -34,6 +40,9 @@ export interface AssociateTrafficFilterAssociateOptionalParams extends coreClien
     rulesetId?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AssociateTrafficFilterAssociateResponse = AssociateTrafficFilterAssociateHeaders;
 
 // @public
 export interface BillingInfo {
@@ -101,13 +110,19 @@ export interface ConnectedPartnerResourcesListOptionalParams extends coreClient.
 // @public
 export interface ConnectedPartnerResourcesListResponse {
     nextLink?: string;
-    value?: ConnectedPartnerResourcesListFormat[];
+    value: ConnectedPartnerResourcesListFormat[];
 }
 
 // @public
 export interface CreateAndAssociateIPFilter {
     beginCreate(resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams): Promise<void>;
+}
+
+// @public
+export interface CreateAndAssociateIPFilterCreateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -122,6 +137,12 @@ export interface CreateAndAssociateIPFilterCreateOptionalParams extends coreClie
 export interface CreateAndAssociatePLFilter {
     beginCreate(resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams): Promise<void>;
+}
+
+// @public
+export interface CreateAndAssociatePLFilterCreateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -173,8 +194,14 @@ export interface DetachAndDeleteTrafficFilterDeleteOptionalParams extends coreCl
 
 // @public
 export interface DetachTrafficFilter {
-    beginUpdate(resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DetachTrafficFilterUpdateResponse>, DetachTrafficFilterUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams): Promise<DetachTrafficFilterUpdateResponse>;
+}
+
+// @public
+export interface DetachTrafficFilterUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -183,6 +210,9 @@ export interface DetachTrafficFilterUpdateOptionalParams extends coreClient.Oper
     rulesetId?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type DetachTrafficFilterUpdateResponse = DetachTrafficFilterUpdateHeaders;
 
 // @public
 export interface ElasticCloudDeployment {
@@ -206,25 +236,17 @@ export interface ElasticCloudUser {
 export type ElasticDeploymentStatus = string;
 
 // @public
-export interface ElasticMonitorResource {
-    readonly id?: string;
+export interface ElasticMonitorResource extends TrackedResource {
     identity?: IdentityProperties;
     kind?: string;
-    location: string;
-    readonly name?: string;
     properties?: MonitorProperties;
     sku?: ResourceSku;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
 export interface ElasticMonitorResourceListResponse {
     nextLink?: string;
-    value?: ElasticMonitorResource[];
+    value: ElasticMonitorResource[];
 }
 
 // @public
@@ -315,7 +337,7 @@ export interface ElasticVersionsListOptionalParams extends coreClient.OperationO
 // @public
 export interface ElasticVersionsListResponse {
     nextLink?: string;
-    value?: ElasticVersionListFormat[];
+    value: ElasticVersionListFormat[];
 }
 
 // @public
@@ -613,8 +635,8 @@ export interface MicrosoftElasticOptionalParams extends coreClient.ServiceClient
 
 // @public
 export interface Monitor {
-    beginUpgrade(resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpgradeAndWait(resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams): Promise<void>;
+    beginUpgrade(resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<MonitorUpgradeResponse>, MonitorUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams): Promise<MonitorUpgradeResponse>;
 }
 
 // @public
@@ -627,7 +649,7 @@ export interface MonitoredResource {
 // @public
 export interface MonitoredResourceListResponse {
     nextLink?: string;
-    value?: MonitoredResource[];
+    value: MonitoredResource[];
 }
 
 // @public
@@ -653,23 +675,19 @@ export type MonitoredResourcesListResponse = MonitoredResourceListResponse;
 export interface MonitoredSubscription {
     error?: string;
     status?: Status;
-    subscriptionId?: string;
+    subscriptionId: string;
     tagRules?: MonitoringTagRulesProperties;
 }
 
 // @public
-export interface MonitoredSubscriptionProperties {
-    readonly id?: string;
-    readonly name?: string;
+export interface MonitoredSubscriptionProperties extends ProxyResource {
     properties?: SubscriptionList;
-    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MonitoredSubscriptionPropertiesList {
     nextLink?: string;
-    // (undocumented)
-    value?: MonitoredSubscriptionProperties[];
+    value: MonitoredSubscriptionProperties[];
 }
 
 // @public
@@ -685,6 +703,12 @@ export interface MonitoredSubscriptions {
 }
 
 // @public
+export interface MonitoredSubscriptionsCreateorUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitoredSubscriptionsCreateorUpdateOptionalParams extends coreClient.OperationOptions {
     body?: MonitoredSubscriptionProperties;
     resumeFrom?: string;
@@ -696,8 +720,8 @@ export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscription
 
 // @public
 export interface MonitoredSubscriptionsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -732,8 +756,8 @@ export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionProperties
 
 // @public
 export interface MonitoredSubscriptionsUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -750,18 +774,14 @@ export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperti
 export type MonitoringStatus = string;
 
 // @public
-export interface MonitoringTagRules {
-    readonly id?: string;
-    readonly name?: string;
+export interface MonitoringTagRules extends ProxyResource {
     properties?: MonitoringTagRulesProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
 export interface MonitoringTagRulesListResponse {
     nextLink?: string;
-    value?: MonitoringTagRules[];
+    value: MonitoringTagRules[];
 }
 
 // @public
@@ -803,6 +823,12 @@ export interface Monitors {
 }
 
 // @public
+export interface MonitorsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitorsCreateOptionalParams extends coreClient.OperationOptions {
     body?: ElasticMonitorResource;
     resumeFrom?: string;
@@ -811,6 +837,12 @@ export interface MonitorsCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type MonitorsCreateResponse = ElasticMonitorResource;
+
+// @public
+export interface MonitorsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -855,7 +887,6 @@ export type MonitorsListResponse = ElasticMonitorResourceListResponse;
 
 // @public
 export interface MonitorsUpdateHeaders {
-    // (undocumented)
     location?: string;
 }
 
@@ -870,11 +901,20 @@ export interface MonitorsUpdateOptionalParams extends coreClient.OperationOption
 export type MonitorsUpdateResponse = ElasticMonitorResource;
 
 // @public
+export interface MonitorUpgradeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitorUpgradeOptionalParams extends coreClient.OperationOptions {
     body?: ElasticMonitorUpgrade;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type MonitorUpgradeResponse = MonitorUpgradeHeaders;
 
 // @public
 export interface OpenAI {
@@ -921,17 +961,14 @@ export interface OpenAIIntegrationProperties {
 }
 
 // @public
-export interface OpenAIIntegrationRPModel {
-    readonly id?: string;
-    readonly name?: string;
+export interface OpenAIIntegrationRPModel extends ProxyResource {
     properties?: OpenAIIntegrationProperties;
-    readonly type?: string;
 }
 
 // @public
 export interface OpenAIIntegrationRPModelListResponse {
     nextLink?: string;
-    value?: OpenAIIntegrationRPModel[];
+    value: OpenAIIntegrationRPModel[];
 }
 
 // @public
@@ -972,7 +1009,7 @@ export interface OperationDisplay {
 // @public
 export interface OperationListResult {
     nextLink?: string;
-    value?: OperationResult[];
+    value: OperationResult[];
 }
 
 // @public
@@ -1030,8 +1067,8 @@ export type OrganizationsGetElasticToAzureSubscriptionMappingResponse = ElasticO
 
 // @public
 export interface OrganizationsResubscribeHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1071,6 +1108,18 @@ export type ProjectType = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
 
 // @public
 export interface ResourceProviderDefaultErrorResponse {
@@ -1135,6 +1184,12 @@ export interface TagRulesCreateOrUpdateOptionalParams extends coreClient.Operati
 export type TagRulesCreateOrUpdateResponse = MonitoringTagRules;
 
 // @public
+export interface TagRulesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface TagRulesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1160,6 +1215,14 @@ export interface TagRulesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type TagRulesListResponse = MonitoringTagRulesListResponse;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface TrafficFilters {
@@ -1255,7 +1318,7 @@ export interface VMHostListOptionalParams extends coreClient.OperationOptions {
 // @public
 export interface VMHostListResponse {
     nextLink?: string;
-    value?: VMResources[];
+    value: VMResources[];
 }
 
 // @public
