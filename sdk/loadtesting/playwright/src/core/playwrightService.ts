@@ -54,18 +54,26 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
 const replaceSnapshotPathTemplates = (
   baseConfig: PlaywrightTestConfig,
   playwrightServiceConfig: PlaywrightServiceConfig,
-) => {
-  const platformTokenRegex = /\{(.?)platform\}/g;
+): Pick<PlaywrightTestConfig, "snapshotPathTemplate" | "projects" | "expect"> => {
+  const platformTokenRegex = /\{(.?)(?:platform|snapshotSuffix)\}/g;
   const PLATFORM: Record<OsType, NodeJS.Platform> = {
     [ServiceOS.WINDOWS]: "win32",
     [ServiceOS.LINUX]: "linux",
   };
   const platform = PLATFORM[playwrightServiceConfig.serviceOs];
-  const replacePlatformToken = (pathTemplate: string) =>
+  const replacePlatformToken = (pathTemplate: string): string =>
     pathTemplate.replace(platformTokenRegex, `$1${platform}`);
 
-  const replaceTemplates = (config: PlaywrightTestConfig | PlaywrightTestConfigProject) => {
-    const overrides: Pick<PlaywrightTestConfig, "snapshotPathTemplate" | "expect"> = {};
+  const replaceTemplates = (
+    config: PlaywrightTestConfig | PlaywrightTestConfigProject,
+  ): Pick<
+    PlaywrightTestConfig | PlaywrightTestConfigProject,
+    "snapshotPathTemplate" | "expect"
+  > => {
+    const overrides: Pick<
+      PlaywrightTestConfig | PlaywrightTestConfigProject,
+      "snapshotPathTemplate" | "expect"
+    > = {};
     if (config.snapshotPathTemplate) {
       overrides.snapshotPathTemplate = replacePlatformToken(config.snapshotPathTemplate);
     }

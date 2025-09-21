@@ -427,26 +427,31 @@ describe("createAzurePlaywrightConfig", () => {
     it.each([
       {
         os: ServiceOS.LINUX,
-        input: "{testDir}{-platform}/{testFilePath}-snapshots{/platform}/{arg}.{platform}{ext}",
-        output: "{testDir}-linux/{testFilePath}-snapshots/linux/{arg}.linux{ext}",
+        input:
+          "{testDir}{-platform}/{testFilePath}-snapshots{/platform}/{arg}{-snapshotSuffix}.{platform}{ext}",
+        output: "{testDir}-linux/{testFilePath}-snapshots/linux/{arg}-linux.linux{ext}",
       },
       {
         os: ServiceOS.WINDOWS,
-        input: "{testDir}{-platform}/{testFilePath}-snapshots{/platform}/{arg}.{platform}{ext}",
-        output: "{testDir}-win32/{testFilePath}-snapshots/win32/{arg}.win32{ext}",
+        input:
+          "{testDir}{-platform}/{testFilePath}-snapshots{/platform}/{arg}{-snapshotSuffix}.{platform}{ext}",
+        output: "{testDir}-win32/{testFilePath}-snapshots/win32/{arg}-win32.win32{ext}",
       },
-    ])("should use $os as {platform} token for $input", async ({ os, input, output }) => {
-      const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
-        "../../src/core/playwrightService.js"
-      );
+    ])(
+      "should use $os to replace {platform}/{snapshotSuffix} tokens of $input",
+      async ({ os, input, output }) => {
+        const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
+          "../../src/core/playwrightService.js"
+        );
 
-      expect(localGetServiceConfig(generateConfig(input), { os })).toEqual({
-        ...generateConfig(output),
-        globalSetup: globalSetupPath,
-        globalTeardown: globalTeardownPath,
-        use: { connectOptions: expect.any(Object) },
-      });
-    });
+        expect(localGetServiceConfig(generateConfig(input), { os })).toEqual({
+          ...generateConfig(output),
+          globalSetup: globalSetupPath,
+          globalTeardown: globalTeardownPath,
+          use: { connectOptions: expect.any(Object) },
+        });
+      },
+    );
   });
 });
 
