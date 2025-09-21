@@ -5,11 +5,16 @@ import {
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
   ServiceAuth,
+  ServiceOS,
 } from "../common/constants.js";
 import customerConfig from "../common/customerConfig.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
 import playwrightServiceEntra from "./playwrightServiceEntra.js";
-import type { PlaywrightServiceAdditionalOptions, BrowserConnectOptions } from "../common/types.js";
+import type {
+  PlaywrightServiceAdditionalOptions,
+  BrowserConnectOptions,
+  OsType,
+} from "../common/types.js";
 import {
   fetchOrValidateAccessToken,
   getAccessToken,
@@ -25,7 +30,10 @@ import {
   warnIfAccessTokenCloseToExpiry,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
-import type { PlaywrightTestConfig } from "@playwright/test";
+import type {
+  PlaywrightTestConfig,
+  Project as PlaywrightTestConfigProject,
+} from "@playwright/test";
 import { globalPaths } from "./playwrightServiceUtils.js";
 
 const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
@@ -36,6 +44,60 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     warnIfAccessTokenCloseToExpiry();
   }
+};
+
+/**
+ * @override replace the `{platform}` token used by {@link PlaywrightTestConfig.snapshotPathTemplate}.
+ * Playwright resolves it to the value of the host's {@link process.platform} which is wrong in this context.
+ * Replace it with the value corresponding to {@link PlaywrightServiceAdditionalOptions.os}.
+ */
+const replaceSnapshotPathTemplates = (
+  baseConfig: PlaywrightTestConfig,
+  playwrightServiceConfig: PlaywrightServiceConfig,
+) => {
+  const platformTokenRegex = /\{(.?)platform\}/g;
+  const PLATFORM: Record<OsType, NodeJS.Platform> = {
+    [ServiceOS.WINDOWS]: "win32",
+    [ServiceOS.LINUX]: "linux",
+  };
+  const platform = PLATFORM[playwrightServiceConfig.serviceOs];
+  const replacePlatformToken = (pathTemplate: string) =>
+    pathTemplate.replace(platformTokenRegex, `$1${platform}`);
+
+  const replaceTemplates = (config: PlaywrightTestConfig | PlaywrightTestConfigProject) => {
+    const overrides: Pick<PlaywrightTestConfig, "snapshotPathTemplate" | "expect"> = {};
+    if (config.snapshotPathTemplate) {
+      overrides.snapshotPathTemplate = replacePlatformToken(config.snapshotPathTemplate);
+    }
+    if (config.expect) {
+      overrides.expect = Object.fromEntries(
+        Object.entries(config.expect).map(([key, value]) => [
+          key,
+          typeof value === "object" && "pathTemplate" in value && !!value.pathTemplate
+            ? {
+                ...value,
+                pathTemplate: replacePlatformToken(value.pathTemplate),
+              }
+            : value,
+        ]),
+      );
+    }
+    return overrides;
+  };
+
+  const overrides: Pick<PlaywrightTestConfig, "snapshotPathTemplate" | "projects" | "expect"> = {
+    ...replaceTemplates(baseConfig),
+    ...(baseConfig.projects
+      ? {
+          projects: baseConfig.projects.map((project) => ({
+            ...project,
+            ...replaceTemplates(project),
+          })),
+        }
+      : {}),
+  };
+
+  return overrides;
 };
 
 /**
@@ -181,6 +243,7 @@ const createAzurePlaywrightConfig = (
       },
     },
     ...globalFunctions,
+    ...replaceSnapshotPathTemplates(baseConfig, playwrightServiceConfig),
   };
 };
 

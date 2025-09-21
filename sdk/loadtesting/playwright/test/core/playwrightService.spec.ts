@@ -16,6 +16,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
 import { parseJwt } from "../../src/utils/parseJwt.js";
+import { PlaywrightTestConfig } from "@playwright/test";
 
 vi.mock("../../src/utils/parseJwt.js", async (importActual) => {
   const actual = await importActual<typeof import("../../src/utils/parseJwt.js")>();
@@ -382,6 +383,70 @@ describe("createAzurePlaywrightConfig", () => {
     expect((playwrightServiceEntra.default as any)._entraIdAccessToken._credential).to.equal(
       credential,
     );
+  });
+
+  describe("Replace snapshotPathTemplate {platform} token", () => {
+    const generateConfig = (template: string): PlaywrightTestConfig => ({
+      snapshotPathTemplate: template,
+      expect: {
+        toHaveScreenshot: {
+          pathTemplate: template,
+          scale: "css",
+        },
+        toMatchAriaSnapshot: {
+          pathTemplate: template,
+        },
+      },
+      projects: [
+        {
+          name: "a",
+          snapshotPathTemplate: template,
+          expect: {
+            toHaveScreenshot: {
+              pathTemplate: template,
+            },
+          },
+        },
+        {
+          name: "b",
+          expect: {
+            toMatchAriaSnapshot: {
+              pathTemplate: template,
+            },
+          },
+        },
+        {
+          name: "c",
+          expect: {
+            toHaveScreenshot: { scale: "css" },
+          },
+        },
+      ],
+    });
+
+    it.each([
+      {
+        os: ServiceOS.LINUX,
+        input: "{testDir}{-platform}/{testFilePath}-snapshots{/platform}/{arg}.{platform}{ext}",
+        output: "{testDir}-linux/{testFilePath}-snapshots/linux/{arg}.linux{ext}",
+      },
+      {
+        os: ServiceOS.WINDOWS,
+        input: "{testDir}{-platform}/{testFilePath}-snapshots{/platform}/{arg}.{platform}{ext}",
+        output: "{testDir}-win32/{testFilePath}-snapshots/win32/{arg}.win32{ext}",
+      },
+    ])("should use $os as {platform} token for $input", async ({ os, input, output }) => {
+      const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
+        "../../src/core/playwrightService.js"
+      );
+
+      expect(localGetServiceConfig(generateConfig(input), { os })).toEqual({
+        ...generateConfig(output),
+        globalSetup: globalSetupPath,
+        globalTeardown: globalTeardownPath,
+        use: { connectOptions: expect.any(Object) },
+      });
+    });
   });
 });
 
