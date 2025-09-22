@@ -49,7 +49,6 @@ export function createMetrics(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version")) {
-        // eslint-disable-next-line no-param-reassign
         req.url = `${req.url}${
           Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
         }api-version=${apiVersion}`;

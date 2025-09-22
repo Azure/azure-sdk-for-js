@@ -94,10 +94,10 @@ To build all packages:
 4. Install and link all dependencies (`pnpm install`)
 5. Build the code base (`pnpm build`)
 
-To build specific package(s), use `--filter=@azure/package-name...` pnpm command-line option:
+You rarely need to build all packages though, as it takes over one hour to finish. Instead, you can build selected packages impacted by your changes. To build specific package(s), use the `--filter=@azure/package-name...` command-line option:
 
 6. Install and link all dependencies (`pnpm install`)
-7. Build the package, for example, `pnpm build --filter=@azure/service-bus...`. Alternatively when under the package directory, `npx turbo build`
+7. Build the package, for example, `pnpm turbo build --filter=@azure/service-bus...`. Alternatively when under the package directory, `npx turbo build`
 
 ## Development Workflows
 
@@ -131,7 +131,7 @@ On the other hand, if you know your library does not work with the existing vers
 
 Run `pnpm build` from repo root directory to build any projects that have been modified since the last build.
 
-Run `pnpm build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm build --filter=@azure/communication-chat...`.  Alternatively, you can run `npx turbo build` to build current package's dependencies then the package itself.
+Run `pnpm turbo build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm turbo build --filter=@azure/communication-chat...`.  Alternatively, you can run `npx turbo build` to build current package's dependencies then the package itself.
 
 ### Testing
 
@@ -205,14 +205,12 @@ If you're having problems and want to restore your repo to a clean state without
 Generally speaking, the following commands are roughly equivalent:
 
 | NPM command                          | pnpm command                                  | Where to run      | pnpm command effect                                              |
-| ------------------------------------ | --------------------------------------------- | ----------------- | ---------------------------------------------------------------- |
+|--------------------------------------|-----------------------------------------------|-------------------|------------------------------------------------------------------|
 | `npm install`                        | `pnpm install`                                | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
 | `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Package directory | Add or update a dependency in the current project                |
 | `npm build`                          | `pnpm build`                                  | Repo root         | Build all projects in the pnpm workspace                         |
-|                                      | `pnpm build --filter=<package>...`            | Repo root         | Build named project and any projects it depends on               |
-|                                      | `pnpm build`                                  | Package directory | Build the current project only                                   |
-|                                      | `pnpm -F {./}... build`                       | Package directory | Build the current project and its dependencies                   |
-|                                      | `pnpm --filter=<package>... build`            | Package directory | Build named project and its dependencies                         |
+|                                      | `pnpm turbo build --filter=<package>...`      | Anywhere in repo  | Build named project and any projects it depends on               |
+|                                      | `pnpm turbo build`                            | Package directory | Build the current project                                        |
 | `npm test`                           | `pnpm test`                                   | Repo root         | Run dev tests in all projects in the pnpm workspace              |
 |                                      | `pnpm test --filter=<packagename>...`         | Repo root         | Run dev tests in named project and any projects it depends on    |
 |                                      | `pnpm test`                                   | Package directory | Run dev tests in the current project only                        |
@@ -267,7 +265,7 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - add a linting npm script as follows:
   - ["lint": "eslint package.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
-You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm build --filter@azure-tools/eslint-plugin-azure-sdk...`, or indirectly as your package's dependency by `pnpm build ...` under your package directory.
+You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm turbo build --filter @azure-tools/eslint-plugin-azure-sdk...`, or indirectly as your package's dependency by `pnpm turbo build` under your package directory.
 
 If the package is internal, it should not follow the design guidelines and in turn should not be linted using the same set of rules. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
 
