@@ -56,25 +56,21 @@ async function listFiles(root: string): Promise<string[]> {
     return [];
   }
 
-  const results: string[] = [];
+  const entries = (await fs.readdir(root, {
+    withFileTypes: true,
+    recursive: true,
+  })) as Dirent[];
 
-  async function visit(current: string): Promise<void> {
-    const entries: Dirent[] = await fs.readdir(current, { withFileTypes: true });
-    for (const entry of entries) {
-      const entryPath = path.join(current, entry.name);
-      if (entry.isDirectory()) {
-        await visit(entryPath);
-      } else if (entry.isFile()) {
-        const relative = path.relative(root, entryPath);
-        results.push(normalizePathSegments(relative));
-      } else if (entry.isSymbolicLink()) {
-        const relative = path.relative(root, entryPath);
-        results.push(normalizePathSegments(relative));
-      }
+  const results: string[] = [];
+  for (const entry of entries) {
+    if (entry.isFile() || entry.isSymbolicLink()) {
+      const parentDir = entry.parentPath ?? root;
+      const fullPath = path.join(parentDir, entry.name);
+      const relative = path.relative(root, fullPath);
+      results.push(normalizePathSegments(relative));
     }
   }
 
-  await visit(root);
   return results;
 }
 
@@ -175,7 +171,7 @@ export default leafCommand(commandInfo, async (options) => {
           "checkout",
           "HEAD",
           "--",
-          generatedRepoRelative === "." ? "." : generatedRepoRelative,
+          generatedRepoRelative,
         ],
         { cwd: repoRoot, captureOutput: true },
       );

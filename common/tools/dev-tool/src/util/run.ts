@@ -66,7 +66,7 @@ export async function run(
 
   const exitCode = await new Promise<number>((resolve, reject) => {
     const proc = spawn(executable, argv, options);
-    log.info(`Running command: ${[executable, ...argv].join(" ")}`);
+    log.debug(`Running command: ${[executable, ...argv].join(" ")}`);
 
     proc.stderr?.setEncoding("utf8");
     proc.on("exit", (exitCode, signal) => {
