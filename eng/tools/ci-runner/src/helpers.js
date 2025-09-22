@@ -127,16 +127,13 @@ const getPackageJSONs = (searchDir) => {
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level
   const sdkPackageJsonFiles = fs
     .readdirSync(searchDir)
-    .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
+    .map((f) => path.join(searchDir, f))
+    .filter((f) => fs.lstatSync(f).isDirectory())
+    .map((f) => path.join(f, "package.json")); // turn potential directory names into package.json paths
 
-  const perfTestDirectories = [];
-  for (const sdkPackageJson of sdkPackageJsonFiles) {
-    const sdkDir = path.dirname(sdkPackageJson);
-    const perfTestDir = path.join(sdkDir, "test", "perf");
-    if (fs.existsSync(perfTestDir) && fs.existsSync(path.join(perfTestDir, "package.json"))) {
-      perfTestDirectories.push(path.join(perfTestDir, "package.json"));
-    }
-  }
+  const perfTestDirectories = sdkPackageJsonFiles
+    .map((f) => path.join(path.dirname(f), "test", "perf", "package.json"))
+    .filter((f) => fs.existsSync(f));
 
   return sdkPackageJsonFiles.concat(perfTestDirectories);
 };
