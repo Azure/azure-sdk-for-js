@@ -23,7 +23,7 @@
 
 ## [Sample perf test project](#sample-perf-test-project)
 
-A [sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/perf-tests/template) has been created which demonstrates a basic perf test against the existing `@azure/template` project. Take a look at this sample to see the standard perf test project structure.
+A [sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/test/perf/) has been created which demonstrates a basic perf test against the existing `@azure/template` project. Take a look at this sample to see the standard perf test project structure.
 
 ## [Setting up the project](#setting-up-the-project)
 
@@ -31,12 +31,12 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 1.  Create a new folder for the perf tests.
 
-Path- `sdk/<service>/perf-tests/<service-sdk>`
+Path- `sdk/<service>/<service-sdk>/test/perf/`
 
-(Create the `perf-tests/<service-sdk>` folder inside the service directory if that doesn't exist)
+(Create the `<service-sdk>/test/perf` folder inside the service directory if that doesn't exist)
 
-2.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
-3.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+2.  Tests will live under `sdk/<service>/<service-sdk>//test/perf/test`
+3.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake/test/perf/package.json) at `sdk/<service>/<service-sdk>/test/perf/` folder.
 
     Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
 
@@ -58,14 +58,14 @@ Path- `sdk/<service>/perf-tests/<service-sdk>`
     ```
 
 4.  Run `pnpm install` and commit the changes to the `pnpm-lock` file.
-5.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/perf-tests/template).
-6.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/perf-tests/<service-sdk>`.
+5.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/test/perf/).
+6.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>/test/perf/`.
 
 ## [Writing perf tests](#writing-perf-tests)
 
 ### [Entry Point](#entry-point)
 
-Add an `index.ts` at `sdk/<service>/perf-tests/<service-sdk>/src/`.
+Add an `index.ts` at `sdk/<service>/<service-sdk>/test/perf/src/`.
 
 ```js
 import { createPerfProgram } from "@azure-tools/test-perf";
@@ -86,7 +86,7 @@ perfProgram.run();
 
 Base class would have all the common code that would be repeated for each of the tests - common code such as creating the client, creating a base resource, etc.
 
-Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
+Create a new file such as `serviceName.spec.ts` at `sdk/<service>/<service-sdk>/test/perf/test/`.
 
 ```js
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
@@ -185,7 +185,7 @@ To run a particular test, use `npm run perf-test:node` - takes the test class na
 
 ### [Adding Readme/Instructions](#adding-readme/instructions)
 
-Refer to [the README for the template project](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/perf-tests/template/README.md) and create a similar set of instructions for your perf project.
+Refer to [the README for the template project](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/perf/README.md) and create a similar set of instructions for your perf project.
 
 ### [Testing an older version](#testing-an-older-version)
 
