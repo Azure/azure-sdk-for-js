@@ -45,14 +45,23 @@ if (process.env.DEBUG) {
 
 require("dotenv").config();
 
-let tsconfigPath;
-if (existsSync("../../../tsconfig.json")) {
-  tsconfigPath = "../../../tsconfig.json";
-} else if (cwd.includes("/test/perf/") && existsSync("../../../../../tsconfig.json")) {
-  tsconfigPath = "../../../../../tsconfig.json";
-} else {
+const checkExistence = (p) => {
+  const tsconfigPath = path.resolve(path.join(cwd, p));
+  if (existsSync(tsconfigPath)) {
+    return tsconfigPath;
+  }
+  return undefined;
+};
+
+let tsconfigPath = checkExistence("../../../tsconfig.json");
+if (!tsconfigPath && cwd.includes("/test/perf")) {
+  tsconfigPath = checkExistence("../../../../../tsconfig.json");
+}
+
+if (!tsconfigPath) {
   console.info(
-    "[dev-tool/register] unable to locate tsconfig.json in repo root. This is expected in min/max tests.",
+    "[dev-tool/register] unable to locate tsconfig.json in repo root. This is expected in min/max tests. Current working directory: ",
+    cwd,
   );
 }
 
