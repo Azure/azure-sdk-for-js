@@ -13,7 +13,6 @@ import type {
   QueryRange,
   Response,
 } from "../request/index.js";
-import { ErrorResponse } from "../request/ErrorResponse.js";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";

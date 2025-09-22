@@ -15,7 +15,7 @@ import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
 describe("CompositeQueryContinuationToken", () => {
   const mockRid = "test-resource-id";
-  
+
   // Helper function to create mock partition key range
   const createMockPartitionKeyRange = (
     id: string,
@@ -28,7 +28,7 @@ describe("CompositeQueryContinuationToken", () => {
     ridPrefix: 0,
     throughputFraction: 1.0,
     status: "online",
-    parents: []
+    parents: [],
   });
 
   const mockRangeMappings: QueryRangeWithContinuationToken[] = [

@@ -11,7 +11,10 @@ import { processDistinctQueryAndUpdateRangeMap } from "../PartitionRangeUtils.js
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private hashedLastResult: string;
 
-  constructor(private executionContext: ExecutionContext, hashedLastResult?: string) {
+  constructor(
+    private executionContext: ExecutionContext,
+    hashedLastResult?: string,
+  ) {
     this.hashedLastResult = hashedLastResult;
   }
 

@@ -80,9 +80,9 @@ export class PartitionRangeManager {
       const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
 
       if (isExhausted) {
-        return false; 
+        return false;
       }
-      return true; 
+      return true;
     });
   }
 
@@ -110,7 +110,7 @@ export class PartitionRangeManager {
         break;
       }
     }
-    
+
     return { endIndex, processedRanges, lastRangeBeforePageLimit };
   }
 

@@ -45,12 +45,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
         }
       }
     }
-    const result = createParallelQueryResult(
-      buffer,
-      new Map(),
-      undefined,
-      undefined,
-    );
+    const result = createParallelQueryResult(buffer, new Map(), undefined, undefined);
     return { result, headers: response.headers };
   }
 }

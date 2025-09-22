@@ -52,7 +52,7 @@ describe("OrderByQueryContinuationToken", () => {
       const offset = 5;
       const limit = 20;
       const hashedLastResult = "hash123";
-      
+
       const token = createOrderByQueryContinuationToken(
         mockRangeMappings,
         mockOrderByItems,
@@ -76,34 +76,19 @@ describe("OrderByQueryContinuationToken", () => {
 
     it("should throw error when range mappings is empty", () => {
       assert.throws(() => {
-        createOrderByQueryContinuationToken(
-          [],
-          mockOrderByItems,
-          mockRid,
-          mockSkipCount,
-        );
+        createOrderByQueryContinuationToken([], mockOrderByItems, mockRid, mockSkipCount);
       }, "rangeMappings must contain at least one element");
     });
 
     it("should throw error when order by items is empty", () => {
       assert.throws(() => {
-        createOrderByQueryContinuationToken(
-          mockRangeMappings,
-          [],
-          mockRid,
-          mockSkipCount,
-        );
+        createOrderByQueryContinuationToken(mockRangeMappings, [], mockRid, mockSkipCount);
       }, "orderByItems must contain at least one element");
     });
 
     it("should throw error when range mappings is null or undefined", () => {
       assert.throws(() => {
-        createOrderByQueryContinuationToken(
-          null as any,
-          mockOrderByItems,
-          mockRid,
-          mockSkipCount,
-        );
+        createOrderByQueryContinuationToken(null as any, mockOrderByItems, mockRid, mockSkipCount);
       }, "rangeMappings must contain at least one element");
 
       assert.throws(() => {
@@ -118,12 +103,7 @@ describe("OrderByQueryContinuationToken", () => {
 
     it("should throw error when order by items is null or undefined", () => {
       assert.throws(() => {
-        createOrderByQueryContinuationToken(
-          mockRangeMappings,
-          null as any,
-          mockRid,
-          mockSkipCount,
-        );
+        createOrderByQueryContinuationToken(mockRangeMappings, null as any, mockRid, mockSkipCount);
       }, "orderByItems must contain at least one element");
 
       assert.throws(() => {
@@ -138,12 +118,7 @@ describe("OrderByQueryContinuationToken", () => {
 
     it("should throw error when both arrays are empty", () => {
       assert.throws(() => {
-        createOrderByQueryContinuationToken(
-          [],
-          [],
-          mockRid,
-          mockSkipCount,
-        );
+        createOrderByQueryContinuationToken([], [], mockRid, mockSkipCount);
       }, "rangeMappings must contain at least one element");
     });
 
@@ -168,7 +143,7 @@ describe("OrderByQueryContinuationToken", () => {
         { value: [1, 2, 3], type: "array" },
         { value: { nested: "object" }, type: "object" },
       ];
-      
+
       const token = createOrderByQueryContinuationToken(
         mockRangeMappings,
         complexOrderByItems,
@@ -192,7 +167,7 @@ describe("OrderByQueryContinuationToken", () => {
         20,
         "hash123",
       );
-      
+
       const serialized = serializeOrderByQueryContinuationToken(token);
       const parsed = JSON.parse(serialized);
 
@@ -213,7 +188,7 @@ describe("OrderByQueryContinuationToken", () => {
         mockRid,
         mockSkipCount,
       );
-      
+
       const serialized = serializeOrderByQueryContinuationToken(token);
       const parsed = JSON.parse(serialized);
 
@@ -236,7 +211,7 @@ describe("OrderByQueryContinuationToken", () => {
         mockRid,
         mockSkipCount,
       );
-      
+
       const serialized = serializeOrderByQueryContinuationToken(token);
       const parsed = JSON.parse(serialized);
 

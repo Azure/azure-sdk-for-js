@@ -105,7 +105,7 @@ export class TargetPartitionRangeManager {
     console.log(`Target ranges count: ${targetRanges?.length || 0}`);
     console.log(`Range-token pairs count: ${rangeTokenPairs?.length || 0}`);
     console.log(`Additional query info:`, additionalQueryInfo || {});
-    
+
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
       console.log(`❌ No target ranges provided - returning empty result`);

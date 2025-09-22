@@ -152,7 +152,7 @@ export class ContinuationTokenManager {
         // Slice from endIndex onwards
         this.orderByItemsArray = this.orderByItemsArray.slice(endIndex);
       }
-    } 
+    }
   }
 
   /**
@@ -171,9 +171,9 @@ export class ContinuationTokenManager {
       const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
 
       if (isExhausted) {
-        return false; 
+        return false;
       }
-      return true; 
+      return true;
     });
   }
 
@@ -191,7 +191,7 @@ export class ContinuationTokenManager {
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     this.removeExhaustedRangesFromRanges();
-    
+
     let result: { endIndex: number; processedRanges: string[] };
     if (this.isOrderByQuery) {
       result = this.processOrderByRanges(pageSize, pageResults);
@@ -200,7 +200,6 @@ export class ContinuationTokenManager {
     }
     return result;
   }
-
 
   /**
    * Processes ranges for ORDER BY queries
@@ -222,14 +221,14 @@ export class ContinuationTokenManager {
     let lastOrderByItems: any[] | undefined;
     if (result.endIndex > 0 && this.orderByItemsArray) {
       const lastItemIndexOnPage = result.endIndex - 1;
-      
+
       if (lastItemIndexOnPage < this.orderByItemsArray.length) {
         lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage];
-      } 
+      }
     }
 
     // Extract RID and calculate skip count from the actual page results
-    let documentRid: string; 
+    let documentRid: string;
     let skipCount: number = 0;
 
     if (pageResults && pageResults.length > 0) {

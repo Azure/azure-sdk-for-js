@@ -67,21 +67,21 @@ export function createOrderByQueryContinuationToken(
   if (!rangeMappings || rangeMappings.length === 0) {
     throw new Error("rangeMappings must contain at least one element");
   }
-  
+
   if (!orderByItems || orderByItems.length === 0) {
     throw new Error("orderByItems must contain at least one element");
   }
-  
+
   return {
     rangeMappings,
     orderByItems,
     rid,
     skipCount,
+    documentRid,
     offset,
     limit,
     hashedLastResult,
-    documentRid,
-  };
+  } as OrderByQueryContinuationToken;
 }
 
 /**

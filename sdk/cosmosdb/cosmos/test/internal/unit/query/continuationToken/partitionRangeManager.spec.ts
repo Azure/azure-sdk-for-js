@@ -25,7 +25,7 @@ describe("PartitionRangeManager", () => {
     continuationToken: string | null = "token123",
     hashedLastResult?: string,
     offset?: number,
-    limit?: number
+    limit?: number,
   ): QueryRangeMapping => ({
     itemCount,
     continuationToken,
@@ -118,8 +118,6 @@ describe("PartitionRangeManager", () => {
     it("should return false for empty manager", () => {
       assert.isFalse(partitionRangeManager.hasUnprocessedRanges());
     });
-
-
 
     it("should return false after all ranges are removed", () => {
       const rangeMap = new Map<string, QueryRangeMapping>();

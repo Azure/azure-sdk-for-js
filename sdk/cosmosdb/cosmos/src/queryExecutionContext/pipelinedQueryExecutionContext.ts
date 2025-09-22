@@ -183,10 +183,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       if (distinctType === "Ordered") {
         let lastHash;
-        if(this.continuationTokenManager){
+        if (this.continuationTokenManager) {
           lastHash = this.continuationTokenManager.getHashedLastResult();
         }
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint,lastHash);
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint, lastHash);
       }
       if (distinctType === "Unordered") {
         this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
@@ -223,51 +223,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public hasMoreResults(): boolean {
-
-    if (this.options.enableQueryControl) {
-      // For unsupported query types, use simple buffer + endpoint check
-      if (this.continuationTokenManager.getUnsupportedQueryType()) {
-        const bufferHasItems = this.fetchBuffer.length > 0;
-        const endpointHasMore = this.endpoint.hasMoreResults();
-        const result = bufferHasItems || endpointHasMore;
-        // console.log("UNSUPPORTED QUERY PATH:");
-        // console.log("- fetchBuffer.length:", this.fetchBuffer.length);
-        // console.log("- endpoint.hasMoreResults():", endpointHasMore);
-        // console.log("- final result:", result);
-        // console.log("=== END PipelinedQueryExecutionContext hasMoreResults DEBUG ===");
-        return result;
-      }
-
-      // For supported query types, use full continuation token logic
-      const hasBufferedItems = this.fetchBuffer.length > 0;
-      const hasUnprocessedRanges = this.continuationTokenManager.hasUnprocessedRanges();
-      const endpointHasMore = this.endpoint.hasMoreResults();
-      const result = hasBufferedItems || hasUnprocessedRanges || endpointHasMore;
-
-      // console.log("SUPPORTED QUERY PATH:");
-      // console.log("- hasBufferedItems:", hasBufferedItems);
-      // console.log("- hasUnprocessedRanges:", hasUnprocessedRanges);
-      // console.log("- endpointHasMore:", endpointHasMore);
-      // console.log("- final result:", result);
-      // console.log("=== END PipelinedQueryExecutionContext hasMoreResults DEBUG ===");
-      return result;
-    }
-
-    // Default behavior for non-enableQueryControl mode
     const bufferHasItems = this.fetchBuffer.length !== 0;
     const endpointHasMore = this.endpoint.hasMoreResults();
     const result = bufferHasItems || endpointHasMore;
 
-    // console.log("DEFAULT PATH (no enableQueryControl):");
-    // console.log("- fetchBuffer.length:", this.fetchBuffer.length);
-    // console.log("- endpoint.hasMoreResults():", endpointHasMore);
-    // console.log("- final result:", result);
-    // console.log("=== END PipelinedQueryExecutionContext hasMoreResults DEBUG ===");
     return result;
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // console.log("old fetchMore")
     this.fetchMoreRespHeaders = getInitialHeader();
     if (this.options.enableQueryControl) {
       return this._enableQueryControlFetchMoreImplementation(diagnosticNode);
@@ -285,7 +248,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
-        // console.log("response olde recursion: ", response);
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
         if (
           !response ||
@@ -302,7 +264,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           }
         }
         this.fetchBuffer.push(...response.result.buffer);
-        // console.log("olde fetch more recursion");
         return this._fetchMoreImplementation(diagnosticNode);
       }
     } catch (err: any) {
@@ -319,17 +280,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   ): Promise<Response<any>> {
     // For unsupported query types, use simplified buffer-only logic
     if (this.continuationTokenManager.getUnsupportedQueryType()) {
-      return this._handleUnsupportedQueryFetch(diagnosticNode);
+      return this._handleContinuationUnsupportedQueryFetch(diagnosticNode);
     }
 
     // For supported query types, use full continuation token logic
-    return this._handleSupportedQueryFetch(diagnosticNode);
+    return this._handleQueryFetch(diagnosticNode);
   }
 
-  private async _handleUnsupportedQueryFetch(
+  private async _handleContinuationUnsupportedQueryFetch(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
-    // console.log("new fetch more")
     // Return buffered data if available
     if (this.fetchBuffer.length > 0) {
       const temp = this.fetchBuffer.slice(0, this.pageSize);
@@ -339,7 +299,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
     // Fetch new data from endpoint
     const response = await this.endpoint.fetchMore(diagnosticNode);
-    // console.log("new fetch more resppnse", response);
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer?.length) {
@@ -354,12 +313,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return { result: temp, headers: this.fetchMoreRespHeaders };
   }
 
-  private async _handleSupportedQueryFetch(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    
+  private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // Process buffered data if available and has unprocessed ranges
-    if (this.fetchBuffer.length > 0 && this.continuationTokenManager.hasUnprocessedRanges()) {
+    if (this.fetchBuffer.length > 0) {
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
@@ -397,12 +353,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
       return this.createEmptyResultWithHeaders(response?.headers);
     }
-    
+
     this.fetchBuffer = response.result.buffer;
     const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
 
     const temp = this.fetchBuffer.slice(0, endIndex);
-    
+
     this.fetchBuffer = this.fetchBuffer.slice(endIndex);
 
     this._clearProcessedRangeMetadata(processedRanges, endIndex);

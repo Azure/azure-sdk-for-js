@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, beforeEach,assert } from "vitest";
+import { describe, it, beforeEach, assert } from "vitest";
 import { OrderByDocumentProducerComparator } from "../../../../../src/queryExecutionContext/orderByDocumentProducerComparator.js";
 import type { DocumentProducer } from "../../../../../src/queryExecutionContext/documentProducer.js";
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
@@ -23,7 +23,7 @@ describe("OrderByDocumentProducerComparator", () => {
       parents: [],
     };
     mockPartitionKeyRange2 = {
-      id: "1", 
+      id: "1",
       minInclusive: "AA",
       maxExclusive: "BB",
       ridPrefix: 2,
@@ -35,7 +35,7 @@ describe("OrderByDocumentProducerComparator", () => {
 
   const createMockDocumentProducer = (
     partitionKeyRange: PartitionKeyRange,
-    startEpk?: string
+    startEpk?: string,
   ): Partial<DocumentProducer> => ({
     getTargetPartitionKeyRange: () => partitionKeyRange,
     startEpk: startEpk,
@@ -55,7 +55,7 @@ describe("OrderByDocumentProducerComparator", () => {
       // Access private method using type assertion
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, -1);
@@ -73,7 +73,7 @@ describe("OrderByDocumentProducerComparator", () => {
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, 1);
@@ -91,7 +91,7 @@ describe("OrderByDocumentProducerComparator", () => {
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, 0);
@@ -103,19 +103,19 @@ describe("OrderByDocumentProducerComparator", () => {
           ...mockPartitionKeyRange1,
           minInclusive: "AA",
         },
-        "epk1"
+        "epk1",
       );
       const docProd2 = createMockDocumentProducer(
         {
           ...mockPartitionKeyRange2,
           minInclusive: "AA",
         },
-        "epk2"
+        "epk2",
       );
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, -1); // "epk1" < "epk2"
@@ -127,19 +127,19 @@ describe("OrderByDocumentProducerComparator", () => {
           ...mockPartitionKeyRange1,
           minInclusive: "AA",
         },
-        "epk2"
+        "epk2",
       );
       const docProd2 = createMockDocumentProducer(
         {
           ...mockPartitionKeyRange2,
           minInclusive: "AA",
         },
-        "epk1"
+        "epk1",
       );
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, 1); // "epk2" > "epk1"
@@ -151,19 +151,19 @@ describe("OrderByDocumentProducerComparator", () => {
           ...mockPartitionKeyRange1,
           minInclusive: "AA",
         },
-        "epk1"
+        "epk1",
       );
       const docProd2 = createMockDocumentProducer(
         {
           ...mockPartitionKeyRange2,
           minInclusive: "AA",
         },
-        "epk1"
+        "epk1",
       );
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, 0); // "epk1" === "epk1"
@@ -175,19 +175,19 @@ describe("OrderByDocumentProducerComparator", () => {
           ...mockPartitionKeyRange1,
           minInclusive: "AA",
         },
-        "epk1"
+        "epk1",
       );
       const docProd2 = createMockDocumentProducer(
         {
           ...mockPartitionKeyRange2,
           minInclusive: "AA",
         },
-        undefined
+        undefined,
       );
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, 0);
@@ -199,19 +199,19 @@ describe("OrderByDocumentProducerComparator", () => {
           ...mockPartitionKeyRange1,
           minInclusive: "AA",
         },
-        undefined
+        undefined,
       );
       const docProd2 = createMockDocumentProducer(
         {
           ...mockPartitionKeyRange2,
           minInclusive: "AA",
         },
-        undefined
+        undefined,
       );
 
       const result = (comparator as any).targetPartitionKeyRangeDocProdComparator(
         docProd1 as DocumentProducer,
-        docProd2 as DocumentProducer
+        docProd2 as DocumentProducer,
       );
 
       assert.equal(result, 0);

@@ -83,6 +83,20 @@ describe("parallelQueryExecutionContextBase", () => {
     status: "Online", // Status of the partition
   });
 
+  const createTestPartitionKeyRange = (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ): PartitionKeyRange => ({
+    id,
+    minInclusive,
+    maxExclusive,
+    ridPrefix: 1,
+    throughputFraction: 1.0,
+    status: "online",
+    parents: [],
+  });
+
   const createMockDocument = (
     id: string,
     name: string,
@@ -391,7 +405,7 @@ describe("parallelQueryExecutionContextBase", () => {
 
       const result = await (context as any).drainBufferedItems();
 
-      assert.deepEqual(result.result, [mockDocument1, mockDocument2]);
+      assert.deepEqual(result.result.buffer, [mockDocument1, mockDocument2]);
       assert.equal(context["buffer"].length, 0);
     });
 
@@ -846,8 +860,6 @@ describe("parallelQueryExecutionContextBase", () => {
         const mockDocumentProducer = {
           targetPartitionKeyRange: partitionKeyTargetRange,
           continuationToken: continuationToken,
-          startEpk: undefined, // No EPK values
-          endEpk: undefined,
           hasMoreResults: vi.fn().mockReturnValue(false),
           bufferMore: vi.fn().mockResolvedValue({}),
           peakNextItem: vi.fn().mockReturnValue(undefined),
@@ -885,6 +897,117 @@ describe("parallelQueryExecutionContextBase", () => {
       assert.equal(orderedMinInclusive[2], "CC");
 
       vi.restoreAllMocks();
+    });
+  });
+
+  describe("compareDocumentProducersByRange", () => {
+    let testContext: TestParallelQueryExecutionContext;
+
+    beforeEach(() => {
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+      testContext = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        { maxItemCount: 10 },
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+    });
+
+    const createMockDocumentProducer = (
+      partitionKeyRange: PartitionKeyRange,
+      startEpk?: string,
+      endEpk?: string,
+    ): any => ({
+      targetPartitionKeyRange: partitionKeyRange,
+      startEpk,
+      endEpk,
+    });
+
+    describe("Primary comparison (minInclusive)", () => {
+      it("should return positive when first producer has smaller minInclusive", () => {
+        const range1 = createTestPartitionKeyRange("1", "", "AA");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1);
+        const docProd2 = createMockDocumentProducer(range2);
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        // "AA".localeCompare("") > 0, so result should be positive
+        assert.isTrue(result > 0);
+      });
+
+      it("should return negative when first producer has larger minInclusive", () => {
+        const range1 = createTestPartitionKeyRange("1", "BB", "CC");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1);
+        const docProd2 = createMockDocumentProducer(range2);
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        // "AA".localeCompare("BB") < 0, so result should be negative
+        assert.isTrue(result < 0);
+      });
+
+      it("should handle lexicographic ordering correctly", () => {
+        const range1 = createTestPartitionKeyRange("1", "A", "B");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1);
+        const docProd2 = createMockDocumentProducer(range2);
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        // "AA".localeCompare("A") > 0, so result should be positive
+        assert.isTrue(result > 0);
+      });
+    });
+
+    describe("Secondary comparison (EPK tie-breaker)", () => {
+      it("should use EPK comparison when minInclusive values are equal", () => {
+        const range1 = createTestPartitionKeyRange("1", "AA", "BB");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1, "epk1");
+        const docProd2 = createMockDocumentProducer(range2, "epk2");
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        // "epk2".localeCompare("epk1") > 0, so result should be positive
+        assert.isTrue(result > 0);
+      });
+
+      it("should return 0 when both minInclusive and EPK values are equal", () => {
+        const range1 = createTestPartitionKeyRange("1", "AA", "BB");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1, "epk1");
+        const docProd2 = createMockDocumentProducer(range2, "epk1");
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        assert.equal(result, 0);
+      });
+
+      it("should return 0 when minInclusive values are equal and both EPK values are undefined", () => {
+        const range1 = createTestPartitionKeyRange("1", "AA", "BB");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1);
+        const docProd2 = createMockDocumentProducer(range2);
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        assert.equal(result, 0);
+      });
+
+      it("should return 0 when minInclusive values are equal and one EPK is undefined", () => {
+        const range1 = createTestPartitionKeyRange("1", "AA", "BB");
+        const range2 = createTestPartitionKeyRange("2", "AA", "BB");
+        const docProd1 = createMockDocumentProducer(range1, "epk1");
+        const docProd2 = createMockDocumentProducer(range2);
+
+        const result = (testContext as any).compareDocumentProducersByRange(docProd1, docProd2);
+
+        assert.equal(result, 0);
+      });
     });
   });
 });

@@ -62,7 +62,6 @@ describe("ContinuationTokenManager", () => {
         assert.equal(manager["compositeContinuationToken"].offset, 10);
         assert.equal(manager["compositeContinuationToken"].limit, 20);
       });
-
     });
 
     describe("ORDER BY Query (isOrderByQuery = true)", () => {
@@ -127,10 +126,7 @@ describe("ContinuationTokenManager", () => {
     });
 
     it("should set order by items array", () => {
-      const orderByItems = [
-        [{ value: "item1" }],
-        [{ value: "item2" }],
-      ];
+      const orderByItems = [[{ value: "item1" }], [{ value: "item2" }]];
 
       manager.setOrderByItemsArray(orderByItems);
 
@@ -465,10 +461,7 @@ describe("ContinuationTokenManager", () => {
 
       manager.sliceOrderByItemsArray(2);
 
-      const expected = [
-        [{ value: "item3", type: "string" }],
-        [{ value: "item4", type: "string" }],
-      ];
+      const expected = [[{ value: "item3", type: "string" }], [{ value: "item4", type: "string" }]];
       assert.deepEqual(manager["orderByItemsArray"], expected);
     });
 
@@ -482,10 +475,7 @@ describe("ContinuationTokenManager", () => {
 
       manager.sliceOrderByItemsArray(1);
 
-      const expected = [
-        [{ value: "item2", type: "string" }],
-        [{ value: "item3", type: "string" }],
-      ];
+      const expected = [[{ value: "item2", type: "string" }], [{ value: "item3", type: "string" }]];
       assert.deepEqual(manager["orderByItemsArray"], expected);
     });
 
@@ -532,10 +522,7 @@ describe("ContinuationTokenManager", () => {
 
       // Second slice
       manager.sliceOrderByItemsArray(1);
-      expected = [
-        [{ value: "item4", type: "string" }],
-        [{ value: "item5", type: "string" }],
-      ];
+      expected = [[{ value: "item4", type: "string" }], [{ value: "item5", type: "string" }]];
       assert.deepEqual(manager["orderByItemsArray"], expected);
 
       // Third slice (clear)
@@ -547,28 +534,37 @@ describe("ContinuationTokenManager", () => {
   describe("Integration Tests", () => {
     it("should handle complex order by items array operations", () => {
       manager = new ContinuationTokenManager(mockCollectionLink);
-      
+
       const complexOrderByItems = [
-        [{ value: "string1", type: "string" }, { value: 123, type: "number" }],
+        [
+          { value: "string1", type: "string" },
+          { value: 123, type: "number" },
+        ],
         [{ value: null, type: "null" }],
-        [{ value: true, type: "boolean" }, { value: [1, 2, 3], type: "array" }],
+        [
+          { value: true, type: "boolean" },
+          { value: [1, 2, 3], type: "array" },
+        ],
         [{ value: { nested: "object" }, type: "object" }],
       ];
-      
+
       manager.setOrderByItemsArray(complexOrderByItems);
       assert.deepEqual(manager["orderByItemsArray"], complexOrderByItems);
-      
+
       // Slice and verify
       manager.sliceOrderByItemsArray(2);
       const expected = [
-        [{ value: true, type: "boolean" }, { value: [1, 2, 3], type: "array" }],
+        [
+          { value: true, type: "boolean" },
+          { value: [1, 2, 3], type: "array" },
+        ],
         [{ value: { nested: "object" }, type: "object" }],
       ];
       assert.deepEqual(manager["orderByItemsArray"], expected);
     });
   });
 
-  describe("Partition Range Handling", () => {    
+  describe("Partition Range Handling", () => {
     beforeEach(() => {
       manager = new ContinuationTokenManager(mockCollectionLink, undefined, false);
       // Set up initial ranges
@@ -587,9 +583,9 @@ describe("ContinuationTokenManager", () => {
     describe("handlePartitionRangeChanges", () => {
       it("should return early when no range changes", () => {
         const emptyUpdates = {};
-        
+
         manager.handlePartitionRangeChanges(emptyUpdates);
-        
+
         assert.equal(manager["ranges"].length, 2);
       });
 
@@ -625,8 +621,8 @@ describe("ContinuationTokenManager", () => {
         manager.handlePartitionRangeChanges(rangeUpdates);
 
         assert.equal(manager["ranges"].length, 3);
-        
-        const newRanges = manager["ranges"].filter(r => r.continuationToken === "split-token");
+
+        const newRanges = manager["ranges"].filter((r) => r.continuationToken === "split-token");
         assert.equal(newRanges.length, 2);
         assert.equal(newRanges[0].queryRange.min, "00");
         assert.equal(newRanges[0].queryRange.max, "25");
@@ -678,13 +674,16 @@ describe("ContinuationTokenManager", () => {
         manager["handleRangeSplit"](oldRange, newRanges, continuationToken);
 
         assert.equal(manager["ranges"].length, 3);
-        
+
         const oldRangeExists = manager["ranges"].some(
-          r => r.queryRange.min === "50" && r.queryRange.max === "FF" && r.continuationToken === "token2"
+          (r) =>
+            r.queryRange.min === "50" &&
+            r.queryRange.max === "FF" &&
+            r.continuationToken === "token2",
         );
         assert.isFalse(oldRangeExists);
-        
-        const splitRanges = manager["ranges"].filter(r => r.continuationToken === "split-token");
+
+        const splitRanges = manager["ranges"].filter((r) => r.continuationToken === "split-token");
         assert.equal(splitRanges.length, 2);
         assert.equal(splitRanges[0].queryRange.min, "50");
         assert.equal(splitRanges[0].queryRange.max, "AA");
@@ -702,7 +701,7 @@ describe("ContinuationTokenManager", () => {
         manager["createNewRangeMapping"](partitionKeyRange, continuationToken);
 
         assert.equal(manager["ranges"].length, originalLength + 1);
-        
+
         const newRange = manager["ranges"][manager["ranges"].length - 1];
         assert.equal(newRange.queryRange.min, "AA");
         assert.equal(newRange.queryRange.max, "BB");
@@ -723,7 +722,6 @@ describe("ContinuationTokenManager", () => {
         assert.equal(newRange.queryRange.max, "DD");
       });
     });
-
   });
 
   describe("processRangesForCurrentPage", () => {
@@ -839,7 +837,6 @@ describe("ContinuationTokenManager", () => {
         assert.equal(manager["compositeContinuationToken"].offset, 10);
         assert.equal(manager["compositeContinuationToken"].limit, 20);
       });
-
     });
 
     describe("ORDER BY Query Processing", () => {
@@ -865,7 +862,7 @@ describe("ContinuationTokenManager", () => {
           { _rid: "doc2", value: "test2" },
           { _rid: "doc3", value: "test3" },
         ];
-        
+
         manager.setOrderByItemsArray([
           [{ value: "item1", type: "string" }],
           [{ value: "item2", type: "string" }],
@@ -885,7 +882,7 @@ describe("ContinuationTokenManager", () => {
           { _rid: "doc2", value: "test2" },
           { _rid: "doc2", value: "test2_duplicate" }, // Same RID for JOIN scenario
         ];
-        
+
         manager.setOrderByItemsArray([
           [{ value: "item1", type: "string" }],
           [{ value: "item2", type: "string" }],
@@ -926,7 +923,7 @@ describe("ContinuationTokenManager", () => {
       // A page cannot exist without Rid in cosmos db
       it("should handle page results without RID", () => {
         const pageResults = [{ value: "test1" }, { value: "test2" }];
-        
+
         manager.setOrderByItemsArray([
           [{ value: "item1", type: "string" }],
           [{ value: "item2", type: "string" }],

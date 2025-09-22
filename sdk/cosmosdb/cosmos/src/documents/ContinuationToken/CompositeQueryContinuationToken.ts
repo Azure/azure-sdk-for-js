@@ -40,11 +40,10 @@ export function createCompositeQueryContinuationToken(
   offset?: number,
   limit?: number,
 ): CompositeQueryContinuationToken {
-
-  if(!rangeMappings || rangeMappings.length === 0) {
+  if (!rangeMappings || rangeMappings.length === 0) {
     throw new Error("Range mappings are required to create a continuation token");
   }
-  
+
   return {
     rid,
     rangeMappings: rangeMappings,
