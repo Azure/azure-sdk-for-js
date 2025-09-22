@@ -4,7 +4,9 @@
 
 ### Other Changes
 
-- Updated the README with inline images example.
+- Consumers can now provide a value for the `contentId` property when sending emails with attachments.
+  This allows consumers to reference attachments in the email body using the `cid` scheme. The `contentId` property can be set on the `EmailAttachment` object.
+- Updated to `@azure/core-lro` 2.7.2
 
 ## 1.0.1-beta.2 (2024-12-23)
 

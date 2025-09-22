@@ -38,14 +38,14 @@
     "email"
   ],
   "dependencies": {
-    "@azure/abort-controller": "workspace:^",
-    "@azure/communication-common": "workspace:^",
-    "@azure/core-auth": "workspace:^",
-    "@azure/core-client": "workspace:^",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/communication-common": "^2.3.1",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-lro": "^2.7.2",
-    "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-util": "workspace:^",
-    "@azure/logger": "workspace:^",
+    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
