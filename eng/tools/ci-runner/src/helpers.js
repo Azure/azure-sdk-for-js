@@ -129,6 +129,7 @@ const getPackageJSONs = (searchDir) => {
     .readdirSync(searchDir)
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
+  const perfTestDirectories = [];
   for (const sdkPackageJson of sdkPackageJsonFiles) {
     const sdkDir = path.dirname(sdkPackageJson);
     const perfTestDir = path.join(sdkDir, "test", "perf");
