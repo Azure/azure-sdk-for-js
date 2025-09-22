@@ -13,7 +13,7 @@ import azureSdkCustomized from "./azure-sdk-customized.js";
 function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
   return typescriptEslint.config(
     {
-      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}", "**/test/perf/**"],
     },
     eslint.configs.recommended,
     ...(options.typeChecked
@@ -41,7 +41,7 @@ export default (plugin: FlatConfig.Plugin) => ({
   recommendedTypeChecked: recommended(plugin, { typeChecked: true }),
   internal: typescriptEslint.config(
     {
-      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}", "**/test/perf/**"],
     },
     {
       languageOptions: {
