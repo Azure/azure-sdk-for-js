@@ -13,6 +13,7 @@
   "exclude": [
     "${configDir}/test/**/node",
     "${configDir}/test/stress",
+    "${configDir}/test/perf",
     "${configDir}/test/snippets.spec.ts"
   ]
 }

@@ -86,6 +86,7 @@ export default defineConfig({
       "test/snippets.spec.ts",
       "test/integration/**/*.spec.ts",
       "test/stress/**/*.ts",
+      "test/perf/**/*.ts",
     ],
     alias: [...makeNodeAliases(process.cwd())],
     coverage: {

@@ -124,22 +124,20 @@ export const getFilteredPackages = (packageNames, action, serviceDirs, changedIn
  * @param {string} searchDir - directory to search
  */
 const getPackageJSONs = (searchDir) => {
-  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
-  const sdkDirectories = fs
+  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level
+  const sdkPackageJsonFiles = fs
     .readdirSync(searchDir)
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
-  // This gets all the directories with package.json at the `sdk/<service>/perf-tests/<service-sdk>` level excluding "-track-1" perf test packages
-  let perfTestDirectories = [];
-  const searchPerfTestDir = path.join(searchDir, "perf-tests");
-  if (fs.existsSync(searchPerfTestDir)) {
-    perfTestDirectories = fs
-      .readdirSync(searchPerfTestDir)
-      .filter((f) => !f.endsWith("-track-1")) // exclude libraries ending with "-track-1" (perf test projects)
-      .map((f) => path.join(searchPerfTestDir, f, "package.json")); // turn potential directory names into package.json paths
+  for (const sdkPackageJson of sdkPackageJsonFiles) {
+    const sdkDir = path.dirname(sdkPackageJson);
+    const perfTestDir = path.join(sdkDir, "test", "perf");
+    if (fs.existsSync(perfTestDir) && fs.existsSync(path.join(perfTestDir, "package.json"))) {
+      perfTestDirectories.push(path.join(perfTestDir, "package.json"));
+    }
   }
 
-  return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
+  return sdkPackageJsonFiles.concat(perfTestDirectories);
 };
 
 /**
