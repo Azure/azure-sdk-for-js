@@ -7,8 +7,8 @@
  * @summary demonstrates how to use agent operations with an OpenApi tool.
  */
 
-import type { MessageTextContent } from "@azure/ai-agents";
-import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
+import type { MessageTextContent, RunStepToolCallDetails, RunStepFunctionToolCall } from "@azure/ai-agents";
+import { AgentsClient, isOutputOfType, OpenApiTool } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 import "dotenv/config";
@@ -23,26 +23,33 @@ export async function main(): Promise<void> {
   // Read in OpenApi spec
   const filePath = "./data/weatherOpenApi.json";
   const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  const countriesApiSpec = JSON.parse(fs.readFileSync("./data/countriesApi.json", "utf-8"));
 
-  // Define OpenApi function
-  const openApiFunction = {
+  // Create OpenApi tool
+  const openApiTool = new OpenApiTool({
     name: "getWeather",
     spec: openApiSpec,
     description: "Retrieve weather information for a location",
     auth: {
       type: "anonymous",
     },
-    default_params: ["format"], // optional
-  };
+    defaultParams: ["format"], // optional
+  });
 
-  // Create OpenApi tool
-  const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
+  openApiTool.addDefinition({
+    name: "getCountries",
+    description: "Get country information",
+    spec: countriesApiSpec,
+    auth: {
+      type: "anonymous",
+    },
+  });
 
   // Create agent with OpenApi tool
   const agent = await client.createAgent(modelDeploymentName, {
     name: "myAgent",
     instructions: "You are a helpful agent",
-    tools: [openApiTool.definition],
+    tools: openApiTool.definitions,
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
@@ -51,7 +58,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.messages.create(thread.id, "user", "What's the weather in Seattle?");
+  const message = await client.messages.create(thread.id, "user", "What's the weather in Seattle and What is the name and population of the country that uses currency with abbreviation THB?");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and poll a run
@@ -60,11 +67,22 @@ export async function main(): Promise<void> {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
   });
   console.log(`Run finished with status: ${run.status}`);
+
+  const runSteps = client.runSteps.list(thread.id, run.id);
+  for await (const step of runSteps) {
+    console.log(`Step ${step.id} status: ${step.status}`);
+    if (isOutputOfType<RunStepToolCallDetails>(step.stepDetails, "tool_calls")) {
+      const toolCalls = step.stepDetails.toolCalls;
+      for (const toolCall of toolCalls) {
+        console.log(`Tool call: ${toolCall.id}, tool type: ${toolCall.type}`);
+        if (isOutputOfType<RunStepFunctionToolCall>(toolCall, "function")) {
+          console.log(`Function tool call name: ${toolCall.function.name}`);
+        }
+      }
+    }
+  }
   // Get most recent message from the assistant
   const messagesIterator = client.messages.list(thread.id);
   for await (const m of messagesIterator) {
