@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 3.0.0-beta.5 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 3.0.0-beta.4 (2023-02-02)
 
 The package of @azure/arm-servicefabricmesh is using our next generation design principles since version 3.0.0-beta.4, which contains breaking changes.

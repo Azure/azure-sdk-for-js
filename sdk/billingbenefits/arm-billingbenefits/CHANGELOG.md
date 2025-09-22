@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 1.0.1 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 1.0.0 (2022-12-12)
 
 The package of @azure/arm-billingbenefits is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

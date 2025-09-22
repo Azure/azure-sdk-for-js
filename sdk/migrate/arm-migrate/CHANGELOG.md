@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 2.0.4 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 2.0.3 (2023-01-29)
 
 ### Features Added

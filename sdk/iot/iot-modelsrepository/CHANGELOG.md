@@ -10,7 +10,11 @@
 
 ### Other Changes
 
-- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
+## 1.0.0-beta.3 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
 
 ## 1.0.0-beta.2 (2021-05-28)
 

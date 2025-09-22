@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 4.1.0-beta.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 4.1.0-beta.1 (2023-10-17)
     
 ### Features Added

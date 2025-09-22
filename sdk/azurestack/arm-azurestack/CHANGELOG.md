@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 3.0.0-beta.6 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 3.0.0-beta.5 (2022-11-16)
 
 ### Features Added

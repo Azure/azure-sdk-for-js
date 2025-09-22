@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 5.2.0-beta.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 5.2.0-beta.1 (2024-10-15)
 Compared with version 5.1.0
     

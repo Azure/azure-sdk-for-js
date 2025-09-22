@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 2.0.0-beta.5 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 2.0.0-beta.4 (2023-01-28)
 
 The package of @azure/arm-machinelearningexperimentation is using our next generation design principles since version 2.0.0-beta.4, which contains breaking changes.

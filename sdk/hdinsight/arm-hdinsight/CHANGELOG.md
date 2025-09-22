@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 1.3.0-beta.3 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 1.3.0-beta.2 (2024-08-13)
 Compared with version 1.2.1
     

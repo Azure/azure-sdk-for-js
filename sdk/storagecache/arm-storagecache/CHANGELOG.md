@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 8.0.1 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 8.0.0 (2024-05-13)
     
 ### Features Added

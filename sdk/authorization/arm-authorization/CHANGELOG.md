@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 10.0.0-beta.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 10.0.0-beta.1 (2023-07-04)
     
 ### Features Added

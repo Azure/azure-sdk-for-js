@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 1.0.0-beta.4 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 1.0.0-beta.3 (2023-01-10)
     
 ### Features Added

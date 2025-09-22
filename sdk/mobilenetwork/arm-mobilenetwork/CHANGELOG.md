@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 6.0.1 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 6.0.0 (2024-06-07)
     
 ### Features Added

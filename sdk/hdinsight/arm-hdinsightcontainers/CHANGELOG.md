@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 1.0.0-beta.4 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 1.0.0-beta.3 (2024-08-23)
 Compared with version 1.0.0-beta.2
     

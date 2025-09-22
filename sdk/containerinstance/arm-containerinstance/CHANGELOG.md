@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 9.2.0-beta.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 9.2.0-beta.1 (2024-10-18)
 Compared with version 9.1.0
     

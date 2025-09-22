@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 4.0.0-beta.4 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 4.0.0-beta.3 (2022-11-23)
 
 The package of @azure/arm-hanaonazure is using our next generation design principles since version 4.0.0-beta.3, which contains breaking changes.

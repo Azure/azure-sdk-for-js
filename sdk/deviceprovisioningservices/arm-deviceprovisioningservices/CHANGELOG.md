@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 6.0.0-beta.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 6.0.0-beta.1 (2023-06-07)
     
 ### Features Added

@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 10.0.1 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 10.0.0 (2024-09-11)
     
 ### Features Added

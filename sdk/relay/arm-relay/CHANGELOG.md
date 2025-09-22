@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 3.1.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 3.1.1 (2023-02-01)
 
 ### Features Added

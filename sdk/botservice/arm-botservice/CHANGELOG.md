@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 4.0.1 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 4.0.0 (2023-01-16)
 
 The package of @azure/arm-botservice is using our next generation design principles since version 4.0.0, which contains breaking changes.

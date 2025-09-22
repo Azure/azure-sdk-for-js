@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 3.0.0-beta.4 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 3.0.0-beta.3 (2022-11-29)
 
 The package of @azure/arm-machinelearningcompute is using our next generation design principles since version 3.0.0-beta.3, which contains breaking changes.

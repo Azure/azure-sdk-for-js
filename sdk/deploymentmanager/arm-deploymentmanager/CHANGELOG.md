@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 4.0.0-beta.5 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 4.0.0-beta.4 (2022-11-21)
 
 The package of @azure/arm-deploymentmanager is using our next generation design principles since version 4.0.0-beta.4, which contains breaking changes.

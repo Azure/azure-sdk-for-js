@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 5.0.0-beta.4 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 5.0.0-beta.3 (2022-12-07)
 
 The package of @azure/arm-resourcegraph is using our next generation design principles since version 5.0.0-beta.3, which contains breaking changes.

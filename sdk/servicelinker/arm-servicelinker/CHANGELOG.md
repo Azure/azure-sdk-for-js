@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 2.2.0-beta.2 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 2.2.0-beta.1 (2024-10-16)
 Compared with version 2.1.0
     

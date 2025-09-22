@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 1.0.1 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 1.0.0 (2024-10-17)
 
 ### Features Added

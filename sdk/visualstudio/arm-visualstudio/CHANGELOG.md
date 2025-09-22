@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 4.0.0-beta.3 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
 ## 4.0.0-beta.2 (2022-12-14)
 
 The package of @azure/arm-visualstudio is using our next generation design principles since version 4.0.0-beta.2, which contains breaking changes.

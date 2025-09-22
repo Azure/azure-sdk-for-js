@@ -10,6 +10,27 @@
 
 ### Other Changes
 
+## 1.0.0-beta.3 (Unreleased)
+
+### Other Changes
+
+  - Other fixes
+
+## 3.0.1 (Unreleased)
+
+### Other Changes
+
+- Other fixes
+
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.0.0 (2023-12-05)
     
 ### Features Added
