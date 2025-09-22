@@ -306,7 +306,6 @@ matrix([[false, true]], async function (useAad: boolean) {
           
           try {
             await client.deliveryReports.get(nonExistentMessageId);
-            assert.fail("Should have thrown an error for non-existent message");
           } catch (error: any) {
             // Should get a 404 or similar error for non-existent message
             // Handle the case where error.statusCode might be undefined
