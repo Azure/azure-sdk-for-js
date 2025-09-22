@@ -1423,7 +1423,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/app-configuration-provider':
-        specifier: latest
+        specifier: ^2.2.0
         version: 2.2.0
       '@azure/dev-tool':
         specifier: workspace:^
@@ -1441,7 +1441,7 @@ importers:
         specifier: ^4.2.0
         version: link:../../keyvault/keyvault-secrets
       '@microsoft/feature-management':
-        specifier: latest
+        specifier: ^2.2.0
         version: 2.2.0
       '@types/node':
         specifier: 'catalog:'
