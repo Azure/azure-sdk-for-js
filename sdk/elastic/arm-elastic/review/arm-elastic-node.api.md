@@ -4,48 +4,53 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AllTrafficFilters {
-    list(resourceGroupName: string, monitorName: string, options?: AllTrafficFiltersListOptionalParams): Promise<AllTrafficFiltersListResponse>;
+export interface AllTrafficFiltersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AllTrafficFiltersListOptionalParams extends coreClient.OperationOptions {
+export interface AllTrafficFiltersOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: AllTrafficFiltersListOptionalParams) => Promise<ElasticTrafficFilterResponse>;
 }
 
 // @public
-export type AllTrafficFiltersListResponse = ElasticTrafficFilterResponse;
-
-// @public
-export interface AssociateTrafficFilter {
-    beginAssociate(resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginAssociateAndWait(resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams): Promise<void>;
-}
-
-// @public
-export interface AssociateTrafficFilterAssociateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssociateTrafficFilterAssociateOptionalParams extends OperationOptions {
     rulesetId?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface BillingInfo {
-    get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
+export interface AssociateTrafficFilterOperations {
+    associate: (resourceGroupName: string, monitorName: string, options?: AssociateTrafficFilterAssociateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface BillingInfoGetOptionalParams extends coreClient.OperationOptions {
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export type BillingInfoGetResponse = BillingInfoResponse;
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BillingInfoGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BillingInfoOperations {
+    get: (resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams) => Promise<BillingInfoResponse>;
+}
 
 // @public
 export interface BillingInfoResponse {
@@ -63,16 +68,15 @@ export interface CompanyInfo {
 }
 
 // @public
+export type ConfigurationType = string;
+
+// @public
 export interface ConnectedPartnerResourceProperties {
     azureResourceId?: string;
     location?: string;
     partnerDeploymentName?: string;
     partnerDeploymentUri?: string;
-}
-
-// @public
-export interface ConnectedPartnerResources {
-    list(resourceGroupName: string, monitorName: string, options?: ConnectedPartnerResourcesListOptionalParams): PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
+    type?: string;
 }
 
 // @public
@@ -81,99 +85,86 @@ export interface ConnectedPartnerResourcesListFormat {
 }
 
 // @public
-export interface ConnectedPartnerResourcesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedPartnerResourcesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedPartnerResourcesListNextResponse = ConnectedPartnerResourcesListResponse;
-
-// @public
-export type ConnectedPartnerResourcesListOperationResponse = ConnectedPartnerResourcesListResponse;
-
-// @public
-export interface ConnectedPartnerResourcesListOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedPartnerResourcesOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: ConnectedPartnerResourcesListOptionalParams) => PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
 }
 
 // @public
-export interface ConnectedPartnerResourcesListResponse {
-    nextLink?: string;
-    value?: ConnectedPartnerResourcesListFormat[];
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
-export interface CreateAndAssociateIPFilter {
-    beginCreate(resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams): Promise<void>;
-}
-
-// @public
-export interface CreateAndAssociateIPFilterCreateOptionalParams extends coreClient.OperationOptions {
+export interface CreateAndAssociateIPFilterCreateOptionalParams extends OperationOptions {
     ips?: string;
     name?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CreateAndAssociatePLFilter {
-    beginCreate(resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams): Promise<void>;
+export interface CreateAndAssociateIPFilterOperations {
+    create: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociateIPFilterCreateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface CreateAndAssociatePLFilterCreateOptionalParams extends coreClient.OperationOptions {
+export interface CreateAndAssociatePLFilterCreateOptionalParams extends OperationOptions {
     name?: string;
     privateEndpointGuid?: string;
     privateEndpointName?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CreateAndAssociatePLFilterOperations {
+    create: (resourceGroupName: string, monitorName: string, options?: CreateAndAssociatePLFilterCreateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
 export type CreatedByType = string;
 
 // @public
-export interface DeploymentInfo {
-    list(resourceGroupName: string, monitorName: string, options?: DeploymentInfoListOptionalParams): Promise<DeploymentInfoListResponse>;
+export interface DeploymentInfoListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentInfoListOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentInfoOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: DeploymentInfoListOptionalParams) => Promise<DeploymentInfoResponse>;
 }
-
-// @public
-export type DeploymentInfoListResponse = DeploymentInfoResponse;
 
 // @public
 export interface DeploymentInfoResponse {
+    readonly configurationType?: string;
     readonly deploymentUrl?: string;
     readonly diskCapacity?: string;
     readonly elasticsearchEndPoint?: string;
     readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
     readonly memoryCapacity?: string;
+    readonly projectType?: string;
     readonly status?: ElasticDeploymentStatus;
     readonly version?: string;
 }
 
 // @public
-export interface DetachAndDeleteTrafficFilter {
-    delete(resourceGroupName: string, monitorName: string, options?: DetachAndDeleteTrafficFilterDeleteOptionalParams): Promise<void>;
-}
-
-// @public
-export interface DetachAndDeleteTrafficFilterDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DetachAndDeleteTrafficFilterDeleteOptionalParams extends OperationOptions {
     rulesetId?: string;
 }
 
 // @public
-export interface DetachTrafficFilter {
-    beginUpdate(resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams): Promise<void>;
+export interface DetachAndDeleteTrafficFilterOperations {
+    delete: (resourceGroupName: string, monitorName: string, options?: DetachAndDeleteTrafficFilterDeleteOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface DetachTrafficFilterUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DetachTrafficFilterOperations {
+    update: (resourceGroupName: string, monitorName: string, options?: DetachTrafficFilterUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface DetachTrafficFilterUpdateOptionalParams extends OperationOptions {
     rulesetId?: string;
     updateIntervalInMs?: number;
 }
@@ -200,31 +191,16 @@ export interface ElasticCloudUser {
 export type ElasticDeploymentStatus = string;
 
 // @public
-export interface ElasticMonitorResource {
-    readonly id?: string;
+export interface ElasticMonitorResource extends TrackedResource {
     identity?: IdentityProperties;
-    location: string;
-    readonly name?: string;
+    kind?: string;
     properties?: MonitorProperties;
     sku?: ResourceSku;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
-export interface ElasticMonitorResourceListResponse {
-    nextLink?: string;
-    value?: ElasticMonitorResource[];
 }
 
 // @public
 export interface ElasticMonitorResourceUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -287,28 +263,32 @@ export interface ElasticVersionListProperties {
 }
 
 // @public
-export interface ElasticVersions {
-    list(region: string, options?: ElasticVersionsListOptionalParams): PagedAsyncIterableIterator<ElasticVersionListFormat>;
+export interface ElasticVersionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ElasticVersionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ElasticVersionsOperations {
+    list: (region: string, options?: ElasticVersionsListOptionalParams) => PagedAsyncIterableIterator<ElasticVersionListFormat>;
 }
 
 // @public
-export type ElasticVersionsListNextResponse = ElasticVersionsListResponse;
-
-// @public
-export type ElasticVersionsListOperationResponse = ElasticVersionsListResponse;
-
-// @public
-export interface ElasticVersionsListOptionalParams extends coreClient.OperationOptions {
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
 }
 
 // @public
-export interface ElasticVersionsListResponse {
-    nextLink?: string;
-    value?: ElasticVersionListFormat[];
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -320,17 +300,9 @@ export interface ErrorResponseBody {
 }
 
 // @public
-export interface ExternalUser {
-    createOrUpdate(resourceGroupName: string, monitorName: string, options?: ExternalUserCreateOrUpdateOptionalParams): Promise<ExternalUserCreateOrUpdateResponse>;
-}
-
-// @public
-export interface ExternalUserCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ExternalUserCreateOrUpdateOptionalParams extends OperationOptions {
     body?: ExternalUserInfo;
 }
-
-// @public
-export type ExternalUserCreateOrUpdateResponse = ExternalUserCreationResponse;
 
 // @public
 export interface ExternalUserCreationResponse {
@@ -347,6 +319,11 @@ export interface ExternalUserInfo {
 }
 
 // @public
+export interface ExternalUserOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, options?: ExternalUserCreateOrUpdateOptionalParams) => Promise<ExternalUserCreationResponse>;
+}
+
+// @public
 export interface FilteringTag {
     action?: TagAction;
     name?: string;
@@ -354,13 +331,25 @@ export interface FilteringTag {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type HostingType = string;
 
 // @public
 export interface IdentityProperties {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ManagedIdentityTypes;
+}
+
+// @public
+export enum KnownConfigurationType {
+    // (undocumented)
+    GeneralPurpose = "GeneralPurpose",
+    // (undocumented)
+    NotApplicable = "NotApplicable",
+    // (undocumented)
+    TimeSeries = "TimeSeries",
+    // (undocumented)
+    Vector = "Vector"
 }
 
 // @public
@@ -373,78 +362,150 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownElasticDeploymentStatus {
+    // (undocumented)
     Healthy = "Healthy",
+    // (undocumented)
     Unhealthy = "Unhealthy"
 }
 
 // @public
+export enum KnownHostingType {
+    // (undocumented)
+    Hosted = "Hosted",
+    // (undocumented)
+    Serverless = "Serverless"
+}
+
+// @public
 export enum KnownLiftrResourceCategories {
+    // (undocumented)
     MonitorLogs = "MonitorLogs",
+    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownManagedIdentityTypes {
+    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownMonitoringStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownOperation {
+    // (undocumented)
+    Active = "Active",
+    // (undocumented)
+    AddBegin = "AddBegin",
+    // (undocumented)
+    AddComplete = "AddComplete",
+    // (undocumented)
+    DeleteBegin = "DeleteBegin",
+    // (undocumented)
+    DeleteComplete = "DeleteComplete"
+}
+
+// @public
 export enum KnownOperationName {
+    // (undocumented)
     Add = "Add",
+    // (undocumented)
     Delete = "Delete"
 }
 
 // @public
+export enum KnownProjectType {
+    // (undocumented)
+    Elasticsearch = "Elasticsearch",
+    // (undocumented)
+    NotApplicable = "NotApplicable",
+    // (undocumented)
+    Observability = "Observability",
+    // (undocumented)
+    Security = "Security"
+}
+
+// @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Accepted = "Accepted",
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleted = "Deleted",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     NotSpecified = "NotSpecified",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSendingLogs {
+    // (undocumented)
     False = "False",
+    // (undocumented)
     True = "True"
 }
 
 // @public
+export enum KnownStatus {
+    // (undocumented)
+    Active = "Active",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress"
+}
+
+// @public
 export enum KnownTagAction {
+    // (undocumented)
     Exclude = "Exclude",
+    // (undocumented)
     Include = "Include"
 }
 
 // @public
 export enum KnownType {
+    // (undocumented)
     AzurePrivateEndpoint = "azure_private_endpoint",
+    // (undocumented)
     Ip = "ip"
+}
+
+// @public
+export enum KnownVersions {
+    V20250601 = "2025-06-01"
 }
 
 // @public
 export type LiftrResourceCategories = string;
 
 // @public
-export interface ListAssociatedTrafficFilters {
-    list(resourceGroupName: string, monitorName: string, options?: ListAssociatedTrafficFiltersListOptionalParams): Promise<ListAssociatedTrafficFiltersListResponse>;
+export interface ListAssociatedTrafficFiltersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ListAssociatedTrafficFiltersListOptionalParams extends coreClient.OperationOptions {
+export interface ListAssociatedTrafficFiltersOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: ListAssociatedTrafficFiltersListOptionalParams) => Promise<ElasticTrafficFilterResponse>;
 }
-
-// @public
-export type ListAssociatedTrafficFiltersListResponse = ElasticTrafficFilterResponse;
 
 // @public
 export interface LogRules {
@@ -470,78 +531,45 @@ export interface MarketplaceSaaSInfo {
 // @public
 export interface MarketplaceSaaSInfoMarketplaceSubscription {
     id?: string;
+    offerId?: string;
+    publisherId?: string;
 }
 
 // @public (undocumented)
-export class MicrosoftElastic extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftElasticOptionalParams);
-    // (undocumented)
-    allTrafficFilters: AllTrafficFilters;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    associateTrafficFilter: AssociateTrafficFilter;
-    // (undocumented)
-    billingInfo: BillingInfo;
-    // (undocumented)
-    connectedPartnerResources: ConnectedPartnerResources;
-    // (undocumented)
-    createAndAssociateIPFilter: CreateAndAssociateIPFilter;
-    // (undocumented)
-    createAndAssociatePLFilter: CreateAndAssociatePLFilter;
-    // (undocumented)
-    deploymentInfo: DeploymentInfo;
-    // (undocumented)
-    detachAndDeleteTrafficFilter: DetachAndDeleteTrafficFilter;
-    // (undocumented)
-    detachTrafficFilter: DetachTrafficFilter;
-    // (undocumented)
-    elasticVersions: ElasticVersions;
-    // (undocumented)
-    externalUser: ExternalUser;
-    // (undocumented)
-    listAssociatedTrafficFilters: ListAssociatedTrafficFilters;
-    // (undocumented)
-    monitor: Monitor;
-    // (undocumented)
-    monitoredResources: MonitoredResources;
-    // (undocumented)
-    monitors: Monitors;
-    // (undocumented)
-    openAI: OpenAI;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    organizations: Organizations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    tagRules: TagRules;
-    // (undocumented)
-    trafficFilters: TrafficFilters;
-    // (undocumented)
-    upgradableVersions: UpgradableVersions;
-    // (undocumented)
-    vMCollection: VMCollection;
-    // (undocumented)
-    vMHost: VMHost;
-    // (undocumented)
-    vMIngestion: VMIngestion;
+export class MicrosoftElastic {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: MicrosoftElasticOptionalParams);
+    readonly allTrafficFilters: AllTrafficFiltersOperations;
+    readonly associateTrafficFilter: AssociateTrafficFilterOperations;
+    readonly billingInfo: BillingInfoOperations;
+    readonly connectedPartnerResources: ConnectedPartnerResourcesOperations;
+    readonly createAndAssociateIPFilter: CreateAndAssociateIPFilterOperations;
+    readonly createAndAssociatePLFilter: CreateAndAssociatePLFilterOperations;
+    readonly deploymentInfo: DeploymentInfoOperations;
+    readonly detachAndDeleteTrafficFilter: DetachAndDeleteTrafficFilterOperations;
+    readonly detachTrafficFilter: DetachTrafficFilterOperations;
+    readonly elasticVersions: ElasticVersionsOperations;
+    readonly externalUser: ExternalUserOperations;
+    readonly listAssociatedTrafficFilters: ListAssociatedTrafficFiltersOperations;
+    readonly monitor: MonitorOperations;
+    readonly monitoredResources: MonitoredResourcesOperations;
+    readonly monitoredSubscriptions: MonitoredSubscriptionsOperations;
+    readonly monitors: MonitorsOperations;
+    readonly openAI: OpenAIOperations;
+    readonly operations: OperationsOperations;
+    readonly organizations: OrganizationsOperations;
+    readonly pipeline: Pipeline;
+    readonly tagRules: TagRulesOperations;
+    readonly trafficFilters: TrafficFiltersOperations;
+    readonly upgradableVersions: UpgradableVersionsOperations;
+    readonly vmCollection: VMCollectionOperations;
+    readonly vmHost: VMHostOperations;
+    readonly vmIngestion: VMIngestionOperations;
 }
 
 // @public
-export interface MicrosoftElasticOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface MicrosoftElasticOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface Monitor {
-    beginUpgrade(resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpgradeAndWait(resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams): Promise<void>;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -552,63 +580,94 @@ export interface MonitoredResource {
 }
 
 // @public
-export interface MonitoredResourceListResponse {
-    nextLink?: string;
-    value?: MonitoredResource[];
+export interface MonitoredResourcesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MonitoredResources {
-    list(resourceGroupName: string, monitorName: string, options?: MonitoredResourcesListOptionalParams): PagedAsyncIterableIterator<MonitoredResource>;
+export interface MonitoredResourcesOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: MonitoredResourcesListOptionalParams) => PagedAsyncIterableIterator<MonitoredResource>;
 }
 
 // @public
-export interface MonitoredResourcesListNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscription {
+    error?: string;
+    status?: Status;
+    subscriptionId: string;
+    tagRules?: MonitoringTagRulesProperties;
 }
 
 // @public
-export type MonitoredResourcesListNextResponse = MonitoredResourceListResponse;
-
-// @public
-export interface MonitoredResourcesListOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionProperties extends ProxyResource {
+    properties?: SubscriptionList;
 }
 
 // @public
-export type MonitoredResourcesListResponse = MonitoredResourceListResponse;
+export interface MonitoredSubscriptionsCreateorUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
+    body?: MonitoredSubscriptionProperties;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitoredSubscriptionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitoredSubscriptionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitoredSubscriptionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitoredSubscriptionsOperations {
+    createorUpdate: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
+    delete: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsGetOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    list: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams) => PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+    update: (resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
+}
+
+// @public
+export interface MonitoredSubscriptionsUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
+    body?: MonitoredSubscriptionProperties;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type MonitoringStatus = string;
 
 // @public
-export interface MonitoringTagRules {
-    readonly id?: string;
-    readonly name?: string;
+export interface MonitoringTagRules extends ProxyResource {
     properties?: MonitoringTagRulesProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface MonitoringTagRulesListResponse {
-    nextLink?: string;
-    value?: MonitoringTagRules[];
 }
 
 // @public
 export interface MonitoringTagRulesProperties {
     logRules?: LogRules;
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface MonitorOperations {
+    upgrade: (resourceGroupName: string, monitorName: string, options?: MonitorUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
 export interface MonitorProperties {
     elasticProperties?: ElasticProperties;
     generateApiKey?: boolean;
+    hostingType?: HostingType;
+    // (undocumented)
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
     monitoringStatus?: MonitoringStatus;
     planDetails?: PlanDetails;
-    provisioningState?: ProvisioningState;
+    projectDetails?: ProjectDetails;
+    readonly provisioningState?: ProvisioningState;
     saaSAzureSubscriptionStatus?: string;
     sourceCampaignId?: string;
     sourceCampaignName?: string;
@@ -618,138 +677,80 @@ export interface MonitorProperties {
 }
 
 // @public
-export interface Monitors {
-    beginCreate(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
-    list(options?: MonitorsListOptionalParams): PagedAsyncIterableIterator<ElasticMonitorResource>;
-    listByResourceGroup(resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ElasticMonitorResource>;
-    update(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
-}
-
-// @public
-export interface MonitorsCreateOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsCreateOptionalParams extends OperationOptions {
     body?: ElasticMonitorResource;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsCreateResponse = ElasticMonitorResource;
-
-// @public
-export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface MonitorsGetOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetResponse = ElasticMonitorResource;
-
-// @public
-export interface MonitorsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListByResourceGroupNextResponse = ElasticMonitorResourceListResponse;
-
-// @public
-export interface MonitorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListByResourceGroupResponse = ElasticMonitorResourceListResponse;
-
-// @public
-export interface MonitorsListNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsOperations {
+    create: (resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams) => PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
+    delete: (resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) => Promise<ElasticMonitorResource>;
+    list: (options?: MonitorsListOptionalParams) => PagedAsyncIterableIterator<ElasticMonitorResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ElasticMonitorResource>;
+    update: (resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams) => PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
 }
 
 // @public
-export type MonitorsListNextResponse = ElasticMonitorResourceListResponse;
-
-// @public
-export interface MonitorsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MonitorsListResponse = ElasticMonitorResourceListResponse;
-
-// @public
-export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsUpdateOptionalParams extends OperationOptions {
     body?: ElasticMonitorResourceUpdateParameters;
-}
-
-// @public
-export type MonitorsUpdateResponse = ElasticMonitorResource;
-
-// @public
-export interface MonitorUpgradeOptionalParams extends coreClient.OperationOptions {
-    body?: ElasticMonitorUpgrade;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface OpenAI {
-    createOrUpdate(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAICreateOrUpdateOptionalParams): Promise<OpenAICreateOrUpdateResponse>;
-    delete(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIGetOptionalParams): Promise<OpenAIGetResponse>;
-    getStatus(resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIGetStatusOptionalParams): Promise<OpenAIGetStatusResponse>;
-    list(resourceGroupName: string, monitorName: string, options?: OpenAIListOptionalParams): PagedAsyncIterableIterator<OpenAIIntegrationRPModel>;
+export interface MonitorUpgradeOptionalParams extends OperationOptions {
+    body?: ElasticMonitorUpgrade;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface OpenAICreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface OpenAICreateOrUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     body?: OpenAIIntegrationRPModel;
 }
 
 // @public
-export type OpenAICreateOrUpdateResponse = OpenAIIntegrationRPModel;
-
-// @public
-export interface OpenAIDeleteOptionalParams extends coreClient.OperationOptions {
+export interface OpenAIDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OpenAIGetOptionalParams extends coreClient.OperationOptions {
+export interface OpenAIGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OpenAIGetResponse = OpenAIIntegrationRPModel;
-
-// @public
-export interface OpenAIGetStatusOptionalParams extends coreClient.OperationOptions {
+export interface OpenAIGetStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type OpenAIGetStatusResponse = OpenAIIntegrationStatusResponse;
 
 // @public
 export interface OpenAIIntegrationProperties {
     key?: string;
     readonly lastRefreshAt?: Date;
+    openAIConnectorId?: string;
     openAIResourceEndpoint?: string;
     openAIResourceId?: string;
 }
 
 // @public
-export interface OpenAIIntegrationRPModel {
-    readonly id?: string;
-    readonly name?: string;
+export interface OpenAIIntegrationRPModel extends ProxyResource {
     properties?: OpenAIIntegrationProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface OpenAIIntegrationRPModelListResponse {
-    nextLink?: string;
-    value?: OpenAIIntegrationRPModel[];
 }
 
 // @public
@@ -763,18 +764,20 @@ export interface OpenAIIntegrationStatusResponseProperties {
 }
 
 // @public
-export interface OpenAIListNextOptionalParams extends coreClient.OperationOptions {
+export interface OpenAIListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OpenAIListNextResponse = OpenAIIntegrationRPModelListResponse;
-
-// @public
-export interface OpenAIListOptionalParams extends coreClient.OperationOptions {
+export interface OpenAIOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAICreateOrUpdateOptionalParams) => Promise<OpenAIIntegrationRPModel>;
+    delete: (resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIGetOptionalParams) => Promise<OpenAIIntegrationRPModel>;
+    getStatus: (resourceGroupName: string, monitorName: string, integrationName: string, options?: OpenAIGetStatusOptionalParams) => Promise<OpenAIIntegrationStatusResponse>;
+    list: (resourceGroupName: string, monitorName: string, options?: OpenAIListOptionalParams) => PagedAsyncIterableIterator<OpenAIIntegrationRPModel>;
 }
 
 // @public
-export type OpenAIListResponse = OpenAIIntegrationRPModelListResponse;
+export type Operation = string;
 
 // @public
 export interface OperationDisplay {
@@ -782,12 +785,6 @@ export interface OperationDisplay {
     operation?: string;
     provider?: string;
     resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: OperationResult[];
 }
 
 // @public
@@ -802,44 +799,47 @@ export interface OperationResult {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationResult>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export interface Organizations {
-    getApiKey(options?: OrganizationsGetApiKeyOptionalParams): Promise<OrganizationsGetApiKeyResponse>;
-    getElasticToAzureSubscriptionMapping(options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
-}
-
-// @public
-export interface OrganizationsGetApiKeyOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsGetApiKeyOptionalParams extends OperationOptions {
     body?: UserEmailId;
 }
 
 // @public
-export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
-
-// @public
-export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsGetElasticToAzureSubscriptionMappingResponse = ElasticOrganizationToAzureSubscriptionMappingResponse;
+export interface OrganizationsOperations {
+    getApiKey: (options?: OrganizationsGetApiKeyOptionalParams) => Promise<UserApiKeyResponse>;
+    getElasticToAzureSubscriptionMapping: (options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams) => Promise<ElasticOrganizationToAzureSubscriptionMappingResponse>;
+    resubscribe: (resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams) => PollerLike<OperationState<ElasticMonitorResource>, ElasticMonitorResource>;
+}
+
+// @public
+export interface OrganizationsResubscribeOptionalParams extends OperationOptions {
+    body?: ResubscribeProperties;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PartnerBillingEntity {
@@ -858,7 +858,28 @@ export interface PlanDetails {
 }
 
 // @public
+export interface ProjectDetails {
+    configurationType?: ConfigurationType;
+    projectType?: ProjectType;
+}
+
+// @public
+export type ProjectType = string;
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
 
 // @public
 export interface ResourceProviderDefaultErrorResponse {
@@ -871,7 +892,36 @@ export interface ResourceSku {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MicrosoftElastic, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ResubscribeProperties {
+    organizationId?: string;
+    planId?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+    term?: string;
+}
+
+// @public
 export type SendingLogs = string;
+
+// @public
+export type Status = string;
+
+// @public
+export interface SubscriptionList {
+    monitoredSubscriptionList?: MonitoredSubscription[];
+    operation?: Operation;
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export interface SystemData {
@@ -887,73 +937,53 @@ export interface SystemData {
 export type TagAction = string;
 
 // @public
-export interface TagRules {
-    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
-    get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams): Promise<TagRulesGetResponse>;
-    list(resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams): PagedAsyncIterableIterator<MonitoringTagRules>;
-}
-
-// @public
-export interface TagRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesCreateOrUpdateOptionalParams extends OperationOptions {
     body?: MonitoringTagRules;
 }
 
 // @public
-export type TagRulesCreateOrUpdateResponse = MonitoringTagRules;
-
-// @public
-export interface TagRulesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagRulesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TagRulesGetOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagRulesGetResponse = MonitoringTagRules;
-
-// @public
-export interface TagRulesListNextOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagRulesListNextResponse = MonitoringTagRulesListResponse;
-
-// @public
-export interface TagRulesListOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesOperations {
+    createOrUpdate: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesCreateOrUpdateOptionalParams) => Promise<MonitoringTagRules>;
+    delete: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams) => Promise<MonitoringTagRules>;
+    list: (resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams) => PagedAsyncIterableIterator<MonitoringTagRules>;
 }
 
 // @public
-export type TagRulesListResponse = MonitoringTagRulesListResponse;
-
-// @public
-export interface TrafficFilters {
-    delete(resourceGroupName: string, monitorName: string, options?: TrafficFiltersDeleteOptionalParams): Promise<void>;
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface TrafficFiltersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrafficFiltersDeleteOptionalParams extends OperationOptions {
     rulesetId?: string;
+}
+
+// @public
+export interface TrafficFiltersOperations {
+    delete: (resourceGroupName: string, monitorName: string, options?: TrafficFiltersDeleteOptionalParams) => Promise<void>;
 }
 
 // @public
 export type Type = string;
 
 // @public
-export interface UpgradableVersions {
-    details(resourceGroupName: string, monitorName: string, options?: UpgradableVersionsDetailsOptionalParams): Promise<UpgradableVersionsDetailsResponse>;
+export interface UpgradableVersionsDetailsOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface UpgradableVersionsDetailsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UpgradableVersionsDetailsResponse = UpgradableVersionsList;
 
 // @public
 export interface UpgradableVersionsList {
@@ -962,12 +992,17 @@ export interface UpgradableVersionsList {
 }
 
 // @public
+export interface UpgradableVersionsOperations {
+    details: (resourceGroupName: string, monitorName: string, options?: UpgradableVersionsDetailsOptionalParams) => Promise<UpgradableVersionsList>;
+}
+
+// @public
 export interface UserApiKeyResponse {
     // (undocumented)
     properties?: UserApiKeyResponseProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface UserApiKeyResponseProperties {
     apiKey?: string;
 }
@@ -987,8 +1022,8 @@ export interface UserInfo {
 }
 
 // @public
-export interface VMCollection {
-    update(resourceGroupName: string, monitorName: string, options?: VMCollectionUpdateOptionalParams): Promise<void>;
+export interface VMCollectionOperations {
+    update: (resourceGroupName: string, monitorName: string, options?: VMCollectionUpdateOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -998,51 +1033,32 @@ export interface VMCollectionUpdate {
 }
 
 // @public
-export interface VMCollectionUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VMCollectionUpdateOptionalParams extends OperationOptions {
     body?: VMCollectionUpdate;
 }
 
 // @public
-export interface VMHost {
-    list(resourceGroupName: string, monitorName: string, options?: VMHostListOptionalParams): PagedAsyncIterableIterator<VMResources>;
+export interface VMHostListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VMHostListNextOptionalParams extends coreClient.OperationOptions {
+export interface VMHostOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: VMHostListOptionalParams) => PagedAsyncIterableIterator<VMResources>;
 }
 
 // @public
-export type VMHostListNextResponse = VMHostListResponse;
-
-// @public
-export type VMHostListOperationResponse = VMHostListResponse;
-
-// @public
-export interface VMHostListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface VMHostListResponse {
-    nextLink?: string;
-    value?: VMResources[];
-}
-
-// @public
-export interface VMIngestion {
-    details(resourceGroupName: string, monitorName: string, options?: VMIngestionDetailsOptionalParams): Promise<VMIngestionDetailsOperationResponse>;
-}
-
-// @public
-export type VMIngestionDetailsOperationResponse = VMIngestionDetailsResponse;
-
-// @public
-export interface VMIngestionDetailsOptionalParams extends coreClient.OperationOptions {
+export interface VMIngestionDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface VMIngestionDetailsResponse {
     cloudId?: string;
     ingestionKey?: string;
+}
+
+// @public
+export interface VMIngestionOperations {
+    details: (resourceGroupName: string, monitorName: string, options?: VMIngestionDetailsOptionalParams) => Promise<VMIngestionDetailsResponse>;
 }
 
 // @public
