@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get network connections between machines
  *
  * @summary get network connections between machines
- * x-ms-original-file: 2025-01-31-preview/Maps_GetConnectionsWithConnectedMachineForFocusedMachine.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_GetConnectionsWithConnectedMachineForFocusedMachine.json
  */
 async function mapsGetConnectionsWithConnectedMachineForFocusedMachineGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

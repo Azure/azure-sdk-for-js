@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DiscoverySourceResource
  *
  * @summary create a DiscoverySourceResource
- * x-ms-original-file: 2025-01-31-preview/DiscoverySources_CreateOrUpdate.json
+ * x-ms-original-file: 2025-07-01-preview/DiscoverySources_CreateOrUpdate.json
  */
 async function discoverySourcesCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,11 @@ async function discoverySourcesCreateOrUpdateGeneratedByMaximumSetRule(): Promis
     "rgdependencyMap",
     "mapsTest1",
     "sourceTest1",
-    { tags: {}, location: "y" },
+    {
+      properties: { sourceType: "OffAzure", sourceId: "wzlrkzumplzjmixbqv" },
+      tags: {},
+      location: "y",
+    },
   );
   console.log(result);
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  getDependencyViewForAllMachines,
   exportDependencies,
   getConnectionsForProcessOnFocusedMachine,
   getConnectionsWithConnectedMachineForFocusedMachine,
@@ -14,6 +15,7 @@ export {
   get,
 } from "./operations.js";
 export {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
