@@ -21,7 +21,7 @@ const argv = yargs(hideBin(process.argv))
     },
     "base-ref": {
       type: "string",
-      default: "origin/main",
+      default: "HEAD^1",
       describe: "base reference to compare against for changes",
       demandOption: false,
     },
