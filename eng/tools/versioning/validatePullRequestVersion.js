@@ -39,7 +39,7 @@ function getChangedFiles(repoRoot, baseRef) {
     const result = spawnSync("git", ["diff", "--name-only", baseRef, "HEAD"], {
       cwd: repoRoot,
       encoding: "utf8",
-      stdio: ["pipe", "pipe", "pipe"]
+      stdio: ["pipe", "pipe", "pipe"],
     });
 
     if (result.status !== 0) {
@@ -49,15 +49,13 @@ function getChangedFiles(repoRoot, baseRef) {
       return [];
     }
 
-    const files = result.stdout
-      .split("\n")
-      .filter(file => file.trim().length > 0);
-    
+    const files = result.stdout.split("\n").filter((file) => file.trim().length > 0);
+
     console.log(`Found ${files.length} changed files`);
     if (files.length > 0) {
       console.log("Sample changed files:", files.slice(0, 5));
     }
-    
+
     return files;
   } catch (error) {
     console.error("Error getting changed files:", error);
@@ -80,7 +78,7 @@ async function getPackagesWithSrcChanges(repoRoot, baseRef) {
     // Check each package to see if it has src/ changes
     for (const [packageName, packageInfo] of Object.entries(allPackages)) {
       const packagePath = packageInfo.projectFolder;
-      const hasSourceChanges = changedFiles.some(file => {
+      const hasSourceChanges = changedFiles.some((file) => {
         const normalizedFile = file.replace(/\\/g, "/");
         const packageSrcPattern = `${packagePath}/src/`;
         return normalizedFile.startsWith(packageSrcPattern);
@@ -108,7 +106,7 @@ async function getLastPublishedStableBetaVersion(packageName) {
     // Use npm view to get all versions with their publication times
     const result = spawnSync("npm", ["view", packageName, "time", "--json"], {
       encoding: "utf8",
-      stdio: ["pipe", "pipe", "pipe"]
+      stdio: ["pipe", "pipe", "pipe"],
     });
 
     if (result.status !== 0) {
@@ -117,10 +115,10 @@ async function getLastPublishedStableBetaVersion(packageName) {
     }
 
     const timeData = JSON.parse(result.stdout);
-    
+
     // Get all version entries except 'created' and 'modified'
-    const versions = Object.keys(timeData).filter(key => 
-      key !== "created" && key !== "modified" && semver.valid(key)
+    const versions = Object.keys(timeData).filter(
+      (key) => key !== "created" && key !== "modified" && semver.valid(key),
     );
 
     if (versions.length === 0) {
@@ -139,9 +137,10 @@ async function getLastPublishedStableBetaVersion(packageName) {
       const parsed = semver.parse(version);
       if (parsed) {
         // Check if it's stable (no prerelease) or beta (contains 'beta' in prerelease)
-        if (!parsed.prerelease.length || parsed.prerelease.some(part => 
-          typeof part === "string" && part.includes("beta")
-        )) {
+        if (
+          !parsed.prerelease.length ||
+          parsed.prerelease.some((part) => typeof part === "string" && part.includes("beta"))
+        ) {
           return version;
         }
       }
@@ -177,9 +176,9 @@ async function getCurrentPackageVersion(packagePath) {
  */
 async function validatePullRequestVersions(repoRoot, baseRef) {
   console.log("🔍 Checking for packages with src/ changes but no version bump...");
-  
+
   const packagesWithSrcChanges = await getPackagesWithSrcChanges(repoRoot, baseRef);
-  
+
   if (packagesWithSrcChanges.size === 0) {
     console.log("✅ No packages with src/ changes found.");
     return true;
@@ -203,7 +202,9 @@ async function validatePullRequestVersions(repoRoot, baseRef) {
 
     const lastPublishedVersion = await getLastPublishedStableBetaVersion(packageName);
     if (!lastPublishedVersion) {
-      console.log(`📝 ${packageName}: No published stable/beta version found, assuming new package`);
+      console.log(
+        `📝 ${packageName}: No published stable/beta version found, assuming new package`,
+      );
       continue;
     }
 
@@ -217,7 +218,7 @@ async function validatePullRequestVersions(repoRoot, baseRef) {
       violations.push({
         packageName,
         currentVersion,
-        lastPublishedVersion
+        lastPublishedVersion,
       });
     } else {
       console.log(`✅ Version has been updated`);
@@ -225,9 +226,13 @@ async function validatePullRequestVersions(repoRoot, baseRef) {
   }
 
   if (violations.length > 0) {
-    console.log(`\n❌ Found ${violations.length} package(s) with src/ changes but no version bump:`);
+    console.log(
+      `\n❌ Found ${violations.length} package(s) with src/ changes but no version bump:`,
+    );
     for (const violation of violations) {
-      console.log(`  - ${violation.packageName}: ${violation.currentVersion} (unchanged from published)`);
+      console.log(
+        `  - ${violation.packageName}: ${violation.currentVersion} (unchanged from published)`,
+      );
     }
     console.log("\n💡 Please bump the version for packages with source code changes.");
     return false;
@@ -246,11 +251,11 @@ async function main(argv) {
 
   try {
     const isValid = await validatePullRequestVersions(repoRoot, baseRef);
-    
+
     if (!isValid) {
       process.exit(1);
     }
-    
+
     process.exit(0);
   } catch (error) {
     console.error("❌ Validation failed with error:", error);
