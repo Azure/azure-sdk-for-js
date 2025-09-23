@@ -30,7 +30,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
-    const orderByItemsArray: any[][] = []; // Store order by items for each item
+    const orderByItemsArray: { orderByItems: any[]; _rid: string }[] = []; // Store order by items for each item
 
     const response = await this.executionContext.fetchMore(diagnosticNode);
     if (
@@ -51,13 +51,13 @@ export class OrderByEndpointComponent implements ExecutionContext {
     // Process buffer items and collect order by items for each item
     for (let i = 0; i < rawBuffer.length; i++) {
       const item = rawBuffer[i];
-
+      console.log("item: ", i, item);
       if (this.emitRawOrderByPayload) {
         buffer.push(item);
       } else {
         buffer.push(item.payload);
       }
-      orderByItemsArray.push(item.orderByItems);
+      orderByItemsArray.push({ orderByItems: item.orderByItems, _rid: item._rid });
     }
 
     const result = createParallelQueryResult(

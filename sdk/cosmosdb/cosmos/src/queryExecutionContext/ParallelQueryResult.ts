@@ -27,7 +27,7 @@ export interface ParallelQueryResult {
    * Optional array of orderBy items corresponding to each item in the buffer
    * Used for ORDER BY queries to track sorting criteria
    */
-  orderByItems?: any[][];
+  orderByItems?: { orderByItems: any[]; _rid: string }[];
 }
 
 /**
@@ -43,7 +43,7 @@ export function createParallelQueryResult(
   buffer: any[],
   partitionKeyRangeMap: Map<string, QueryRangeMapping>,
   updatedContinuationRanges?: Record<string, any>,
-  orderByItems?: any[][],
+  orderByItems?: { orderByItems: any[]; _rid: string }[],
 ): ParallelQueryResult {
   const result: ParallelQueryResult = {
     buffer,

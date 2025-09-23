@@ -319,8 +319,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-      this.continuationTokenManager.processRangesForCurrentPage(this.pageSize, temp);
-
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
@@ -368,10 +366,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
-    const result = this.continuationTokenManager.processRangesForCurrentPage(
-      this.pageSize,
-      this.fetchBuffer.slice(0, this.pageSize),
-    );
+    const result = this.continuationTokenManager.processRangesForCurrentPage(this.pageSize);
     return result;
   }
 

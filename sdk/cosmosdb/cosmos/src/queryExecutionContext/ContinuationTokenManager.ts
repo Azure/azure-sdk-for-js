@@ -41,7 +41,7 @@ export class ContinuationTokenManager {
 
   private partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
   private isOrderByQuery: boolean = false;
-  private orderByItemsArray: any[][];
+  private orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined;
   private isUnsupportedQueryType: boolean = false;
   private collectionLink: string;
 
@@ -71,7 +71,9 @@ export class ContinuationTokenManager {
    * Sets the ORDER BY items array for ORDER BY continuation token creation
    * @param orderByItemsArray - Array of ORDER BY items for each document
    */
-  public setOrderByItemsArray(orderByItemsArray: any[][] | undefined): void {
+  public setOrderByItemsArray(
+    orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined,
+  ): void {
     this.orderByItemsArray = orderByItemsArray;
   }
 
@@ -186,15 +188,15 @@ export class ContinuationTokenManager {
    * @param pageResults - The actual page results being returned (for RID extraction and skip count calculation)
    * @returns Object with endIndex and processedRanges
    */
-  public processRangesForCurrentPage(
-    pageSize: number,
-    pageResults?: any[],
-  ): { endIndex: number; processedRanges: string[] } {
+  public processRangesForCurrentPage(pageSize: number): {
+    endIndex: number;
+    processedRanges: string[];
+  } {
     this.removeExhaustedRangesFromRanges();
 
     let result: { endIndex: number; processedRanges: string[] };
     if (this.isOrderByQuery) {
-      result = this.processOrderByRanges(pageSize, pageResults);
+      result = this.processOrderByRanges(pageSize);
     } else {
       result = this.processParallelRanges(pageSize);
     }
@@ -204,52 +206,45 @@ export class ContinuationTokenManager {
   /**
    * Processes ranges for ORDER BY queries
    */
-  private processOrderByRanges(
-    pageSize: number,
-    pageResults?: any[],
-  ): { endIndex: number; processedRanges: string[] } {
+  private processOrderByRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
+    console.log("pageSize: , pageResult last", pageSize);
     const result = this.partitionRangeManager.processOrderByRanges(pageSize);
     const { lastRangeBeforePageLimit } = result;
 
     // Store the range mapping
-    let queryRange: QueryRangeWithContinuationToken;
-    if (lastRangeBeforePageLimit) {
-      queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
+    if (!lastRangeBeforePageLimit) {
+      this.orderByQueryContinuationToken = undefined;
+      return { endIndex: 0, processedRanges: [] };
     }
+    const queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
 
     // Extract ORDER BY items from the last item on the page
     let lastOrderByItems: any[] | undefined;
+    let documentRid: string;
+    let skipCount: number = 0;
+
     if (result.endIndex > 0 && this.orderByItemsArray) {
       const lastItemIndexOnPage = result.endIndex - 1;
 
       if (lastItemIndexOnPage < this.orderByItemsArray.length) {
-        lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage];
-      }
-    }
-
-    // Extract RID and calculate skip count from the actual page results
-    let documentRid: string;
-    let skipCount: number = 0;
-
-    if (pageResults && pageResults.length > 0) {
-      const lastItemIndexOnPage = result.endIndex - 1;
-      // Get the last document in the page
-      const lastDocument = pageResults[lastItemIndexOnPage];
-
-      // Extract RID from the last document (document's _rid property)
-      if (lastDocument && lastDocument._rid) {
-        documentRid = lastDocument._rid;
-
+        lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage].orderByItems;
+        documentRid = this.orderByItemsArray[lastItemIndexOnPage]._rid;
         // Calculate skip count: count how many documents in the page have the same RID
         // This handles JOIN queries where multiple documents can have the same RID
-        skipCount = pageResults.filter((doc) => doc && doc._rid === documentRid).length;
+        for (let i = 0; i <= lastItemIndexOnPage; i++) {
+          if (this.orderByItemsArray[i]._rid === documentRid) {
+            skipCount++;
+          }
+        }
         // Exclude the last document from the skip count
         skipCount -= 1;
       }
     }
 
     // Create or update ORDER BY specific continuation token with resume values
-    const rangeMappings = queryRange ? [queryRange] : [];
+    // Only create continuation token if we have valid range mappings
+
+    const rangeMappings = [queryRange];
 
     // Create new ORDER BY continuation token
     this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
@@ -261,13 +256,9 @@ export class ContinuationTokenManager {
     );
 
     // Update offset/limit and hashed result from the last processed range
-    if (lastRangeBeforePageLimit) {
-      this.orderByQueryContinuationToken.offset = lastRangeBeforePageLimit.offset;
-      this.orderByQueryContinuationToken.limit = lastRangeBeforePageLimit.limit;
-      this.orderByQueryContinuationToken.hashedLastResult =
-        lastRangeBeforePageLimit.hashedLastResult;
-    }
-
+    this.orderByQueryContinuationToken.offset = lastRangeBeforePageLimit.offset;
+    this.orderByQueryContinuationToken.limit = lastRangeBeforePageLimit.limit;
+    this.orderByQueryContinuationToken.hashedLastResult = lastRangeBeforePageLimit.hashedLastResult;
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
   }
 
@@ -276,6 +267,9 @@ export class ContinuationTokenManager {
    */
   private processParallelRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionRangeManager.processParallelRanges(pageSize);
+    if (!result || !result.processedRangeMappings || result.processedRangeMappings.length === 0) {
+      return { endIndex: 0, processedRanges: [] };
+    }
 
     // Convert QueryRangeMapping objects to QueryRangeWithContinuationToken objects using helper
     const rangeMappings: QueryRangeWithContinuationToken[] = result.processedRangeMappings.map(
