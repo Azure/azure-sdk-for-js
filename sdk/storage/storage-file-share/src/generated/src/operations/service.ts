@@ -19,6 +19,9 @@ import {
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentOptionalParams,
   ServiceListSharesSegmentResponse,
+  KeyInfo,
+  ServiceGetUserDelegationKeyOptionalParams,
+  ServiceGetUserDelegationKeyResponse,
 } from "../models/index.js";
 
 /** Class containing Service operations. */
@@ -74,6 +77,22 @@ export class ServiceImpl implements Service {
     return this.client.sendOperationRequest(
       { options },
       listSharesSegmentOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves a user delegation key for the Queue service. This is only a valid operation when using
+   * bearer token authentication.
+   * @param keyInfo Key information
+   * @param options The options parameters.
+   */
+  getUserDelegationKey(
+    keyInfo: KeyInfo,
+    options?: ServiceGetUserDelegationKeyOptionalParams,
+  ): Promise<ServiceGetUserDelegationKeyResponse> {
+    return this.client.sendOperationRequest(
+      { keyInfo, options },
+      getUserDelegationKeyOperationSpec,
     );
   }
 }
@@ -165,5 +184,36 @@ const listSharesSegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
   ],
   isXML: true,
+  serializer: xmlSerializer,
+};
+const getUserDelegationKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UserDelegationKey,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyExceptionHeaders,
+    },
+  },
+  requestBody: Parameters.keyInfo,
+  queryParameters: [
+    Parameters.restype,
+    Parameters.timeoutInSeconds,
+    Parameters.comp2,
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.version,
+    Parameters.requestId,
+  ],
+  isXML: true,
+  contentType: "application/xml; charset=utf-8",
+  mediaType: "xml",
   serializer: xmlSerializer,
 };
