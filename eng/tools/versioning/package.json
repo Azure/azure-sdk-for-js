@@ -22,10 +22,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
     "@azure-tools/eng-package-utils": "file:../eng-package-utils",
-    "@azure-tools/ci-runner": "file:../ci-runner",
     "semver": "^7.5.4",
     "yargs": "^17.7.2",
-    "yargs-parser": "^21.1.1",
     "@pnpm/fs.find-packages": "^1000.0.8",
     "@pnpm/config": "^1002.7.0",
     "@pnpm/catalogs.resolver": "^1000.0.2"
