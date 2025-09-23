@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "Azure client library for Azure Communication Rooms services",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "engines": {
     "node": ">=20.0.0"
   },
