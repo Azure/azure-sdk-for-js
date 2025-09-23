@@ -46,6 +46,7 @@ import { getUserAgent } from "./common/platform.js";
 import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
 import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
+import { AAD_DEFAULT_SCOPE } from "./common/constants.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -83,17 +84,42 @@ export class ClientContext {
     if (cosmosClientOptions.aadCredentials) {
       this.pipeline = createEmptyPipeline();
       const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
-      const scope = `${hrefEndpoint}/.default`;
+
+      // Use custom AAD scope if provided, otherwise use account-based scope
+      const accountScope = `${hrefEndpoint}/.default`;
+      const primaryScope = cosmosClientOptions.aadScope || accountScope;
+      const fallbackScope = AAD_DEFAULT_SCOPE;
+      const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
+
       this.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential: cosmosClientOptions.aadCredentials,
-          scopes: scope,
+          scopes: primaryScope,
           challengeCallbacks: {
             async authorizeRequest({ request, getAccessToken }) {
-              const tokenResponse = await getAccessToken([scope], {});
-              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
-              request.headers.set("Authorization", authorizationToken);
+              try {
+                const tokenResponse = await getAccessToken([primaryScope], {});
+
+                const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
+                request.headers.set("Authorization", authorizationToken);
+              } catch (error: any) {
+                console.log("error occured", error);
+                // If no custom scope is provided and we get AADSTS500011 error,
+                // fallback to the default Cosmos scope
+                if (!cosmosClientOptions.aadScope && error?.message?.includes("AADSTS500011")) {
+                  try {
+                    const fallbackTokenResponse = await getAccessToken([fallbackScope], {});
+                    const authorizationToken = `${AUTH_PREFIX}${fallbackTokenResponse.token}`;
+                    request.headers.set("Authorization", authorizationToken);
+                  } catch (fallbackError) {
+                    // If fallback also fails, throw the original error
+                    throw error;
+                  }
+                } else {
+                  // If custom scope is provided or error is not AADSTS500011, throw the original error
+                  throw error;
+                }
+              }
             },
           },
         }),

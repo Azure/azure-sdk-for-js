@@ -306,6 +306,8 @@ export const Constants = {
   RequestTimeoutForReadsInMs: 2000, // 2 seconds
 };
 
+export const AAD_DEFAULT_SCOPE = "https://cosmos.azure.com/.default";
+
 /**
  * @hidden
  */
