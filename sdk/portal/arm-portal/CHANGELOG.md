@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.6 (2025-08-22)
 
 ### Other Changes
 

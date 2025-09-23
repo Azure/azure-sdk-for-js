@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 8.2.1 (Unreleased)
+## 8.2.1 (2025-08-22)
 
 ### Other Changes
 

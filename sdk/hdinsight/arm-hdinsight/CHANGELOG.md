@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 1.3.0-beta.3 (Unreleased)
+## 1.3.0-beta.3 (2025-08-22)
 
 ### Other Changes
 

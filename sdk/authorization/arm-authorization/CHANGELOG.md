@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 10.0.0-beta.2 (Unreleased)
+## 10.0.0-beta.2 (2025-08-22)
 
 ### Other Changes
 

@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 3.1.2 (Unreleased)
+## 3.1.2 (2025-08-22)
 
 ### Other Changes
 
