@@ -1,19 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createDependencyMap,
-  DependencyMapContext,
-  DependencyMapClientOptionalParams,
-} from "./api/index.js";
-import {
-  DiscoverySourcesOperations,
-  _getDiscoverySourcesOperations,
-} from "./classic/discoverySources/index.js";
-import { MapsOperations, _getMapsOperations } from "./classic/maps/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { DependencyMapContext, DependencyMapClientOptionalParams } from "./api/index.js";
+import { createDependencyMap } from "./api/index.js";
+import type { DiscoverySourcesOperations } from "./classic/discoverySources/index.js";
+import { _getDiscoverySourcesOperations } from "./classic/discoverySources/index.js";
+import type { MapsOperations } from "./classic/maps/index.js";
+import { _getMapsOperations } from "./classic/maps/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { DependencyMapClientOptionalParams } from "./api/dependencyMapContext.js";
 

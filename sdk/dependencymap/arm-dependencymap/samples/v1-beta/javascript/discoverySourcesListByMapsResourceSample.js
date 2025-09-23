@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DiscoverySourceResource resources by MapsResource
  *
  * @summary list DiscoverySourceResource resources by MapsResource
- * x-ms-original-file: 2025-01-31-preview/DiscoverySources_ListByMapsResource.json
+ * x-ms-original-file: 2025-07-01-preview/DiscoverySources_ListByMapsResource.json
  */
 async function discoverySourcesListByMapsResourceGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

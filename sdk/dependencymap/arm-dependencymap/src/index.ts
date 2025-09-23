@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -38,6 +39,15 @@ export {
   GetConnectionsWithConnectedMachineForFocusedMachineRequest,
   GetConnectionsForProcessOnFocusedMachineRequest,
   ExportDependenciesRequest,
+  ExportDependenciesOperationResult,
+  ExportDependenciesResultProperties,
+  KnownExportDependenciesStatusCode,
+  ExportDependenciesStatusCode,
+  ExportDependenciesAdditionalInfo,
+  GetDependencyViewForAllMachinesRequest,
+  DependencyProcessFilter,
+  GetDependencyViewForAllMachinesOperationResult,
+  GetDependencyViewForAllMachinesResultProperties,
   DiscoverySourceResource,
   DiscoverySourceResourceProperties,
   DiscoverySourceResourcePropertiesUnion,
@@ -56,6 +66,7 @@ export {
   DiscoverySourcesGetOptionalParams,
 } from "./api/discoverySources/index.js";
 export {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
@@ -74,3 +85,4 @@ export {
   OperationsOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

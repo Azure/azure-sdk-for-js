@@ -23,6 +23,11 @@ export interface DependencyMapVisualizationFilter {
 }
 
 // @public
+export interface DependencyProcessFilter {
+    processNameFilter?: ProcessNameFilter;
+}
+
+// @public
 export interface DiscoverySourceResource extends TrackedResource {
     properties?: DiscoverySourceResourcePropertiesUnion;
 }
@@ -44,7 +49,7 @@ export interface DiscoverySourceResourceTagsUpdate {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -63,10 +68,37 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ExportDependenciesRequest {
-    filters?: DependencyMapVisualizationFilter;
-    focusedMachineId: string;
+export interface ExportDependenciesAdditionalInfo {
+    availableDaysCount?: number;
 }
+
+// @public
+export interface ExportDependenciesOperationResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    properties?: ExportDependenciesResultProperties;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export interface ExportDependenciesRequest {
+    applianceNameList?: string[];
+    filters?: DependencyMapVisualizationFilter;
+    focusedMachineId?: string;
+}
+
+// @public
+export interface ExportDependenciesResultProperties {
+    additionalInfo?: ExportDependenciesAdditionalInfo;
+    exportedDataSasUri?: string;
+    statusCode?: ExportDependenciesStatusCode;
+}
+
+// @public
+export type ExportDependenciesStatusCode = string;
 
 // @public
 export interface GetConnectionsForProcessOnFocusedMachineRequest {
@@ -80,6 +112,27 @@ export interface GetConnectionsWithConnectedMachineForFocusedMachineRequest {
     connectedMachineId: string;
     filters?: DependencyMapVisualizationFilter;
     focusedMachineId: string;
+}
+
+// @public
+export interface GetDependencyViewForAllMachinesOperationResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    properties?: GetDependencyViewForAllMachinesResultProperties;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export interface GetDependencyViewForAllMachinesRequest {
+    filters?: DependencyProcessFilter;
+}
+
+// @public
+export interface GetDependencyViewForAllMachinesResultProperties {
+    layoutFileSasUrl: string;
 }
 
 // @public
@@ -99,6 +152,13 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownExportDependenciesStatusCode {
+    CompleteMatch = "CompleteMatch",
+    NoMatch = "NoMatch",
+    PartialMatch = "PartialMatch"
 }
 
 // @public
@@ -132,7 +192,9 @@ export enum KnownSourceType {
 
 // @public
 export enum KnownVersions {
-    V20250131Preview = "2025-01-31-preview"
+    V20250131Preview = "2025-01-31-preview",
+    V20250501Preview = "2025-05-01-preview",
+    V20250701Preview = "2025-07-01-preview"
 }
 
 // @public

@@ -1,26 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { DependencyMapContext as Client } from "../index.js";
+import type {
   MapsResource,
-  mapsResourceSerializer,
-  mapsResourceDeserializer,
   MapsResourceTagsUpdate,
-  mapsResourceTagsUpdateSerializer,
   _MapsResourceListResult,
-  _mapsResourceListResultDeserializer,
   GetDependencyViewForFocusedMachineRequest,
-  getDependencyViewForFocusedMachineRequestSerializer,
   GetConnectionsWithConnectedMachineForFocusedMachineRequest,
-  getConnectionsWithConnectedMachineForFocusedMachineRequestSerializer,
   GetConnectionsForProcessOnFocusedMachineRequest,
-  getConnectionsForProcessOnFocusedMachineRequestSerializer,
   ExportDependenciesRequest,
-  exportDependenciesRequestSerializer,
+  ExportDependenciesOperationResult,
+  GetDependencyViewForAllMachinesRequest,
+  GetDependencyViewForAllMachinesOperationResult,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  mapsResourceSerializer,
+  mapsResourceDeserializer,
+  mapsResourceTagsUpdateSerializer,
+  _mapsResourceListResultDeserializer,
+  getDependencyViewForFocusedMachineRequestSerializer,
+  getConnectionsWithConnectedMachineForFocusedMachineRequestSerializer,
+  getConnectionsForProcessOnFocusedMachineRequestSerializer,
+  exportDependenciesRequestSerializer,
+  exportDependenciesOperationResultDeserializer,
+  getDependencyViewForAllMachinesRequestSerializer,
+  getDependencyViewForAllMachinesOperationResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
@@ -32,19 +45,84 @@ import {
   MapsCreateOrUpdateOptionalParams,
   MapsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _getDependencyViewForAllMachinesSend(
+  context: Client,
+  resourceGroupName: string,
+  mapName: string,
+  body: GetDependencyViewForAllMachinesRequest,
+  options: MapsGetDependencyViewForAllMachinesOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DependencyMap/maps/{mapName}/getDependencyViewForAllMachines{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      mapName: mapName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: getDependencyViewForAllMachinesRequestSerializer(body),
+  });
+}
+
+export async function _getDependencyViewForAllMachinesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDependencyViewForAllMachinesOperationResult> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return getDependencyViewForAllMachinesOperationResultDeserializer(result.body);
+}
+
+/** Get dependencies for all machines */
+export function getDependencyViewForAllMachines(
+  context: Client,
+  resourceGroupName: string,
+  mapName: string,
+  body: GetDependencyViewForAllMachinesRequest,
+  options: MapsGetDependencyViewForAllMachinesOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<GetDependencyViewForAllMachinesOperationResult>,
+  GetDependencyViewForAllMachinesOperationResult
+> {
+  return getLongRunningPoller(
+    context,
+    _getDependencyViewForAllMachinesDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _getDependencyViewForAllMachinesSend(context, resourceGroupName, mapName, body, options),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<GetDependencyViewForAllMachinesOperationResult>,
+    GetDependencyViewForAllMachinesOperationResult
+  >;
+}
 
 export function _exportDependenciesSend(
   context: Client,
@@ -76,7 +154,9 @@ export function _exportDependenciesSend(
   });
 }
 
-export async function _exportDependenciesDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _exportDependenciesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExportDependenciesOperationResult> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -84,7 +164,7 @@ export async function _exportDependenciesDeserialize(result: PathUncheckedRespon
     throw error;
   }
 
-  return;
+  return exportDependenciesOperationResultDeserializer(result.body);
 }
 
 /** Export dependencies */
@@ -94,14 +174,20 @@ export function exportDependencies(
   mapName: string,
   body: ExportDependenciesRequest,
   options: MapsExportDependenciesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<ExportDependenciesOperationResult>,
+  ExportDependenciesOperationResult
+> {
   return getLongRunningPoller(context, _exportDependenciesDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _exportDependenciesSend(context, resourceGroupName, mapName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<
+    OperationState<ExportDependenciesOperationResult>,
+    ExportDependenciesOperationResult
+  >;
 }
 
 export function _getConnectionsForProcessOnFocusedMachineSend(
@@ -128,10 +214,6 @@ export function _getConnectionsForProcessOnFocusedMachineSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: getConnectionsForProcessOnFocusedMachineRequestSerializer(body),
   });
 }
@@ -203,10 +285,6 @@ export function _getConnectionsWithConnectedMachineForFocusedMachineSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: getConnectionsWithConnectedMachineForFocusedMachineRequestSerializer(body),
   });
 }
@@ -278,10 +356,6 @@ export function _getDependencyViewForFocusedMachineSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: getDependencyViewForFocusedMachineRequestSerializer(body),
   });
 }
@@ -444,13 +518,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -574,7 +642,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MapsResource> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -592,7 +660,7 @@ export function createOrUpdate(
   resource: MapsResource,
   options: MapsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MapsResource>, MapsResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
