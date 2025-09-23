@@ -68,8 +68,8 @@ export interface FileSASSignatureValues {
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
-  identifier?: string;  
-  
+  identifier?: string;
+
   /**
    * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
@@ -135,7 +135,6 @@ export function generateFileSASQueryParameters(
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string,
 ): SASQueryParameters {
-  accountName;
   return generateFileSASQueryParametersInternal(
     fileSASSignatureValues,
     sharedKeyCredentialOrUserDelegationKey,
@@ -319,7 +318,7 @@ export function generateFileSASQueryParametersUDK20250705(
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
     undefined, // shared key delegation signed tenant id.
-    fileSASSignatureValues.delegatedUserObjectId, 
+    fileSASSignatureValues.delegatedUserObjectId,
     fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
     fileSASSignatureValues.protocol,
     version,
@@ -351,7 +350,7 @@ export function generateFileSASQueryParametersUDK20250705(
       fileSASSignatureValues.contentLanguage,
       fileSASSignatureValues.contentType,
       userDelegationKeyCredential.userDelegationKey,
-      fileSASSignatureValues.delegatedUserObjectId
+      fileSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

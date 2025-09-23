@@ -666,30 +666,29 @@ describe("Highlevel Node.js only", () => {
 
     fs.unlinkSync(downloadedFilePath);
   });
-  
-  it.only("create with data should update progress event", async (ctx) => {
+
+  it("create with data should update progress event", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
     const rs = fs.createReadStream(tempFileSmall);
 
     let eventTriggered = false;
-    await fileClient.create(tempFileSmallLength, 
-      {
-        content: rs,
-        contentLength: tempFileSmallLength,
-        onProgress: () => {
-          eventTriggered = true;
-        },
-      });
+    await fileClient.create(tempFileSmallLength, {
+      content: rs,
+      contentLength: tempFileSmallLength,
+      onProgress: () => {
+        eventTriggered = true;
+      },
+    });
     assert.ok(eventTriggered);
-    
+
     const downloadResponse = await fileClient.download(0);
-    
+
     const downloadedFile = path.join(
-        tempFolderPath,
-        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-      );
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+    );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);

@@ -589,7 +589,7 @@ describe("FileServiceClient SMB", () => {
   });
 
   it("List share with SMB Directory lease enabled", async function () {
-    let shareName = recorder.variable("share", getUniqueName("share"));
+    const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create({
       protocols: {
@@ -602,7 +602,7 @@ describe("FileServiceClient SMB", () => {
 
     let gotTheShare = false;
     for await (const item of serviceClient.listShares()) {
-      if (item.name === shareName){
+      if (item.name === shareName) {
         gotTheShare = true;
         assert.deepEqual(item.properties.enableSmbDirectoryLease, true);
       }
@@ -610,15 +610,15 @@ describe("FileServiceClient SMB", () => {
     assert.ok(gotTheShare);
 
     await shareClient.setProperties({
-      enableSmbDirectoryLease: false
+      enableSmbDirectoryLease: false,
     });
 
     const properties1 = await shareClient.getProperties();
     assert.deepEqual(properties1.enableSmbDirectoryLease, false);
-    
+
     gotTheShare = false;
     for await (const item of serviceClient.listShares()) {
-      if (item.name === shareName){
+      if (item.name === shareName) {
         gotTheShare = true;
         assert.deepEqual(item.properties.enableSmbDirectoryLease, false);
       }
@@ -633,17 +633,15 @@ describe("FileServiceClient SMB", () => {
       protocol: {
         smb: {
           encryptionInTransit: {
-            required: true
-          }
-        }
-      }
+            required: true,
+          },
+        },
+      },
     });
     const properties = await serviceClient.getProperties();
     assert.deepEqual(properties.protocol?.smb?.encryptionInTransit?.required, true);
   });
 });
-
-
 
 describe("FileServiceClient NFS", () => {
   let recorder: Recorder;
@@ -670,10 +668,10 @@ describe("FileServiceClient NFS", () => {
       protocol: {
         nfs: {
           encryptionInTransit: {
-            required: true
-          }
-        }
-      }
+            required: true,
+          },
+        },
+      },
     });
     const properties = await serviceClient.getProperties();
     assert.deepEqual(properties.protocol?.nfs?.encryptionInTransit?.required, true);

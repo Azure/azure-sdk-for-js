@@ -63,7 +63,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -157,26 +142,7 @@
+@@ -157,25 +142,10 @@
      // (undocumented)
      accountName: string;
  }
@@ -80,15 +80,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -}
 -
 -// @public
--export class UserDelegationKeyCredential {
++// @public (undocumented)
+ export class UserDelegationKeyCredential {
 -    constructor(accountName: string, userDelegationKey: UserDelegationKey);
 -    readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    readonly userDelegationKey: UserDelegationKey;
--}
--
+ }
+ 
  // (No @packageDocumentation comment for this package)
  
- ```
 
 ```

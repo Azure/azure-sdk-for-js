@@ -75,8 +75,8 @@ export class SASQueryParameters {
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
-  public readonly identifier?: string;  
-  
+  public readonly identifier?: string;
+
   /**
    * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
@@ -213,7 +213,7 @@ export class SASQueryParameters {
     contentLanguage?: string,
     contentType?: string,
     userDelegationKey?: UserDelegationKey,
-    delegatedUserObjectId?: string
+    delegatedUserObjectId?: string,
   ) {
     this.version = version;
     this.services = services;
@@ -230,17 +230,17 @@ export class SASQueryParameters {
     this.contentDisposition = contentDisposition;
     this.contentEncoding = contentEncoding;
     this.contentLanguage = contentLanguage;
-    this.contentType = contentType;      
-    
+    this.contentType = contentType;
+
     if (userDelegationKey) {
-        this.signedOid = userDelegationKey.signedObjectId;
-        this.signedTenantId = userDelegationKey.signedTenantId;
-        this.signedStartsOn = userDelegationKey.signedStartsOn;
-        this.signedExpiresOn = userDelegationKey.signedExpiresOn;
-        this.signedService = userDelegationKey.signedService;
-        this.signedVersion = userDelegationKey.signedVersion;
-        this.delegatedUserObjectId = delegatedUserObjectId;
-      }
+      this.signedOid = userDelegationKey.signedObjectId;
+      this.signedTenantId = userDelegationKey.signedTenantId;
+      this.signedStartsOn = userDelegationKey.signedStartsOn;
+      this.signedExpiresOn = userDelegationKey.signedExpiresOn;
+      this.signedService = userDelegationKey.signedService;
+      this.signedVersion = userDelegationKey.signedVersion;
+      this.delegatedUserObjectId = delegatedUserObjectId;
+    }
   }
 
   /**

@@ -909,7 +909,6 @@ export class ShareServiceClient extends StorageClient {
           clientRequestId: response.clientRequestId,
           version: response.version,
           date: response.date,
-          //errorCode: response.errorCode,
           ...userDelegationKey,
         };
 

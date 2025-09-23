@@ -126,7 +126,7 @@ export class SASQueryParameters {
    * Property of user delegation key.
    */
   private readonly signedVersion?: string;
-  
+
   /**
    * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
@@ -177,7 +177,7 @@ export class SASQueryParameters {
     identifier?: string,
     resource?: string,
     userDelegationKey?: UserDelegationKey,
-    delegatedUserObjectId?: string
+    delegatedUserObjectId?: string,
   ) {
     this.version = version;
     this.services = services;
@@ -190,14 +190,14 @@ export class SASQueryParameters {
     this.identifier = identifier;
     this.resource = resource;
     this.signature = signature;
-    if (userDelegationKey) {      
-        this.signedOid = userDelegationKey.signedObjectId;
-        this.signedTenantId = userDelegationKey.signedTenantId;
-        this.signedStartsOn = userDelegationKey.signedStartsOn;
-        this.signedExpiresOn = userDelegationKey.signedExpiresOn;
-        this.signedService = userDelegationKey.signedService;
-        this.signedVersion = userDelegationKey.signedVersion;
-        this.delegatedUserObjectId = delegatedUserObjectId;
+    if (userDelegationKey) {
+      this.signedOid = userDelegationKey.signedObjectId;
+      this.signedTenantId = userDelegationKey.signedTenantId;
+      this.signedStartsOn = userDelegationKey.signedStartsOn;
+      this.signedExpiresOn = userDelegationKey.signedExpiresOn;
+      this.signedService = userDelegationKey.signedService;
+      this.signedVersion = userDelegationKey.signedVersion;
+      this.delegatedUserObjectId = delegatedUserObjectId;
     }
   }
 
@@ -206,7 +206,18 @@ export class SASQueryParameters {
    *
    */
   public toString(): string {
-    const params: string[] = ["sv", "ss", "srt", "spr", "st", "se", "sip", "si", "sr", "sp", "sig",       
+    const params: string[] = [
+      "sv",
+      "ss",
+      "srt",
+      "spr",
+      "st",
+      "se",
+      "sip",
+      "si",
+      "sr",
+      "sp",
+      "sig",
       "skoid", // Signed object ID
       "sktid", // Signed tenant ID
       "skt", // Signed key start time
