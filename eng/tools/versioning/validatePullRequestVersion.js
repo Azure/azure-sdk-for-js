@@ -53,7 +53,7 @@ function getChangedFiles(repoRoot, baseRef) {
 
     console.log(`Found ${files.length} changed files`);
     if (files.length > 0) {
-      console.log("Sample changed files:", files.slice(0, 5));
+      console.log("Sample changed files:", files.slice(0, Math.min(100, files.length)));
     }
 
     return files;
