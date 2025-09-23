@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a MapsResource
  *
  * @summary update a MapsResource
- * x-ms-original-file: 2025-01-31-preview/Maps_Update.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_Update.json
  */
 async function mapsUpdateGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

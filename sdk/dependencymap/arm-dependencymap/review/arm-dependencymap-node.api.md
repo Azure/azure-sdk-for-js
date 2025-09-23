@@ -4,17 +4,27 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -42,11 +52,17 @@ export class DependencyMapClient {
 // @public
 export interface DependencyMapClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface DependencyMapVisualizationFilter {
     dateTime?: DateTimeFilter;
+    processNameFilter?: ProcessNameFilter;
+}
+
+// @public
+export interface DependencyProcessFilter {
     processNameFilter?: ProcessNameFilter;
 }
 
@@ -104,7 +120,7 @@ export interface DiscoverySourcesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -123,10 +139,37 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ExportDependenciesRequest {
-    filters?: DependencyMapVisualizationFilter;
-    focusedMachineId: string;
+export interface ExportDependenciesAdditionalInfo {
+    availableDaysCount?: number;
 }
+
+// @public
+export interface ExportDependenciesOperationResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    properties?: ExportDependenciesResultProperties;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export interface ExportDependenciesRequest {
+    applianceNameList?: string[];
+    filters?: DependencyMapVisualizationFilter;
+    focusedMachineId?: string;
+}
+
+// @public
+export interface ExportDependenciesResultProperties {
+    additionalInfo?: ExportDependenciesAdditionalInfo;
+    exportedDataSasUri?: string;
+    statusCode?: ExportDependenciesStatusCode;
+}
+
+// @public
+export type ExportDependenciesStatusCode = string;
 
 // @public
 export interface GetConnectionsForProcessOnFocusedMachineRequest {
@@ -140,6 +183,27 @@ export interface GetConnectionsWithConnectedMachineForFocusedMachineRequest {
     connectedMachineId: string;
     filters?: DependencyMapVisualizationFilter;
     focusedMachineId: string;
+}
+
+// @public
+export interface GetDependencyViewForAllMachinesOperationResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    properties?: GetDependencyViewForAllMachinesResultProperties;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export interface GetDependencyViewForAllMachinesRequest {
+    filters?: DependencyProcessFilter;
+}
+
+// @public
+export interface GetDependencyViewForAllMachinesResultProperties {
+    layoutFileSasUrl: string;
 }
 
 // @public
@@ -159,6 +223,13 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownExportDependenciesStatusCode {
+    CompleteMatch = "CompleteMatch",
+    NoMatch = "NoMatch",
+    PartialMatch = "PartialMatch"
 }
 
 // @public
@@ -192,7 +263,9 @@ export enum KnownSourceType {
 
 // @public
 export enum KnownVersions {
-    V20250131Preview = "2025-01-31-preview"
+    V20250131Preview = "2025-01-31-preview",
+    V20250501Preview = "2025-05-01-preview",
+    V20250701Preview = "2025-07-01-preview"
 }
 
 // @public
@@ -221,6 +294,11 @@ export interface MapsGetConnectionsWithConnectedMachineForFocusedMachineOptional
 }
 
 // @public
+export interface MapsGetDependencyViewForAllMachinesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface MapsGetDependencyViewForFocusedMachineOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -241,10 +319,11 @@ export interface MapsListBySubscriptionOptionalParams extends OperationOptions {
 export interface MapsOperations {
     createOrUpdate: (resourceGroupName: string, mapName: string, resource: MapsResource, options?: MapsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MapsResource>, MapsResource>;
     delete: (resourceGroupName: string, mapName: string, options?: MapsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    exportDependencies: (resourceGroupName: string, mapName: string, body: ExportDependenciesRequest, options?: MapsExportDependenciesOptionalParams) => PollerLike<OperationState<void>, void>;
+    exportDependencies: (resourceGroupName: string, mapName: string, body: ExportDependenciesRequest, options?: MapsExportDependenciesOptionalParams) => PollerLike<OperationState<ExportDependenciesOperationResult>, ExportDependenciesOperationResult>;
     get: (resourceGroupName: string, mapName: string, options?: MapsGetOptionalParams) => Promise<MapsResource>;
     getConnectionsForProcessOnFocusedMachine: (resourceGroupName: string, mapName: string, body: GetConnectionsForProcessOnFocusedMachineRequest, options?: MapsGetConnectionsForProcessOnFocusedMachineOptionalParams) => PollerLike<OperationState<void>, void>;
     getConnectionsWithConnectedMachineForFocusedMachine: (resourceGroupName: string, mapName: string, body: GetConnectionsWithConnectedMachineForFocusedMachineRequest, options?: MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams) => PollerLike<OperationState<void>, void>;
+    getDependencyViewForAllMachines: (resourceGroupName: string, mapName: string, body: GetDependencyViewForAllMachinesRequest, options?: MapsGetDependencyViewForAllMachinesOptionalParams) => PollerLike<OperationState<GetDependencyViewForAllMachinesOperationResult>, GetDependencyViewForAllMachinesOperationResult>;
     getDependencyViewForFocusedMachine: (resourceGroupName: string, mapName: string, body: GetDependencyViewForFocusedMachineRequest, options?: MapsGetDependencyViewForFocusedMachineOptionalParams) => PollerLike<OperationState<void>, void>;
     listByResourceGroup: (resourceGroupName: string, options?: MapsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MapsResource>;
     listBySubscription: (options?: MapsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MapsResource>;

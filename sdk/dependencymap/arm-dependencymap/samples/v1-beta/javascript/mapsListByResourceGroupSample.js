@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list MapsResource resources by resource group
  *
  * @summary list MapsResource resources by resource group
- * x-ms-original-file: 2025-01-31-preview/Maps_ListByResourceGroup.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_ListByResourceGroup.json
  */
 async function mapsListByResourceGroupGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

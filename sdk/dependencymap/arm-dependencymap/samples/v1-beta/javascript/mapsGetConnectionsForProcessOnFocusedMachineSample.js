@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get network connections of a process
  *
  * @summary get network connections of a process
- * x-ms-original-file: 2025-01-31-preview/Maps_GetConnectionsForProcessOnFocusedMachine.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_GetConnectionsForProcessOnFocusedMachine.json
  */
 async function mapsGetConnectionsForProcessOnFocusedMachineGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DependencyMapClient } from "@azure/arm-dependencymap";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to export dependencies
  *
  * @summary export dependencies
- * x-ms-original-file: 2025-01-31-preview/Maps_ExportDependencies.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_ExportDependencies.json
  */
-
-import { DependencyMapClient } from "@azure/arm-dependencymap";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function mapsExportDependenciesGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";
   const client = new DependencyMapClient(credential, subscriptionId);
-  await client.maps.exportDependencies("rgdependencyMap", "mapsTest1", {
+  const result = await client.maps.exportDependencies("rgdependencyMap", "mapsTest1", {
     focusedMachineId: "qzjpilzxpurauwfwwanpiiafvz",
     filters: {
       dateTime: {
@@ -27,7 +26,9 @@ async function mapsExportDependenciesGeneratedByMaximumSetRule(): Promise<void> 
         processNames: ["mnqtvduwzemjcvvmnnoqvcuemwhnz"],
       },
     },
+    applianceNameList: ["guwwagnitv"],
   });
+  console.log(result);
 }
 
 async function main(): Promise<void> {
