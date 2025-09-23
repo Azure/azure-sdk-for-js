@@ -15,7 +15,7 @@ import {
   MessagesEnqueueOptionalParams,
   MessagesEnqueueResponse,
   MessagesPeekOptionalParams,
-  MessagesPeekResponse
+  MessagesPeekResponse,
 } from "../models/index.js";
 
 /** Interface representing a Messages. */
@@ -25,7 +25,7 @@ export interface Messages {
    * @param options The options parameters.
    */
   dequeue(
-    options?: MessagesDequeueOptionalParams
+    options?: MessagesDequeueOptionalParams,
   ): Promise<MessagesDequeueResponse>;
   /**
    * The Clear operation deletes all messages from the specified queue.
@@ -42,7 +42,7 @@ export interface Messages {
    */
   enqueue(
     queueMessage: QueueMessage,
-    options?: MessagesEnqueueOptionalParams
+    options?: MessagesEnqueueOptionalParams,
   ): Promise<MessagesEnqueueResponse>;
   /**
    * The Peek operation retrieves one or more messages from the front of the queue, but does not alter

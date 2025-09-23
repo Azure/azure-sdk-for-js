@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/aa4b90db8da0aa8017c6b80a6a68ab79cc09266b/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
+input-file: D:/repo/JS/another/2026_file_spec/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.3"
+  "@autorest/typescript": "6.0.42"
 package-version: 12.28.0
 ```
 

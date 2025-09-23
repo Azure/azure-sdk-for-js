@@ -197,6 +197,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.owner,
     Parameters.group,
     Parameters.fileMode,
+    Parameters.filePropertySemantics,
   ],
   isXML: true,
   serializer: xmlSerializer,
@@ -302,7 +303,7 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp5,
+    Parameters.comp6,
     Parameters.restype2,
   ],
   urlParameters: [Parameters.url],
@@ -369,7 +370,7 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
     Parameters.marker,
     Parameters.maxResults,
     Parameters.shareSnapshot,
-    Parameters.comp9,
+    Parameters.comp10,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -398,7 +399,7 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp10,
+    Parameters.comp11,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -427,7 +428,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype2,
-    Parameters.comp11,
+    Parameters.comp12,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [

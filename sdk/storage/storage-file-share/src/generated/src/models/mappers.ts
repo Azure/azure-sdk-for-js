@@ -196,6 +196,14 @@ export const ShareProtocolSettings: coreClient.CompositeMapper = {
           className: "ShareSmbSettings",
         },
       },
+      nfs: {
+        serializedName: "Nfs",
+        xmlName: "NFS",
+        type: {
+          name: "Composite",
+          className: "ShareNfsSettings",
+        },
+      },
     },
   },
 };
@@ -215,6 +223,14 @@ export const ShareSmbSettings: coreClient.CompositeMapper = {
           className: "SmbMultichannel",
         },
       },
+      encryptionInTransit: {
+        serializedName: "EncryptionInTransit",
+        xmlName: "EncryptionInTransit",
+        type: {
+          name: "Composite",
+          className: "ShareSmbSettingsEncryptionInTransit",
+        },
+      },
     },
   },
 };
@@ -229,6 +245,59 @@ export const SmbMultichannel: coreClient.CompositeMapper = {
       enabled: {
         serializedName: "Enabled",
         xmlName: "Enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ShareSmbSettingsEncryptionInTransit: coreClient.CompositeMapper = {
+  serializedName: "ShareSmbSettingsEncryptionInTransit",
+  type: {
+    name: "Composite",
+    className: "ShareSmbSettingsEncryptionInTransit",
+    modelProperties: {
+      required: {
+        serializedName: "Required",
+        xmlName: "Required",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ShareNfsSettings: coreClient.CompositeMapper = {
+  serializedName: "ShareNfsSettings",
+  xmlName: "NFS",
+  type: {
+    name: "Composite",
+    className: "ShareNfsSettings",
+    modelProperties: {
+      encryptionInTransit: {
+        serializedName: "EncryptionInTransit",
+        xmlName: "EncryptionInTransit",
+        type: {
+          name: "Composite",
+          className: "ShareNfsSettingsEncryptionInTransit",
+        },
+      },
+    },
+  },
+};
+
+export const ShareNfsSettingsEncryptionInTransit: coreClient.CompositeMapper = {
+  serializedName: "ShareNfsSettingsEncryptionInTransit",
+  type: {
+    name: "Composite",
+    className: "ShareNfsSettingsEncryptionInTransit",
+    modelProperties: {
+      required: {
+        serializedName: "Required",
+        xmlName: "Required",
         type: {
           name: "Boolean",
         },
@@ -608,6 +677,104 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
         xmlName: "NextAllowedProvisionedBandwidthDowngradeTime",
         type: {
           name: "DateTimeRfc1123",
+        },
+      },
+      enableSmbDirectoryLease: {
+        serializedName: "EnableSmbDirectoryLease",
+        xmlName: "EnableSmbDirectoryLease",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const KeyInfo: coreClient.CompositeMapper = {
+  serializedName: "KeyInfo",
+  type: {
+    name: "Composite",
+    className: "KeyInfo",
+    modelProperties: {
+      start: {
+        serializedName: "Start",
+        xmlName: "Start",
+        type: {
+          name: "String",
+        },
+      },
+      expiry: {
+        serializedName: "Expiry",
+        required: true,
+        xmlName: "Expiry",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UserDelegationKey: coreClient.CompositeMapper = {
+  serializedName: "UserDelegationKey",
+  type: {
+    name: "Composite",
+    className: "UserDelegationKey",
+    modelProperties: {
+      signedOid: {
+        serializedName: "SignedOid",
+        required: true,
+        xmlName: "SignedOid",
+        type: {
+          name: "String",
+        },
+      },
+      signedTid: {
+        serializedName: "SignedTid",
+        required: true,
+        xmlName: "SignedTid",
+        type: {
+          name: "String",
+        },
+      },
+      signedStart: {
+        serializedName: "SignedStart",
+        required: true,
+        xmlName: "SignedStart",
+        type: {
+          name: "DateTime",
+        },
+      },
+      signedExpiry: {
+        serializedName: "SignedExpiry",
+        required: true,
+        xmlName: "SignedExpiry",
+        type: {
+          name: "DateTime",
+        },
+      },
+      signedService: {
+        serializedName: "SignedService",
+        required: true,
+        xmlName: "SignedService",
+        type: {
+          name: "String",
+        },
+      },
+      signedVersion: {
+        serializedName: "SignedVersion",
+        required: true,
+        xmlName: "SignedVersion",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "Value",
+        required: true,
+        xmlName: "Value",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1407,6 +1574,62 @@ export const ServiceListSharesSegmentExceptionHeaders: coreClient.CompositeMappe
     },
   };
 
+export const ServiceGetUserDelegationKeyHeaders: coreClient.CompositeMapper = {
+  serializedName: "Service_getUserDelegationKeyHeaders",
+  type: {
+    name: "Composite",
+    className: "ServiceGetUserDelegationKeyHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String",
+        },
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String",
+        },
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String",
+        },
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+    },
+  },
+};
+
+export const ServiceGetUserDelegationKeyExceptionHeaders: coreClient.CompositeMapper =
+  {
+    serializedName: "Service_getUserDelegationKeyExceptionHeaders",
+    type: {
+      name: "Composite",
+      className: "ServiceGetUserDelegationKeyExceptionHeaders",
+      modelProperties: {
+        errorCode: {
+          serializedName: "x-ms-error-code",
+          xmlName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ShareCreateHeaders: coreClient.CompositeMapper = {
   serializedName: "Share_createHeaders",
   type: {
@@ -1725,6 +1948,13 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
         type: {
           name: "DateTimeRfc1123",
+        },
+      },
+      enableSmbDirectoryLease: {
+        serializedName: "x-ms-enable-smb-directory-lease",
+        xmlName: "x-ms-enable-smb-directory-lease",
+        type: {
+          name: "Boolean",
         },
       },
       errorCode: {
@@ -3940,6 +4170,20 @@ export const FileCreateHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-file-file-type",
         type: {
           name: "String",
+        },
+      },
+      contentMD5: {
+        serializedName: "content-md5",
+        xmlName: "content-md5",
+        type: {
+          name: "ByteArray",
+        },
+      },
+      contentLength: {
+        serializedName: "content-length",
+        xmlName: "content-length",
+        type: {
+          name: "Number",
         },
       },
       errorCode: {

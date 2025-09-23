@@ -36,6 +36,7 @@ import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { UserDelegationKey as UserDelegationKey_2 } from '@azure/storage-common';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
@@ -454,6 +455,7 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermission?: string | FilePermissionInheritType;
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
+    filePropertySemantics?: FilePropertySemantics;
     lastWriteTime?: Date | TimeNowType;
     posixProperties?: FilePosixProperties;
 }
@@ -535,9 +537,13 @@ export interface FileCreateHeaders {
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    content?: HttpRequestBody;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
@@ -895,6 +901,9 @@ export interface FileProperty {
 }
 
 // @public
+export type FilePropertySemantics = string;
+
+// @public
 export interface FileRenameHeaders {
     date?: Date;
     etag?: string;
@@ -961,6 +970,7 @@ export interface FileSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    delegatedUserObjectId?: string;
     expiresOn?: Date;
     filePath?: string;
     identifier?: string;
@@ -1150,7 +1160,10 @@ export interface FileUploadStreamOptions extends CommonOptions {
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
-// @public
+// @public (undocumented)
+export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
+
+// @public (undocumented)
 export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
@@ -1445,12 +1458,13 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey_2, delegatedUserObjectId?: string);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly delegatedUserObjectId?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -1493,6 +1507,25 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 
 // @public
 export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesHeaders & FileServiceProperties, ServiceGetPropertiesHeaders, FileServiceProperties>;
+
+// @public
+export interface ServiceGetUserDelegationKeyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ServiceGetUserDelegationKeyResponse = WithResponse<UserDelegationKey & ServiceGetUserDelegationKeyHeaders, ServiceGetUserDelegationKeyHeaders, UserDelegationKeyModel>;
+
+// @public
+export type ServiceGetUserDelegationKeyResponseModel = ServiceGetUserDelegationKeyHeaders & UserDelegationKeyModel;
 
 // @public
 export interface ServiceListSharesOptions extends CommonOptions {
@@ -1566,6 +1599,8 @@ export class ShareClient extends StorageClient {
     exists(options?: ShareExistsOptions): Promise<boolean>;
     generateSasStringToSign(options: ShareGenerateSasUrlOptions): string;
     generateSasUrl(options: ShareGenerateSasUrlOptions): string;
+    generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationStringToSign(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
@@ -1764,6 +1799,8 @@ export class ShareFileClient extends StorageClient {
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     generateSasStringToSign(options: FileGenerateSasUrlOptions): string;
     generateSasUrl(options: FileGenerateSasUrlOptions): string;
+    generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationStringToSign(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
@@ -1853,6 +1890,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     date?: Date;
     enabledProtocols?: string;
+    enableSmbDirectoryLease?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
     etag?: string;
@@ -1990,6 +2028,8 @@ export interface SharePropertiesInternal {
     // (undocumented)
     enabledProtocols?: string;
     // (undocumented)
+    enableSmbDirectoryLease?: boolean;
+    // (undocumented)
     enableSnapshotVirtualDirectoryAccess?: boolean;
     // (undocumented)
     etag: string;
@@ -2038,6 +2078,8 @@ export interface ShareProtocols {
 
 // @public
 export interface ShareProtocolSettings {
+    // Warning: (ae-forgotten-export) The symbol "ShareNfsSettings" needs to be exported by the entry point index.d.ts
+    nfs?: ShareNfsSettings;
     smb?: ShareSmbSettings;
 }
 
@@ -2069,6 +2111,7 @@ export class ShareServiceClient extends StorageClient {
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
+    getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteShare(deletedShareName: string, deletedShareVersion: string, options?: ServiceUndeleteShareOptions): Promise<ShareClient>;
@@ -2134,6 +2177,7 @@ export interface ShareSetPropertiesHeaders {
 export interface ShareSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    enableSmbDirectoryLease?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
     paidBurstingEnabled?: boolean;
@@ -2162,6 +2206,8 @@ export type ShareSetQuotaResponse = WithResponse<ShareSetQuotaHeaders, ShareSetQ
 
 // @public
 export interface ShareSmbSettings {
+    // Warning: (ae-forgotten-export) The symbol "ShareSmbSettingsEncryptionInTransit" needs to be exported by the entry point index.d.ts
+    encryptionInTransit?: ShareSmbSettingsEncryptionInTransit;
     multichannel?: SmbMultichannel;
 }
 
@@ -2243,6 +2289,28 @@ export function toOctalFileMode(input?: NfsFileMode): string | undefined;
 
 // @public
 export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
+
+// @public
+export interface UserDelegationKey {
+    signedExpiresOn: Date;
+    signedObjectId: string;
+    signedService: string;
+    signedStartsOn: Date;
+    signedTenantId: string;
+    signedVersion: string;
+    value: string;
+}
+
+// @public
+export interface UserDelegationKeyModel {
+    signedExpiry: Date;
+    signedOid: string;
+    signedService: string;
+    signedStart: Date;
+    signedTid: string;
+    signedVersion: string;
+    value: string;
+}
 
 export { WebResource }
 

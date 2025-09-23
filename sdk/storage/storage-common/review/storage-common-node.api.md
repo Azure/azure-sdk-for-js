@@ -158,6 +158,25 @@ export interface StorageSharedKeyCredentialPolicyOptions {
     accountName: string;
 }
 
+// @public
+export interface UserDelegationKey {
+    signedExpiresOn: Date;
+    signedObjectId: string;
+    signedService: string;
+    signedStartsOn: Date;
+    signedTenantId: string;
+    signedVersion: string;
+    value: string;
+}
+
+// @public
+export class UserDelegationKeyCredential {
+    constructor(accountName: string, userDelegationKey: UserDelegationKey);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    readonly userDelegationKey: UserDelegationKey;
+}
+
 // (No @packageDocumentation comment for this package)
 
 ```
