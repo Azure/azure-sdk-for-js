@@ -81,7 +81,7 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Retrieves a user delegation key for the Queue service. This is only a valid operation when using
+   * Retrieves a user delegation key for the File service. This is only a valid operation when using
    * bearer token authentication.
    * @param keyInfo Key information
    * @param options The options parameters.

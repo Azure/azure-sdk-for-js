@@ -1032,6 +1032,18 @@ export const allowSourceTrailingDot: OperationParameter = {
   },
 };
 
+export const contentType2: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: {
@@ -1039,6 +1051,18 @@ export const body: OperationParameter = {
     xmlName: "body",
     type: {
       name: "Stream",
+    },
+  },
+};
+
+export const accept3: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
     },
   },
 };
@@ -1195,41 +1219,6 @@ export const fileContentLength1: OperationParameter = {
     xmlName: "x-ms-content-length",
     type: {
       name: "Number",
-    },
-  },
-};
-
-export const contentType2: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/octet-stream",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: {
-    serializedName: "body",
-    xmlName: "body",
-    type: {
-      name: "Stream",
-    },
-  },
-};
-
-export const accept3: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/xml",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String",
     },
   },
 };

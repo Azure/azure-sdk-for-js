@@ -33,9 +33,9 @@ import {
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants.js";
-import { UserDelegationKeyCredential } from "../../src/credentials/UserDelegationKeyCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

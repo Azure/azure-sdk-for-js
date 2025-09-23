@@ -177,15 +177,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type FileAttributesPreserveType = "preserve";
  
  // @public
-@@ -536,12 +469,13 @@
+@@ -536,9 +469,10 @@
  
  // @public
  export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
      abortSignal?: AbortSignalLike;
--    content?: HttpRequestBody;
-+    content?: RequestBodyType;
-     contentLength?: number;
-     contentMD5?: Uint8Array;
 -    fileHttpHeaders?: FileHttpHeaders;
 +    // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders_2" needs to be exported by the entry point index.d.ts
 +    fileHttpHeaders?: FileHttpHeaders_2;
@@ -193,7 +189,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      metadata?: Metadata;
      onProgress?: (progress: TransferProgressEvent) => void;
  }
-@@ -700,8 +634,9 @@
+@@ -697,8 +631,9 @@
  export type FileForceCloseHandlesResponse = WithResponse<CloseHandlesInfo & FileCloseHandlesHeaders, FileForceCloseHandlesHeaders>;
  
  // @public
@@ -203,7 +199,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -797,18 +732,8 @@
+@@ -794,18 +729,8 @@
  
  // @public
  export type FileGetSymbolicLinkResponse = WithResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>;
@@ -222,7 +218,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileItem {
      // (undocumented)
      attributes?: string;
-@@ -850,9 +775,9 @@
+@@ -847,9 +772,9 @@
  // @public
  export interface FileParallelUploadOptions extends CommonOptions {
      abortSignal?: AbortSignalLike;
@@ -233,7 +229,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      metadata?: Metadata;
      onProgress?: (progress: TransferProgressEvent) => void;
      rangeSize?: number;
-@@ -866,21 +791,12 @@
+@@ -863,21 +788,12 @@
  
  // @public
  export type FilePermissionPreserveType = "preserve";
@@ -256,7 +252,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -953,37 +869,8 @@
+@@ -950,37 +866,8 @@
      fileItems: FileItem[];
  }
  
@@ -294,7 +290,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      cors?: CorsRule[];
      hourMetrics?: Metrics;
      minuteMetrics?: Metrics;
-@@ -1150,27 +1037,15 @@
+@@ -1147,27 +1034,15 @@
  
  // @public
  export interface FileUploadStreamOptions extends CommonOptions {
@@ -323,7 +319,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      accessRightList?: ShareFileHandleAccessRights[];
      clientIp: string;
-@@ -1189,18 +1064,12 @@
+@@ -1186,18 +1061,12 @@
      scheme: string;
      value: string;
  }
@@ -344,7 +340,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1315,14 +1184,8 @@
+@@ -1312,14 +1181,8 @@
  
  // @public
  export const logger: AzureLogger;
@@ -359,7 +355,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Metrics {
      enabled: boolean;
      includeAPIs?: boolean;
-@@ -1336,23 +1199,15 @@
+@@ -1333,23 +1196,15 @@
  // @public
  export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
  
@@ -385,7 +381,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
  
  // @public
-@@ -1382,15 +1237,8 @@
+@@ -1379,15 +1234,8 @@
      shareTokenIntent?: ShareTokenIntent;
  }
  
@@ -401,7 +397,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      count?: number;
      offset: number;
  }
-@@ -1407,15 +1255,8 @@
+@@ -1404,15 +1252,8 @@
      blobBody?: Promise<Blob>;
      readableStreamBody?: NodeJS.ReadableStream;
  };
@@ -417,7 +413,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -1450,37 +1291,8 @@
+@@ -1447,37 +1288,8 @@
      start: string;
  }
  
@@ -455,7 +451,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -1657,8 +1469,9 @@
+@@ -1654,8 +1466,9 @@
      };
      paidBurstingEnabled?: boolean;
      paidBurstingMaxBandwidthMibps?: number;
@@ -465,7 +461,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      quota?: number;
      rootSquash?: ShareRootSquash;
      shareProvisionedBandwidthMibps?: number;
-@@ -1813,16 +1626,16 @@
+@@ -1810,16 +1623,16 @@
          destinationFileClient: ShareFileClient;
          fileRenameResponse: FileRenameResponse;
      }>;
@@ -484,7 +480,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
-@@ -1841,8 +1654,9 @@
+@@ -1838,8 +1651,9 @@
  }
  
  // @public
@@ -494,7 +490,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2070,14 +1884,8 @@
+@@ -2067,14 +1881,8 @@
      rootSquash?: ShareRootSquash;
  }
  
@@ -509,7 +505,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // Warning: (ae-forgotten-export) The symbol "ShareNfsSettings" needs to be exported by the entry point index.d.ts
      nfs?: ShareNfsSettings;
      smb?: ShareSmbSettings;
-@@ -2086,19 +1894,8 @@
+@@ -2083,19 +1891,8 @@
  // @public
  export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
  
@@ -529,7 +525,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
      constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
      createShare(shareName: string, options?: ShareCreateOptions): Promise<{
-@@ -2106,8 +1903,9 @@
+@@ -2103,8 +1900,9 @@
          shareClient: ShareClient;
      }>;
      deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
@@ -539,7 +535,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getShareClient(shareName: string): ShareClient;
-@@ -2248,16 +2046,8 @@
+@@ -2245,16 +2043,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -556,7 +552,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -2273,12 +2063,8 @@
+@@ -2270,12 +2060,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -569,7 +565,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type TimeNowType = "now";
  
  // @public
-@@ -2311,10 +2097,8 @@
+@@ -2308,10 +2094,8 @@
      signedVersion: string;
      value: string;
  }

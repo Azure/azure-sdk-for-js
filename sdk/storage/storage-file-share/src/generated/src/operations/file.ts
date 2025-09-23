@@ -412,8 +412,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.timeoutInSeconds],
   urlParameters: [Parameters.url],
   headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.metadata,
@@ -430,6 +428,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.group,
     Parameters.fileMode,
     Parameters.filePropertySemantics,
+    Parameters.contentType2,
+    Parameters.accept3,
     Parameters.fileContentLength,
     Parameters.fileTypeConstant,
     Parameters.fileContentType,
@@ -444,7 +444,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
-  mediaType: "xml",
+  mediaType: "binary",
   serializer: xmlSerializer,
 };
 const downloadOperationSpec: coreClient.OperationSpec = {
@@ -716,7 +716,7 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.FileUploadRangeExceptionHeaders,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.timeoutInSeconds, Parameters.comp13],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -724,9 +724,9 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.leaseId,
     Parameters.allowTrailingDot,
-    Parameters.contentMD5,
     Parameters.contentType2,
     Parameters.accept3,
+    Parameters.contentMD5,
     Parameters.range1,
     Parameters.fileRangeWrite,
     Parameters.contentLength1,

@@ -789,7 +789,7 @@ export class QueueServiceClient extends StorageClient {
       },
       this.credential,
     ).stringToSign;
-  }  
+  }
 
   /**
    * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
@@ -844,7 +844,6 @@ export class QueueServiceClient extends StorageClient {
           clientRequestId: response.clientRequestId,
           version: response.version,
           date: response.date,
-          //errorCode: response.errorCode,
           ...userDelegationKey,
         };
 

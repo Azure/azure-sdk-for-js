@@ -22,10 +22,11 @@ import {
   getSignatureFromSasUrl,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
+  parseJwt,
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -52,70 +53,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await recorder.stop();
   });
 
-  it("userdelegation SAS should work", async function (ctx) {
-    // Try to get BlobServiceClient object with DefaultCredential
-    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let fileServiceClientWithToken: ShareServiceClient;
-    try {
-      fileServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {
-      // Requires bearer token for this case which cannot be generated in the runtime
-      // Make sure this case passed in sanity test
+  it("GenerateUserDelegationSAS with skuoid should work for share", async (ctx) => {
+    if (!isLiveMode()) {
       ctx.skip();
-    }    
-    
-    const now = new Date(recorder.variable("now", new Date().toISOString()));
-    now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-    tmr.setDate(tmr.getDate() + 1);
-    const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey(now, tmr);
-
-    const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
-
-    const accountName = sharedKeyCredential.accountName;
-
-    const shareName = recorder.variable("share", getUniqueName("share"));
-    const shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
-
-    const shareSAS = generateFileSASQueryParameters(
-      {
-        shareName: shareName,
-        expiresOn: tmr,
-        // ipRange: {
-        //   start: "0000:0000:0000:0000:0000:000:000:0000",
-        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-        // },
-        permissions: ShareSASPermissions.parse("rcwdl"),
-        protocol: SASProtocol.HttpsAndHttp,
-        startsOn: now,
-        version: "2025-07-05",
-      },
-      userDelegationKey,
-      accountName,
-    ).toString();
-
-    const sasClient = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(
-      sasClient,
-      newPipeline(new AnonymousCredential()),
-      {
-        fileRequestIntent: "backup"
-      }
-    );
-    configureStorageClient(recorder, shareClientwithSAS);
-
-    const result = (await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.deepStrictEqual(result.continuationToken, "");
-    await shareClient.delete();
-  });
-
-  function parseJwt (token: string) {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-  }
-  
-  it("GenerateUserDelegationSAS with skuoid should work", async (ctx) => {
+    }
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let fileServiceClientWithToken: ShareServiceClient;
@@ -127,9 +68,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       ctx.skip();
     }
     const tokenCredential = createTestCredential();
-    const token = (await tokenCredential.getToken("https://storage.azure.com/.default"))?.token!
-    const jwtObj = parseJwt(token);
-    
+    const token = (await tokenCredential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
@@ -163,21 +104,19 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasClient = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(
-      sasClient,
-      newPipeline(tokenCredential),
-      {
-        fileRequestIntent: "backup"
-      }
-    );
+    const shareClientwithSAS = new ShareClient(sasClient, newPipeline(tokenCredential), {
+      fileRequestIntent: "backup",
+    });
     configureStorageClient(recorder, shareClientwithSAS);
 
-    const result = (await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()).value;
+    const result = (
+      await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()
+    ).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await shareClient.delete();
   });
-  
+
   it("ShareClient.generateUserDelegationSasUrl should work", async function (ctx) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
@@ -189,7 +128,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       // Make sure this case passed in sanity test
       ctx.skip();
     }
-    
+
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
@@ -201,18 +140,19 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await shareClient.create();
 
     const sasSignatureValues = {
-        expiresOn: tmr,
-        // ipRange: {
-        //   start: "0000:0000:0000:0000:0000:000:000:0000",
-        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-        // },
-        permissions: ShareSASPermissions.parse("rcwdl"),
-        protocol: SASProtocol.HttpsAndHttp,
-        startsOn: now,
-        version: "2025-07-05",
-      };
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: ShareSASPermissions.parse("rcwdl"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      version: "2025-07-05",
+    };
 
-    const shareSASUrl = shareClient.generateUserDelegationSasUrl(sasSignatureValues,
+    const shareSASUrl = shareClient.generateUserDelegationSasUrl(
+      sasSignatureValues,
       userDelegationKey,
     );
 
@@ -220,26 +160,101 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       shareSASUrl,
       newPipeline(new AnonymousCredential()),
       {
-        fileRequestIntent: "backup"
-      }
+        fileRequestIntent: "backup",
+      },
     );
     configureStorageClient(recorder, shareClientwithSAS);
 
-    const result = (await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()).value;
+    const result = (
+      await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()
+    ).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await shareClient.delete();
 
-    const stringToSign = shareClient.generateUserDelegationStringToSign(sasSignatureValues,
+    const stringToSign = shareClient.generateUserDelegationStringToSign(
+      sasSignatureValues,
       userDelegationKey,
-    );    
+    );
 
     const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
-    const signature = (new UserDelegationKeyCredential(accountName, userDelegationKey)).computeHMACSHA256(stringToSign);
-    assert.deepEqual(signature, getSignatureFromSasUrl(shareSASUrl));    
+    const signature = new UserDelegationKeyCredential(
+      accountName,
+      userDelegationKey,
+    ).computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(shareSASUrl));
+  });
+
+  it("GenerateUserDelegationSAS with skuoid should work for file", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let fileServiceClientWithToken: ShareServiceClient;
+    try {
+      fileServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+    const tokenCredential = createTestCredential();
+    const token = (await tokenCredential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const directoryName = recorder.variable("dir", getUniqueName("dir"));
+    const dirClient = shareClient.getDirectoryClient(directoryName);
+    await dirClient.create();
+
+    const fileName = recorder.variable("file", getUniqueName("file"));
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(1024);
+
+    const fileSas = generateFileSASQueryParameters(
+      {
+        shareName: shareName,
+        filePath: fileClient.path,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: ShareSASPermissions.parse("rcwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        delegatedUserObjectId: jwtObj.oid,
+        version: "2025-07-05",
+      },
+      userDelegationKey,
+      accountName,
+    ).toString();
+
+    const sasClient = `${fileClient.url}?${fileSas}`;
+    const fileClientwithSAS = new ShareFileClient(sasClient, newPipeline(tokenCredential), {
+      fileRequestIntent: "backup",
+    });
+    configureStorageClient(recorder, fileClientwithSAS);
+
+    await fileClientwithSAS.getProperties();
+    await shareClient.delete();
   });
 
   it("FileClient.generateUserDelegationSasUrl should work", async function (ctx) {
@@ -253,7 +268,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       // Make sure this case passed in sanity test
       ctx.skip();
     }
-    
+
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
@@ -265,18 +280,19 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await shareClient.create();
 
     const sasSignatureValues = {
-        expiresOn: tmr,
-        // ipRange: {
-        //   start: "0000:0000:0000:0000:0000:000:000:0000",
-        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-        // },
-        permissions: ShareSASPermissions.parse("rcwd"),
-        protocol: SASProtocol.HttpsAndHttp,
-        startsOn: now,
-        version: "2025-07-05",
-      };
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: ShareSASPermissions.parse("rcwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      version: "2025-07-05",
+    };
 
-    const shareSASUrl = shareClient.generateUserDelegationSasUrl(sasSignatureValues,
+    const shareSASUrl = shareClient.generateUserDelegationSasUrl(
+      sasSignatureValues,
       userDelegationKey,
     );
 
@@ -284,23 +300,25 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       shareSASUrl,
       newPipeline(new AnonymousCredential()),
       {
-        fileRequestIntent: "backup"
-      }
+        fileRequestIntent: "backup",
+      },
     );
     configureStorageClient(recorder, shareClientwithSAS);
 
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const dirClient = shareClientwithSAS.getDirectoryClient(directoryName);
     await dirClient.create();
-    
+
     const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = shareClient.getDirectoryClient(directoryName).getFileClient(fileName);
 
-    const fileSASUrl = fileClient.generateUserDelegationSasUrl(sasSignatureValues,
+    const fileSASUrl = fileClient.generateUserDelegationSasUrl(
+      sasSignatureValues,
       userDelegationKey,
     );
 
-    const stringToSign = fileClient.generateUserDelegationStringToSign(sasSignatureValues,
+    const stringToSign = fileClient.generateUserDelegationStringToSign(
+      sasSignatureValues,
       userDelegationKey,
     );
 
@@ -308,8 +326,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       fileSASUrl,
       newPipeline(new AnonymousCredential()),
       {
-        fileRequestIntent: "backup"
-      }
+        fileRequestIntent: "backup",
+      },
     );
     configureStorageClient(recorder, fileClientwithSAS);
 
@@ -320,8 +338,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const signature = (new UserDelegationKeyCredential(accountName, userDelegationKey)).computeHMACSHA256(stringToSign);
-    assert.deepEqual(signature, getSignatureFromSasUrl(fileSASUrl));    
+    const signature = new UserDelegationKeyCredential(
+      accountName,
+      userDelegationKey,
+    ).computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(fileSASUrl));
   });
 
   it("generateAccountSASQueryParameters should work", async () => {

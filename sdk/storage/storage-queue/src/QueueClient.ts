@@ -1279,14 +1279,13 @@ export class QueueClient extends StorageClient {
     options: QueueGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
-
     const sas = generateQueueSASQueryParameters(
       {
         queueName: this.name,
         ...options,
       },
       userDelegationKey,
-      this.accountName
+      this.accountName,
     ).toString();
 
     return appendToURLQuery(this.url, sas);
@@ -1307,14 +1306,13 @@ export class QueueClient extends StorageClient {
     options: QueueGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
-
     return generateQueueSASQueryParametersInternal(
       {
         queueName: this.name,
         ...options,
       },
       userDelegationKey,
-      this.accountName
+      this.accountName,
     ).stringToSign;
   }
 }

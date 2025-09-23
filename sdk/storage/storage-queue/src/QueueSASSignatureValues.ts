@@ -61,7 +61,7 @@ export interface QueueSASSignatureValues {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
-  
+
   /**
    * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
@@ -101,10 +101,11 @@ export function generateQueueSASQueryParameters(
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string,
 ): SASQueryParameters {
-  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, 
+  return generateQueueSASQueryParametersInternal(
+    queueSASSignatureValues,
     sharedKeyCredentialOrUserDelegationKey,
-    accountName,)
-    .sasQueryParameters;
+    accountName,
+  ).sasQueryParameters;
 }
 
 export function generateQueueSASQueryParametersInternal(
@@ -112,8 +113,10 @@ export function generateQueueSASQueryParametersInternal(
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string,
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
-  const version = queueSASSignatureValues.version ? queueSASSignatureValues.version : SERVICE_VERSION;
-  
+  const version = queueSASSignatureValues.version
+    ? queueSASSignatureValues.version
+    : SERVICE_VERSION;
+
   const sharedKeyCredential =
     sharedKeyCredentialOrUserDelegationKey instanceof StorageSharedKeyCredential
       ? sharedKeyCredentialOrUserDelegationKey
@@ -209,14 +212,15 @@ function generateQueueSASQueryParametersUDK20250705(
   userDelegationKeyCredential: UserDelegationKeyCredential,
   accountName: string,
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
-
   if (!(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
     );
   }
 
-  const version = queueSASSignatureValues.version ? queueSASSignatureValues.version : SERVICE_VERSION;
+  const version = queueSASSignatureValues.version
+    ? queueSASSignatureValues.version
+    : SERVICE_VERSION;
   let verifiedPermissions: string | undefined;
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
@@ -248,10 +252,10 @@ function generateQueueSASQueryParametersUDK20250705(
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
     undefined, // shared key delegation signed tenant id.
-    queueSASSignatureValues.delegatedUserObjectId, 
+    queueSASSignatureValues.delegatedUserObjectId,
     queueSASSignatureValues.ipRange ? ipRangeToString(queueSASSignatureValues.ipRange) : "",
     queueSASSignatureValues.protocol ? queueSASSignatureValues.protocol : "",
-    version
+    version,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
@@ -270,7 +274,7 @@ function generateQueueSASQueryParametersUDK20250705(
       queueSASSignatureValues.identifier,
       resource,
       userDelegationKeyCredential.userDelegationKey,
-      queueSASSignatureValues.delegatedUserObjectId
+      queueSASSignatureValues.delegatedUserObjectId,
     ),
     stringToSign: stringToSign,
   };

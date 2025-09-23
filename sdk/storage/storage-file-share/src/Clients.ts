@@ -429,16 +429,10 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    */
   shareProvisionedIops?: number;
 
-  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). 
-   * If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. 
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps).
+   * If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula.
    */
   shareProvisionedBandwidthMibps?: number;
-
-  /** SMB only, default is true.  
-   * Specifies whether granting of new directory leases for directories present in a share are to be enabled or disabled. An input of true specifies that granting of new directory leases is to be allowed. 
-   * An input of false specifies that granting of new directory leases is to be blocked. 
-   */
-  enableSmbDirectoryLease?: boolean;
 }
 
 /**
@@ -1457,14 +1451,13 @@ export class ShareClient extends StorageClient {
     options: ShareGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
-
     const sas = generateFileSASQueryParameters(
       {
         shareName: this.name,
         ...options,
       },
       userDelegationKey,
-      this.accountName
+      this.accountName,
     ).toString();
 
     return appendToURLQuery(this.url, sas);
@@ -1485,14 +1478,13 @@ export class ShareClient extends StorageClient {
     options: ShareGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
-
     return generateFileSASQueryParametersInternal(
       {
         shareName: this.name,
         ...options,
       },
       userDelegationKey,
-      this.accountName
+      this.accountName,
     ).stringToSign;
   }
 }
@@ -3098,20 +3090,6 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    */
   leaseAccessConditions?: LeaseAccessConditions;
 
-  /** Initial data. */
-  content?: HttpRequestBody;
-  
-  /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, 
-   * the File service compares the hash of the content that has arrived with the header value that was sent. 
-   * If the two hashes do not match, the operation will fail with error code 400 (Bad Request). 
-   */
-  contentMD5?: Uint8Array;
-  
-  /** Specifies the number of bytes being transmitted in the request body. 
-   * When the content option is not set, the value of contengLength must be set to zero. 
-   */
-  contentLength?: number;
-
   /**
    * Progress updating event handler.
    */
@@ -4132,7 +4110,6 @@ export class ShareFileClient extends StorageClient {
         requestOptions: {
           onUploadProgress: updatedOptions.onProgress,
         },
-        body: updatedOptions.content,
         ...this.shareClientConfig,
       });
 
@@ -5774,7 +5751,7 @@ export class ShareFileClient extends StorageClient {
       },
       this.credential,
     ).stringToSign;
-  }  
+  }
 
   /**
    *
@@ -5791,7 +5768,6 @@ export class ShareFileClient extends StorageClient {
     options: ShareGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
-
     const sas = generateFileSASQueryParameters(
       {
         shareName: this.shareName,
@@ -5799,7 +5775,7 @@ export class ShareFileClient extends StorageClient {
         ...options,
       },
       userDelegationKey,
-      this.accountName
+      this.accountName,
     ).toString();
 
     return appendToURLQuery(this.url, sas);
@@ -5820,7 +5796,6 @@ export class ShareFileClient extends StorageClient {
     options: ShareGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
   ): string {
-
     return generateFileSASQueryParametersInternal(
       {
         shareName: this.shareName,
@@ -5828,7 +5803,7 @@ export class ShareFileClient extends StorageClient {
         ...options,
       },
       userDelegationKey,
-      this.accountName
+      this.accountName,
     ).stringToSign;
   }
 
