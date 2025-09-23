@@ -555,6 +555,16 @@ describe("snippets", () => {
     });
   });
 
+  it("CosmosClientWithAADScope", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const aadCredentials = new DefaultAzureCredential();
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials,
+      aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
+    });
+  });
+
   it("CosmosClientDatabases", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
