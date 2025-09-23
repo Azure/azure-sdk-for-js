@@ -103,7 +103,6 @@ export class ClientContext {
                 const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
                 request.headers.set("Authorization", authorizationToken);
               } catch (error: any) {
-                console.log("error occured", error);
                 // If no custom scope is provided and we get AADSTS500011 error,
                 // fallback to the default Cosmos scope
                 if (!cosmosClientOptions.aadScope && error?.message?.includes("AADSTS500011")) {
