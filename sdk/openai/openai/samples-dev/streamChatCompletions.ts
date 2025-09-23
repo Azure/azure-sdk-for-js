@@ -8,22 +8,22 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
+
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 
 export async function main(): Promise<void> {
   console.log("== Streaming Chat Completions Sample ==");
 
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-35-turbo";
-  const apiVersion = "2025-04-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const deployment = "gpt-4o";
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
   const events = await client.chat.completions.create({
     messages: [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
       { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
       { role: "user", content: "What's the best way to train a parrot?" },
     ],
-    model: "",
+    model: deployment,
     max_tokens: 128,
     stream: true,
   });

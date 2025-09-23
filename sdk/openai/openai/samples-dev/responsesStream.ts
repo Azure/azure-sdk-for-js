@@ -8,20 +8,23 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
 
-async function main() {
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
+
+async function main(): Promise<void> {
+  console.log("== Stream Responses Sample ==");
+
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
+
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2025-04-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const deployment = "gpt-4o";
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
 
   const runner = client.responses
     .stream({
