@@ -312,7 +312,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250601 = "2025-06-01-preview"
+    V20250601Preview = "2025-06-01-preview"
 }
 
 // @public

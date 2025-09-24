@@ -729,5 +729,5 @@ export function artifactDownloadResultDeserializer(item: any): ArtifactDownloadR
 /** The available API versions. */
 export enum KnownVersions {
   /** Version 2025-06-01-preview */
-  V20250601 = "2025-06-01-preview",
+  V20250601Preview = "2025-06-01-preview",
 }
