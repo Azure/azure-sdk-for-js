@@ -29,7 +29,7 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
   "use-isnan": "error",
   "no-redeclare": "off",
   "no-shadow": "off",
-  "no-param-reassign": ["warn", { props: true }],
+  "no-param-reassign": ["warn", { props: false }],
 };
 
 export default {

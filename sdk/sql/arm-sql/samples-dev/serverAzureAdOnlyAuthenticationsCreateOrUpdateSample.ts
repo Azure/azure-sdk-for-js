@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ServerAzureADOnlyAuthentication,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  *
  * @summary Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AzureADOnlyAuthCreateOrUpdate.json
  */
-
-import type { ServerAzureADOnlyAuthentication } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-4799";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-4799";
   const serverName = "sqlcrudtest-6440";
   const authenticationName = "Default";
   const parameters: ServerAzureADOnlyAuthentication = {
@@ -24,12 +27,13 @@ async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject(): P
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAzureADOnlyAuthentications.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    authenticationName,
-    parameters,
-  );
+  const result =
+    await client.serverAzureADOnlyAuthentications.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      authenticationName,
+      parameters,
+    );
   console.log(result);
 }
 

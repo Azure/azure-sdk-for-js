@@ -88,10 +88,10 @@ export function _modifyVectorStoreSend(
   options: VectorStoresModifyVectorStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}{?api%2Dversion}",
+    "/vector_stores/{vectorStoreId}{?api-version}",
     {
       vectorStoreId: vectorStoreId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,10 +143,10 @@ export function _getVectorStoreSend(
   options: VectorStoresGetVectorStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}{?api%2Dversion}",
+    "/vector_stores/{vectorStoreId}{?api-version}",
     {
       vectorStoreId: vectorStoreId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

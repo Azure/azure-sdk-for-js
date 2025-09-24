@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { FailoverGroupUpdate, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Updates a failover group.
  *
  * @summary Updates a failover group.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverGroupUpdateStandbySecondary.json
  */
-
-import type { FailoverGroupUpdate } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function addDatabaseToFailoverGroupWithStandbySecondaryOnPartnerServer(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
   const serverName = "failover-group-primary-server";
   const failoverGroupName = "failover-group-test-1";
@@ -48,7 +47,8 @@ async function addDatabaseToFailoverGroupWithStandbySecondaryOnPartnerServer(): 
  */
 async function updateFailoverGroup(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
   const serverName = "failover-group-primary-server";
   const failoverGroupName = "failover-group-test-1";
