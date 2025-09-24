@@ -241,6 +241,17 @@
       ]
     },
     {
+      "filename": "sdk/communication/communication-ten-dlc/review/**/*.md",
+      "words": [
+        "Giin",
+        "Icex",
+        "Sehk",
+        "Szse",
+        "Twse",
+        "Ucaas"
+      ]
+    },
+    {
       "filename": "sdk/containerregistry/container-registry/review/**/*.md",
       "words": [
         "Illumos",
