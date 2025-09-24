@@ -75,8 +75,8 @@ export function list(
 
 export function _getSend(
   context: Client,
-  scope: string,
   id: string,
+  scope: string,
   options: QuotaRequestStatusGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -113,10 +113,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Qu
 /** Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation. */
 export async function get(
   context: Client,
-  scope: string,
   id: string,
+  scope: string,
   options: QuotaRequestStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<QuotaRequestDetails> {
-  const result = await _getSend(context, scope, id, options);
+  const result = await _getSend(context, id, scope, options);
   return _getDeserialize(result);
 }

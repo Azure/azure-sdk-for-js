@@ -19,8 +19,8 @@ export interface QuotaRequestStatusOperations {
   ) => PagedAsyncIterableIterator<QuotaRequestDetails>;
   /** Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation. */
   get: (
-    scope: string,
     id: string,
+    scope: string,
     options?: QuotaRequestStatusGetOptionalParams,
   ) => Promise<QuotaRequestDetails>;
 }
@@ -29,8 +29,8 @@ function _getQuotaRequestStatus(context: AzureQuotaExtensionAPIContext) {
   return {
     list: (scope: string, options?: QuotaRequestStatusListOptionalParams) =>
       list(context, scope, options),
-    get: (scope: string, id: string, options?: QuotaRequestStatusGetOptionalParams) =>
-      get(context, scope, id, options),
+    get: (id: string, scope: string, options?: QuotaRequestStatusGetOptionalParams) =>
+      get(context, id, scope, options),
   };
 }
 

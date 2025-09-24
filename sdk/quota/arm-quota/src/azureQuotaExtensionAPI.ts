@@ -43,34 +43,17 @@ export class AzureQuotaExtensionAPI {
   public readonly pipeline: Pipeline;
 
   /** Microsoft Azure Quota Resource Provider */
-  constructor(credential: TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options?: AzureQuotaExtensionAPIOptionalParams,
-  );
-  constructor(
-    credential: TokenCredential,
-    subscriptionIdOrOptions?: string | AzureQuotaExtensionAPIOptionalParams,
-    options?: AzureQuotaExtensionAPIOptionalParams,
+    options: AzureQuotaExtensionAPIOptionalParams = {},
   ) {
-    let subscriptionId: string | undefined;
-    let mergedOptions: AzureQuotaExtensionAPIOptionalParams | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-      mergedOptions = options;
-    } else {
-      subscriptionId = undefined;
-      mergedOptions = subscriptionIdOrOptions;
-    }
-
-    const prefixFromOptions = mergedOptions?.userAgentOptions?.userAgentPrefix;
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureQuotaExtensionAPI(credential, subscriptionId ?? "", {
-      ...mergedOptions,
+    this._client = createAzureQuotaExtensionAPI(credential, subscriptionId, {
+      ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;

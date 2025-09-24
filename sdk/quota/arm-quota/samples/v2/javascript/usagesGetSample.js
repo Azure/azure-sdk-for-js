@@ -12,7 +12,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function quotasUsagesRequestForCompute() {
   const credential = new DefaultAzureCredential();
-  const client = new AzureQuotaExtensionAPI(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const result = await client.usages.get(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
     "standardNDSFamily",
@@ -28,7 +29,8 @@ async function quotasUsagesRequestForCompute() {
  */
 async function quotasUsagesRequestForNetwork() {
   const credential = new DefaultAzureCredential();
-  const client = new AzureQuotaExtensionAPI(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const result = await client.usages.get(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus",
     "MinPublicIpInterNetworkPrefixLength",

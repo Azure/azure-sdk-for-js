@@ -33,7 +33,6 @@ export enum AzureClouds {
 
 // @public (undocumented)
 export class AzureQuotaExtensionAPI {
-    constructor(credential: TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureQuotaExtensionAPIOptionalParams);
     readonly groupQuotaLimits: GroupQuotaLimitsOperations;
     readonly groupQuotaLimitsRequest: GroupQuotaLimitsRequestOperations;
@@ -663,7 +662,7 @@ export interface QuotaRequestStatusListOptionalParams extends OperationOptions {
 
 // @public
 export interface QuotaRequestStatusOperations {
-    get: (scope: string, id: string, options?: QuotaRequestStatusGetOptionalParams) => Promise<QuotaRequestDetails>;
+    get: (id: string, scope: string, options?: QuotaRequestStatusGetOptionalParams) => Promise<QuotaRequestDetails>;
     list: (scope: string, options?: QuotaRequestStatusListOptionalParams) => PagedAsyncIterableIterator<QuotaRequestDetails>;
 }
 

@@ -12,7 +12,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function quotasListQuotaLimitsForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new AzureQuotaExtensionAPI(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.quota.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
@@ -31,7 +32,8 @@ async function quotasListQuotaLimitsForCompute(): Promise<void> {
  */
 async function quotasListQuotaLimitsMachineLearningServices(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new AzureQuotaExtensionAPI(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.quota.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.MachineLearningServices/locations/eastus",
@@ -50,7 +52,8 @@ async function quotasListQuotaLimitsMachineLearningServices(): Promise<void> {
  */
 async function quotasListQuotaLimitsForNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new AzureQuotaExtensionAPI(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.quota.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus",
