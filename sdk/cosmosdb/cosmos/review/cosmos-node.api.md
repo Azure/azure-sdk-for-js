@@ -1326,7 +1326,7 @@ export class GlobalEndpointManager {
     preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, options?: ResolveServiceEndpointOptions): Promise<string>;
 }
 
 // @public (undocumented)
@@ -2128,6 +2128,14 @@ export interface RequestOptions extends SharedOptions {
     preTriggerInclude?: string | string[];
     resourceTokenExpirySeconds?: number;
     urlConnection?: string;
+}
+
+// @public (undocumented)
+export interface ResolveServiceEndpointOptions {
+    // (undocumented)
+    excludedLocations?: string[];
+    // (undocumented)
+    startServiceEndpointIndex?: number;
 }
 
 // @public (undocumented)

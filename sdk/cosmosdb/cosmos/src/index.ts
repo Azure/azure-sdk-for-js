@@ -136,6 +136,7 @@ export {
 export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 
 export { GlobalEndpointManager } from "./globalEndpointManager.js";
+export type { ResolveServiceEndpointOptions } from "./GlobalEndpointManagerOptions.js";
 export { SasTokenPermissionKind } from "./common/constants.js";
 export { createAuthorizationSasToken } from "./utils/SasToken.js";
 export { RestError } from "@azure/core-rest-pipeline";
