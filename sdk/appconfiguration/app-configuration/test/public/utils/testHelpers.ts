@@ -89,9 +89,8 @@ export async function deleteEverySetting(): Promise<void> {
     } catch (error) {
       if (isRestError(error) && error.statusCode === 404) {
         continue;
-      } else {
-        throw error;
       }
+      throw error;
     }
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
