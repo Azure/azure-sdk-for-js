@@ -53,7 +53,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
    options:
      "@azure-tools/typespec-ts":
-       package-dir: "YOUR_SERVICE_FOLDER"
+       emitter-output-dir: "{output-dir}/{service-dir}/YOUR_SERVICE_FOLDER"
        is-modular-library: true
        package-details:
          name: YOUR_PACKAGE_NAME

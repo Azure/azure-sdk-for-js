@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { PollOperation, PollOperationState } from "@azure/core-lro";
 import { Poller } from "@azure/core-lro";
-import type { KeyVaultClient } from "../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../keyVaultClient.js";
 import { delay } from "@azure/core-util";
 
 /**
