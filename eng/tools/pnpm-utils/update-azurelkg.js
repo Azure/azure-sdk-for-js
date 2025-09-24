@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-// created by copilot agent Claude Sonnet 4
-
 // @ts-check
 
 import { readFileSync, writeFileSync } from "fs";
-import { resolve, dirname, join as pathJoin, normalize } from "path";
+import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 
@@ -33,8 +31,6 @@ async function getAzureLkgPackagesFromWorkspace() {
 
   try {
     const workspaceYamlPath = resolve(__dirname, "../../../pnpm-workspace.yaml");
-    const normalized = normalize(pathJoin(__dirname, "../../../pnpm-workspace.yaml"));
-    console.dir({ workspaceYamlPath, normalized });
     const content = readFileSync(workspaceYamlPath, "utf8");
 
     // Find the azurelkg section and extract package names
@@ -67,8 +63,6 @@ async function getAzureLkgPackagesFromWorkspace() {
 }
 async function updatePnpmWorkspaceYaml(packages) {
   const workspaceYamlPath = resolve(__dirname, "../../../pnpm-workspace.yaml");
-  const normalized = normalize(pathJoin(__dirname, "../../../pnpm-workspace.yaml"));
-  console.dir({ workspaceYamlPath, normalized });
   let content = readFileSync(workspaceYamlPath, "utf8");
 
   // Build the azurelkg catalog section
