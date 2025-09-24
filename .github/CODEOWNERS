@@ -1668,8 +1668,8 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @wanlwanl @lirenhe
-/.scripts/automation_init.sh @wanlwanl @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe
+/.scripts/automation_init.sh @MaryGao @lirenhe
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 
