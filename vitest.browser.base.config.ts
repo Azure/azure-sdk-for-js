@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import path from "node:path";
+import fs from "node:fs";
 import { defineConfig } from "vitest/config";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import { AzureSDKReporter, makeAliases } from "./vitest.shared.config.js";
@@ -9,6 +11,11 @@ function makeBrowserAliases(rootDir: string) {
   return makeAliases(rootDir, { distDir: `./dist/browser`, indexFile: `index.js` });
 }
 
+const maybeGlobalSetup = (() => {
+  const setupPath = path.resolve(process.cwd(), "test/utils/setup.ts");
+  return fs.existsSync(setupPath) ? [setupPath] : undefined;
+})();
+
 export default defineConfig({
   define: {
     "process.env": process.env,
@@ -16,6 +23,7 @@ export default defineConfig({
   test: {
     testTimeout: 1200000,
     hookTimeout: 1200000,
+    globalSetup: maybeGlobalSetup,
     reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.browser.xml",

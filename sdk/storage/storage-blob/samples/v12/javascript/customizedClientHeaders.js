@@ -12,15 +12,11 @@
  * @summary customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy
  **/
 
-const {
-  newPipeline,
-  AnonymousCredential,
-  BlobServiceClient,
-  BaseRequestPolicy,
-} = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { newPipeline, BlobServiceClient, BaseRequestPolicy } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
@@ -50,7 +46,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
-      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`
+      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`,
     );
 
     // response is HttpOperationResponse type
@@ -64,18 +60,20 @@ class RequestIDPolicy extends BaseRequestPolicy {
 
 // Main function
 async function main() {
-  const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountSas = process.env.ACCOUNT_SAS || "<account SAS>";
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("Set ACCOUNT_NAME in your environment before running this sample.");
+  }
 
   // Create a default pipeline with newPipeline
-  const pipeline = newPipeline(new AnonymousCredential());
+  const pipeline = newPipeline(new DefaultAzureCredential());
 
   // Inject customized factory into default pipeline
   pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net?${accountSas}`,
-    pipeline
+    `https://${accountName}.blob.core.windows.net`,
+    pipeline,
   );
 
   const result = await blobServiceClient.listContainers().byPage().next();

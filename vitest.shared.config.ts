@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import path from "node:path";
+import fs from "node:fs";
 import { defineConfig } from "vitest/config";
-import { resolve } from "node:path";
-import { readFileSync } from "node:fs";
 import { VerboseReporter } from "vitest/reporters";
 
 /**
@@ -25,8 +25,8 @@ export function isInDevopsPipeline() {
  * Reads the package name from a package.json in the provided root directory.
  */
 export function packageNameFrom(rootDir: string): string {
-  const pkgJsonPath = resolve(rootDir, "package.json");
-  const pkg = JSON.parse(readFileSync(pkgJsonPath, "utf-8"));
+  const pkgJsonPath = path.resolve(rootDir, "package.json");
+  const pkg = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
   return pkg.name as string;
 }
 
@@ -54,11 +54,11 @@ export function makeAliases(
   return [
     {
       find: packageName,
-      replacement: resolve(rootDir, `${distDir}/${indexFile}`),
+      replacement: path.resolve(rootDir, `${distDir}/${indexFile}`),
     },
     {
       find: internalPattern,
-      replacement: resolve(rootDir, `${distDir}/$1`),
+      replacement: path.resolve(rootDir, `${distDir}/$1`),
     },
   ] as const;
 }
@@ -68,10 +68,16 @@ function makeNodeAliases(rootDir: string) {
   return makeAliases(rootDir, { distDir: `./${dist}`, indexFile });
 }
 
+const maybeGlobalSetup = (() => {
+  const setupPath = path.resolve(process.cwd(), "test/utils/setup.ts");
+  return fs.existsSync(setupPath) ? [setupPath] : undefined;
+})();
+
 export default defineConfig({
   test: {
     testTimeout: 1200000,
     hookTimeout: 1200000,
+    globalSetup: maybeGlobalSetup,
     reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.xml",

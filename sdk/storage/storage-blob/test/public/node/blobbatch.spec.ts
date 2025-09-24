@@ -1,0 +1,774 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { createTestCredential } from "@azure-tools/test-credential";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import {
+  AnonymousCredential,
+  BlobBatch,
+  BlobServiceClient,
+  newPipeline,
+} from "@azure/storage-blob";
+import type { ContainerClient, BlockBlobClient, BlobBatchClient } from "@azure/storage-blob";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { TokenCredential } from "@azure/core-auth";
+import { createBlobServiceClient } from "./utils/clients.js";
+import { getUniqueName } from "../utils/utils.js";
+import { isRestError } from "@azure/core-rest-pipeline";
+
+describe("BlobBatch", () => {
+  let blobServiceClient: BlobServiceClient;
+  let blobBatchClient: BlobBatchClient;
+  let containerScopedBatchClient: BlobBatchClient;
+  let credential: TokenCredential;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  const blockBlobCount = 3;
+  const blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+
+    const blobServiceClientOrUndefined = await createBlobServiceClient("TokenCredential", {
+      recorder,
+    });
+    assert.isDefined(blobServiceClientOrUndefined);
+    blobServiceClient = blobServiceClientOrUndefined;
+    blobBatchClient = blobServiceClient.getBlobBatchClient();
+    credential = createTestCredential();
+
+    containerName = getUniqueName("container", { recorder });
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    containerScopedBatchClient = containerClient.getBlobBatchClient();
+
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
+
+    const specialBlobName = `å ä ö`;
+    const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+  });
+
+  afterEach(async () => {
+    await containerClient.delete();
+    await recorder.stop();
+  });
+
+  it.runIf(isLiveMode())("submitBatch should work for batch delete", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    const batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i].url, credential, {});
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
+  });
+
+  it.runIf(isLiveMode())("deleteBlobs should work for batch delete", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Submit batch request and verify response.
+    const urls = blockBlobClients.map((b) => b.url);
+    const resp = await blobBatchClient.deleteBlobs(urls, credential, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
+  });
+
+  it.runIf(isLiveMode())("submitBatch should work for batch delete with snapshot", async () => {
+    //
+    // Test delete blob with snapshot.
+    //
+    // Upload blob.
+    await blockBlobClients[0].upload(content, content.length);
+    await blockBlobClients[0].createSnapshot();
+
+    // Assemble batch delete request which delete blob with its snapshot.
+    const batchDeleteRequest = new BlobBatch();
+    await batchDeleteRequest.deleteBlob(blockBlobClients[0].url, credential, {
+      deleteSnapshots: "include",
+    });
+
+    // Ensure blobs ready.
+    let respList1 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 5 })
+        .next()
+    ).value;
+    assert.equal(respList1.segment.blobItems.length, 2);
+
+    // Submit batch request and verify response.
+    const respSubmitBatch1 = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(respSubmitBatch1.subResponses.length, 1);
+    assert.equal(respSubmitBatch1.subResponsesSucceededCount, 1);
+    assert.equal(respSubmitBatch1.subResponsesFailedCount, 0);
+
+    // Validate that blob and its snapshot all get deleted.
+    respList1 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 5 })
+        .next()
+    ).value;
+    assert.equal(respList1.segment.blobItems.length, 0);
+
+    //
+    // Test delete snapshot only with snapshot's url and Credential.
+    //
+    // Upload blob.
+    await blockBlobClients[1].upload(content, content.length);
+    const createSnapshotResp = await blockBlobClients[1].createSnapshot();
+    const snapshotClient = blockBlobClients[1].withSnapshot(createSnapshotResp.snapshot!);
+
+    // Assemble batch delete request.
+    const batchDeleteRequest2 = new BlobBatch();
+    await batchDeleteRequest2.deleteBlob(snapshotClient.url, credential);
+
+    // Ensure blobs ready.
+    let respList2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 5 })
+        .next()
+    ).value;
+    assert.equal(respList2.segment.blobItems.length, 2);
+
+    // Submit batch request and verify response.
+    const respSubmitBatch2 = await blobBatchClient.submitBatch(batchDeleteRequest2, {});
+    assert.equal(respSubmitBatch2.subResponses.length, 1);
+    assert.equal(respSubmitBatch2.subResponsesSucceededCount, 1);
+    assert.equal(respSubmitBatch2.subResponsesFailedCount, 0);
+
+    // Validate that snapshot get deleted.
+    respList2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 5 })
+        .next()
+    ).value;
+    assert.equal(respList2.segment.blobItems.length, 1);
+
+    //
+    // Test delete snapshot only with snapshot's url using snapshot's BlobURL.
+    //
+    // Upload blob.
+    await blockBlobClients[2].upload(content, content.length);
+    const createSnapshotResp2 = await blockBlobClients[2].createSnapshot();
+    const snapshotClient2 = blockBlobClients[2].withSnapshot(createSnapshotResp2.snapshot!);
+
+    // Assemble batch delete request.
+    const batchDeleteRequest3 = new BlobBatch();
+    await batchDeleteRequest3.deleteBlob(snapshotClient2);
+
+    // Ensure blobs ready.
+    let respList3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 5 })
+        .next()
+    ).value;
+    assert.equal(respList3.segment.blobItems.length, 3);
+
+    // Submit batch request and verify response.
+    const respSubmitBatch3 = await blobBatchClient.submitBatch(batchDeleteRequest3, {});
+    assert.equal(respSubmitBatch3.subResponses.length, 1);
+    assert.equal(respSubmitBatch3.subResponsesSucceededCount, 1);
+    assert.equal(respSubmitBatch3.subResponsesFailedCount, 0);
+
+    // Validate that snapshot get deleted.
+    respList3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 5 })
+        .next()
+    ).value;
+    assert.equal(respList3.segment.blobItems.length, 2);
+  });
+
+  it.runIf(isLiveMode())(
+    "submitBatch should work for batch delete with access condition and partial succeed",
+    async () => {
+      // Upload blobs.
+      const b0 = await blockBlobClients[0].upload(content, content.length);
+      const b1 = await blockBlobClients[1].upload(content, content.length);
+
+      // Assemble batch delete request.
+      const batchDeleteRequest = new BlobBatch();
+      await batchDeleteRequest.deleteBlob(blockBlobClients[0], {
+        conditions: {
+          ifMatch: b0.etag,
+        },
+      });
+      await batchDeleteRequest.deleteBlob(blockBlobClients[1], {
+        conditions: {
+          ifNoneMatch: b1.etag,
+        },
+      });
+
+      // Submit batch request and verify response.
+      const resp = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+      assert.equal(resp.subResponses.length, 2);
+      assert.equal(resp.subResponsesSucceededCount, 1);
+      assert.equal(resp.subResponsesFailedCount, 1);
+
+      // First succeeded.
+      assert.equal(resp.subResponses[0].errorCode, undefined);
+      assert.equal(resp.subResponses[0].status, 202);
+      assert.ok(resp.subResponses[0].statusMessage !== "");
+      assert.equal(resp.subResponses[0]._request.url, blockBlobClients[0].url);
+
+      // Second failed.
+      assert.ok(resp.subResponses[1].errorCode !== undefined);
+      assert.ok(resp.subResponses[1].status === 412);
+      assert.ok(resp.subResponses[1].statusMessage !== "");
+      assert.equal(resp.subResponses[1]._request.url, blockBlobClients[1].url);
+    },
+  );
+
+  it.runIf(isLiveMode())("submitBatch should work for batch set tier", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch set tier request.
+    const batchSetTierRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClients[i].url, credential, "Cool", {});
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+
+      // Check blob tier set properly.
+      const resp2 = await blockBlobClients[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
+  it.runIf(isLiveMode())("setBlobsAccessTier should work for batch set tier", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Submit batch request and verify response.
+    const urls = blockBlobClients.map((b) => b.url);
+    const resp = await blobBatchClient.setBlobsAccessTier(urls, credential, "Cool", {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+
+      // Check blob tier set properly.
+      const resp2 = await blockBlobClients[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
+  it.runIf(isLiveMode())(
+    "submitBatch should work for batch set tier with lease condition",
+    async () => {
+      // Upload blobs.
+      await blockBlobClients[0].upload(content, content.length);
+      await blockBlobClients[1].upload(content, content.length);
+
+      // Lease one blob.
+      const guid = "ca761232ed4211cebacd00aa0057b223";
+      const duration = 30;
+      const leaseResp = await blockBlobClients[1].getBlobLeaseClient(guid).acquireLease(duration);
+      assert.ok(leaseResp.leaseId! !== "");
+
+      // Assemble batch set tier request.
+      const batchSetTierRequest = new BlobBatch();
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClients[0], "Cool");
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClients[1], "Cool", {
+        conditions: { leaseId: leaseResp.leaseId! },
+      });
+
+      // Submit batch request and verify response.
+      const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+      assert.equal(resp.subResponses.length, 2);
+      assert.equal(resp.subResponsesSucceededCount, 2);
+      assert.equal(resp.subResponsesFailedCount, 0);
+
+      for (let i = 0; i < 2; i++) {
+        assert.equal(resp.subResponses[i].errorCode, undefined);
+        assert.equal(resp.subResponses[i].status, 200);
+        assert.ok(resp.subResponses[i].statusMessage !== "");
+        assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+        assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+
+        // Check blob tier set properly.
+        const resp2 = await blockBlobClients[i].getProperties();
+        assert.equal(resp2.accessTier, "Cool");
+      }
+    },
+  );
+
+  it.runIf(isLiveMode())("submitBatch should work for batch set tier with versioning", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Create versioning.
+    const metadata = { a: "a" };
+    const blockBlobClientsWithVersion: BlockBlobClient[] = [];
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      const resp = await blockBlobClients[i].setMetadata(metadata);
+      assert.isDefined(
+        resp.versionId,
+        "expected versionId; check if 'Enable versioning for blobs' is enabled for your storage account ",
+      );
+      blockBlobClientsWithVersion[i] = blockBlobClients[i].withVersion(
+        resp.versionId!,
+      ) as BlockBlobClient;
+    }
+
+    // Assemble batch set tier request.
+    const batchSetTierRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClientsWithVersion[i], "Cool");
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobClients.length);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobClients.length);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithVersion[i].url);
+
+      // Check blob tier set properly.
+      const resp2 = await blockBlobClientsWithVersion[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
+  it.runIf(isLiveMode())("submitBatch should work for batch set tier with snapshot", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Create snapshot.
+    const blockBlobClientsWithSnapshot: BlockBlobClient[] = [];
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      const resp = await blockBlobClients[i].createSnapshot();
+      blockBlobClientsWithSnapshot[i] = blockBlobClients[i].withSnapshot(
+        resp.snapshot!,
+      ) as BlockBlobClient;
+    }
+
+    // Assemble batch set tier request.
+    const batchSetTierRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClientsWithSnapshot[i], "Cool");
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobClients.length);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobClients.length);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobClients.length; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClientsWithSnapshot[i].url);
+
+      // Check blob tier set properly.
+      const resp2 = await blockBlobClientsWithSnapshot[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
+  it.runIf(isLiveMode())(
+    "submitBatch should work with multiple types of credentials for subrequests",
+    async () => {
+      // Upload blobs.
+      await blockBlobClients[0].upload(content, content.length);
+      await blockBlobClients[1].upload(content, content.length);
+
+      // Assemble batch set tier request.
+      const batchSetTierRequest = new BlobBatch();
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClients[0].url, credential, "Cool");
+      // When it's using token credential be sure it's not with SAS (browser testing case)
+      let blockBlobClient1WithoutSAS = blockBlobClients[1].url;
+      if (blockBlobClient1WithoutSAS.indexOf("?") !== -1) {
+        // remove query part for this testing for ease
+        blockBlobClient1WithoutSAS = blockBlobClients[1].url.substring(
+          0,
+          blockBlobClients[1].url.indexOf("?"),
+        );
+      }
+
+      await batchSetTierRequest.setBlobAccessTier(
+        blockBlobClient1WithoutSAS,
+        createTestCredential(),
+        "Cool",
+      );
+
+      // Submit batch request and verify response.
+      const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+      assert.equal(resp.subResponses.length, 2);
+      assert.equal(resp.subResponsesSucceededCount, 2);
+      assert.equal(resp.subResponsesFailedCount, 0);
+
+      for (let i = 0; i < 2; i++) {
+        assert.equal(resp.subResponses[i].errorCode, undefined);
+        assert.equal(resp.subResponses[i].status, 200);
+        assert.ok(resp.subResponses[i].statusMessage !== "");
+        assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+
+        // Check blob tier set properly.
+        const resp2 = await blockBlobClients[i].getProperties();
+        assert.equal(resp2.accessTier, "Cool");
+      }
+
+      assert.equal(resp.subResponses[0]._request.url, blockBlobClients[0].url);
+      assert.equal(resp.subResponses[1]._request.url, blockBlobClient1WithoutSAS);
+    },
+  );
+
+  it(
+    "submitBatch should report error when sub requests exceed 256",
+    { timeout: 9000000 },
+    async () => {
+      const MAX = 256;
+      const batch = new BlobBatch();
+
+      for (let i = 0; i < MAX; i++) {
+        await batch.setBlobAccessTier(
+          containerClient.getBlobClient(`blob${i}`).url,
+          credential,
+          "Cool",
+        );
+      }
+
+      let caught: unknown;
+      try {
+        await batch.setBlobAccessTier(
+          containerClient.getBlobClient("blob-too-many").url,
+          credential,
+          "Cool",
+        );
+        assert.fail("Expected adding 257th sub-request to throw");
+      } catch (e) {
+        caught = e;
+      }
+
+      assert.ok(caught instanceof RangeError, "Expected RangeError for exceeding batch size");
+      assert.match(
+        (caught as RangeError).message,
+        /256/,
+        "Error message should indicate 256 sub-request limit",
+      );
+    },
+  );
+
+  it("submitBatch should report error when sub request with invalid url or invalid credential", async () => {
+    const batchSetTierRequest = new BlobBatch();
+    let exceptionCaught = false;
+
+    try {
+      await batchSetTierRequest.setBlobAccessTier("invalidurl", credential, "Cool");
+    } catch (err: any) {
+      if (
+        err instanceof RangeError &&
+        err.message.indexOf("Invalid url for sub request: ") !== -1
+      ) {
+        exceptionCaught = true;
+      }
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("submitBatch should report error with 0 sub request", async () => {
+    const batchDeleteRequest = new BlobBatch();
+
+    let exceptionCaught = false;
+    try {
+      await blobBatchClient.submitBatch(batchDeleteRequest);
+    } catch (err: any) {
+      if (
+        err instanceof RangeError &&
+        err.message === "Batch request should contain one or more sub requests."
+      ) {
+        exceptionCaught = true;
+      }
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it.runIf(isLiveMode())(
+    "submitBatch should report error with invalid credential for batch request",
+    async () => {
+      // Upload blobs.
+      await blockBlobClients[0].upload(content, content.length);
+
+      // Assemble batch set tier request.
+      const batchSetTierRequest = new BlobBatch();
+      await batchSetTierRequest.setBlobAccessTier(blockBlobClients[0].url, credential, "Cool");
+
+      const invalidCredServiceClient = new BlobServiceClient(
+        blobServiceClient.url,
+        newPipeline(new AnonymousCredential()),
+      ).getBlobBatchClient();
+
+      let exceptionCaught = false;
+      // Submit batch request and verify response.
+      try {
+        await invalidCredServiceClient.submitBatch(batchSetTierRequest, {});
+      } catch (err: any) {
+        if (!isRestError(err)) {
+          throw err;
+        }
+        exceptionCaught = true;
+      }
+
+      assert.ok(exceptionCaught);
+    },
+  );
+
+  it("BlobBatch should report error when mixing different request types in one batch", async () => {
+    const batchRequest = new BlobBatch();
+
+    let exceptionCaught = false;
+    try {
+      await batchRequest.deleteBlob(blockBlobClients[0].url, credential);
+      await batchRequest.setBlobAccessTier(blockBlobClients[0].url, credential, "Cool");
+    } catch (err: any) {
+      if (
+        err instanceof RangeError &&
+        err.message ===
+          "BlobBatch only supports one operation type per batch and it already is being used for delete operations."
+      ) {
+        exceptionCaught = true;
+      }
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it.runIf(isLiveMode())("Container scoped: submitBatch should work for batch delete", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    const batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i].url, credential, {});
+    }
+
+    // Submit batch request and verify response.
+    const resp = await containerScopedBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true,
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
+  });
+});
+
+describe.runIf(isLiveMode())("BlobBatch Token auth", () => {
+  let blobServiceClient: BlobServiceClient;
+  let blobBatchClient: BlobBatchClient;
+  let containerClient: ContainerClient;
+  const blockBlobCount = 3;
+  const blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+
+    blobServiceClient = await createBlobServiceClient("TokenCredential", { recorder });
+    blobBatchClient = blobServiceClient.getBlobBatchClient();
+
+    const containerName = getUniqueName("container", { recorder });
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
+    const specialBlobName = `å ä ö`;
+    const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+  });
+
+  afterEach(async () => {
+    await containerClient.delete();
+    await recorder.stop();
+  });
+
+  it("Should work when passing in BlobClient", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    const batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i]);
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+  });
+
+  it("Should work when passing in url and credential", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    const batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i].url, blockBlobClients[i].credential);
+    }
+
+    // Submit batch request and verify response.
+    const resp = await blobBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage !== "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+  });
+});

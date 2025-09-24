@@ -126,7 +126,7 @@ async function runTypeScript(tsConfig: string): Promise<boolean> {
   });
 
   if (res.status || res.signal) {
-    log.error(`TypeScript compilation failed for ${tsConfig}:`, res);
+    log.error(`TypeScript compilation failed for ${tsConfig}`);
     return false;
   }
 

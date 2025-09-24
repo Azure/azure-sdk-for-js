@@ -71,7 +71,7 @@ export * from "./policies/CredentialPolicy.js";
 export * from "./StorageRetryPolicyFactory.js";
 export * from "./policies/StorageSharedKeyCredentialPolicy.js";
 export * from "./sas/SASQueryParameters.js";
-export { CommonOptions } from "./StorageClient.js";
+export * from "./StorageClient.js";
 export * from "./generatedModels.js";
 export {
   AppendBlobRequestConditions,
