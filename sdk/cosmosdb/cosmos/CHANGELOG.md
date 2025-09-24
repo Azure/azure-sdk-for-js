@@ -1,4 +1,10 @@
 # Release History
+## 4.7.0 (Unreleased)
+
+### Features Added
+
+- [#36015](https://github.com/Azure/azure-sdk-for-js/issues/36015) AAD Authentication Scope Override: Added support for overriding AAD authentication scope via the new `aadScope` option in `CosmosClientOptions`. When no custom scope is provided, the system uses the account-specific scope for authentication and implements a fallback mechanism to `https://cosmos.azure.com/.default` in case of `AADSTS500011` errors. When a custom scope is explicitly provided via the `aadScope` option, no fallback occurs.
+
 ## 4.6.0 (2025-09-15)
 
 ### Features Added
