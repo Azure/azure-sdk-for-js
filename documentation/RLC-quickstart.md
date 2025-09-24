@@ -15,7 +15,12 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 
 - Node.js 18 or later.
 - Install pnpm via the [pnpm installation instructions](https://pnpm.io/installation).
-- Install tsp-client with `npm install -g @azure-tools/typespec-client-generator-cli`
+- Use the local version of tsp-client from the repository:
+
+  ```bash
+  cd eng/common/tsp-client
+  npm ci
+  ```
 
 # Set up your development environment
 
@@ -64,13 +69,15 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     For initial set up, use the `tsp-client` CLI tool to initialize the generation process. From the root of your local `azure-sdk-for-js` repository clone, run the following command, replacing `YOUR_REMOTE_TSPCONFIG_URL` with the URL to your TypeSpec configuration file:
 
     ```sh
-    tsp-client init -c YOUR_REMOTE_TSPCONFIG_URL
+    cd eng/common/tsp-client
+    npm exec --no -- tsp-client init -c YOUR_REMOTE_TSPCONFIG_URL
     ```
 
     If you are generating the RLC library for Azure Cognitive Services Content Safety, and your TypeSpec configuration file is located at `https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml`, you would initialize the library like this:
 
     ```shell
-    tsp-client init -c https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml
+    cd eng/common/tsp-client
+    npm exec --no -- tsp-client init -c https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml
     ```
 
     This command sets up your local SDK repository with the necessary structure and files based on your `tspconfig.yaml` file and then generate SDKs with given url typespec.
@@ -85,16 +92,20 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     repo: Azure/azure-rest-api-specs
     ```
     
-    Run the `update` command from SDK directory (i.e sdk/agrifood/agrifood-farming) to re-generate the code:
+    Run the `update` command from SDK directory (i.e sdk/agrifood/agrifood-farming-rest) to re-generate the code:
 
     ```shell
-    tsp-client update
+    cd eng/common/tsp-client
+    npm exec --no -- tsp-client update -c ../../sdk/agrifood/agrifood-farming-rest
     ```
 
     ---  
     **NOTE**
+    
     The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
-
+    
+    Similarly, the version of tsp-client is configured in [package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/tsp-client/package.json) and [package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/tsp-client/package-lock.json).
+    
     --- 
 
 # After SDK generation
