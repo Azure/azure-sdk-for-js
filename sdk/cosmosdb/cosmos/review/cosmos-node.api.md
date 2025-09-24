@@ -929,7 +929,7 @@ export class DatabaseAccount {
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
-    readonly enablePerPartitionFailoverBehavior: boolean;
+    readonly enablePerPartitionFailover: boolean;
     // @deprecated
     get MaxMediaStorageUsageInMB(): number;
     readonly maxMediaStorageUsageInMB: number;

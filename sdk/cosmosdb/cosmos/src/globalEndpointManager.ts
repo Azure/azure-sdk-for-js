@@ -210,7 +210,7 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
-      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailoverBehavior);
+      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailover);
     }
 
     const locations = isReadRequest(operationType)
@@ -281,7 +281,7 @@ export class GlobalEndpointManager {
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
-        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
+        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailover);
       }
       this.isRefreshing = false;
     }
@@ -436,14 +436,14 @@ export class GlobalEndpointManager {
   /**
    * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
    * based on the value from database account.
-   * @param enablePerPartitionFailoverBehavior - value from database account
+   * @param enablePerPartitionFailover - value from database account
    */
-  private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
+  private refreshPPAFFeatureFlag(enablePerPartitionFailover: boolean): void {
     // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
     // we will override it to false.
-    if (enablePerPartitionFailoverBehavior === false) {
-      this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
-      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+    if (enablePerPartitionFailover === false) {
+      this.enablePartitionLevelFailover = enablePerPartitionFailover;
+      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailover;
     }
   }
 }
