@@ -74,7 +74,7 @@ async function updatePnpmWorkspaceYaml(packages) {
   // Build the azurelkg catalog section
   let azurelkgSection = "";
   for (const [packageName, version] of Object.entries(packages)) {
-    azurelkgSection += `    '${packageName}': ${version}\n`;
+    azurelkgSection += `    '${packageName}': ^${version}\n`;
   }
 
   // Replace the azurelkg section - find from "  azurelkg:" to the next section at the same indentation level
