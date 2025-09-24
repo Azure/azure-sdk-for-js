@@ -2184,10 +2184,10 @@ export interface TriggerParameters {
   /** Run interval of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   interval?: number;
   /** Run interval unit of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
-  intervalUnit?: "Days";
+  intervalUnit?: IntervalUnit;
   /** When to end task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   endBy?: Date;
-  /** When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule' */
+  /** When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule' */
   startOn?: Date;
 }
 
@@ -2324,7 +2324,7 @@ export interface TriggerParametersUpdate {
   /** Run interval of task execution. This is a mutable field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   interval?: number;
   /** Run interval unit of task execution. This is a mutable field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
-  intervalUnit?: "Days";
+  intervalUnit?: IntervalUnit;
   /** When to end task execution. This is a mutable field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   endBy?: Date;
   /** When to start task execution. This is a mutable field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule' */
@@ -4663,6 +4663,21 @@ export enum KnownNspAccessRuleDirection {
  * **Outbound**
  */
 export type NspAccessRuleDirection = string;
+
+/** Known values of {@link IntervalUnit} that the service accepts. */
+export enum KnownIntervalUnit {
+  /** Days */
+  Days = "Days",
+}
+
+/**
+ * Defines values for IntervalUnit. \
+ * {@link KnownIntervalUnit} can be used interchangeably with IntervalUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Days**
+ */
+export type IntervalUnit = string;
 
 /** Known values of {@link RunStatusEnum} that the service accepts. */
 export enum KnownRunStatusEnum {

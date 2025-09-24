@@ -33,8 +33,8 @@ import {
   extractConnectionStringParts,
   assertResponse,
 } from "./utils/utils.common.js";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";
 import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient.js";
 import { QueueClient } from "./QueueClient.js";
@@ -344,7 +344,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Returns a list of the queues under the specified account.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-queues1
    *
    * @param marker - A string value that identifies the portion of
    *                        the list of queues to be returned with the next listing operation. The
@@ -575,7 +575,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Queue service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-queue-service-properties
    *
    * @param options - Options to get properties operation.
    * @returns Response data including the queue service properties.
@@ -599,7 +599,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Queue service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-queue-service-properties
    *
    * @param properties -
    * @param options - Options to set properties operation.
@@ -624,7 +624,7 @@ export class QueueServiceClient extends StorageClient {
    * Retrieves statistics related to replication for the Queue service. It is only
    * available on the secondary location endpoint when read-access geo-redundant
    * replication is enabled for the storage account.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-queue-service-stats
    *
    * @param options - Options to get statistics operation.
    * @returns Response data for get statistics the operation.
@@ -647,7 +647,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Creates a new queue under the specified account.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-queue4
    *
    * @param queueName - name of the queue to create
    * @param options - Options to Queue create operation.
@@ -668,7 +668,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Deletes the specified queue permanently.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-queue3
    *
    * @param queueName - name of the queue to delete.
    * @param options - Options to Queue delete operation.
@@ -693,7 +693,7 @@ export class QueueServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -738,7 +738,7 @@ export class QueueServiceClient extends StorageClient {
    * Generates string to sign for an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.

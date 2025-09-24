@@ -6,44 +6,47 @@ stages:
     displayName: Manual Validation All Packages
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2204-general
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
 
     jobs:
       - job: BuildAllPackages
-        timeoutInMinutes: 120
+        timeoutInMinutes: 180
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 20.x
+              NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
 
           - template: ./templates/steps/generate-doc.yml
             parameters:
               ServiceDirectory: core
 
           - script: |
-              node common/scripts/install-run-rush.js install
+              npm install -g pnpm
+            displayName: "Install Pnpm"
+
+          - script: |
+              pnpm install
             displayName: "Install library dependencies"
 
           - script: |
-              node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk --verbose
+              pnpm build --filter @azure/eslint-plugin-azure-sdk...
             displayName: "Build ESLint Plugin"
 
           - script: |
-              node eng/tools/rush-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter" --verbose
-            displayName: "Build packages to enable typed checking"
+              pnpm build --filter @azure/monitor-opentelemetry-exporter...
+            displayName: "Build packages to enable typed linting"
 
           - script: |
-              node common/scripts/install-run-rush.js lint -p max --verbose
+              pnpm lint
             displayName: "Lint All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build -p max --verbose
+              pnpm build
             displayName: "Build All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -p 1 --verbose
+              pnpm test --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --concurrency=1
             displayName: "Run Unit Tests for Selected Packages"
-
-          - script: |
-              node common/scripts/install-run-rush.js test:node:esm --only @azure/app-configuration --only @azure/storage-blob --only @azure-rest/synapse-access-control -p 1 --verbose
-            displayName: "Run Node ESM Tests for Selected Packages"

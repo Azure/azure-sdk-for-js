@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataProtectionClient } from "../dataProtectionClient.js";
-import {
-  OperationStatusGetOptionalParams,
-  OperationStatusGetResponse,
-} from "../models/index.js";
+import { OperationStatusGetOptionalParams, OperationStatusGetResponse } from "../models/index.js";
 
 /** Class containing OperationStatus operations. */
 export class OperationStatusImpl implements OperationStatus {
@@ -39,10 +36,7 @@ export class OperationStatusImpl implements OperationStatus {
     operationId: string,
     options?: OperationStatusGetOptionalParams,
   ): Promise<OperationStatusGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, operationId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, operationId, options }, getOperationSpec);
   }
 }
 // Operation Specifications

@@ -5,8 +5,8 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import * as path from "path";
-import * as fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import { fileURLToPath } from "url";
 import type {
   AIProjectClient,
@@ -24,9 +24,10 @@ describe("datasets - basic", () => {
   const datasetName = "test-dataset";
   const folderDatasetName = "test-folder-dataset";
   // Test may fail, if happens please use a different version
-  const VERSION1 = "1.1.8";
-  const VERSION2 = "2.1.8";
-  const VERSION3 = "3.1.8";
+  const VERSION1 = "1.4.10";
+  const VERSION1_UPDATE = "1.5.10";
+  const VERSION2 = "2.4.10";
+  const VERSION3 = "3.4.10";
   let containerConnectionName: string;
 
   beforeEach(async function (context: VitestTestContext) {
@@ -117,6 +118,11 @@ describe("datasets - basic", () => {
       assert.isNotNull(dataset);
       assert.equal(dataset.name, datasetName);
       assert.equal(dataset.version, VERSION1);
+
+      // Update the dataset version
+      const updatedDataset = await datasets.createOrUpdate(datasetName, VERSION1_UPDATE, dataset);
+      assert.isNotNull(updatedDataset);
+      assert.equal(updatedDataset.version, VERSION1_UPDATE);
 
       // 2. Get credentials for the dataset
       const credentials = await datasets.getCredentials(dataset.name, dataset.version, {});

@@ -9,7 +9,7 @@ import {
   PhoneNumbersClient,
   SearchAvailablePhoneNumbersRequest,
   SipRoutingClient,
-} from "@azure/communication-phone-numbers";
+} from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -177,6 +177,15 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     for await (const areaCodeItem of client.listAvailableGeographicAreaCodes("US")) {
+      console.log("area code: ", areaCodeItem.areaCode);
+    }
+  });
+
+  it("PhoneNumbersClientListMobileAreaCodes", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    for await (const areaCodeItem of client.listAvailableMobileAreaCodes("IE")) {
       console.log("area code: ", areaCodeItem.areaCode);
     }
   });

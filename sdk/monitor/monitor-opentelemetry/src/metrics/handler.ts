@@ -4,10 +4,10 @@
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { PeriodicExportingMetricReaderOptions, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
 import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types.js";
 import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 import { PerformanceCounterMetrics } from "./performanceCounters.js";
@@ -16,7 +16,6 @@ import { PerformanceCounterMetrics } from "./performanceCounters.js";
  * Azure Monitor OpenTelemetry Metric Handler
  */
 export class MetricHandler {
-  private _collectionInterval = 60000; // 60 seconds
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _standardMetrics?: StandardMetrics;
@@ -30,7 +29,8 @@ export class MetricHandler {
    * @param config - Distro configuration.
    * @param options - Metric Handler options.
    */
-  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
+  constructor(config: InternalConfig) {
+    const defaultInterval = 60000;
     this._config = config;
     // Adding Views of instrumentations will allow customer to add Metric Readers after, and get access to previously created metrics using the views shared state
     this._views = [];
@@ -58,7 +58,7 @@ export class MetricHandler {
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
+      exportIntervalMillis: this._config.metricExportIntervalMillis || defaultInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 
@@ -94,7 +94,7 @@ export class MetricHandler {
     this._performanceCounters?.recordSpan(span);
   }
 
-  public recordLog(logRecord: LogRecord): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     this._standardMetrics?.recordLog(logRecord);
     this._liveMetrics?.recordLog(logRecord);
     this._performanceCounters?.recordLog(logRecord);

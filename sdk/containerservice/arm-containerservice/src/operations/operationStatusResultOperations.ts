@@ -27,9 +27,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OperationStatusResultOperations operations. */
-export class OperationStatusResultOperationsImpl
-  implements OperationStatusResultOperations
-{
+export class OperationStatusResultOperationsImpl implements OperationStatusResultOperations {
   private readonly client: ContainerServiceClient;
 
   /**
@@ -63,12 +61,7 @@ export class OperationStatusResultOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, resourceName, options, settings);
       },
     };
   }
@@ -89,12 +82,7 @@ export class OperationStatusResultOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        resourceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, resourceName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +95,7 @@ export class OperationStatusResultOperationsImpl
     resourceName: string,
     options?: OperationStatusResultListOptionalParams,
   ): AsyncIterableIterator<OperationStatusResult> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      resourceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, resourceName, options)) {
       yield* page;
     }
   }

@@ -14,7 +14,7 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 ## Prerequisites
 
 - Node.js 18 or later.
-- Install Rush with `npm install -g @microsoft/rush`.
+- Install pnpm via the [pnpm installation instructions](https://pnpm.io/installation).
 - Install tsp-client with `npm install -g @azure-tools/typespec-client-generator-cli`
 
 # Set up your development environment
@@ -50,7 +50,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
    options:
      "@azure-tools/typespec-ts":
-       package-dir: "YOUR_SERVICE_FOLDER-rest"
+       emitter-output-dir: "{output-dir}/{service-dir}/YOUR_SERVICE_FOLDER-rest"
        package-details:
          name: YOUR_PACKAGE_NAME
          description: "SHORT_DESCRIPTION"
@@ -94,27 +94,6 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     ---  
     **NOTE**
     The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
-
-    --- 
-
-3. **Edit rush.json**  
-    
-    As the libraries in `azure-sdk-for-js` repository are managed by rush, you need to add an entry in `rush.json` under projects section for the first time to make sure it works. For example:
-
-    ```json
-        {
-          "packageName": "@azure-rest/agrifood-farming",
-          "projectFolder": "sdk/agrifood/agrifood-farming-rest",
-          "versionPolicyName": "client"
-        },
-    ```
-
-    Here, you also need to replace the `packageName`, `projectFolder` into your own services'.
-
-    ---  
-    **NOTE**
-
-    About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
 
     --- 
 

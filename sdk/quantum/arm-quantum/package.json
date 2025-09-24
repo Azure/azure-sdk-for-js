@@ -5,7 +5,7 @@
   "description": "A generated SDK for AzureQuantumManagementClient.",
   "version": "1.0.0-beta.3",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
@@ -28,19 +28,19 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.6.0",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "playwright": "^1.50.1",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "repository": {
     "type": "git",
@@ -58,19 +58,17 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "echo skipped.",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "echo skipped",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
     "lint": "echo skipped",
-    "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -94,7 +92,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

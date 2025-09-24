@@ -4,7 +4,7 @@ import type {
   CertificateBundle,
   CertificateOperation as CoreCertificateOperation,
   DeletedCertificateItem,
-} from "../../src/generated/models/index.js";
+} from "../../src/models/models.ts";
 import {
   getCertificateFromCertificateBundle,
   getCertificateOperationFromCoreOperation,

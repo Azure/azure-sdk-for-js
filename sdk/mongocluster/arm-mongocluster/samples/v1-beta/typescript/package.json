@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "@azure/arm-mongocluster client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -32,10 +32,10 @@
   "dependencies": {
     "@azure/arm-mongocluster": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.10.0"
+    "@azure/identity": "^4.9.0"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }

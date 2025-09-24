@@ -4,7 +4,6 @@
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import fs from "node:fs";
 import path from "node:path";
-import * as os from "node:os";
 import type {
   ResourceMetrics,
   PeriodicExportingMetricReaderOptions,
@@ -102,7 +101,7 @@ function assertStatsbeatEnvelope(
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
 
-  assert.deepStrictEqual(Object.keys(envelope.tags || {}).length, 2);
+  assert.deepStrictEqual(Object.keys(envelope.tags || {}).length, 1);
 }
 
 describe("metricUtil.ts", () => {
@@ -146,7 +145,6 @@ describe("metricUtil.ts", () => {
   describe("#resourceMetricsToEnvelope", () => {
     it("should create a metric envelope", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData: Partial<RequestData> = {
@@ -195,7 +193,6 @@ describe("metricUtil.ts", () => {
       process.env = newEnv;
 
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData: Partial<RequestData> = {
@@ -243,7 +240,6 @@ describe("metricUtil.ts", () => {
   describe("#performanceMetricsToEnvelope", () => {
     it("should create private bytes envelopes with the correct name", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -284,7 +280,6 @@ describe("metricUtil.ts", () => {
     });
     it("should create available bytes envelopes with the correct name", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -325,7 +320,6 @@ describe("metricUtil.ts", () => {
     });
     it("should create processor time envelopes with the correct name", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -366,7 +360,6 @@ describe("metricUtil.ts", () => {
     });
     it("should create process time envelopes with the correct name", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -407,7 +400,6 @@ describe("metricUtil.ts", () => {
     });
     it("should create request rate envelopes with the correct name", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -448,7 +440,6 @@ describe("metricUtil.ts", () => {
     });
     it("should create request duration envelopes with the correct name", async () => {
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -497,7 +488,6 @@ describe("metricUtil.ts", () => {
       process.env = newEnv;
 
       const expectedTags: Tags = {
-        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {

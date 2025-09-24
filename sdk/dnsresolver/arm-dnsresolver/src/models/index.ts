@@ -298,8 +298,6 @@ export interface DnsResolverPolicyListResult {
 export interface DnsSecurityRuleAction {
   /** The type of action to take. */
   actionType?: ActionType;
-  /** The response code for block actions. */
-  blockResponseCode?: BlockResponseCode;
 }
 
 /** Describes a DNS security rule for PATCH operation. */
@@ -361,6 +359,14 @@ export interface DnsResolverDomainListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Describes a DNS resolver domain list for bulk UPLOAD or DOWNLOAD operations. */
+export interface DnsResolverDomainListBulk {
+  /** The storage account blob file URL to be used in the bulk upload or download request of DNS resolver domain list. */
+  storageUrl: string;
+  /** The action to take in the request, Upload or Download. */
+  action: Action;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -527,8 +533,13 @@ export interface DnsResolverDomainList extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /** The domains in the domain list. */
-  domains: string[];
+  /** The domains in the domain list. Will be null if user is using large domain list. */
+  domains?: string[];
+  /**
+   * The URL for bulk upload or download for domain lists containing larger set of domains. This will be populated if domains is empty or null.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domainsUrl?: string;
   /**
    * The current provisioning state of the DNS resolver domain list. This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -618,6 +629,11 @@ export interface DnsResolverDomainListsUpdateHeaders {
 
 /** Defines headers for DnsResolverDomainLists_delete operation. */
 export interface DnsResolverDomainListsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for DnsResolverDomainLists_bulk operation. */
+export interface DnsResolverDomainListsBulkHeaders {
   location?: string;
 }
 
@@ -750,21 +766,6 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link BlockResponseCode} that the service accepts. */
-export enum KnownBlockResponseCode {
-  /** Servfail */
-  Servfail = "SERVFAIL",
-}
-
-/**
- * Defines values for BlockResponseCode. \
- * {@link KnownBlockResponseCode} can be used interchangeably with BlockResponseCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SERVFAIL**
- */
-export type BlockResponseCode = string;
-
 /** Known values of {@link DnsSecurityRuleState} that the service accepts. */
 export enum KnownDnsSecurityRuleState {
   /** Enabled */
@@ -782,6 +783,24 @@ export enum KnownDnsSecurityRuleState {
  * **Disabled**
  */
 export type DnsSecurityRuleState = string;
+
+/** Known values of {@link Action} that the service accepts. */
+export enum KnownAction {
+  /** Upload */
+  Upload = "Upload",
+  /** Download */
+  Download = "Download",
+}
+
+/**
+ * Defines values for Action. \
+ * {@link KnownAction} can be used interchangeably with Action,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Upload** \
+ * **Download**
+ */
+export type Action = string;
 
 /** Optional parameters. */
 export interface DnsResolversCreateOrUpdateOptionalParams
@@ -1554,6 +1573,22 @@ export interface DnsResolverDomainListsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type DnsResolverDomainListsListResponse = DnsResolverDomainListResult;
+
+/** Optional parameters. */
+export interface DnsResolverDomainListsBulkOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the resource. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created, but to prevent updating an existing resource. Other values will be ignored. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the bulk operation. */
+export type DnsResolverDomainListsBulkResponse = DnsResolverDomainList;
 
 /** Optional parameters. */
 export interface DnsResolverDomainListsListByResourceGroupNextOptionalParams

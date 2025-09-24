@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapClient } from "@azure/arm-dependencymap";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get dependency map of single machine
  *
  * @summary get dependency map of single machine
  * x-ms-original-file: 2025-01-31-preview/Maps_GetDependencyViewForFocusedMachine.json
  */
+
+import { DependencyMapClient } from "@azure/arm-dependencymap";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function mapsGetDependencyViewForFocusedMachineGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";

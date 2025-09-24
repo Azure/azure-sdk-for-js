@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Identity client library samples for TypeScript",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -35,11 +35,11 @@
   "dependencies": {
     "@azure/identity": "latest",
     "dotenv": "latest",
-    "@azure/keyvault-keys": "^4.2.0",
+    "@azure/keyvault-keys": "4.10.0",
     "@azure/core-rest-pipeline": "^1.17.0"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }

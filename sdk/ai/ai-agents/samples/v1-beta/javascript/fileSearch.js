@@ -65,9 +65,6 @@ async function main() {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
-    },
   });
   console.log(`Run finished with status: ${run.status}`);
 
@@ -78,11 +75,9 @@ async function main() {
     );
     threadMessage.content.forEach((content) => {
       if (isOutputOfType(content, "text")) {
-        const textContent = content;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${content.text.value}`);
       } else if (isOutputOfType(content, "image_file")) {
-        const imageContent = content;
-        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        console.log(`Image Message Content - ${content.imageFile.fileId}`);
       }
     });
   }

@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure CarbonOptimizationManagement client.
 
-CarbonOptimizationManagement Report Resource Provider query API.
+Carbon Report Resource Provider query API.
 
 Key links:
 
@@ -45,7 +45,7 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure Carbon** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure CarbonOptimizationManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 

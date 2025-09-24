@@ -32,7 +32,7 @@ export function createAIProject(
 ): AIProjectContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-projects/1.0.0-beta.8`;
+  const userAgentInfo = `azsdk-js-ai-projects/1.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -46,7 +46,7 @@ export function createAIProject(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-05-15-preview";
+  const apiVersion = options.apiVersion ?? "v1";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

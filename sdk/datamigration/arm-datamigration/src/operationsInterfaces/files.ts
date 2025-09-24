@@ -20,7 +20,7 @@ import {
   FilesReadOptionalParams,
   FilesReadResponse,
   FilesReadWriteOptionalParams,
-  FilesReadWriteResponse
+  FilesReadWriteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface Files {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: FilesListOptionalParams
+    options?: FilesListOptionalParams,
   ): PagedAsyncIterableIterator<ProjectFile>;
   /**
    * The files resource is a nested, proxy-only resource representing a file stored under the project
@@ -54,7 +54,7 @@ export interface Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesGetOptionalParams
+    options?: FilesGetOptionalParams,
   ): Promise<FilesGetResponse>;
   /**
    * The PUT method creates a new file or updates an existing one.
@@ -71,7 +71,7 @@ export interface Files {
     projectName: string,
     fileName: string,
     parameters: ProjectFile,
-    options?: FilesCreateOrUpdateOptionalParams
+    options?: FilesCreateOrUpdateOptionalParams,
   ): Promise<FilesCreateOrUpdateResponse>;
   /**
    * This method deletes a file.
@@ -86,7 +86,7 @@ export interface Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesDeleteOptionalParams
+    options?: FilesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * This method updates an existing file.
@@ -103,7 +103,7 @@ export interface Files {
     projectName: string,
     fileName: string,
     parameters: ProjectFile,
-    options?: FilesUpdateOptionalParams
+    options?: FilesUpdateOptionalParams,
   ): Promise<FilesUpdateResponse>;
   /**
    * This method is used for requesting storage information using which contents of the file can be
@@ -119,7 +119,7 @@ export interface Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesReadOptionalParams
+    options?: FilesReadOptionalParams,
   ): Promise<FilesReadResponse>;
   /**
    * This method is used for requesting information for reading and writing the file content.
@@ -134,6 +134,6 @@ export interface Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesReadWriteOptionalParams
+    options?: FilesReadWriteOptionalParams,
   ): Promise<FilesReadWriteResponse>;
 }

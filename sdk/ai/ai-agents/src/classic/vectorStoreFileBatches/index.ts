@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { VectorStoreFileBatch } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type { VectorStoreFile, VectorStoreFileBatch } from "../../models/models.js";
+import type {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
   VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
@@ -16,8 +16,8 @@ import {
   createVectorStoreFileBatch,
   createVectorStoreFileBatchAndPoll,
 } from "../../api/vectorStoreFileBatches/operations.js";
-import { OperationState, PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationState, PollerLike } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VectorStoreFileBatches operations. */
 export interface VectorStoreFileBatchesOperations {
@@ -26,7 +26,7 @@ export interface VectorStoreFileBatchesOperations {
     vectorStoreId: string,
     batchId: string,
     options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
-  ) => PagedAsyncIterableIterator<VectorStoreFileBatch>;
+  ) => PagedAsyncIterableIterator<VectorStoreFile>;
   /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
   cancel: (
     vectorStoreId: string,

@@ -3,6 +3,7 @@
 
 import {
   Constants,
+  GitHubActionsConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
@@ -19,14 +20,47 @@ import {
   warnIfAccessTokenCloseToExpiry,
   fetchOrValidateAccessToken,
   populateValuesFromServiceUrl,
+  getRunName,
+  isValidGuid,
+  ValidateRunID,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import * as process from "node:process";
+import process from "node:process";
 import { getPlaywrightVersion } from "../../src/utils/getPlaywrightVersion.js";
 import { parseJwt } from "../../src/utils/parseJwt.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
+import { CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
+import * as childProcess from "node:child_process";
+
+vi.mock("child_process", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("child_process")>();
+  return {
+    ...actual,
+    exec: vi.fn((command, callback) => {
+      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
+        callback(null, "git version 2.37.1", "");
+      } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
+        callback(null, "true", "");
+      } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
+        callback(null, "Test commit message", "");
+      } else {
+        callback(new Error(`Command not mocked: ${command}`), "", "");
+      }
+      return {} as childProcess.ChildProcess;
+    }),
+    execSync: vi.fn((command) => {
+      if (command.includes("playwright --version")) {
+        return Buffer.from("1.42.0");
+      } else if (command === "echo") {
+        return Buffer.from("Version 1.2.3");
+      } else {
+        throw new Error(`Command not mocked: ${command}`);
+      }
+    }),
+  };
+});
 
 vi.mock("../../src/common/entraIdAccessToken.js", async (importActual) => {
   const actual = await importActual<typeof import("../../src/common/entraIdAccessToken.js")>();
@@ -39,8 +73,10 @@ vi.mock("../../src/common/entraIdAccessToken.js", async (importActual) => {
 vi.mock("node:process", async (importActual) => {
   const actual = await importActual<typeof import("node:process")>();
   return {
-    ...actual,
-    exit: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      exit: vi.fn(),
+    },
   };
 });
 
@@ -112,11 +148,11 @@ describe("Service Utils", () => {
 
   it("should return service base url with query params and should escape runID", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -124,11 +160,11 @@ describe("Service Utils", () => {
 
   it("should escape special character in runId", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -224,6 +260,7 @@ describe("Service Utils", () => {
     });
     vi.mocked(populateValuesFromServiceUrl).mockReturnValue({
       region: "",
+      domain: "playwright.microsoft.com",
       accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
     });
     const exitStub = vi.mocked(process.exit).mockImplementation(() => {
@@ -245,7 +282,7 @@ describe("Service Utils", () => {
     const expirationTime = fiveDaysFromNow * 1000;
     const daysToExpiration = Math.ceil((expirationTime - currentTime) / (24 * 60 * 60 * 1000));
     const expirationDate = new Date(expirationTime).toLocaleDateString();
-    const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+    const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/entra/identity/`;
     expect(consoleWarningSpy).toHaveBeenCalledOnce();
     expect(consoleWarningSpy).toHaveBeenCalledWith(expirationWarning);
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -257,6 +294,7 @@ describe("Service Utils", () => {
     vi.mocked(parseJwt).mockReturnValue({ exp: thirtyDaysFromNow });
     vi.mocked(populateValuesFromServiceUrl).mockReturnValue({
       region: "eastus",
+      domain: "playwright.microsoft.com",
       accountId: "123456789",
     });
 
@@ -275,6 +313,7 @@ describe("Service Utils", () => {
     });
     vi.mocked(populateValuesFromServiceUrl).mockReturnValue({
       region: "",
+      domain: "playwright.microsoft.com",
       accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
     });
 
@@ -288,10 +327,14 @@ describe("Service Utils", () => {
 
     const exitStub = vi.mocked(process.exit);
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/wrong-id/browsers";
     const result = localPopulateValuesFromServiceUrl();
 
-    expect(result).to.deep.equal({ region: "eastus", accountId: "wrong-id" });
+    expect(result).to.deep.equal({
+      region: "eastus",
+      domain: "playwright.microsoft.com",
+      accountId: "wrong-id",
+    });
     expect(exitStub).not.toHaveBeenCalled();
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
@@ -368,7 +411,7 @@ describe("Service Utils", () => {
     const tokenMock = "test";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
-      token: "",
+      token: "existing-token", // Change to non-empty token to avoid fetchEntraIdAccessToken call
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
     } as any as EntraIdAccessToken;
@@ -376,7 +419,7 @@ describe("Service Utils", () => {
     vi.mocked(createEntraIdAccessToken).mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
-    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).not.toHaveBeenCalled();
+    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).toHaveBeenCalled();
     expect(entraIdAccessToken.fetchEntraIdAccessToken).not.toHaveBeenCalled();
 
     expect(token).to.equal(tokenMock);
@@ -524,18 +567,67 @@ describe("Service Utils", () => {
     expect(process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]).to.equal(mockVersion);
   });
 
-  it("should return region and accountId from a valid service URL", async () => {
+  it("should return region, domain and accountId from a valid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
 
     const result = localPopulateValuesFromServiceUrl();
-    expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
+    expect(result).to.deep.equal({
+      region: "eastus",
+      domain: "playwright.microsoft.com",
+      accountId: "1234",
+    });
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });
+  describe("isValidGuid", () => {
+    it("should return true for valid GUIDs", () => {
+      const validGuids = [
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+        "f3a0f9c8-1b4b-4f44-9a77-062d8d418878",
+        "00000000-0000-0000-0000-000000000000",
+        "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      ];
 
+      validGuids.forEach((guid) => {
+        expect(isValidGuid(guid)).toBe(true);
+      });
+    });
+
+    it("should return false for invalid GUIDs", () => {
+      const invalidGuids = [
+        "",
+        "not-a-guid",
+        "a1b2c3d4e5f647a8b9c0d1e2f3a4b5c6",
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5",
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6c",
+      ];
+
+      invalidGuids.forEach((guid) => {
+        expect(isValidGuid(guid)).toBe(false);
+      });
+    });
+
+    it("should handle undefined and null values", () => {
+      expect(isValidGuid(undefined as unknown as string)).toBe(false);
+      expect(isValidGuid(null as unknown as string)).toBe(false);
+    });
+  });
+  it("should throw error when invalid GUID is provided in runId", () => {
+    const invalidGuid = "not-a-valid-guid";
+
+    expect(() => ValidateRunID(invalidGuid)).toThrow(
+      "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+    );
+  });
+
+  it("should not throw error when valid GUID is provided in runId", () => {
+    const validGuid = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+
+    expect(() => ValidateRunID(validGuid)).not.toThrow();
+  });
   it("should return null for an invalid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
@@ -554,5 +646,103 @@ describe("Service Utils", () => {
     const result = localPopulateValuesFromServiceUrl();
 
     expect(result).toBeNull();
+  });
+
+  it("should return PR information when in GitHub PR context", async () => {
+    // Save original env vars
+    const originalEnv = { ...process.env };
+
+    // Setup GitHub PR environment variables
+    process.env["GITHUB_EVENT_NAME"] = "pull_request";
+    process.env["GITHUB_REF_NAME"] = "123/merge";
+    process.env["GITHUB_REPOSITORY"] = "Azure/test-repo";
+
+    const ciInfo = {
+      providerName: CI_PROVIDERS.GITHUB,
+    };
+
+    try {
+      const result = await getRunName(ciInfo);
+      expect(result).toBe("PR# 123 on Repo: Azure/test-repo (Azure/test-repo/pull/123)");
+    } finally {
+      // Restore env vars
+      for (const key in process.env) {
+        if (!originalEnv[key]) {
+          delete process.env[key];
+        } else {
+          process.env[key] = originalEnv[key];
+        }
+      }
+    }
+  });
+
+  it("should return git commit message when not in GitHub PR context", async () => {
+    // Setup non-PR context
+    const ciInfo = {
+      providerName: CI_PROVIDERS.DEFAULT,
+    };
+
+    const result = await getRunName(ciInfo);
+    expect(result).toBe("Test commit message");
+  });
+
+  it("should return empty string when not inside a git repository", async () => {
+    const ciInfo = {
+      providerName: CI_PROVIDERS.DEFAULT,
+    };
+
+    // Create a new mock implementation for this test only
+    vi.mocked(childProcess.exec).mockImplementation(
+      (command: any, options: any, callback?: any) => {
+        // Handle the case where callback is the second argument
+        const cb = typeof options === "function" ? options : callback;
+
+        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
+          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
+        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
+          setTimeout(() => cb(null, "false", ""), 0); // Not inside a git repository
+        } else {
+          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
+        }
+        return {} as childProcess.ChildProcess;
+      },
+    );
+
+    const result = await getRunName(ciInfo);
+    expect(result).toBe("");
+
+    // Restore the mock
+    vi.resetAllMocks();
+  });
+
+  it("should return empty string when git command throws an error", async () => {
+    const ciInfo = {
+      providerName: CI_PROVIDERS.DEFAULT,
+    };
+
+    // Create a new mock implementation for this test only
+    vi.mocked(childProcess.exec).mockImplementation(
+      (command: any, options: any, callback?: any) => {
+        // Handle the case where callback is the second argument
+        const cb = typeof options === "function" ? options : callback;
+
+        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
+          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
+        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
+          setTimeout(() => cb(null, "true", ""), 0);
+        } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
+          setTimeout(() => cb(new Error("Command failed"), "", "stderr output"), 0);
+        } else {
+          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
+        }
+        return {} as childProcess.ChildProcess;
+      },
+    );
+
+    const result = await getRunName(ciInfo);
+    expect(result).toBe("");
+
+    // Restore the mock
+    vi.resetAllMocks();
   });
 });

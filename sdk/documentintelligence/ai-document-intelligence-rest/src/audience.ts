@@ -4,7 +4,7 @@
 /**
  * Defines the known cloud audiences for Document Intelligence.
  *
- * To authenticate with Entra Id (using a `TokenCredential`) in a [Sovereign Cloud](https://learn.microsoft.com/en-us/entra/identity-platform/authentication-national-cloud)
+ * To authenticate with Entra Id (using a `TokenCredential`) in a [Sovereign Cloud](https://learn.microsoft.com/entra/identity-platform/authentication-national-cloud)
  * environment, provide the appropriate value below as the `audience` option when creating a
  * `Document Intelligence` client.
  *

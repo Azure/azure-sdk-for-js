@@ -14,16 +14,18 @@ stages:
 
     pool:
       # AzureFileCopy requires Windows
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
+      name: azsdk-pool
+      demands: ImageOverride -equals windows-2022
 
     jobs:
       - job: GenerateReports
         timeoutInMinutes: 360
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 18.x
+              NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
 
           - task: PowerShell@2
             inputs:
@@ -39,8 +41,12 @@ stages:
               Condition: succeededOrFailed()
 
           - script: 'npm ci'
+            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/eng-package-utils'
+            displayName: 'Install eng-package-utils dependencies'
+
+          - script: 'npm ci'
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-            displayName: 'Install tool dependencies'
+            displayName: 'Install analyze-deps dependencies'
 
           - script: |
               node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"
@@ -82,8 +88,8 @@ stages:
 
     pool:
       # Policheck requires Windows
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
+      name: azsdk-pool
+      demands: ImageOverride -equals windows-2022
 
     jobs:
       - job: ComplianceTools
@@ -93,8 +99,6 @@ stages:
             parameters:
               ExclusionDataBaseFileName: "JavaScriptPoliCheckExclusion"
               PublishAnalysisLogs: false
-
-          - template: /eng/common/pipelines/templates/steps/credscan.yml
 
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
             displayName: 'Publish Security Analysis Logs'

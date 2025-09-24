@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AvailableServiceSku,
   ServicesListSkusOptionalParams,
@@ -29,15 +29,15 @@ import {
   ServicesCheckChildrenNameAvailabilityOptionalParams,
   ServicesCheckChildrenNameAvailabilityResponse,
   ServicesCheckNameAvailabilityOptionalParams,
-  ServicesCheckNameAvailabilityResponse
+  ServicesCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Services. */
 export interface Services {
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * skus action returns the list of SKUs that a service resource can be updated to.
+   * The services resource is the top-level resource that represents the Database Migration Service
+   * (classic). The skus action returns the list of SKUs that a service resource can be updated to.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -45,34 +45,34 @@ export interface Services {
   listSkus(
     groupName: string,
     serviceName: string,
-    options?: ServicesListSkusOptionalParams
+    options?: ServicesListSkusOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceSku>;
   /**
-   * The Services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service resources in a resource group.
+   * The Services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service resources in a resource group.
    * @param groupName Name of the resource group
    * @param options The options parameters.
    */
   listByResourceGroup(
     groupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataMigrationService>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service resources in a subscription.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service resources in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): PagedAsyncIterableIterator<DataMigrationService>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PUT method creates a new service or updates an existing one. When a service is updated, existing
-   * child resources (i.e. tasks) are unaffected. Services currently support a single kind, "vm", which
-   * refers to a VM-based service, although other kinds may be added in the future. This method can
-   * change the kind, SKU, and network of the service, but if tasks are currently running (i.e. the
-   * service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will reply
-   * when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PUT method creates a new service or updates an existing one. When a service is
+   * updated, existing child resources (i.e. tasks) are unaffected. Services currently support a single
+   * kind, "vm", which refers to a VM-based service, although other kinds may be added in the future.
+   * This method can change the kind, SKU, and network of the service, but if tasks are currently running
+   * (i.e. the service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will
+   * reply when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
    * property.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -83,21 +83,21 @@ export interface Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   >;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PUT method creates a new service or updates an existing one. When a service is updated, existing
-   * child resources (i.e. tasks) are unaffected. Services currently support a single kind, "vm", which
-   * refers to a VM-based service, although other kinds may be added in the future. This method can
-   * change the kind, SKU, and network of the service, but if tasks are currently running (i.e. the
-   * service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will reply
-   * when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PUT method creates a new service or updates an existing one. When a service is
+   * updated, existing child resources (i.e. tasks) are unaffected. Services currently support a single
+   * kind, "vm", which refers to a VM-based service, although other kinds may be added in the future.
+   * This method can change the kind, SKU, and network of the service, but if tasks are currently running
+   * (i.e. the service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will
+   * reply when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
    * property.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -108,11 +108,11 @@ export interface Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * GET method retrieves information about a service instance.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The GET method retrieves information about a service instance.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -120,11 +120,11 @@ export interface Services {
   get(
     groupName: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * DELETE method deletes a service. Any running tasks will be canceled.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The DELETE method deletes a service. Any running tasks will be canceled.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -132,11 +132,11 @@ export interface Services {
   beginDelete(
     groupName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * DELETE method deletes a service. Any running tasks will be canceled.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The DELETE method deletes a service. Any running tasks will be canceled.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -144,13 +144,13 @@ export interface Services {
   beginDeleteAndWait(
     groupName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PATCH method updates an existing service. This method can change the kind, SKU, and network of the
-   * service, but if tasks are currently running (i.e. the service is busy), this will fail with 400 Bad
-   * Request ("ServiceIsBusy").
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PATCH method updates an existing service. This method can change the kind, SKU, and
+   * network of the service, but if tasks are currently running (i.e. the service is busy), this will
+   * fail with 400 Bad Request ("ServiceIsBusy").
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param parameters Information about the service
@@ -160,18 +160,18 @@ export interface Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesUpdateResponse>,
       ServicesUpdateResponse
     >
   >;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PATCH method updates an existing service. This method can change the kind, SKU, and network of the
-   * service, but if tasks are currently running (i.e. the service is busy), this will fail with 400 Bad
-   * Request ("ServiceIsBusy").
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PATCH method updates an existing service. This method can change the kind, SKU, and
+   * network of the service, but if tasks are currently running (i.e. the service is busy), this will
+   * fail with 400 Bad Request ("ServiceIsBusy").
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param parameters Information about the service
@@ -181,11 +181,12 @@ export interface Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action performs a health check and returns the status of the service and virtual machine size.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action performs a health check and returns the status of the service and virtual
+   * machine size.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -193,11 +194,11 @@ export interface Services {
   checkStatus(
     groupName: string,
     serviceName: string,
-    options?: ServicesCheckStatusOptionalParams
+    options?: ServicesCheckStatusOptionalParams,
   ): Promise<ServicesCheckStatusResponse>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action starts the service and the service can be used for data migration.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action starts the service and the service can be used for data migration.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -205,11 +206,11 @@ export interface Services {
   beginStart(
     groupName: string,
     serviceName: string,
-    options?: ServicesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServicesStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action starts the service and the service can be used for data migration.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action starts the service and the service can be used for data migration.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -217,12 +218,12 @@ export interface Services {
   beginStartAndWait(
     groupName: string,
     serviceName: string,
-    options?: ServicesStartOptionalParams
+    options?: ServicesStartOptionalParams,
   ): Promise<void>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action stops the service and the service cannot be used for data migration. The service owner won't
-   * be billed when the service is stopped.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action stops the service and the service cannot be used for data migration. The
+   * service owner won't be billed when the service is stopped.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -230,12 +231,12 @@ export interface Services {
   beginStop(
     groupName: string,
     serviceName: string,
-    options?: ServicesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServicesStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action stops the service and the service cannot be used for data migration. The service owner won't
-   * be billed when the service is stopped.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action stops the service and the service cannot be used for data migration. The
+   * service owner won't be billed when the service is stopped.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -243,7 +244,7 @@ export interface Services {
   beginStopAndWait(
     groupName: string,
     serviceName: string,
-    options?: ServicesStopOptionalParams
+    options?: ServicesStopOptionalParams,
   ): Promise<void>;
   /**
    * This method checks whether a proposed nested resource name is valid and available.
@@ -256,7 +257,7 @@ export interface Services {
     groupName: string,
     serviceName: string,
     parameters: NameAvailabilityRequest,
-    options?: ServicesCheckChildrenNameAvailabilityOptionalParams
+    options?: ServicesCheckChildrenNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckChildrenNameAvailabilityResponse>;
   /**
    * This method checks whether a proposed top-level resource name is valid and available.
@@ -267,6 +268,6 @@ export interface Services {
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityRequest,
-    options?: ServicesCheckNameAvailabilityOptionalParams
+    options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse>;
 }

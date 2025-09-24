@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
-export { AnonymousCredential } from "@azure/storage-blob";
-export { Credential } from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";
 export {
   Pipeline,
@@ -14,11 +12,15 @@ export {
   StoragePipelineOptions,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export { BaseRequestPolicy } from "@azure/storage-blob";
-export { AnonymousCredentialPolicy } from "@azure/storage-blob";
-export { CredentialPolicy } from "@azure/storage-blob";
-export { StorageRetryPolicyFactory } from "@azure/storage-blob";
-export { StorageBrowserPolicyFactory } from "@azure/storage-blob";
+export {
+  AnonymousCredential,
+  BaseRequestPolicy,
+  Credential,
+         AnonymousCredentialPolicy,
+         CredentialPolicy,
+         StorageRetryPolicyFactory,
+         StorageBrowserPolicyFactory,
+       } from "@azure/storage-common";
 export { Metadata } from "./models.js";
 export * from "./QueueClient.js";
 export * from "./QueueSASPermissions.js";

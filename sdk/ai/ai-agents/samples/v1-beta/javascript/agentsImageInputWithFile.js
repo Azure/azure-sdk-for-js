@@ -52,8 +52,8 @@ async function main() {
     },
     {
       type: "image_file",
-      image_file: {
-        file_id: imageFile.id,
+      imageFile: {
+        fileId: imageFile.id,
         detail: "high",
       },
     },
@@ -66,9 +66,6 @@ async function main() {
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -90,11 +87,9 @@ async function main() {
   }
 
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

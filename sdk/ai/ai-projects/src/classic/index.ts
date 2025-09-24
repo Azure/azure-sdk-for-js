@@ -4,7 +4,5 @@
 export { ConnectionsOperations } from "./connections/index.js";
 export { DatasetsOperations } from "./datasets/index.js";
 export { DeploymentsOperations } from "./deployments/index.js";
-export { EvaluationsOperations } from "./evaluations/index.js";
 export { IndexesOperations } from "./indexes/index.js";
-export { RedTeamsOperations } from "./redTeams/index.js";
 export { TelemetryOperations } from "./telemetry/index.js";

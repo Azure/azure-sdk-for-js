@@ -161,8 +161,7 @@ in the "Certificates & secrets" page for your app registration. Using a
 certificate to authenticate is recommended as it is generally more secure than
 using a client secret.
 
-> NOTE: At this time, `@azure/identity` only supports PEM certificates that are
-> **not** password protected.
+> NOTE: At this time, `@azure/identity` only supports PEM certificates.
 
 For both of these credentials, `tenantId` and `clientId` are required parameters.
 The `clientSecret` or `certificatePath` parameters are also required depending

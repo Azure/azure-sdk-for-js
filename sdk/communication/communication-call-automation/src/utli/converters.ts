@@ -10,6 +10,7 @@ import type {
   SerializedCommunicationIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
+  TeamsExtensionUserIdentifier,
 } from "@azure/communication-common";
 import {
   serializeCommunicationIdentifier,
@@ -18,6 +19,7 @@ import {
   isUnknownIdentifier,
   isMicrosoftTeamsUserIdentifier,
   isMicrosoftTeamsAppIdentifier,
+  isTeamsExtensionUserIdentifier,
 } from "@azure/communication-common";
 import type {
   CallParticipantInternal,
@@ -27,17 +29,9 @@ import type {
   PhoneNumberIdentifierModel,
   CommunicationUserIdentifierModel,
   MicrosoftTeamsAppIdentifierModel,
-  TeamsPhoneCallDetailsInternal,
-  TeamsPhoneCallerDetailsInternal,
-  TeamsPhoneSourceDetailsInternal,
 } from "../generated/src/index.js";
 import { KnownCommunicationIdentifierModelKind } from "../generated/src/index.js";
-import type {
-  CallParticipant,
-  TeamsPhoneCallDetails,
-  TeamsPhoneCallerDetails,
-  TeamsPhoneSourceDetails,
-} from "../models/models.js";
+import type { CallParticipant } from "../models/models.js";
 
 function extractKind(
   identifierModel: CommunicationIdentifierModel,
@@ -53,6 +47,9 @@ function extractKind(
   }
   if (identifierModel.microsoftTeamsApp !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp;
+  }
+  if (identifierModel.teamsExtensionUser !== undefined) {
+    return KnownCommunicationIdentifierModelKind.TeamsExtensionUser;
   }
   return KnownCommunicationIdentifierModelKind.Unknown;
 }
@@ -141,6 +138,20 @@ export function communicationIdentifierConverter(
     return microsoftTeamsAppIdentifier;
   }
 
+  if (
+    kind === KnownCommunicationIdentifierModelKind.TeamsExtensionUser &&
+    identifierModel.teamsExtensionUser !== undefined
+  ) {
+    const teamsExtensionUserIdentifier: TeamsExtensionUserIdentifier = {
+      rawId: rawId,
+      userId: identifierModel.teamsExtensionUser.userId,
+      resourceId: identifierModel.teamsExtensionUser.resourceId,
+      tenantId: identifierModel.teamsExtensionUser.tenantId,
+      cloud: identifierModel.teamsExtensionUser.cloud as KnownCommunicationCloudEnvironmentModel,
+    };
+    return teamsExtensionUserIdentifier;
+  }
+
   const unknownIdentifier: UnknownIdentifier = {
     id: rawId ? rawId : "",
   };
@@ -183,6 +194,14 @@ export function communicationIdentifierModelConverter(
       ...serializedIdentifier,
     };
     return microsoftTeamsAppIdentifierModel;
+  }
+
+  if (isTeamsExtensionUserIdentifier(identifier)) {
+    const teamsExtensionUserIdentifierModel: CommunicationIdentifierModel = {
+      kind: KnownCommunicationIdentifierModelKind.TeamsExtensionUser,
+      ...serializedIdentifier,
+    };
+    return teamsExtensionUserIdentifierModel;
   }
 
   if (isUnknownIdentifier(identifier)) {
@@ -251,153 +270,4 @@ export function microsoftTeamsAppIdentifierConverter(
   }
 
   return { teamsAppId: identifier.appId };
-}
-
-/**
- * Converts from public TeamsPhoneCallerDetails to internal TeamsPhoneCallerDetailsModel
- */
-export function teamsPhoneCallerDetailsModelConverter(
-  teamsPhoneCallerDetails?: TeamsPhoneCallerDetails,
-): TeamsPhoneCallerDetailsInternal | undefined {
-  if (!teamsPhoneCallerDetails) {
-    return undefined;
-  }
-
-  return {
-    caller: communicationIdentifierModelConverter(teamsPhoneCallerDetails.caller),
-    name: teamsPhoneCallerDetails.name,
-    phoneNumber: teamsPhoneCallerDetails.phoneNumber,
-    recordId: teamsPhoneCallerDetails.recordId,
-    screenPopUrl: teamsPhoneCallerDetails.screenPopUrl,
-    isAuthenticated: teamsPhoneCallerDetails.isAuthenticated,
-    additionalCallerInformation: teamsPhoneCallerDetails.additionalCallerInformation,
-  };
-}
-
-/**
- * Converts from public TeamsPhoneSourceDetails to internal TeamsPhoneSourceDetailsModel
- */
-export function teamsPhoneSourceDetailsModelConverter(
-  teamsPhoneSourceDetails?: TeamsPhoneSourceDetails,
-): TeamsPhoneSourceDetailsInternal | undefined {
-  if (!teamsPhoneSourceDetails) {
-    return undefined;
-  }
-
-  const intendedTargets: { [key: string]: CommunicationIdentifierModel } = {};
-
-  if (teamsPhoneSourceDetails.intendedTargets) {
-    for (const [key, value] of Object.entries(teamsPhoneSourceDetails.intendedTargets)) {
-      intendedTargets[key] = communicationIdentifierModelConverter(value);
-    }
-  }
-
-  return {
-    source: communicationIdentifierModelConverter(teamsPhoneSourceDetails.source),
-    language: teamsPhoneSourceDetails.language,
-    status: teamsPhoneSourceDetails.status,
-    intendedTargets: Object.keys(intendedTargets).length > 0 ? intendedTargets : undefined,
-  };
-}
-
-/**
- * Converts from public TeamsPhoneCallDetails to internal TeamsPhoneCallDetailsModel
- */
-export function teamsPhoneCallDetailsModelConverter(
-  teamsPhoneCallDetails?: TeamsPhoneCallDetails,
-): TeamsPhoneCallDetailsInternal | undefined {
-  if (!teamsPhoneCallDetails) {
-    return undefined;
-  }
-
-  return {
-    teamsPhoneCallerDetails: teamsPhoneCallerDetailsModelConverter(
-      teamsPhoneCallDetails.teamsPhoneCallerDetails,
-    ),
-    teamsPhoneSourceDetails: teamsPhoneSourceDetailsModelConverter(
-      teamsPhoneCallDetails.teamsPhoneSourceDetails,
-    ),
-    sessionId: teamsPhoneCallDetails.sessionId,
-    intent: teamsPhoneCallDetails.intent,
-    callTopic: teamsPhoneCallDetails.callTopic,
-    callContext: teamsPhoneCallDetails.callContext,
-    transcriptUrl: teamsPhoneCallDetails.transcriptUrl,
-    callSentiment: teamsPhoneCallDetails.callSentiment,
-    suggestedActions: teamsPhoneCallDetails.suggestedActions,
-  };
-}
-
-/**
- * Converts from internal TeamsPhoneCallerDetailsInternal to public TeamsPhoneCallerDetails (for incoming events)
- */
-export function teamsPhoneCallerDetailsConverter(
-  teamsPhoneCallerDetails?: TeamsPhoneCallerDetailsInternal,
-): TeamsPhoneCallerDetails | undefined {
-  if (!teamsPhoneCallerDetails) {
-    return undefined;
-  }
-
-  return {
-    caller: communicationIdentifierConverter(teamsPhoneCallerDetails.caller),
-    name: teamsPhoneCallerDetails.name,
-    phoneNumber: teamsPhoneCallerDetails.phoneNumber,
-    recordId: teamsPhoneCallerDetails.recordId,
-    screenPopUrl: teamsPhoneCallerDetails.screenPopUrl,
-    isAuthenticated: teamsPhoneCallerDetails.isAuthenticated,
-    additionalCallerInformation: teamsPhoneCallerDetails.additionalCallerInformation,
-  };
-}
-
-/**
- * Converts from internal TeamsPhoneSourceDetailsInternal to public TeamsPhoneSourceDetails (for incoming events)
- */
-export function teamsPhoneSourceDetailsConverter(
-  teamsPhoneSourceDetails?: TeamsPhoneSourceDetailsInternal,
-): TeamsPhoneSourceDetails | undefined {
-  if (!teamsPhoneSourceDetails) {
-    return undefined;
-  }
-
-  const intendedTargets: { [key: string]: CommunicationIdentifier } = {};
-
-  if (teamsPhoneSourceDetails.intendedTargets) {
-    for (const [key, value] of Object.entries(teamsPhoneSourceDetails.intendedTargets)) {
-      intendedTargets[key] = communicationIdentifierConverter(value);
-    }
-  }
-
-  return {
-    source: communicationIdentifierConverter(teamsPhoneSourceDetails.source),
-    language: teamsPhoneSourceDetails.language,
-    status: teamsPhoneSourceDetails.status,
-    intendedTargets: Object.keys(intendedTargets).length > 0 ? intendedTargets : undefined,
-  };
-}
-
-/**
- * Converts from internal TeamsPhoneCallDetailsInternal to public TeamsPhoneCallDetails (for incoming events)
- */
-export function teamsPhoneCallDetailsConverter(
-  teamsPhoneCallDetails?: TeamsPhoneCallDetailsInternal,
-): TeamsPhoneCallDetails | undefined {
-  if (!teamsPhoneCallDetails) {
-    return undefined;
-  }
-
-  return {
-    kind: "teamsPhoneCallDetails",
-    teamsPhoneCallerDetails: teamsPhoneCallerDetailsConverter(
-      teamsPhoneCallDetails.teamsPhoneCallerDetails,
-    ),
-    teamsPhoneSourceDetails: teamsPhoneSourceDetailsConverter(
-      teamsPhoneCallDetails.teamsPhoneSourceDetails,
-    ),
-    sessionId: teamsPhoneCallDetails.sessionId,
-    intent: teamsPhoneCallDetails.intent,
-    callTopic: teamsPhoneCallDetails.callTopic,
-    callContext: teamsPhoneCallDetails.callContext,
-    transcriptUrl: teamsPhoneCallDetails.transcriptUrl,
-    callSentiment: teamsPhoneCallDetails.callSentiment,
-    suggestedActions: teamsPhoneCallDetails.suggestedActions,
-  };
 }

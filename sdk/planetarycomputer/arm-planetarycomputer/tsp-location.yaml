@@ -1,0 +1,4 @@
+directory: specification/orbitalplanetarycomputer/Orbital.Management
+commit: 8279d4aee23a3fef5aac9c76333b0895c83e44c3
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

@@ -40,7 +40,7 @@ import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
 import { tracingClient } from "./tracing.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { logger } from "./log.js";
+import { logger } from "./logger.js";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key

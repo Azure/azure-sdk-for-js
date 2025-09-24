@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-storsimple1200series": ["./src/index.ts"],
+      "@azure/arm-storsimple1200series/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

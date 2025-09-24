@@ -11,8 +11,8 @@ export {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  OnlineExperimentWorkspace,
-  OnlineExperimentWorkspaceProperties,
+  OnlineExperimentationWorkspace,
+  OnlineExperimentationWorkspaceProperties,
   KnownResourceProvisioningState,
   ResourceProvisioningState,
   ResourceEncryptionConfiguration,
@@ -34,5 +34,6 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  OnlineExperimentationWorkspacePatch,
   KnownVersions,
 } from "./models.js";

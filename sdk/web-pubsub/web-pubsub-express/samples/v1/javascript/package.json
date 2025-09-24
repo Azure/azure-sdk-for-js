@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Web PubSub CloudEvents Handlers for Express client library samples for JavaScript",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express",
   "dependencies": {
     "@azure/web-pubsub-express": "latest",
-    "express": "^4.16.3",
+    "express": "^5.1.0",
     "dotenv": "latest"
   }
 }

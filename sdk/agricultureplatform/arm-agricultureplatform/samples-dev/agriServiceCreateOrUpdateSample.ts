@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgriculturePlatformClient } from "@azure/arm-agricultureplatform";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a AgriServiceResource
  *
  * @summary create a AgriServiceResource
  * x-ms-original-file: 2024-06-01-preview/AgriService_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import { AgriculturePlatformClient } from "@azure/arm-agricultureplatform";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function agriServiceCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "83D293F5-DEFD-4D48-B120-1DC713BE338A";

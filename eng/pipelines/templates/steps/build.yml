@@ -26,11 +26,30 @@ steps:
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
   - script: |
-      npm install ./eng/tools/versioning
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
+      npm ci
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    workingDirectory: ./eng/tools/eng-package-utils
+    displayName: Install eng-package-utils dependencies
+
+  - script: |
+      npm ci
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    workingDirectory: ./eng/tools/versioning
+    displayName: Install versioning tool dependencies
+
+  - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
+
+  - script: |
+      pnpm install --no-frozen-lockfile
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    displayName: "Install library dependencies after setting dev version"
 
   # Update the package info file to include dev version
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
@@ -38,37 +57,35 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
-    displayName: "Install dependencies"
+    displayName: "Install library dependencies"
+
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
+      - pwsh: |
+          echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:,remote:w"
+        displayName: "Set Turborepo Cache local:,remote:w"
+  - ${{ else }}:
+      - pwsh: |
+          echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:rw,remote:r"
+        displayName: "Set Turborepo Cache local:rw remote:r"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Azure SDK Artifacts'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az account show
-          expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
-          sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
-          echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
-
   - pwsh: |
-      node eng/tools/rush-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose -p max
-    displayName: "Build libraries"
+      node eng/tools/ci-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     env:
-      ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-        RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
-        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_TOKEN: $(js-turborepo-cache-token)
+      TURBO_CACHE: $(turboCache)
+    displayName: "Build libraries"
 
   - script: |
-      node eng/tools/rush-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/ci-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     displayName: "Build samples for PR"
 
   - pwsh: |
@@ -76,20 +93,22 @@ steps:
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/ci-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner/index.js unlink
-    displayName: "Unlink dependencies"
+      pnpm purge
+    displayName: "Purge dependencies"
 
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
+      . ./eng/common/scripts/common.ps1
+
       $artifacts = "$(ArtifactPackageNames)".Split(",")
 
       foreach ($artifact in $artifacts)
@@ -97,28 +116,46 @@ steps:
         $artifactDetails = Get-Content -Raw $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
         $packageJson = Join-Path $(Build.SourcesDirectory) $artifactDetails.DirectoryPath "package.json"
 
-        Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
-        New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
-        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
+        $stagingArtifactDirectory = "$(Build.ArtifactStagingDirectory)/$artifact"
+        Write-Host "Copying $artifact artifacts to $stagingArtifactDirectory"
+        New-Item -Type Directory $stagingArtifactDirectory -Force | Out-Null
 
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
-          -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
+        $packageFile = (dir sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz)[0]
+        Copy-Item $packageFile $stagingArtifactDirectory
+        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $stagingArtifactDirectory
+
+        if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDevFeed -ne $true)
         {
-          New-Item -Type Directory -Force -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
-          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
+          $stagingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
+          New-Item -Type Directory $stagingDevArtifactDirectory -Force | Out-Null
+          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $(Agent.TempDirectory)
+          if ($hasSourceChanges) {
+            Write-Host "There were source code changes for $artifact, so we need to publish"
+            Write-Host "Copying $packageFile artifacts to $stagingDevArtifactDirectory"
+            Copy-Item $packageFile $stagingDevArtifactDirectory
+          }
+          else {
+            Write-Host "No source code changes for $artifact, skipping publish"
+          }
+          Get-ChildItem $stagingDevArtifactDirectory -Recurse -Name
+        }
+
+        if ($${{ parameters.IncludeRelease }} -eq $true -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
+        {
+          New-Item -Type Directory $stagingArtifactDirectory/documentation -Force | Out-Null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $stagingArtifactDirectory/documentation
         }
         else {
           Write-Host "Skipping documentation for package $artifact."
         }
 
-        Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact -Recurse
+        Get-ChildItem $stagingArtifactDirectory -Recurse -Name
       }
-    displayName: 'Copy Packages'
+    displayName: "Copy Packages"
 
   - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
-    displayName: 'Copy API extracted files'
+    displayName: "Copy API extracted files"
 
   - task: Powershell@2
     inputs:
@@ -131,8 +168,14 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+      ArtifactPath: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "packages"
+
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: "$(Agent.TempDirectory)/packages-dev-publish"
+      ArtifactName: "packages-dev-publish"
+      CustomCondition: eq(variables['SetDevVersion'], 'true')
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:

@@ -7,7 +7,7 @@ import {
   RoleScope as KeyVaultRoleScope,
   KnownDataAction as KnownKeyVaultDataAction,
   KnownRoleScope as KnownKeyVaultRoleScope,
-} from "./generated/index.js";
+} from "./models/models.js";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };

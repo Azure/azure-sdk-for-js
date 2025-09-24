@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockClient } from "@azure/arm-purestorageblock";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list AVS VMs by storage pool
  *
  * @summary list AVS VMs by storage pool
- * x-ms-original-file: 2024-11-01-preview/AvsVms_ListByStoragePool_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/AvsVms_ListByStoragePool_MaximumSet_Gen.json
  */
+
+import { BlockClient } from "@azure/arm-purestorageblock";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function avsVmsListByStoragePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { FileSASPermissions } from "./FileSASPermissions.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
@@ -64,7 +64,7 @@ export interface FileSASSignatureValues {
   /**
    * Optional. The name of the access policy on the share this SAS references if any.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 

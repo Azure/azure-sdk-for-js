@@ -3,6 +3,7 @@
 
 import { AgentsContext as Client } from "../index.js";
 import {
+  agentV1ErrorDeserializer,
   RunStep,
   runStepDeserializer,
   _AgentsPagedResultRunStep,
@@ -28,16 +29,16 @@ export function _listRunStepsSend(
   options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api%2Dversion,limit,order,after,before}",
+    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api-version,limit,order,after,before}",
     {
       threadId: threadId,
       runId: runId,
-      "include%5B%5D": !options?.include
+      "include[]": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
           }),
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -61,7 +62,9 @@ export async function _listRunStepsDeserialize(
 ): Promise<_AgentsPagedResultRunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultRunStepDeserializer(result.body);
@@ -91,13 +94,13 @@ export function _getRunStepSend(
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api%2Dversion,include%5B%5D}",
+    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api-version,include[]}",
     {
       threadId: threadId,
       runId: runId,
       stepId: stepId,
-      "api%2Dversion": context.apiVersion,
-      "include%5B%5D": !options?.include
+      "api-version": context.apiVersion,
+      "include[]": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
@@ -119,7 +122,9 @@ export function _getRunStepSend(
 export async function _getRunStepDeserialize(result: PathUncheckedResponse): Promise<RunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return runStepDeserializer(result.body);

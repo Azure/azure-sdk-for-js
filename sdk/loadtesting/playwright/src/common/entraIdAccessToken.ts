@@ -84,7 +84,7 @@ export class EntraIdAccessToken {
         return;
       }
       const claims = parseJwt<Partial<AccessTokenClaims>>(token);
-      if (claims.accountId || claims.aid) {
+      if (claims.pwid) {
         return;
       } // mpt PAT
       const expiry = new Date(claims.exp! * 1000);

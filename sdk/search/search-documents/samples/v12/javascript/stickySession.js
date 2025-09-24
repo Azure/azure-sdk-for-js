@@ -21,7 +21,7 @@ require("dotenv").config();
  * so.
  *
  * Please see the
- * {@link https://learn.microsoft.com/en-us/azure/search/index-similarity-and-scoring#scoring-statistics-and-sticky-sessions | documentation}
+ * {@link https://learn.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics-and-sticky-sessions | documentation}
  * for more information.
  */
 const endpoint = process.env.ENDPOINT || "";

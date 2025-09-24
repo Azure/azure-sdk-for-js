@@ -3,7 +3,7 @@
 
 import type { CryptographyOptions, KeyVaultKey } from "./keysModels.js";
 
-import type { JsonWebKey } from "./generated/models/index.js";
+import type { JsonWebKey } from "./models/models.js";
 import {
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
   JsonWebKeyCurveName as KeyCurveName,
@@ -13,7 +13,7 @@ import {
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
   KnownJsonWebKeyType as KnownKeyTypes,
   KnownKeyEncryptionAlgorithm as KnownKeyExportEncryptionAlgorithm,
-} from "./generated/models/index.js";
+} from "./models/models.js";
 
 export {
   EncryptionAlgorithm,
@@ -35,7 +35,9 @@ export type KeyWrapAlgorithm =
   | "A256KW"
   | "RSA-OAEP"
   | "RSA-OAEP-256"
-  | "RSA1_5";
+  | "RSA1_5"
+  | "CKM_AES_KEY_WRAP"
+  | "CKM_AES_KEY_WRAP_PAD";
 
 /**
  * Result of the {@link encrypt} operation.

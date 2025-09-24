@@ -33,10 +33,6 @@ export async function main(): Promise<void> {
   // Upload file, which will automatically poll until the operation is complete
   const file1 = await client.files.upload(readable1, "assistants", {
     fileName: "myPollingFile.txt",
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
-    },
   });
   console.log(`Uploaded file with status ${file1.status}, file ID : ${file1.id}`);
 
@@ -46,9 +42,9 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
   const filePoller = client.files.uploadAndPoll(readable2, "assistants", {
     fileName: "myPollingFile.txt",
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
-    },
+  });
+  filePoller.onProgress((state) => {
+    console.log(`Polling file upload, current status: ${state.status}`);
   });
   const file2 = await filePoller.pollUntilDone({ abortSignal: abortController.signal });
   console.log(`Uploaded file with status ${file2.status}, file ID: ${file2.id}`);

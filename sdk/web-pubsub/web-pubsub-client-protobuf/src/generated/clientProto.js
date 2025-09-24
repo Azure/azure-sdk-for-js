@@ -435,13 +435,23 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * SendToGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.SendToGroupMessage
+         * @instance
+         */
         Object.defineProperty(SendToGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * SendToGroupMessage _noEcho.
+         * @member {"noEcho"|undefined} _noEcho
+         * @memberof UpstreamMessage.SendToGroupMessage
+         * @instance
+         */
         Object.defineProperty(SendToGroupMessage.prototype, "_noEcho", {
             get: $util.oneOfGetter($oneOfFields = ["noEcho"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -740,7 +750,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * EventMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.EventMessage
+         * @instance
+         */
         Object.defineProperty(EventMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -1012,7 +1027,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * JoinGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.JoinGroupMessage
+         * @instance
+         */
         Object.defineProperty(JoinGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -1264,7 +1284,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * LeaveGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.LeaveGroupMessage
+         * @instance
+         */
         Object.defineProperty(LeaveGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -2043,7 +2068,12 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * AckMessage _error.
+         * @member {"error"|undefined} _error
+         * @memberof DownstreamMessage.AckMessage
+         * @instance
+         */
         Object.defineProperty(AckMessage.prototype, "_error", {
             get: $util.oneOfGetter($oneOfFields = ["error"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -2567,13 +2597,23 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * DataMessage _group.
+         * @member {"group"|undefined} _group
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
         Object.defineProperty(DataMessage.prototype, "_group", {
             get: $util.oneOfGetter($oneOfFields = ["group"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * DataMessage _sequenceId.
+         * @member {"sequenceId"|undefined} _sequenceId
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
         Object.defineProperty(DataMessage.prototype, "_sequenceId", {
             get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
             set: $util.oneOfSetter($oneOfFields)

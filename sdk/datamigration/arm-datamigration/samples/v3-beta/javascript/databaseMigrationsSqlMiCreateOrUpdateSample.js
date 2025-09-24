@@ -6,20 +6,74 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Create or Update Database Migration resource.
+ * This sample demonstrates how to Create a new database migration to a given SQL Managed Instance.
  *
- * @summary Create or Update Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlMiCreateOrUpdateDatabaseMigrationMAX.json
+ * @summary Create a new database migration to a given SQL Managed Instance.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlMiCreateOrUpdateDatabaseMigrationBlobManagedIdentity.json
+ */
+async function createOrUpdateDatabaseMigrationResourceFromAzureBlobUsingManagedIdentity() {
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
+  const managedInstanceName = "managedInstance1";
+  const targetDbName = "db1";
+  const parameters = {
+    properties: {
+      backupConfiguration: {
+        sourceLocation: {
+          azureBlob: {
+            authType: "ManagedIdentity",
+            blobContainerName: "test",
+            identity: {
+              type: "UserAssigned",
+              userAssignedIdentities: {
+                "/subscriptions/00000000111122223333444444444444/resourceGroups/testrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity":
+                  {},
+              },
+            },
+            storageAccountResourceId:
+              "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+          },
+        },
+      },
+      kind: "SqlMi",
+      migrationService:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
+      offlineConfiguration: {
+        lastBackupName: "last_backup_file_name",
+        offline: true,
+      },
+      scope:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
+      sourceDatabaseName: "aaa",
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DataMigrationManagementClient(credential, subscriptionId);
+  const result = await client.databaseMigrationsSqlMi.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    managedInstanceName,
+    targetDbName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create a new database migration to a given SQL Managed Instance.
+ *
+ * @summary Create a new database migration to a given SQL Managed Instance.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlMiCreateOrUpdateDatabaseMigrationMAX.json
  */
 async function createOrUpdateDatabaseMigrationResourceWithMaximumParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "managedInstance1";
   const targetDbName = "db1";
   const parameters = {
@@ -63,22 +117,21 @@ async function createOrUpdateDatabaseMigrationResourceWithMaximumParameters() {
     resourceGroupName,
     managedInstanceName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createOrUpdateDatabaseMigrationResourceWithMaximumParameters().catch(console.error);
 
 /**
- * This sample demonstrates how to Create or Update Database Migration resource.
+ * This sample demonstrates how to Create a new database migration to a given SQL Managed Instance.
  *
- * @summary Create or Update Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlMiCreateOrUpdateDatabaseMigrationMIN.json
+ * @summary Create a new database migration to a given SQL Managed Instance.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlMiCreateOrUpdateDatabaseMigrationMIN.json
  */
 async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "managedInstance1";
   const targetDbName = "db1";
   const parameters = {
@@ -99,10 +152,6 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters() {
       kind: "SqlMi",
       migrationService:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
-      offlineConfiguration: {
-        lastBackupName: "last_backup_file_name",
-        offline: true,
-      },
       scope:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/instance",
       sourceDatabaseName: "aaa",
@@ -122,9 +171,15 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters() {
     resourceGroupName,
     managedInstanceName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-createOrUpdateDatabaseMigrationResourceWithMinimumParameters().catch(console.error);
+async function main() {
+  await createOrUpdateDatabaseMigrationResourceFromAzureBlobUsingManagedIdentity();
+  await createOrUpdateDatabaseMigrationResourceWithMaximumParameters();
+  await createOrUpdateDatabaseMigrationResourceWithMinimumParameters();
+}
+
+main().catch(console.error);

@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-import {
-  communicationIdentifierConverter,
-  callParticipantConverter,
-  teamsPhoneCallDetailsConverter,
-} from "./utli/converters.js";
+import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters.js";
 import type {
   CallAutomationEvent,
   AddParticipantSucceeded,
@@ -43,15 +39,8 @@ import type {
   MediaStreamingStarted,
   MediaStreamingStopped,
   MediaStreamingFailed,
-  StartRecordingFailed,
   PlayStarted,
-  PlayPaused,
-  PlayResumed,
-  HoldAudioStarted,
-  HoldAudioPaused,
-  HoldAudioResumed,
-  HoldAudioCompleted,
-  IncomingCall,
+  StartRecordingFailed,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -94,30 +83,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CallConnected":
       callbackEvent = { kind: "CallConnected" } as CallConnected;
-      break;
-    case "Microsoft.Communication.IncomingCall":
-      callbackEvent = { kind: "IncomingCall" } as IncomingCall;
-
-      // Normalize customContext: convert undefined to null and ensure all properties are null if undefined
-      if (data.customContext === undefined) {
-        parsed.customContext = {
-          voipHeaders: null,
-          sipHeaders: null,
-          teamsPhoneCallDetails: null,
-        };
-      } else if (data.customContext) {
-        // If customContext exists, ensure its properties are null instead of undefined
-        parsed.customContext = {
-          voipHeaders:
-            data.customContext.voipHeaders === undefined ? null : data.customContext.voipHeaders,
-          sipHeaders:
-            data.customContext.sipHeaders === undefined ? null : data.customContext.sipHeaders,
-          teamsPhoneCallDetails:
-            data.customContext.teamsPhoneCallDetails === undefined
-              ? null
-              : teamsPhoneCallDetailsConverter(data.customContext.teamsPhoneCallDetails),
-        };
-      }
       break;
     case "Microsoft.Communication.CallDisconnected":
       callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;
@@ -213,29 +178,11 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.MediaStreamingFailed":
       callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
       break;
-    case "Microsoft.Communication.StartRecordingFailed":
-      callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
-      break;
     case "Microsoft.Communication.PlayStarted":
       callbackEvent = { kind: "PlayStarted" } as PlayStarted;
       break;
-    case "Microsoft.Communication.PlayPaused":
-      callbackEvent = { kind: "PlayPaused" } as PlayPaused;
-      break;
-    case "Microsoft.Communication.PlayResumed":
-      callbackEvent = { kind: "PlayResumed" } as PlayResumed;
-      break;
-    case "Microsoft.Communication.HoldAudioStarted":
-      callbackEvent = { kind: "HoldAudioStarted" } as HoldAudioStarted;
-      break;
-    case "Microsoft.Communication.HoldAudioPaused":
-      callbackEvent = { kind: "HoldAudioPaused" } as HoldAudioPaused;
-      break;
-    case "Microsoft.Communication.HoldAudioResumed":
-      callbackEvent = { kind: "HoldAudioResumed" } as HoldAudioResumed;
-      break;
-    case "Microsoft.Communication.HoldAudioCompleted":
-      callbackEvent = { kind: "HoldAudioCompleted" } as HoldAudioCompleted;
+    case "Microsoft.Communication.StartRecordingFailed":
+      callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

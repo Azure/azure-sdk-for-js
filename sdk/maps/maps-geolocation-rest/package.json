@@ -28,24 +28,23 @@
     "CHANGELOG.md"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "dev-tool samples publish --force",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && npm run format",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -59,22 +58,22 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/core-util": "^1.11.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.6.0",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "autorest": "latest",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "playwright": "^1.50.1",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/core-util": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "autorest": "catalog:",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest/README.md",
   "//metadata": {
@@ -99,7 +98,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

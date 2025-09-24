@@ -40,12 +40,12 @@ export async function main(): Promise<void> {
   const inputMessage = "Hello, what is in the image?";
   const content = [
     {
-      type: "text",
+      type: "text" as const,
       text: inputMessage,
     },
     {
-      type: "image_url",
-      image_url: {
+      type: "image_url" as const,
+      imageUrl: {
         url: imageUrl,
         detail: "high",
       },
@@ -59,9 +59,6 @@ export async function main(): Promise<void> {
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -83,11 +80,9 @@ export async function main(): Promise<void> {
   }
 
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

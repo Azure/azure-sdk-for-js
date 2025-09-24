@@ -218,7 +218,7 @@ export class DataLakeServiceClient extends StorageClient {
    *   accountName,
    * ).toString();
    * ```
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
    *
    * @param startsOn - The start time for the user delegation SAS. Must be within 7 days of the current time.
    * @param expiresOn - The end time for the user delegation SAS. Must be within 7 days of the current time.
@@ -342,7 +342,7 @@ export class DataLakeServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-containers2
    *
    * @param options -
    */
@@ -366,7 +366,7 @@ export class DataLakeServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -411,7 +411,7 @@ export class DataLakeServiceClient extends StorageClient {
    * Generates string to sign for an account Shared Access Signature (SAS) based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -492,7 +492,7 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Blob service endpoint, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-blob-service-properties
    *
    * @param options - Options to the Service Get Properties operation.
    * @returns Response data for the Service Get Properties operation.
@@ -515,7 +515,7 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Blob service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-blob-service-properties
    *
    * @param properties -
    * @param options - Options to the Service Set Properties operation.

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Service Bus client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -34,11 +34,11 @@
     "ws": "^8.0.0",
     "https-proxy-agent": "^7.0.0",
     "@azure/identity": "^4.2.1",
-    "@azure/abort-controller": "^1.0.0"
+    "@azure/abort-controller": "^2.0.0"
   },
   "devDependencies": {
-    "@types/ws": "^7.2.4",
-    "@types/node": "^18.0.0",
+    "@types/ws": "^8.18.1",
+    "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }

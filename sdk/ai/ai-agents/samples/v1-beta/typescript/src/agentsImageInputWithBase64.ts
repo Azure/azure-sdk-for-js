@@ -5,7 +5,7 @@
  * @summary This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service.
  */
 
-import { AgentsClient } from "@azure/ai-agents";
+import { AgentsClient, type MessageInputContent } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
@@ -60,14 +60,14 @@ export async function main(): Promise<void> {
   // Create a message with both text and image content
   console.log("Creating message with image content...");
   const inputMessage = "Hello, what is in the image?";
-  const content = [
+  const content: MessageInputContent = [
     {
       type: "text",
       text: inputMessage,
     },
     {
-      type: "image_url",
-      image_url: {
+      type: "image_url" as const,
+      imageUrl: {
         url: imageDataUrl,
         detail: "high",
       },
@@ -82,9 +82,6 @@ export async function main(): Promise<void> {
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -106,11 +103,9 @@ export async function main(): Promise<void> {
   }
 
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

@@ -373,7 +373,7 @@ export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Maps.GeofenceResult" event. */
   "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
-  "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+  "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
   /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */
   "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */

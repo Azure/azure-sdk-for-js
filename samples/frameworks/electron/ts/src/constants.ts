@@ -9,7 +9,7 @@
 
 // Used to authenticate using Azure AD as a service principal for role-based authentication.
 // See the documentation for `AuthorizationCodeCredential` at the following link:
-// https://learn.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential?view=azure-node-latest
+// https://learn.microsoft.com/javascript/api/@azure/identity/authorizationcodecredential?view=azure-node-latest
 // You'll need to create an app registration to use this sample. Please refer to the README for instructions.
 
 /**

@@ -62,50 +62,54 @@ export class PlaywrightServiceInitialize {
   };
 
   private isServiceConfigFileAlreadyPresent = (): boolean => {
-    return fs.existsSync(this.getServiceConfigFileName());
+    return fs.existsSync(this.createAzurePlaywrightConfigFileName());
   };
 
   private displayAdditionalInformation = (): void => {
     const runCommandParallelWorkers = this._packageManager.runCommand(
       "playwright",
-      `test -c ${this.getServiceConfigFileName()} --workers=20`,
+      `test -c ${this.createAzurePlaywrightConfigFileName()} --workers=20`,
     );
 
-    console.log(`\n\nTo run playwrights tests using Playwright Service\n`);
+    console.log(`\n\nTo run playwrights tests using Playwright Workspaces\n`);
     console.log(`\t${runCommandParallelWorkers}\n`);
 
-    console.log("Getting Started - https://aka.ms/mpt/quickstart\n");
+    console.log("Getting Started - https://aka.ms/pww/docs/quickstart\n");
 
     console.log(
-      "If you're already using the Azure Playwright service, please review the quickstart guide [https://aka.ms/mpt/quickstart] to ensure your tests continue running smoothly.",
+      "If you're already using the Playwright Workspaces, please review the quickstart guide [https://aka.ms/pww/docs/quickstart] to ensure your tests continue running smoothly.",
     );
   };
 
   private installServicePackage = async (): Promise<void> => {
-    const command = this._packageManager.installDevDependencyCommand("@azure/playwright");
+    const command = this._packageManager.installDevDependencyCommand(
+      "@azure/playwright @azure/identity",
+    );
     console.log(`Installing Service package (${command})`);
     await executeCommand(command);
   };
 
   private createServiceConfig = async (): Promise<void> => {
-    const serviceConfigFile = this.getServiceConfigFileName();
-    const serviceConfigFileContent = this.getServiceConfigContent();
+    const serviceConfigFile = this.createAzurePlaywrightConfigFileName();
+    const serviceConfigFileContent = this.createAzurePlaywrightConfigContent();
     await fs.promises.writeFile(serviceConfigFile, serviceConfigFileContent);
     console.log(`Success! Created service configuration file - ${serviceConfigFile}`);
   };
 
-  private getServiceConfigContent = (): string => {
+  private createAzurePlaywrightConfigContent = (): string => {
     const customerConfigFileName = getFileReferenceForImport(
       this._setupConfig.playwrightConfigFile,
     );
 
     const importCommandTypeScript = `import { defineConfig } from '@playwright/test';
-import { getServiceConfig, ServiceOS } from '@azure/playwright';
+import { createAzurePlaywrightConfig, ServiceOS } from '@azure/playwright';
+import { DefaultAzureCredential } from '@azure/identity';
 import config from '${customerConfigFileName}';
 `;
 
     const importCommandJavaScript = `const { defineConfig } = require('@playwright/test');
-const { getServiceConfig, ServiceOS } = require('@azure/playwright');
+const { createAzurePlaywrightConfig, ServiceOS } = require('@azure/playwright');
+const { DefaultAzureCredential } = require('@azure/identity');
 const config = require('${customerConfigFileName}');
 `;
 
@@ -117,21 +121,21 @@ const config = require('${customerConfigFileName}');
     const content =
       importCommand +
       `
-/* Learn more about service configuration at https://aka.ms/mpt/config */
+/* Learn more about service configuration at https://aka.ms/pww/docs/config */
 export default defineConfig(
   config,
-  getServiceConfig(config, {
+  createAzurePlaywrightConfig(config, {
     exposeNetwork: '<loopback>',
-    timeout: 30000,
+    connectTimeout: 3 * 60 * 1000, // 3 minutes
     os: ServiceOS.LINUX,
-    useCloudHostedBrowsers: true
+    credential: new DefaultAzureCredential(),
   })
 );
 `;
     return content;
   };
 
-  private getServiceConfigFileName = (): string => {
+  private createAzurePlaywrightConfigFileName = (): string => {
     return "playwright.service.config" + Extensions[this._setupConfig.projectLanguage];
   };
 }

@@ -6,9 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./databaseMigrationsMongoToCosmosDbRUMongo.js";
+export * from "./databaseMigrationsMongoToCosmosDbvCoreMongo.js";
+export * from "./databaseMigrationsSqlDb.js";
 export * from "./databaseMigrationsSqlMi.js";
 export * from "./databaseMigrationsSqlVm.js";
 export * from "./operations.js";
+export * from "./migrationServices.js";
 export * from "./sqlMigrationServices.js";
 export * from "./resourceSkus.js";
 export * from "./services.js";

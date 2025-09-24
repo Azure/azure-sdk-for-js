@@ -1,10 +1,10 @@
-# How to integrate your test suite with Azure Playwright service if you are manually launching browsers in tests
+# How to integrate your test suite with Playwright workspaces if you are manually launching browsers in tests
 
 This guide will walk you through the steps to integrate your Playwright project, where you are launching browsers from within the tests, with the service.
 
 ### Prerequisites
 
-- An Azure account with an active subscription. If you don't have an Azure subscription, [create a free account](https://aka.ms/mpt/create-azure-subscription) before you begin.
+- An Azure account with an active subscription. If you don't have an Azure subscription, [create a free account](https://aka.ms/pww/docs/create-azure-subscription) before you begin.
 - Your Azure account must be assigned the [Owner](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#owner), [Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor), or one of the [classic administrator roles](https://learn.microsoft.com/azure/role-based-access-control/rbac-and-directory-admin-roles#classic-subscription-administrator-roles).
 - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) must be installed in the machine from where you are running Playwright tests. 
 
@@ -13,32 +13,32 @@ This guide will walk you through the steps to integrate your Playwright project,
 
 Make sure you have set up your PAzure Playwright workspace by following these steps:
 
-- [Create a workspace]<!--(https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/playwright/README.md#create-a-workspace)-->
+- [Create a workspace](https://aka.ms/pww/docs/create)
 
 ### Install Azure Playwright package
 
 1. Run this command to install the service package
 
     ```sh
-    npm init @azure/playwright
+    npm init @azure/playwright@latest
     ```
 
 Installing the service package will create a service config file named `playwright.service.config.ts`
 
 The service configuration serves to:
 
-- Direct and authenticate Playwright to the Azure Playwright service.
+- Direct and authenticate Playwright to the Playwright Workspaces.
 - Override timeouts for service operations, if needed.
 
 > Make sure your project uses @playwright/test version 1.47 or above.
 
 ### Obtain region endpoint
 
-1. In the [Playwright portal](https://aka.ms/mpt/portal), copy the command under **Add region endpoint in your set up**.
+1. In the [Azure portal](https://portal.azure.com/), copy the command under **Add region endpoint in your set up**.
 
-    ![Set workspace endpoint](https://github.com/microsoft/playwright-testing-service/assets/12104064/d81ca629-2b23-4d34-8b70-67b6f7061a83)
+    ![Set workspace endpoint](https://aka.ms/pww/docs/copyurlsnapshot)
 
-    The endpoint URL corresponds to the workspace region. You might see a different endpoint URL in the Playwright portal, depending on the region you selected when creating the workspace.
+    The endpoint URL corresponds to the workspace region. You might see a different endpoint URL in the Azure portal, depending on the region you selected when creating the workspace.
 
 ### Set up environment
 
@@ -55,7 +55,7 @@ npm i --save-dev dotenv
 `.env` file
 
 ```sh
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/playwrightworkspaces/workspace-id/browsers
 ```
 
 ### Configure browsers to be launched on the service

@@ -26,8 +26,8 @@ export async function main(): Promise<void> {
   // Create and upload file
   const fileContent = "Hello, Vector Store!";
   const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
+  readable.push(fileContent);
+  readable.push(null); // end the stream
   const file = await client.files.upload(readable, "assistants", {
     fileName: "vectorFile.txt",
   });
@@ -45,11 +45,9 @@ export async function main(): Promise<void> {
 
   // List vector store files
   const vectorStoreFiles = client.vectorStoreFiles.list(vectorStore.id);
-  const vectorStoreFileIds = [];
   for await (const f of vectorStoreFiles) {
-    vectorStoreFileIds.push(f.id);
+    console.log(`Vector Store File ID: ${f.id}`);
   }
-  console.log(`List of vector store files: ${vectorStoreFileIds.join(", ")}`);
 
   // Delete vector store file
   await client.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);

@@ -4,6 +4,7 @@
 import fs from "fs-extra";
 import { stat as statFile } from "fs/promises";
 import path from "node:path";
+import semver from "semver";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
@@ -26,6 +27,7 @@ import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";
 import { Config, resolveConfig } from "../resolveTsConfig";
 import { CompilerOptions } from "typescript";
+import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
 
 const log = createPrinter("generator");
 
@@ -78,6 +80,24 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
   return out;
 }
 
+function isValidNpmVersionSpecifier(specifier: string) {
+  return (
+    semver.valid(
+      specifier.startsWith("^") || specifier.startsWith("~") ? specifier.substring(1) : specifier,
+    ) || ["latest", "dev", "next"].includes(specifier)
+  );
+}
+
+function resolveDependencyVersion(name: string, specifier: string): string {
+  if (isValidNpmVersionSpecifier(specifier)) {
+    return specifier;
+  } else if (specifier === "workspace:^") {
+    return "latest";
+  } else {
+    return resolveCatalogVersion(name, specifier);
+  }
+}
+
 /**
  * Extracts the sample generation meta-information from the sample sources and
  * configuration in package.json.
@@ -91,6 +111,8 @@ export async function makeSampleGenerationInfo(
   topLevelDirectory: string,
   onError: () => void,
 ): Promise<SampleGenerationInfo> {
+  await loadPnpmWorkspaceCatalogs();
+
   const sampleSources = await collect(
     findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts")),
   );
@@ -206,7 +228,8 @@ export async function makeSampleGenerationInfo(
                 );
               }
 
-              current[dependency] = dependencyVersion;
+              current[dependency] = resolveDependencyVersion(dependency, dependencyVersion);
+
               // It would be really weird to depend on `@types/*` in a source file but if we did
               // it'd be handled above.
               if (dependency.indexOf("@types/") !== 0) {
@@ -217,7 +240,10 @@ export async function makeSampleGenerationInfo(
                   packageJson.dependencies[typeDependency];
 
                 if (typeDependencyVersion) {
-                  typesDependencies[typeDependency] = typeDependencyVersion;
+                  typesDependencies[typeDependency] = resolveDependencyVersion(
+                    typeDependency,
+                    typeDependencyVersion,
+                  );
                 }
               }
             }
@@ -339,6 +365,9 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
 export async function makeSamplesFactory(
   projectInfo: ProjectInfo,
   sourcePath?: string,
+  options?: {
+    force: boolean;
+  },
 ): Promise<FileTreeFactory> {
   let hadError = false;
 
@@ -390,6 +419,7 @@ export async function makeSamplesFactory(
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
+  const actionIfDestinationDirty = options?.force ? "warn" : "throw";
   return dir(
     versionFolder,
     safeClean(
@@ -439,6 +469,7 @@ export async function makeSamplesFactory(
           ]),
         ),
       ),
+      { actionIfDirty: actionIfDestinationDirty },
     ),
   );
 }

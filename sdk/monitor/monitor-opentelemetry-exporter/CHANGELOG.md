@@ -1,6 +1,49 @@
 # Release History
 
-## 1.0.0-beta.32 ()
+## 1.0.0-beta.35 (2025-09-16)
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
+## 1.0.0-beta.34 (2025-09-05)
+
+### Features Added
+
+- Added support for configuring customer SDK Stats export interval using the `APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL` environment variable (specified in seconds).
+
+- Added support for the `telemetry_success` field on customer SDK Stats to track if dropped request and dependency telemetry succeeded or failed.
+
+### Other Changes
+
+- Renamed Customer Statsbeat feature to customer SDK Stats.
+- Update drop.reason values for customer SDK Stats.
+- Update logic setting ai.location.ip to use the microsoft.client.ip value by default.
+- Add further drop reason for disk persistence disablement.
+
+## 1.0.0-beta.33 (2025-08-04)
+
+### Features Added
+
+- Track CLIENT_READONLY and CLIENT_TIMEOUT customer SDK Stats.
+
+### Bugs Fixed
+
+- Fix auto-detection of RP environment for azure functions.
+
+### Other Changes
+
+- Respect parent sampling result in ApplicationInsightsSampler.
+
+## 1.0.0-beta.32 (2025-06-09)
+
+### Features Added
+
+- Added customer-facing SDK Stats preview.
+
+### Features Added
+
+- Add RateLimitedSampler.
 
 ### Other Changes
 
@@ -9,6 +52,8 @@
 - No longer send statsbeat counters when values are zero.
 - Fix statsbeat throttle recording logic.
 - SEMATTRS_ENDUSER_ID is properly added to tags but not to properties in telemetry envelopes.
+- Update network statsbeat to follow a singleton pattern.
+- Stop sending client OS value.
 
 ## 1.0.0-beta.31 (2025-04-16)
 
@@ -49,7 +94,7 @@
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
-- Remove applying cloud.* tags to statsbeat telemetry.
+- Remove applying cloud.\* tags to statsbeat telemetry.
 - Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
@@ -170,7 +215,6 @@
 
 - Update OpenTelemetry dependencies.
 - Add instructions to export Logs in readme.
-
 
 ## 1.0.0-beta.17 (2023-10-09)
 

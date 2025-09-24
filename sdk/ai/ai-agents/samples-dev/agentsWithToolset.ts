@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Upload file for code interpreter tool
-  const filePath1 = "./data/nifty500QuarterlyResults.csv";
+  const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
   const fileStream1 = fs.createReadStream(filePath1);
   const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
     fileName: "myLocalFile",

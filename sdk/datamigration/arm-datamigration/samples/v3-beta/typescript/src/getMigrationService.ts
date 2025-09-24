@@ -20,10 +20,7 @@ async function getMigrationService(): Promise<void> {
   const sqlMigrationServiceName = "service1";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.sqlMigrationServices.get(
-    resourceGroupName,
-    sqlMigrationServiceName
-  );
+  const result = await client.sqlMigrationServices.get(resourceGroupName, sqlMigrationServiceName);
   console.log(result);
 }
 

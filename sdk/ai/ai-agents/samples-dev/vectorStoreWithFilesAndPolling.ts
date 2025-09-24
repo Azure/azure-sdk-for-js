@@ -26,8 +26,8 @@ export async function main(): Promise<void> {
   // Create and upload file
   const fileContent = "Hello, Vector Store!";
   const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
+  readable.push(fileContent);
+  readable.push(null); // end the stream
   const file = await client.files.upload(readable, "assistants", {
     fileName: "vectorFile.txt",
   });
@@ -38,10 +38,6 @@ export async function main(): Promise<void> {
     fileId: file.id,
     pollingOptions: {
       intervalInMs: 2000,
-    },
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
     },
   });
   console.log(
@@ -57,9 +53,9 @@ export async function main(): Promise<void> {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
-    },
+  });
+  vectorStoreFilePoller.onProgress((state) => {
+    console.log(`Received response with status: ${state.status}`);
   });
   const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
     abortSignal: abortController.signal,

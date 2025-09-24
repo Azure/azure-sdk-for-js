@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-synapse": ["./src/index.ts"],
+      "@azure/arm-synapse/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

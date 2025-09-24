@@ -7,8 +7,8 @@ import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import { getAccountNameFromUrl } from "./utils/utils.common.js";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import type { AnonymousCredential } from "@azure/storage-blob";
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { AnonymousCredential } from "@azure/storage-common";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
 
 /**
@@ -84,7 +84,7 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
   const pipelineOptions = pipeline.options as StoragePipelineOptions;
   // Set maximum timeout for queue operations.
   // This was previously set manually in the retry policy specific to this package.
-  // https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+  // https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations
   if (pipelineOptions.retryOptions === undefined) {
     pipelineOptions.retryOptions = {
       tryTimeoutInMs: 30 * 1000,

@@ -3,13 +3,13 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { randomUUID } from "@azure/core-util";
+import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
   /** The object type. */
-  /** The discriminator possible values: code_interpreter, file_search, function, bing_grounding, fabric_dataagent, sharepoint_grounding, azure_ai_search, openapi, bing_custom_search, connected_agent, azure_function */
+  /** The discriminator possible values: code_interpreter, file_search, function, bing_grounding, fabric_dataagent, sharepoint_grounding, azure_ai_search, openapi, bing_custom_search, connected_agent, deep_research, mcp, azure_function, browser_automation */
   type: string;
 }
 
@@ -35,7 +35,10 @@ export type ToolDefinitionUnion =
   | OpenApiToolDefinition
   | BingCustomSearchToolDefinition
   | ConnectedAgentToolDefinition
+  | DeepResearchToolDefinition
+  | MCPToolDefinition
   | AzureFunctionToolDefinition
+  | BrowserAutomationToolDefinition
   | ToolDefinition;
 
 export function toolDefinitionUnionSerializer(item: ToolDefinitionUnion): any {
@@ -70,8 +73,17 @@ export function toolDefinitionUnionSerializer(item: ToolDefinitionUnion): any {
     case "connected_agent":
       return connectedAgentToolDefinitionSerializer(item as ConnectedAgentToolDefinition);
 
+    case "deep_research":
+      return deepResearchToolDefinitionSerializer(item as DeepResearchToolDefinition);
+
+    case "mcp":
+      return mcpToolDefinitionSerializer(item as MCPToolDefinition);
+
     case "azure_function":
       return azureFunctionToolDefinitionSerializer(item as AzureFunctionToolDefinition);
+
+    case "browser_automation":
+      return browserAutomationToolDefinitionSerializer(item as BrowserAutomationToolDefinition);
 
     default:
       return toolDefinitionSerializer(item);
@@ -110,8 +122,17 @@ export function toolDefinitionUnionDeserializer(item: any): ToolDefinitionUnion 
     case "connected_agent":
       return connectedAgentToolDefinitionDeserializer(item as ConnectedAgentToolDefinition);
 
+    case "deep_research":
+      return deepResearchToolDefinitionDeserializer(item as DeepResearchToolDefinition);
+
+    case "mcp":
+      return mcpToolDefinitionDeserializer(item as MCPToolDefinition);
+
     case "azure_function":
       return azureFunctionToolDefinitionDeserializer(item as AzureFunctionToolDefinition);
+
+    case "browser_automation":
+      return browserAutomationToolDefinitionDeserializer(item as BrowserAutomationToolDefinition);
 
     default:
       return toolDefinitionDeserializer(item);
@@ -267,26 +288,26 @@ export function functionDefinitionDeserializer(item: any): FunctionDefinition {
 export interface BingGroundingToolDefinition extends ToolDefinition {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
-  /** The list of search configurations used by the bing grounding tool. */
-  bingGrounding: BingGroundingSearchConfigurationList;
+  /** The bing grounding search tool parameters. */
+  bingGrounding: BingGroundingSearchToolParameters;
 }
 
 export function bingGroundingToolDefinitionSerializer(item: BingGroundingToolDefinition): any {
   return {
     type: item["type"],
-    bing_grounding: bingGroundingSearchConfigurationListSerializer(item["bingGrounding"]),
+    bing_grounding: bingGroundingSearchToolParametersSerializer(item["bingGrounding"]),
   };
 }
 
 export function bingGroundingToolDefinitionDeserializer(item: any): BingGroundingToolDefinition {
   return {
     type: item["type"],
-    bingGrounding: bingGroundingSearchConfigurationListDeserializer(item["bing_grounding"]),
+    bingGrounding: bingGroundingSearchToolParametersDeserializer(item["bing_grounding"]),
   };
 }
 
-/** A list of search configurations currently used by the `bing_grounding` tool. */
-export interface BingGroundingSearchConfigurationList {
+/** The bing grounding search tool parameters. */
+export interface BingGroundingSearchToolParameters {
   /**
    * The search configurations attached to this tool. There can be a maximum of 1
    * search configuration resource attached to the tool.
@@ -294,8 +315,8 @@ export interface BingGroundingSearchConfigurationList {
   searchConfigurations: BingGroundingSearchConfiguration[];
 }
 
-export function bingGroundingSearchConfigurationListSerializer(
-  item: BingGroundingSearchConfigurationList,
+export function bingGroundingSearchToolParametersSerializer(
+  item: BingGroundingSearchToolParameters,
 ): any {
   return {
     search_configurations: bingGroundingSearchConfigurationArraySerializer(
@@ -304,9 +325,9 @@ export function bingGroundingSearchConfigurationListSerializer(
   };
 }
 
-export function bingGroundingSearchConfigurationListDeserializer(
+export function bingGroundingSearchToolParametersDeserializer(
   item: any,
-): BingGroundingSearchConfigurationList {
+): BingGroundingSearchToolParameters {
   // Handle the case where item might be undefined
   if (!item) {
     return { searchConfigurations: [] };
@@ -327,7 +348,7 @@ export function bingGroundingSearchConfigurationArraySerializer(
 }
 
 export function bingGroundingSearchConfigurationArrayDeserializer(
-  result: Array<BingGroundingSearchConfiguration> | undefined,
+  result: Array<BingGroundingSearchConfiguration>,
 ): any[] {
   // Handle the case where result might be undefined
   if (!result) {
@@ -380,14 +401,14 @@ export function bingGroundingSearchConfigurationDeserializer(
 export interface MicrosoftFabricToolDefinition extends ToolDefinition {
   /** The object type, which is always 'fabric_dataagent'. */
   type: "fabric_dataagent";
-  /** The list of connections used by the Microsoft Fabric tool. */
-  fabricDataagent: ToolConnectionList;
+  /** The fabric data agent tool parameters. */
+  fabricDataagent: FabricDataAgentToolParameters;
 }
 
 export function microsoftFabricToolDefinitionSerializer(item: MicrosoftFabricToolDefinition): any {
   return {
     type: item["type"],
-    fabric_dataagent: toolConnectionListSerializer(item["fabricDataagent"]),
+    fabric_dataagent: fabricDataAgentToolParametersSerializer(item["fabricDataagent"]),
   };
 }
 
@@ -396,12 +417,12 @@ export function microsoftFabricToolDefinitionDeserializer(
 ): MicrosoftFabricToolDefinition {
   return {
     type: item["type"],
-    fabricDataagent: toolConnectionListDeserializer(item["fabric_dataagent"]),
+    fabricDataagent: fabricDataAgentToolParametersDeserializer(item["fabric_dataagent"]),
   };
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
-export interface ToolConnectionList {
+/** The fabric data agent tool parameters. */
+export interface FabricDataAgentToolParameters {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
@@ -409,7 +430,7 @@ export interface ToolConnectionList {
   connectionList?: ToolConnection[];
 }
 
-export function toolConnectionListSerializer(item: ToolConnectionList): any {
+export function fabricDataAgentToolParametersSerializer(item: FabricDataAgentToolParameters): any {
   return {
     connections: !item["connectionList"]
       ? item["connectionList"]
@@ -417,7 +438,9 @@ export function toolConnectionListSerializer(item: ToolConnectionList): any {
   };
 }
 
-export function toolConnectionListDeserializer(item: any): ToolConnectionList {
+export function fabricDataAgentToolParametersDeserializer(
+  item: any,
+): FabricDataAgentToolParameters {
   return {
     connectionList: !item["connections"]
       ? item["connections"]
@@ -457,21 +480,52 @@ export function toolConnectionDeserializer(item: any): ToolConnection {
 export interface SharepointToolDefinition extends ToolDefinition {
   /** The object type, which is always 'sharepoint_grounding'. */
   type: "sharepoint_grounding";
-  /** The list of connections used by the SharePoint tool. */
-  sharepointGrounding: ToolConnectionList;
+  /** The sharepoint grounding tool parameters. */
+  sharepointGrounding: SharepointGroundingToolParameters;
 }
 
 export function sharepointToolDefinitionSerializer(item: SharepointToolDefinition): any {
   return {
     type: item["type"],
-    sharepoint_grounding: toolConnectionListSerializer(item["sharepointGrounding"]),
+    sharepoint_grounding: sharepointGroundingToolParametersSerializer(item["sharepointGrounding"]),
   };
 }
 
 export function sharepointToolDefinitionDeserializer(item: any): SharepointToolDefinition {
   return {
     type: item["type"],
-    sharepointGrounding: toolConnectionListDeserializer(item["sharepoint_grounding"]),
+    sharepointGrounding: sharepointGroundingToolParametersDeserializer(
+      item["sharepoint_grounding"],
+    ),
+  };
+}
+
+/** The sharepoint grounding tool parameters. */
+export interface SharepointGroundingToolParameters {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  connectionList?: ToolConnection[];
+}
+
+export function sharepointGroundingToolParametersSerializer(
+  item: SharepointGroundingToolParameters,
+): any {
+  return {
+    connections: !item["connectionList"]
+      ? item["connectionList"]
+      : toolConnectionArraySerializer(item["connectionList"]),
+  };
+}
+
+export function sharepointGroundingToolParametersDeserializer(
+  item: any,
+): SharepointGroundingToolParameters {
+  return {
+    connectionList: !item["connections"]
+      ? item["connections"]
+      : toolConnectionArrayDeserializer(item["connections"]),
   };
 }
 
@@ -525,6 +579,8 @@ export interface OpenApiFunctionDefinition {
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
   defaultParams?: string[];
+  /** List of function definitions used by OpenApi tool */
+  readonly functions?: FunctionDefinition[];
 }
 
 export function openApiFunctionDefinitionSerializer(item: OpenApiFunctionDefinition): any {
@@ -552,6 +608,9 @@ export function openApiFunctionDefinitionDeserializer(item: any): OpenApiFunctio
       : item["default_params"].map((p: any) => {
           return p;
         }),
+    functions: !item["functions"]
+      ? item["functions"]
+      : functionDefinitionArrayDeserializer(item["functions"]),
   };
 }
 
@@ -715,12 +774,24 @@ export function openApiManagedSecuritySchemeDeserializer(item: any): OpenApiMana
   };
 }
 
+export function functionDefinitionArraySerializer(result: Array<FunctionDefinition>): any[] {
+  return result.map((item) => {
+    return functionDefinitionSerializer(item);
+  });
+}
+
+export function functionDefinitionArrayDeserializer(result: Array<FunctionDefinition>): any[] {
+  return result.map((item) => {
+    return functionDefinitionDeserializer(item);
+  });
+}
+
 /** The input definition information for a Bing custom search tool as used to configure an agent. */
 export interface BingCustomSearchToolDefinition extends ToolDefinition {
   /** The object type, which is always 'bing_custom_search'. */
   type: "bing_custom_search";
-  /** The list of search configurations used by the bing custom search tool. */
-  bingCustomSearch: BingCustomSearchConfigurationList;
+  /** The bing custom search tool parameters. */
+  bingCustomSearch: BingCustomSearchToolParameters;
 }
 
 export function bingCustomSearchToolDefinitionSerializer(
@@ -728,7 +799,7 @@ export function bingCustomSearchToolDefinitionSerializer(
 ): any {
   return {
     type: item["type"],
-    bing_custom_search: bingCustomSearchConfigurationListSerializer(item["bingCustomSearch"]),
+    bing_custom_search: bingCustomSearchToolParametersSerializer(item["bingCustomSearch"]),
   };
 }
 
@@ -737,12 +808,12 @@ export function bingCustomSearchToolDefinitionDeserializer(
 ): BingCustomSearchToolDefinition {
   return {
     type: item["type"],
-    bingCustomSearch: bingCustomSearchConfigurationListDeserializer(item["bing_custom_search"]),
+    bingCustomSearch: bingCustomSearchToolParametersDeserializer(item["bing_custom_search"]),
   };
 }
 
-/** A list of search configurations currently used by the `bing_custom_search` tool. */
-export interface BingCustomSearchConfigurationList {
+/** The bing custom search tool parameters. */
+export interface BingCustomSearchToolParameters {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
@@ -750,8 +821,8 @@ export interface BingCustomSearchConfigurationList {
   searchConfigurations: BingCustomSearchConfiguration[];
 }
 
-export function bingCustomSearchConfigurationListSerializer(
-  item: BingCustomSearchConfigurationList,
+export function bingCustomSearchToolParametersSerializer(
+  item: BingCustomSearchToolParameters,
 ): any {
   return {
     search_configurations: bingCustomSearchConfigurationArraySerializer(
@@ -760,9 +831,9 @@ export function bingCustomSearchConfigurationListSerializer(
   };
 }
 
-export function bingCustomSearchConfigurationListDeserializer(
+export function bingCustomSearchToolParametersDeserializer(
   item: any,
-): BingCustomSearchConfigurationList {
+): BingCustomSearchToolParameters {
   return {
     searchConfigurations: bingCustomSearchConfigurationArrayDeserializer(
       item["search_configurations"],
@@ -874,6 +945,128 @@ export function connectedAgentDetailsDeserializer(item: any): ConnectedAgentDeta
   };
 }
 
+/** The input definition information for a Deep Research tool as used to configure an agent. */
+export interface DeepResearchToolDefinition extends ToolDefinition {
+  /** The object type, which is always 'deep_research'. */
+  type: "deep_research";
+  /** The deep_research tool definition configuration. */
+  deepResearch: DeepResearchDetails;
+}
+
+export function deepResearchToolDefinitionSerializer(item: DeepResearchToolDefinition): any {
+  return {
+    type: item["type"],
+    deep_research: deepResearchDetailsSerializer(item["deepResearch"]),
+  };
+}
+
+export function deepResearchToolDefinitionDeserializer(item: any): DeepResearchToolDefinition {
+  return {
+    type: item["type"],
+    deepResearch: deepResearchDetailsDeserializer(item["deep_research"]),
+  };
+}
+
+/** The details of the Deep Research tool. */
+export interface DeepResearchDetails {
+  /** The deep research model deployment name. */
+  model: string;
+  /** The array containing Bing grounding connection IDs to enhance deep research capabilities. */
+  bingGroundingConnections: DeepResearchBingGroundingConnection[];
+}
+
+export function deepResearchDetailsSerializer(item: DeepResearchDetails): any {
+  return {
+    deep_research_model: item["model"],
+    bing_grounding_connections: deepResearchBingGroundingConnectionArraySerializer(
+      item["bingGroundingConnections"],
+    ),
+  };
+}
+
+export function deepResearchDetailsDeserializer(item: any): DeepResearchDetails {
+  return {
+    model: item["deep_research_model"],
+    bingGroundingConnections: deepResearchBingGroundingConnectionArrayDeserializer(
+      item["bing_grounding_connections"],
+    ),
+  };
+}
+
+export function deepResearchBingGroundingConnectionArraySerializer(
+  result: Array<DeepResearchBingGroundingConnection>,
+): any[] {
+  return result.map((item) => {
+    return deepResearchBingGroundingConnectionSerializer(item);
+  });
+}
+
+export function deepResearchBingGroundingConnectionArrayDeserializer(
+  result: Array<DeepResearchBingGroundingConnection>,
+): any[] {
+  return result.map((item) => {
+    return deepResearchBingGroundingConnectionDeserializer(item);
+  });
+}
+
+/** The connection resource ID for the Bing grounding resource . */
+export interface DeepResearchBingGroundingConnection {
+  /** The connection ID for the Bing grounding connection. */
+  connectionId: string;
+}
+
+export function deepResearchBingGroundingConnectionSerializer(
+  item: DeepResearchBingGroundingConnection,
+): any {
+  return { connection_id: item["connectionId"] };
+}
+
+export function deepResearchBingGroundingConnectionDeserializer(
+  item: any,
+): DeepResearchBingGroundingConnection {
+  return {
+    connectionId: item["connection_id"],
+  };
+}
+
+/** The input definition information for a MCP tool which defines a MCP server endpoint */
+export interface MCPToolDefinition extends ToolDefinition {
+  /** The object type, which is always 'mcp'. */
+  type: "mcp";
+  /** The label for the MCP server */
+  serverLabel: string;
+  /** The endpoint for the MCP server */
+  serverUrl: string;
+  /** List of allowed tools for MCP server */
+  allowedTools?: string[];
+}
+
+export function mcpToolDefinitionSerializer(item: MCPToolDefinition): any {
+  return {
+    type: item["type"],
+    server_label: item["serverLabel"],
+    server_url: item["serverUrl"],
+    allowed_tools: !item["allowedTools"]
+      ? item["allowedTools"]
+      : item["allowedTools"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function mcpToolDefinitionDeserializer(item: any): MCPToolDefinition {
+  return {
+    type: item["type"],
+    serverLabel: item["server_label"],
+    serverUrl: item["server_url"],
+    allowedTools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : item["allowed_tools"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** The input definition information for a azure function tool as used to configure an agent. */
 export interface AzureFunctionToolDefinition extends ToolDefinition {
   /** The object type, which is always 'azure_function'. */
@@ -966,6 +1159,74 @@ export function azureFunctionStorageQueueDeserializer(item: any): AzureFunctionS
   };
 }
 
+/** The input definition information for a Browser Automation Tool, as used to configure an Agent. */
+export interface BrowserAutomationToolDefinition extends ToolDefinition {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** The Browser Automation Tool parameters. */
+  browserAutomation: BrowserAutomationToolParameters;
+}
+
+export function browserAutomationToolDefinitionSerializer(
+  item: BrowserAutomationToolDefinition,
+): any {
+  return {
+    type: item["type"],
+    browser_automation: browserAutomationToolParametersSerializer(item["browserAutomation"]),
+  };
+}
+
+export function browserAutomationToolDefinitionDeserializer(
+  item: any,
+): BrowserAutomationToolDefinition {
+  return {
+    type: item["type"],
+    browserAutomation: browserAutomationToolParametersDeserializer(item["browser_automation"]),
+  };
+}
+
+/** Definition of input parameters for the Browser Automation Tool. */
+export interface BrowserAutomationToolParameters {
+  /** The connection parameters associated with the Browser Automation Tool. */
+  connection: BrowserAutomationToolConnectionParameters;
+}
+
+export function browserAutomationToolParametersSerializer(
+  item: BrowserAutomationToolParameters,
+): any {
+  return {
+    connection: browserAutomationToolConnectionParametersSerializer(item["connection"]),
+  };
+}
+
+export function browserAutomationToolParametersDeserializer(
+  item: any,
+): BrowserAutomationToolParameters {
+  return {
+    connection: browserAutomationToolConnectionParametersDeserializer(item["connection"]),
+  };
+}
+
+/** Definition of input parameters for the connection used by the Browser Automation Tool. */
+export interface BrowserAutomationToolConnectionParameters {
+  /** The ID of the connection to your Azure Playwright resource. */
+  id: string;
+}
+
+export function browserAutomationToolConnectionParametersSerializer(
+  item: BrowserAutomationToolConnectionParameters,
+): any {
+  return { id: item["id"] };
+}
+
+export function browserAutomationToolConnectionParametersDeserializer(
+  item: any,
+): BrowserAutomationToolConnectionParameters {
+  return {
+    id: item["id"],
+  };
+}
+
 /**
  * A set of resources that are used by the agent's tools. The resources are specific to the type of
  * tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search`
@@ -977,7 +1238,9 @@ export interface ToolResources {
   /** Resources to be used by the `file_search` tool consisting of vector store IDs. */
   fileSearch?: FileSearchToolResource;
   /** Resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
-  azureAISearch?: AzureAISearchResource;
+  azureAISearch?: AzureAISearchToolResource;
+  /** Resources to be used by the `mcp` tool consisting of a server label and headers. */
+  mcp?: MCPToolResource[];
 }
 
 export function toolResourcesSerializer(item: ToolResources): any {
@@ -990,7 +1253,8 @@ export function toolResourcesSerializer(item: ToolResources): any {
       : fileSearchToolResourceSerializer(item["fileSearch"]),
     azure_ai_search: !item["azureAISearch"]
       ? item["azureAISearch"]
-      : azureAISearchResourceSerializer(item["azureAISearch"]),
+      : azureAISearchToolResourceSerializer(item["azureAISearch"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpToolResourceArraySerializer(item["mcp"]),
   };
 }
 
@@ -1004,7 +1268,8 @@ export function toolResourcesDeserializer(item: any): ToolResources {
       : fileSearchToolResourceDeserializer(item["file_search"]),
     azureAISearch: !item["azure_ai_search"]
       ? item["azure_ai_search"]
-      : azureAISearchResourceDeserializer(item["azure_ai_search"]),
+      : azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpToolResourceArrayDeserializer(item["mcp"]),
   };
 }
 
@@ -1191,7 +1456,7 @@ export function vectorStoreConfigurationDeserializer(item: any): VectorStoreConf
 }
 
 /** A set of index resources used by the `azure_ai_search` tool. */
-export interface AzureAISearchResource {
+export interface AzureAISearchToolResource {
   /**
    * The indices attached to this agent. There can be a maximum of 1 index
    * resource attached to the agent.
@@ -1199,7 +1464,7 @@ export interface AzureAISearchResource {
   indexList?: AISearchIndexResource[];
 }
 
-export function azureAISearchResourceSerializer(item: AzureAISearchResource): any {
+export function azureAISearchToolResourceSerializer(item: AzureAISearchToolResource): any {
   return {
     indexes: !item["indexList"]
       ? item["indexList"]
@@ -1207,7 +1472,7 @@ export function azureAISearchResourceSerializer(item: AzureAISearchResource): an
   };
 }
 
-export function azureAISearchResourceDeserializer(item: any): AzureAISearchResource {
+export function azureAISearchToolResourceDeserializer(item: any): AzureAISearchToolResource {
   return {
     indexList: !item["indexes"]
       ? item["indexes"]
@@ -1232,9 +1497,9 @@ export function aiSearchIndexResourceArrayDeserializer(
 /** A AI Search Index resource. */
 export interface AISearchIndexResource {
   /** An index connection id in an IndexResource attached to this agent. */
-  indexConnectionId: string;
+  indexConnectionId?: string;
   /** The name of an index in an IndexResource attached to this agent. */
-  indexName: string;
+  indexName?: string;
   /** Type of query in an AIIndexResource attached to this agent. */
   queryType?: AzureAISearchQueryType;
   /** Number of documents to retrieve from search and present to the model. */
@@ -1274,6 +1539,103 @@ export type AzureAISearchQueryType =
   | "vector"
   | "vector_simple_hybrid"
   | "vector_semantic_hybrid";
+
+export function mcpToolResourceArraySerializer(result: Array<MCPToolResource>): any[] {
+  return result.map((item) => {
+    return mcpToolResourceSerializer(item);
+  });
+}
+
+export function mcpToolResourceArrayDeserializer(result: Array<MCPToolResource>): any[] {
+  return result.map((item) => {
+    return mcpToolResourceDeserializer(item);
+  });
+}
+
+/** A set of resources that are used by the `mcp` tool. */
+export interface MCPToolResource {
+  /** The label for the MCP server */
+  serverLabel: string;
+  /** The headers for the MCP server updates */
+  headers: Record<string, string>;
+  /** Does MCP server require approval */
+  requireApproval?: MCPRequiredApproval;
+}
+
+export function mcpToolResourceSerializer(item: MCPToolResource): any {
+  return {
+    server_label: item["serverLabel"],
+    headers: item["headers"],
+    require_approval: !item["requireApproval"]
+      ? item["requireApproval"]
+      : mcpRequiredApprovalSerializer(item["requireApproval"]),
+  };
+}
+
+export function mcpToolResourceDeserializer(item: any): MCPToolResource {
+  return {
+    serverLabel: item["server_label"],
+    headers: item["headers"],
+    requireApproval: !item["require_approval"]
+      ? item["require_approval"]
+      : mcpRequiredApprovalDeserializer(item["require_approval"]),
+  };
+}
+
+/** Alias for MCPRequiredApproval */
+export type MCPRequiredApproval = string | "never" | "always" | MCPApprovalPerTool;
+
+export function mcpRequiredApprovalSerializer(item: MCPRequiredApproval): any {
+  return item;
+}
+
+export function mcpRequiredApprovalDeserializer(item: any): MCPRequiredApproval {
+  return item;
+}
+
+/** Customized MCP approval object, listing tools requiring and not requiring approvals */
+export interface MCPApprovalPerTool {
+  /** The list of tools, not requiring approval. */
+  never?: MCPToolList;
+  /** The list of tools, always requiring approval. */
+  always?: MCPToolList;
+}
+
+export function mcpApprovalPerToolSerializer(item: MCPApprovalPerTool): any {
+  return {
+    never: !item["never"] ? item["never"] : mcpToolListSerializer(item["never"]),
+    always: !item["always"] ? item["always"] : mcpToolListSerializer(item["always"]),
+  };
+}
+
+export function mcpApprovalPerToolDeserializer(item: any): MCPApprovalPerTool {
+  return {
+    never: !item["never"] ? item["never"] : mcpToolListDeserializer(item["never"]),
+    always: !item["always"] ? item["always"] : mcpToolListDeserializer(item["always"]),
+  };
+}
+
+/** The object, containing list of tools for approvals. */
+export interface MCPToolList {
+  /** The list of tools for approval. */
+  toolNames: string[];
+}
+
+export function mcpToolListSerializer(item: MCPToolList): any {
+  return {
+    tool_names: item["toolNames"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function mcpToolListDeserializer(item: any): MCPToolList {
+  return {
+    toolNames: item["tool_names"].map((p: any) => {
+      return p;
+    }),
+  };
+}
 
 /**
  * An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run.
@@ -1365,10 +1727,16 @@ export type AgentsResponseFormatOption =
   | ResponseFormatJsonSchemaType;
 
 export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatOption): any {
+  if (typeof item === "object" && item.type === "json_schema") {
+    return responseFormatJsonSchemaTypeSerializer(item);
+  }
   return item;
 }
 
 export function agentsResponseFormatOptionDeserializer(item: any): AgentsResponseFormatOption {
+  if (typeof item === "object" && item.type === "json_schema") {
+    return responseFormatJsonSchemaTypeDeserializer(item);
+  }
   return item;
 }
 
@@ -1435,6 +1803,39 @@ export function agentDeserializer(item: any): Agent {
       ? item["response_format"]
       : agentsResponseFormatOptionDeserializer(item["response_format"]),
     metadata: item["metadata"],
+  };
+}
+
+/** Error payload returned by the agents API. */
+export interface AgentV1Error {
+  /** Represents the error. */
+  error: AgentErrorDetail;
+}
+
+export function agentV1ErrorDeserializer(item: any): AgentV1Error {
+  return {
+    error: agentErrorDetailDeserializer(item["error"]),
+  };
+}
+
+/** Describes the error information returned by the agents API. */
+export interface AgentErrorDetail {
+  /** Human-readable description of the error. */
+  message?: string | null;
+  /** Error type identifier (e.g. `invalid_request_error`). */
+  type?: string | null;
+  /** Name of the parameter that caused the error, if applicable. */
+  param?: string | null;
+  /** Machine-readable error code. */
+  code?: string | null;
+}
+
+export function agentErrorDetailDeserializer(item: any): AgentErrorDetail {
+  return {
+    message: item["message"],
+    type: item["type"],
+    param: item["param"],
+    code: item["code"],
   };
 }
 
@@ -1554,7 +1955,11 @@ export type MessageRole = "user" | "assistant";
 export type MessageInputContent = string | MessageInputContentBlockUnion[];
 
 export function messageInputContentSerializer(item: MessageInputContent): any {
-  return item;
+  if (typeof item === "string") {
+    return item;
+  }
+
+  return messageInputContentBlockUnionArraySerializer(item);
 }
 
 export function messageInputContentBlockUnionArraySerializer(
@@ -1746,122 +2151,6 @@ export function messageAttachmentToolDefinitionDeserializer(
   return item;
 }
 
-/** Alias for _MessageAttachmentTool */
-export type _MessageAttachmentTool = CodeInterpreterToolDefinition | FileSearchToolDefinition;
-
-export function _messageAttachmentToolSerializer(item: _MessageAttachmentTool): any {
-  return item;
-}
-
-export function _messageAttachmentToolDeserializer(item: any): _MessageAttachmentTool {
-  return item;
-}
-
-/**
- * Request object. A set of resources that are used by the agent's tools. The resources are specific to the type of tool.
- * For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of
- * vector store IDs.
- */
-export interface UpdateToolResourcesOptions {
-  /**
-   * Overrides the list of file IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files
-   * associated with the tool.
-   */
-  codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
-  /** Overrides the vector store attached to this agent. There can be a maximum of 1 vector store attached to the agent. */
-  fileSearch?: UpdateFileSearchToolResourceOptions;
-  /** Overrides the resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
-  azureAISearch?: AzureAISearchResource;
-}
-
-export function updateToolResourcesOptionsSerializer(item: UpdateToolResourcesOptions): any {
-  return {
-    code_interpreter: !item["codeInterpreter"]
-      ? item["codeInterpreter"]
-      : updateCodeInterpreterToolResourceOptionsSerializer(item["codeInterpreter"]),
-    file_search: !item["fileSearch"]
-      ? item["fileSearch"]
-      : updateFileSearchToolResourceOptionsSerializer(item["fileSearch"]),
-    azure_ai_search: !item["azureAISearch"]
-      ? item["azureAISearch"]
-      : azureAISearchResourceSerializer(item["azureAISearch"]),
-  };
-}
-
-export function updateToolResourcesOptionsDeserializer(item: any): UpdateToolResourcesOptions {
-  return {
-    codeInterpreter: !item["code_interpreter"]
-      ? item["code_interpreter"]
-      : updateCodeInterpreterToolResourceOptionsDeserializer(item["code_interpreter"]),
-    fileSearch: !item["file_search"]
-      ? item["file_search"]
-      : updateFileSearchToolResourceOptionsDeserializer(item["file_search"]),
-    azureAISearch: !item["azure_ai_search"]
-      ? item["azure_ai_search"]
-      : azureAISearchResourceDeserializer(item["azure_ai_search"]),
-  };
-}
-
-/** Request object to update `code_interpreted` tool resources. */
-export interface UpdateCodeInterpreterToolResourceOptions {
-  /** A list of file IDs to override the current list of the agent. */
-  fileIds?: string[];
-}
-
-export function updateCodeInterpreterToolResourceOptionsSerializer(
-  item: UpdateCodeInterpreterToolResourceOptions,
-): any {
-  return {
-    file_ids: !item["fileIds"]
-      ? item["fileIds"]
-      : item["fileIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function updateCodeInterpreterToolResourceOptionsDeserializer(
-  item: any,
-): UpdateCodeInterpreterToolResourceOptions {
-  return {
-    fileIds: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Request object to update `file_search` tool resources. */
-export interface UpdateFileSearchToolResourceOptions {
-  /** A list of vector store IDs to override the current list of the agent. */
-  vectorStoreIds?: string[];
-}
-
-export function updateFileSearchToolResourceOptionsSerializer(
-  item: UpdateFileSearchToolResourceOptions,
-): any {
-  return {
-    vector_store_ids: !item["vectorStoreIds"]
-      ? item["vectorStoreIds"]
-      : item["vectorStoreIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function updateFileSearchToolResourceOptionsDeserializer(
-  item: any,
-): UpdateFileSearchToolResourceOptions {
-  return {
-    vectorStoreIds: !item["vector_store_ids"]
-      ? item["vector_store_ids"]
-      : item["vector_store_ids"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /**
  * Controls for how a thread will be truncated prior to the run. Use this to control the initial
  * context window of the run.
@@ -1923,7 +2212,9 @@ export type AgentsNamedToolChoiceType =
   | "sharepoint_grounding"
   | "azure_ai_search"
   | "bing_custom_search"
-  | "connected_agent";
+  | "connected_agent"
+  | "deep_research"
+  | "mcp";
 
 /** The function name that will be used, if using the `function` tool */
 export interface FunctionName {
@@ -2010,7 +2301,7 @@ export interface ThreadRun {
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata: Record<string, string> | null;
   /** Override the tools the agent can use for this run. This is useful for modifying the behavior on a per-run basis */
-  toolResources?: UpdateToolResourcesOptions | null;
+  toolResources?: ToolResources | null;
   /** Determines if tools can be executed in parallel within the run. */
   parallelToolCalls: boolean;
 }
@@ -2028,7 +2319,7 @@ export function threadRunDeserializer(item: any): ThreadRun {
     lastError: !item["last_error"] ? item["last_error"] : runErrorDeserializer(item["last_error"]),
     model: item["model"],
     instructions: item["instructions"],
-    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
+    tools: !item["tools"] ? [] : toolDefinitionUnionArrayDeserializer(item["tools"]),
     createdAt: new Date(item["created_at"] * 1000),
     expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
     startedAt: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
@@ -2059,7 +2350,7 @@ export function threadRunDeserializer(item: any): ThreadRun {
     metadata: item["metadata"],
     toolResources: !item["tool_resources"]
       ? item["tool_resources"]
-      : updateToolResourcesOptionsDeserializer(item["tool_resources"]),
+      : toolResourcesDeserializer(item["tool_resources"]),
     parallelToolCalls: item["parallel_tool_calls"],
   };
 }
@@ -2078,7 +2369,7 @@ export type RunStatus =
 /** An abstract representation of a required action for an agent thread run to continue. */
 export interface RequiredAction {
   /** The object type. */
-  /** The discriminator possible values: submit_tool_outputs */
+  /** The discriminator possible values: submit_tool_outputs, submit_tool_approval */
   type: string;
 }
 
@@ -2089,12 +2380,18 @@ export function requiredActionDeserializer(item: any): RequiredAction {
 }
 
 /** Alias for RequiredActionUnion */
-export type RequiredActionUnion = SubmitToolOutputsAction | RequiredAction;
+export type RequiredActionUnion =
+  | SubmitToolOutputsAction
+  | SubmitToolApprovalAction
+  | RequiredAction;
 
 export function requiredActionUnionDeserializer(item: any): RequiredActionUnion {
   switch (item.type) {
     case "submit_tool_outputs":
       return submitToolOutputsActionDeserializer(item as SubmitToolOutputsAction);
+
+    case "submit_tool_approval":
+      return submitToolApprovalActionDeserializer(item as SubmitToolApprovalAction);
 
     default:
       return requiredActionDeserializer(item);
@@ -2139,7 +2436,7 @@ export function requiredToolCallUnionArrayDeserializer(
 /** An abstract representation of a tool invocation needed by the model to continue a run. */
 export interface RequiredToolCall {
   /** The object type for the required tool call. */
-  /** The discriminator possible values: function */
+  /** The discriminator possible values: function, mcp */
   type: string;
   /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
   id: string;
@@ -2153,12 +2450,18 @@ export function requiredToolCallDeserializer(item: any): RequiredToolCall {
 }
 
 /** Alias for RequiredToolCallUnion */
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredToolCall;
+export type RequiredToolCallUnion =
+  | RequiredFunctionToolCall
+  | RequiredMcpToolCall
+  | RequiredToolCall;
 
 export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
   switch (item.type) {
     case "function":
       return requiredFunctionToolCallDeserializer(item as RequiredFunctionToolCall);
+
+    case "mcp":
+      return requiredMcpToolCallDeserializer(item as RequiredMcpToolCall);
 
     default:
       return requiredToolCallDeserializer(item);
@@ -2195,6 +2498,55 @@ export function requiredFunctionToolCallDetailsDeserializer(
   return {
     name: item["name"],
     arguments: item["arguments"],
+  };
+}
+
+/** A representation of a requested call to a MCP tool, needed by the model to continue evaluation of a run. */
+export interface RequiredMcpToolCall extends RequiredToolCall {
+  /** The object type of the required tool call. Always 'mcp' for MCP tools. */
+  type: "mcp";
+  /** The arguments to use when invoking the mcp tool, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
+  arguments: string;
+  /** The name of the function used on the MCP server. */
+  name: string;
+  /** The label of the MCP server. */
+  serverLabel: string;
+}
+
+export function requiredMcpToolCallDeserializer(item: any): RequiredMcpToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    arguments: item["arguments"],
+    name: item["name"],
+    serverLabel: item["server_label"],
+  };
+}
+
+/** The details for required tool call approval that must be submitted for an agent thread run to continue. */
+export interface SubmitToolApprovalAction extends RequiredAction {
+  /** The object type, which is always 'submit_tool_approval'. */
+  type: "submit_tool_approval";
+  /** The details describing tools that should be approved to continue run. */
+  submitToolApproval: SubmitToolApprovalDetails;
+}
+
+export function submitToolApprovalActionDeserializer(item: any): SubmitToolApprovalAction {
+  return {
+    type: item["type"],
+    submitToolApproval: submitToolApprovalDetailsDeserializer(item["submit_tool_approval"]),
+  };
+}
+
+/** The details describing tools that should be approved. */
+export interface SubmitToolApprovalDetails {
+  /** The list of tool calls that must be approved for the agent thread run to continue. */
+  toolCalls: RequiredToolCallUnion[];
+}
+
+export function submitToolApprovalDetailsDeserializer(item: any): SubmitToolApprovalDetails {
+  return {
+    toolCalls: requiredToolCallUnionArrayDeserializer(item["tool_calls"]),
   };
 }
 
@@ -2690,6 +3042,24 @@ export function threadMessageArrayDeserializer(result: Array<ThreadMessage>): an
   });
 }
 
+/** The status of a thread message deletion operation. */
+export interface MessageDeletionStatus {
+  /** The ID of the resource specified for deletion. */
+  id: string;
+  /** A value indicating whether deletion was successful. */
+  deleted: boolean;
+  /** The object type, which is always 'thread.message.deleted'. */
+  object: "thread.message.deleted";
+}
+
+export function messageDeletionStatusDeserializer(item: any): MessageDeletionStatus {
+  return {
+    id: item["id"],
+    deleted: item["deleted"],
+    object: item["object"],
+  };
+}
+
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultThreadRun {
   /** The requested list of items. */
@@ -2726,9 +3096,33 @@ export function toolOutputSerializer(item: ToolOutput): any {
   return { tool_call_id: item["toolCallId"], output: item["output"] };
 }
 
+/** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
+export interface ToolApproval {
+  /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
+  toolCallId: string;
+  /** The approval boolean value to be submitted. */
+  approve: boolean;
+  /** Headers to be attached to the approval. */
+  headers?: Record<string, string>;
+}
+
+export function toolApprovalSerializer(item: ToolApproval): any {
+  return {
+    tool_call_id: item["toolCallId"],
+    approve: item["approve"],
+    headers: item["headers"],
+  };
+}
+
 export function toolOutputArraySerializer(result: Array<ToolOutput>): any[] {
   return result.map((item) => {
     return toolOutputSerializer(item);
+  });
+}
+
+export function toolApprovalArraySerializer(result: Array<ToolApproval>): any[] {
+  return result.map((item) => {
+    return toolApprovalSerializer(item);
   });
 }
 
@@ -2796,14 +3190,14 @@ export function runStepDeserializer(item: any): RunStep {
 }
 
 /** The possible types of run steps. */
-export type RunStepType = "message_creation" | "tool_calls";
+export type RunStepType = "message_creation" | "tool_calls" | "activities";
 /** Possible values for the status of a run step. */
 export type RunStepStatus = "in_progress" | "cancelled" | "failed" | "completed" | "expired";
 
 /** An abstract representation of the details for a run step. */
 export interface RunStepDetails {
   /** The object type. */
-  /** The discriminator possible values: message_creation, tool_calls */
+  /** The discriminator possible values: message_creation, tool_calls, activities */
   type: RunStepType;
 }
 
@@ -2817,6 +3211,7 @@ export function runStepDetailsDeserializer(item: any): RunStepDetails {
 export type RunStepDetailsUnion =
   | RunStepMessageCreationDetails
   | RunStepToolCallDetails
+  | RunStepActivityDetails
   | RunStepDetails;
 
 export function runStepDetailsUnionDeserializer(item: any): RunStepDetailsUnion {
@@ -2826,6 +3221,9 @@ export function runStepDetailsUnionDeserializer(item: any): RunStepDetailsUnion 
 
     case "tool_calls":
       return runStepToolCallDetailsDeserializer(item as RunStepToolCallDetails);
+
+    case "activities":
+      return runStepActivityDetailsDeserializer(item as RunStepActivityDetails);
 
     default:
       return runStepDetailsDeserializer(item);
@@ -2887,7 +3285,7 @@ export function runStepToolCallUnionArrayDeserializer(result: Array<RunStepToolC
 /** An abstract representation of a detailed tool call as recorded within a run step for an existing run. */
 export interface RunStepToolCall {
   /** The object type. */
-  /** The discriminator possible values: code_interpreter, file_search, bing_grounding, azure_ai_search, sharepoint_grounding, fabric_dataagent, bing_custom_search, function, openapi */
+  /** The discriminator possible values: code_interpreter, file_search, bing_grounding, azure_ai_search, browser_automation, mcp, sharepoint_grounding, fabric_dataagent, bing_custom_search, azure_function, function, openapi, deep_research, connected_agent */
   type: string;
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
@@ -2906,11 +3304,16 @@ export type RunStepToolCallUnion =
   | RunStepFileSearchToolCall
   | RunStepBingGroundingToolCall
   | RunStepAzureAISearchToolCall
+  | RunStepBrowserAutomationToolCall
+  | RunStepMcpToolCall
   | RunStepSharepointToolCall
   | RunStepMicrosoftFabricToolCall
   | RunStepBingCustomSearchToolCall
+  | RunStepAzureFunctionToolCall
   | RunStepFunctionToolCall
   | RunStepOpenAPIToolCall
+  | RunStepDeepResearchToolCall
+  | RunStepConnectedAgentToolCall
   | RunStepToolCall;
 
 export function runStepToolCallUnionDeserializer(item: any): RunStepToolCallUnion {
@@ -2927,6 +3330,12 @@ export function runStepToolCallUnionDeserializer(item: any): RunStepToolCallUnio
     case "azure_ai_search":
       return runStepAzureAISearchToolCallDeserializer(item as RunStepAzureAISearchToolCall);
 
+    case "browser_automation":
+      return runStepBrowserAutomationToolCallDeserializer(item as RunStepBrowserAutomationToolCall);
+
+    case "mcp":
+      return runStepMcpToolCallDeserializer(item as RunStepMcpToolCall);
+
     case "sharepoint_grounding":
       return runStepSharepointToolCallDeserializer(item as RunStepSharepointToolCall);
 
@@ -2936,11 +3345,20 @@ export function runStepToolCallUnionDeserializer(item: any): RunStepToolCallUnio
     case "bing_custom_search":
       return runStepBingCustomSearchToolCallDeserializer(item as RunStepBingCustomSearchToolCall);
 
+    case "azure_function":
+      return runStepAzureFunctionToolCallDeserializer(item as RunStepAzureFunctionToolCall);
+
     case "function":
       return runStepFunctionToolCallDeserializer(item as RunStepFunctionToolCall);
 
     case "openapi":
       return runStepOpenAPIToolCallDeserializer(item as RunStepOpenAPIToolCall);
+
+    case "deep_research":
+      return runStepDeepResearchToolCallDeserializer(item as RunStepDeepResearchToolCall);
+
+    case "connected_agent":
+      return runStepConnectedAgentToolCallDeserializer(item as RunStepConnectedAgentToolCall);
 
     default:
       return runStepToolCallDeserializer(item);
@@ -3182,7 +3600,7 @@ export function fileSearchToolCallContentDeserializer(item: any): FileSearchTool
 export interface RunStepBingGroundingToolCall extends RunStepToolCall {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
-  /** Reserved for future use. */
+  /** The dictionary with request and response from Bing Grounding search tool. */
   bingGrounding: Record<string, string>;
 }
 
@@ -3213,6 +3631,100 @@ export function runStepAzureAISearchToolCallDeserializer(item: any): RunStepAzur
   };
 }
 
+/** A record of a call to a Browser Automation tool issued by the Agent. */
+export interface RunStepBrowserAutomationToolCall extends RunStepToolCall {
+  /** The object type, which is always 'browser_automation'. */
+  type: "browser_automation";
+  /** Details of the browser automation tool call. */
+  browserAutomation: BrowserAutomationToolCallDetails;
+}
+
+export function runStepBrowserAutomationToolCallDeserializer(
+  item: any,
+): RunStepBrowserAutomationToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    browserAutomation: browserAutomationToolCallDetailsDeserializer(item["browser_automation"]),
+  };
+}
+
+/** Details of a Browser Automation tool call. */
+export interface BrowserAutomationToolCallDetails {
+  /** The input provided to the Browser Automation tool. */
+  input: string;
+  /** The output returned by the Browser Automation tool. */
+  output: string;
+  /** The steps the Browser Automation tool executed. */
+  steps: BrowserAutomationToolCallStep[];
+}
+
+export function browserAutomationToolCallDetailsDeserializer(
+  item: any,
+): BrowserAutomationToolCallDetails {
+  return {
+    input: item["input"],
+    output: item["output"],
+    steps: browserAutomationToolCallStepArrayDeserializer(item["steps"]),
+  };
+}
+
+export function browserAutomationToolCallStepArrayDeserializer(
+  result: Array<BrowserAutomationToolCallStep>,
+): any[] {
+  return result.map((item) => {
+    return browserAutomationToolCallStepDeserializer(item);
+  });
+}
+
+/** Describes a single step of a Browser Automation tool execution. */
+export interface BrowserAutomationToolCallStep {
+  /** The result of the last step executed with the Browser. */
+  lastStepResult: string;
+  /** The current state of execution with the Browser. */
+  currentState: string;
+  /** The next step to execute with the Browser. */
+  nextStep: string;
+}
+
+export function browserAutomationToolCallStepDeserializer(
+  item: any,
+): BrowserAutomationToolCallStep {
+  return {
+    lastStepResult: item["last_step_result"],
+    currentState: item["current_state"],
+    nextStep: item["next_step"],
+  };
+}
+
+/**
+ * A record of a call to a MCP tool, issued by the model in evaluation of a defined tool, that represents
+ * executed MCP actions.
+ */
+export interface RunStepMcpToolCall extends RunStepToolCall {
+  /** The object type, which is always 'mcp'. */
+  type: "mcp";
+  /** Arguments to the MCP tool call, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
+  arguments: string;
+  /** Name of the function used on the MCP server. */
+  name: string;
+  /** Output of the MCP tool call. */
+  output: string;
+  /** The label for the MCP server */
+  serverLabel?: string;
+}
+
+export function runStepMcpToolCallDeserializer(item: any): RunStepMcpToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    arguments: item["arguments"],
+    name: item["name"],
+    output: item["output"],
+    serverLabel: item["server_label"],
+  };
+}
+
 /**
  * A record of a call to a SharePoint tool, issued by the model in evaluation of a defined tool, that represents
  * executed SharePoint actions.
@@ -3220,7 +3732,7 @@ export function runStepAzureAISearchToolCallDeserializer(item: any): RunStepAzur
 export interface RunStepSharepointToolCall extends RunStepToolCall {
   /** The object type, which is always 'sharepoint_grounding'. */
   type: "sharepoint_grounding";
-  /** Reserved for future use. */
+  /** SharePoint tool input and output. */
   sharePoint: Record<string, string>;
 }
 
@@ -3239,7 +3751,7 @@ export function runStepSharepointToolCallDeserializer(item: any): RunStepSharepo
 export interface RunStepMicrosoftFabricToolCall extends RunStepToolCall {
   /** The object type, which is always 'fabric_dataagent'. */
   type: "fabric_dataagent";
-  /** Reserved for future use. */
+  /** Fabric input and output. */
   microsoftFabric: Record<string, string>;
 }
 
@@ -3254,13 +3766,13 @@ export function runStepMicrosoftFabricToolCallDeserializer(
 }
 
 /**
- * A record of a call to a bing custom search tool, issued by the model in evaluation of a defined tool, that represents
- * executed search with bing custom search.
+ * A record of a call to a Bing Custom Search tool, issued by the model in evaluation of a defined tool, that represents
+ * executed search with Bing Custom Search.
  */
 export interface RunStepBingCustomSearchToolCall extends RunStepToolCall {
   /** The object type, which is always 'bing_custom_search'. */
   type: "bing_custom_search";
-  /** Reserved for future use. */
+  /** The dictionary with request and response from Bing Custom Search tool. */
   bingCustomSearch: Record<string, string>;
 }
 
@@ -3271,6 +3783,43 @@ export function runStepBingCustomSearchToolCallDeserializer(
     type: item["type"],
     id: item["id"],
     bingCustomSearch: item["bing_custom_search"],
+  };
+}
+
+/** A record of a call to an Azure Function tool. */
+export interface RunStepAzureFunctionToolCall extends RunStepToolCall {
+  /** The object type, which is always 'azure_function'. */
+  type: "azure_function";
+  /** The description of an Azure function call. */
+  azureFunction: AzureFunctionToolCallDetails;
+}
+
+export function runStepAzureFunctionToolCallDeserializer(item: any): RunStepAzureFunctionToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    azureFunction: azureFunctionToolCallDetailsDeserializer(item["azure_function"]),
+  };
+}
+
+/**
+ * The Azure function call description. All the fields are present in the completed run step, however
+ * only some fields are present in the RunStepDeltaAzureFunctionToolCall.
+ */
+export interface AzureFunctionToolCallDetails {
+  /** The Azure function name */
+  name?: string;
+  /** JSON serialized function arguments. */
+  arguments?: string;
+  /** The function output. */
+  output?: string;
+}
+
+export function azureFunctionToolCallDetailsDeserializer(item: any): AzureFunctionToolCallDetails {
+  return {
+    name: item["name"],
+    arguments: item["arguments"],
+    output: item["output"],
   };
 }
 
@@ -3326,6 +3875,204 @@ export function runStepOpenAPIToolCallDeserializer(item: any): RunStepOpenAPIToo
     type: item["type"],
     id: item["id"],
     openAPI: item["openapi"],
+  };
+}
+
+/**
+ * A record of a call to a Deep Research tool, issued by the model in evaluation of a defined tool, that represents
+ * executed deep research operations.
+ */
+export interface RunStepDeepResearchToolCall extends RunStepToolCall {
+  /** The object type, which is always 'deep_research'. */
+  type: "deep_research";
+  /** The detailed information about the automated browser tasks performed by the model. */
+  deepResearch: RunStepDeepResearchToolCallDetails;
+}
+
+export function runStepDeepResearchToolCallDeserializer(item: any): RunStepDeepResearchToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    deepResearch: runStepDeepResearchToolCallDetailsDeserializer(item["deep_research"]),
+  };
+}
+
+/** The detailed information about the deep research tasks performed by the model. */
+export interface RunStepDeepResearchToolCallDetails {
+  /** The input provided by the model to the deep research tool. */
+  input: string;
+  /** The final output for the deep research tool. */
+  output?: string;
+}
+
+export function runStepDeepResearchToolCallDetailsDeserializer(
+  item: any,
+): RunStepDeepResearchToolCallDetails {
+  return {
+    input: item["input"],
+    output: item["output"],
+  };
+}
+
+/** A record of a call to the connected agent. */
+export interface RunStepConnectedAgentToolCall extends RunStepToolCall {
+  /** The object type, which is always 'connected_agent'. */
+  type: "connected_agent";
+  /** The connected agent step information. */
+  connectedAgent: RunStepConnectedAgent;
+}
+
+export function runStepConnectedAgentToolCallDeserializer(
+  item: any,
+): RunStepConnectedAgentToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    connectedAgent: runStepConnectedAgentDeserializer(item["connected_agent"]),
+  };
+}
+
+/** The detailed information about connected agent tool call. */
+export interface RunStepConnectedAgent {
+  /** The name of connected agent. */
+  name?: string;
+  /** The JSON serialized query to the connected agent. */
+  arguments?: string;
+  /** The tool output. */
+  output?: string;
+  /** The run ID used by the connected agent. */
+  runId?: string;
+  /** The thread ID used by the connected agent. */
+  threadId?: string;
+  /** The ID of a connected agent. */
+  agentId?: string;
+}
+
+export function runStepConnectedAgentDeserializer(item: any): RunStepConnectedAgent {
+  return {
+    name: item["name"],
+    arguments: item["arguments"],
+    output: item["output"],
+    runId: item["run_id"],
+    threadId: item["thread_id"],
+    agentId: item["assistant_id"],
+  };
+}
+
+/** The detailed information associated with a run step activities. */
+export interface RunStepActivityDetails extends RunStepDetails {
+  /** The object type, which is always 'activities'. */
+  type: "activities";
+  /** A list of activities for this run step. */
+  activities: RunStepDetailsActivity[];
+}
+
+export function runStepActivityDetailsDeserializer(item: any): RunStepActivityDetails {
+  return {
+    type: item["type"],
+    activities: runStepDetailsActivityArrayDeserializer(item["activities"]),
+  };
+}
+
+export function runStepDetailsActivityArrayDeserializer(
+  result: Array<RunStepDetailsActivity>,
+): any[] {
+  return result.map((item) => {
+    return runStepDetailsActivityDeserializer(item);
+  });
+}
+
+/** Represents the list of activities, associated with the given step. */
+export interface RunStepDetailsActivity {
+  /** The activity type, which is always 'mcp_list_tools'. */
+  type: "mcp_list_tools";
+  /** The activity ID. */
+  id: string;
+  /** Server label. */
+  serverLabel: string;
+  /** The supported function list. */
+  tools: Record<string, ActivityFunctionDefinition>;
+}
+
+export function runStepDetailsActivityDeserializer(item: any): RunStepDetailsActivity {
+  return {
+    type: item["type"],
+    id: item["id"],
+    serverLabel: item["server_label"],
+    tools: activityFunctionDefinitionRecordDeserializer(item["tools"]),
+  };
+}
+
+export function activityFunctionDefinitionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, ActivityFunctionDefinition> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : activityFunctionDefinitionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** The activity definition information for a function. */
+export interface ActivityFunctionDefinition {
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The parameters the functions accepts, described as a JSON Schema object. */
+  parameters: ActivityFunctionParameters;
+}
+
+export function activityFunctionDefinitionDeserializer(item: any): ActivityFunctionDefinition {
+  return {
+    description: item["description"],
+    parameters: activityFunctionParametersDeserializer(item["parameters"]),
+  };
+}
+
+/** The parameters used for activity function definition. */
+export interface ActivityFunctionParameters {
+  /** The parameter type, it is always object. */
+  type: "object";
+  /** The dictionary of function arguments. */
+  properties: Record<string, FunctionArgument>;
+  /** The list of the required parameters. */
+  required: string[];
+  /** If true the function has additional parameters. */
+  additionalProperties?: boolean;
+}
+
+export function activityFunctionParametersDeserializer(item: any): ActivityFunctionParameters {
+  return {
+    type: item["type"],
+    properties: functionArgumentRecordDeserializer(item["properties"]),
+    required: item["required"].map((p: any) => {
+      return p;
+    }),
+    additionalProperties: item["additionalProperties"],
+  };
+}
+
+export function functionArgumentRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, FunctionArgument> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : functionArgumentDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** The function argument and description. */
+export interface FunctionArgument {
+  /** The type of an argument, for example 'string' or 'number'. */
+  type: string;
+  /** The argument description. */
+  description?: string;
+}
+
+export function functionArgumentDeserializer(item: any): FunctionArgument {
+  return {
+    type: item["type"],
+    description: item["description"],
   };
 }
 
@@ -3444,14 +4191,7 @@ export function fileInfoDeserializer(item: any): FileInfo {
 }
 
 /** The possible values denoting the intended usage of a file. */
-export type FilePurpose =
-  | "fine-tune"
-  | "fine-tune-results"
-  | "assistants"
-  | "assistants_output"
-  | "batch"
-  | "batch_output"
-  | "vision";
+export type FilePurpose = "assistants" | "assistants_output" | "vision";
 /** The state of the file. */
 export type FileState =
   | "uploaded"
@@ -3472,13 +4212,12 @@ export interface _UploadFileRequest {
   filename?: string;
 }
 
-export function _uploadFileRequestSerializer(
-  item: _UploadFileRequest,
-): Array<{ name: "file" | "purpose"; body: any; filename?: string }> {
-  return [
-    { name: "file" as const, body: item["file"], filename: item["filename"] ?? randomUUID() },
-    { name: "purpose" as const, body: item["purpose"] },
-  ];
+export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
+  const filePart = createFilePartDescriptor("file", item["file"], "application/octet-stream");
+  if (!filePart.filename) {
+    filePart.filename = item["filename"];
+  }
+  return [filePart, { name: "purpose", body: item["purpose"] }];
 }
 
 /** A status response from a file deletion operation. */
@@ -3798,9 +4537,9 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy: !item["chunking_strategy"]
-      ? item["chunking_strategy"]
-      : vectorStoreChunkingStrategyResponseUnionDeserializer(item["chunking_strategy"]),
+    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(
+      item["chunking_strategy"],
+    ),
   };
 }
 
@@ -3849,6 +4588,11 @@ export type VectorStoreChunkingStrategyResponseUnion =
 export function vectorStoreChunkingStrategyResponseUnionDeserializer(
   item: any,
 ): VectorStoreChunkingStrategyResponseUnion {
+  // Handle undefined or null input by returning a default response
+  if (!item) {
+    return vectorStoreChunkingStrategyResponseDeserializer({ type: "other" });
+  }
+
   switch (item.type) {
     case "other":
       return vectorStoreAutoChunkingStrategyResponseDeserializer(
@@ -4314,7 +5058,7 @@ export function runStepDeltaDeserializer(item: any): RunStepDelta {
 /** Represents a single run step detail item in a streaming run step's delta payload. */
 export interface RunStepDeltaDetail {
   /** The object type for the run step detail object. */
-  /** The discriminator possible values: message_creation, tool_calls */
+  /** The discriminator possible values: message_creation, tool_calls, mcp, openapi */
   type: string;
 }
 
@@ -4328,6 +5072,8 @@ export function runStepDeltaDetailDeserializer(item: any): RunStepDeltaDetail {
 export type RunStepDeltaDetailUnion =
   | RunStepDeltaMessageCreation
   | RunStepDeltaToolCallObject
+  | RunStepDeltaMCPObject
+  | RunStepDeltaOpenAPIObject
   | RunStepDeltaDetail;
 
 export function runStepDeltaDetailUnionDeserializer(item: any): RunStepDeltaDetailUnion {
@@ -4337,6 +5083,12 @@ export function runStepDeltaDetailUnionDeserializer(item: any): RunStepDeltaDeta
 
     case "tool_calls":
       return runStepDeltaToolCallObjectDeserializer(item as RunStepDeltaToolCallObject);
+
+    case "mcp":
+      return runStepDeltaMCPObjectDeserializer(item as RunStepDeltaMCPObject);
+
+    case "openapi":
+      return runStepDeltaOpenAPIObjectDeserializer(item as RunStepDeltaOpenAPIObject);
 
     default:
       return runStepDeltaDetailDeserializer(item);
@@ -4406,7 +5158,7 @@ export interface RunStepDeltaToolCall {
   /** The ID of the tool call, used when submitting outputs to the run. */
   id: string;
   /** The type of the tool call detail item in a streaming run step's details. */
-  /** The discriminator possible values: function, file_search, code_interpreter */
+  /** The discriminator possible values: mcp, openapi, connected_agent, function, file_search, code_interpreter, bing_grounding, bing_custom_search, azure_function, deep_research, azure_ai_search, fabric_dataagent, sharepoint_grounding */
   type: string;
 }
 
@@ -4420,13 +5172,34 @@ export function runStepDeltaToolCallDeserializer(item: any): RunStepDeltaToolCal
 
 /** Alias for RunStepDeltaToolCallUnion */
 export type RunStepDeltaToolCallUnion =
+  | RunStepDeltaMcpToolCall
+  | RunStepDeltaOpenAPIToolCall
+  | RunStepDeltaConnectedAgentToolCall
   | RunStepDeltaFunctionToolCall
   | RunStepDeltaFileSearchToolCall
   | RunStepDeltaCodeInterpreterToolCall
+  | RunStepDeltaBingGroundingToolCall
+  | RunStepDeltaCustomBingGroundingToolCall
+  | RunStepDeltaAzureFunctionToolCall
+  | RunStepDeltaDeepResearchToolCall
+  | RunStepDeltaAzureAISearchToolCall
+  | RunStepDeltaMicrosoftFabricToolCall
+  | RunStepDeltaSharepointToolCall
   | RunStepDeltaToolCall;
 
 export function runStepDeltaToolCallUnionDeserializer(item: any): RunStepDeltaToolCallUnion {
   switch (item.type) {
+    case "mcp":
+      return runStepDeltaMcpToolCallDeserializer(item as RunStepDeltaMcpToolCall);
+
+    case "openapi":
+      return runStepDeltaOpenAPIToolCallDeserializer(item as RunStepDeltaOpenAPIToolCall);
+
+    case "connected_agent":
+      return runStepDeltaConnectedAgentToolCallDeserializer(
+        item as RunStepDeltaConnectedAgentToolCall,
+      );
+
     case "function":
       return runStepDeltaFunctionToolCallDeserializer(item as RunStepDeltaFunctionToolCall);
 
@@ -4438,9 +5211,95 @@ export function runStepDeltaToolCallUnionDeserializer(item: any): RunStepDeltaTo
         item as RunStepDeltaCodeInterpreterToolCall,
       );
 
+    case "bing_grounding":
+      return runStepDeltaBingGroundingToolCallDeserializer(
+        item as RunStepDeltaBingGroundingToolCall,
+      );
+
+    case "bing_custom_search":
+      return runStepDeltaCustomBingGroundingToolCallDeserializer(
+        item as RunStepDeltaCustomBingGroundingToolCall,
+      );
+
+    case "azure_function":
+      return runStepDeltaAzureFunctionToolCallDeserializer(
+        item as RunStepDeltaAzureFunctionToolCall,
+      );
+
+    case "deep_research":
+      return runStepDeltaDeepResearchToolCallDeserializer(item as RunStepDeltaDeepResearchToolCall);
+
+    case "azure_ai_search":
+      return runStepDeltaAzureAISearchToolCallDeserializer(
+        item as RunStepDeltaAzureAISearchToolCall,
+      );
+
+    case "fabric_dataagent":
+      return runStepDeltaMicrosoftFabricToolCallDeserializer(
+        item as RunStepDeltaMicrosoftFabricToolCall,
+      );
+
+    case "sharepoint_grounding":
+      return runStepDeltaSharepointToolCallDeserializer(item as RunStepDeltaSharepointToolCall);
+
     default:
       return runStepDeltaToolCallDeserializer(item);
   }
+}
+
+/** Represents the function data in a streaming run step MCP call. */
+export interface RunStepDeltaMcpToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "mcp". */
+  type: "mcp";
+  /** The index of a response. */
+  index: number;
+  /** The arguments for MCP call. */
+  arguments: string;
+}
+
+export function runStepDeltaMcpToolCallDeserializer(item: any): RunStepDeltaMcpToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    arguments: item["arguments"],
+  };
+}
+
+/** Represents the openapi tool call in a streaming run step. */
+export interface RunStepDeltaOpenAPIToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "openapi". */
+  type: "openapi";
+  /** Reserved for future use. */
+  openAPI: Record<string, string>;
+}
+
+export function runStepDeltaOpenAPIToolCallDeserializer(item: any): RunStepDeltaOpenAPIToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    openAPI: item["openapi"],
+  };
+}
+
+/** Represents the invocation of connected agent as a part of a streaming run step. */
+export interface RunStepDeltaConnectedAgentToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "connected_agent". */
+  type: "connected_agent";
+  /** The collection of tool calls for the tool call detail item. */
+  connectedAgent: RunStepConnectedAgent;
+}
+
+export function runStepDeltaConnectedAgentToolCallDeserializer(
+  item: any,
+): RunStepDeltaConnectedAgentToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    connectedAgent: runStepConnectedAgentDeserializer(item["connected_agent"]),
+  };
 }
 
 /** Represents a function tool call within a streaming run step's tool call details. */
@@ -4648,30 +5507,203 @@ export function runStepDeltaCodeInterpreterImageOutputObjectDeserializer(
   };
 }
 
+/** Represents the bing grounding tool call in a streaming run step. */
+export interface RunStepDeltaBingGroundingToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "bing_grounding". */
+  type: "bing_grounding";
+  /** The dictionary with request and response from Bing Grounding search tool. */
+  bingGrounding: Record<string, string>;
+}
+
+export function runStepDeltaBingGroundingToolCallDeserializer(
+  item: any,
+): RunStepDeltaBingGroundingToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    bingGrounding: item["bing_grounding"],
+  };
+}
+
+/** Represents the Bing Custom Search tool call in a streaming run step. */
+export interface RunStepDeltaCustomBingGroundingToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The dictionary with request and response from Bing Custom Search tool. */
+  bingCustomSearch: Record<string, string>;
+}
+
+export function runStepDeltaCustomBingGroundingToolCallDeserializer(
+  item: any,
+): RunStepDeltaCustomBingGroundingToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    bingCustomSearch: item["bing_custom_search"],
+  };
+}
+
+/** Represents the Azure Function tool call in a streaming run step. */
+export interface RunStepDeltaAzureFunctionToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always 'azure_function'. */
+  type: "azure_function";
+  /** Partial description of an Azure function call. */
+  azureFunction: AzureFunctionToolCallDetails;
+}
+
+export function runStepDeltaAzureFunctionToolCallDeserializer(
+  item: any,
+): RunStepDeltaAzureFunctionToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    azureFunction: azureFunctionToolCallDetailsDeserializer(item["azure_function"]),
+  };
+}
+
+/** Represents the Deep research in a streaming run step. */
+export interface RunStepDeltaDeepResearchToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "deep_research". */
+  type: "deep_research";
+  /** The details of DeepResearch tool call. */
+  deepResearch: RunStepDeepResearchToolCallDetails;
+}
+
+export function runStepDeltaDeepResearchToolCallDeserializer(
+  item: any,
+): RunStepDeltaDeepResearchToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    deepResearch: runStepDeepResearchToolCallDetailsDeserializer(item["deep_research"]),
+  };
+}
+
+/** Represents the Azure AI Search in a streaming run step. */
+export interface RunStepDeltaAzureAISearchToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "azure_ai_search". */
+  type: "azure_ai_search";
+  /** Reserved for future use. */
+  azureAISearch: Record<string, string>;
+}
+
+export function runStepDeltaAzureAISearchToolCallDeserializer(
+  item: any,
+): RunStepDeltaAzureAISearchToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    azureAISearch: item["azure_ai_search"],
+  };
+}
+
+/** Represents the Microsoft Fabric tool call in a streaming run step. */
+export interface RunStepDeltaMicrosoftFabricToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always 'fabric_dataagent' */
+  type: "fabric_dataagent";
+  /** Fabric input and output. */
+  microsoftFabric: Record<string, string>;
+}
+
+export function runStepDeltaMicrosoftFabricToolCallDeserializer(
+  item: any,
+): RunStepDeltaMicrosoftFabricToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    microsoftFabric: item["fabric_dataagent"],
+  };
+}
+
+/** Represents the SharePoint tool call in a streaming run step. */
+export interface RunStepDeltaSharepointToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always 'sharepoint_grounding' */
+  type: "sharepoint_grounding";
+  /** SharePoint tool input and output. */
+  sharepointGrounding: Record<string, string>;
+}
+
+export function runStepDeltaSharepointToolCallDeserializer(
+  item: any,
+): RunStepDeltaSharepointToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    sharepointGrounding: item["sharepoint_grounding"],
+  };
+}
+
+/** Represents an invocation of mcp as part of a streaming run step. */
+export interface RunStepDeltaMCPObject extends RunStepDeltaDetail {
+  /** The object type, which is always "mcp". */
+  type: "mcp";
+  /** The collection of tool calls for the tool call detail item. */
+  toolCalls?: RunStepDeltaMcpToolCall[];
+}
+
+export function runStepDeltaMCPObjectDeserializer(item: any): RunStepDeltaMCPObject {
+  return {
+    type: item["type"],
+    toolCalls: !item["tool_calls"]
+      ? item["tool_calls"]
+      : runStepDeltaMcpToolCallArrayDeserializer(item["tool_calls"]),
+  };
+}
+
+export function runStepDeltaMcpToolCallArrayDeserializer(
+  result: Array<RunStepDeltaMcpToolCall>,
+): any[] {
+  return result.map((item) => {
+    return runStepDeltaMcpToolCallDeserializer(item);
+  });
+}
+
+/** Represents an invocation of openapi as part of a streaming run step. */
+export interface RunStepDeltaOpenAPIObject extends RunStepDeltaDetail {
+  /** The object type, which is always "openapi". */
+  type: "openapi";
+  /** The collection of tool calls for the tool call detail item. */
+  toolCalls?: RunStepDeltaOpenAPIToolCall[];
+}
+
+export function runStepDeltaOpenAPIObjectDeserializer(item: any): RunStepDeltaOpenAPIObject {
+  return {
+    type: item["type"],
+    toolCalls: !item["tool_calls"]
+      ? item["tool_calls"]
+      : runStepDeltaOpenAPIToolCallArrayDeserializer(item["tool_calls"]),
+  };
+}
+
+export function runStepDeltaOpenAPIToolCallArrayDeserializer(
+  result: Array<RunStepDeltaOpenAPIToolCall>,
+): any[] {
+  return result.map((item) => {
+    return runStepDeltaOpenAPIToolCallDeserializer(item);
+  });
+}
+
 /** Alias for AgentStreamEvent */
 export type AgentStreamEvent =
   | string
-  | (
-      | ThreadStreamEvent
-      | RunStreamEvent
-      | RunStepStreamEvent
-      | MessageStreamEvent
-      | ErrorEvent
-      | DoneEvent
-    );
-
-export function agentStreamEventDeserializer(item: any): AgentStreamEvent {
-  return item;
-}
-
-/** Alias for _ */
-export type _ =
   | ThreadStreamEvent
   | RunStreamEvent
   | RunStepStreamEvent
   | MessageStreamEvent
   | ErrorEvent
   | DoneEvent;
+
+export function agentStreamEventDeserializer(item: any): AgentStreamEvent {
+  return item;
+}
+
 /** Thread operation related streaming events */
 export enum ThreadStreamEvent {
   /** Event emitted when a thread is created */
@@ -4733,13 +5765,13 @@ export enum MessageStreamEvent {
   /** Event emitted when a message is incomplete */
   ThreadMessageIncomplete = "thread.message.incomplete",
 }
+
 /** Terminal event indicating a server side error while streaming. */
 export enum ErrorEvent {
   /** Server error while streaming */
   Error = "error",
 }
 /** Terminal event indicating the successful end of a stream. */
-
 export enum DoneEvent {
   /** Event emitted when a stream has completed successfully */
   Done = "done",
@@ -4753,10 +5785,10 @@ export type VectorStoreFileStatusFilter = "in_progress" | "completed" | "failed"
 
 /** Azure AI Agents API versions */
 export enum KnownVersions {
-  /** Azure AI API version 2025-05-15. */
-  _20250515Preview = "2025-05-15-preview",
   /** Azure AI API version 2025-05-01. */
   V20250501 = "2025-05-01",
   /** Azure AI API version v1. */
   V1 = "v1",
+  /** Azure AI API version 2025-05-15-preview. */
+  V20250515Preview = "2025-05-15-preview",
 }

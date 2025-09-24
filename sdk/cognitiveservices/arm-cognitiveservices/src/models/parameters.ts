@@ -108,7 +108,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-04-01-preview",
+    defaultValue: "2025-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -538,13 +538,13 @@ export const connectionName: OperationURLParameter = {
   },
 };
 
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const connection: OperationParameter = {
+  parameterPath: ["options", "connection"],
   mapper: ConnectionUpdateContentMapper,
 };
 
-export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const connection1: OperationParameter = {
+  parameterPath: ["options", "connection"],
   mapper: ConnectionPropertiesV2BasicResourceMapper,
 };
 
@@ -593,7 +593,7 @@ export const capabilityHostName: OperationURLParameter = {
   },
 };
 
-export const body2: OperationParameter = {
-  parameterPath: "body",
+export const capabilityHost: OperationParameter = {
+  parameterPath: "capabilityHost",
   mapper: CapabilityHostMapper,
 };

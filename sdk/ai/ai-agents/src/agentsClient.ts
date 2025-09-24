@@ -30,7 +30,7 @@ import type { ThreadsOperations } from "./classic/threads/index.js";
 import { _getThreadsOperations } from "./classic/threads/index.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 
 export { AgentsClientOptionalParams } from "./api/agentsContext.js";
 
@@ -41,7 +41,7 @@ export class AgentsClient {
 
   constructor(
     endpointParam: string,
-    credential: KeyCredential | TokenCredential,
+    credential: TokenCredential,
     options: AgentsClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;

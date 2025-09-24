@@ -4,12 +4,14 @@
 import { spawn } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { createPrinter } from "./printer";
 
+const logger = createPrinter("git");
 /**
  * Uses the git command line to ask whether a path has any tracked, unstaged changes (if they would appear in a git
  * diff).
  *
- * Equivalent to `git diff --quiet HEAD -- <path>`.
+ * Equivalent to `git --no-pager diff --exit-code --compact-summary HEAD -- <path>`.
  *
  * @param treePath - path to a tree to test for a diff (relative or absolute)
  * @returns true if there are any changes to any tracked files
@@ -20,18 +22,26 @@ export function hasDiff(treePath: string): Promise<boolean> {
       resolve(false);
     } else {
       const command = spawn("git", [
+        "--no-pager",
         "diff",
-        "--quiet",
+        "--exit-code",
+        "--compact-summary",
         "HEAD",
         "--",
         path.resolve(process.cwd(), treePath),
       ]);
-
+      const output: string[] = [];
       // git diff --quiet returns nonzero if a diff exists.
       command.on("exit", (code) => {
+        if (code !== 0) {
+          logger.warn(output.join("\n"));
+        }
         resolve(code !== 0);
       });
       command.on("error", reject);
+      command.stdout.on("data", (data) => {
+        output.push(data.toString());
+      });
     }
   });
 }

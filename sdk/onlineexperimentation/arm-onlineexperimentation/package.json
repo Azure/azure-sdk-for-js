@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "description": "A generated SDK for OnlineExperimentationClient.",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -12,7 +12,7 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./api/onlineExperimentWorkspaces": "./src/api/onlineExperimentWorkspaces/index.ts",
+      "./api/onlineExperimentationWorkspaces": "./src/api/onlineExperimentationWorkspaces/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
@@ -25,7 +25,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
   "keywords": [
@@ -61,34 +61,34 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "@azure/core-util": "^1.11.0",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.9.1",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "playwright": "^1.52.0",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -97,11 +97,10 @@
     "generate:client": "echo skipped",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
@@ -152,22 +151,22 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/onlineExperimentWorkspaces": {
+    "./api/onlineExperimentationWorkspaces": {
       "browser": {
-        "types": "./dist/browser/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/browser/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/browser/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/browser/api/onlineExperimentationWorkspaces/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/react-native/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/react-native/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/react-native/api/onlineExperimentationWorkspaces/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/esm/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/esm/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/esm/api/onlineExperimentationWorkspaces/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/commonjs/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/commonjs/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/commonjs/api/onlineExperimentationWorkspaces/index.js"
       }
     },
     "./api/operations": {

@@ -14,7 +14,7 @@ pr:
       - main
       - feature/*
       - hotfix/*
-      
+
   paths:
     include:
       - common/tools/eslint-plugin-azure-sdk/
@@ -29,7 +29,7 @@ jobs:
 
     pool:
       name: $(LINUXPOOL)
-      demands: $(LinuxImageDemand)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml

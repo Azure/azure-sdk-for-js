@@ -1,16 +1,28 @@
 # Release History
 
-## 0.2.3 (Unreleased)
+## 0.3.1 (2025-09-11)
+
+### Other Changes
+
+- Improve RestError logging by including only essential agent information in the request [#35839](https://github.com/Azure/azure-sdk-for-js/pull/35839)
+- Avoid regex for matching log level [#34247](https://github.com/Azure/azure-sdk-for-js/pull/34247)
+- Upgrade `@azure/*` dependencies to latest versions.
+
+## 0.3.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 0.2.3 (2025-06-10)
 
 ### Features Added
 
-### Breaking Changes
+- Added `authSchemes` to `PipelineRequestOptions`. [#34587](https://github.com/Azure/azure-sdk-for-js/pull/34587)
 
 ### Bugs Fixed
 
-- Fix an issue where `authSchemes` is not exposed in `PipelineRequestOptions`.
-
-### Other Changes
+- Fix an issue where `AZURE_LOG_LEVEL` environment variable is not properly respected. [#34444](https://github.com/Azure/azure-sdk-for-js/pull/34444)
 
 ## 0.2.2 (2025-05-01)
 

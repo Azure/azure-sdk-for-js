@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-dynatrace": ["./src/index.ts"],
+      "@azure/arm-dynatrace/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

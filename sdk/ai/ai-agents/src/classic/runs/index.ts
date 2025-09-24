@@ -20,10 +20,10 @@ import {
   createRun,
   createRunAndPoll,
 } from "../../api/runs/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
 import { CreateThreadAndRunOptionalParams } from "../../api/options.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Runs operations. */
@@ -82,7 +82,11 @@ function _getRuns(context: AgentsContext) {
       runId: string,
       toolOutputs: ToolOutput[],
       options?: RunsSubmitToolOutputsToRunOptionalParams,
-    ) => submitToolOutputsToRun(context, threadId, runId, toolOutputs, options),
+    ) =>
+      submitToolOutputsToRun(context, threadId, runId, {
+        ...options,
+        toolOutputs: toolOutputs ?? options?.toolOutputs,
+      }),
     update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) =>
       updateRun(context, threadId, runId, options),
     get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) =>

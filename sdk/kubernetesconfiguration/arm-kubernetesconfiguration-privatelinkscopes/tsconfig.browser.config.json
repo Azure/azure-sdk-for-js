@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes": ["./dist/browser/index.d.ts"],
+      "@azure/arm-kubernetesconfiguration-privatelinkscopes/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}

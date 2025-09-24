@@ -9,15 +9,12 @@ Use it to:
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
-- **Get an Azure AI Inference client** for chat completions, text or image embeddings using the `.inference` operations.
-- **Read a Prompty file or string** and render messages for inference clients, using the `PromptTemplate` class.
-- **Run Evaluations** to assess the performance of generative AI applications, using the `evaluations` operations.
 - **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-v1)
 | [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
@@ -31,15 +28,10 @@ Use it to:
 - [Examples](#examples)
   - [Performing Agent operations](#performing-agent-operations)
   - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client)
-  - [Get an authenticated ChatCompletionsClient](#get-an-authenticated-chatcompletionsclient)
   - [Deployments operations](#deployments-operations)
   - [Connections operations](#connections-operations)
   - [Dataset operations](#dataset-operations)
   - [Indexes operations](#indexes-operations)
-  - [Evaluation](#evaluation)
-    - [Evaluator](#evaluator)
-    - [Run Evaluation in the cloud](#run-evaluation-in-the-cloud)
-    - [Example Remote Evaluation](#example-remote-evaluation)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -82,7 +74,7 @@ const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project en
 const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 ```
 
-The client uses API version `2025-05-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
+The client uses API version `v1`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
 
 ## Examples
 
@@ -109,7 +101,7 @@ Your Azure AI Foundry project may have one or more OpenAI models deployed that s
 
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
-Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-services/openai/reference#api-specs).
+Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs).
 
 You also have the option (not shown) to explicitly specify the Azure OpenAI connection name in your AI Foundry Project, which the `inference.azureOpenAI` method will use to get the inference endpoint and authentication credentials. If not present the default Azure OpenAI connection will be used.
 
@@ -123,25 +115,6 @@ const response = await client.chat.completions.create({
   messages: [{ role: "user", content: "How many feet are in a mile?" }],
 });
 console.log("response = ", JSON.stringify(response, null, 2));
-```
-
-See the "inference" folder in the [package samples][samples] for additional samples.
-
-### Get an authenticated ChatCompletionsClient
-
-Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client from the [azure-ai-inference](https://www.npmjs.com/package/@azure-rest/ai-inference) package, and execute a chat completions call.
-
-Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
-
-```ts snippet:chatCompletions
-const client = project.inference.chatCompletions();
-const response = await client.post({
-  body: {
-    model: deploymentName,
-    messages: [{ role: "user", content: "How many feet are in a mile?" }],
-  },
-});
-console.log(response.body.choices[0].message.content);
 ```
 
 See the "inference" folder in the [package samples][samples] for additional samples.
@@ -359,109 +332,6 @@ console.log("Delete the Index versions created above:");
 await project.indexes.delete(indexName, version);
 ```
 
-### Evaluation
-
-Evaluation in Azure AI Project client library is designed to assess the performance of generative AI applications in the cloud. The output of Generative AI application is quantitively measured with mathematical based metrics, AI-assisted quality and safety metrics. Metrics are defined as evaluators. Built-in or custom evaluators can provide comprehensive insights into the application's capabilities and limitations.
-
-#### Evaluator
-
-Evaluators are custom or prebuilt classes or functions that are designed to measure the quality of the outputs from language models or generative AI applications.
-
-Evaluators are made available via [azure-ai-evaluation][azure_ai_evaluation] SDK for local experience and also in [Evaluator Library][evaluator_library] in Azure AI Foundry for using them in the cloud.
-
-More details on built-in and custom evaluators can be found [here][evaluators].
-
-#### Run Evaluation in the cloud
-
-To run evaluation in the cloud the following are needed:
-
-- Evaluators
-- Data to be evaluated
-- [Optional] Azure Open AI model.
-
-##### Evaluators
-
-For running evaluator in the cloud, evaluator `ID` is needed. To get it via code you use [azure-ai-evaluation][azure_ai_evaluation]
-
-```ts snippet:datasetUpload
-import { DatasetVersion } from "@azure/ai-projects";
-
-const dataset: DatasetVersion = await project.datasets.uploadFile(
-  "jss-eval-sample-dataset",
-  "1",
-  "./samples_folder/sample_data_evaluation.jsonl",
-);
-```
-
-##### Data to be evaluated
-
-Evaluation in the cloud supports data in form of `jsonl` file. Data can be uploaded via the helper method `upload_file` on the project client.
-
-```ts snippet:datasetUpload
-import { DatasetVersion } from "@azure/ai-projects";
-
-const dataset: DatasetVersion = await project.datasets.uploadFile(
-  "jss-eval-sample-dataset",
-  "1",
-  "./samples_folder/sample_data_evaluation.jsonl",
-);
-```
-
-##### [Optional] Azure OpenAI Model
-
-Azure AI Foundry project comes with a default Azure Open AI endpoint which can be easily accessed using following code. This gives you the endpoint details for you Azure OpenAI endpoint. Some of the evaluators need model that supports chat completion.
-
-```ts snippet:getDefault
-const defaultConnection = await project.connections.getDefault("AzureOpenAI");
-```
-
-##### Example Remote Evaluation
-
-```ts snippet:evaluations
-import { EvaluationWithOptionalName, EvaluatorIds, Evaluation } from "@azure/ai-projects";
-
-const newEvaluation: EvaluationWithOptionalName = {
-  displayName: "Evaluation 1",
-  description: "This is a test evaluation",
-  data: {
-    type: "dataset",
-    id: "data-id", // dataset.name
-  },
-  evaluators: {
-    relevance: {
-      id: EvaluatorIds.RELEVANCE,
-      initParams: {
-        deploymentName: "gpt-4o-mini",
-      },
-      dataMapping: {
-        query: "${data.query}",
-        response: "${data.response}",
-      },
-    },
-  },
-};
-const evalResp = await project.evaluations.create(newEvaluation);
-console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
-// get the evaluation by ID
-const eval2 = await project.evaluations.get(evalResp.name);
-console.log("Get the evaluation by ID:", eval2);
-
-const evaluations: Evaluation[] = [];
-const evaluationNames: string[] = [];
-for await (const evaluation of project.evaluations.list()) {
-  evaluations.push(evaluation);
-  evaluationNames.push(evaluation.displayName ?? "");
-}
-console.log("List of evaluation display names:", evaluationNames);
-
-// This is temporary, as interface recommend the name of the evaluation
-const name = evaluations[0].name;
-const evaluation = await project.evaluations.get(name);
-console.log("Get an evaluation by ID:", JSON.stringify(evaluation, null, 2));
-```
-
-NOTE: For running evaluators locally refer to [Evaluate with the Azure AI Evaluation SDK][evaluators].
-
 ## Troubleshooting
 
 ### Exceptions
@@ -518,12 +388,11 @@ additional questions or comments.
 <!-- LINKS -->
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
+[entra_id]: https://learn.microsoft.com/azure/ai-foundry/foundry-models/how-to/configure-entra-id?tabs=javascript&pivots=ai-foundry-portal
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
-[azure_ai_evaluation]: https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme
-[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
+[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-v1
 [ai_project_client_endpoint]: https://learn.microsoft.com/azure/ai-foundry/how-to/develop/sdk-overview?tabs=sync&pivots=programming-language-javascript
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples

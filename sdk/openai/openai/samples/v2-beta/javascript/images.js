@@ -28,11 +28,11 @@ async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "dall-e-3";
-  const apiVersion = "2025-03-01-preview";
+  const apiVersion = "2025-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const results = await client.images.generate({ prompt, model: "", n, size });
 
-  for (const image of results.data) {
+  for (const image of results.data ?? []) {
     console.log(`Image generation result URL: ${image.url}`);
   }
 }

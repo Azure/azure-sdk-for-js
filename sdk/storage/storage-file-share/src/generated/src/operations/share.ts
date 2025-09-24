@@ -46,7 +46,7 @@ import {
   ShareGetStatisticsOptionalParams,
   ShareGetStatisticsResponse,
   ShareRestoreOptionalParams,
-  ShareRestoreResponse
+  ShareRestoreResponse,
 } from "../models/index.js";
 
 /** Class containing Share operations. */
@@ -76,11 +76,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ShareGetPropertiesOptionalParams
+    options?: ShareGetPropertiesOptionalParams,
   ): Promise<ShareGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -99,11 +99,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   acquireLease(
-    options?: ShareAcquireLeaseOptionalParams
+    options?: ShareAcquireLeaseOptionalParams,
   ): Promise<ShareAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       { options },
-      acquireLeaseOperationSpec
+      acquireLeaseOperationSpec,
     );
   }
 
@@ -115,11 +115,11 @@ export class ShareImpl implements Share {
    */
   releaseLease(
     leaseId: string,
-    options?: ShareReleaseLeaseOptionalParams
+    options?: ShareReleaseLeaseOptionalParams,
   ): Promise<ShareReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       { leaseId, options },
-      releaseLeaseOperationSpec
+      releaseLeaseOperationSpec,
     );
   }
 
@@ -131,11 +131,11 @@ export class ShareImpl implements Share {
    */
   changeLease(
     leaseId: string,
-    options?: ShareChangeLeaseOptionalParams
+    options?: ShareChangeLeaseOptionalParams,
   ): Promise<ShareChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       { leaseId, options },
-      changeLeaseOperationSpec
+      changeLeaseOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class ShareImpl implements Share {
    */
   renewLease(
     leaseId: string,
-    options?: ShareRenewLeaseOptionalParams
+    options?: ShareRenewLeaseOptionalParams,
   ): Promise<ShareRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       { leaseId, options },
-      renewLeaseOperationSpec
+      renewLeaseOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   breakLease(
-    options?: ShareBreakLeaseOptionalParams
+    options?: ShareBreakLeaseOptionalParams,
   ): Promise<ShareBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       { options },
-      breakLeaseOperationSpec
+      breakLeaseOperationSpec,
     );
   }
 
@@ -174,11 +174,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   createSnapshot(
-    options?: ShareCreateSnapshotOptionalParams
+    options?: ShareCreateSnapshotOptionalParams,
   ): Promise<ShareCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       { options },
-      createSnapshotOperationSpec
+      createSnapshotOperationSpec,
     );
   }
 
@@ -189,11 +189,11 @@ export class ShareImpl implements Share {
    */
   createPermission(
     sharePermission: SharePermission,
-    options?: ShareCreatePermissionOptionalParams
+    options?: ShareCreatePermissionOptionalParams,
   ): Promise<ShareCreatePermissionResponse> {
     return this.client.sendOperationRequest(
       { sharePermission, options },
-      createPermissionOperationSpec
+      createPermissionOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class ShareImpl implements Share {
    */
   getPermission(
     filePermissionKey: string,
-    options?: ShareGetPermissionOptionalParams
+    options?: ShareGetPermissionOptionalParams,
   ): Promise<ShareGetPermissionResponse> {
     return this.client.sendOperationRequest(
       { filePermissionKey, options },
-      getPermissionOperationSpec
+      getPermissionOperationSpec,
     );
   }
 
@@ -217,11 +217,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   setProperties(
-    options?: ShareSetPropertiesOptionalParams
+    options?: ShareSetPropertiesOptionalParams,
   ): Promise<ShareSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setPropertiesOperationSpec
+      setPropertiesOperationSpec,
     );
   }
 
@@ -230,11 +230,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   setMetadata(
-    options?: ShareSetMetadataOptionalParams
+    options?: ShareSetMetadataOptionalParams,
   ): Promise<ShareSetMetadataResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setMetadataOperationSpec
+      setMetadataOperationSpec,
     );
   }
 
@@ -243,11 +243,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   getAccessPolicy(
-    options?: ShareGetAccessPolicyOptionalParams
+    options?: ShareGetAccessPolicyOptionalParams,
   ): Promise<ShareGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getAccessPolicyOperationSpec
+      getAccessPolicyOperationSpec,
     );
   }
 
@@ -256,11 +256,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   setAccessPolicy(
-    options?: ShareSetAccessPolicyOptionalParams
+    options?: ShareSetAccessPolicyOptionalParams,
   ): Promise<ShareSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setAccessPolicyOperationSpec
+      setAccessPolicyOperationSpec,
     );
   }
 
@@ -269,11 +269,11 @@ export class ShareImpl implements Share {
    * @param options The options parameters.
    */
   getStatistics(
-    options?: ShareGetStatisticsOptionalParams
+    options?: ShareGetStatisticsOptionalParams,
   ): Promise<ShareGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getStatisticsOperationSpec
+      getStatisticsOperationSpec,
     );
   }
 
@@ -295,12 +295,12 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.ShareCreateHeaders
+      headersMapper: Mappers.ShareCreateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareCreateExceptionHeaders
-    }
+      headersMapper: Mappers.ShareCreateExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1],
   urlParameters: [Parameters.url],
@@ -318,54 +318,27 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.paidBurstingMaxBandwidthMibps,
     Parameters.paidBurstingMaxIops,
     Parameters.shareProvisionedIops,
-    Parameters.shareProvisionedBandwidthMibps
+    Parameters.shareProvisionedBandwidthMibps,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "GET",
   responses: {
     200: {
-      headersMapper: Mappers.ShareGetPropertiesHeaders
+      headersMapper: Mappers.ShareGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ShareGetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.shareSnapshot
-  ],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.fileRequestIntent,
-    Parameters.accept1,
-    Parameters.leaseId
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/{shareName}",
-  httpMethod: "DELETE",
-  responses: {
-    202: {
-      headersMapper: Mappers.ShareDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareDeleteExceptionHeaders
-    }
-  },
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.shareSnapshot
+    Parameters.shareSnapshot,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -373,28 +346,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.deleteSnapshots
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/{shareName}",
+  httpMethod: "DELETE",
+  responses: {
+    202: {
+      headersMapper: Mappers.ShareDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareDeleteExceptionHeaders,
+    },
+  },
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.restype1,
+    Parameters.shareSnapshot,
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.leaseId,
+    Parameters.deleteSnapshots,
+  ],
+  isXML: true,
+  serializer: xmlSerializer,
 };
 const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.ShareAcquireLeaseHeaders
+      headersMapper: Mappers.ShareAcquireLeaseHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareAcquireLeaseExceptionHeaders
-    }
+      headersMapper: Mappers.ShareAcquireLeaseExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2
+    Parameters.comp2,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -404,28 +404,28 @@ const acquireLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.action,
     Parameters.duration,
     Parameters.proposedLeaseId,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ShareReleaseLeaseHeaders
+      headersMapper: Mappers.ShareReleaseLeaseHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareReleaseLeaseExceptionHeaders
-    }
+      headersMapper: Mappers.ShareReleaseLeaseExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2
+    Parameters.comp2,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -434,28 +434,28 @@ const releaseLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.requestId,
     Parameters.action1,
-    Parameters.leaseId1
+    Parameters.leaseId1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const changeLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ShareChangeLeaseHeaders
+      headersMapper: Mappers.ShareChangeLeaseHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareChangeLeaseExceptionHeaders
-    }
+      headersMapper: Mappers.ShareChangeLeaseExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2
+    Parameters.comp2,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -465,28 +465,28 @@ const changeLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.proposedLeaseId,
     Parameters.requestId,
     Parameters.leaseId1,
-    Parameters.action2
+    Parameters.action2,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const renewLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ShareRenewLeaseHeaders
+      headersMapper: Mappers.ShareRenewLeaseHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareRenewLeaseExceptionHeaders
-    }
+      headersMapper: Mappers.ShareRenewLeaseExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2
+    Parameters.comp2,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -495,28 +495,28 @@ const renewLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.requestId,
     Parameters.leaseId1,
-    Parameters.action3
+    Parameters.action3,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const breakLeaseOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     202: {
-      headersMapper: Mappers.ShareBreakLeaseHeaders
+      headersMapper: Mappers.ShareBreakLeaseHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareBreakLeaseExceptionHeaders
-    }
+      headersMapper: Mappers.ShareBreakLeaseExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2
+    Parameters.comp2,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -526,65 +526,65 @@ const breakLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseId,
     Parameters.requestId,
     Parameters.action4,
-    Parameters.breakPeriod
+    Parameters.breakPeriod,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const createSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.ShareCreateSnapshotHeaders
+      headersMapper: Mappers.ShareCreateSnapshotHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareCreateSnapshotExceptionHeaders
-    }
+      headersMapper: Mappers.ShareCreateSnapshotExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp3
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.metadata
+    Parameters.metadata,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const createPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.ShareCreatePermissionHeaders
+      headersMapper: Mappers.ShareCreatePermissionHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareCreatePermissionExceptionHeaders
-    }
+      headersMapper: Mappers.ShareCreatePermissionExceptionHeaders,
+    },
   },
   requestBody: Parameters.sharePermission,
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp4
+    Parameters.comp4,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.contentType1
+    Parameters.contentType1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
@@ -592,17 +592,17 @@ const getPermissionOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SharePermission,
-      headersMapper: Mappers.ShareGetPermissionHeaders
+      headersMapper: Mappers.ShareGetPermissionHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareGetPermissionExceptionHeaders
-    }
+      headersMapper: Mappers.ShareGetPermissionExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp4
+    Parameters.comp4,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -610,26 +610,26 @@ const getPermissionOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.accept2,
     Parameters.filePermissionKey,
-    Parameters.filePermissionFormat
+    Parameters.filePermissionFormat,
   ],
-  serializer
+  serializer,
 };
 const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ShareSetPropertiesHeaders
+      headersMapper: Mappers.ShareSetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareSetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ShareSetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.comp,
     Parameters.timeoutInSeconds,
-    Parameters.restype1
+    Parameters.restype1,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -645,27 +645,27 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.paidBurstingMaxIops,
     Parameters.shareProvisionedIops,
     Parameters.shareProvisionedBandwidthMibps,
-    Parameters.leaseId
+    Parameters.leaseId,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ShareSetMetadataHeaders
+      headersMapper: Mappers.ShareSetMetadataHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareSetMetadataExceptionHeaders
-    }
+      headersMapper: Mappers.ShareSetMetadataExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp5
+    Parameters.comp5,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -673,10 +673,10 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.leaseId
+    Parameters.leaseId,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
@@ -687,53 +687,53 @@ const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SignedIdentifier" }
-          }
+            type: { name: "Composite", className: "SignedIdentifier" },
+          },
         },
         serializedName: "SignedIdentifiers",
         xmlName: "SignedIdentifiers",
         xmlIsWrapped: true,
-        xmlElementName: "SignedIdentifier"
+        xmlElementName: "SignedIdentifier",
       },
-      headersMapper: Mappers.ShareGetAccessPolicyHeaders
+      headersMapper: Mappers.ShareGetAccessPolicyHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareGetAccessPolicyExceptionHeaders
-    }
+      headersMapper: Mappers.ShareGetAccessPolicyExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp6
+    Parameters.comp6,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.ShareSetAccessPolicyHeaders
+      headersMapper: Mappers.ShareSetAccessPolicyHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareSetAccessPolicyExceptionHeaders
-    }
+      headersMapper: Mappers.ShareSetAccessPolicyExceptionHeaders,
+    },
   },
   requestBody: Parameters.shareAcl,
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp6
+    Parameters.comp6,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -741,12 +741,12 @@ const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
     Parameters.accept,
     Parameters.version,
     Parameters.fileRequestIntent,
-    Parameters.leaseId
+    Parameters.leaseId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
@@ -754,44 +754,44 @@ const getStatisticsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ShareStats,
-      headersMapper: Mappers.ShareGetStatisticsHeaders
+      headersMapper: Mappers.ShareGetStatisticsHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareGetStatisticsExceptionHeaders
-    }
+      headersMapper: Mappers.ShareGetStatisticsExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp7
+    Parameters.comp7,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const restoreOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.ShareRestoreHeaders
+      headersMapper: Mappers.ShareRestoreHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ShareRestoreExceptionHeaders
-    }
+      headersMapper: Mappers.ShareRestoreExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp8
+    Parameters.comp8,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -800,8 +800,8 @@ const restoreOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.requestId,
     Parameters.deletedShareName,
-    Parameters.deletedShareVersion
+    Parameters.deletedShareVersion,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

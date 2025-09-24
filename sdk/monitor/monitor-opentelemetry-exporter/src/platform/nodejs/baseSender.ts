@@ -3,18 +3,29 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
+import { ExceptionType } from "../../export/statsbeat/types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
-import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
+import {
+  DropCode,
+  RetryCode,
+  MAX_STATSBEAT_FAILURES,
+  isStatsbeatShutdownStatus,
+} from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
-import { RetriableRestErrorTypes } from "../../Declarations/Constants.js";
+import {
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
+  RetriableRestErrorTypes,
+} from "../../Declarations/Constants.js";
+import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -27,6 +38,7 @@ export abstract class BaseSender {
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
+  private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -43,20 +55,43 @@ export abstract class BaseSender {
   }) {
     this.numConsecutiveRedirects = 0;
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
-    this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
-      // Initialize statsbeatMetrics
-      this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
+      this.networkStatsbeatMetrics = NetworkStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      this.longIntervalStatsbeatMetrics = getInstance({
+      this.longIntervalStatsbeatMetrics = LongIntervalStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
+      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+        let exportInterval: number | undefined;
+        if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
+          const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+          const exportIntervalSeconds = parseInt(envValue, 10);
+          if (!isNaN(exportIntervalSeconds) && exportIntervalSeconds > 0) {
+            exportInterval = exportIntervalSeconds * 1000; // Convert seconds to milliseconds
+          } else {
+            diag.warn(
+              `Invalid value for APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL environment variable: '${envValue}'. Expected a positive number (seconds). Using default export interval.`,
+            );
+          }
+        }
+        this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
+          instrumentationKey: options.instrumentationKey,
+          endpointUrl: options.endpointUrl,
+          disableOfflineStorage: this.disableOfflineStorage,
+          networkCollectionInterval: exportInterval,
+        });
+      }
     }
+    this.persister = new FileSystemPersist(
+      options.instrumentationKey,
+      options.exporterOptions,
+      this.customerSDKStatsMetrics,
+    );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
   }
@@ -91,13 +126,19 @@ export abstract class BaseSender {
           }, this.batchSendRetryIntervalMs);
           this.retryTimer.unref();
         }
-        // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        this.networkStatsbeatMetrics?.countSuccess(duration);
+        // If we are not exporting statsbeat and statsbeat is not disabled -- count success
+        if (!this.isStatsbeatSender) {
+          this.networkStatsbeatMetrics?.countSuccess(duration);
+          this.customerSDKStatsMetrics?.countSuccessfulItems(envelopes);
+        }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
-          this.networkStatsbeatMetrics?.countThrottle(statusCode);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countThrottle(statusCode);
+            this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
+          }
           return {
             code: ExportResultCode.SUCCESS,
           };
@@ -106,42 +147,74 @@ export abstract class BaseSender {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
+          // Create a list of successful envelopes by filtering out the failed ones for customer SDK Stats
+          const successfulEnvelopes: Envelope[] = [...envelopes];
+
           // If we have a partial success, count the succeeded envelopes
-          if (breezeResponse.itemsAccepted > 0 && statusCode === 206) {
+          if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && !this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
           }
           // Figure out if we need to either retry or count failures
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
+              // Mark as undefined so we don't process them in countSuccessfulEnvelopes
+              successfulEnvelopes[error.index] = undefined as unknown as Envelope;
+
+              // Add to retry list if status code is retriable
               if (error.statusCode && isRetriable(error.statusCode)) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });
           }
+
+          // If we have a partial success, count the succeeded envelopes
+          if (breezeResponse.itemsAccepted > 0) {
+            // Count only the successful envelopes (non-undefined)
+            if (!this.isStatsbeatSender) {
+              this.networkStatsbeatMetrics?.countSuccess(duration);
+              this.customerSDKStatsMetrics?.countSuccessfulItems(envelopes);
+            }
+          }
           if (filteredEnvelopes.length > 0) {
-            this.networkStatsbeatMetrics?.countRetry(statusCode);
+            if (!this.isStatsbeatSender) {
+              this.networkStatsbeatMetrics?.countRetry(statusCode);
+              this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
+            }
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
-          this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
+            // Count dropped items for customer SDK Stats for non-retriable status codes
+            const filteredSuccessfulEnvelopes = successfulEnvelopes.filter(Boolean);
+            this.customerSDKStatsMetrics?.countDroppedItems(
+              filteredSuccessfulEnvelopes,
+              statusCode,
+            );
+          }
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          this.networkStatsbeatMetrics?.countRetry(statusCode);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countRetry(statusCode);
+            this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
+          }
           return await this.persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (this.networkStatsbeatMetrics) {
+        if (this.networkStatsbeatMetrics && !this.isStatsbeatSender) {
           if (statusCode) {
             this.networkStatsbeatMetrics.countFailure(duration, statusCode);
+            this.customerSDKStatsMetrics?.countDroppedItems(envelopes, statusCode);
           }
         } else {
           // Handles all other status codes or client exceptions for Statsbeat
           this.incrementStatsbeatFailure();
+          this.customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_EXCEPTION);
         }
         return {
           code: ExportResultCode.FAILED,
@@ -169,7 +242,15 @@ export abstract class BaseSender {
           }
         } else {
           const redirectError = new Error("Circular redirect");
-          this.networkStatsbeatMetrics?.countException(redirectError);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countException(redirectError);
+            this.customerSDKStatsMetrics?.countDroppedItems(
+              envelopes,
+              DropCode.CLIENT_EXCEPTION,
+              redirectError.message,
+              ExceptionType.CLIENT_EXCEPTION,
+            );
+          }
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (
@@ -178,6 +259,7 @@ export abstract class BaseSender {
         !this.isStatsbeatSender
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
+        this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -195,20 +277,35 @@ export abstract class BaseSender {
         this.incrementStatsbeatFailure();
         return { code: ExportResultCode.SUCCESS };
       }
-      if (this.isRetriableRestError(restError)) {
-        if (restError.statusCode) {
-          this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-        }
-        if (!this.isStatsbeatSender) {
-          diag.error(
-            "Retrying due to transient client side error. Error message:",
-            restError.message,
+
+      // For retriable REST errors
+      if (this.isRetriableRestError(restError) && !this.isStatsbeatSender) {
+        if (this.customerSDKStatsMetrics?.isTimeoutError(restError) && !this.isStatsbeatSender) {
+          this.customerSDKStatsMetrics?.countRetryItems(
+            envelopes,
+            RetryCode.CLIENT_TIMEOUT,
+            "timeout_exception",
+            ExceptionType.TIMEOUT_EXCEPTION,
           );
+          diag.error("Request timed out. Error message:", restError.message);
+        } else if (restError.statusCode) {
+          this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
+          this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
         }
+        diag.error(
+          "Retrying due to transient client side error. Error message:",
+          restError.message,
+        );
         return this.persist(envelopes);
       }
-      this.networkStatsbeatMetrics?.countException(restError);
+      // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countException(restError);
+        this.customerSDKStatsMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_EXCEPTION,
+          restError.message,
+        );
         diag.error(
           "Envelopes could not be exported and are not retriable. Error message:",
           restError.message,
@@ -231,7 +328,15 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           };
     } catch (ex: any) {
-      this.networkStatsbeatMetrics?.countWriteFailure();
+      if (!this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countWriteFailure();
+        if (this.disableOfflineStorage && envelopes) {
+          this.customerSDKStatsMetrics?.countDroppedItems(
+            envelopes as Envelope[],
+            DropCode.CLIENT_STORAGE_DISABLED,
+          );
+        }
+      }
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -250,20 +355,28 @@ export abstract class BaseSender {
    * Shutdown statsbeat metrics
    */
   private shutdownStatsbeat(): void {
-    this.networkStatsbeatMetrics?.shutdown();
-    this.longIntervalStatsbeatMetrics?.shutdown();
-    this.networkStatsbeatMetrics = undefined;
+    if (this.networkStatsbeatMetrics) {
+      this.networkStatsbeatMetrics.shutdown();
+    }
+    if (this.longIntervalStatsbeatMetrics) {
+      this.longIntervalStatsbeatMetrics?.shutdown();
+    }
+    if (this.customerSDKStatsMetrics) {
+      this.customerSDKStatsMetrics.shutdown();
+    }
     this.statsbeatFailureCount = 0;
   }
 
   private async sendFirstPersistedFile(): Promise<void> {
+    const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
-      const envelopes = (await this.persister.shift()) as Envelope[] | null;
       if (envelopes) {
         await this.send(envelopes);
       }
     } catch (err: any) {
-      this.networkStatsbeatMetrics?.countReadFailure();
+      if (!this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countReadFailure();
+      }
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }

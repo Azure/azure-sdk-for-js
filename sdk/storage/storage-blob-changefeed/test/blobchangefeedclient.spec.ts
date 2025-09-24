@@ -12,8 +12,8 @@ import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src/index.
 import { BlobChangeFeedClient } from "../src/index.js";
 import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants.js";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";

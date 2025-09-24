@@ -11,10 +11,8 @@
  * @summary Create or Update Database Migration resource.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMIN.json
  */
-import {
-  DatabaseMigrationSqlVm,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { DatabaseMigrationSqlVm } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters(): Promise<void> {
@@ -29,20 +27,20 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters(): P
           fileShare: {
             path: "C:aaa\bbbccc",
             password: "placeholder",
-            username: "name"
-          }
+            username: "name",
+          },
         },
         targetLocation: {
           accountKey: "abcd",
-          storageAccountResourceId: "account.database.windows.net"
-        }
+          storageAccountResourceId: "account.database.windows.net",
+        },
       },
       kind: "SqlVm",
       migrationService:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
       offlineConfiguration: {
         lastBackupName: "last_backup_file_name",
-        offline: true
+        offline: true,
       },
       scope:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm",
@@ -53,9 +51,9 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters(): P
         encryptConnection: true,
         password: "placeholder",
         trustServerCertificate: true,
-        userName: "bbb"
-      }
-    }
+        userName: "bbb",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -63,11 +61,9 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters(): P
     resourceGroupName,
     sqlVirtualMachineName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-createOrUpdateDatabaseMigrationResourceWithMinimumParameters().catch(
-  console.error
-);
+createOrUpdateDatabaseMigrationResourceWithMinimumParameters().catch(console.error);

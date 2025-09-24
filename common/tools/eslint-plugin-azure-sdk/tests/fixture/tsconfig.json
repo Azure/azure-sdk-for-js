@@ -8,6 +8,7 @@
     "package.json",
     "not_package.json",
     "src/test.ts",
+    "src/client.ts",
     "src/test-browser.mts",
     "tests/test.ts",
     "service-bus/package.json",

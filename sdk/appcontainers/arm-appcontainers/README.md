@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ContainerApps API client.
 
-
+Functions is an extension resource to revisions and the api listed is used to proxy the call from Web RP to the function app's host process, this api is not exposed to users and only Web RP is allowed to invoke functions extension resource.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appcontainers) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,10 +63,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new ContainerAppsAPIClient(credential, subscriptionId);
 ```
 

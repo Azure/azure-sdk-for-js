@@ -71,6 +71,8 @@ export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from PowerShell to authenticate before using this credential.",
   installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`,
+  claim:
+    "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
   troubleshoot: `To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
 };
 
@@ -153,7 +155,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           `
           $tenantId = "${tenantId ?? ""}"
           $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru
-          $useSecureString = $m.Version -ge [version]'2.17.0'
+          $useSecureString = $m.Version -ge [version]'2.17.0' -and $m.Version -lt [version]'5.0.0'
 
           $params = @{
             ResourceUrl = "${resource}"
@@ -171,9 +173,22 @@ export class AzurePowerShellCredential implements TokenCredential {
 
           $result = New-Object -TypeName PSObject
           $result | Add-Member -MemberType NoteProperty -Name ExpiresOn -Value $token.ExpiresOn
-          if ($useSecureString) {
-            $result | Add-Member -MemberType NoteProperty -Name Token -Value (ConvertFrom-SecureString -AsPlainText $token.Token)
-          } else {
+
+          if ($token.Token -is [System.Security.SecureString]) {
+            if ($PSVersionTable.PSVersion.Major -lt 7) {
+              $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($token.Token)
+              try {
+                $result | Add-Member -MemberType NoteProperty -Name Token -Value ([System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr))
+              }
+              finally {
+                [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ssPtr)
+              }
+            }
+            else {
+              $result | Add-Member -MemberType NoteProperty -Name Token -Value ($token.Token | ConvertFrom-SecureString -AsPlainText)
+            }
+          }
+          else {
             $result | Add-Member -MemberType NoteProperty -Name Token -Value $token.Token
           }
 
@@ -200,12 +215,30 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
+      const scope = typeof scopes === "string" ? scopes : scopes[0];
+
+      const claimsValue = options.claims;
+      if (claimsValue && claimsValue.trim()) {
+        const encodedClaims = btoa(claimsValue);
+        let loginCmd = `Connect-AzAccount -ClaimsChallenge ${encodedClaims}`;
+
+        const tenantIdFromOptions = options.tenantId;
+        if (tenantIdFromOptions) {
+          loginCmd += ` -Tenant ${tenantIdFromOptions}`;
+        }
+        const error = new CredentialUnavailableError(
+          `${powerShellPublicErrorMessages.claim} ${loginCmd}`,
+        );
+
+        logger.getToken.info(formatError(scope, error));
+        throw error;
+      }
+
       const tenantId = processMultiTenantRequest(
         this.tenantId,
         options,
         this.additionallyAllowedTenantIds,
       );
-      const scope = typeof scopes === "string" ? scopes : scopes[0];
       if (tenantId) {
         checkTenantId(logger, tenantId);
       }

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/api-management-custom-widgets-scaffolder": ["./src/index.ts"],
+      "@azure/api-management-custom-widgets-scaffolder/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

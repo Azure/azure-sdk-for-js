@@ -12,7 +12,7 @@ export interface PartitionKeyDefinition {
   paths: string[];
   /**
    * An optional field, if not specified the default value is 1. To use the large partition key set the version to 2.
-   * To learn about large partition keys, see [how to create containers with large partition key](https://learn.microsoft.com/en-us/azure/cosmos-db/large-partition-keys) article.
+   * To learn about large partition keys, see [how to create containers with large partition key](https://learn.microsoft.com/azure/cosmos-db/large-partition-keys) article.
    */
   version?: PartitionKeyDefinitionVersion;
   systemKey?: boolean;

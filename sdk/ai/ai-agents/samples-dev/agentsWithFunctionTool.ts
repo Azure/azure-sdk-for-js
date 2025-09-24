@@ -143,20 +143,25 @@ export async function main(): Promise<void> {
   );
   console.log(`Created message, message ID ${message.id}`);
 
-  async function onResponse(response: { parsedBody?: ThreadRun }): Promise<void> {
-    if (!response || !response.parsedBody) return;
+  async function onResponse(response: any): Promise<void> {
+    const parsedBody =
+      typeof response.parsedBody === "object" && response.parsedBody !== null
+        ? response.parsedBody
+        : null;
 
-    const run = response.parsedBody as ThreadRun;
+    if (!parsedBody || !("status" in parsedBody)) return;
+
+    const run = parsedBody as ThreadRun;
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
 
-    // Ensure we have a run with requires_action status and required_action object
-    if (run.status === "requires_action" && run.required_action) {
+    // Ensure we have a run with requires_action status and requiredAction object
+    if (run.status === "requires_action" && run.requiredAction) {
       console.log("Run requires action");
 
-      // Check if the required_action is of type submit_tool_outputs and has the expected structure
-      if (isOutputOfType<SubmitToolOutputsAction>(run.required_action, "submit_tool_outputs")) {
-        const submitToolOutputsActionOutput = run.required_action;
-        const toolCalls = submitToolOutputsActionOutput.submit_tool_outputs.tool_calls;
+      // Check if the requiredAction is of type submit_tool_outputs and has the expected structure
+      if (isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")) {
+        const submitToolOutputsActionOutput = run.requiredAction;
+        const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses: ToolOutput[] = [];
 
         for (const toolCall of toolCalls) {
@@ -197,11 +202,9 @@ export async function main(): Promise<void> {
     );
     threadMessage.content.forEach((content: MessageContent) => {
       if (isOutputOfType<MessageTextContent>(content, "text")) {
-        const textContent = content as MessageTextContent;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${content.text.value}`);
       } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContent;
-        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        console.log(`Image Message Content - ${content.imageFile.fileId}`);
       }
     });
   }

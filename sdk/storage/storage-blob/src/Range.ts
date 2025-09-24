@@ -3,7 +3,7 @@
 
 /**
  * Range for Blob Service Operations.
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/specifying-the-range-header-for-blob-service-operations
+ * @see https://learn.microsoft.com/rest/api/storageservices/specifying-the-range-header-for-blob-service-operations
  */
 export interface Range {
   /**

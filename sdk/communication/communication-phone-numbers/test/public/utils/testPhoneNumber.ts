@@ -13,7 +13,6 @@ export function getPhoneNumber(): string {
 }
 
 export function getReservationId(): string {
-  console.log("IsPlaybackMode: ", isPlaybackMode());
   return isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : randomUUID();
 }
 
