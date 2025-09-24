@@ -32,8 +32,7 @@ async function quotasListUsagesForCompute(): Promise<void> {
  */
 async function quotasListUsagesMachineLearningServices(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.usages.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.MachineLearningServices/locations/eastus",
