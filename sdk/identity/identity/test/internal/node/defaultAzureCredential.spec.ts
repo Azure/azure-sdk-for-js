@@ -26,6 +26,7 @@ describe("DefaultAzureCredential", () => {
       `Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev' or any of these credentials - EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential.`,
     );
   });
+
   it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
     expect(() => new DefaultAzureCredential()).not.toThrowError();
@@ -95,6 +96,18 @@ describe("create functions", () => {
     delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
 
+  it("createDefaultManagedIdentityCredential is called with disableProbe=false when AZURE_TOKEN_CREDENTIALS is ManagedIdentityCredential", () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    const miSpy = vi.spyOn(createFunctionsDac, "createDefaultManagedIdentityCredential");
+
+    new DefaultAzureCredential();
+
+    expect(miSpy).toHaveBeenCalledWith({
+      allowInsecureConnection: true,
+      disableProbe: false,
+    });
+  });
+
   it("calls only createEnvironmentCredential when AZURE_TOKEN_CREDENTIALS is 'EnvironmentCredential'", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "EnvironmentCredential");
     const { envSpy, miSpy, wiSpy, vscSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
@@ -122,6 +135,10 @@ describe("create functions", () => {
     expect(cliSpy).not.toHaveBeenCalled();
     expect(devCliSpy).not.toHaveBeenCalled();
     expect(psSpy).not.toHaveBeenCalled();
+
+    expect(miSpy).toHaveBeenCalledWith({
+      disableProbe: true,
+    });
   });
 
   it("calls only createDefaultWorkloadIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'WorkloadIdentityCredential'", () => {

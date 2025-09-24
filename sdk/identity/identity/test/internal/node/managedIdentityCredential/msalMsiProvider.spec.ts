@@ -16,6 +16,7 @@ import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInsta
 import type { IdentityClient } from "$internal/client/identityClient.js";
 import { serviceFabricErrorMessage } from "$internal/credentials/managedIdentityCredential/utils.js";
 import { logger } from "@azure/identity";
+import { InternalManagedIdentityCredentialOptions } from "$internal/credentials/managedIdentityCredential/options.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -212,6 +213,32 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
 
           const credential = new ManagedIdentityCredential();
+          await credential.getToken("scope");
+          expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
+        });
+
+        it("skips IMDS probing when disableProbe is true", async function () {
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+          const options: InternalManagedIdentityCredentialOptions = { disableProbe: true };
+          const credential = new ManagedIdentityCredential(options);
+          await credential.getToken("scope");
+          expect(imdsIsAvailableStub).not.toHaveBeenCalled();
+        });
+
+        it("probes IMDS when disableProbe is false", async function () {
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+          const options: InternalManagedIdentityCredentialOptions = { disableProbe: false };
+          const credential = new ManagedIdentityCredential(options);
           await credential.getToken("scope");
           expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
         });

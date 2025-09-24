@@ -40,3 +40,10 @@ export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentia
    */
   objectId: string;
 }
+
+export interface InternalManagedIdentityCredentialOptions
+  extends ManagedIdentityCredentialClientIdOptions {
+  disableProbe?: boolean;
+  resourceId?: string;
+  objectId?: string;
+}

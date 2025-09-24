@@ -55,10 +55,11 @@ export function createDefaultVisualStudioCodeCredential(
  * @internal
  */
 export function createDefaultManagedIdentityCredential(
-  options:
+  options: (
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions = {},
+    | DefaultAzureCredentialClientIdOptions
+  ) & { disableProbe?: boolean } = {},
 ): TokenCredential {
   options.retryOptions ??= {
     maxRetries: 5,
