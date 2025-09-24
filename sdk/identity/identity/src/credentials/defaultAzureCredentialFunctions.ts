@@ -61,9 +61,13 @@ export function createDefaultManagedIdentityCredential(
     | DefaultAzureCredentialClientIdOptions
   ) & { disableProbe?: boolean } = {},
 ): TokenCredential {
-  options.retryOptions ??= {
-    maxRetries: 5,
-    retryDelayInMs: 800,
+  // Create a new options object instead of mutating the input
+  const newOptions = {
+    ...options,
+    retryOptions: options.retryOptions ?? {
+      maxRetries: 5,
+      retryDelayInMs: 800,
+    }
   };
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
@@ -105,7 +109,7 @@ export function createDefaultManagedIdentityCredential(
   }
 
   // We may be able to return a UnavailableCredential here, but that may be a breaking change
-  return new ManagedIdentityCredential(options);
+  return new ManagedIdentityCredential(newOptions);
 }
 
 /**
