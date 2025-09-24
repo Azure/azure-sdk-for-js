@@ -1,33 +1,87 @@
 {
   "name": "@azure/arm-quota",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "2.0.0",
   "description": "A generated SDK for AzureQuotaExtensionAPI.",
-  "version": "1.1.1",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "tslib": "^2.8.1"
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/quota": "./src/api/quota/index.ts",
+      "./api/usages": "./src/api/usages/index.ts",
+      "./api/groupQuotaLocationSettings": "./src/api/groupQuotaLocationSettings/index.ts",
+      "./api/groupQuotaSubscriptionAllocationRequest": "./src/api/groupQuotaSubscriptionAllocationRequest/index.ts",
+      "./api/groupQuotaSubscriptionAllocation": "./src/api/groupQuotaSubscriptionAllocation/index.ts",
+      "./api/groupQuotaLimits": "./src/api/groupQuotaLimits/index.ts",
+      "./api/groupQuotaSubscriptionRequests": "./src/api/groupQuotaSubscriptionRequests/index.ts",
+      "./api/groupQuotaSubscriptions": "./src/api/groupQuotaSubscriptions/index.ts",
+      "./api/groupQuotaUsages": "./src/api/groupQuotaUsages/index.ts",
+      "./api/groupQuotaLimitsRequest": "./src/api/groupQuotaLimitsRequest/index.ts",
+      "./api/groupQuotas": "./src/api/groupQuotas/index.ts",
+      "./api/quotaRequestStatus": "./src/api/quotaRequestStatus/index.ts",
+      "./api/quotaOperation": "./src/api/quotaOperation/index.ts",
+      "./models": "./src/models/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
+  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
+  "author": "Microsoft Corporation",
   "license": "MIT",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/azureQuotaExtensionAPIContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
@@ -43,70 +97,32 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "echo skipped",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "npm pack 2>&1",
     "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/azureQuotaExtensionAPI.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota",
   "//sampleConfiguration": {
-    "productName": "",
+    "productName": "@azure/arm-quota",
     "productSlugs": [
       "azure"
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-quota?view=azure-node-preview"
   },
-  "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -126,6 +142,279 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/quota": {
+      "browser": {
+        "types": "./dist/browser/api/quota/index.d.ts",
+        "default": "./dist/browser/api/quota/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/quota/index.d.ts",
+        "default": "./dist/react-native/api/quota/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/quota/index.d.ts",
+        "default": "./dist/esm/api/quota/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/quota/index.d.ts",
+        "default": "./dist/commonjs/api/quota/index.js"
+      }
+    },
+    "./api/usages": {
+      "browser": {
+        "types": "./dist/browser/api/usages/index.d.ts",
+        "default": "./dist/browser/api/usages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/usages/index.d.ts",
+        "default": "./dist/react-native/api/usages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usages/index.d.ts",
+        "default": "./dist/esm/api/usages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usages/index.d.ts",
+        "default": "./dist/commonjs/api/usages/index.js"
+      }
+    },
+    "./api/groupQuotaLocationSettings": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaLocationSettings/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaLocationSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaLocationSettings/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaLocationSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaLocationSettings/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaLocationSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaLocationSettings/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaLocationSettings/index.js"
+      }
+    },
+    "./api/groupQuotaSubscriptionAllocationRequest": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaSubscriptionAllocationRequest/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaSubscriptionAllocationRequest/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaSubscriptionAllocationRequest/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaSubscriptionAllocationRequest/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaSubscriptionAllocationRequest/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaSubscriptionAllocationRequest/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaSubscriptionAllocationRequest/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaSubscriptionAllocationRequest/index.js"
+      }
+    },
+    "./api/groupQuotaSubscriptionAllocation": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaSubscriptionAllocation/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaSubscriptionAllocation/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaSubscriptionAllocation/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaSubscriptionAllocation/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaSubscriptionAllocation/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaSubscriptionAllocation/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaSubscriptionAllocation/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaSubscriptionAllocation/index.js"
+      }
+    },
+    "./api/groupQuotaLimits": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaLimits/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaLimits/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaLimits/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaLimits/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaLimits/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaLimits/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaLimits/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaLimits/index.js"
+      }
+    },
+    "./api/groupQuotaSubscriptionRequests": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaSubscriptionRequests/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaSubscriptionRequests/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaSubscriptionRequests/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaSubscriptionRequests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaSubscriptionRequests/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaSubscriptionRequests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaSubscriptionRequests/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaSubscriptionRequests/index.js"
+      }
+    },
+    "./api/groupQuotaSubscriptions": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaSubscriptions/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaSubscriptions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaSubscriptions/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaSubscriptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaSubscriptions/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaSubscriptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaSubscriptions/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaSubscriptions/index.js"
+      }
+    },
+    "./api/groupQuotaUsages": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaUsages/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaUsages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaUsages/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaUsages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaUsages/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaUsages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaUsages/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaUsages/index.js"
+      }
+    },
+    "./api/groupQuotaLimitsRequest": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotaLimitsRequest/index.d.ts",
+        "default": "./dist/browser/api/groupQuotaLimitsRequest/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotaLimitsRequest/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotaLimitsRequest/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotaLimitsRequest/index.d.ts",
+        "default": "./dist/esm/api/groupQuotaLimitsRequest/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotaLimitsRequest/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotaLimitsRequest/index.js"
+      }
+    },
+    "./api/groupQuotas": {
+      "browser": {
+        "types": "./dist/browser/api/groupQuotas/index.d.ts",
+        "default": "./dist/browser/api/groupQuotas/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/groupQuotas/index.d.ts",
+        "default": "./dist/react-native/api/groupQuotas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/groupQuotas/index.d.ts",
+        "default": "./dist/esm/api/groupQuotas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/groupQuotas/index.d.ts",
+        "default": "./dist/commonjs/api/groupQuotas/index.js"
+      }
+    },
+    "./api/quotaRequestStatus": {
+      "browser": {
+        "types": "./dist/browser/api/quotaRequestStatus/index.d.ts",
+        "default": "./dist/browser/api/quotaRequestStatus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/quotaRequestStatus/index.d.ts",
+        "default": "./dist/react-native/api/quotaRequestStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/quotaRequestStatus/index.d.ts",
+        "default": "./dist/esm/api/quotaRequestStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/quotaRequestStatus/index.d.ts",
+        "default": "./dist/commonjs/api/quotaRequestStatus/index.js"
+      }
+    },
+    "./api/quotaOperation": {
+      "browser": {
+        "types": "./dist/browser/api/quotaOperation/index.d.ts",
+        "default": "./dist/browser/api/quotaOperation/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/quotaOperation/index.d.ts",
+        "default": "./dist/react-native/api/quotaOperation/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/quotaOperation/index.d.ts",
+        "default": "./dist/esm/api/quotaOperation/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/quotaOperation/index.d.ts",
+        "default": "./dist/commonjs/api/quotaOperation/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
-  }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }
