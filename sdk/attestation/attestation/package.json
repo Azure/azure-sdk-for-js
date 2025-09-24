@@ -9,7 +9,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/generatedClient.ts",
         "prefix": "packageDetails"
       },
       {

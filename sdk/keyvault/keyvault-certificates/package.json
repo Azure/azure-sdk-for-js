@@ -52,10 +52,6 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "generated/keyVaultClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
