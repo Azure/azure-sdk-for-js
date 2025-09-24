@@ -1,15 +1,95 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 2.0.0 (2025-09-24)
 
 ### Features Added
+  - Added operation group GroupQuotaLocationSettingsOperations
+  - Added operation group GroupQuotaUsagesOperations
+  - Added operation GroupQuotaLimitsRequestOperations.update
+  - Added operation GroupQuotasOperations.createOrUpdate
+  - Added operation GroupQuotasOperations.delete
+  - Added operation GroupQuotasOperations.update
+  - Added operation GroupQuotaSubscriptionAllocationRequestOperations.update
+  - Added operation GroupQuotaSubscriptionsOperations.createOrUpdate
+  - Added operation GroupQuotaSubscriptionsOperations.delete
+  - Added operation GroupQuotaSubscriptionsOperations.update
+  - Added operation QuotaOperations.createOrUpdate
+  - Added operation QuotaOperations.update
+  - Added Interface ExtensionResource
+  - Added Interface GroupQuotaLocationSettingsCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotaLocationSettingsGetOptionalParams
+  - Added Interface GroupQuotaLocationSettingsUpdateOptionalParams
+  - Added Interface GroupQuotasEnforcementStatus
+  - Added Interface GroupQuotasEnforcementStatusProperties
+  - Added Interface GroupQuotaUsagesListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Interface CurrentQuotaLimitBase has a new optional parameter systemData
+  - Interface CurrentUsagesBase has a new optional parameter systemData
+  - Interface GroupQuotasEntityBase has a new optional parameter groupType
+  - Interface GroupQuotasEntityProperties has a new optional parameter groupType
+  - Interface QuotaRequestDetails has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias EnforcementState
+  - Added Type Alias GroupType
+  - Added Enum AzureClouds
+  - Added Enum KnownEnforcementState
+  - Added Enum KnownGroupType
+  - Added Enum KnownVersions
+  - Enum KnownRequestState has a new value Escalated
 
 ### Breaking Changes
+  - Removed operation GroupQuotaLimitsRequest.beginUpdate
+  - Removed operation GroupQuotaLimitsRequest.beginUpdateAndWait
+  - Removed operation GroupQuotas.beginCreateOrUpdate
+  - Removed operation GroupQuotas.beginCreateOrUpdateAndWait
+  - Removed operation GroupQuotas.beginDelete
+  - Removed operation GroupQuotas.beginDeleteAndWait
+  - Removed operation GroupQuotas.beginUpdate
+  - Removed operation GroupQuotas.beginUpdateAndWait
+  - Removed operation GroupQuotaSubscriptionAllocationRequest.beginUpdate
+  - Removed operation GroupQuotaSubscriptionAllocationRequest.beginUpdateAndWait
+  - Removed operation GroupQuotaSubscriptions.beginCreateOrUpdate
+  - Removed operation GroupQuotaSubscriptions.beginCreateOrUpdateAndWait
+  - Removed operation GroupQuotaSubscriptions.beginDelete
+  - Removed operation GroupQuotaSubscriptions.beginDeleteAndWait
+  - Removed operation GroupQuotaSubscriptions.beginUpdate
+  - Removed operation GroupQuotaSubscriptions.beginUpdateAndWait
+  - Removed operation Quota.beginCreateOrUpdate
+  - Removed operation Quota.beginCreateOrUpdateAndWait
+  - Removed operation Quota.beginUpdate
+  - Removed operation Quota.beginUpdateAndWait
+  - Operation Quota.get has a new signature
+  - Operation QuotaRequestStatus.get has a new signature
+  - Removed Interface CommonResourceProperties
+  - Removed Interface CreateGenericQuotaRequestParameters
+  - Removed Interface GroupQuotaList
+  - Removed Interface GroupQuotaSubscriptionIdList
+  - Removed Interface GroupQuotaSubscriptionRequestStatusList
+  - Removed Interface LROResponse
+  - Removed Interface LROResponseProperties
+  - Removed Interface OperationList
+  - Removed Interface QuotaAllocationRequestStatusList
+  - Removed Interface QuotaLimits
+  - Removed Interface QuotaLimitsResponse
+  - Removed Interface QuotaRequestDetailsList
+  - Removed Interface QuotaRequestOneResourceProperties
+  - Removed Interface QuotaRequestOneResourceSubmitResponse
+  - Removed Interface QuotaRequestStatusDetails
+  - Removed Interface QuotaRequestSubmitResponse
+  - Removed Interface QuotaRequestSubmitResponse202
+  - Removed Interface ResourceBaseRequest
+  - Removed Interface ResourceUsageList
+  - Removed Interface SubmittedResourceRequestStatusList
+  - Removed Interface SubscriptionGroupQuotaAssignment
+  - Removed Interface SubscriptionQuotaAllocationRequestList
+  - Removed Interface SubscriptionQuotaAllocationsStatusList
+  - Removed Interface UsagesLimits
+  - Type of parameter limitObjectType of interface LimitJsonObject is changed from "LimitValue" to LimitType
+  - Type alias "LimitJsonObjectUnion" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 1.1.0 (2025-02-18)
     
 ### Features Added

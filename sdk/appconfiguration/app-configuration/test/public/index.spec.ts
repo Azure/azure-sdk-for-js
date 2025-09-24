@@ -608,7 +608,12 @@ describe("AppConfigurationClient", () => {
     });
 
     it("basic list labels", async () => {
-      const labelsIterator = client.listLabels();
+      // Use nameFilter to make the test deterministic in live mode.
+      // Without this, parallel CI jobs (or other tests) that introduce an unlabeled setting
+      // can cause an additional { name: null } label to appear between successive enumerations
+      // in `toSortedLabelsArray`, leading to a mismatch. Filtering ensures we only retrieve
+      // the label created for this test.
+      const labelsIterator = client.listLabels({ nameFilter: uniqueLabel });
       const byLabelSettings = await toSortedLabelsArray(labelsIterator);
       assert.deepEqual(
         [
@@ -648,7 +653,10 @@ describe("AppConfigurationClient", () => {
     });
 
     it("Using `select` via `fields`", async () => {
+      // Add nameFilter to eliminate interference from concurrently added labels (null or others)
+      // in live CI runs. This keeps the test focused on field selection behavior.
       const labelsIterator = client.listLabels({
+        nameFilter: uniqueLabel,
         fields: ["name"],
       });
 
