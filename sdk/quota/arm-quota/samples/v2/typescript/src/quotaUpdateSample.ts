@@ -16,8 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function quotasRequestPatchForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.update(
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus",
     "standardFSv2Family",

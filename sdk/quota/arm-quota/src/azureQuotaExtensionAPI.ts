@@ -70,7 +70,7 @@ export class AzureQuotaExtensionAPI {
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
     this._client = createAzureQuotaExtensionAPI(credential, subscriptionId ?? "", {
-      ...(mergedOptions ?? {}),
+      ...mergedOptions,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
