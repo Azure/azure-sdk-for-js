@@ -46,15 +46,15 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "@azure/core-tracing": "^1.2.0",
-    "@azure/core-util": "^1.11.0",
-    "@azure/core-xml": "^1.4.4",
-    "@azure/logger": "^1.1.4",
-    "tslib": "^2.8.1"
+    "@azure/core-auth": "catalog:azurelkg",
+    "@azure/core-client": "catalog:azurelkg",
+    "@azure/core-paging": "catalog:azurelkg",
+    "@azure/core-rest-pipeline": "catalog:azurelkg",
+    "@azure/core-tracing": "catalog:azurelkg",
+    "@azure/core-util": "catalog:azurelkg",
+    "@azure/core-xml": "catalog:azurelkg",
+    "@azure/logger": "catalog:azurelkg",
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
