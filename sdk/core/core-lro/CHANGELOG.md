@@ -1,14 +1,10 @@
 # Release History
 
-## 3.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 3.3.1 (2025-09-11)
 
 ### Other Changes
+
+- Upgrade `@azure/*` dependencies to latest versions.
 
 ## 3.3.0 (2025-07-10)
 

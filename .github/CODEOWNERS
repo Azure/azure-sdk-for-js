@@ -47,7 +47,7 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms
+/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms @juniwang @RichardChen820
 
 # ServiceLabel: %App Configuration
 # AzureSdkOwners:  @HarshaNalluru @minhanh-phan
@@ -325,7 +325,7 @@
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @puagarwa @ShreyaAnand
+/sdk/playwrighttesting/ @azure/testing-services
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -1081,7 +1081,6 @@
 
 /sdk/monitor/monitor-query-logs/ @Azure/azure-sdk-write-monitor-query-logs
 /sdk/monitor/monitor-query-metrics/ @Azure/azure-sdk-write-monitor-query-metrics
-/sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
 # PRLabel: %Mgmt
 /sdk/quantum/arm-quantum/ @qiaozha @MaryGao
@@ -1649,9 +1648,6 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 /pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
 /pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
 
-# Smoke Tests
-/common/smoke-test/ @mikeharder @jeremymeng @deyaaeldeen @benbp
-
 ###########
 # Tools
 ###########
@@ -1665,8 +1661,6 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
-/rush.json @mikeharder @jeremymeng @Azure/azure-sdk-js-dev
-
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
 /**/tsconfig.json @Azure/azure-sdk-for-js-core
 
@@ -1674,8 +1668,8 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @wanlwanl @lirenhe
-/.scripts/automation_init.sh @wanlwanl @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe
+/.scripts/automation_init.sh @MaryGao @lirenhe
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 

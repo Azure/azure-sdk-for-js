@@ -1,6 +1,12 @@
 # Release History
 
-## 1.0.0-beta.34 ()
+## 1.0.0-beta.35 (2025-09-16)
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
+## 1.0.0-beta.34 (2025-09-05)
 
 ### Features Added
 
@@ -13,6 +19,7 @@
 - Renamed Customer Statsbeat feature to customer SDK Stats.
 - Update drop.reason values for customer SDK Stats.
 - Update logic setting ai.location.ip to use the microsoft.client.ip value by default.
+- Add further drop reason for disk persistence disablement.
 
 ## 1.0.0-beta.33 (2025-08-04)
 

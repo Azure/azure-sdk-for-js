@@ -1,0 +1,41 @@
+{
+  "advancedOptions": {
+    "createSdkPullRequests": true,
+    "generationCallMode": "one-per-config",
+    "breakingChangeTracking": true
+  },
+  "initOptions": {
+    "initScript": {
+      "path": "sh .scripts/automation_init.sh",
+      "stderr": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": "\\[ERROR\\]"
+      },
+      "stdout": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": "\\[ERROR\\]"
+      }
+    }
+  },
+  "generateOptions": {
+    "generateScript": {
+      "path": "sh .scripts/automation_generate.sh",
+      "stderr": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": "\\[ERROR\\]"
+      },
+      "stdout": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": "\\[ERROR\\]"
+      }
+    },
+    "parseGenerateOutput": true
+  },
+  "packageOptions": {
+    "breakingChangeLabel": "CI-BreakingChange-JavaScript",
+    "breakingChangesLabel": "BreakingChange-JavaScript-Sdk",
+    "buildScript": {
+      "path": "./eng/scripts/build-sdk.ps1"
+    }
+  }
+}

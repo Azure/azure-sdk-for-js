@@ -1,39 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ServerDevOpsAuditingSettings,
+  SqlManagementClient,
+} from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates or updates a server's DevOps audit settings.
  *
  * @summary Creates or updates a server's DevOps audit settings.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ServerDevOpsAuditCreateMax.json
  */
-
-import type { ServerDevOpsAuditingSettings } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function updateAServerDevOpsAuditSettingsWithAllParams(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "devAuditTestRG";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "devAuditTestRG";
   const serverName = "devOpsAuditTestSvr";
   const devOpsAuditingSettingsName = "Default";
   const parameters: ServerDevOpsAuditingSettings = {
     isAzureMonitorTargetEnabled: true,
     state: "Enabled",
-    storageAccountAccessKey: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    storageAccountAccessKey:
+      "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     storageAccountSubscriptionId: "00000000-1234-0000-5678-000000000000",
     storageEndpoint: "https://mystorage.blob.core.windows.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverDevOpsAuditSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    devOpsAuditingSettingsName,
-    parameters,
-  );
+  const result =
+    await client.serverDevOpsAuditSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      devOpsAuditingSettingsName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -45,23 +50,27 @@ async function updateAServerDevOpsAuditSettingsWithAllParams(): Promise<void> {
  */
 async function updateAServerDevOpsAuditSettingsWithMinimalInput(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "devAuditTestRG";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "devAuditTestRG";
   const serverName = "devOpsAuditTestSvr";
   const devOpsAuditingSettingsName = "Default";
   const parameters: ServerDevOpsAuditingSettings = {
     state: "Enabled",
-    storageAccountAccessKey: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    storageAccountAccessKey:
+      "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     storageEndpoint: "https://mystorage.blob.core.windows.net",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverDevOpsAuditSettings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    devOpsAuditingSettingsName,
-    parameters,
-  );
+  const result =
+    await client.serverDevOpsAuditSettings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      devOpsAuditingSettingsName,
+      parameters,
+    );
   console.log(result);
 }
 

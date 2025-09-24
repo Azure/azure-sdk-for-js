@@ -6,7 +6,8 @@ import { InternalConfig } from "../../../../src/shared/index.js";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi } from "@opentelemetry/api";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
-import { assert, afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
+import type { MockInstance } from "vitest";
+import { assert, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
