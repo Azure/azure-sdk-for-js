@@ -2130,11 +2130,9 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResolveServiceEndpointOptions {
-    // (undocumented)
     excludedLocations?: string[];
-    // (undocumented)
     startServiceEndpointIndex?: number;
 }
 
