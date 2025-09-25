@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { TenDlcClient } from "../../src/index.js";
+import { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import { createMockToken } from "../utils/recordedClient.js";
 import { describe, it, assert  } from "vitest";
 

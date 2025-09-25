@@ -11,7 +11,7 @@ import {
   type SanitizerOptions,
   TestInfo
 } from "@azure-tools/test-recorder";
-import { TenDlcClient } from "../../src/index.js";
+import { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import type { TokenCredential } from "@azure/identity";
 // import { isNode } from "@azure-tools/test-utils";
 import { isNodeLike } from "@azure/core-util";

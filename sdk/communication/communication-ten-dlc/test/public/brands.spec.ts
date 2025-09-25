@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TenDlcClient } from "../../src/index.js";
+import type { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import { createRecordedClient } from "../utils/recordedClient.js";
 import { CreateUUID } from "../utils/helpers.js";
 import { type Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
