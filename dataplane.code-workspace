@@ -286,8 +286,12 @@
     }
   ],
   "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.detectIndentation": false,
     "editor.formatOnSave": true,
+    "[markdown]": {
+      "editor.formatOnSave": false
+    },
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "files.insertFinalNewline": true,
