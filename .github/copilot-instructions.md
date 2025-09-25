@@ -128,10 +128,6 @@ pnpm format
 - Check `pnpm-lock.yaml` merge conflicts in PRs
 - Run `pnpm install` after dependency changes
 
-**Timeout issues:**
-- Full repo build: 10+ minutes
-- Single package build: 1-3 minutes
-- Test suites: 2-10 minutes depending on service
 
 ## Quick Reference Commands
 
