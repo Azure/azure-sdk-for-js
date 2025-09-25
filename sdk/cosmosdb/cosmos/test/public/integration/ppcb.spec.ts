@@ -52,7 +52,7 @@ const databaseAccountResponse = {
       },
     ],
     enableMultipleWriteLocations: true,
-    enablePerPartitionFailover: true,
+    enablePerPartitionFailoverBehavior: true,
     userReplicationPolicy: {
       asyncReplication: false,
       minReplicaSetSize: 3,
