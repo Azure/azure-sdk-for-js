@@ -1373,7 +1373,7 @@
         },
         "billingFrequency": {
           "description": "The frequency with which the cost gets billed.",
-          "enum": ["Monthly", "Once"],
+          "enum": ["Yearly", "Monthly", "Once"],
           "type": "string",
           "x-ms-enum": {
             "name": "BillingFrequency",
