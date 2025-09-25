@@ -9,14 +9,13 @@ import {
   env,
   isPlaybackMode,
   type SanitizerOptions,
-  TestInfo
+  TestInfo,
 } from "@azure-tools/test-recorder";
 import { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import type { TokenCredential } from "@azure/identity";
 // import { isNode } from "@azure-tools/test-utils";
 import { isNodeLike } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
-
 
 if (isNodeLike) {
   dotenv.config();

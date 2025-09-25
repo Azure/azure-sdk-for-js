@@ -22,4 +22,5 @@ describe("TenDlcClient - Costs", function () {
     for await (const cost of client.listCosts()) {
       assert.isNotNull(cost);
     }
-  })});
+  });
+});

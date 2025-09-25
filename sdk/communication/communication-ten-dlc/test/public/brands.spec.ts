@@ -23,7 +23,7 @@ describe("TenDlcClient - Brands", function () {
     }
   });
 
-  afterEach(async () =>  {
+  afterEach(async () => {
     await recorder.stop();
   });
 

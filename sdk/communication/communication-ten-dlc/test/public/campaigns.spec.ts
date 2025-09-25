@@ -80,7 +80,7 @@ describe("TenDlcClient - Campaigns", function () {
     );
 
     await client.deleteUSCampaign(id);
-  })
+  });
 
   it("can list all us campaigns", async function () {
     const options = {

@@ -12,7 +12,7 @@ import type {
   TenDlcGetCostsOptionalParams,
   TenDlcSubmitUSBrandOptionalParams,
   TenDlcSubmitUSCampaignOptionalParams,
-  USCampaign
+  USCampaign,
 } from "./generated/src/models/index.js";
 
 /**
@@ -73,7 +73,6 @@ export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalPa
  * Additional options for the Submit brand request.
  */
 export interface SubmitBrandForVettingOptionalParams extends TenDlcSubmitUSBrandOptionalParams {}
-
 
 /**
  * Additional options for the Submit campaign request.

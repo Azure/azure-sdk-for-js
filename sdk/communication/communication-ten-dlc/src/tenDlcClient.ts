@@ -135,10 +135,9 @@ export class TenDlcClient {
     options: UpsertUSCampaignOptions = {
       body: {
         id: campaignId,
-      }
+      },
     },
   ): Promise<USCampaign> {
-
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-upsertUSCampaign",
       options,
@@ -338,7 +337,6 @@ export class TenDlcClient {
     );
   }
 
-
   /**
    * Submits a US brand for vetting registration.
    *
@@ -346,7 +344,10 @@ export class TenDlcClient {
    * @param options - Optional parameters for submitting the brand.
    * @returns The submitted US brand.
    */
-  public submitUSBrandForVetting(brandId: string, options: SubmitBrandForVettingOptionalParams = {}): Promise<USBrand> {
+  public submitUSBrandForVetting(
+    brandId: string,
+    options: SubmitBrandForVettingOptionalParams = {},
+  ): Promise<USBrand> {
     return tracingClient.withSpan(
       "TenDlcClient-submitUSBrandForVetting",
       options,
@@ -435,11 +436,7 @@ export class TenDlcClient {
       "TenDLCClient-getCampaignAttachment",
       options,
       (updatedOptions) => {
-        return this.client.tenDlc.getUSCampaignAttachment(
-          campaignId,
-          attachmentId,
-          updatedOptions,
-        );
+        return this.client.tenDlc.getUSCampaignAttachment(campaignId, attachmentId, updatedOptions);
       },
     );
   }

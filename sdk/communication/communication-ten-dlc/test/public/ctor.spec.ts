@@ -4,7 +4,7 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import { createMockToken } from "../utils/recordedClient.js";
-import { describe, it, assert  } from "vitest";
+import { describe, it, assert } from "vitest";
 
 describe("TenDlcClient - constructor", () => {
   const endpoint = "https://contoso.spool.azure.local";
