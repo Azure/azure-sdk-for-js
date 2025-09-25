@@ -4,7 +4,7 @@
 import type { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createRecordedClient } from "../utils/recordedClient.js";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { type Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { CreateUUID } from "../utils/helpers.js";
 
 describe("TenDlcClient - Campaigns", function () {

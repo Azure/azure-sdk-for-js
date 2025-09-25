@@ -9,7 +9,7 @@ import {
   env,
   isPlaybackMode,
   type SanitizerOptions,
-  TestInfo,
+  type TestInfo,
 } from "@azure-tools/test-recorder";
 import { TenDlcClient } from "@azure-tools/communication-ten-dlc";
 import type { TokenCredential } from "@azure/identity";
