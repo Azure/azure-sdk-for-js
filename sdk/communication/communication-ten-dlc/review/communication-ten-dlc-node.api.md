@@ -27,7 +27,7 @@ export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
 export type AttachmentType = "callToAction" | "termsOfService" | "privacyPolicy" | "other";
 
 // @public
-export type BillingFrequency = "Monthly" | "Once";
+export type BillingFrequency = "Yearly" | "Monthly" | "Once";
 
 // @public
 export interface BrandDetails {

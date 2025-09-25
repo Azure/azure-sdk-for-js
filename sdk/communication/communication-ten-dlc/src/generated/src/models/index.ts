@@ -350,7 +350,7 @@ export type TenDlcCostType =
   | "CampaignLowVolume"
   | "CampaignSoleProp";
 /** Defines values for BillingFrequency. */
-export type BillingFrequency = "Monthly" | "Once";
+export type BillingFrequency = "Yearly" | "Monthly" | "Once";
 /** Defines values for CompanyVertical. */
 export type CompanyVertical =
   | "Agriculture"
