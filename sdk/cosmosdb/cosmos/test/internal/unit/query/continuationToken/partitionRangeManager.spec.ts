@@ -17,6 +17,9 @@ describe("PartitionRangeManager", () => {
       minInclusive: "",
       maxExclusive: "FF",
       throughputFraction: 1,
+      ridPrefix: 1,
+      status: "un",
+      parents: [],
     };
   });
 

@@ -37,7 +37,7 @@ describe("NonStreamingOrderByEndpointComponent", () => {
         headers: {},
       }),
       fetchMore: async () => ({
-        result: [
+        result: { buffer: [
           {
             orderByItems: [
               {
@@ -46,7 +46,7 @@ describe("NonStreamingOrderByEndpointComponent", () => {
             ],
             payload: { id: id++ },
           },
-        ],
+        ]},
         headers: {},
       }),
     } as ExecutionContext;
@@ -64,7 +64,7 @@ describe("NonStreamingOrderByEndpointComponent", () => {
       if (count < 99) {
         assert.deepStrictEqual(response.result.buffer, []);
       } else {
-        assert.deepStrictEqual(response.result.length, count);
+        assert.deepStrictEqual(response.result.buffer.length, count);
       }
       count++;
     }

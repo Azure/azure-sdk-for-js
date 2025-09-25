@@ -32,6 +32,34 @@ export class ParallelQueryExecutionContext
   }
 
   /**
+   * Processes buffered document producers for Parallel queries.
+   * Handles batch processing of all buffered items.
+   * @returns A promise that resolves when processing is complete.
+   * @hidden
+   */
+  protected async processBufferedDocumentProducers(): Promise<void> {
+    while (this.bufferedDocumentProducersQueue.size() > 0) {
+      const documentProducer = this.bufferedDocumentProducersQueue.deq();
+      const { result, headers } = await documentProducer.fetchBufferedItems();
+      this._mergeWithActiveResponseHeaders(headers);
+
+      // add a marker to buffer stating the partition key range and continuation token
+      this.partitionDataPatchMap.set((++this.patchCounter).toString(), {
+        itemCount: result?.length || 0, // Use actual result length for item count, 0 if no results
+        partitionKeyRange: documentProducer.targetPartitionKeyRange,
+        continuationToken: documentProducer.continuationToken,
+      });
+
+      if (result?.length > 0) {
+        this.buffer.push(...result);
+      }
+      if (documentProducer.hasMoreResults()) {
+        this.unfilledDocumentProducersQueue.enq(documentProducer);
+      }
+    }
+  }
+
+  /**
    * Fetches more results from the query execution context.
    * @param diagnosticNode - Optional diagnostic node for tracing.
    * @returns A promise that resolves to the fetched results.

@@ -40,7 +40,7 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
         headers: {},
       }),
       fetchMore: async () => ({
-        result: [
+        result: { buffer:[
           {
             orderByItems: [
               {
@@ -49,7 +49,7 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
             ],
             payload: { id: id++ },
           },
-        ],
+        ]},
         headers: {},
       }),
     } as ExecutionContext;

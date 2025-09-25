@@ -52,13 +52,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private routingProvider: SmartRoutingMapProvider;
   protected sortOrders: any;
   private requestContinuation: any;
-  private respHeaders: CosmosHeaders;
-  private unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
-  private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  protected respHeaders: CosmosHeaders;
+  protected unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
+  protected bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
-  private buffer: any[];
-  private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
-  private patchCounter: number = 0;
+  protected buffer: any[];
+  protected partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
+  protected patchCounter: number = 0;
   private updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
   private sem: any;
   private diagnosticNodeWrapper: {
@@ -242,6 +242,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp1: DocumentProducer,
     dp2: DocumentProducer,
   ): number;
+
+  /**
+   * Processes buffered document producers according to the specific query execution strategy.
+   * This method is implemented by subclasses to handle OrderBy vs Parallel query processing.
+   * @returns A promise that resolves when processing is complete.
+   */
+  protected abstract processBufferedDocumentProducers(): Promise<void>;
 
   /**
    * Compares two document producers based on their partition key ranges and EPK values.
@@ -476,11 +483,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   /**
    * Handles partition merge scenario for continuation token ranges
-   */ private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
+   */ protected _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
   }
 
-  private _getAndResetActiveResponseHeaders(): CosmosHeaders {
+  protected _getAndResetActiveResponseHeaders(): CosmosHeaders {
     const ret = this.respHeaders;
     this.respHeaders = getInitialHeader();
     return ret;
@@ -856,10 +863,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
   /**
    * Drains the buffer of filled document producers and appends their items to the main buffer.
-   * @param isOrderBy - Indicates if the query is an order by query.
+   * Uses template method pattern - delegates actual processing to subclasses.
    * @returns A promise that resolves when the buffer is filled.
    */
-  protected async fillBufferFromBufferQueue(isOrderBy: boolean = false): Promise<void> {
+  protected async fillBufferFromBufferQueue(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
@@ -878,71 +885,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           resolve();
           return;
         }
+        
         try {
-          if (isOrderBy) {
-            let documentProducer; // used to track the last document producer
-            while (
-              this.unfilledDocumentProducersQueue.isEmpty() &&
-              this.bufferedDocumentProducersQueue.size() > 0
-            ) {
-              documentProducer = this.bufferedDocumentProducersQueue.deq();
-              const { result, headers } = await documentProducer.fetchNextItem();
-              this._mergeWithActiveResponseHeaders(headers);
-
-              if (result) {
-                this.buffer.push(result);
-                // Update PartitionDataPatchMap
-                const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
-                const isSamePartition =
-                  currentPatch?.partitionKeyRange?.id ===
-                  documentProducer.targetPartitionKeyRange.id;
-
-                // Check if document producer buffer has more items to determine which continuation token to use
-                const hasMoreBufferedItems = documentProducer.peakNextItem() !== undefined;
-                const continuationTokenToUse = hasMoreBufferedItems
-                  ? documentProducer.previousContinuationToken
-                  : documentProducer.continuationToken;
-
-                if (!isSamePartition) {
-                  this.partitionDataPatchMap.set((++this.patchCounter).toString(), {
-                    itemCount: 1,
-                    partitionKeyRange: documentProducer.targetPartitionKeyRange,
-                    continuationToken: continuationTokenToUse,
-                  });
-                } else if (currentPatch) {
-                  currentPatch.itemCount++;
-                  currentPatch.continuationToken = continuationTokenToUse;
-                }
-              }
-              if (documentProducer.peakNextItem() !== undefined) {
-                this.bufferedDocumentProducersQueue.enq(documentProducer);
-              } else if (documentProducer.hasMoreResults()) {
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
-              } else {
-                // no more results in document producer
-              }
-            }
-          } else {
-            while (this.bufferedDocumentProducersQueue.size() > 0) {
-              const documentProducer = this.bufferedDocumentProducersQueue.deq();
-              const { result, headers } = await documentProducer.fetchBufferedItems();
-              this._mergeWithActiveResponseHeaders(headers);
-
-              // add a marker to buffer stating the partition key range and continuation token
-              this.partitionDataPatchMap.set((++this.patchCounter).toString(), {
-                itemCount: result?.length || 0, // Use actual result length for item count, 0 if no results
-                partitionKeyRange: documentProducer.targetPartitionKeyRange,
-                continuationToken: documentProducer.continuationToken,
-              });
-
-              if (result?.length > 0) {
-                this.buffer.push(...result);
-              }
-              if (documentProducer.hasMoreResults()) {
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
-              }
-            }
-          }
+          // Delegate the actual processing logic to subclasses
+          await this.processBufferedDocumentProducers();
           this.updateStates(this.err);
         } catch (err) {
           this.err = err;

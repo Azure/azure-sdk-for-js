@@ -70,7 +70,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   public getHashedLastResult(): string | undefined {
-    return this.continuationToken.hashedLastResult;
+    return this.continuationToken?.hashedLastResult;
   }
 
   public sliceOrderByItemsArray(endIndex: number): void {
