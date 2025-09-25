@@ -178,10 +178,36 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    options: ResolveServiceEndpointOptions = {},
+    startServiceEndpointIndex?: number,
+  ): Promise<string>;
+
+  /**
+   * @internal
+   */
+  public async resolveServiceEndpoint(
+    diagnosticNode: DiagnosticNodeInternal,
+    resourceType: ResourceType,
+    operationType: OperationType,
+    options?: ResolveServiceEndpointOptions,
+  ): Promise<string>;
+
+  public async resolveServiceEndpoint(
+    diagnosticNode: DiagnosticNodeInternal,
+    resourceType: ResourceType,
+    operationType: OperationType,
+    optionsOrStartServiceEndpointIndex?: number | ResolveServiceEndpointOptions,
   ): Promise<string> {
-    // Extract startServiceEndpointIndex
-    const startServiceEndpointIndex = options.startServiceEndpointIndex ?? 0;
+    // Handle overloaded parameters
+    let startServiceEndpointIndex: number;
+    let options: ResolveServiceEndpointOptions;
+
+    if (typeof optionsOrStartServiceEndpointIndex === "number") {
+      startServiceEndpointIndex = optionsOrStartServiceEndpointIndex;
+      options = {};
+    } else {
+      options = optionsOrStartServiceEndpointIndex ?? {};
+      startServiceEndpointIndex = options.startServiceEndpointIndex ?? 0;
+    }
 
     // If endpoint discovery is disabled, always use the user provided endpoint
 

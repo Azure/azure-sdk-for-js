@@ -91,9 +91,7 @@ describe("GlobalEndpointManager", () => {
           createDummyDiagnosticNode(),
           ResourceType.item,
           OperationType.Read,
-          {
-            startServiceEndpointIndex: 1,
-          },
+          1,
         ),
         "https://test-westus2.documents.azure.com:443/",
       );
@@ -103,9 +101,7 @@ describe("GlobalEndpointManager", () => {
           createDummyDiagnosticNode(),
           ResourceType.item,
           OperationType.Read,
-          {
-            startServiceEndpointIndex: 2,
-          },
+          2,
         ),
         "https://test-westus2.documents.azure.com:443/",
       );
