@@ -5,7 +5,7 @@ import type { CredentialLogger } from "./logging.js";
 import { formatError } from "./logging.js";
 
 /**
-
+ * @internal
  */
 export function checkSubscription(logger: CredentialLogger, subscription: string): void {
   if (!subscription.match(/^[0-9a-zA-Z-._ ]+$/)) {

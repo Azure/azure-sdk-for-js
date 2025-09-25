@@ -25,8 +25,10 @@ import { BrokerCredential } from "./brokerCredential.js";
  * Creates a {@link BrokerCredential} instance with the provided options.
  * This credential uses the Windows Authentication Manager (WAM) broker for authentication.
  * It will only attempt to authenticate silently using the default broker account
+ *
  * @param options - Options for configuring the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultBrokerCredential(
   options: DefaultAzureCredentialOptions = {},
@@ -37,7 +39,8 @@ export function createDefaultBrokerCredential(
 /**
  * Creates a {@link VisualStudioCodeCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultVisualStudioCodeCredential(
   options: DefaultAzureCredentialOptions = {},
@@ -48,7 +51,8 @@ export function createDefaultVisualStudioCodeCredential(
 /**
  * Creates a {@link ManagedIdentityCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultManagedIdentityCredential(
   options:
@@ -106,7 +110,8 @@ export function createDefaultManagedIdentityCredential(
 /**
  * Creates a {@link WorkloadIdentityCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultWorkloadIdentityCredential(
   options?: DefaultAzureCredentialOptions | DefaultAzureCredentialClientIdOptions,
@@ -143,7 +148,8 @@ export function createDefaultWorkloadIdentityCredential(
 /**
  * Creates a {@link AzureDeveloperCliCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultAzureDeveloperCliCredential(
   options: DefaultAzureCredentialOptions = {},
@@ -154,7 +160,8 @@ export function createDefaultAzureDeveloperCliCredential(
 /**
  * Creates a {@link AzureCliCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultAzureCliCredential(
   options: DefaultAzureCredentialOptions = {},
@@ -165,7 +172,8 @@ export function createDefaultAzureCliCredential(
 /**
  * Creates a {@link AzurePowerShellCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultAzurePowershellCredential(
   options: DefaultAzureCredentialOptions = {},
@@ -176,7 +184,8 @@ export function createDefaultAzurePowershellCredential(
 /**
  * Creates an {@link EnvironmentCredential} from the provided options.
  * @param options - Options to configure the credential.
- 
+ *
+ * @internal
  */
 export function createDefaultEnvironmentCredential(
   options: DefaultAzureCredentialOptions = {},

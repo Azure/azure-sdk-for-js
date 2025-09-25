@@ -5,7 +5,9 @@ import type { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * See the official documentation for more details:
+ *
  * https://learn.microsoft.com/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
+ *
  * NOTE: This documentation is for v1 OAuth support but the same error
  * response details still apply to v2.
  */
@@ -43,6 +45,7 @@ export interface ErrorResponse {
 
 /**
  * Used for internal deserialization of OAuth responses. Public model is ErrorResponse
+ * @internal
  */
 export interface OAuthErrorResponse {
   error: string;

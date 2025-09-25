@@ -5,12 +5,15 @@
  * This sample shows an example of how to load the `@azure/identity-vscode`
  * plugin only in certain environments. As an example, we use the NODE_ENV
  * environment variable to determine whether or not to load the plugin.
+ *
  * NOTE: The NODE_ENV environment variable is merely a convention, and you are
  * responsible for setting it as appropriate, for example, by setting the
  * variable at runtime:
+ *
  * ```bash
  * $ NODE_ENV="production" node dist/nodeEnv.js
  * ```
+ *
  * @summary uses NODE_ENV to load the plugin only in development environments
  * @azsdk-weight -10
  */

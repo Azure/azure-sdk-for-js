@@ -39,6 +39,7 @@ export interface PluginConfiguration {
   broker: {
     /**
      * True if the broker plugin is enabled and available. False otherwise.
+     *
      * It is a bug if this is true and the broker plugin is not available.
      */
     isEnabled: boolean;
@@ -63,7 +64,7 @@ export interface PluginConfiguration {
 
 /**
  * The current persistence provider, undefined by default.
- 
+ * @internal
  */
 export let persistenceProvider:
   | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
@@ -71,7 +72,7 @@ export let persistenceProvider:
 
 /**
  * An object that allows setting the persistence provider.
- 
+ * @internal
  */
 export const msalNodeFlowCacheControl = {
   setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
@@ -81,7 +82,7 @@ export const msalNodeFlowCacheControl = {
 
 /**
  * The current native broker provider, undefined by default.
- 
+ * @internal
  */
 export let nativeBrokerInfo:
   | {
@@ -91,13 +92,13 @@ export let nativeBrokerInfo:
 
 /**
  * The current VSCode auth record path, undefined by default.
- 
+ * @internal
  */
 export let vsCodeAuthRecordPath: string | undefined = undefined;
 
 /**
  * The current VSCode broker, undefined by default.
- 
+ * @internal
  */
 export let vsCodeBrokerInfo:
   | {
@@ -115,7 +116,7 @@ export function hasVSCodePlugin(): boolean {
 
 /**
  * An object that allows setting the native broker provider.
- 
+ * @internal
  */
 export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
   setNativeBroker(broker): void {
@@ -127,7 +128,7 @@ export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
 
 /**
  * An object that allows setting the VSCode credential auth record path and broker.
- 
+ * @internal
  */
 export const msalNodeFlowVSCodeCredentialControl: VisualStudioCodeCredentialControl = {
   setVSCodeAuthRecordPath(path: string): void {
@@ -142,7 +143,9 @@ export const msalNodeFlowVSCodeCredentialControl: VisualStudioCodeCredentialCont
 
 /**
  * Configures plugins, validating that required plugins are available and enabled.
+ *
  * Does not create the plugins themselves, but rather returns the configuration that will be used to create them.
+ *
  * @param options - options for creating the MSAL client
  * @returns plugin configuration
  */

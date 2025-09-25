@@ -6,6 +6,9 @@ import { AggregateAuthenticationError, CredentialUnavailableError } from "../err
 import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
 import { tracingClient } from "../util/tracing.js";
 
+/**
+ * @internal
+ */
 export const logger = credentialLogger("ChainedTokenCredential");
 
 /**
@@ -18,17 +21,22 @@ export class ChainedTokenCredential implements TokenCredential {
 
   /**
    * Creates an instance of ChainedTokenCredential using the given credentials.
+   *
    * @param sources - `TokenCredential` implementations to be tried in order.
+   *
    * Example usage:
    * ```ts snippet:chained_token_credential_example
    * import { ClientSecretCredential, ChainedTokenCredential } from "@azure/identity";
+   *
    * const tenantId = "<tenant-id>";
    * const clientId = "<client-id>";
    * const clientSecret = "<client-secret>";
    * const anotherClientId = "<another-client-id>";
    * const anotherSecret = "<another-client-secret>";
+   *
    * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
    * const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
+   *
    * const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
    * ```
    */
@@ -41,8 +49,10 @@ export class ChainedTokenCredential implements TokenCredential {
    * `TokenCredential` implementations.  Throws an {@link AggregateAuthenticationError}
    * when one or more credentials throws an {@link AuthenticationError} and
    * no credentials have returned an access token.
+   *
    * This method is called automatically by Azure SDK client libraries. You may call this method
    * directly, but you must also handle token caching and token refreshing.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.

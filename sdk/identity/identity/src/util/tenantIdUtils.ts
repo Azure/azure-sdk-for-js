@@ -7,7 +7,7 @@ import { formatError } from "./logging.js";
 export { processMultiTenantRequest } from "./processMultiTenantRequest.js";
 
 /**
-
+ * @internal
  */
 export function checkTenantId(logger: CredentialLogger, tenantId: string): void {
   if (!tenantId.match(/^[0-9a-zA-Z-.]+$/)) {
@@ -20,7 +20,7 @@ export function checkTenantId(logger: CredentialLogger, tenantId: string): void 
 }
 
 /**
-
+ * @internal
  */
 export function resolveTenantId(
   logger: CredentialLogger,
@@ -41,7 +41,7 @@ export function resolveTenantId(
 }
 
 /**
-
+ * @internal
  */
 export function resolveAdditionallyAllowedTenantIds(
   additionallyAllowedTenants?: string[],

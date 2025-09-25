@@ -5,12 +5,12 @@ import childProcess from "node:child_process";
 
 /**
  * Easy to mock childProcess utils.
-
+ * @internal
  */
 export const processUtils = {
   /**
    * Promisifying childProcess.execFile
-   
+   * @internal
    */
   execFile(
     file: string,

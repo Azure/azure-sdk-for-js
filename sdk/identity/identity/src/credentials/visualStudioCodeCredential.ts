@@ -47,9 +47,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
+   *
    * **Note**: `VisualStudioCodeCredential` is provided by a plugin package:
    * `@azure/identity-vscode`. If this package is not installed, then authentication using
    * `VisualStudioCodeCredential` will not be available.
+   *
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: VisualStudioCodeCredentialOptions) {
@@ -125,6 +127,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   /**
    * Returns the token found by searching VSCode's authentication cache or
    * returns null if no token could be found.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.

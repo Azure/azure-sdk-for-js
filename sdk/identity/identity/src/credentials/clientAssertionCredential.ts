@@ -30,6 +30,7 @@ export class ClientAssertionCredential implements TokenCredential {
    * Creates an instance of the ClientAssertionCredential with the details
    * needed to authenticate against Microsoft Entra ID with a client
    * assertion provided by the developer through the `getAssertion` function parameter.
+   *
    * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param getAssertion - A function that retrieves the assertion for the credential to use.
@@ -75,6 +76,7 @@ export class ClientAssertionCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.

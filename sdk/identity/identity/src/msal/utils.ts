@@ -17,20 +17,16 @@ export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
 }
 
-/**
- 
- */
 const logger = credentialLogger("IdentityUtils");
 
 /**
  * Latest AuthenticationRecord version
- 
  */
 const LatestAuthenticationRecordVersion = "1.0";
 
 /**
  * Ensures the validity of the MSAL token
- 
+ * @internal
  */
 export function ensureValidMsalToken(
   scopes: string | string[],
@@ -58,8 +54,9 @@ export function ensureValidMsalToken(
 
 /**
  * Returns the authority host from either the options bag or the AZURE_AUTHORITY_HOST environment variable.
+ *
  * Defaults to {@link DefaultAuthorityHost}.
- 
+ * @internal
  */
 export function getAuthorityHost(options?: { authorityHost?: string }): string {
   let authorityHost = options?.authorityHost;
@@ -73,7 +70,7 @@ export function getAuthorityHost(options?: { authorityHost?: string }): string {
 
 /**
  * Generates a valid authority by combining a host with a tenantId.
- 
+ * @internal
  */
 export function getAuthority(tenantId: string, host?: string): string {
   if (!host) {
@@ -94,7 +91,7 @@ export function getAuthority(tenantId: string, host?: string): string {
  * If the Tenant Id is `adfs`, the authority can't be validated since the format won't match the expected one.
  * For that reason, we have to force MSAL to disable validating the authority
  * by sending it within the known authorities in the MSAL configuration.
- 
+ * @internal
  */
 export function getKnownAuthorities(
   tenantId: string,
@@ -110,7 +107,7 @@ export function getKnownAuthorities(
 /**
  * Generates a logger that can be passed to the MSAL clients.
  * @param credLogger - The logger of the credential.
- 
+ * @internal
  */
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
@@ -138,7 +135,7 @@ export const defaultLoggerCallback: (
   };
 
 /**
- 
+ * @internal
  */
 export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
   switch (logLevel) {
@@ -159,7 +156,8 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
 /**
  * Wraps core-util's randomUUID in order to allow for mocking in tests.
  * This prepares the library for the upcoming core-util update to ESM.
- 
+ *
+ * @internal
  * @returns A string containing a random UUID
  */
 export function randomUUID(): string {
@@ -245,13 +243,16 @@ export function msalToPublic(clientId: string, account: MsalAccountInfo): Authen
 
 /**
  * Serializes an `AuthenticationRecord` into a string.
+ *
  * The output of a serialized authentication record will contain the following properties:
+ *
  * - "authority"
  * - "homeAccountId"
  * - "clientId"
  * - "tenantId"
  * - "username"
  * - "version"
+ *
  * To later convert this string to a serialized `AuthenticationRecord`, please use the exported function `deserializeAuthenticationRecord()`.
  */
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string {
@@ -260,15 +261,20 @@ export function serializeAuthenticationRecord(record: AuthenticationRecord): str
 
 /**
  * Deserializes a previously serialized authentication record from a string into an object.
+ *
  * The input string must contain the following properties:
+ *
  * - "authority"
  * - "homeAccountId"
  * - "clientId"
  * - "tenantId"
  * - "username"
  * - "version"
+ *
  * If the version we receive is unsupported, an error will be thrown.
+ *
  * At the moment, the only available version is: "1.0", which is always set when the authentication record is serialized.
+ *
  * @param serializedRecord - Authentication record previously serialized into string.
  * @returns AuthenticationRecord.
  */

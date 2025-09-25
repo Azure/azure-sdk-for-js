@@ -29,14 +29,17 @@ export interface GetBearerTokenProviderOptions {
  * ```ts snippet:token_provider_example
  * import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
  * import { createPipelineRequest } from "@azure/core-rest-pipeline";
+ *
  * const credential = new DefaultAzureCredential();
  * const scope = "https://cognitiveservices.azure.com/.default";
  * const getAccessToken = getBearerTokenProvider(credential, scope);
  * const token = await getAccessToken();
+ *
  * // usage
  * const request = createPipelineRequest({ url: "https://example.com" });
  * request.headers.set("Authorization", `Bearer ${token}`);
  * ```
+ *
  * @param credential - The credential used to authenticate the request.
  * @param scopes - The scopes required for the bearer token.
  * @param options - Options to configure the token provider.

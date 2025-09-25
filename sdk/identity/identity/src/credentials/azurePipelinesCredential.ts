@@ -96,6 +96,7 @@ export class AzurePipelinesCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} or {@link AuthenticationError} will be thrown with the details of the failure.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
@@ -120,6 +121,7 @@ export class AzurePipelinesCredential implements TokenCredential {
   }
 
   /**
+   *
    * @param oidcRequestUrl - oidc request url
    * @param systemAccessToken - system access token
    * @returns OIDC token from Azure Pipelines

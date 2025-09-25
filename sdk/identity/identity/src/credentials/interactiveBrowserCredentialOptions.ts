@@ -81,6 +81,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
    * Specifies whether a redirect or a popup window should be used to
    * initiate the user authentication flow. Possible values are "redirect"
    * or "popup" (default) for browser and "popup" (default) for node.
+   *
    */
   loginStyle?: BrowserLoginStyle;
 

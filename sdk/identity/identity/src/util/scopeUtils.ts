@@ -6,7 +6,7 @@ import { formatError } from "./logging.js";
 
 /**
  * Ensures the scopes value is an array.
-
+ * @internal
  */
 export function ensureScopes(scopes: string | string[]): string[] {
   return Array.isArray(scopes) ? scopes : [scopes];
@@ -14,7 +14,7 @@ export function ensureScopes(scopes: string | string[]): string[] {
 
 /**
  * Throws if the received scope is not valid.
-
+ * @internal
  */
 export function ensureValidScopeForDevTimeCreds(scope: string, logger: CredentialLogger): void {
   if (!scope.match(/^[0-9a-zA-Z-_.:/]+$/)) {
@@ -26,7 +26,7 @@ export function ensureValidScopeForDevTimeCreds(scope: string, logger: Credentia
 
 /**
  * Returns the resource out of a scope.
-
+ * @internal
  */
 export function getScopeResource(scope: string): string {
   return scope.replace(/\/.default$/, "");

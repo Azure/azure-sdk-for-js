@@ -32,6 +32,7 @@ const logger = credentialLogger("DefaultAzureCredential");
 
 /**
  * A no-op credential that logs the reason it was skipped if getToken is called.
+ * @internal
  */
 export class UnavailableDefaultCredential implements TokenCredential {
   credentialUnavailableErrorMessage: string;
@@ -54,7 +55,9 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * Provides a default {@link ChainedTokenCredential} configuration that works for most
  * applications that use Azure SDK client libraries. For more information, see
  * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
+ *
  * The following credential types will be tried, in order:
+ *
  * - {@link EnvironmentCredential}
  * - {@link WorkloadIdentityCredential}
  * - {@link ManagedIdentityCredential}
@@ -63,14 +66,17 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
  * - BrokerCredential (a broker-enabled credential that requires \@azure/identity-broker is installed)
+ *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
+ *
  * The following example demonstrates how to use the `requiredEnvVars` option to ensure that certain environment variables are set before the `DefaultAzureCredential` is instantiated.
  * If any of the specified environment variables are missing or empty, an error will be thrown, preventing the application from continuing execution without the necessary configuration.
  * It also demonstrates how to set the `AZURE_TOKEN_CREDENTIALS` environment variable to control which credentials are included in the chain.
  
  * ```ts snippet:defaultazurecredential_requiredEnvVars
  * import { DefaultAzureCredential } from "@azure/identity";
+ *
  * const credential = new DefaultAzureCredential({
  *   requiredEnvVars: [
  *     "AZURE_CLIENT_ID",
@@ -84,18 +90,21 @@ export class UnavailableDefaultCredential implements TokenCredential {
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
    * Creates an instance of the DefaultAzureCredential class with {@link DefaultAzureCredentialClientIdOptions}.
+   *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialClientIdOptions}.
    */
   constructor(options?: DefaultAzureCredentialClientIdOptions);
 
   /**
    * Creates an instance of the DefaultAzureCredential class with {@link DefaultAzureCredentialResourceIdOptions}.
+   *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialResourceIdOptions}.
    */
   constructor(options?: DefaultAzureCredentialResourceIdOptions);
 
   /**
    * Creates an instance of the DefaultAzureCredential class with {@link DefaultAzureCredentialOptions}.
+   *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialOptions}.
    */
   constructor(options?: DefaultAzureCredentialOptions);
@@ -186,7 +195,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 }
 
 /**
- * @internal This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
+ * This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
  * If any are missing or empty, it throws an error.
  */
 function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions) {

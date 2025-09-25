@@ -10,6 +10,7 @@ import type { BrokerOptions } from "../msal/nodeFlows/brokerOptions.js";
 export interface BrokerAuthOptions {
   /**
    * Options to allow broker authentication when using InteractiveBrowserCredential
+   *
    */
   brokerOptions?: BrokerOptions;
 }

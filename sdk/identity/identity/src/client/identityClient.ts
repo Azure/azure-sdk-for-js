@@ -37,6 +37,9 @@ export interface TokenResponse {
   refreshToken?: string;
 }
 
+/**
+ * @internal
+ */
 export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string {
   // The authorityHost can come from options or from the AZURE_AUTHORITY_HOST environment variable.
   let authorityHost = options?.authorityHost;
@@ -52,8 +55,10 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
 
 /**
  * The network module used by the Identity credentials.
+ *
  * It allows for credentials to abort any pending request independently of the MSAL flow,
  * by calling to the `abortRequests()` method.
+ *
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
@@ -297,7 +302,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   }
 
   /**
-   
+   *
+   * @internal
    */
   getTokenCredentialOptions(): TokenCredentialOptions {
     return this.tokenCredentialOptions;
@@ -305,6 +311,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   /**
    * If allowLoggingAccountIdentifiers was set on the constructor options
    * we try to log the account identifiers by parsing the received access token.
+   *
    * The account identifiers we try to log are:
    * - `appid`: The application or Client Identifier.
    * - `upn`: User Principal Name.

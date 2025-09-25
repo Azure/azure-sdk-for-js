@@ -11,6 +11,7 @@ export interface TokenCachePersistenceOptions {
   enabled: boolean;
   /**
    * Unique identifier for the persistent token cache.
+   *
    * Based on this identifier, the persistence file will be located in any of the following places:
    * - Darwin: '/Users/user/.IdentityService/<name>'
    * - Windows 8+: 'C:\\Users\\user\\AppData\\Local\\.IdentityService\\<name>'

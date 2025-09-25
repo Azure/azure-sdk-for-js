@@ -6,7 +6,6 @@ import { NativeBrokerPlugin } from "@azure/msal-node-extensions";
 
 /**
  * A subset of the AzurePluginContext provided by \@azure/identity
- 
  */
 interface AzurePluginContext {
   nativeBrokerPluginControl: NativeBrokerPluginControl;
@@ -22,11 +21,15 @@ interface NativeBrokerPluginControl {
  * credentials. The plugin API is compatible with `@azure/identity` versions
  * 4.0.0 and later. Load this plugin using the `useIdentityPlugin`
  * function, imported from `@azure/identity`.
+ *
  * Example:
+ *
  * ```ts snippet:using_plugins
  * import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
  * import { nativeBrokerPlugin } from "@azure/identity-broker";
+ *
  * useIdentityPlugin(nativeBrokerPlugin);
+ *
  * const credential = new InteractiveBrowserCredential({
  *   brokerOptions: {
  *     enabled: true,

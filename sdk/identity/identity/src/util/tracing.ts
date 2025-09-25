@@ -6,7 +6,7 @@ import { createTracingClient } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
-
+ * @internal
  */
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.AAD",

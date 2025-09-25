@@ -9,7 +9,7 @@ import type { CredentialLogger } from "../../util/logging.js";
 
 /**
  * Options for the MSAL browser flows.
- 
+ * @internal
  */
 export interface MsalBrowserFlowOptions {
   logger: CredentialLogger;
@@ -36,8 +36,11 @@ export interface MsalBrowserFlowOptions {
    * Result of a previous authentication that can be used to retrieve the cached credentials of each individual account.
    * This is necessary to provide in case the application wants to work with more than one account per
    * Client ID and Tenant ID pair.
+   *
    * This record can be retrieved by calling to the credential's `authenticate()` method, as follows:
+   *
    *     const authenticationRecord = await credential.authenticate();
+   *
    */
   authenticationRecord?: AuthenticationRecord;
 
@@ -72,6 +75,7 @@ export interface MsalBrowserFlowOptions {
    * Specifies whether a redirect or a popup window should be used to
    * initiate the user authentication flow. Possible values are "redirect"
    * or "popup" (default) for browser and "popup" (default) for node.
+   *
    */
   loginStyle: BrowserLoginStyle;
 

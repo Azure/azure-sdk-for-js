@@ -11,7 +11,6 @@ import {
 /**
  * The context passed to an Identity plugin. This contains objects that
  * plugins can use to set backend implementations.
- 
  */
 const pluginContext: AzurePluginContext = {
   cachePluginControl: msalNodeFlowCacheControl,
@@ -22,12 +21,16 @@ const pluginContext: AzurePluginContext = {
 /**
  * Extend Azure Identity with additional functionality. Pass a plugin from
  * a plugin package, such as:
+ *
  * - `@azure/identity-cache-persistence`: provides persistent token caching
  * - `@azure/identity-vscode`: provides the dependencies of
  *   `VisualStudioCodeCredential` and enables it
+ *
  * Example:
+ *
  * ```ts snippet:consumer_example
  * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
+ *
  * useIdentityPlugin(cachePersistencePlugin);
  * // The plugin has the capability to extend `DeviceCodeCredential` and to
  * // add middleware to the underlying credentials, such as persistence.
@@ -37,6 +40,7 @@ const pluginContext: AzurePluginContext = {
  *   },
  * });
  * ```
+ *
  * @param plugin - the plugin to register
  */
 export function useIdentityPlugin(plugin: IdentityPlugin): void {

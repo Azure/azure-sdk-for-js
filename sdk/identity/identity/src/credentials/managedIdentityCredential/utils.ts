@@ -14,6 +14,7 @@ export const serviceFabricErrorMessage =
  * These are GET requests that require sending a `resource` parameter on the query.
  * This resource can be derived from the scopes received through the getToken call, as long as only one scope is received.
  * Multiple scopes assume that the resulting token will have access to multiple resources, which won't be the case.
+ *
  * For that reason, when we encounter multiple scopes, we return undefined.
  * It's up to the individual MSI implementations to throw the errors (which helps us provide less generic errors).
  */
@@ -38,7 +39,8 @@ export function mapScopesToResource(scopes: string | string[]): string | undefin
 
 /**
  * Internal type roughly matching the raw responses of the authentication endpoints.
- 
+ *
+ * @internal
  */
 export interface TokenResponseParsedBody {
   access_token?: string;
