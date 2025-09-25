@@ -41,10 +41,9 @@ pnpm build --filter=@azure/core-util... --filter=@azure/core-auth...     # Examp
 pnpm test:node
 ```
 
-**Browser tests (can be flaky):**
+**Browser tests (if the package support browser):**
 ```bash
-pnpm test:browser  # May fail due to Playwright installation issues
-```
+pnpm test:browser
 
 **Test execution time:** Most tests run in 2-3 seconds, some integration tests take 10+ minutes.
 
