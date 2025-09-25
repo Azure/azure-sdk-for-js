@@ -1,6 +1,6 @@
 {
   "name": "@azure/attestation",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Javascript/Typescript client implementation for the Microsoft Azure Attestation service.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -9,7 +9,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/generatedClient.ts",
         "prefix": "packageDetails"
       },
       {
