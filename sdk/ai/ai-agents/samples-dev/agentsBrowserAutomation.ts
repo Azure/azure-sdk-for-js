@@ -70,18 +70,11 @@ export async function main(): Promise<void> {
 
   // Create and process agent run in thread with tools
   console.log("Waiting for Agent run to complete. Please wait...");
-  // let run = await client.runs.create(thread.id, agent.id);
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
     },
   });
-
-  // Poll the run status
-  // while (run.status === "queued" || run.status === "in_progress") {
-  //   await sleep(1000);
-  //   run = await client.runs.get(thread.id, run.id);
-  // }
 
   console.log(`Run finished with status: ${run.status}`);
 
