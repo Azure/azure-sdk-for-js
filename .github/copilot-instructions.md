@@ -25,8 +25,8 @@ npx turbo build  # Builds current package and dependencies
 
 **Multiple packages (from repo root):**
 ```bash
-pnpm build --filter=@azure/package-name...  # ... includes dependencies
-pnpm build --filter=@azure/core-util...     # Example
+pnpm build --filter=@azure/package1-name... --filter=@azure/package2-name... # ... includes dependencies
+pnpm build --filter=@azure/core-util... --filter=@azure/core-auth...     # Example
 ```
 
 **Common build issues:**
