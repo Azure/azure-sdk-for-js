@@ -146,8 +146,8 @@ npx turbo build                          # Build current package (from pkg dir)
 
 **Testing & Validation:**
 ```bash
-pnpm test:node                           # Node tests only (recommended)
-pnpm test:browser                        # Browser tests (can fail)
+pnpm test:node                           # Node tests only
+pnpm test:browser                        # Browser tests (if package supports browser)
 pnpm lint                                # Check linting
 pnpm format                              # Fix formatting
 ```
