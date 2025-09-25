@@ -46,7 +46,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     intervalIncrement: 2,
   };
   private isAvailableIdentityClient: IdentityClient;
-  private disableProbe: boolean = false;
+  private disableProbe: boolean;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
