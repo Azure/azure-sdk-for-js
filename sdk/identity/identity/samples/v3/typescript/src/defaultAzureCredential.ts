@@ -15,7 +15,6 @@ require("dotenv").config();
  * The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
  * This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed,
  * with credentials used to authenticate in a development environment.
- *
  * For more information, you may go to our readme: [link](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
  */
 

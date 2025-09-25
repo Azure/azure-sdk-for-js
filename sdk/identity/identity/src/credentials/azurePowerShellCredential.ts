@@ -21,8 +21,7 @@ const isWindows = process.platform === "win32";
 
 /**
  * Returns a platform-appropriate command name by appending ".exe" on Windows.
- *
- * @internal
+
  */
 export function formatCommand(commandName: string): string {
   if (isWindows) {
@@ -35,7 +34,7 @@ export function formatCommand(commandName: string): string {
 /**
  * Receives a list of commands to run, executes them, then returns the outputs.
  * If anything fails, an error is thrown.
- * @internal
+
  */
 async function runCommands(commands: string[][], timeout?: number): Promise<string[]> {
   const results: string[] = [];
@@ -55,7 +54,7 @@ async function runCommands(commands: string[][], timeout?: number): Promise<stri
 
 /**
  * Known PowerShell errors
- * @internal
+
  */
 export const powerShellErrors = {
   login: "Run Connect-AzAccount to login",
@@ -65,7 +64,7 @@ export const powerShellErrors = {
 
 /**
  * Messages to use when throwing in this credential.
- * @internal
+
  */
 export const powerShellPublicErrorMessages = {
   login:
@@ -86,8 +85,7 @@ const isNotInstalledError: (err: Error) => RegExpMatchArray | null = (err: Error
 
 /**
  * The PowerShell commands to be tried, in order.
- *
- * @internal
+
  */
 export const commandStack = [formatCommand("pwsh")];
 
@@ -107,13 +105,11 @@ export class AzurePowerShellCredential implements TokenCredential {
 
   /**
    * Creates an instance of the {@link AzurePowerShellCredential}.
-   *
    * To use this credential:
    * - Install the Azure Az PowerShell module with:
    *   `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
    * - You have already logged in to Azure PowerShell using the command
    * `Connect-AzAccount` from the command line.
-   *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
@@ -206,7 +202,6 @@ export class AzurePowerShellCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this TokenCredential implementation might make.
    */
@@ -273,10 +268,6 @@ export class AzurePowerShellCredential implements TokenCredential {
   }
 }
 
-/**
- *
- * @internal
- */
 export async function parseJsonToken(
   result: string,
 ): Promise<{ Token: string; ExpiresOn: string }> {

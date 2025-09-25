@@ -116,11 +116,9 @@ export enum RegionalAuthority {
 /**
  * Calculates the correct regional authority based on the supplied value
  * and the AZURE_REGIONAL_AUTHORITY_NAME environment variable.
- *
  * Values will be returned verbatim, except for {@link RegionalAuthority.AutoDiscoverRegion}
  * which is mapped to a value MSAL can understand.
- *
- * @internal
+
  */
 export function calculateRegionalAuthority(regionalAuthority?: string): string | undefined {
   // Note: as of today only 3 credentials support regional authority, and the parameter

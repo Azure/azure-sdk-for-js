@@ -8,7 +8,6 @@
  * credential will simply throw a `CredentialNotFoundError`, and the
  * `DefaultAzureCredential` will use a different credential, if one is
  * available.
- *
  * @summary loads the `VisualStudioCodeCredential` plugin and uses it through
  * `DefaultAzureCredential`
  */

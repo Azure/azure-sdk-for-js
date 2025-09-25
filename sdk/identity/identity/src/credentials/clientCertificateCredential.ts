@@ -28,9 +28,7 @@ const logger = credentialLogger(credentialName);
  * Enables authentication to Microsoft Entra ID using a PEM-encoded
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
- *
  * https://learn.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
- *
  */
 export class ClientCertificateCredential implements TokenCredential {
   private tenantId: string;
@@ -42,7 +40,6 @@ export class ClientCertificateCredential implements TokenCredential {
   /**
    * Creates an instance of the ClientCertificateCredential with the details
    * needed to authenticate against Microsoft Entra ID with a certificate.
-   *
    * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
@@ -58,7 +55,6 @@ export class ClientCertificateCredential implements TokenCredential {
   /**
    * Creates an instance of the ClientCertificateCredential with the details
    * needed to authenticate against Microsoft Entra ID with a certificate.
-   *
    * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the path of the certificate on the filesystem.
@@ -74,7 +70,6 @@ export class ClientCertificateCredential implements TokenCredential {
   /**
    * Creates an instance of the ClientCertificateCredential with the details
    * needed to authenticate against Microsoft Entra ID with a certificate.
-   *
    * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the PEM-encoded certificate as a string.
@@ -135,7 +130,6 @@ export class ClientCertificateCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
@@ -188,7 +182,6 @@ export class ClientCertificateCredential implements TokenCredential {
 
 /**
  * Parses a certificate into its relevant parts
- *
  * @param certificateConfiguration - The certificate contents or path to the certificate
  * @param sendCertificateChain - true if the entire certificate chain should be sent for SNI, false otherwise
  * @returns The parsed certificate parts and the certificate contents

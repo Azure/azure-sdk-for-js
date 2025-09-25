@@ -31,10 +31,8 @@ export class BrokerCredential implements TokenCredential {
 
   /**
    * Creates an instance of BrokerCredential with the required broker options.
-   *
    * This credential uses WAM (Web Account Manager) for authentication, which provides
    * better security and user experience on Windows platforms.
-   *
    * @param options - Options for configuring the broker credential, including required broker options.
    */
   constructor(
@@ -65,10 +63,8 @@ export class BrokerCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID using WAM broker and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * This method extends the base getToken method to support silentAuthenticationOnly option
    * when using broker authentication.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure the token request, including silentAuthenticationOnly option.
    */

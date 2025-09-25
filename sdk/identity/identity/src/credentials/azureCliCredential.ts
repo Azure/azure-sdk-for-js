@@ -20,7 +20,7 @@ const logger = credentialLogger("AzureCliCredential");
 
 /**
  * Messages to use when throwing in this credential.
- * @internal
+
  */
 export const azureCliPublicErrorMessages = {
   claim:
@@ -36,11 +36,11 @@ export const azureCliPublicErrorMessages = {
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
- * @internal
+
  */
 export const cliCredentialInternals = {
   /**
-   * @internal
+
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
@@ -61,7 +61,7 @@ export const cliCredentialInternals = {
   /**
    * Gets the access token from Azure CLI
    * @param resource - The resource to use when getting the token
-   * @internal
+
    */
   async getAzureCliAccessToken(
     resource: string,
@@ -119,10 +119,8 @@ export class AzureCliCredential implements TokenCredential {
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
-   *
    * To use this credential, ensure that you have already logged
    * in via the 'az' tool using the command "az login" from the commandline.
-   *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureCliCredentialOptions) {
@@ -143,7 +141,6 @@ export class AzureCliCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
@@ -234,12 +231,9 @@ export class AzureCliCredential implements TokenCredential {
 
   /**
    * Parses the raw JSON response from the Azure CLI into a usable AccessToken object
-   *
    * @param rawResponse - The raw JSON response from the Azure CLI
    * @returns An access token with the expiry time parsed from the raw response
-   *
    * The expiryTime of the credential's access token, in milliseconds, is calculated as follows:
-   *
    * When available, expires_on (introduced in Azure CLI v2.54.0) will be preferred. Otherwise falls back to expiresOn.
    */
   private parseRawResponse(rawResponse: string): AccessToken {

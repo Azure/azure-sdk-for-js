@@ -35,7 +35,6 @@ export class UsernamePasswordCredential implements TokenCredential {
    * Creates an instance of the UsernamePasswordCredential with the details
    * needed to authenticate against Microsoft Entra ID with a username
    * and password.
-   *
    * @param tenantId - The Microsoft Entra tenant (directory).
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param username - The user account's e-mail address (user name).
@@ -90,11 +89,9 @@ export class UsernamePasswordCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * If the user provided the option `disableAutomaticAuthentication`,
    * once the token can't be retrieved silently,
    * this method won't attempt to request user interaction to retrieve the token.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.

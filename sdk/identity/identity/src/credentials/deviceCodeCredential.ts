@@ -44,14 +44,10 @@ export class DeviceCodeCredential implements TokenCredential {
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Microsoft Entra ID.
-   *
    * A message will be logged, giving users a code that they can use to authenticate once they go to https://microsoft.com/devicelogin
-   *
    * Developers can configure how this message is shown by passing a custom `userPromptCallback`:
-   *
    * ```ts snippet:device_code_credential_example
    * import { DeviceCodeCredential } from "@azure/identity";
-   *
    * const credential = new DeviceCodeCredential({
    *   tenantId: process.env.AZURE_TENANT_ID,
    *   clientId: process.env.AZURE_CLIENT_ID,
@@ -60,7 +56,6 @@ export class DeviceCodeCredential implements TokenCredential {
    *   },
    * });
    * ```
-   *
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(options?: DeviceCodeCredentialOptions) {
@@ -82,11 +77,9 @@ export class DeviceCodeCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * If the user provided the option `disableAutomaticAuthentication`,
    * once the token can't be retrieved silently,
    * this method won't attempt to request user interaction to retrieve the token.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
@@ -115,9 +108,7 @@ export class DeviceCodeCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * If the token can't be retrieved silently, this method will always generate a challenge for the user.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                  TokenCredential implementation might make.

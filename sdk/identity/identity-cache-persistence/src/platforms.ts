@@ -20,14 +20,14 @@ import type { TokenCachePersistenceOptions } from "@azure/identity";
  * - Darwin: '/Users/user/'
  * - Windows 8+: 'C:\Users\user\AppData\Local'
  * - Linux: '/home/user/.local/share'
- * @internal
+
  */
 const localApplicationDataFolder =
   process.env.APPDATA?.replace?.(/(.Roaming)*$/, "\\Local") ?? process.env.HOME!;
 
 /**
  * Dictionary of values that we use as default as we discover, pick and enable the persistence layer.
- * @internal
+
  */
 export const defaultMsalValues = {
   tokenCache: {
@@ -57,13 +57,13 @@ export const defaultMsalValues = {
 
 /**
  * Options that are used by the underlying MSAL cache provider.
- * @internal
+
  */
 export type MsalPersistenceOptions = Omit<TokenCachePersistenceOptions, "enabled">;
 
 /**
  * A function that returns a persistent token cache instance.
- * @internal
+
  */
 type MsalPersistenceFactory = (options?: MsalPersistenceOptions) => Promise<Persistence>;
 
@@ -72,7 +72,7 @@ type MsalPersistenceFactory = (options?: MsalPersistenceOptions) => Promise<Pers
  * - Darwin: '/Users/user/.IdentityService/<name>'
  * - Windows 8+: 'C:\Users\user\AppData\Local\.IdentityService\<name>'
  * - Linux: '/home/user/.IdentityService/<name>'
- * @internal
+
  */
 function getPersistencePath(name: string): string {
   return path.join(defaultMsalValues.tokenCache.directory, name);
@@ -80,14 +80,11 @@ function getPersistencePath(name: string): string {
 
 /**
  * Set of the platforms we attempt to deliver persistence on.
- *
  * - On Windows we use DPAPI.
  * - On OSX (Darwin), we try to use the system's Keychain, otherwise if the property `unsafeAllowUnencryptedStorage` is set to true, we use an unencrypted file.
  * - On Linux, we try to use the system's Keyring, otherwise if the property `unsafeAllowUnencryptedStorage` is set to true, we use an unencrypted file.
- *
  * Other platforms _are not supported_ at this time.
- *
- * @internal
+
  */
 export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersistenceFactory>> = {
   win32: ({ name = defaultMsalValues.tokenCache.name } = {}): Promise<Persistence> =>

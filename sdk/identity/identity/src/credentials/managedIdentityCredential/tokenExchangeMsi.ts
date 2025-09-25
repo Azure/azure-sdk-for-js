@@ -12,7 +12,6 @@ const logger = credentialLogger(msiName);
 
 /**
  * Defines how to determine whether the token exchange MSI is available, and also how to retrieve a token from the token exchange MSI.
- *
  * Token exchange MSI (used by AKS) is the only MSI implementation handled entirely by Azure Identity.
  * The rest have been migrated to MSAL.
  */

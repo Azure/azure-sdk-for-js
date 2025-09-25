@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * @internal
+ 
  */
 export type AppType = "public" | "confidential" | "publicFirst" | "confidentialFirst";
 
 /**
  * The shape we use return the token (and the expiration date).
- * @internal
+ 
  */
 export interface MsalToken {
   accessToken?: string;
@@ -23,7 +23,7 @@ export type ValidMsalToken = { [P in keyof MsalToken]-?: NonNullable<MsalToken[P
 /**
  * Internal representation of MSAL's Account information.
  * Helps us to disambiguate the MSAL classes accross environments.
- * @internal
+ 
  */
 export interface MsalAccountInfo {
   homeAccountId: string;
@@ -38,7 +38,7 @@ export interface MsalAccountInfo {
 
 /**
  * Represents the common properties of any of the MSAL responses.
- * @internal
+ 
  */
 export interface MsalResult {
   authority?: string;
@@ -76,7 +76,7 @@ export interface AuthenticationRecord {
 
 /**
  * Represents a parsed certificate
- * @internal
+ 
  */
 export interface CertificateParts {
   /**

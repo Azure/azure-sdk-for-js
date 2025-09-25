@@ -6,7 +6,7 @@ import type { AccessToken } from "@azure/core-auth";
 import type { IdentityClient } from "../../client/identityClient.js";
 
 /**
- * @internal
+ 
  */
 export interface MSIConfiguration {
   retryConfig: {
@@ -21,7 +21,7 @@ export interface MSIConfiguration {
 }
 
 /**
- * @internal
+ 
  * Represents an access token for {@link ManagedIdentity} for internal usage,
  * with an expiration time and the time in which token should refresh.
  */

@@ -46,7 +46,6 @@ function prepareInvalidRequestOptions(scopes: string | string[]): PipelineReques
 
 /**
  * Defines how to determine whether the Azure IMDS MSI is available.
- *
  * Actually getting the token once we determine IMDS is available is handled by MSAL.
  */
 export const imdsMsi = {

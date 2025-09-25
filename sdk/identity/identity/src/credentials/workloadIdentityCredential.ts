@@ -15,8 +15,7 @@ const credentialName = "WorkloadIdentityCredential";
  * Contains the list of all supported environment variable names so that an
  * appropriate error message can be generated when no credentials can be
  * configured.
- *
- * @internal
+ 
  */
 export const SupportedWorkloadEnvironmentVariables = [
   "AZURE_TENANT_ID",
@@ -46,7 +45,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
 
   /**
    * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
-   *
    * @param options - The identity client options to use for authentication.
    */
   constructor(options?: WorkloadIdentityCredentialOptions) {
@@ -97,7 +95,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
-   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.

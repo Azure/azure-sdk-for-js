@@ -7,11 +7,9 @@
  * through `useIdentityPlugin`, some credentials, such as
  * `DeviceCodeCredential`, will be able to retrieve tokens from the cache rather
  * than requesting new tokens from the Microsoft Entra token endpoint.
- *
  * In order to utilize the persistent token cache, the `enabled` property must
  * be set to `true` within `tokenCachePersistenceOptions` in the credential's
  * options.
- *
  * @summary import and use the persistence plugin
  */
 

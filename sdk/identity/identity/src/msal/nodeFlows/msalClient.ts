@@ -42,9 +42,7 @@ const msalLogger = credentialLogger("MsalClient");
 export interface GetTokenWithSilentAuthOptions extends GetTokenOptions {
   /**
    * Disables automatic authentication. If set to true, the method will throw an error if the user needs to authenticate.
-   *
    * @remarks
-   *
    * This option will be set to `false` when the user calls `authenticate` directly on a credential that supports it.
    */
   disableAutomaticAuthentication?: boolean;
@@ -74,9 +72,7 @@ export interface GetTokenInteractiveOptions extends GetTokenWithSilentAuthOption
  */
 export interface MsalClient {
   /**
-   *
    * Retrieves an access token by using the on-behalf-of flow and a client assertion callback of the calling service.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param userAssertionToken - The access token that was sent to the middle-tier API. This token must have an audience of the app making this OBO request.
    * @param clientCredentials - The client secret OR client certificate OR client `getAssertion` callback.
@@ -102,7 +98,6 @@ export interface MsalClient {
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a user's username and password.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param username - The username provided by the developer.
    * @param password - The user's password provided by the developer.
@@ -117,7 +112,6 @@ export interface MsalClient {
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by prompting the user to authenticate using a device code.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param userPromptCallback - The callback function that allows developers to customize the prompt message.
    * @param options - Additional options that may be provided to the method.
@@ -130,7 +124,6 @@ export interface MsalClient {
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client certificate.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param certificate - The client certificate used for authentication.
    * @param options - Additional options that may be provided to the method.
@@ -144,7 +137,6 @@ export interface MsalClient {
 
   /**
    * Retrieves an access token by using a client assertion.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientAssertion - The client `getAssertion` callback used for authentication.
    * @param options - Additional options that may be provided to the method.
@@ -158,7 +150,6 @@ export interface MsalClient {
 
   /**
    * Retrieves an access token by using a client secret.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientSecret - The client secret of the application. This is a credential that the application can use to authenticate itself.
    * @param options - Additional options that may be provided to the method.
@@ -172,7 +163,6 @@ export interface MsalClient {
 
   /**
    * Retrieves an access token by using an authorization code flow.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param authorizationCode - An authorization code that was received from following the
                               authorization code flow.  This authorization code must not
@@ -192,14 +182,12 @@ export interface MsalClient {
 
   /**
    * Retrieves the last authenticated account. This method expects an authentication record to have been previously loaded.
-   *
    * An authentication record could be loaded by calling the `getToken` method, or by providing an `authenticationRecord` when creating a credential.
    */
   getActiveAccount(): AuthenticationRecord | undefined;
 
   /**
    * Retrieves an access token using brokered authentication.
-   *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param useDefaultBrokerAccount - Whether to use the default broker account for authentication.
    * @param options - Additional options that may be provided to the method.
@@ -264,7 +252,6 @@ export interface MsalClientOptions {
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
- *
  * @param clientId - The client ID of the application.
  * @param  tenantId - The tenant ID of the Azure Active Directory.
  * @param  msalClientOptions - Optional. Additional options for creating the MSAL client.
@@ -315,8 +302,7 @@ export function generateMsalConfiguration(
 /**
  * Represents the state necessary for the MSAL (Microsoft Authentication Library) client to operate.
  * This includes the MSAL configuration, cached account information, Azure region, and a flag to disable automatic authentication.
- *
- * @internal
+ 
  */
 interface MsalClientState {
   /** The configuration for the MSAL client. */
@@ -337,12 +323,10 @@ interface MsalClientState {
 
 /**
  * Creates an instance of the MSAL (Microsoft Authentication Library) client.
- *
  * @param clientId - The client ID of the application.
  * @param tenantId - The tenant ID of the Azure Active Directory.
  * @param createMsalClientOptions - Optional. Additional options for creating the MSAL client.
  * @returns An instance of the MSAL client.
- *
  * @public
  */
 export function createMsalClient(
@@ -487,7 +471,6 @@ export function createMsalClient(
   /**
    * Performs silent authentication using MSAL to acquire an access token.
    * If silent authentication fails, falls back to interactive authentication.
-   *
    * @param msalApp - The MSAL application instance.
    * @param scopes - The scopes for which to acquire the access token.
    * @param options - The options for acquiring the access token.
@@ -769,8 +752,7 @@ export function createMsalClient(
   /**
    * Creates a base interactive request configuration for MSAL interactive authentication.
    * This is shared between interactive and brokered authentication flows.
-   *
-   * @internal
+   
    */
   function createBaseInteractiveRequest(
     scopes: string[],
@@ -792,7 +774,7 @@ export function createMsalClient(
   }
 
   /**
-   * @internal
+   
    */
   async function getBrokeredTokenInternal(
     scopes: string[],
@@ -855,7 +837,6 @@ export function createMsalClient(
 
   /**
    * A helper function that supports brokered authentication through the MSAL's public application.
-   *
    * When useDefaultBrokerAccount is true, the method will attempt to authenticate using the default broker account.
    * If the default broker account is not available, the method will fall back to interactive authentication.
    */

@@ -13,7 +13,7 @@ function createConfigurationErrorMessage(tenantId: string): string {
  * Of getToken contains a tenantId, this functions allows picking this tenantId as the appropriate for authentication,
  * unless multitenant authentication has been disabled through the AZURE_IDENTITY_DISABLE_MULTITENANTAUTH (on Node.js),
  * or unless the original tenant Id is `adfs`.
- * @internal
+
  */
 export function processMultiTenantRequest(
   tenantId?: string,
