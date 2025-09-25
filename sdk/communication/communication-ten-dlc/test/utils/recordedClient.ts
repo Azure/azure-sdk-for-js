@@ -83,7 +83,7 @@ export async function createRecorder(context: TestInfo | undefined): Promise<Rec
 export async function createRecordedClient(
   context: TestInfo,
 ): Promise<RecordedClient<TenDlcClient>> {
-  const recorder = await new Recorder(context);
+  const recorder = new Recorder(context);
 
   const client = new TenDlcClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",

@@ -13,7 +13,7 @@ import type {
   TenDlcSubmitUSBrandOptionalParams,
   TenDlcSubmitUSCampaignOptionalParams,
   USCampaign
-} from "./models.js";
+} from "./generated/src/models/index.js";
 
 /**
  * Additional options for the Create or update brand request.

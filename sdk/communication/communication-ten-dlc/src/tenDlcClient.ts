@@ -24,7 +24,6 @@ import type {
   TenDlcSubmitUSCampaignOptionalParams,
   USBrand,
   USCampaign,
-  
 } from "./generated/src/models/index.js";
 import type {
   DeleteBrandOptionalParams,
