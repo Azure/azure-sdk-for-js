@@ -19,8 +19,9 @@ import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
-import { ContinuationTokenManager } from "./ContinuationTokenManager.js";
+import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import { validateContinuationTokenUsage } from "./QueryValidationHelper.js";
+import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -32,7 +33,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-  private continuationTokenManager: ContinuationTokenManager;
+  private continuationTokenManager: BaseContinuationTokenManager;
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
@@ -48,16 +49,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
 
-    // Initialize continuation token manager early so it's available for OffsetLimitEndpointComponent
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
-    if (this.options.enableQueryControl) {
-      this.continuationTokenManager = new ContinuationTokenManager(
-        this.collectionLink,
-        this.options.continuationToken,
-        isOrderByQuery,
-      );
-    }
 
     // Pick between Nonstreaming and streaming endpoints
     this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
@@ -72,12 +65,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const isUnorderedDistinctQuery =
       partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
-    // Configure continuation token manager for unsupported query types
-    if (
-      this.continuationTokenManager &&
-      (isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy)
-    ) {
-      this.continuationTokenManager.setUnsupportedQueryType(true);
+    // Determine if this query type supports continuation tokens
+    const isUnsupportedQueryType = isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
+
+    if (this.options.enableQueryControl) {
+      this.continuationTokenManager = ContinuationTokenManagerFactory.create(
+        this.collectionLink,
+        this.options.continuationToken,
+        isOrderByQuery,
+        isUnsupportedQueryType,
+      );
     }
 
     // Validate continuation token usage for unsupported query types
@@ -193,8 +190,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
 
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
-      const top = partitionedQueryExecutionInfo.queryInfo.top;
+      let top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
+        if(this.continuationTokenManager){
+          const tokenTop = this.continuationTokenManager.getLimit();
+          if(tokenTop !== undefined){
+            top = tokenTop;
+          }
+        }
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
       }
 
@@ -314,7 +317,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // Process buffered data if available and has unprocessed ranges
     if (this.fetchBuffer.length > 0) {
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
       const temp = this.fetchBuffer.slice(0, endIndex);
@@ -331,18 +333,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
     // Process response and update continuation token manager
-    if (response?.result?.partitionKeyRangeMap) {
-      this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
-    }
-
-    if (response?.result?.updatedContinuationRanges) {
-      this.continuationTokenManager.handlePartitionRangeChanges(
-        response.result.updatedContinuationRanges,
-      );
-    }
-
-    if (response?.result?.orderByItems) {
-      this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItems);
+    if (response?.result) {
+      this.continuationTokenManager.processResponseResult(response.result);
     }
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
@@ -356,9 +348,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
 
     const temp = this.fetchBuffer.slice(0, endIndex);
-
     this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-
     this._clearProcessedRangeMetadata(processedRanges, endIndex);
     this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
@@ -366,15 +356,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
-    const result = this.continuationTokenManager.processRangesForCurrentPage(this.pageSize);
+    const result = this.continuationTokenManager.handleCurrentPageRanges(this.pageSize);
     return result;
   }
 
   private _clearProcessedRangeMetadata(processedRanges: string[], endIndex: number): void {
-    processedRanges.forEach((rangeId) => {
-      this.continuationTokenManager.removePartitionRangeMapping(rangeId);
-    });
-    this.continuationTokenManager.sliceOrderByItemsArray(endIndex);
+    this.continuationTokenManager.cleanProcessedData(processedRanges, endIndex);
   }
 
   private createEmptyResultWithHeaders(headers?: CosmosHeaders): Response<any> {

@@ -51,7 +51,6 @@ export class OrderByEndpointComponent implements ExecutionContext {
     // Process buffer items and collect order by items for each item
     for (let i = 0; i < rawBuffer.length; i++) {
       const item = rawBuffer[i];
-      console.log("item: ", i, item);
       if (this.emitRawOrderByPayload) {
         buffer.push(item);
       } else {
