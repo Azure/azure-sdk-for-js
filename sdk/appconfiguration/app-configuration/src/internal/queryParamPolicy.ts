@@ -14,7 +14,7 @@ import type { PipelinePolicy } from "@azure/core-rest-pipeline";
  * NOTE: Only enable if the target service treats parameter names case-insensitively.
  * @internal
  */
-export function urlQueryParamNormalizationPolicy(): PipelinePolicy {
+export function queryParamPolicy(): PipelinePolicy {
   return {
     name: "urlQueryParamNormalizationPolicy",
     async sendRequest(request, next) {

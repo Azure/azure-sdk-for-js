@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { urlQueryParamNormalizationPolicy } from "../../src/internal/queryParamPolicy.js";
+import { queryParamPolicy } from "../../src/internal/queryParamPolicy.js";
 import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
@@ -18,7 +18,7 @@ function mockNext(returnStatus: number = 200) {
 
 describe("urlQueryParamsNormalizationPolicy", () => {
   it("normalizes query parameters", async () => {
-    const policy = urlQueryParamNormalizationPolicy();
+    const policy = queryParamPolicy();
     const request = createPipelineRequest({
       url: "https://example.azconfig.io/kv?api-version=2023-11-01&After=abcdefg&key=*&label=dev&$Select=key",
     });
