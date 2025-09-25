@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a DiscoverySourceResource
  *
  * @summary delete a DiscoverySourceResource
- * x-ms-original-file: 2025-01-31-preview/DiscoverySources_Delete.json
+ * x-ms-original-file: 2025-07-01-preview/DiscoverySources_Delete.json
  */
 async function discoverySourcesDeleteGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

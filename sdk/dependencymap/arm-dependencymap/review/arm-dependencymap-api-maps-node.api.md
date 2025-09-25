@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: DependencyMapContext, resourceGroupName: string, mapName: string, options?: MapsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -16,7 +16,7 @@ export function $delete(context: DependencyMapContext, resourceGroupName: string
 export function createOrUpdate(context: DependencyMapContext, resourceGroupName: string, mapName: string, resource: MapsResource, options?: MapsCreateOrUpdateOptionalParams): PollerLike<OperationState<MapsResource>, MapsResource>;
 
 // @public
-export function exportDependencies(context: DependencyMapContext, resourceGroupName: string, mapName: string, body: ExportDependenciesRequest, options?: MapsExportDependenciesOptionalParams): PollerLike<OperationState<void>, void>;
+export function exportDependencies(context: DependencyMapContext, resourceGroupName: string, mapName: string, body: ExportDependenciesRequest, options?: MapsExportDependenciesOptionalParams): PollerLike<OperationState<ExportDependenciesOperationResult>, ExportDependenciesOperationResult>;
 
 // @public
 export function get(context: DependencyMapContext, resourceGroupName: string, mapName: string, options?: MapsGetOptionalParams): Promise<MapsResource>;
@@ -26,6 +26,9 @@ export function getConnectionsForProcessOnFocusedMachine(context: DependencyMapC
 
 // @public
 export function getConnectionsWithConnectedMachineForFocusedMachine(context: DependencyMapContext, resourceGroupName: string, mapName: string, body: GetConnectionsWithConnectedMachineForFocusedMachineRequest, options?: MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
+export function getDependencyViewForAllMachines(context: DependencyMapContext, resourceGroupName: string, mapName: string, body: GetDependencyViewForAllMachinesRequest, options?: MapsGetDependencyViewForAllMachinesOptionalParams): PollerLike<OperationState<GetDependencyViewForAllMachinesOperationResult>, GetDependencyViewForAllMachinesOperationResult>;
 
 // @public
 export function getDependencyViewForFocusedMachine(context: DependencyMapContext, resourceGroupName: string, mapName: string, body: GetDependencyViewForFocusedMachineRequest, options?: MapsGetDependencyViewForFocusedMachineOptionalParams): PollerLike<OperationState<void>, void>;
@@ -58,6 +61,11 @@ export interface MapsGetConnectionsForProcessOnFocusedMachineOptionalParams exte
 
 // @public
 export interface MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MapsGetDependencyViewForAllMachinesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

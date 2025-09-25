@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a DiscoverySourceResource
  *
  * @summary update a DiscoverySourceResource
- * x-ms-original-file: 2025-01-31-preview/DiscoverySources_Update.json
+ * x-ms-original-file: 2025-07-01-preview/DiscoverySources_Update.json
  */
 async function discoverySourcesUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

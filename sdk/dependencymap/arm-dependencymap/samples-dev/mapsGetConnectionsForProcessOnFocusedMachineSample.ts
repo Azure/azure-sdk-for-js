@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DependencyMapClient } from "@azure/arm-dependencymap";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get network connections of a process
  *
  * @summary get network connections of a process
- * x-ms-original-file: 2025-01-31-preview/Maps_GetConnectionsForProcessOnFocusedMachine.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_GetConnectionsForProcessOnFocusedMachine.json
  */
-
-import { DependencyMapClient } from "@azure/arm-dependencymap";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function mapsGetConnectionsForProcessOnFocusedMachineGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";

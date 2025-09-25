@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a MapsResource
  *
  * @summary create a MapsResource
- * x-ms-original-file: 2025-01-31-preview/Maps_CreateOrUpdate.json
+ * x-ms-original-file: 2025-07-01-preview/Maps_CreateOrUpdate.json
  */
 async function mapsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

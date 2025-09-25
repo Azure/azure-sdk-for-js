@@ -1,28 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapContext } from "../../api/dependencyMapContext.js";
+import type { DependencyMapContext } from "../../api/dependencyMapContext.js";
 import {
-  MapsResource,
-  MapsResourceTagsUpdate,
-  GetDependencyViewForFocusedMachineRequest,
-  GetConnectionsWithConnectedMachineForFocusedMachineRequest,
-  GetConnectionsForProcessOnFocusedMachineRequest,
-  ExportDependenciesRequest,
-} from "../../models/models.js";
-import {
-  MapsExportDependenciesOptionalParams,
-  MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
-  MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
-  MapsGetDependencyViewForFocusedMachineOptionalParams,
-  MapsListBySubscriptionOptionalParams,
-  MapsListByResourceGroupOptionalParams,
-  MapsDeleteOptionalParams,
-  MapsUpdateOptionalParams,
-  MapsCreateOrUpdateOptionalParams,
-  MapsGetOptionalParams,
-} from "../../api/maps/options.js";
-import {
+  getDependencyViewForAllMachines,
   exportDependencies,
   getConnectionsForProcessOnFocusedMachine,
   getConnectionsWithConnectedMachineForFocusedMachine,
@@ -34,18 +15,55 @@ import {
   createOrUpdate,
   get,
 } from "../../api/maps/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
+  MapsExportDependenciesOptionalParams,
+  MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
+  MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
+  MapsGetDependencyViewForFocusedMachineOptionalParams,
+  MapsListBySubscriptionOptionalParams,
+  MapsListByResourceGroupOptionalParams,
+  MapsDeleteOptionalParams,
+  MapsUpdateOptionalParams,
+  MapsCreateOrUpdateOptionalParams,
+  MapsGetOptionalParams,
+} from "../../api/maps/options.js";
+import type {
+  MapsResource,
+  MapsResourceTagsUpdate,
+  GetDependencyViewForFocusedMachineRequest,
+  GetConnectionsWithConnectedMachineForFocusedMachineRequest,
+  GetConnectionsForProcessOnFocusedMachineRequest,
+  ExportDependenciesRequest,
+  ExportDependenciesOperationResult,
+  GetDependencyViewForAllMachinesRequest,
+  GetDependencyViewForAllMachinesOperationResult,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Maps operations. */
 export interface MapsOperations {
+  /** Get dependencies for all machines */
+  getDependencyViewForAllMachines: (
+    resourceGroupName: string,
+    mapName: string,
+    body: GetDependencyViewForAllMachinesRequest,
+    options?: MapsGetDependencyViewForAllMachinesOptionalParams,
+  ) => PollerLike<
+    OperationState<GetDependencyViewForAllMachinesOperationResult>,
+    GetDependencyViewForAllMachinesOperationResult
+  >;
   /** Export dependencies */
   exportDependencies: (
     resourceGroupName: string,
     mapName: string,
     body: ExportDependenciesRequest,
     options?: MapsExportDependenciesOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<ExportDependenciesOperationResult>,
+    ExportDependenciesOperationResult
+  >;
   /** Get network connections of a process */
   getConnectionsForProcessOnFocusedMachine: (
     resourceGroupName: string,
@@ -111,6 +129,12 @@ export interface MapsOperations {
 
 function _getMaps(context: DependencyMapContext) {
   return {
+    getDependencyViewForAllMachines: (
+      resourceGroupName: string,
+      mapName: string,
+      body: GetDependencyViewForAllMachinesRequest,
+      options?: MapsGetDependencyViewForAllMachinesOptionalParams,
+    ) => getDependencyViewForAllMachines(context, resourceGroupName, mapName, body, options),
     exportDependencies: (
       resourceGroupName: string,
       mapName: string,
