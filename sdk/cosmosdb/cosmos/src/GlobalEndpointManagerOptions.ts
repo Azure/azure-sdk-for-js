@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Options for resolving the service endpoint.
+ * @internal
  */
 export interface ResolveServiceEndpointOptions {
   /**

@@ -2130,12 +2130,6 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
-// @public
-export interface ResolveServiceEndpointOptions {
-    excludedLocations?: string[];
-    startServiceEndpointIndex?: number;
-}
-
 // @public (undocumented)
 export interface Resource {
     _etag: string;
