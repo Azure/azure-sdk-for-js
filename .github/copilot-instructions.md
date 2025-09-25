@@ -38,7 +38,7 @@ pnpm build --filter=@azure/core-util... --filter=@azure/core-auth...     # Examp
 
 **Node tests (recommended):**
 ```bash
-pnpm test:node  # Fast, reliable
+pnpm test:node
 ```
 
 **Browser tests (can be flaky):**
