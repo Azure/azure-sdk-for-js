@@ -68,7 +68,6 @@ pnpm build --filter=@azure/package-name...
 pnpm test:node
 pnpm lint
 pnpm format
-pnpm check-format
 ```
 
 ## Development Guidelines
