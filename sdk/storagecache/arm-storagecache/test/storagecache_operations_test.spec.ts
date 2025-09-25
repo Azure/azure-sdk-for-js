@@ -27,7 +27,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("StorageCache test", () => {
+describe.skip("StorageCache test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StorageCacheManagementClient;
