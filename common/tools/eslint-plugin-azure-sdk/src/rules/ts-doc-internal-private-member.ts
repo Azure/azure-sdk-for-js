@@ -61,6 +61,45 @@ export default createRule({
                 context.report({
                   node,
                   messageId: "PrivateMembersNotInternal",
+                  fix(fixer) {
+                    const sourceCode = context.sourceCode;
+                    
+                    // Find the specific comment token that corresponds to this JSDoc comment
+                    const commentTokens = sourceCode.getAllComments();
+                    
+                    // Find the comment that starts closest to the node's position
+                    let targetComment = null;
+                    let minDistance = Infinity;
+                    
+                    for (const commentToken of commentTokens) {
+                      if (commentToken.type === "Block" && commentToken.value.includes("@internal")) {
+                        // Check if this comment is before the node and within a reasonable distance
+                        const distance = node.range[0] - commentToken.range[1];
+                        if (distance >= 0 && distance < minDistance) {
+                          targetComment = commentToken;
+                          minDistance = distance;
+                        }
+                      }
+                    }
+                    
+                    if (targetComment) {
+                      const commentText = targetComment.value;
+                      const lines = commentText.split('\n');
+                      const filteredLines = lines.filter(line => {
+                        const trimmed = line.trim();
+                        return !trimmed.endsWith('@internal') && trimmed !== '* @internal';
+                      });
+                      
+                      // Only fix if we actually removed some lines
+                      if (filteredLines.length < lines.length) {
+                        const newCommentValue = filteredLines.join('\n');
+                        const newComment = `/*${newCommentValue}*/`;
+                        return fixer.replaceText(targetComment, newComment);
+                      }
+                    }
+                    
+                    return null;
+                  },
                 });
               }
             }

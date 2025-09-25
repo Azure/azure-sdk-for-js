@@ -142,6 +142,52 @@ class ExampleClass {
     private param_y: number) { }
 }
 `,
+      output: `
+/**
+ * Class documentation
+ */
+class ExampleClass {
+  /**
+   * Property Definition
+   */
+  private x = 0;
+
+  /**
+   * Property Signature
+   */
+  private y: number;
+
+  /**
+   * Method Definition
+   */
+  private testMethod() { }
+
+  /**
+   * Method Definition
+   */
+  private get getter(): number { return 0 }
+
+  /**
+   * Method Signature
+   */
+  private method1(): any;
+
+
+  /**
+   * constructor
+   * @internal
+   */
+  constructor(
+    /**
+     * param x
+     */
+    private param_x: number,
+    /**
+     * param y
+     */
+    private param_y: number) { }
+}
+`,
       filename: "src/test.ts",
       errors: [
         {
