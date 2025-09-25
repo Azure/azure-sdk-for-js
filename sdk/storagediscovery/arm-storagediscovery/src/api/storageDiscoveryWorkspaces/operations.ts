@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageDiscoveryContext as Client } from "../index.js";
-import {
+import type { StorageDiscoveryContext as Client } from "../index.js";
+import type {
   StorageDiscoveryWorkspace,
+  StorageDiscoveryWorkspaceUpdate,
+  _StorageDiscoveryWorkspaceListResult,
+} from "../../models/models.js";
+import {
   storageDiscoveryWorkspaceSerializer,
   storageDiscoveryWorkspaceDeserializer,
   errorResponseDeserializer,
-  StorageDiscoveryWorkspaceUpdate,
   storageDiscoveryWorkspaceUpdateSerializer,
-  _StorageDiscoveryWorkspaceListResult,
   _storageDiscoveryWorkspaceListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   StorageDiscoveryWorkspacesDeleteOptionalParams,
@@ -20,17 +25,8 @@ import {
   StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
   StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -163,13 +159,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
