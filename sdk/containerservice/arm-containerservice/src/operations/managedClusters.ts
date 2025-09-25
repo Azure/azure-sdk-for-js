@@ -26,6 +26,14 @@ import type {
   ManagedClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsResponse,
+  GuardrailsAvailableVersion,
+  ManagedClustersListGuardrailsVersionsNextOptionalParams,
+  ManagedClustersListGuardrailsVersionsOptionalParams,
+  ManagedClustersListGuardrailsVersionsResponse,
+  SafeguardsAvailableVersion,
+  ManagedClustersListSafeguardsVersionsNextOptionalParams,
+  ManagedClustersListSafeguardsVersionsOptionalParams,
+  ManagedClustersListSafeguardsVersionsResponse,
   MeshRevisionProfile,
   ManagedClustersListMeshRevisionProfilesNextOptionalParams,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
@@ -59,10 +67,10 @@ import type {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
-  ManagedClustersRotateClusterCertificatesOptionalParams,
-  ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersAbortLatestOperationOptionalParams,
   ManagedClustersAbortLatestOperationResponse,
+  ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
@@ -74,13 +82,22 @@ import type {
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersGetCommandResultResponse,
+  ManagedClustersGetGuardrailsVersionsOptionalParams,
+  ManagedClustersGetGuardrailsVersionsResponse,
+  ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ManagedClustersGetSafeguardsVersionsResponse,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersGetMeshUpgradeProfileResponse,
+  RebalanceLoadBalancersRequestBody,
+  ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ManagedClustersRebalanceLoadBalancersResponse,
   ManagedClustersListNextResponse,
   ManagedClustersListByResourceGroupNextResponse,
   ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse,
+  ManagedClustersListGuardrailsVersionsNextResponse,
+  ManagedClustersListSafeguardsVersionsNextResponse,
   ManagedClustersListMeshRevisionProfilesNextResponse,
   ManagedClustersListMeshUpgradeProfilesNextResponse,
 } from "../models/index.js";
@@ -291,6 +308,122 @@ export class ManagedClustersImpl implements ManagedClusters {
       resourceName,
       options,
     )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Contains list of Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  public listGuardrailsVersions(
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
+  ): PagedAsyncIterableIterator<GuardrailsAvailableVersion> {
+    const iter = this.listGuardrailsVersionsPagingAll(location, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listGuardrailsVersionsPagingPage(location, options, settings);
+      },
+    };
+  }
+
+  private async *listGuardrailsVersionsPagingPage(
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<GuardrailsAvailableVersion[]> {
+    let result: ManagedClustersListGuardrailsVersionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGuardrailsVersions(location, options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listGuardrailsVersionsNext(location, continuationToken, options);
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listGuardrailsVersionsPagingAll(
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
+  ): AsyncIterableIterator<GuardrailsAvailableVersion> {
+    for await (const page of this.listGuardrailsVersionsPagingPage(location, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Contains list of Safeguards version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  public listSafeguardsVersions(
+    location: string,
+    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+  ): PagedAsyncIterableIterator<SafeguardsAvailableVersion> {
+    const iter = this.listSafeguardsVersionsPagingAll(location, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSafeguardsVersionsPagingPage(location, options, settings);
+      },
+    };
+  }
+
+  private async *listSafeguardsVersionsPagingPage(
+    location: string,
+    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SafeguardsAvailableVersion[]> {
+    let result: ManagedClustersListSafeguardsVersionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSafeguardsVersions(location, options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSafeguardsVersionsNext(location, continuationToken, options);
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSafeguardsVersionsPagingAll(
+    location: string,
+    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+  ): AsyncIterableIterator<SafeguardsAvailableVersion> {
+    for await (const page of this.listSafeguardsVersionsPagingPage(location, options)) {
       yield* page;
     }
   }
@@ -1014,6 +1147,95 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: abortLatestOperationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersAbortLatestOperationResponse,
+      OperationState<ManagedClustersAbortLatestOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams,
+  ): Promise<ManagedClustersAbortLatestOperationResponse> {
+    const poller = await this.beginAbortLatestOperation(resourceGroupName, resourceName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1101,95 +1323,6 @@ export class ManagedClustersImpl implements ManagedClusters {
       resourceName,
       options,
     );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginAbortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersAbortLatestOperationResponse>,
-      ManagedClustersAbortLatestOperationResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, resourceName, options },
-      spec: abortLatestOperationOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ManagedClustersAbortLatestOperationResponse,
-      OperationState<ManagedClustersAbortLatestOperationResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginAbortLatestOperationAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams,
-  ): Promise<ManagedClustersAbortLatestOperationResponse> {
-    const poller = await this.beginAbortLatestOperation(resourceGroupName, resourceName, options);
     return poller.pollUntilDone();
   }
 
@@ -1592,6 +1725,70 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Contains Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param version Safeguards version
+   * @param options The options parameters.
+   */
+  getGuardrailsVersions(
+    location: string,
+    version: string,
+    options?: ManagedClustersGetGuardrailsVersionsOptionalParams,
+  ): Promise<ManagedClustersGetGuardrailsVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, version, options },
+      getGuardrailsVersionsOperationSpec,
+    );
+  }
+
+  /**
+   * Contains list of Guardrails version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  private _listGuardrailsVersions(
+    location: string,
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
+  ): Promise<ManagedClustersListGuardrailsVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listGuardrailsVersionsOperationSpec,
+    );
+  }
+
+  /**
+   * Contains Safeguards version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param version Safeguards version
+   * @param options The options parameters.
+   */
+  getSafeguardsVersions(
+    location: string,
+    version: string,
+    options?: ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ): Promise<ManagedClustersGetSafeguardsVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, version, options },
+      getSafeguardsVersionsOperationSpec,
+    );
+  }
+
+  /**
+   * Contains list of Safeguards version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  private _listSafeguardsVersions(
+    location: string,
+    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+  ): Promise<ManagedClustersListSafeguardsVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listSafeguardsVersionsOperationSpec,
+    );
+  }
+
+  /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
    * @param location The name of the Azure region.
@@ -1662,6 +1859,101 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Rebalance nodes across specific load balancers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
+   *                   balancers will be rebalanced.
+   * @param options The options parameters.
+   */
+  async beginRebalanceLoadBalancers(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersRebalanceLoadBalancersResponse>,
+      ManagedClustersRebalanceLoadBalancersResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedClustersRebalanceLoadBalancersResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: rebalanceLoadBalancersOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersRebalanceLoadBalancersResponse,
+      OperationState<ManagedClustersRebalanceLoadBalancersResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Rebalance nodes across specific load balancers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
+   *                   balancers will be rebalanced.
+   * @param options The options parameters.
+   */
+  async beginRebalanceLoadBalancersAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ): Promise<ManagedClustersRebalanceLoadBalancersResponse> {
+    const poller = await this.beginRebalanceLoadBalancers(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1707,6 +1999,40 @@ export class ManagedClustersImpl implements ManagedClusters {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listOutboundNetworkDependenciesEndpointsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListGuardrailsVersionsNext
+   * @param location The name of the Azure region.
+   * @param nextLink The nextLink from the previous successful call to the ListGuardrailsVersions method.
+   * @param options The options parameters.
+   */
+  private _listGuardrailsVersionsNext(
+    location: string,
+    nextLink: string,
+    options?: ManagedClustersListGuardrailsVersionsNextOptionalParams,
+  ): Promise<ManagedClustersListGuardrailsVersionsNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listGuardrailsVersionsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListSafeguardsVersionsNext
+   * @param location The name of the Azure region.
+   * @param nextLink The nextLink from the previous successful call to the ListSafeguardsVersions method.
+   * @param options The options parameters.
+   */
+  private _listSafeguardsVersionsNext(
+    location: string,
+    nextLink: string,
+    options?: ManagedClustersListSafeguardsVersionsNextOptionalParams,
+  ): Promise<ManagedClustersListSafeguardsVersionsNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listSafeguardsVersionsNextOperationSpec,
     );
   }
 
@@ -1759,7 +2085,7 @@ const listKubernetesVersionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.KubernetesVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1775,7 +2101,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1791,7 +2117,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1807,7 +2133,7 @@ const getUpgradeProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterUpgradeProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1828,7 +2154,7 @@ const getAccessProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterAccessProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1850,7 +2176,7 @@ const listClusterAdminCredentialsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CredentialResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.serverFqdn],
@@ -1871,7 +2197,7 @@ const listClusterUserCredentialsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CredentialResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.serverFqdn, Parameters.format],
@@ -1892,7 +2218,7 @@ const listClusterMonitoringUserCredentialsOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.CredentialResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.serverFqdn],
@@ -1913,7 +2239,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedCluster,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1943,7 +2269,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedCluster,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.parameters,
@@ -1980,7 +2306,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedCluster,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.parameters1,
@@ -2012,10 +2338,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedClustersDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.ignorePodDisruptionBudget],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2034,7 +2360,7 @@ const resetServicePrincipalProfileOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.parameters2,
@@ -2058,7 +2384,7 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.parameters3,
@@ -2071,36 +2397,6 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
-    },
-    201: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
-    },
-    202: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
-    },
-    204: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
@@ -2120,7 +2416,37 @@ const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2150,7 +2476,7 @@ const rotateServiceAccountSigningKeysOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2180,7 +2506,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedClustersStopHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2210,7 +2536,7 @@ const startOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedClustersStartHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2240,7 +2566,7 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunCommandResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.requestPayload,
@@ -2266,7 +2592,7 @@ const getCommandResultOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedClustersGetCommandResultHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2288,7 +2614,7 @@ const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2301,6 +2627,80 @@ const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operatio
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getGuardrailsVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/guardrailsVersions/{version}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuardrailsAvailableVersion,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.version,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listGuardrailsVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/guardrailsVersions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuardrailsAvailableVersionsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSafeguardsVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/safeguardsVersions/{version}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SafeguardsAvailableVersion,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.version,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSafeguardsVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/safeguardsVersions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SafeguardsAvailableVersionsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listMeshRevisionProfilesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles",
   httpMethod: "GET",
@@ -2309,7 +2709,7 @@ const listMeshRevisionProfilesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MeshRevisionProfileList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2325,7 +2725,7 @@ const getMeshRevisionProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MeshRevisionProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2346,7 +2746,7 @@ const listMeshUpgradeProfilesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MeshUpgradeProfileList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2367,7 +2767,7 @@ const getMeshUpgradeProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MeshUpgradeProfile,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2381,6 +2781,39 @@ const getMeshUpgradeProfileOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const rebalanceLoadBalancersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rebalanceLoadBalancers",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersExceptionHeaders,
+    },
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -2389,7 +2822,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
@@ -2404,7 +2837,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -2424,7 +2857,7 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
       bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -2432,6 +2865,46 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listGuardrailsVersionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuardrailsAvailableVersionsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSafeguardsVersionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SafeguardsAvailableVersionsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
@@ -2445,7 +2918,7 @@ const listMeshRevisionProfilesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MeshRevisionProfileList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -2465,7 +2938,7 @@ const listMeshUpgradeProfilesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MeshUpgradeProfileList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

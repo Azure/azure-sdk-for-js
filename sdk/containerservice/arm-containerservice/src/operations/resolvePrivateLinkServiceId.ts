@@ -57,10 +57,10 @@ const postOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
