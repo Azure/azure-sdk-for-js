@@ -122,8 +122,6 @@ pnpm format
 
 **Build failures:**
 - "Cannot find module" errors: Build dependencies first with `--filter=package...`
-- Missing API extractor: Some packages need `pnpm build` before extract-api works
-- Browser test failures: Playwright installation issues are common, use `pnpm test:node` instead
 
 **Dependency conflicts:**
 - Use catalog versions from `pnpm-workspace.yaml`
