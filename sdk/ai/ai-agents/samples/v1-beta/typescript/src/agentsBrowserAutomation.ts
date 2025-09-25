@@ -23,10 +23,6 @@ const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 const azurePlaywrightConnectionId = process.env["AZURE_PLAYWRIGHT_CONNECTION_ID"] || "<connection id>";
 
-async function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export async function main(): Promise<void> {
   const connectionId = azurePlaywrightConnectionId;
 
