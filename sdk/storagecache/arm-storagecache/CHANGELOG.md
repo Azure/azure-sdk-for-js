@@ -67,14 +67,6 @@
   - Added Enum KnownImportJobAdminStatus
   - Removed Interface Cache_2
 
-<<<<<<< HEAD
-    
-=======
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 8.0.1 (2025-08-21)
 
@@ -82,7 +74,6 @@
 
   - Other fixes
 
->>>>>>> main
 ## 8.0.0 (2024-05-13)
     
 ### Features Added
