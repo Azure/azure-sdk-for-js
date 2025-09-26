@@ -17,14 +17,10 @@ export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
 }
 
-/**
- * @internal
- */
 const logger = credentialLogger("IdentityUtils");
 
 /**
  * Latest AuthenticationRecord version
- * @internal
  */
 const LatestAuthenticationRecordVersion = "1.0";
 

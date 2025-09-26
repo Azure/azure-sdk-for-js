@@ -34,7 +34,6 @@ const isLocationDefined = typeof self !== "undefined" && self.location !== undef
 
 /**
  * Generates a MSAL configuration that generally works for browsers
- * @internal
  */
 function generateMsalBrowserConfiguration(
   options: MsalBrowserFlowOptions,

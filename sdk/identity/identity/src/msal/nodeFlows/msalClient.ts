@@ -315,8 +315,6 @@ export function generateMsalConfiguration(
 /**
  * Represents the state necessary for the MSAL (Microsoft Authentication Library) client to operate.
  * This includes the MSAL configuration, cached account information, Azure region, and a flag to disable automatic authentication.
- *
- * @internal
  */
 interface MsalClientState {
   /** The configuration for the MSAL client. */
@@ -769,8 +767,6 @@ export function createMsalClient(
   /**
    * Creates a base interactive request configuration for MSAL interactive authentication.
    * This is shared between interactive and brokered authentication flows.
-   *
-   * @internal
    */
   function createBaseInteractiveRequest(
     scopes: string[],
