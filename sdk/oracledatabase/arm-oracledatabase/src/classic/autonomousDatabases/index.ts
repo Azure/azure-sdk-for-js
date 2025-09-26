@@ -1,31 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
-  AutonomousDatabase,
-  DisasterRecoveryConfigurationDetails,
-  AutonomousDatabaseUpdate,
-  PeerDbDetails,
-  GenerateAutonomousDatabaseWalletDetails,
-  AutonomousDatabaseWalletFile,
-  RestoreAutonomousDatabaseDetails,
-} from "../../models/models.js";
-import {
-  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
-  AutonomousDatabasesShrinkOptionalParams,
-  AutonomousDatabasesRestoreOptionalParams,
-  AutonomousDatabasesGenerateWalletOptionalParams,
-  AutonomousDatabasesFailoverOptionalParams,
-  AutonomousDatabasesSwitchoverOptionalParams,
-  AutonomousDatabasesListByResourceGroupOptionalParams,
-  AutonomousDatabasesUpdateOptionalParams,
-  AutonomousDatabasesDeleteOptionalParams,
-  AutonomousDatabasesGetOptionalParams,
-  AutonomousDatabasesCreateOrUpdateOptionalParams,
-  AutonomousDatabasesListBySubscriptionOptionalParams,
-} from "../../api/autonomousDatabases/options.js";
-import {
+  action,
   changeDisasterRecoveryConfiguration,
   shrink,
   restore,
@@ -39,11 +17,43 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/autonomousDatabases/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  AutonomousDatabasesActionOptionalParams,
+  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  AutonomousDatabasesShrinkOptionalParams,
+  AutonomousDatabasesRestoreOptionalParams,
+  AutonomousDatabasesGenerateWalletOptionalParams,
+  AutonomousDatabasesFailoverOptionalParams,
+  AutonomousDatabasesSwitchoverOptionalParams,
+  AutonomousDatabasesListByResourceGroupOptionalParams,
+  AutonomousDatabasesUpdateOptionalParams,
+  AutonomousDatabasesDeleteOptionalParams,
+  AutonomousDatabasesGetOptionalParams,
+  AutonomousDatabasesCreateOrUpdateOptionalParams,
+  AutonomousDatabasesListBySubscriptionOptionalParams,
+} from "../../api/autonomousDatabases/options.js";
+import type {
+  AutonomousDatabase,
+  DisasterRecoveryConfigurationDetails,
+  AutonomousDatabaseUpdate,
+  PeerDbDetails,
+  GenerateAutonomousDatabaseWalletDetails,
+  AutonomousDatabaseWalletFile,
+  RestoreAutonomousDatabaseDetails,
+  AutonomousDatabaseLifecycleAction,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutonomousDatabases operations. */
 export interface AutonomousDatabasesOperations {
+  /** Perform Lifecycle Management Action on Autonomous Database */
+  action: (
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: AutonomousDatabaseLifecycleAction,
+    options?: AutonomousDatabasesActionOptionalParams,
+  ) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
   /** Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database */
   changeDisasterRecoveryConfiguration: (
     resourceGroupName: string,
@@ -129,6 +139,12 @@ export interface AutonomousDatabasesOperations {
 
 function _getAutonomousDatabases(context: OracleDatabaseManagementContext) {
   return {
+    action: (
+      resourceGroupName: string,
+      autonomousdatabasename: string,
+      body: AutonomousDatabaseLifecycleAction,
+      options?: AutonomousDatabasesActionOptionalParams,
+    ) => action(context, resourceGroupName, autonomousdatabasename, body, options),
     changeDisasterRecoveryConfiguration: (
       resourceGroupName: string,
       autonomousdatabasename: string,
