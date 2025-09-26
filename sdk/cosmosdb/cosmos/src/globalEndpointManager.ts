@@ -39,6 +39,17 @@ export class GlobalEndpointManager {
 
   public preferredLocationsCount: number;
   /**
+   * Flag to enable/disable the Per Partition Level Failover (PPAF)
+   * @internal
+   */
+  public enablePartitionLevelFailover: boolean;
+  /**
+   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB)
+   * @internal
+   */
+  public enablePartitionLevelCircuitBreaker: boolean;
+
+  /**
    * @param options - The document client instance.
    * @internal
    */
@@ -55,6 +66,10 @@ export class GlobalEndpointManager {
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.enablePartitionLevelCircuitBreaker =
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      options.connectionPolicy.enablePartitionLevelFailover;
   }
 
   /**
@@ -195,6 +210,7 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
+      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailoverBehavior);
     }
 
     const locations = isReadRequest(operationType)
@@ -265,6 +281,7 @@ export class GlobalEndpointManager {
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
+        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
       }
       this.isRefreshing = false;
     }
@@ -414,5 +431,19 @@ export class GlobalEndpointManager {
     }
 
     return null;
+  }
+
+  /**
+   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
+   * based on the value from database account.
+   * @param enablePerPartitionFailoverBehavior - value from database account
+   */
+  private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
+    // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
+    // we will override it to false.
+    if (enablePerPartitionFailoverBehavior === false) {
+      this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
+      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+    }
   }
 }

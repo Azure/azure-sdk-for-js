@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ManagedDatabase, SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackup.json
  */
-
-import type { ManagedDatabase } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackup(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -47,8 +47,10 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackup(): Prom
  */
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -79,8 +81,10 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingMan
  */
 async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "server1";
   const databaseName = "testdb_recovered";
   const parameters: ManagedDatabase = {
@@ -108,8 +112,10 @@ async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup(): Pr
  */
 async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -138,8 +144,10 @@ async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup()
  */
 async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -170,8 +178,10 @@ async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestor
  */
 async function createsANewManagedDatabaseUsingPointInTimeRestore(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -200,8 +210,10 @@ async function createsANewManagedDatabaseUsingPointInTimeRestore(): Promise<void
  */
 async function createsANewManagedDatabaseWithLedgerOn(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -227,8 +239,10 @@ async function createsANewManagedDatabaseWithLedgerOn(): Promise<void> {
  */
 async function createsANewManagedDatabaseWithMaximalProperties(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = {
@@ -254,8 +268,10 @@ async function createsANewManagedDatabaseWithMaximalProperties(): Promise<void> 
  */
 async function createsANewManagedDatabaseWithMinimalProperties(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const managedInstanceName = "managedInstance";
   const databaseName = "managedDatabase";
   const parameters: ManagedDatabase = { location: "southeastasia" };

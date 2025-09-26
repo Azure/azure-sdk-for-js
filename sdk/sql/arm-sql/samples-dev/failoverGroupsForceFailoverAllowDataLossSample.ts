@@ -1,30 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Fails over from the current primary server to this server. This operation might result in data loss.
  *
  * @summary Fails over from the current primary server to this server. This operation might result in data loss.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverGroupForceFailoverAllowDataLoss.json
  */
-
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function forcedFailoverOfAFailoverGroupAllowingDataLoss(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
   const serverName = "failover-group-secondary-server";
   const failoverGroupName = "failover-group-test-3";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.failoverGroups.beginForceFailoverAllowDataLossAndWait(
-    resourceGroupName,
-    serverName,
-    failoverGroupName,
-  );
+  const result =
+    await client.failoverGroups.beginForceFailoverAllowDataLossAndWait(
+      resourceGroupName,
+      serverName,
+      failoverGroupName,
+    );
   console.log(result);
 }
 

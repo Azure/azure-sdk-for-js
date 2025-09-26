@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PagedAsyncIterableIterator, PageSettings } from "./generated/src/index.js";
-import type { DeletedSecretBundle, SecretBundle } from "./generated/src/models/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./static-helpers/pagingHelpers.js";
+import type { DeletedSecretBundle, SecretBundle } from "./models/models.js";
 import { parseKeyVaultSecretIdentifier } from "./identifier.js";
 import type { DeletedSecret, KeyVaultSecret } from "./secretsModels.js";
 import type { OperationOptions } from "@azure-rest/core-client";

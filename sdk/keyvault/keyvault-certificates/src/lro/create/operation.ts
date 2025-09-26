@@ -11,10 +11,10 @@ import type {
   GetPlainCertificateOperationOptions,
   CancelCertificateOperationOptions,
 } from "../../certificatesModels.js";
-import type { CertificateOperation } from "../../generated/src/models/index.js";
+import type { CertificateOperation } from "../../models/models.js";
 import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
 import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
-import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
+import type { KeyVaultClient } from "../../keyVaultClient.js";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,

@@ -2,14 +2,21 @@
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-For applications that **only need to read configuration values**, we suggest using the [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
+Use _@azure/app-configuration_ (this library) to:
 
-Use *@azure/app-configuration* (this library) to:
+- Manage configuration settings and snapshots in Azure App Configuration
+- Perform granular reads that operate outside the realm of normal configuration consumption
 
-- Create flexible key representations and mappings
-- Tag keys with labels
-- Replay settings from any point in time
-- Manage snapshots of an app's configuration
+Most applications should start with the [_@azure/app-configuration-provider_](https://www.npmjs.com/package/@azure/app-configuration-provider) library, which builds on this low-level client library and is the recommended way to consume configuration at runtime. It adds:
+
+- Flexible access patterns using configuration as a key/value map or a structured JSON object
+- Query mechanism to declaratively compose app configuration
+- Configuration refresh during runtime
+- High reliability with caching, replica discovery, failover, and load balancing
+- Key vault reference resolution and auto-refresh
+- Feature flag integration for [@microsoft/feature-management](https://www.npmjs.com/package/@microsoft/feature-management) library
+
+For more information, please go to [configuration provider](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview).
 
 Key links:
 

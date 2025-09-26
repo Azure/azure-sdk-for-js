@@ -47,6 +47,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       );
       assert(databaseAccount.ConsistencyPolicy !== undefined);
       assert(statusCode !== undefined);
+      assert(databaseAccount.enablePerPartitionFailoverBehavior !== undefined);
     });
   });
 });

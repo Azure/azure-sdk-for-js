@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Determines whether a resource can be created with the specified name.
- *
- * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CheckNameAvailabilityServerAlreadyExists.json
- */
-
-import type { CheckNameAvailabilityRequest } from "@azure/arm-sql";
-import { SqlManagementClient } from "@azure/arm-sql";
+import {
+  CheckNameAvailabilityRequest,
+  SqlManagementClient,
+} from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Determines whether a resource can be created with the specified name.
+ *
+ * @summary Determines whether a resource can be created with the specified name.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CheckNameAvailabilityServerAlreadyExists.json
+ */
 async function checkForAServerNameThatAlreadyExists(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const parameters: CheckNameAvailabilityRequest = {
     name: "server1",
     type: "Microsoft.Sql/servers",
@@ -30,11 +32,12 @@ async function checkForAServerNameThatAlreadyExists(): Promise<void> {
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CheckNameAvailabilityServerAvailable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CheckNameAvailabilityServerAvailable.json
  */
 async function checkForAServerNameThatIsAvailable(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const parameters: CheckNameAvailabilityRequest = {
     name: "server1",
     type: "Microsoft.Sql/servers",
@@ -49,11 +52,12 @@ async function checkForAServerNameThatIsAvailable(): Promise<void> {
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CheckNameAvailabilityServerInvalid.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CheckNameAvailabilityServerInvalid.json
  */
 async function checkForAServerNameThatIsInvalid(): Promise<void> {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+    process.env["SQL_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const parameters: CheckNameAvailabilityRequest = {
     name: "SERVER1",
     type: "Microsoft.Sql/servers",
