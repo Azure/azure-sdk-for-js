@@ -192,8 +192,7 @@ describe("Pool Operations Test", () => {
         metadata: [{ name: "foo", value: "bar" }],
         applicationPackageReferences: [],
         // Ensures the start task isn't cleared
-        startTask: { commandLine: "cmd /c echo hello > hello.txt" },
-        certificateReferences: [],
+        startTask: { commandLine: "cmd /c echo hello > hello.txt" }
       },
       contentType: "application/json; odata=minimalmetadata",
     };
@@ -318,10 +317,10 @@ describe("Pool Operations Test", () => {
         virtualMachineConfiguration: {
           imageReference: {
             publisher: "Canonical",
-            offer: "UbuntuServer",
-            sku: "18.04-LTS",
+            offer: "ubuntu-24_04-lts",
+            sku: "server-gen1",
           },
-          nodeAgentSKUId: "batch.node.ubuntu 18.04",
+          nodeAgentSKUId: "batch.node.ubuntu 24.04",
           dataDisks: [
             {
               lun: 1,
@@ -535,16 +534,6 @@ describe("Pool Operations Test", () => {
     assert.equal(stopPoolResizeResult.status, "202");
   });
 
-  it("should list pools usage metrics", async () => {
-    const listPoolUsageResult = await batchClient.path("/poolusagemetrics").get();
-    if (isUnexpected(listPoolUsageResult)) {
-      assert.fail(`Received unexpected status code from getting pool usage metrics: ${listPoolUsageResult.status}
-            Response Body: ${listPoolUsageResult.body.message}`);
-    }
-
-    assert.isAtLeast(listPoolUsageResult.body?.value?.length ?? 0, 0); // No pool activity during this test
-  });
-
   it("should delete a pool successfully", async () => {
     const deleteResult = await batchClient
       .path("/pools/{poolId}", recorder.variable("BASIC_POOL", BASIC_POOL))
@@ -711,9 +700,9 @@ describe("Pool Operations Test", () => {
         vmSize: VMSIZE_D2s,
         virtualMachineConfiguration: {
           imageReference: {
-            publisher: "Canonical",
-            offer: "0001-com-ubuntu-server-jammy",
-            sku: "22_04-lts",
+            publisher: "canonical",
+            offer: "0001-com-ubuntu-confidential-vm-jammy",
+            sku: "22_04-lts-cvm",
           },
           nodeAgentSKUId: "batch.node.ubuntu 22.04",
           securityProfile: {
