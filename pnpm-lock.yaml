@@ -8237,24 +8237,27 @@ importers:
 
   sdk/dataprotection/arm-dataprotection:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8271,12 +8274,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.11.1
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.17
@@ -8289,6 +8292,9 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.36.0
       playwright:
         specifier: catalog:testing
         version: 1.55.0
