@@ -55,28 +55,33 @@ export function createDefaultVisualStudioCodeCredential(
  * @internal
  */
 export function createDefaultManagedIdentityCredential(
-  options:
+  options: (
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions = {},
+    | DefaultAzureCredentialClientIdOptions
+  ) & { disableProbe?: boolean } = {},
 ): TokenCredential {
-  options.retryOptions ??= {
-    maxRetries: 5,
-    retryDelayInMs: 800,
+  const newOptions = {
+    ...options,
+    disableProbe: options.disableProbe ?? false,
+    retryOptions: options.retryOptions ?? {
+      maxRetries: 5,
+      retryDelayInMs: 800,
+    },
   };
   const managedIdentityClientId =
-    (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
+    (newOptions as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
     process.env.AZURE_CLIENT_ID;
   const workloadIdentityClientId =
-    (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+    (newOptions as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
     managedIdentityClientId;
-  const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
+  const managedResourceId = (newOptions as DefaultAzureCredentialResourceIdOptions)
     ?.managedIdentityResourceId;
   const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
-  const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
+  const tenantId = newOptions?.tenantId ?? process.env.AZURE_TENANT_ID;
   if (managedResourceId) {
     const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
-      ...options,
+      ...newOptions,
       resourceId: managedResourceId,
     };
     return new ManagedIdentityCredential(managedIdentityResourceIdOptions);
@@ -84,7 +89,7 @@ export function createDefaultManagedIdentityCredential(
 
   if (workloadFile && workloadIdentityClientId) {
     const workloadIdentityCredentialOptions: DefaultAzureCredentialOptions = {
-      ...options,
+      ...newOptions,
       tenantId: tenantId,
     };
 
@@ -96,7 +101,7 @@ export function createDefaultManagedIdentityCredential(
 
   if (managedIdentityClientId) {
     const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
-      ...options,
+      ...newOptions,
       clientId: managedIdentityClientId,
     };
 
@@ -104,7 +109,7 @@ export function createDefaultManagedIdentityCredential(
   }
 
   // We may be able to return a UnavailableCredential here, but that may be a breaking change
-  return new ManagedIdentityCredential(options);
+  return new ManagedIdentityCredential(newOptions);
 }
 
 /**
