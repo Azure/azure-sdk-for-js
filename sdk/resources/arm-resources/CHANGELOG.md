@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 7.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.0.0 (2025-06-10)
     
 - operation groups `DeploymentOperations` and `Deployments` has been split into an independent library [`@azure/arm-resourcesdeployment`](https://www.npmjs.com/package/@azure/arm-resourcesdeployments/v/1.0.0-beta.1).
