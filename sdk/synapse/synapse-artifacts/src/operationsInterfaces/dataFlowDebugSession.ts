@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   DataFlowDebugSessionInfo,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
   CreateDataFlowDebugSessionRequest,
@@ -29,15 +29,15 @@ import type {
 export interface DataFlowDebugSession {
   /**
    * Query all active data flow debug sessions.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listQueryDataFlowDebugSessionsByWorkspace(
     options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
   /**
    * Creates a data flow debug session.
-   * @param request - Data flow debug session definition
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition
+   * @param options The options parameters.
    */
   beginCreateDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
@@ -50,8 +50,8 @@ export interface DataFlowDebugSession {
   >;
   /**
    * Creates a data flow debug session.
-   * @param request - Data flow debug session definition
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition
+   * @param options The options parameters.
    */
   beginCreateDataFlowDebugSessionAndWait(
     request: CreateDataFlowDebugSessionRequest,
@@ -59,8 +59,8 @@ export interface DataFlowDebugSession {
   ): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>;
   /**
    * Add a data flow into debug session.
-   * @param request - Data flow debug session definition with debug content.
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition with debug content.
+   * @param options The options parameters.
    */
   addDataFlow(
     request: DataFlowDebugPackage,
@@ -68,8 +68,8 @@ export interface DataFlowDebugSession {
   ): Promise<DataFlowDebugSessionAddDataFlowResponse>;
   /**
    * Deletes a data flow debug session.
-   * @param request - Data flow debug session definition for deletion
-   * @param options - The options parameters.
+   * @param request Data flow debug session definition for deletion
+   * @param options The options parameters.
    */
   deleteDataFlowDebugSession(
     request: DeleteDataFlowDebugSessionRequest,
@@ -77,8 +77,8 @@ export interface DataFlowDebugSession {
   ): Promise<void>;
   /**
    * Execute a data flow debug command.
-   * @param request - Data flow debug command definition.
-   * @param options - The options parameters.
+   * @param request Data flow debug command definition.
+   * @param options The options parameters.
    */
   beginExecuteCommand(
     request: DataFlowDebugCommandRequest,
@@ -91,8 +91,8 @@ export interface DataFlowDebugSession {
   >;
   /**
    * Execute a data flow debug command.
-   * @param request - Data flow debug command definition.
-   * @param options - The options parameters.
+   * @param request Data flow debug command definition.
+   * @param options The options parameters.
    */
   beginExecuteCommandAndWait(
     request: DataFlowDebugCommandRequest,

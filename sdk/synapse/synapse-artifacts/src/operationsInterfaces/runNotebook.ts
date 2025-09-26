@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   RunNotebookRequest,
   RunNotebookCreateRunOptionalParams,
   RunNotebookCreateRunResponse,
@@ -23,22 +23,27 @@ import type {
 export interface RunNotebook {
   /**
    * Run notebook
-   * @param runId - Notebook run id.
-   * @param runNotebookRequest - Run notebook request payload.
-   * @param options - The options parameters.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param runNotebookRequest Run notebook request payload.
+   * @param options The options parameters.
    */
   beginCreateRun(
     runId: string,
     runNotebookRequest: RunNotebookRequest,
     options?: RunNotebookCreateRunOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>
+    SimplePollerLike<
+      OperationState<RunNotebookCreateRunResponse>,
+      RunNotebookCreateRunResponse
+    >
   >;
   /**
    * Run notebook
-   * @param runId - Notebook run id.
-   * @param runNotebookRequest - Run notebook request payload.
-   * @param options - The options parameters.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param runNotebookRequest Run notebook request payload.
+   * @param options The options parameters.
    */
   beginCreateRunAndWait(
     runId: string,
@@ -47,8 +52,9 @@ export interface RunNotebook {
   ): Promise<RunNotebookCreateRunResponse>;
   /**
    * Get RunNotebook Status for run id.
-   * @param runId - Notebook run id.
-   * @param options - The options parameters.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param options The options parameters.
    */
   getStatus(
     runId: string,
@@ -56,8 +62,9 @@ export interface RunNotebook {
   ): Promise<RunNotebookGetStatusResponse>;
   /**
    * Cancel notebook run.
-   * @param runId - Notebook run id.
-   * @param options - The options parameters.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param options The options parameters.
    */
   cancelRun(
     runId: string,
@@ -65,8 +72,9 @@ export interface RunNotebook {
   ): Promise<RunNotebookCancelRunResponse>;
   /**
    * Get RunNotebook Snapshot for run id.
-   * @param runId - Notebook run id.
-   * @param options - The options parameters.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param options The options parameters.
    */
   getSnapshot(
     runId: string,
