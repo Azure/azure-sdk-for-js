@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a gallery image version.
- *
- * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
- */
-
 import {
   GalleryImageVersion,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update a gallery image version.
+ *
+ * @summary Create or update a gallery image version.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+ */
 async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
