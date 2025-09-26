@@ -24,7 +24,7 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
     ...configs.recommended,
     ...(customConfigs ?? []),
     {
-      ignores: ["**/test/snippets.spec.ts", "**/test/stress"],
+      ignores: ["**/test/snippets.spec.ts", "**/test/stress", "**/test/perf"],
     },
   ];
 }

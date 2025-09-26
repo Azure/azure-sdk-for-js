@@ -1,6 +1,6 @@
 Service: storage-blob
 
-Project: sdk/storage/perf-tests/storage-blob
+Project: sdk/storage/storage-blob/test/perf
 
 PrimaryPackage: '@azure/storage-blob'
 

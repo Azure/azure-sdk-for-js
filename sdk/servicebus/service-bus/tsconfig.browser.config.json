@@ -10,6 +10,7 @@
   "exclude": [
     "./test/**/node",
     "./test/stress",
+    "./test/perf",
     "./test/snippets.spec.ts",
     "./test/internal/connectionManagement.spec.ts"
   ]

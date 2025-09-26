@@ -23,6 +23,7 @@ const config = {
       "test/**/browser/*.spec.ts",
       "test/snippets.spec.ts",
       "test/stress/**/*.ts",
+      "test/perf/**/*.ts",
     ],
     typecheck: {
       ...mergedConfig.typecheck,

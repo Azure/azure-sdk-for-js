@@ -4,5 +4,5 @@
     "skipLibCheck": true
   },
   "include": ["${configDir}/test", "${configDir}/src"],
-  "exclude": ["${configDir}/test/stress", "${configDir}/test/snippets.spec.ts"]
+  "exclude": ["${configDir}/test/stress", "${configDir}/test/perf", "${configDir}/test/snippets.spec.ts"]
 }

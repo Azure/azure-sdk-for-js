@@ -12,6 +12,7 @@
     "./src/**/*-react-native.mts",
     "./src/msal/browserFlows",
     "./test/stress",
+    "./test/perf",
     "./test/integration*",
     "./test/manual*",
     "./test/snippets.spec.ts",

@@ -1,6 +1,6 @@
 Service: monitor-opentelemetry
 
-Project: sdk/monitor/perf-tests/monitor-opentelemetry
+Project: sdk/monitor/monitor-opentelemetry/test/perf
 
 PrimaryPackage: '@azure/monitor-opentelemetry'
 

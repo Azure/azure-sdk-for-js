@@ -12,6 +12,7 @@
     "./**/*-browser.mts",
     "./**/*-react-native.mts",
     "./test/stress",
+    "./test/perf",
     "./test/snippets.spec.ts",
     "./test/**/browser"
   ]
