@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validates whether Cross Region Restore can be triggered for DataSource.
- *
- * @summary Validates whether Cross Region Restore can be triggered for DataSource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/CrossRegionRestore/ValidateCrossRegionRestore.json
- */
-
-import type { ValidateCrossRegionRestoreRequestObject } from "@azure/arm-dataprotection";
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validates whether Cross Region Restore can be triggered for DataSource.
+ *
+ * @summary validates whether Cross Region Restore can be triggered for DataSource.
+ * x-ms-original-file: 2025-07-01/CrossRegionRestore/ValidateCrossRegionRestore.json
+ */
 async function validateCrossRegionRestore(): Promise<void> {
-  const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
-    "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName =
-    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
-  const location = "EastAsia";
-  const parameters: ValidateCrossRegionRestoreRequestObject = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const client = new DataProtectionClient(credential, subscriptionId);
+  const result = await client.backupInstances.validateCrossRegionRestore("000pikumar", "EastAsia", {
     crossRegionRestoreDetails: {
       sourceBackupInstanceId:
         "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupVaults/PratikPrivatePreviewVault1/BackupInstances/harshitbi1",
@@ -65,15 +59,7 @@ async function validateCrossRegionRestore(): Promise<void> {
       sourceResourceId:
         "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest/databases/testdb",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DataProtectionClient(credential, subscriptionId);
-  const result =
-    await client.backupInstances.beginValidateCrossRegionRestoreAndWait(
-      resourceGroupName,
-      location,
-      parameters,
-    );
+  });
   console.log(result);
 }
 

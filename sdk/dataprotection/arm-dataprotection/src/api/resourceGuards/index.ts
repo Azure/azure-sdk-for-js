@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listBackupSecurityPINRequestsObjects,
+  getDefaultBackupSecurityPINRequestsObject,
+  listDeleteProtectedItemRequestsObjects,
+  getDefaultDeleteProtectedItemRequestsObject,
+  listUpdateProtectionPolicyRequestsObjects,
+  getDefaultUpdateProtectionPolicyRequestsObject,
+  listUpdateProtectedItemRequestsObjects,
+  getDefaultUpdateProtectedItemRequestsObject,
+  listDisableSoftDeleteRequestsObjects,
+  getDefaultDisableSoftDeleteRequestsObject,
+  listResourcesInSubscription,
+  listResourcesInResourceGroup,
+  $delete,
+  patch,
+  put,
+  get,
+  listDeleteResourceGuardProxyRequestsObjects,
+  getDefaultDeleteResourceGuardProxyRequestsObject,
+} from "./operations.js";
+export {
+  ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams,
+  ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
+  ResourceGuardsListDeleteProtectedItemRequestsObjectsOptionalParams,
+  ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams,
+  ResourceGuardsListUpdateProtectionPolicyRequestsObjectsOptionalParams,
+  ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams,
+  ResourceGuardsListUpdateProtectedItemRequestsObjectsOptionalParams,
+  ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams,
+  ResourceGuardsListDisableSoftDeleteRequestsObjectsOptionalParams,
+  ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams,
+  ResourceGuardsListResourcesInSubscriptionOptionalParams,
+  ResourceGuardsListResourcesInResourceGroupOptionalParams,
+  ResourceGuardsDeleteOptionalParams,
+  ResourceGuardsPatchOptionalParams,
+  ResourceGuardsPutOptionalParams,
+  ResourceGuardsGetOptionalParams,
+  ResourceGuardsListDeleteResourceGuardProxyRequestsObjectsOptionalParams,
+  ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
+} from "./options.js";
