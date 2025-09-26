@@ -76,7 +76,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         "right",
       );
 
-
       // Apply filtering logic for left ranges
       if (leftRanges.length > 0) {
         leftRanges.forEach((range) => {
@@ -149,7 +148,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     rid: string | undefined,
     queryInfo: Record<string, unknown> | undefined,
   ): string {
-
     // Create the left filter condition (documents greater than continuation point)
     const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
 
@@ -217,7 +215,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       console.warn(`No orderByExpressions found in query info for ${rangePosition} range filter`);
       return "";
     }
-
 
     const filterConditions: string[] = [];
 

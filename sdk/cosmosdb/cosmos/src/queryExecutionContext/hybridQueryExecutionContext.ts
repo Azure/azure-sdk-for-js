@@ -59,7 +59,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
-    // Validate continuation token usage - hybrid queries don't support continuation tokens
+    // TODO: move to queryiterator: Validate continuation token usage - hybrid queries don't support continuation tokens
     validateContinuationTokenUsage(this.options.continuationToken, false, false, false, true);
 
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
@@ -209,8 +209,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
             mergeHeaders(fetchMoreRespHeaders, result.headers);
 
             // Handle both old array format and new ParallelQueryResult format
-            const resultData = (result.result as ParallelQueryResult).buffer;
-            if (resultData) {
+            const resultData = result.result;
+            if (result && resultData) {
               resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
@@ -233,8 +233,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
             mergeHeaders(fetchMoreRespHeaders, result.headers);
 
             // Handle both old array format and new ParallelQueryResult format
-            const resultData = (result.result as ParallelQueryResult).buffer;
-            if (resultData) {
+            const resultData = result.result;
+            if (result && resultData) {
               resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
@@ -397,10 +397,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           mergeHeaders(fetchMoreRespHeaders, result.headers);
 
           // Handle both old array format and new ParallelQueryResult format
-          const resultData = Array.isArray(result.result)
-            ? result.result
-            : (result.result as ParallelQueryResult).buffer;
-          if (resultData) {
+          const resultData = result.result;
+
+          if (result && resultData) {
             resultData.forEach((item: any) => {
               this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
@@ -422,10 +421,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           mergeHeaders(fetchMoreRespHeaders, result.headers);
 
           // Handle both old array format and new ParallelQueryResult format
-          const resultData = Array.isArray(result.result)
-            ? result.result
-            : (result.result as ParallelQueryResult).buffer;
-          if (resultData) {
+          const resultData = result.result;
+          if (result && resultData) {
             resultData.forEach((item: any) => {
               hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });

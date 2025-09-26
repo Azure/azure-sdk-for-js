@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js";
-import type { CompositeQueryContinuationToken, QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import type {
+  CompositeQueryContinuationToken,
+  QueryRangeWithContinuationToken,
+} from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import {
   createCompositeQueryContinuationToken,
   serializeCompositeToken,
@@ -22,10 +25,10 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   constructor(
     collectionLink: string,
     initialContinuationToken?: string,
-    isUnsupportedQueryType: boolean = false
+    isUnsupportedQueryType: boolean = false,
   ) {
     super(collectionLink, isUnsupportedQueryType);
-    
+
     // Handle initialization directly - no deferred complexity needed
     if (initialContinuationToken) {
       this.initializeFromToken(initialContinuationToken);
@@ -45,7 +48,10 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     return this.continuationToken?.limit;
   }
 
-  public handleCurrentPageRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
+  public handleCurrentPageRanges(pageSize: number): {
+    endIndex: number;
+    processedRanges: string[];
+  } {
     this.removeExhaustedRangesFromRanges();
     return this.processRanges(pageSize);
   }
@@ -77,7 +83,9 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
   }
 
-  private updateExistingCompositeContinuationToken(rangeMappings: QueryRangeWithContinuationToken[]): void {
+  private updateExistingCompositeContinuationToken(
+    rangeMappings: QueryRangeWithContinuationToken[],
+  ): void {
     for (const newRange of rangeMappings) {
       // Check if this range already exists in the token
       const existingRangeIndex = this.continuationToken.rangeMappings.findIndex(

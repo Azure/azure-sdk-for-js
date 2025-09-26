@@ -23,23 +23,24 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   constructor(
     collectionLink: string,
     initialContinuationToken?: string,
-    isUnsupportedQueryType: boolean = false
+    isUnsupportedQueryType: boolean = false,
   ) {
     super(collectionLink, isUnsupportedQueryType);
-    
+
     // Handle initialization directly - no deferred complexity needed
     if (initialContinuationToken) {
       this.initializeFromToken(initialContinuationToken);
     }
   }
 
-
   protected initializeFromToken(token: string): void {
     this.continuationToken = parseOrderByQueryContinuationToken(token);
     this.ranges = this.continuationToken?.rangeMappings || [];
   }
 
-  public setOrderByItemsArray(orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined): void {
+  public setOrderByItemsArray(
+    orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined,
+  ): void {
     this.orderByItemsArray = orderByItemsArray;
   }
 
@@ -83,7 +84,10 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  public handleCurrentPageRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
+  public handleCurrentPageRanges(pageSize: number): {
+    endIndex: number;
+    processedRanges: string[];
+  } {
     this.removeExhaustedRangesFromRanges();
     return this.processRanges(pageSize);
   }
@@ -143,8 +147,8 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     if (this.isUnsupportedQueryType) {
       return undefined;
     }
-    return this.continuationToken 
-      ? serializeOrderByQueryContinuationToken(this.continuationToken) 
+    return this.continuationToken
+      ? serializeOrderByQueryContinuationToken(this.continuationToken)
       : undefined;
   }
 }

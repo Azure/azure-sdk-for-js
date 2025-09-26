@@ -66,7 +66,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
     // Determine if this query type supports continuation tokens
-    const isUnsupportedQueryType = isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
+    const isUnsupportedQueryType =
+      isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
 
     if (this.options.enableQueryControl) {
       this.continuationTokenManager = ContinuationTokenManagerFactory.create(
@@ -192,9 +193,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       let top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
-        if(this.continuationTokenManager){
+        if (this.continuationTokenManager) {
           const tokenTop = this.continuationTokenManager.getLimit();
-          if(tokenTop !== undefined){
+          if (tokenTop !== undefined) {
             top = tokenTop;
           }
         }

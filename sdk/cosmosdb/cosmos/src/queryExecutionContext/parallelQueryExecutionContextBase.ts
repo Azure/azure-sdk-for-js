@@ -885,7 +885,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           resolve();
           return;
         }
-        
+
         try {
           // Delegate the actual processing logic to subclasses
           await this.processBufferedDocumentProducers();

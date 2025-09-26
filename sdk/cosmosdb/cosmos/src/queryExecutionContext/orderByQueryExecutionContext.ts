@@ -5,7 +5,7 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js"
 import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
@@ -68,9 +68,12 @@ export class OrderByQueryExecutionContext
    */
   protected async processBufferedDocumentProducers(): Promise<void> {
     let documentProducer; // used to track the last document producer
+    // For OrderBy queries, process one item at a time when we have buffered items
+    // Only process if we either have no more unfilled producers OR we need to maintain order
     while (
-      this.unfilledDocumentProducersQueue.isEmpty() &&
-      this.bufferedDocumentProducersQueue.size() > 0
+      this.bufferedDocumentProducersQueue.size() > 0 &&
+      (this.unfilledDocumentProducersQueue.isEmpty() ||
+        this.bufferedDocumentProducersQueue.size() >= 1)
     ) {
       documentProducer = this.bufferedDocumentProducersQueue.deq();
       const { result, headers } = await documentProducer.fetchNextItem();
@@ -81,8 +84,7 @@ export class OrderByQueryExecutionContext
         // Update PartitionDataPatchMap
         const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
         const isSamePartition =
-          currentPatch?.partitionKeyRange?.id ===
-          documentProducer.targetPartitionKeyRange.id;
+          currentPatch?.partitionKeyRange?.id === documentProducer.targetPartitionKeyRange.id;
 
         // Check if document producer buffer has more items to determine which continuation token to use
         const hasMoreBufferedItems = documentProducer.peakNextItem() !== undefined;

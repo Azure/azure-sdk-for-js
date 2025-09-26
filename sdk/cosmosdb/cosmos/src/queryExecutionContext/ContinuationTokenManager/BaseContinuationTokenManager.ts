@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeMapping } from "../QueryRangeMapping.js";
-import type {
-  QueryRangeWithContinuationToken,
-} from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
@@ -44,7 +42,10 @@ export abstract class BaseContinuationTokenManager {
 
   // Abstract methods that subclasses must implement
   protected abstract initializeFromToken(token: string): void;
-  public abstract handleCurrentPageRanges(pageSize: number): { endIndex: number; processedRanges: string[] };
+  public abstract handleCurrentPageRanges(pageSize: number): {
+    endIndex: number;
+    processedRanges: string[];
+  };
   public abstract getTokenString(): string | undefined;
   public abstract getOffset(): number | undefined;
   public abstract getLimit(): number | undefined;

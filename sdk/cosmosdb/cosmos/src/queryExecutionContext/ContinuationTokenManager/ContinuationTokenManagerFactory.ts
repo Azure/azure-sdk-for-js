@@ -25,11 +25,18 @@ export const ContinuationTokenManagerFactory = {
     isOrderByQuery: boolean = false,
     isUnsupportedQueryType: boolean = false,
   ): BaseContinuationTokenManager {
-    
     if (isOrderByQuery) {
-      return new OrderByQueryContinuationTokenManager(collectionLink, initialContinuationToken, isUnsupportedQueryType);
+      return new OrderByQueryContinuationTokenManager(
+        collectionLink,
+        initialContinuationToken,
+        isUnsupportedQueryType,
+      );
     } else {
-      return new ParallelQueryContinuationTokenManager(collectionLink, initialContinuationToken, isUnsupportedQueryType);
+      return new ParallelQueryContinuationTokenManager(
+        collectionLink,
+        initialContinuationToken,
+        isUnsupportedQueryType,
+      );
     }
   },
 };
