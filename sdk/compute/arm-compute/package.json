@@ -56,7 +56,7 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
