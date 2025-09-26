@@ -148,15 +148,12 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -221,15 +218,12 @@ export class ClientContext {
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }
-    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-      diagnosticNode,
-      request.resourceType,
-      request.operationType,
-      {
-        startServiceEndpointIndex: 0,
-        excludedLocations: options?.excludedLocations,
-      },
-    );
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: request.resourceType,
+      operationType: request.operationType,
+      excludedLocations: options?.excludedLocations,
+    });
     request.headers = await this.buildHeaders(request);
 
     if (startEpk !== undefined && endEpk !== undefined) {
@@ -286,15 +280,12 @@ export class ClientContext {
       operationType: OperationType.Read,
       resourceType,
     });
-    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-      diagnosticNode,
-      request.resourceType,
-      request.operationType,
-      {
-        startServiceEndpointIndex: 0,
-        excludedLocations: options?.excludedLocations,
-      },
-    );
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: request.resourceType,
+      operationType: request.operationType,
+      excludedLocations: options?.excludedLocations,
+    });
     request.headers = await this.buildHeaders(request);
     if (correlatedActivityId !== undefined) {
       request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
@@ -374,15 +365,12 @@ export class ClientContext {
       request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -441,15 +429,12 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -504,15 +489,12 @@ export class ClientContext {
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -614,15 +596,12 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -678,15 +657,12 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // upsert will use WriteEndpoint since it uses POST operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -742,15 +718,12 @@ export class ClientContext {
     request.headers = await this.buildHeaders(request);
     request.partitionKeyRangeId = partitionKeyRangeId;
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
-    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-      diagnosticNode,
-      request.resourceType,
-      request.operationType,
-      {
-        startServiceEndpointIndex: 0,
-        excludedLocations: options?.excludedLocations,
-      },
-    );
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: request.resourceType,
+      operationType: request.operationType,
+      excludedLocations: options?.excludedLocations,
+    });
     const response = await executePlugins(
       diagnosticNode,
       request,
@@ -858,15 +831,12 @@ export class ClientContext {
 
       this.applySessionToken(request);
 
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -922,15 +892,12 @@ export class ClientContext {
       request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError ?? true;
       this.applySessionToken(request);
 
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        {
-          startServiceEndpointIndex: 0,
-          excludedLocations: options?.excludedLocations,
-        },
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,

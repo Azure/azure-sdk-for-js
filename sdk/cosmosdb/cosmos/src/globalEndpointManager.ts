@@ -4,7 +4,7 @@ import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
 import type { RequestOptions } from "./index.js";
-import type { ResolveServiceEndpointOptions } from "./GlobalEndpointManagerOptions.js";
+import type { EndpointOptions } from "./GlobalEndpointManagerOptions.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -148,17 +148,14 @@ export class GlobalEndpointManager {
   }
 
   private getEffectiveExcludedLocations(
-    options: ResolveServiceEndpointOptions = {},
+    excludedLocations: string[] = [],
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
       return new Set();
     }
-    const excludedLocations = options?.excludedLocations;
 
-    return excludedLocations?.length
-      ? new Set(excludedLocations.map(normalizeEndpoint))
-      : new Set();
+    return excludedLocations.length ? new Set(excludedLocations.map(normalizeEndpoint)) : new Set();
   }
 
   private filterExcludedLocations(
@@ -178,36 +175,28 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    startServiceEndpointIndex?: number,
-  ): Promise<string>;
+    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
+  ): Promise<string> {
+    return this.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: resourceType,
+      operationType: operationType,
+      startServiceEndpointIndex: startServiceEndpointIndex,
+    });
+  }
 
   /**
    * @internal
    */
-  public async resolveServiceEndpoint(
-    diagnosticNode: DiagnosticNodeInternal,
-    resourceType: ResourceType,
-    operationType: OperationType,
-    options?: ResolveServiceEndpointOptions,
-  ): Promise<string>;
-
-  public async resolveServiceEndpoint(
-    diagnosticNode: DiagnosticNodeInternal,
-    resourceType: ResourceType,
-    operationType: OperationType,
-    optionsOrStartServiceEndpointIndex?: number | ResolveServiceEndpointOptions,
-  ): Promise<string> {
-    // Handle overloaded parameters
-    let startServiceEndpointIndex: number;
-    let options: ResolveServiceEndpointOptions;
-
-    if (typeof optionsOrStartServiceEndpointIndex === "number") {
-      startServiceEndpointIndex = optionsOrStartServiceEndpointIndex;
-      options = {};
-    } else {
-      options = optionsOrStartServiceEndpointIndex ?? {};
-      startServiceEndpointIndex = options.startServiceEndpointIndex ?? 0;
-    }
+  public async resolveServiceEndpointInternal(endpointOptions: EndpointOptions): Promise<string> {
+    // Extract all fields from EndpointOptions
+    const {
+      diagnosticNode,
+      resourceType,
+      operationType,
+      startServiceEndpointIndex = 0,
+      excludedLocations = [],
+    } = endpointOptions;
 
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -244,16 +233,19 @@ export class GlobalEndpointManager {
       ? this.readableLocations
       : this.writeableLocations;
 
-    const excludedLocations = this.getEffectiveExcludedLocations(options, resourceType);
+    const effectiveExcludedLocations = this.getEffectiveExcludedLocations(
+      excludedLocations,
+      resourceType,
+    );
     diagnosticNode.addData(
-      { excludedLocations: Array.from(excludedLocations) },
+      { excludedLocations: Array.from(effectiveExcludedLocations) },
       "excluded_locations",
     );
 
     // Filter locations based on exclusions
     const availableLocations = this.filterExcludedLocations(
       this.preferredLocations,
-      excludedLocations,
+      effectiveExcludedLocations,
     );
 
     let location;
@@ -286,7 +278,9 @@ export class GlobalEndpointManager {
         ? locations.slice(startServiceEndpointIndex)
         : locations;
       location = locationsToSearch.find((loc) => {
-        return loc.unavailable !== true && !excludedLocations.has(normalizeEndpoint(loc.name));
+        return (
+          loc.unavailable !== true && !effectiveExcludedLocations.has(normalizeEndpoint(loc.name))
+        );
       });
     }
 
