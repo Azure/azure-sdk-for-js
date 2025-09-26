@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ServiceFabricMeshManagementClient.",
-  "version": "3.0.0-beta.5",
+  "version": "3.0.0-beta.6",
   "engines": {
     "node": ">=20.0.0"
   },
