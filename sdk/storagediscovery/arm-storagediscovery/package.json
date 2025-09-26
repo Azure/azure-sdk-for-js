@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-storagediscovery",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for StorageDiscoveryClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -25,7 +25,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
   "browser": "./dist/browser/index.js",
@@ -72,35 +72,36 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@types/node": "catalog:",
-    "eslint": "catalog:",
-    "@vitest/browser": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.9.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^9.9.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "dotenv": "^16.0.0",
+    "playwright": "^1.52.0",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "scripts": {
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
-    "pack": "pnpm pack 2>&1",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "npm pack 2>&1",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "execute:samples": "dev-tool samples run samples-dev",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "generate:client": "echo skipped",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
   },
