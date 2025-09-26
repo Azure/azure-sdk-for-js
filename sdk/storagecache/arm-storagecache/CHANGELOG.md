@@ -65,7 +65,6 @@
   - Added Enum KnownAutoImportJobState
   - Added Enum KnownAutoImportJobUpdatePropertiesAdminStatus
   - Added Enum KnownImportJobAdminStatus
-  - Removed Interface Cache_2
 
 
 ## 8.0.1 (2025-08-21)
