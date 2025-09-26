@@ -1,0 +1,21 @@
+{
+  "name": "@azure-tools/pnpm-utils",
+  "type": "module",
+  "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "build": "npm run format && npm run lint && npm run typecheck && npm run test",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore update-azurelkg.js",
+    "typecheck": "tsc",
+    "lint": "eslint update-azurelkg.js",
+    "test": "echo skipped for now"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^9.9.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.2",
+    "vitest": "^3.1.1"
+  }
+}
