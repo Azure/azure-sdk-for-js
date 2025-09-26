@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  AmlFilesystemSubnetInfo,
+  CheckAmlFSSubnetsOptionalParams,
+  StorageCacheManagementClient,
+} from "@azure/arm-storagecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Check that subnets will be valid for AML file system create calls.
  *
  * @summary Check that subnets will be valid for AML file system create calls.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/checkAmlFSSubnets.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/checkAmlFSSubnets.json
  */
-
-import type {
-  AmlFilesystemSubnetInfo,
-  CheckAmlFSSubnetsOptionalParams,
-} from "@azure/arm-storagecache";
-import { StorageCacheManagementClient } from "@azure/arm-storagecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function checkAmlFsSubnets(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const amlFilesystemSubnetInfo: AmlFilesystemSubnetInfo = {
     filesystemSubnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/fsSub",
