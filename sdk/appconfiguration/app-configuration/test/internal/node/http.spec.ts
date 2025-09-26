@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy.js";
+import { SyncTokens, parseSyncToken } from "../../../src/internal/syncTokenPolicy.js";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
