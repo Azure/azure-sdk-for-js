@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import { ThreadRun, ToolOutput } from "../../models/models.js";
+import { ThreadRun, StructuredToolOutputUnion } from "../../models/models.js";
 import {
   RunsCancelRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
@@ -38,7 +38,7 @@ export interface RunsOperations {
   submitToolOutputs: (
     threadId: string,
     runId: string,
-    toolOutputs: ToolOutput[],
+    toolOutputs: StructuredToolOutputUnion[],
     options?: RunsSubmitToolOutputsToRunOptionalParams,
   ) => AgentRunResponse;
   /** Modifies an existing thread run. */
@@ -80,7 +80,7 @@ function _getRuns(context: AgentsContext) {
     submitToolOutputs: (
       threadId: string,
       runId: string,
-      toolOutputs: ToolOutput[],
+      toolOutputs: StructuredToolOutputUnion[],
       options?: RunsSubmitToolOutputsToRunOptionalParams,
     ) =>
       submitToolOutputsToRun(context, threadId, runId, {
