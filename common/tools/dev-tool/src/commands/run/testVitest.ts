@@ -88,7 +88,6 @@ export default leafCommand(commandInfo, async (options) => {
       : undefined;
 
   try {
-    console.log({ command, options });
     if (options["test-proxy"]) {
       if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
 
