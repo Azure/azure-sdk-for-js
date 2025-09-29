@@ -5,7 +5,7 @@ import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 
 /**
@@ -53,7 +53,7 @@ export function queryParamPolicy(): PipelinePolicy {
             rawName,
             lowerName: rawName.toLowerCase(),
             value,
-            index: i
+            index: i,
           };
         });
 
@@ -78,6 +78,6 @@ export function queryParamPolicy(): PipelinePolicy {
       }
 
       return next(request);
-    }
+    },
   };
 }

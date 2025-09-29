@@ -25,7 +25,9 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     const response = await policy.sendRequest(request, mockNext());
     const finalUrl = response.headers.get("url-lookup")!;
     expect(
-      finalUrl.endsWith("?$select=key&after=abcdefg&api-version=2023-11-01&key=*&label=dev&tags=tag3%3Dvalue3&tags=tag2%3Dvalue2&tags=tag1%3Dvalue1"),
+      finalUrl.endsWith(
+        "?$select=key&after=abcdefg&api-version=2023-11-01&key=*&label=dev&tags=tag3%3Dvalue3&tags=tag2%3Dvalue2&tags=tag1%3Dvalue1",
+      ),
     ).toBe(true);
   });
 });
