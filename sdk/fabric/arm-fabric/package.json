@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-fabric",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A generated SDK for FabricClient.",
   "engines": {
     "node": ">=20.0.0"

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
- *
- * @summary Deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/AgentPoolsDelete.json
- */
-
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
+ *
+ * @summary Deletes an agent pool in the specified managed cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/AgentPoolsDelete.json
+ */
 async function deleteAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
@@ -34,7 +33,7 @@ async function deleteAgentPool(): Promise<void> {
  * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
  *
  * @summary Deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/AgentPoolsDelete_IgnorePodDisruptionBudget.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/AgentPoolsDelete_IgnorePodDisruptionBudget.json
  */
 async function deleteAgentPoolByIgnoringPodDisruptionBudget(): Promise<void> {
   const subscriptionId =

@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a list of virtual machine extension image versions.
- *
- * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
- */
-
 import {
   VirtualMachineExtensionImagesListVersionsOptionalParams,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets a list of virtual machine extension image versions.
+ *
+ * @summary Gets a list of virtual machine extension image versions.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
+ */
 async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -44,7 +43,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<void> {
   const subscriptionId =

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Contains list of Guardrails version along with its support info and whether it is a default version.
- *
- * @summary Contains list of Guardrails version along with its support info and whether it is a default version.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/ListGuardrailsVersions.json
- */
-
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Contains list of Guardrails version along with its support info and whether it is a default version.
+ *
+ * @summary Contains list of Guardrails version along with its support info and whether it is a default version.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/ListGuardrailsVersions.json
+ */
 async function listGuardrailsVersions(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||

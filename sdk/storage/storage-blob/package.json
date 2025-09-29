@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.29.0",
+  "version": "12.29.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
