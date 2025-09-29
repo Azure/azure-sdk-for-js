@@ -59,29 +59,29 @@ export function createDefaultManagedIdentityCredential(
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
     | DefaultAzureCredentialClientIdOptions
-  ) & { disableProbe?: boolean } = {},
+  ) & { sendProbeRequest?: boolean } = {},
 ): TokenCredential {
-  const newOptions = {
-    ...options,
-    disableProbe: options.disableProbe ?? false,
-    retryOptions: options.retryOptions ?? {
-      maxRetries: 5,
-      retryDelayInMs: 800,
-    },
+  options.retryOptions ??= {
+    maxRetries: 5,
+    retryDelayInMs: 800,
   };
+  // ManagedIdentityCredential inside DAC chain should send a probe request by default.
+  // This is different from standalone ManagedIdentityCredential behavior
+  // or when AZURE_TOKEN_CREDENTIALS is set to only ManagedIdentityCredential.
+  options.sendProbeRequest ??= true;
   const managedIdentityClientId =
-    (newOptions as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
+    (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
     process.env.AZURE_CLIENT_ID;
   const workloadIdentityClientId =
-    (newOptions as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
+    (options as DefaultAzureCredentialClientIdOptions)?.workloadIdentityClientId ??
     managedIdentityClientId;
-  const managedResourceId = (newOptions as DefaultAzureCredentialResourceIdOptions)
+  const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
     ?.managedIdentityResourceId;
   const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
-  const tenantId = newOptions?.tenantId ?? process.env.AZURE_TENANT_ID;
+  const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
   if (managedResourceId) {
     const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
-      ...newOptions,
+      ...options,
       resourceId: managedResourceId,
     };
     return new ManagedIdentityCredential(managedIdentityResourceIdOptions);
@@ -89,7 +89,7 @@ export function createDefaultManagedIdentityCredential(
 
   if (workloadFile && workloadIdentityClientId) {
     const workloadIdentityCredentialOptions: DefaultAzureCredentialOptions = {
-      ...newOptions,
+      ...options,
       tenantId: tenantId,
     };
 
@@ -101,7 +101,7 @@ export function createDefaultManagedIdentityCredential(
 
   if (managedIdentityClientId) {
     const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
-      ...newOptions,
+      ...options,
       clientId: managedIdentityClientId,
     };
 
@@ -109,7 +109,7 @@ export function createDefaultManagedIdentityCredential(
   }
 
   // We may be able to return a UnavailableCredential here, but that may be a breaking change
-  return new ManagedIdentityCredential(newOptions);
+  return new ManagedIdentityCredential(options);
 }
 
 /**

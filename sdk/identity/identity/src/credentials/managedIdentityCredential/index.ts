@@ -46,7 +46,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     intervalIncrement: 2,
   };
   private isAvailableIdentityClient: IdentityClient;
-  private disableProbe: boolean;
+  private sendProbeRequest: boolean;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -96,8 +96,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
     this.resourceId = (_options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
     this.objectId = (_options as ManagedIdentityCredentialObjectIdOptions)?.objectId;
-    this.disableProbe =
-      (_options as InternalManagedIdentityCredentialOptions)?.disableProbe ?? false;
+    this.sendProbeRequest =
+      (_options as InternalManagedIdentityCredentialOptions)?.sendProbeRequest ?? false;
     // For JavaScript users.
     const providedIds = [
       { key: "clientId", value: this.clientId },
@@ -250,7 +250,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           }
 
           return result;
-        } else if (isImdsMsi && !this.disableProbe) {
+        } else if (isImdsMsi && !this.sendProbeRequest) {
           // In the IMDS scenario we will probe the IMDS endpoint to ensure it's available before trying to get a token.
           // If the IMDS endpoint is not available and this is the source that MSAL will use, we will fail-fast with an error that tells DAC to move to the next credential.
           logger.getToken.info("Using the IMDS endpoint to probe for availability.");

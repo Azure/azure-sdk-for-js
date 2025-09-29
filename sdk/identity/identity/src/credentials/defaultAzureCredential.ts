@@ -148,7 +148,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           break;
         case "managedidentitycredential":
           credentialFunctions = [
-            () => createDefaultManagedIdentityCredential({ disableProbe: true }),
+            () => createDefaultManagedIdentityCredential({ sendProbeRequest: false }),
           ];
           break;
         case "visualstudiocodecredential":

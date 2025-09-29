@@ -125,7 +125,12 @@ describe("create functions", () => {
     expect(psSpy).not.toHaveBeenCalled();
 
     expect(miSpy).toHaveBeenCalledWith({
-      disableProbe: true,
+      allowInsecureConnection: true,
+      retryOptions: {
+        maxRetries: 5,
+        retryDelayInMs: 800,
+      },
+      sendProbeRequest: false,
     });
   });
 

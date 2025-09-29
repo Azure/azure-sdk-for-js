@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `ManagedIdentityCredential` will make an additional probe request in the `getToken` call. [#36047](https://github.com/Azure/azure-sdk-for-js/pull/36047)
+
 ### Other Changes
 
 ## 4.12.0 (2025-09-09)

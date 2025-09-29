@@ -56,4 +56,4 @@ export type InternalManagedIdentityCredentialOptions =
  * Options for configuring Managed Identity Credential with disable probe.
  * This is only meant to use in DefaultAzureCredential when AZURE_TOKEN_CREDENTIALS is set to Managed Identity Credential.
  */
-type ManagedIdentityDisableProbeOptions = { disableProbe?: boolean };
+type ManagedIdentityDisableProbeOptions = { sendProbeRequest?: boolean };

@@ -217,27 +217,27 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
         });
 
-        it("skips IMDS probing when disableProbe is true", async function () {
+        it("skips IMDS probing when sendProbeRequest is true", async function () {
           vi.spyOn(
             ManagedIdentityApplication.prototype,
             "getManagedIdentitySource",
           ).mockReturnValue("DefaultToImds");
           acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
 
-          const options: InternalManagedIdentityCredentialOptions = { disableProbe: true };
+          const options: InternalManagedIdentityCredentialOptions = { sendProbeRequest: true };
           const credential = new ManagedIdentityCredential(options);
           await credential.getToken("scope");
           expect(imdsIsAvailableStub).not.toHaveBeenCalled();
         });
 
-        it("probes IMDS when disableProbe is false", async function () {
+        it("probes IMDS when sendProbeRequest is false", async function () {
           vi.spyOn(
             ManagedIdentityApplication.prototype,
             "getManagedIdentitySource",
           ).mockReturnValue("DefaultToImds");
           acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
 
-          const options: InternalManagedIdentityCredentialOptions = { disableProbe: false };
+          const options: InternalManagedIdentityCredentialOptions = { sendProbeRequest: false };
           const credential = new ManagedIdentityCredential(options);
           await credential.getToken("scope");
           expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
