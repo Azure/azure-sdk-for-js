@@ -32,7 +32,7 @@ describe("request url query parameters", () => {
         key,
         label: "dev",
         value: "some value",
-        tags: { tag1: "value1" }
+        tags: { tag1: "value1" },
       });
 
       const configurationSetting = await client.getConfigurationSetting(
@@ -68,14 +68,19 @@ describe("request url query parameters", () => {
         `Query parameters not in expected order or values. URL: ${getCapturedUrl()}`,
       );
 
-      const listWithTagsResult = client.listConfigurationSettings({ keyFilter: "*", labelFilter: "dev", tagsFilter: ["tag1=value1", "tag1=value1"]});
+      const listWithTagsResult = client.listConfigurationSettings({
+        keyFilter: "*",
+        labelFilter: "dev",
+        tagsFilter: ["tag2=value2", "tag1=value1", "tag3=value3"],
+      });
 
       for await (const _ of listWithTagsResult.byPage()) {
         // do nothing, just drain the iterator
       }
 
       // Regex enforces exact ordering of query params: api-version, key, label, tags
-      queryOrderRegex = /\?api-version=[^&]+&key=\*&label=dev&tags=tag1%3Dvalue1&tags=tag1%3Dvalue1$/;
+      queryOrderRegex =
+        /\?api-version=[^&]+&key=\*&label=dev&tags=tag2%3Dvalue2&tags=tag1%3Dvalue1&tags=tag3%3Dvalue3$/;
       assert.match(
         getCapturedUrl()!,
         queryOrderRegex,
