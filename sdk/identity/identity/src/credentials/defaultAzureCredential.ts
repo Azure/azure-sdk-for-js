@@ -147,6 +147,8 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           credentialFunctions = [createDefaultWorkloadIdentityCredential];
           break;
         case "managedidentitycredential":
+          // Setting `sendProbeRequest` to false to ensure ManagedIdentityCredential behavior
+          // is consistent when used standalone in DAC chain or used directly.
           credentialFunctions = [
             () => createDefaultManagedIdentityCredential({ sendProbeRequest: false }),
           ];
