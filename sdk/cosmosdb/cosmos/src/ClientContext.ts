@@ -152,6 +152,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -222,6 +223,7 @@ export class ClientContext {
       diagnosticNode: diagnosticNode,
       resourceType: request.resourceType,
       operationType: request.operationType,
+      startServiceEndpointIndex: 0,
       excludedLocations: options?.excludedLocations,
     });
     request.headers = await this.buildHeaders(request);
@@ -284,6 +286,7 @@ export class ClientContext {
       diagnosticNode: diagnosticNode,
       resourceType: request.resourceType,
       operationType: request.operationType,
+      startServiceEndpointIndex: 0,
       excludedLocations: options?.excludedLocations,
     });
     request.headers = await this.buildHeaders(request);
@@ -369,6 +372,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -433,6 +437,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -493,6 +498,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -600,6 +606,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -661,6 +668,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -722,6 +730,7 @@ export class ClientContext {
       diagnosticNode: diagnosticNode,
       resourceType: request.resourceType,
       operationType: request.operationType,
+      startServiceEndpointIndex: 0,
       excludedLocations: options?.excludedLocations,
     });
     const response = await executePlugins(
@@ -835,6 +844,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
@@ -896,6 +906,7 @@ export class ClientContext {
         diagnosticNode: diagnosticNode,
         resourceType: request.resourceType,
         operationType: request.operationType,
+        startServiceEndpointIndex: 0,
         excludedLocations: options?.excludedLocations,
       });
       const response = await executePlugins(
