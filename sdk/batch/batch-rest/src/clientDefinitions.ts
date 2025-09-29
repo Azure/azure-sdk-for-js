@@ -32,11 +32,6 @@ import type {
   ListJobsFromScheduleParameters,
   ListJobPreparationAndReleaseTaskStatusParameters,
   GetJobTaskCountsParameters,
-  CreateCertificateParameters,
-  ListCertificatesParameters,
-  CancelCertificateDeletionParameters,
-  DeleteCertificateParameters,
-  GetCertificateParameters,
   JobScheduleExistsParameters,
   DeleteJobScheduleParameters,
   GetJobScheduleParameters,
@@ -142,16 +137,6 @@ import type {
   ListJobPreparationAndReleaseTaskStatusDefaultResponse,
   GetJobTaskCounts200Response,
   GetJobTaskCountsDefaultResponse,
-  CreateCertificate201Response,
-  CreateCertificateDefaultResponse,
-  ListCertificates200Response,
-  ListCertificatesDefaultResponse,
-  CancelCertificateDeletion204Response,
-  CancelCertificateDeletionDefaultResponse,
-  DeleteCertificate202Response,
-  DeleteCertificateDefaultResponse,
-  GetCertificate200Response,
-  GetCertificateDefaultResponse,
   JobScheduleExists200Response,
   JobScheduleExists404Response,
   JobScheduleExistsDefaultResponse,
@@ -289,7 +274,7 @@ export interface CreatePool {
   post(
     options: CreatePoolParameters,
   ): StreamableMethod<CreatePool201Response | CreatePoolDefaultResponse>;
-  /** Lists all of the Pools which be mounted. */
+  /** Lists all of the Pools in the specified Account. */
   get(
     options?: ListPoolsParameters,
   ): StreamableMethod<ListPools200Response | ListPoolsDefaultResponse>;
@@ -564,55 +549,6 @@ export interface GetJobTaskCounts {
   get(
     options?: GetJobTaskCountsParameters,
   ): StreamableMethod<GetJobTaskCounts200Response | GetJobTaskCountsDefaultResponse>;
-}
-
-export interface CreateCertificate {
-  /** Creates a Certificate to the specified Account. */
-  post(
-    options: CreateCertificateParameters,
-  ): StreamableMethod<CreateCertificate201Response | CreateCertificateDefaultResponse>;
-  /** Lists all of the Certificates that have been added to the specified Account. */
-  get(
-    options?: ListCertificatesParameters,
-  ): StreamableMethod<ListCertificates200Response | ListCertificatesDefaultResponse>;
-}
-
-export interface CancelCertificateDeletion {
-  /**
-   * If you try to delete a Certificate that is being used by a Pool or Compute
-   * Node, the status of the Certificate changes to deleteFailed. If you decide that
-   * you want to continue using the Certificate, you can use this operation to set
-   * the status of the Certificate back to active. If you intend to delete the
-   * Certificate, you do not need to run this operation after the deletion failed.
-   * You must make sure that the Certificate is not being used by any resources, and
-   * then you can try again to delete the Certificate.
-   */
-  post(
-    options?: CancelCertificateDeletionParameters,
-  ): StreamableMethod<
-    CancelCertificateDeletion204Response | CancelCertificateDeletionDefaultResponse
-  >;
-}
-
-export interface DeleteCertificate {
-  /**
-   * You cannot delete a Certificate if a resource (Pool or Compute Node) is using
-   * it. Before you can delete a Certificate, you must therefore make sure that the
-   * Certificate is not associated with any existing Pools, the Certificate is not
-   * installed on any Nodes (even if you remove a Certificate from a Pool, it is not
-   * removed from existing Compute Nodes in that Pool until they restart), and no
-   * running Tasks depend on the Certificate. If you try to delete a Certificate
-   * that is in use, the deletion fails. The Certificate status changes to
-   * deleteFailed. You can use Cancel Delete Certificate to set the status back to
-   * active if you decide that you want to continue using the Certificate.
-   */
-  delete(
-    options?: DeleteCertificateParameters,
-  ): StreamableMethod<DeleteCertificate202Response | DeleteCertificateDefaultResponse>;
-  /** Gets information about the specified Certificate. */
-  get(
-    options?: GetCertificateParameters,
-  ): StreamableMethod<GetCertificate200Response | GetCertificateDefaultResponse>;
 }
 
 export interface JobScheduleExists {
@@ -1010,20 +946,6 @@ export interface Routes {
   ): ListJobPreparationAndReleaseTaskStatus;
   /** Resource for '/jobs/\{jobId\}/taskcounts' has methods for the following verbs: get */
   (path: "/jobs/{jobId}/taskcounts", jobId: string): GetJobTaskCounts;
-  /** Resource for '/certificates' has methods for the following verbs: post, get */
-  (path: "/certificates"): CreateCertificate;
-  /** Resource for '/certificates(thumbprintAlgorithm=\{thumbprintAlgorithm\},thumbprint=\{thumbprint\})/canceldelete' has methods for the following verbs: post */
-  (
-    path: "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete",
-    thumbprintAlgorithm: string,
-    thumbprint: string,
-  ): CancelCertificateDeletion;
-  /** Resource for '/certificates(thumbprintAlgorithm=\{thumbprintAlgorithm\},thumbprint=\{thumbprint\})' has methods for the following verbs: delete, get */
-  (
-    path: "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
-    thumbprintAlgorithm: string,
-    thumbprint: string,
-  ): DeleteCertificate;
   /** Resource for '/jobschedules/\{jobScheduleId\}' has methods for the following verbs: head, delete, get, patch, put */
   (path: "/jobschedules/{jobScheduleId}", jobScheduleId: string): JobScheduleExists;
   /** Resource for '/jobschedules/\{jobScheduleId\}/disable' has methods for the following verbs: post */
