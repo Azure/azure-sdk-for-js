@@ -6,14 +6,14 @@ import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInterna
 /**
  * @internal
  */
-export interface EndpointOptions {
+export interface ResolveServiceEndpointOptions {
   diagnosticNode: DiagnosticNodeInternal;
   resourceType: ResourceType;
   operationType: OperationType;
   /**
    * This is to indicate the starting index for selecting servers.
    */
-  startServiceEndpointIndex?: number;
+  startServiceEndpointIndex: number;
   /**
    * Excludes one or more Azure regions for the operation.
    * <p>This option is only applied when enableEndPointDiscovery is set to true.</p>

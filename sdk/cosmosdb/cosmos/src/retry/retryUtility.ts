@@ -106,6 +106,7 @@ export async function execute({
             diagnosticNode: localDiagnosticNode,
             resourceType: requestContext.resourceType,
             operationType: requestContext.operationType,
+            startServiceEndpointIndex: 0,
             excludedLocations: requestContext.options?.excludedLocations,
           });
       }

@@ -4,7 +4,7 @@ import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
 import type { RequestOptions } from "./index.js";
-import type { EndpointOptions } from "./GlobalEndpointManagerOptions.js";
+import type { ResolveServiceEndpointOptions } from "./GlobalEndpointManagerOptions.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -188,15 +188,17 @@ export class GlobalEndpointManager {
   /**
    * @internal
    */
-  public async resolveServiceEndpointInternal(endpointOptions: EndpointOptions): Promise<string> {
-    // Extract all fields from EndpointOptions
+  public async resolveServiceEndpointInternal(
+    resolveServiceEndpointOptions: ResolveServiceEndpointOptions,
+  ): Promise<string> {
+    // Extract all fields from ResolveServiceEndpointOptions
     const {
       diagnosticNode,
       resourceType,
       operationType,
-      startServiceEndpointIndex = 0,
+      startServiceEndpointIndex,
       excludedLocations = [],
-    } = endpointOptions;
+    } = resolveServiceEndpointOptions;
 
     // If endpoint discovery is disabled, always use the user provided endpoint
 
