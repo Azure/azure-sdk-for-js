@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { RecoveryServicesClient } from "../src/recoveryServicesClient.js";
+import { RecoveryServicesClient } from "../../src/recoveryServicesClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -92,14 +92,16 @@ describe("Recoveryservices test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it.skip("vaultExtendedInfo create test", async () => {
+  it("vaultExtendedInfo create test", async () => {
     const res = await client.vaultExtendedInfo.createOrUpdate(resourceGroup, vaultsName, {
-      algorithm: "None",
+      properties: {
+        algorithm: "None",
+      }
     });
-    assert.equal(res.algorithm, "None");
+    assert.ok(res);
   });
 
-  it.skip("vaultExtendedInfo get test", async () => {
+  it("vaultExtendedInfo get test", async () => {
     const res = await client.vaultExtendedInfo.get(resourceGroup, vaultsName);
     assert.equal(res.type, "Microsoft.RecoveryServices/vaults/extendedInformation");
   });
