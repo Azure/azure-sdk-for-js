@@ -47,23 +47,29 @@ async function commitChanges(repoPackages, pkg) {
   }
 }
 
-function updatePackageVersion(repoPackages, pkg, buildId, catalogs) {
+function updatePackageVersion(repoPackages, pkg, buildId, catalogs, logPrefix = "\t") {
   const currentVersion = repoPackages[pkg].json.version;
   const parsedVersion = semver.parse(currentVersion);
   repoPackages[pkg].newVer =
     `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}-alpha.${buildId}`;
-  console.log(`version updated for ${pkg}`);
+  console.log(`${logPrefix}version updated: from ${currentVersion} to ${repoPackages[pkg].newVer}`);
   for (const p of Object.keys(repoPackages)) {
-    repoPackages = updateOtherProjectDependencySections(repoPackages, p, pkg, catalogs);
+    console.log(`${logPrefix}update "${pkg}" version in dependencies of "${p}"`);
+    repoPackages = updateOtherProjectDependencySections(
+      repoPackages,
+      p,
+      pkg,
+      catalogs,
+      `${logPrefix}\t`,
+    );
   }
   return repoPackages;
 }
 
-function updateDependencySection(repoPackages, dependencySection, buildId, catalogs) {
-  //console.log(dependencySection);
+function updateDependencySection(repoPackages, dependencySection, buildId, catalogs, logPrefix) {
   if (dependencySection) {
     for (const [depName, depVersionRange] of Object.entries(dependencySection)) {
-      console.log(`checking ${depName}:${depVersionRange}...`);
+      console.log(`${logPrefix}checking ${depName}:${depVersionRange}...`);
 
       // If the dependency isn't part of the workspace, skip it
       if (!repoPackages[depName]) {
@@ -73,27 +79,37 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
       // Compare the dependency version range with the package's current version
       const packageVersion = repoPackages[depName].json.version;
 
-      console.log(`version in package's dep = ${depVersionRange}`); //^1.0.0
-      console.log(`dep's version = ${packageVersion}`); //1.0.0
+      console.log(`${logPrefix}version in package's dep = ${depVersionRange}`); //^1.0.0
+      console.log(`${logPrefix}dep's version = ${packageVersion}`); //1.0.0
       if (depVersionRange === "workspace:^") {
+        console.log(`${logPrefix}skipping workspace: dependency`);
         continue;
       } else if (depVersionRange.startsWith("catalog:")) {
-        const parsedPackageVersion = semver.parse(packageVersion);
         const resolvedVersion = resolveFromCatalog(catalogs, {
           alias: depName,
           bareSpecifier: depVersionRange,
         });
         if (resolvedVersion.type === "found") {
-          const parsedDepMinVersion = semver.minVersion(resolvedVersion.resolution.specifier);
-          if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
-            repoPackages = updatePackageVersion(repoPackages, depName, buildId, catalogs);
+          console.log(`${logPrefix}resolved version = ${resolvedVersion.resolution.specifier}`);
+          if (semver.satisfies(packageVersion, depVersionRange)) {
+            repoPackages = updatePackageVersion(
+              repoPackages,
+              depName,
+              buildId,
+              catalogs,
+              `${logPrefix}\t`,
+            );
           }
         }
       } else {
-        const parsedPackageVersion = semver.parse(packageVersion);
-        const parsedDepMinVersion = semver.minVersion(depVersionRange);
-        if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
-          repoPackages = updatePackageVersion(repoPackages, depName, buildId, catalogs);
+        if (semver.satisfies(packageVersion, depVersionRange)) {
+          repoPackages = updatePackageVersion(
+            repoPackages,
+            depName,
+            buildId,
+            catalogs,
+            `${logPrefix}\t`,
+          );
         }
       }
     }
@@ -101,31 +117,33 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
   return repoPackages;
 }
 
-function updateInternalDependencyVersions(repoPackages, pkg, buildId, catalogs) {
-  console.log("updateInternalDep");
-  console.log(pkg);
-  console.log("checking dependencies ..");
+function updateInternalDependencyVersions(repoPackages, pkg, buildId, catalogs, logPrefix = "\t") {
+  console.log(`${logPrefix}update internal dependencies for package "${pkg}"`);
+  console.log(`${logPrefix}checking dependencies ..`);
   repoPackages = updateDependencySection(
     repoPackages,
     repoPackages[pkg].json.dependencies,
     buildId,
     catalogs,
+    `${logPrefix}\t`,
   );
 
-  console.log("checking devDependencies ..");
+  console.log(`${logPrefix}checking devDependencies ..`);
   repoPackages = updateDependencySection(
     repoPackages,
     repoPackages[pkg].json.devDependencies,
     buildId,
     catalogs,
+    `${logPrefix}\t`,
   );
 
-  console.log("checking peerDependencies ..");
+  console.log(`${logPrefix}checking peerDependencies ..`);
   repoPackages = updateDependencySection(
     repoPackages,
     repoPackages[pkg].json.peerDependencies,
     buildId,
     catalogs,
+    `${logPrefix}\t`,
   );
 
   return repoPackages;
@@ -136,11 +154,12 @@ function makeDependencySectionConsistentForPackage(
   dependencySection,
   depName,
   catalogs,
+  logPrefix,
 ) {
   if (dependencySection && dependencySection[depName]) {
     const depVersionRange = dependencySection[depName];
 
-    console.log(`checking ${depName}:${depVersionRange}...`);
+    console.log(`${logPrefix}consistency: checking ${depName}:${depVersionRange}...`);
 
     // If the dependency isn't part of the workspace, skip it
     if (!repoPackages[depName]) {
@@ -150,14 +169,15 @@ function makeDependencySectionConsistentForPackage(
     // Compare the dependency version range with the package's current version
     const packageVersion = repoPackages[depName].json.version;
 
-    console.log(`version in package's dep = ${depVersionRange}`);
-    console.log(`dep's version = ${packageVersion}`);
+    console.log(`${logPrefix}consistency: version in package's dep = ${depVersionRange}`);
+    console.log(`${logPrefix}consistency: dep's version = ${packageVersion}`);
     const parsedPackageVersion = semver.parse(packageVersion);
     if (!parsedPackageVersion) {
       throw new Error(`Invalid version format: ${packageVersion}`);
     }
     let shouldReplace = false;
     if (depVersionRange.startsWith("workspace:")) {
+      console.log(`${logPrefix}consistency: skipping workspace: dependency`);
       shouldReplace = false;
     } else if (depVersionRange.startsWith("catalog:")) {
       const resolvedVersion = resolveFromCatalog(catalogs, {
@@ -165,16 +185,19 @@ function makeDependencySectionConsistentForPackage(
         bareSpecifier: depVersionRange,
       });
       if (resolvedVersion.type === "found") {
-        const parsedDepMinVersion = semver.minVersion(resolvedVersion.resolution.specifier);
-        shouldReplace = semver.eq(parsedDepMinVersion, parsedPackageVersion);
+        shouldReplace = semver.satisfies(packageVersion, depVersionRange);
       }
     } else {
-      const parsedDepMinVersion = semver.minVersion(depVersionRange);
-      shouldReplace = semver.eq(parsedDepMinVersion, parsedPackageVersion);
+      shouldReplace = semver.satisfies(packageVersion, depVersionRange);
     }
     // If the dependency range is satisfied by the package's current version,
     // replace it with an exact match to the package's new version
     if (shouldReplace && repoPackages[depName].newVer !== undefined) {
+      console.log(
+        `${logPrefix}consistency: updating ${depName} version in dependency section to ${repoPackages[depName].newVer}`,
+      );
+      // Set the dependency to the new version with an alpha prerelease tag
+      // e.g. 1.0.0-alpha.20240101.1
       // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alphb so that this automatically matches
       // with the latest dev version published on npm
       const versionPrefix = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}`;
@@ -184,33 +207,32 @@ function makeDependencySectionConsistentForPackage(
   return repoPackages;
 }
 
-function updateOtherProjectDependencySections(repoPackages, pkg, depName, catalogs) {
-  console.log("updateOtherProjectDependencySections");
-  console.log("package = " + pkg);
-  console.log("depName=" + depName);
-  console.log("checking dependencies ..");
-
+function updateOtherProjectDependencySections(repoPackages, pkg, depName, catalogs, logPrefix) {
+  console.log(`${logPrefix}checking dependencies...`);
   repoPackages = makeDependencySectionConsistentForPackage(
     repoPackages,
     repoPackages[pkg].json.dependencies,
     depName,
     catalogs,
+    `${logPrefix}\t`,
   );
 
-  console.log("checking devDependencies ..");
+  console.log(`${logPrefix}checking devDependencies...`);
   repoPackages = makeDependencySectionConsistentForPackage(
     repoPackages,
     repoPackages[pkg].json.devDependencies,
     depName,
     catalogs,
+    `${logPrefix}\t`,
   );
 
-  console.log("checking peerDependencies ..");
+  console.log(`${logPrefix}checking peerDependencies...`);
   repoPackages = makeDependencySectionConsistentForPackage(
     repoPackages,
     repoPackages[pkg].json.peerDependencies,
     depName,
     catalogs,
+    `${logPrefix}\t`,
   );
   return repoPackages;
 }
@@ -234,7 +256,7 @@ async function main(argv) {
   let targetPackages = [];
   for (const pkg of Object.keys(repoPackages)) {
     if (
-      ["client", "core", "management"].includes(repoPackages[pkg].versionPolicy) &&
+      ["client", "core", "management", "utility"].includes(repoPackages[pkg].versionPolicy) &&
       repoPackages[pkg].projectFolder.startsWith(`sdk/${service}`) &&
       !repoPackages[pkg].json["private"]
     ) {
@@ -249,14 +271,13 @@ async function main(argv) {
     process.exit(1);
   }
   // Set all the new versions & update any references to internal projects with the new versions
-  console.log(`Updating packages with build ID ${buildId}`);
-
+  console.log(`Updating the following packages with build ID ${buildId}`);
+  console.dir(targetPackages);
   for (const pkg of targetPackages) {
-    console.log("package updated = ");
-    console.log(pkg);
+    console.log(`package updated = ${pkg}`);
     repoPackages = updatePackageVersion(repoPackages, pkg, buildId, config.catalogs);
     repoPackages = updateInternalDependencyVersions(repoPackages, pkg, buildId, config.catalogs);
-    console.log(repoPackages[pkg].newVer);
+    console.log(`newer version: ${repoPackages[pkg].newVer}`);
   }
 
   for (const pkg of Object.keys(repoPackages)) {
