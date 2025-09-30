@@ -19,9 +19,7 @@ function getPagedAsyncIterator<
 >(
   pagedResult: PagedResult<TPage, TPageSettings, TLink>,
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
-    pagedResult,
-  );
+  const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(pagedResult);
   return {
     next() {
       return iter.next();
@@ -36,9 +34,7 @@ function getPagedAsyncIterator<
         return getPageAsyncIterator(pagedResult, {
           pageLink: continuationToken as unknown as TLink | undefined,
         });
-      }) as unknown as (
-        settings?: TPageSettings,
-      ) => AsyncIterableIterator<TPage>),
+      }) as unknown as (settings?: TPageSettings) => AsyncIterableIterator<TPage>),
   };
 }
 
@@ -78,9 +74,7 @@ async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
   } = {},
 ): AsyncIterableIterator<TPage> {
   const { pageLink } = options;
-  let response = await pagedResult.getPage(
-    pageLink ?? pagedResult.firstPageLink,
-  );
+  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink);
   if (!response) {
     return;
   }
@@ -119,11 +113,7 @@ export interface PagedAsyncIterableIterator<
   /**
    * The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<
-    TElement,
-    TPage,
-    TPageSettings
-  >;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
   /**
    * Return an AsyncIterableIterator that works a page at a time
    */
@@ -141,9 +131,7 @@ interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string> {
   /**
    * A method that returns a page of results.
    */
-  getPage: (
-    pageLink: TLink,
-  ) => Promise<{ page: TPage; nextPageLink?: TLink } | undefined>;
+  getPage: (pageLink: TLink) => Promise<{ page: TPage; nextPageLink?: TLink } | undefined>;
   /**
    * a function to implement the `byPage` method on the paged async iterator.
    */
@@ -215,9 +203,7 @@ export function paginate<TResponse extends PathUncheckedResponse>(
       typeof customGetPage === "function"
         ? customGetPage
         : async (pageLink: string) => {
-            const result = firstRun
-              ? initialResponse
-              : await client.pathUnchecked(pageLink).get();
+            const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
             firstRun = false;
             checkPagingRequest(result);
             const nextLink = getNextLink(result.body, nextLinkName);
@@ -243,9 +229,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
   const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
   if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
-    throw new Error(
-      `Body Property ${nextLinkName} should be a string or undefined`,
-    );
+    throw new Error(`Body Property ${nextLinkName} should be a string or undefined`);
   }
 
   return nextLink;
@@ -273,18 +257,7 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
  * Checks if a request failed
  */
 function checkPagingRequest(response: PathUncheckedResponse): void {
-  const Http2xxStatusCodes = [
-    "200",
-    "201",
-    "202",
-    "203",
-    "204",
-    "205",
-    "206",
-    "207",
-    "208",
-    "226",
-  ];
+  const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
   if (!Http2xxStatusCodes.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,

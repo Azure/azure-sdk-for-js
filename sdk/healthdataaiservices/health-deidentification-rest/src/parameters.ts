@@ -54,9 +54,7 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam &
-  ListJobsHeaderParam &
-  RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
 
 export interface ListJobDocumentsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

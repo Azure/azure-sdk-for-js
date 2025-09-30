@@ -22,10 +22,7 @@ export interface DeidentificationClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2025-07-15-preview",
-    ...options
-  }: DeidentificationClientOptions = {},
+  { apiVersion = "2025-07-15-preview", ...options }: DeidentificationClientOptions = {},
 ): DeidentificationClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
@@ -42,16 +39,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://deid.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://deid.azure.com/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as DeidentificationClient;
+  const client = getClient(endpointUrl, credentials, options) as DeidentificationClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
