@@ -14,7 +14,7 @@ We recommend reviewing the [complete guide for the modularized libraries](https:
 
 1. Subpath exports: Modular SDKs use [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(available since Node.js version 12.7) to offer layered APIs. In which service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more lightweight client context for shared state across operations.
 1. Bundle size optimization: Modular SDKs leverage @azure-rest/core-client, which offers improved bundle size efficiency compared to the previous Azure core libraries. This core package provides a general-purpose REST client, while each service-specific package includes its own TypeScript type definitions. These TypeScript types are excluded from the final asset bundle, helping to minimize overall bundle size.
-1. Long-running operations: In stead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
+1. Long-running operations: Instead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
 
 
 ## How to migrate to the modularized libraries?
