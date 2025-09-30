@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import GeographyPoint from "../../src/geographyPoint";
+import GeographyPoint from "../../src/geographyPoint.js";
+import { describe, it, assert } from "vitest";
 
-describe("geographyPoint", function () {
-  it("JSON.stringify", function () {
+describe("geographyPoint", () => {
+  it("JSON.stringify", () => {
     const geoPoint = new GeographyPoint({
       longitude: -122.123889,
       latitude: 47.669444,
@@ -17,9 +16,5 @@ describe("geographyPoint", function () {
       coordinates: [-122.123889, 47.669444],
       crs: { type: "name", properties: { name: "EPSG:4326" } },
     });
-  });
-
-  afterEach(function () {
-    sinon.restore();
   });
 });

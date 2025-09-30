@@ -17,7 +17,7 @@ import {
   SkillsetsListResponse,
   SkillsetsCreateOptionalParams,
   SkillsetsCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Skillsets. */
 export interface Skillsets {

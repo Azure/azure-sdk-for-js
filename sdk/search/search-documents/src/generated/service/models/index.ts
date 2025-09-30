@@ -35,6 +35,7 @@ export type SearchIndexerSkillUnion =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
+  | DocumentIntelligenceLayoutSkill
   | WebApiSkill
   | AzureOpenAIEmbeddingSkill;
 export type CognitiveServicesAccountUnion =
@@ -98,6 +99,7 @@ export type CharFilterUnion =
   | CharFilter
   | MappingCharFilter
   | PatternReplaceCharFilter;
+export type LexicalNormalizerUnion = LexicalNormalizer | CustomNormalizer;
 export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
 export type VectorSearchAlgorithmConfigurationUnion =
   | VectorSearchAlgorithmConfiguration
@@ -140,15 +142,15 @@ export interface SearchIndexerDataSource {
 
 /** Represents credentials that can be used to connect to a datasource. */
 export interface DataSourceCredentials {
-  /** The connection string for the datasource. Set to `<unchanged>` (with brackets) if you don't want the connection string updated. Set to `<redacted>` if you want to remove the connection string value from the datasource. */
+  /** The connection string for the datasource. For Azure SQL, Azure Blob, ADLS Gen 2 and Azure Table, this would be the connection string or resource ID if using managed identity. For CosmosDB this would be a formatted connection string specifying ApiKind or resource ID for managed identity. For Onelake files, connection string would be either the workspace guid or workspace FQDN; Onelake only supports managed identity connections. Set to `<unchanged>` (with brackets) if you don't want the connection string updated. Set to `<redacted>` if you want to remove the connection string value from the datasource. */
   connectionString?: string;
 }
 
 /** Represents information about the entity (such as Azure SQL table or CosmosDB collection) that will be indexed. */
 export interface SearchIndexerDataContainer {
-  /** The name of the table or view (for Azure SQL data source) or collection (for CosmosDB data source) that will be indexed. */
+  /** The name of the table or view (for Azure SQL datasource), collection (for CosmosDB datasource), container (for Azure Blob and ADLS Gen 2 datasources), Azure Table (for Azure Table datasource), or lakehouse (for Onelake datasource) that will be indexed. */
   name: string;
-  /** A query that is applied to this data container. The syntax and meaning of this parameter is datasource-specific. Not supported by Azure SQL datasources. */
+  /** A query that is applied to this data container. For CosmosDB datasource query can flatten and filter data. For Azure Blob and ADLS Gen 2 query can filter by folders. For Azure Table query can filter by row data. For Onelake query can filter by folder or shortcut. Not supported by Azure SQL datasources. */
   query?: string;
 }
 
@@ -360,6 +362,11 @@ export interface ListIndexersResult {
 /** Represents the current status and execution history of an indexer. */
 export interface SearchIndexerStatus {
   /**
+   * The name of the indexer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
+  /**
    * Overall indexer status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -557,6 +564,7 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Text.CustomEntityLookupSkill"
     | "#Microsoft.Skills.Text.TranslationSkill"
     | "#Microsoft.Skills.Util.DocumentExtractionSkill"
+    | "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill"
     | "#Microsoft.Skills.Custom.WebApiSkill"
     | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
@@ -697,6 +705,8 @@ export interface ListSynonymMapsResult {
 export interface SearchIndex {
   /** The name of the index. */
   name: string;
+  /** The description of the index. */
+  description?: string;
   /** The fields of the index. */
   fields: SearchField[];
   /** The scoring profiles for the index. */
@@ -715,6 +725,8 @@ export interface SearchIndex {
   tokenFilters?: TokenFilterUnion[];
   /** The character filters for the index. */
   charFilters?: CharFilterUnion[];
+  /** The normalizers for the index. */
+  normalizers?: LexicalNormalizerUnion[];
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data. Once you have encrypted your data, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
@@ -753,6 +765,8 @@ export interface SearchField {
   searchAnalyzer?: LexicalAnalyzerName;
   /** The name of the analyzer used at indexing time for the field. This option can be used only with searchable fields. It must be set together with searchAnalyzer and it cannot be set together with the analyzer option.  This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
   indexAnalyzer?: LexicalAnalyzerName;
+  /** The name of the normalizer to use for the field. This option can be used only with fields with filterable, sortable, or facetable enabled. Once the normalizer is chosen, it cannot be changed for the field. Must be null for complex fields. */
+  normalizer?: LexicalNormalizerName;
   /** The dimensionality of the vector field. */
   vectorSearchDimensions?: number;
   /** The name of the vector search profile that specifies the algorithm and vectorizer to use when searching the vector field. */
@@ -888,6 +902,14 @@ export interface CharFilter {
   name: string;
 }
 
+/** Base type for normalizers. */
+export interface LexicalNormalizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+  /** The name of the normalizer. It must only contain letters, digits, spaces, dashes or underscores, can only start and end with alphanumeric characters, and is limited to 128 characters. It cannot end in '.microsoft' nor '.lucene', nor be named 'asciifolding', 'standard', 'lowercase', 'uppercase', or 'elision'. */
+  name: string;
+}
+
 /** Base type for similarity algorithms. Similarity algorithms are used to calculate scores that tie queries to documents. The higher the score, the more relevant the document is to that specific query. Those scores are used to rank the search results. */
 export interface Similarity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -910,6 +932,8 @@ export interface SemanticConfiguration {
   name: string;
   /** Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. */
   prioritizedFields: SemanticPrioritizedFields;
+  /** Specifies the score type to be used for the sort order of the search results. */
+  rankingOrder?: RankingOrder;
 }
 
 /** Describes the title, content, and keywords fields to be used for semantic ranking, captions, highlights, and answers. */
@@ -973,10 +997,20 @@ export interface VectorSearchCompression {
   kind: "scalarQuantization" | "binaryQuantization";
   /** The name to associate with this particular configuration. */
   compressionName: string;
-  /** If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency. */
-  rerankWithOriginalVectors?: boolean;
-  /** Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency. */
+  /** Contains the options for rescoring. */
+  rescoringOptions?: RescoringOptions;
+  /** The number of dimensions to truncate the vectors to. Truncating the vectors reduces the size of the vectors and the amount of data that needs to be transferred during search. This can save storage cost and improve search performance at the expense of recall. It should be only used for embeddings trained with Matryoshka Representation Learning (MRL) such as OpenAI text-embedding-3-large (small). The default value is null, which means no truncation. */
+  truncationDimension?: number;
+}
+
+/** Contains the options for rescoring. */
+export interface RescoringOptions {
+  /** If set to true, after the initial search on the compressed vectors, the similarity scores are recalculated using the full-precision vectors. This will improve recall at the expense of latency. */
+  enableRescoring?: boolean;
+  /** Default oversampling factor. Oversampling retrieves a greater set of potential documents to offset the resolution loss due to quantization. This increases the set of results that will be rescored on full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when 'enableRescoring' is true. Higher values improve recall at the expense of latency. */
   defaultOversampling?: number;
+  /** Controls the storage method for original vectors. This setting is immutable. */
+  rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
@@ -1015,6 +1049,8 @@ export interface AnalyzeRequest {
   analyzer?: string;
   /** The name of the tokenizer to use to break the given text. If this parameter is not specified, you must specify an analyzer instead. The tokenizer and analyzer parameters are mutually exclusive. KnownTokenizerNames is an enum containing known values. */
   tokenizer?: string;
+  /** The name of the normalizer to use to normalize the given text. */
+  normalizer?: LexicalNormalizerName;
   /** An optional list of token filters to use when breaking the given text. This parameter can only be set when using the tokenizer parameter. */
   tokenFilters?: string[];
   /** An optional list of character filters to use when breaking the given text. This parameter can only be set when using the tokenizer parameter. */
@@ -1239,6 +1275,16 @@ export interface CustomEntityAlias {
   accentSensitive?: boolean;
   /** Determine the fuzzy edit distance of the alias. */
   fuzzyEditDistance?: number;
+}
+
+/** Controls the cardinality for chunking the content. */
+export interface DocumentIntelligenceLayoutSkillChunkingProperties {
+  /** The unit of the chunk. */
+  unit?: DocumentIntelligenceLayoutSkillChunkingUnit;
+  /** The maximum chunk length in characters. Default is 500. */
+  maximumLength?: number;
+  /** The length of overlap provided between two text chunks. Default is 0. */
+  overlapLength?: number;
 }
 
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
@@ -1482,14 +1528,42 @@ export interface DocumentExtractionSkill extends SearchIndexerSkill {
   configuration?: { [propertyName: string]: any };
 }
 
+/** A skill that extracts content and layout information, via Azure AI Services, from files within the enrichment pipeline. */
+export interface DocumentIntelligenceLayoutSkill extends SearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill";
+  /** Controls the cardinality of the output format. Default is 'markdown'. */
+  outputFormat?: DocumentIntelligenceLayoutSkillOutputFormat;
+  /** Controls the cardinality of the output produced by the skill. Default is 'oneToMany'. */
+  outputMode?: DocumentIntelligenceLayoutSkillOutputMode;
+  /** The depth of headers in the markdown output. Default is h6. */
+  markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth;
+  /** Controls the cardinality of the content extracted from the document by the skill */
+  extractionOptions?: DocumentIntelligenceLayoutSkillExtractionOptions[];
+  /** Controls the cardinality for chunking the content. */
+  chunkingProperties?: DocumentIntelligenceLayoutSkillChunkingProperties;
+}
+
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
-export interface WebApiSkill extends SearchIndexerSkill, WebApiParameters {
+export interface WebApiSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
+  /** The url for the Web API. */
+  uri: string;
+  /** The headers required to make the http request. */
+  httpHeaders?: { [propertyName: string]: string };
+  /** The method for the http request. */
+  httpMethod?: string;
+  /** The desired timeout for the request. Default is 30 seconds. */
+  timeout?: string;
   /** The desired batch size which indicates number of documents. */
   batchSize?: number;
   /** If set, the number of parallel calls that can be made to the Web API. */
   degreeOfParallelism?: number;
+  /** Applies to custom skills that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the custom skill connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
+  authResourceId?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
 /** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
@@ -2027,6 +2101,16 @@ export interface PatternReplaceCharFilter extends CharFilter {
   replacement: string;
 }
 
+/** Allows you to configure normalization for filterable, sortable, and facetable fields, which by default operate with strict matching. This is a user-defined configuration consisting of at least one or more filters, which modify the token that is stored. */
+export interface CustomNormalizer extends LexicalNormalizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+  /** A list of token filters used to filter out or modify the input token. For example, you can specify a lowercase filter that converts all characters to lowercase. The filters are run in the order in which they are listed. */
+  tokenFilters?: TokenFilterName[];
+  /** A list of character filters used to prepare input text before it is processed. For instance, they can replace certain characters or symbols. The filters are run in the order in which they are listed. */
+  charFilters?: CharFilterName[];
+}
+
 /** Legacy similarity algorithm which uses the Lucene TFIDFSimilarity implementation of TF-IDF. This variation of TF-IDF introduces static document length normalization as well as coordinating factors that penalize documents that only partially match the searched queries. */
 export interface ClassicSimilarity extends Similarity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2115,35 +2199,37 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20240701} that the service accepts. */
-export enum KnownApiVersion20240701 {
-  /** Api Version '2024-07-01' */
-  TwoThousandTwentyFour0701 = "2024-07-01",
+/** Known values of {@link ApiVersion20250901} that the service accepts. */
+export enum KnownApiVersion20250901 {
+  /** Api Version '2025-09-01' */
+  TwoThousandTwentyFive0901 = "2025-09-01",
 }
 
 /**
- * Defines values for ApiVersion20240701. \
- * {@link KnownApiVersion20240701} can be used interchangeably with ApiVersion20240701,
+ * Defines values for ApiVersion20250901. \
+ * {@link KnownApiVersion20250901} can be used interchangeably with ApiVersion20250901,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-07-01**: Api Version '2024-07-01'
+ * **2025-09-01**: Api Version '2025-09-01'
  */
-export type ApiVersion20240701 = string;
+export type ApiVersion20250901 = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
-  /** Indicates an Azure SQL datasource. */
+  /** Definition of an Azure SQL datasource whose credentials can either be a standard SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. */
   AzureSql = "azuresql",
-  /** Indicates a CosmosDB datasource. */
+  /** Definition of an CosmosDB datasource whose credentials can either be a formatted connection string containing details for AccountEndpoint, AccountKey, and Database for a key based connection or details for ResourceID and ApiKind for keyless connection. The container property refers to cosmosdb collection to be indexed and the optional query property refers to a SQL query on the collection. */
   CosmosDb = "cosmosdb",
-  /** Indicates an Azure Blob datasource. */
+  /** Definition of an Azure Blob datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. */
   AzureBlob = "azureblob",
-  /** Indicates an Azure Table datasource. */
+  /** Definition of an Azure Table datasource whose credentials can either be a table connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property can be used to filter rows. */
   AzureTable = "azuretable",
-  /** Indicates a MySql datasource. */
+  /** Definition of an Azure SQL datasource whose credentials can either be a standard ADO.NET formatted SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. */
   MySql = "mysql",
-  /** Indicates an ADLS Gen2 datasource. */
+  /** Definition of an Azure ADLS Gen 2 datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. */
   AdlsGen2 = "adlsgen2",
+  /** Definition of an Microsoft Fabric Onelake datasource whose credentials can either be the Fabric workspace GUID or a workspace FQDN. The container property refers to the lakehouse GUID and the optional query property refers to folders or shortcuts in the lakehouse. */
+  OneLake = "onelake",
 }
 
 /**
@@ -2151,12 +2237,13 @@ export enum KnownSearchIndexerDataSourceType {
  * {@link KnownSearchIndexerDataSourceType} can be used interchangeably with SearchIndexerDataSourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azuresql**: Indicates an Azure SQL datasource. \
- * **cosmosdb**: Indicates a CosmosDB datasource. \
- * **azureblob**: Indicates an Azure Blob datasource. \
- * **azuretable**: Indicates an Azure Table datasource. \
- * **mysql**: Indicates a MySql datasource. \
- * **adlsgen2**: Indicates an ADLS Gen2 datasource.
+ * **azuresql**: Definition of an Azure SQL datasource whose credentials can either be a standard SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. \
+ * **cosmosdb**: Definition of an CosmosDB datasource whose credentials can either be a formatted connection string containing details for AccountEndpoint, AccountKey, and Database for a key based connection or details for ResourceID and ApiKind for keyless connection. The container property refers to cosmosdb collection to be indexed and the optional query property refers to a SQL query on the collection. \
+ * **azureblob**: Definition of an Azure Blob datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. \
+ * **azuretable**: Definition of an Azure Table datasource whose credentials can either be a table connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property can be used to filter rows. \
+ * **mysql**: Definition of an Azure SQL datasource whose credentials can either be a standard ADO.NET formatted SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. \
+ * **adlsgen2**: Definition of an Azure ADLS Gen 2 datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. \
+ * **onelake**: Definition of an Microsoft Fabric Onelake datasource whose credentials can either be the Fabric workspace GUID or a workspace FQDN. The container property refers to the lakehouse GUID and the optional query property refers to folders or shortcuts in the lakehouse.
  */
 export type SearchIndexerDataSourceType = string;
 
@@ -2628,6 +2715,33 @@ export enum KnownLexicalAnalyzerName {
  */
 export type LexicalAnalyzerName = string;
 
+/** Known values of {@link LexicalNormalizerName} that the service accepts. */
+export enum KnownLexicalNormalizerName {
+  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html */
+  AsciiFolding = "asciifolding",
+  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html */
+  Elision = "elision",
+  /** Normalizes token text to lowercase. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html */
+  Lowercase = "lowercase",
+  /** Standard normalizer, which consists of lowercase and asciifolding. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html */
+  Standard = "standard",
+  /** Normalizes token text to uppercase. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html */
+  Uppercase = "uppercase",
+}
+
+/**
+ * Defines values for LexicalNormalizerName. \
+ * {@link KnownLexicalNormalizerName} can be used interchangeably with LexicalNormalizerName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **asciifolding**: Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html \
+ * **elision**: Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html \
+ * **lowercase**: Normalizes token text to lowercase. See https:\/\/lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html \
+ * **standard**: Standard normalizer, which consists of lowercase and asciifolding. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html \
+ * **uppercase**: Normalizes token text to uppercase. See https:\/\/lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html
+ */
+export type LexicalNormalizerName = string;
+
 /** Known values of {@link VectorEncodingFormat} that the service accepts. */
 export enum KnownVectorEncodingFormat {
   /** Encoding format representing bits packed into a wider data type. */
@@ -2642,6 +2756,24 @@ export enum KnownVectorEncodingFormat {
  * **packedBit**: Encoding format representing bits packed into a wider data type.
  */
 export type VectorEncodingFormat = string;
+
+/** Known values of {@link RankingOrder} that the service accepts. */
+export enum KnownRankingOrder {
+  /** Sets sort order as BoostedRerankerScore */
+  BoostedRerankerScore = "BoostedRerankerScore",
+  /** Sets sort order as ReRankerScore */
+  ReRankerScore = "RerankerScore",
+}
+
+/**
+ * Defines values for RankingOrder. \
+ * {@link KnownRankingOrder} can be used interchangeably with RankingOrder,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BoostedRerankerScore**: Sets sort order as BoostedRerankerScore \
+ * **RerankerScore**: Sets sort order as ReRankerScore
+ */
+export type RankingOrder = string;
 
 /** Known values of {@link VectorSearchAlgorithmKind} that the service accepts. */
 export enum KnownVectorSearchAlgorithmKind {
@@ -2696,6 +2828,153 @@ export enum KnownVectorSearchCompressionKind {
  * **binaryQuantization**: Binary Quantization, a type of compression method. In binary quantization, the original vectors values are compressed to the narrower binary type by discretizing and representing each component of a vector using binary values, thereby reducing the overall data size.
  */
 export type VectorSearchCompressionKind = string;
+
+/** Known values of {@link VectorSearchCompressionRescoreStorageMethod} that the service accepts. */
+export enum KnownVectorSearchCompressionRescoreStorageMethod {
+  /** This option preserves the original full-precision vectors. Choose this option for maximum flexibility and highest quality of compressed search results. This consumes more storage but allows for rescoring and oversampling. */
+  PreserveOriginals = "preserveOriginals",
+  /** This option discards the original full-precision vectors. Choose this option for maximum storage savings. Since this option does not allow for rescoring and oversampling, it will often cause slight to moderate reductions in quality. */
+  DiscardOriginals = "discardOriginals",
+}
+
+/**
+ * Defines values for VectorSearchCompressionRescoreStorageMethod. \
+ * {@link KnownVectorSearchCompressionRescoreStorageMethod} can be used interchangeably with VectorSearchCompressionRescoreStorageMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **preserveOriginals**: This option preserves the original full-precision vectors. Choose this option for maximum flexibility and highest quality of compressed search results. This consumes more storage but allows for rescoring and oversampling. \
+ * **discardOriginals**: This option discards the original full-precision vectors. Choose this option for maximum storage savings. Since this option does not allow for rescoring and oversampling, it will often cause slight to moderate reductions in quality.
+ */
+export type VectorSearchCompressionRescoreStorageMethod = string;
+
+/** Known values of {@link TokenFilterName} that the service accepts. */
+export enum KnownTokenFilterName {
+  /** A token filter that applies the Arabic normalizer to normalize the orthography. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ar\/ArabicNormalizationFilter.html */
+  ArabicNormalization = "arabic_normalization",
+  /** Strips all characters after an apostrophe (including the apostrophe itself). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/tr\/ApostropheFilter.html */
+  Apostrophe = "apostrophe",
+  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html */
+  AsciiFolding = "asciifolding",
+  /** Forms bigrams of CJK terms that are generated from the standard tokenizer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKBigramFilter.html */
+  CjkBigram = "cjk_bigram",
+  /** Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic Latin, and half-width Katakana variants into the equivalent Kana. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKWidthFilter.html */
+  CjkWidth = "cjk_width",
+  /** Removes English possessives, and dots from acronyms. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicFilter.html */
+  Classic = "classic",
+  /** Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/commongrams\/CommonGramsFilter.html */
+  CommonGram = "common_grams",
+  /** Generates n-grams of the given size(s) starting from the front or the back of an input token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/EdgeNGramTokenFilter.html */
+  EdgeNGram = "edgeNGram_v2",
+  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html */
+  Elision = "elision",
+  /** Normalizes German characters according to the heuristics of the German2 snowball algorithm. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/de\/GermanNormalizationFilter.html */
+  GermanNormalization = "german_normalization",
+  /** Normalizes text in Hindi to remove some differences in spelling variations. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/hi\/HindiNormalizationFilter.html */
+  HindiNormalization = "hindi_normalization",
+  /** Normalizes the Unicode representation of text in Indian languages. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/in\/IndicNormalizationFilter.html */
+  IndicNormalization = "indic_normalization",
+  /** Emits each incoming token twice, once as keyword and once as non-keyword. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/KeywordRepeatFilter.html */
+  KeywordRepeat = "keyword_repeat",
+  /** A high-performance kstem filter for English. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/en\/KStemFilter.html */
+  KStem = "kstem",
+  /** Removes words that are too long or too short. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LengthFilter.html */
+  Length = "length",
+  /** Limits the number of tokens while indexing. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LimitTokenCountFilter.html */
+  Limit = "limit",
+  /** Normalizes token text to lower case. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html */
+  Lowercase = "lowercase",
+  /** Generates n-grams of the given size(s). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/NGramTokenFilter.html */
+  NGram = "nGram_v2",
+  /** Applies normalization for Persian. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/fa\/PersianNormalizationFilter.html */
+  PersianNormalization = "persian_normalization",
+  /** Create tokens for phonetic matches. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-phonetic\/org\/apache\/lucene\/analysis\/phonetic\/package-tree.html */
+  Phonetic = "phonetic",
+  /** Uses the Porter stemming algorithm to transform the token stream. See http:\//tartarus.org\/~martin\/PorterStemmer */
+  PorterStem = "porter_stem",
+  /** Reverses the token string. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html */
+  Reverse = "reverse",
+  /** Normalizes use of the interchangeable Scandinavian characters. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianNormalizationFilter.html */
+  ScandinavianNormalization = "scandinavian_normalization",
+  /** Folds Scandinavian characters åÅäæÄÆ-&gt;a and öÖøØ-&gt;o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianFoldingFilter.html */
+  ScandinavianFoldingNormalization = "scandinavian_folding",
+  /** Creates combinations of tokens as a single token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/shingle\/ShingleFilter.html */
+  Shingle = "shingle",
+  /** A filter that stems words using a Snowball-generated stemmer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/snowball\/SnowballFilter.html */
+  Snowball = "snowball",
+  /** Normalizes the Unicode representation of Sorani text. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html */
+  SoraniNormalization = "sorani_normalization",
+  /** Language specific stemming filter. See https:\//learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters */
+  Stemmer = "stemmer",
+  /** Removes stop words from a token stream. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html */
+  Stopwords = "stopwords",
+  /** Trims leading and trailing whitespace from tokens. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TrimFilter.html */
+  Trim = "trim",
+  /** Truncates the terms to a specific length. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TruncateTokenFilter.html */
+  Truncate = "truncate",
+  /** Filters out tokens with same text as the previous token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/RemoveDuplicatesTokenFilter.html */
+  Unique = "unique",
+  /** Normalizes token text to upper case. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html */
+  Uppercase = "uppercase",
+  /** Splits words into subwords and performs optional transformations on subword groups. */
+  WordDelimiter = "word_delimiter",
+}
+
+/**
+ * Defines values for TokenFilterName. \
+ * {@link KnownTokenFilterName} can be used interchangeably with TokenFilterName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **arabic_normalization**: A token filter that applies the Arabic normalizer to normalize the orthography. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ar\/ArabicNormalizationFilter.html \
+ * **apostrophe**: Strips all characters after an apostrophe (including the apostrophe itself). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/tr\/ApostropheFilter.html \
+ * **asciifolding**: Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html \
+ * **cjk_bigram**: Forms bigrams of CJK terms that are generated from the standard tokenizer. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKBigramFilter.html \
+ * **cjk_width**: Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic Latin, and half-width Katakana variants into the equivalent Kana. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKWidthFilter.html \
+ * **classic**: Removes English possessives, and dots from acronyms. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicFilter.html \
+ * **common_grams**: Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/commongrams\/CommonGramsFilter.html \
+ * **edgeNGram_v2**: Generates n-grams of the given size(s) starting from the front or the back of an input token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/EdgeNGramTokenFilter.html \
+ * **elision**: Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html \
+ * **german_normalization**: Normalizes German characters according to the heuristics of the German2 snowball algorithm. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/de\/GermanNormalizationFilter.html \
+ * **hindi_normalization**: Normalizes text in Hindi to remove some differences in spelling variations. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/hi\/HindiNormalizationFilter.html \
+ * **indic_normalization**: Normalizes the Unicode representation of text in Indian languages. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/in\/IndicNormalizationFilter.html \
+ * **keyword_repeat**: Emits each incoming token twice, once as keyword and once as non-keyword. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/KeywordRepeatFilter.html \
+ * **kstem**: A high-performance kstem filter for English. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/en\/KStemFilter.html \
+ * **length**: Removes words that are too long or too short. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LengthFilter.html \
+ * **limit**: Limits the number of tokens while indexing. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LimitTokenCountFilter.html \
+ * **lowercase**: Normalizes token text to lower case. See https:\/\/lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html \
+ * **nGram_v2**: Generates n-grams of the given size(s). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/NGramTokenFilter.html \
+ * **persian_normalization**: Applies normalization for Persian. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/fa\/PersianNormalizationFilter.html \
+ * **phonetic**: Create tokens for phonetic matches. See https:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-phonetic\/org\/apache\/lucene\/analysis\/phonetic\/package-tree.html \
+ * **porter_stem**: Uses the Porter stemming algorithm to transform the token stream. See http:\/\/tartarus.org\/~martin\/PorterStemmer \
+ * **reverse**: Reverses the token string. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html \
+ * **scandinavian_normalization**: Normalizes use of the interchangeable Scandinavian characters. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianNormalizationFilter.html \
+ * **scandinavian_folding**: Folds Scandinavian characters åÅäæÄÆ-&gt;a and öÖøØ-&gt;o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianFoldingFilter.html \
+ * **shingle**: Creates combinations of tokens as a single token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/shingle\/ShingleFilter.html \
+ * **snowball**: A filter that stems words using a Snowball-generated stemmer. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/snowball\/SnowballFilter.html \
+ * **sorani_normalization**: Normalizes the Unicode representation of Sorani text. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html \
+ * **stemmer**: Language specific stemming filter. See https:\/\/learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters \
+ * **stopwords**: Removes stop words from a token stream. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html \
+ * **trim**: Trims leading and trailing whitespace from tokens. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TrimFilter.html \
+ * **truncate**: Truncates the terms to a specific length. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TruncateTokenFilter.html \
+ * **unique**: Filters out tokens with same text as the previous token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/RemoveDuplicatesTokenFilter.html \
+ * **uppercase**: Normalizes token text to upper case. See https:\/\/lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html \
+ * **word_delimiter**: Splits words into subwords and performs optional transformations on subword groups.
+ */
+export type TokenFilterName = string;
+
+/** Known values of {@link CharFilterName} that the service accepts. */
+export enum KnownCharFilterName {
+  /** A character filter that attempts to strip out HTML constructs. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html */
+  HtmlStrip = "html_strip",
+}
+
+/**
+ * Defines values for CharFilterName. \
+ * {@link KnownCharFilterName} can be used interchangeably with CharFilterName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **html_strip**: A character filter that attempts to strip out HTML constructs. See https:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html
+ */
+export type CharFilterName = string;
 
 /** Known values of {@link VectorSearchAlgorithmMetric} that the service accepts. */
 export enum KnownVectorSearchAlgorithmMetric {
@@ -4167,6 +4446,102 @@ export enum KnownTextTranslationSkillLanguage {
  */
 export type TextTranslationSkillLanguage = string;
 
+/** Known values of {@link DocumentIntelligenceLayoutSkillOutputFormat} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillOutputFormat {
+  /** Specify the format of the output as text. */
+  Text = "text",
+  /** Specify the format of the output as markdown. */
+  Markdown = "markdown",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillOutputFormat. \
+ * {@link KnownDocumentIntelligenceLayoutSkillOutputFormat} can be used interchangeably with DocumentIntelligenceLayoutSkillOutputFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **text**: Specify the format of the output as text. \
+ * **markdown**: Specify the format of the output as markdown.
+ */
+export type DocumentIntelligenceLayoutSkillOutputFormat = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillOutputMode} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
+  /** Specify that the output should be parsed as 'oneToMany'. */
+  OneToMany = "oneToMany",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillOutputMode. \
+ * {@link KnownDocumentIntelligenceLayoutSkillOutputMode} can be used interchangeably with DocumentIntelligenceLayoutSkillOutputMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **oneToMany**: Specify that the output should be parsed as 'oneToMany'.
+ */
+export type DocumentIntelligenceLayoutSkillOutputMode = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillMarkdownHeaderDepth} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth {
+  /** Header level 1. */
+  H1 = "h1",
+  /** Header level 2. */
+  H2 = "h2",
+  /** Header level 3. */
+  H3 = "h3",
+  /** Header level 4. */
+  H4 = "h4",
+  /** Header level 5. */
+  H5 = "h5",
+  /** Header level 6. */
+  H6 = "h6",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillMarkdownHeaderDepth. \
+ * {@link KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth} can be used interchangeably with DocumentIntelligenceLayoutSkillMarkdownHeaderDepth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **h1**: Header level 1. \
+ * **h2**: Header level 2. \
+ * **h3**: Header level 3. \
+ * **h4**: Header level 4. \
+ * **h5**: Header level 5. \
+ * **h6**: Header level 6.
+ */
+export type DocumentIntelligenceLayoutSkillMarkdownHeaderDepth = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillExtractionOptions} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillExtractionOptions {
+  /** Specify that image content should be extracted from the document. */
+  Images = "images",
+  /** Specify that location metadata should be extracted from the document. */
+  LocationMetadata = "locationMetadata",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillExtractionOptions. \
+ * {@link KnownDocumentIntelligenceLayoutSkillExtractionOptions} can be used interchangeably with DocumentIntelligenceLayoutSkillExtractionOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **images**: Specify that image content should be extracted from the document. \
+ * **locationMetadata**: Specify that location metadata should be extracted from the document.
+ */
+export type DocumentIntelligenceLayoutSkillExtractionOptions = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillChunkingUnit} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillChunkingUnit {
+  /** Specifies chunk by characters. */
+  Characters = "characters",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillChunkingUnit. \
+ * {@link KnownDocumentIntelligenceLayoutSkillChunkingUnit} can be used interchangeably with DocumentIntelligenceLayoutSkillChunkingUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **characters**: Specifies chunk by characters.
+ */
+export type DocumentIntelligenceLayoutSkillChunkingUnit = string;
+
 /** Known values of {@link LexicalTokenizerName} that the service accepts. */
 export enum KnownLexicalTokenizerName {
   /** Grammar-based tokenizer that is suitable for processing most European-language documents. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicTokenizer.html */
@@ -4217,135 +4592,6 @@ export enum KnownLexicalTokenizerName {
  * **whitespace**: Divides text at whitespace. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/WhitespaceTokenizer.html
  */
 export type LexicalTokenizerName = string;
-
-/** Known values of {@link TokenFilterName} that the service accepts. */
-export enum KnownTokenFilterName {
-  /** A token filter that applies the Arabic normalizer to normalize the orthography. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ar\/ArabicNormalizationFilter.html */
-  ArabicNormalization = "arabic_normalization",
-  /** Strips all characters after an apostrophe (including the apostrophe itself). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/tr\/ApostropheFilter.html */
-  Apostrophe = "apostrophe",
-  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html */
-  AsciiFolding = "asciifolding",
-  /** Forms bigrams of CJK terms that are generated from the standard tokenizer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKBigramFilter.html */
-  CjkBigram = "cjk_bigram",
-  /** Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic Latin, and half-width Katakana variants into the equivalent Kana. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKWidthFilter.html */
-  CjkWidth = "cjk_width",
-  /** Removes English possessives, and dots from acronyms. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicFilter.html */
-  Classic = "classic",
-  /** Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/commongrams\/CommonGramsFilter.html */
-  CommonGram = "common_grams",
-  /** Generates n-grams of the given size(s) starting from the front or the back of an input token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/EdgeNGramTokenFilter.html */
-  EdgeNGram = "edgeNGram_v2",
-  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html */
-  Elision = "elision",
-  /** Normalizes German characters according to the heuristics of the German2 snowball algorithm. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/de\/GermanNormalizationFilter.html */
-  GermanNormalization = "german_normalization",
-  /** Normalizes text in Hindi to remove some differences in spelling variations. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/hi\/HindiNormalizationFilter.html */
-  HindiNormalization = "hindi_normalization",
-  /** Normalizes the Unicode representation of text in Indian languages. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/in\/IndicNormalizationFilter.html */
-  IndicNormalization = "indic_normalization",
-  /** Emits each incoming token twice, once as keyword and once as non-keyword. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/KeywordRepeatFilter.html */
-  KeywordRepeat = "keyword_repeat",
-  /** A high-performance kstem filter for English. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/en\/KStemFilter.html */
-  KStem = "kstem",
-  /** Removes words that are too long or too short. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LengthFilter.html */
-  Length = "length",
-  /** Limits the number of tokens while indexing. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LimitTokenCountFilter.html */
-  Limit = "limit",
-  /** Normalizes token text to lower case. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html */
-  Lowercase = "lowercase",
-  /** Generates n-grams of the given size(s). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/NGramTokenFilter.html */
-  NGram = "nGram_v2",
-  /** Applies normalization for Persian. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/fa\/PersianNormalizationFilter.html */
-  PersianNormalization = "persian_normalization",
-  /** Create tokens for phonetic matches. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-phonetic\/org\/apache\/lucene\/analysis\/phonetic\/package-tree.html */
-  Phonetic = "phonetic",
-  /** Uses the Porter stemming algorithm to transform the token stream. See http:\//tartarus.org\/~martin\/PorterStemmer */
-  PorterStem = "porter_stem",
-  /** Reverses the token string. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html */
-  Reverse = "reverse",
-  /** Normalizes use of the interchangeable Scandinavian characters. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianNormalizationFilter.html */
-  ScandinavianNormalization = "scandinavian_normalization",
-  /** Folds Scandinavian characters åÅäæÄÆ-&gt;a and öÖøØ-&gt;o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianFoldingFilter.html */
-  ScandinavianFoldingNormalization = "scandinavian_folding",
-  /** Creates combinations of tokens as a single token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/shingle\/ShingleFilter.html */
-  Shingle = "shingle",
-  /** A filter that stems words using a Snowball-generated stemmer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/snowball\/SnowballFilter.html */
-  Snowball = "snowball",
-  /** Normalizes the Unicode representation of Sorani text. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html */
-  SoraniNormalization = "sorani_normalization",
-  /** Language specific stemming filter. See https:\//learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters */
-  Stemmer = "stemmer",
-  /** Removes stop words from a token stream. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html */
-  Stopwords = "stopwords",
-  /** Trims leading and trailing whitespace from tokens. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TrimFilter.html */
-  Trim = "trim",
-  /** Truncates the terms to a specific length. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TruncateTokenFilter.html */
-  Truncate = "truncate",
-  /** Filters out tokens with same text as the previous token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/RemoveDuplicatesTokenFilter.html */
-  Unique = "unique",
-  /** Normalizes token text to upper case. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html */
-  Uppercase = "uppercase",
-  /** Splits words into subwords and performs optional transformations on subword groups. */
-  WordDelimiter = "word_delimiter",
-}
-
-/**
- * Defines values for TokenFilterName. \
- * {@link KnownTokenFilterName} can be used interchangeably with TokenFilterName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **arabic_normalization**: A token filter that applies the Arabic normalizer to normalize the orthography. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ar\/ArabicNormalizationFilter.html \
- * **apostrophe**: Strips all characters after an apostrophe (including the apostrophe itself). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/tr\/ApostropheFilter.html \
- * **asciifolding**: Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html \
- * **cjk_bigram**: Forms bigrams of CJK terms that are generated from the standard tokenizer. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKBigramFilter.html \
- * **cjk_width**: Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic Latin, and half-width Katakana variants into the equivalent Kana. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKWidthFilter.html \
- * **classic**: Removes English possessives, and dots from acronyms. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicFilter.html \
- * **common_grams**: Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/commongrams\/CommonGramsFilter.html \
- * **edgeNGram_v2**: Generates n-grams of the given size(s) starting from the front or the back of an input token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/EdgeNGramTokenFilter.html \
- * **elision**: Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html \
- * **german_normalization**: Normalizes German characters according to the heuristics of the German2 snowball algorithm. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/de\/GermanNormalizationFilter.html \
- * **hindi_normalization**: Normalizes text in Hindi to remove some differences in spelling variations. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/hi\/HindiNormalizationFilter.html \
- * **indic_normalization**: Normalizes the Unicode representation of text in Indian languages. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/in\/IndicNormalizationFilter.html \
- * **keyword_repeat**: Emits each incoming token twice, once as keyword and once as non-keyword. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/KeywordRepeatFilter.html \
- * **kstem**: A high-performance kstem filter for English. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/en\/KStemFilter.html \
- * **length**: Removes words that are too long or too short. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LengthFilter.html \
- * **limit**: Limits the number of tokens while indexing. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LimitTokenCountFilter.html \
- * **lowercase**: Normalizes token text to lower case. See https:\/\/lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html \
- * **nGram_v2**: Generates n-grams of the given size(s). See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/NGramTokenFilter.html \
- * **persian_normalization**: Applies normalization for Persian. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/fa\/PersianNormalizationFilter.html \
- * **phonetic**: Create tokens for phonetic matches. See https:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-phonetic\/org\/apache\/lucene\/analysis\/phonetic\/package-tree.html \
- * **porter_stem**: Uses the Porter stemming algorithm to transform the token stream. See http:\/\/tartarus.org\/~martin\/PorterStemmer \
- * **reverse**: Reverses the token string. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html \
- * **scandinavian_normalization**: Normalizes use of the interchangeable Scandinavian characters. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianNormalizationFilter.html \
- * **scandinavian_folding**: Folds Scandinavian characters åÅäæÄÆ-&gt;a and öÖøØ-&gt;o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianFoldingFilter.html \
- * **shingle**: Creates combinations of tokens as a single token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/shingle\/ShingleFilter.html \
- * **snowball**: A filter that stems words using a Snowball-generated stemmer. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/snowball\/SnowballFilter.html \
- * **sorani_normalization**: Normalizes the Unicode representation of Sorani text. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html \
- * **stemmer**: Language specific stemming filter. See https:\/\/learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters \
- * **stopwords**: Removes stop words from a token stream. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html \
- * **trim**: Trims leading and trailing whitespace from tokens. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TrimFilter.html \
- * **truncate**: Truncates the terms to a specific length. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TruncateTokenFilter.html \
- * **unique**: Filters out tokens with same text as the previous token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/RemoveDuplicatesTokenFilter.html \
- * **uppercase**: Normalizes token text to upper case. See https:\/\/lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html \
- * **word_delimiter**: Splits words into subwords and performs optional transformations on subword groups.
- */
-export type TokenFilterName = string;
-
-/** Known values of {@link CharFilterName} that the service accepts. */
-export enum KnownCharFilterName {
-  /** A character filter that attempts to strip out HTML constructs. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html */
-  HtmlStrip = "html_strip",
-}
-
-/**
- * Defines values for CharFilterName. \
- * {@link KnownCharFilterName} can be used interchangeably with CharFilterName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **html_strip**: A character filter that attempts to strip out HTML constructs. See https:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html
- */
-export type CharFilterName = string;
 
 /** Known values of {@link RegexFlags} that the service accepts. */
 export enum KnownRegexFlags {

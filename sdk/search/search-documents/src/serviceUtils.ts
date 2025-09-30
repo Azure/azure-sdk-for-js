@@ -44,7 +44,12 @@ import {
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
   WebApiVectorizer as GeneratedWebAPIVectorizer,
 } from "./generated/service/models/index.js";
-import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels.js";
+import {
+  SearchResult,
+  SelectFields,
+  SuggestDocumentsResult,
+  SuggestResult,
+} from "./indexModels.js";
 import { logger } from "./logger.js";
 import {
   AzureOpenAIVectorizer,
@@ -110,6 +115,7 @@ const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Util.ShaperSkill": true,
   "#Microsoft.Skills.Vision.ImageAnalysisSkill": true,
   "#Microsoft.Skills.Vision.OcrSkill": true,
+  "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill": true,
 };
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {

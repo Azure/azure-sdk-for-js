@@ -12,15 +12,18 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { DocumentsImpl } from "./operations";
-import { Documents } from "./operationsInterfaces";
-import { ApiVersion20240701, SearchClientOptionalParams } from "./models";
+import { DocumentsImpl } from "./operations/index.js";
+import { Documents } from "./operationsInterfaces/index.js";
+import {
+  ApiVersion20250901,
+  SearchClientOptionalParams,
+} from "./models/index.js";
 
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   indexName: string;
-  apiVersion: ApiVersion20240701;
+  apiVersion: ApiVersion20250901;
 
   /**
    * Initializes a new instance of the SearchClient class.
@@ -32,7 +35,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20240701,
+    apiVersion: ApiVersion20250901,
     options?: SearchClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -53,7 +56,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.1.0`;
+    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

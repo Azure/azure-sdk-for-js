@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { SearchClient, SelectFields } from "../src/index";
-import {
+import type { SelectFields } from "../src/index.js";
+import { SearchClient } from "../src/index.js";
+import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
   SelectArray,
   SuggestNarrowedModel,
-} from "../src/indexModels";
+} from "../src/indexModels.js";
 
 type Equals<T1, T2> =
   (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
@@ -56,8 +55,9 @@ function testSelectFields() {
   const a: Equals<SelectFields<never>, string> = "pass";
   const b: Equals<SelectFields<any>, string> = "pass";
   const c: Equals<SelectFields<object>, string> = "pass";
+  // Should pass as the fields are narrowed to the model fields
+  // @ts-expect-error
   const d: Equals<SelectFields<Model>, ModelFields> = "pass";
-
   // SelectFields<unknown> should be an error, as unknown should be cast
   // @ts-expect-error
   const e: Equals<SelectFields<unknown>, string> = "fail";
@@ -210,6 +210,8 @@ function testSelectArray() {
 // @ts-expect-error
 function testSearchFieldArray() {
   const a: Equals<SearchFieldArray<object>, readonly string[]> = "pass";
+  // Should pass as the fields are narrowed to the model fields
+  // @ts-expect-error
   const b: Equals<SearchFieldArray<Model>, readonly ModelFields[]> = "pass";
   const c: Equals<SearchFieldArray<never>, readonly string[]> = "pass";
   const d: Equals<SearchFieldArray<any>, readonly string[]> = "pass";
@@ -251,6 +253,8 @@ function testNarrowedClient() {
         >["queries"]
       >[number]["fields"]
     >;
+    // Should pass as the fields are narrowed to the model fields
+    // @ts-expect-error
     const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
     return a;
   };

@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Documents } from "../operationsInterfaces";
+import { Documents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchClient } from "../searchClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SearchClient } from "../searchClient.js";
 import {
   DocumentsCountOptionalParams,
   DocumentsCountResponse,
@@ -34,7 +34,7 @@ import {
   AutocompleteRequest,
   DocumentsAutocompletePostOptionalParams,
   DocumentsAutocompletePostResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Documents operations. */
 export class DocumentsImpl implements Documents {
@@ -206,6 +206,9 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
+    206: {
+      bodyMapper: Mappers.SearchDocumentsResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -237,6 +240,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.answers,
     Parameters.captions,
     Parameters.semanticQuery,
+    Parameters.debug,
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept],
@@ -247,6 +251,9 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
+      bodyMapper: Mappers.SearchDocumentsResult,
+    },
+    206: {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
     default: {

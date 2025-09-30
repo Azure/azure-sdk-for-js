@@ -177,6 +177,8 @@ export interface SearchRequest {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** Enables a debugging tool that can be used to further explore your reranked results. */
+  debug?: QueryDebugMode;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
   searchText?: string;
   /** The comma-separated list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
@@ -238,6 +240,11 @@ export interface SearchResult {
    */
   readonly _rerankerScore?: number;
   /**
+   * The relevance score computed by boosting the Reranker Score. Search results are sorted by the RerankerScore/RerankerBoostedScore based on useScoringProfileBoostedRanking in the Semantic Config. RerankerBoostedScore is only returned for queries of type 'semantic'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerBoostedScore?: number;
+  /**
    * Text fragments from the document that indicate the matching search terms, organized by each applicable field; null if hit highlighting was not enabled for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -247,6 +254,11 @@ export interface SearchResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly _captions?: QueryCaptionResult[];
+  /**
+   * Contains debugging information that can be used to further explore your search results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentDebugInfo?: DocumentDebugInfo;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
@@ -263,6 +275,65 @@ export interface QueryCaptionResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly highlights?: string;
+}
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DocumentDebugInfo {
+  /**
+   * Contains debugging information specific to vector and hybrid search.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectors?: VectorsDebugInfo;
+}
+
+export interface VectorsDebugInfo {
+  /**
+   * The breakdown of subscores of the document prior to the chosen result set fusion/combination method such as RRF.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscores?: QueryResultDocumentSubscores;
+}
+
+/** The breakdown of subscores between the text and vector query components of the search query for this document. Each vector query is shown as a separate object in the same order they were received. */
+export interface QueryResultDocumentSubscores {
+  /**
+   * The BM25 or Classic score for the text portion of the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly text?: TextResult;
+  /**
+   * The vector similarity and @search.score values for each vector query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectors?: { [propertyName: string]: SingleVectorFieldResult }[];
+  /**
+   * The BM25 or Classic score for the text portion of the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentBoost?: number;
+}
+
+/** The BM25 or Classic score for the text portion of the query. */
+export interface TextResult {
+  /**
+   * The BM25 or Classic score for the text portion of the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly searchScore?: number;
+}
+
+/** A single vector field result. Both @search.score and vector similarity values are returned. Vector similarity is related to @search.score by an equation. */
+export interface SingleVectorFieldResult {
+  /**
+   * The @search.score value that is calculated from the vector similarity score. This is the score that's visible in a pure single-field single-vector query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly searchScore?: number;
+  /**
+   * The vector similarity score for this document. Note this is the canonical definition of similarity metric, not the 'distance' version. For example, cosine similarity instead of cosine distance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectorSimilarity?: number;
 }
 
 /** Response containing suggestion query results from an index. */
@@ -481,6 +552,8 @@ export interface SearchOptions {
   captions?: QueryCaptionType;
   /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
   semanticQuery?: string;
+  /** Enables a debugging tool that can be used to further explore your search results. */
+  debug?: QueryDebugMode;
 }
 
 /** Parameter group */
@@ -525,20 +598,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20240701} that the service accepts. */
-export enum KnownApiVersion20240701 {
-  /** Api Version '2024-07-01' */
-  TwoThousandTwentyFour0701 = "2024-07-01",
+/** Known values of {@link ApiVersion20250901} that the service accepts. */
+export enum KnownApiVersion20250901 {
+  /** Api Version '2025-09-01' */
+  TwoThousandTwentyFive0901 = "2025-09-01",
 }
 
 /**
- * Defines values for ApiVersion20240701. \
- * {@link KnownApiVersion20240701} can be used interchangeably with ApiVersion20240701,
+ * Defines values for ApiVersion20250901. \
+ * {@link KnownApiVersion20250901} can be used interchangeably with ApiVersion20250901,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-07-01**: Api Version '2024-07-01'
+ * **2025-09-01**: Api Version '2025-09-01'
  */
-export type ApiVersion20240701 = string;
+export type ApiVersion20250901 = string;
 
 /** Known values of {@link SemanticErrorMode} that the service accepts. */
 export enum KnownSemanticErrorMode {
@@ -594,12 +667,30 @@ export enum KnownQueryCaptionType {
  */
 export type QueryCaptionType = string;
 
+/** Known values of {@link QueryDebugMode} that the service accepts. */
+export enum KnownQueryDebugMode {
+  /** No query debugging information will be returned. */
+  Disabled = "disabled",
+  /** Allows the user to further explore their hybrid and vector query results. */
+  Vector = "vector",
+}
+
+/**
+ * Defines values for QueryDebugMode. \
+ * {@link KnownQueryDebugMode} can be used interchangeably with QueryDebugMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **disabled**: No query debugging information will be returned. \
+ * **vector**: Allows the user to further explore their hybrid and vector query results.
+ */
+export type QueryDebugMode = string;
+
 /** Known values of {@link VectorQueryKind} that the service accepts. */
 export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
   Vector = "vector",
   /** Vector query where a text value that needs to be vectorized is provided. */
-  Text = "text",
+  $DO_NOT_NORMALIZE$_text = "text",
 }
 
 /**

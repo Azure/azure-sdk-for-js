@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { GeographyPoint } from "../../../src";
+import type { GeographyPoint } from "../../../src/index.js";
 
 export interface Hotel {
   hotelId: string;
