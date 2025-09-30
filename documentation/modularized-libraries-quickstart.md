@@ -12,14 +12,14 @@ If you're currently using an older generation of the Azure SDK for JavaScript/Ty
 
 ## Prerequisites
 
-There are several possible approaches to authentication Azure. In this document we would use the application secret authentication. You will need the following values:
+There are several possible approaches to Azure authentication. In this document we would use the application secret authentication. You will need the following values:
 
 - **Subscription ID**
 - **Client ID**
 - **Client Secret**
 - **Tenant ID**
 
-These values can be obtained from the portal. You could follow the [instruction](https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id) to get Subscription ID. And please refer to [this document](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) to get Client ID, Client Secret, and Tenant ID. After you obtained the values, you need to set the following values as your environment variables.
+These values can be obtained from the portal. You could follow the [instructions](https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id) to get Subscription ID. And please refer to [this document](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) to get Client ID, Client Secret, and Tenant ID. After you obtain the values, you need to set the following values as your environment variables.
 
 - `AZURE_CLIENT_ID`
 - `AZURE_CLIENT_SECRET`
@@ -288,11 +288,11 @@ async function main() {
 
 ## Code Samples
 
-You can find additional code samples for using the JavaScript/TypeScript SDK in this repo. These samples are located in the samples folder alongside the SDK source code—for example, AVS-related samples are available https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs/samples.
+You can find additional code samples for using the JavaScript/TypeScript SDK in this repo. These samples are located in the samples folder alongside the SDK source code—for example, AVS-related samples are available at https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs/samples.
 
 ## Need help?
 
-- File an issue via [Github
+- File an issue via [GitHub
   Issues](https://github.com/Azure/azure-sdk-for-js/issues)
 
 ## Contributing

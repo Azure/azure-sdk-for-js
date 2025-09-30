@@ -14,7 +14,7 @@ We recommend reviewing the [complete guide for the modularized libraries](https:
 
 1. Subpath exports: Modular SDKs use [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(available since Node.js version 12.7) to offer layered APIs. In which service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more lightweight client context for shared state across operations.
 1. Bundle size optimization: Modular SDKs leverage @azure-rest/core-client, which offers improved bundle size efficiency compared to the previous Azure core libraries. This core package provides a general-purpose REST client, while each service-specific package includes its own TypeScript type definitions. These TypeScript types are excluded from the final asset bundle, helping to minimize overall bundle size.
-1. Long-running operations: In stead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
+1. Long-running operations: Instead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
 
 
 ## How to migrate to the modularized libraries?
@@ -27,7 +27,7 @@ If you're updating an existing app to use Modular SDKs, focus on these areas:
 
 ### Long-running Operations
 
-Many operations may take a long time to finish before receiving the desired response. Instead of two methods (beginDoSth and beginDoSthAndWait) for each long-running operation, Modular SDKs offer a single method (doSth) that supports both async and sync usage. The changes mainly are three parts:
+Many operations may take a long time to finish before receiving the desired response named long-running operations. We re-designed LRO in Modular SDKs. The changes mainly are three parts:
 
 - Method signature changes
 - LRO poller changes from SimplePollerLike to PollerLike
@@ -148,7 +148,7 @@ In Modular we adjusted paging interfaces a little for better experience and main
 - Use `continuationToken` to replace the helper `getContinuationToken`
 
 #### Remove un-supported maxpagesize in PageSetting
-The `maxpagesize` is not supported in tranditional client so in Modular we remove this setting winthin PageSettings. This are supposed to have no impact for customers.
+The `maxpagesize` is not supported in traditional client so in Modular we remove this setting within PageSettings. These changes are supposed to have no impact for customers.
 
 #### Remove the helper `getContinuationToken`
 In traditional client we build an util function to help customers to get the continuation token([here](https://github.com/Azure/azure-sdk-for-js/blob/735677407c4fbbceea95200f6d6de00e29804740/sdk/datadog/arm-datadog/src/pagingHelper.ts#L22-L29)).
@@ -157,7 +157,7 @@ So we could reference the token by code.
 
 ```ts
 const firstPage = await iter.byPage().next();
-const continuationToken = getContinuationToken(getContinuationToken);
+const continuationToken = getContinuationToken(firstPage);
 ```
 
 Now we directly deliver the `continuationToken` with byPage return.
@@ -250,4 +250,4 @@ Please note for Azure models, majority of property flatten happened in `properti
 
 ## Need help
 
-If you have encountered an issue during migration, please file an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues) and make sure you add the 'Preview' label to the issue.
+If you have encountered an issue during migration, please file an issue via [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues) and make sure you add the 'Preview' label to the issue.
