@@ -27,7 +27,7 @@ If you're updating an existing app to use Modular SDKs, focus on these areas:
 
 ### Long-running Operations
 
-Many operations may take a long time to finish before receiving the desired response. Instead of two methods (beginDoSth and beginDoSthAndWait) for each long-running operation, Modular SDKs offer a single method (doSth) that supports both async and sync usage. The changes mainly are three parts:
+Many operations may take a long time to finish before receiving the desired response named long-running operations. We re-designed LRO in Modular SDKs. The changes mainly are three parts:
 
 - Method signature changes
 - LRO poller changes from SimplePollerLike to PollerLike
