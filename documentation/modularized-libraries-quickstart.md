@@ -292,7 +292,7 @@ You can find additional code samples for using the JavaScript/TypeScript SDK in 
 
 ## Need help?
 
-- File an issue via [Github
+- File an issue via [GitHub
   Issues](https://github.com/Azure/azure-sdk-for-js/issues)
 
 ## Contributing
