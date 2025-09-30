@@ -382,6 +382,12 @@ export type SearchResult<
    */
   readonly rerankerScore?: number;
   /**
+   * The relevance score computed by boosting the Reranker Score. Search results are sorted by the RerankerScore/RerankerBoostedScore based on useScoringProfileBoostedRanking in the Semantic Config. RerankerBoostedScore is only returned for queries of type 'semantic'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerBoostedScore?: number;
+  /**
+  /**
    * Text fragments from the document that indicate the matching search terms, organized by each
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**

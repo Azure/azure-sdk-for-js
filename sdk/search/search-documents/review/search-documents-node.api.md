@@ -211,7 +211,6 @@ export interface BaseVectorSearchAlgorithmConfiguration {
 export interface BaseVectorSearchCompression {
     compressionName: string;
     kind: "scalarQuantization" | "binaryQuantization";
-    // Warning: (ae-forgotten-export) The symbol "RescoringOptions" needs to be exported by the entry point index.d.ts
     rescoringOptions?: RescoringOptions;
     truncationDimension?: number;
 }
@@ -1619,6 +1618,12 @@ export enum KnownVectorSearchCompressionKind {
 }
 
 // @public
+export enum KnownVectorSearchCompressionRescoreStorageMethod {
+    DiscardOriginals = "discardOriginals",
+    PreserveOriginals = "preserveOriginals"
+}
+
+// @public
 export enum KnownVectorSearchCompressionTarget {
     Int8 = "int8"
 }
@@ -1909,6 +1914,13 @@ export type QueryType = "simple" | "full" | "semantic";
 export type RegexFlags = `${KnownRegexFlags}`;
 
 // @public
+export interface RescoringOptions {
+    defaultOversampling?: number;
+    enableRescoring?: boolean;
+    rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
+}
+
+// @public
 export type ResetIndexerOptions = OperationOptions;
 
 // @public
@@ -2018,6 +2030,7 @@ export interface SearchIndex {
     charFilters?: CharFilter[];
     corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
+    description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     fields: SearchField[];
@@ -2371,6 +2384,7 @@ export interface SearchResourceEncryptionKey {
 export type SearchResult<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = {
     readonly score: number;
     readonly rerankerScore?: number;
+    readonly rerankerBoostedScore?: number;
     readonly highlights?: {
         [k in SelectFields<TModel>]?: string[];
     };
@@ -2751,6 +2765,9 @@ export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuan
 
 // @public
 export type VectorSearchCompressionKind = string;
+
+// @public
+export type VectorSearchCompressionRescoreStorageMethod = string;
 
 // @public
 export type VectorSearchCompressionTarget = string;

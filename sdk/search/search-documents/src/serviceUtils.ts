@@ -409,6 +409,7 @@ function convertEncryptionKeyToGenerated(
 export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex): SearchIndex {
   return {
     name: generatedIndex.name,
+    description: generatedIndex.description,
     defaultScoringProfile: generatedIndex.defaultScoringProfile,
     corsOptions: generatedIndex.corsOptions,
     suggesters: generatedIndex.suggesters,
@@ -513,6 +514,7 @@ export function generatedSearchResultToPublicSearchResult<
         _highlights: highlights,
         _rerankerScore: rerankerScore,
         _captions: captions,
+        rerankerBoostedScore,
         ...restProps
       } = result;
       const obj = {
@@ -520,6 +522,7 @@ export function generatedSearchResultToPublicSearchResult<
         highlights,
         rerankerScore,
         captions,
+        rerankerBoostedScore,
         document: restProps,
       };
       return obj as SearchResult<TModel, TFields>;
