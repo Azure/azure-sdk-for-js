@@ -1322,6 +1322,12 @@ export enum KnownPIIDetectionSkillMaskingMode {
 }
 
 // @public
+export enum KnownRankingOrder {
+    BoostedRerankerScore = "BoostedRerankerScore",
+    ReRankerScore = "RerankerScore"
+}
+
+// @public
 export enum KnownRegexFlags {
     CanonEq = "CANON_EQ",
     CaseInsensitive = "CASE_INSENSITIVE",
@@ -1593,7 +1599,7 @@ export enum KnownVectorFilterMode {
 
 // @public
 export enum KnownVectorQueryKind {
-    $DO_NOT_NORMALIZE$_text = "text",
+    Text = "text",
     Vector = "vector"
 }
 
@@ -1909,6 +1915,9 @@ export interface QueryCaptionResult {
 
 // @public
 export type QueryType = "simple" | "full" | "semantic";
+
+// @public
+export type RankingOrder = string;
 
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
@@ -2417,7 +2426,6 @@ export type SelectFields<TModel extends object> = (<T>() => T extends TModel ? t
 export interface SemanticConfiguration {
     name: string;
     prioritizedFields: SemanticPrioritizedFields;
-    // Warning: (ae-forgotten-export) The symbol "RankingOrder" needs to be exported by the entry point index.d.ts
     rankingOrder?: RankingOrder;
 }
 
