@@ -25516,46 +25516,46 @@ importers:
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: workspace:^
+        specifier: ^2.0.0
         version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: workspace:^
+        specifier: ^4.1.0
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
+        specifier: ^1.0.0
+        version: 1.0.0(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
       '@azure/dev-tool':
-        specifier: workspace:^
+        specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
       '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
+        specifier: ^3.0.0
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: catalog:internal
-        version: 4.11.1
+        specifier: ^4.9.0
+        version: link:../../identity/identity
       '@types/node':
-        specifier: 'catalog:'
+        specifier: ^20.0.0
         version: 20.19.17
       '@vitest/browser':
-        specifier: catalog:testing
+        specifier: ^3.0.9
         version: 3.2.4(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(playwright@1.55.1)(vite@7.1.7(@types/node@20.19.17)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
       '@vitest/coverage-istanbul':
-        specifier: catalog:testing
+        specifier: ^3.0.9
         version: 3.2.4(vitest@3.2.4)
       dotenv:
-        specifier: catalog:testing
+        specifier: ^16.0.0
         version: 16.6.1
       eslint:
-        specifier: 'catalog:'
+        specifier: ^9.9.0
         version: 9.36.0
       playwright:
-        specifier: catalog:testing
+        specifier: ^1.52.0
         version: 1.55.1
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
       vitest:
-        specifier: catalog:testing
+        specifier: ^3.0.9
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/storageimportexport/arm-storageimportexport:

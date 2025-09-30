@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-storagediscovery-ts-beta",
+  "name": "@azure-samples/arm-storagediscovery-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-storagediscovery client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-storagediscovery client library samples for TypeScript",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagediscovery/arm-storagediscovery",
   "dependencies": {
-    "@azure/arm-storagediscovery": "next",
+    "@azure/arm-storagediscovery": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.9.0"
   },
