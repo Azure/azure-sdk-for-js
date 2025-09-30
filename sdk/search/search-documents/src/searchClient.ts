@@ -7,7 +7,7 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { decode, encode } from "./base64";
+import { decode, encode } from "./base64.js";
 import {
   AutocompleteRequest,
   AutocompleteResult,
@@ -17,9 +17,9 @@ import {
   SearchRequest as GeneratedSearchRequest,
   SuggestRequest,
   VectorQueryUnion as GeneratedVectorQuery,
-} from "./generated/data/models";
-import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { IndexDocumentsBatch } from "./indexDocumentsBatch";
+} from "./generated/data/models/index.js";
+import { SearchClient as GeneratedClient } from "./generated/data/searchClient.js";
+import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import {
   AutocompleteOptions,
   CountDocumentsOptions,
@@ -46,15 +46,15 @@ import {
   SuggestOptions,
   UploadDocumentsOptions,
   VectorQuery,
-} from "./indexModels";
-import { logger } from "./logger";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { KnownSearchAudience } from "./searchAudience";
-import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
-import { deserialize, serialize } from "./serialization";
-import * as utils from "./serviceUtils";
-import { createSpan } from "./tracing";
+} from "./indexModels.js";
+import { logger } from "./logger.js";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
+import { KnownSearchAudience } from "./searchAudience.js";
+import { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
+import { deserialize, serialize } from "./serialization.js";
+import * as utils from "./serviceUtils.js";
+import { createSpan } from "./tracing.js";
 
 /**
  * Client options used to configure Cognitive Search API requests.

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import GeographyPoint from "./geographyPoint";
-import { walk } from "./walk";
+import GeographyPoint from "./geographyPoint.js";
+import { walk } from "./walk.js";
 
 const ISO8601DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/i;
 const GeoJSONPointTypeName = "Point";

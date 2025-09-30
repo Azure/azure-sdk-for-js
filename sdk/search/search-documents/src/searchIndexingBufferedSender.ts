@@ -5,8 +5,8 @@ import { OperationOptions } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { delay } from "@azure/core-util";
 import EventEmitter from "events";
-import { IndexDocumentsResult } from "./generated/data/models";
-import { IndexDocumentsBatch } from "./indexDocumentsBatch";
+import { IndexDocumentsResult } from "./generated/data/models/index.js";
+import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import {
   IndexDocumentsAction,
   IndexDocumentsOptions,
@@ -16,9 +16,9 @@ import {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
-} from "./indexModels";
-import { getRandomIntegerInclusive } from "./serviceUtils";
-import { createSpan } from "./tracing";
+} from "./indexModels.js";
+import { getRandomIntegerInclusive } from "./serviceUtils.js";
+import { createSpan } from "./tracing.js";
 
 /**
  * Index Documents Client

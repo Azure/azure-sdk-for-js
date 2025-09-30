@@ -17,8 +17,8 @@ import {
   QueryType,
   ScoringStatistics,
   SearchMode,
-} from "./generated/data/models";
-import GeographyPoint from "./geographyPoint";
+} from "./generated/data/models/index.js";
+import GeographyPoint from "./geographyPoint.js";
 
 /**
  * Options for performing the count operation on the index.

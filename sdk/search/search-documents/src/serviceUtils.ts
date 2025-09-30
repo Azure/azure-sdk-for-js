@@ -4,7 +4,7 @@
 import {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
-} from "./generated/data/models";
+} from "./generated/data/models/index.js";
 import {
   AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
   BM25Similarity,
@@ -43,9 +43,9 @@ import {
   VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
   WebApiVectorizer as GeneratedWebAPIVectorizer,
-} from "./generated/service/models";
-import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
-import { logger } from "./logger";
+} from "./generated/service/models/index.js";
+import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels.js";
+import { logger } from "./logger.js";
 import {
   AzureOpenAIVectorizer,
   BlobIndexerDataToExtract,
@@ -86,7 +86,7 @@ import {
   VectorSearchAlgorithmMetric,
   VectorSearchVectorizer,
   WebApiVectorizer,
-} from "./serviceModels";
+} from "./serviceModels.js";
 
 export const defaultServiceVersion = "2024-07-01";
 

@@ -20,7 +20,7 @@ export {
   QueryType,
   ScoringStatistics,
   SearchMode,
-} from "./generated/data/models";
+} from "./generated/data/models/index.js";
 export {
   AnalyzedTokenInfo,
   AnalyzeResult,
@@ -185,9 +185,9 @@ export {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-} from "./generated/service/models";
-export { default as GeographyPoint } from "./geographyPoint";
-export { IndexDocumentsBatch } from "./indexDocumentsBatch";
+} from "./generated/service/models/index.js";
+export { default as GeographyPoint } from "./geographyPoint.js";
+export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export {
   AutocompleteOptions,
   AutocompleteRequest,
@@ -243,19 +243,19 @@ export {
   VectorQuery,
   VectorQueryKind,
   VectorSearchOptions,
-} from "./indexModels";
-export { odata } from "./odata";
-export { KnownSearchAudience } from "./searchAudience";
-export { SearchClient, SearchClientOptions } from "./searchClient";
-export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
-export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
+} from "./indexModels.js";
+export { odata } from "./odata.js";
+export { KnownSearchAudience } from "./searchAudience.js";
+export { SearchClient, SearchClientOptions } from "./searchClient.js";
+export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient.js";
+export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient.js";
 export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
   DEFAULT_RETRY_COUNT,
   IndexDocumentsClient,
   SearchIndexingBufferedSender,
-} from "./searchIndexingBufferedSender";
+} from "./searchIndexingBufferedSender.js";
 export {
   AnalyzeRequest,
   AnalyzeTextOptions,
@@ -377,5 +377,5 @@ export {
   WebApiParameters,
   WebApiSkill,
   WebApiVectorizer,
-} from "./serviceModels";
-export { createSynonymMapFromFile } from "./synonymMapHelper";
+} from "./serviceModels.js";
+export { createSynonymMapFromFile } from "./synonymMapHelper.js";
