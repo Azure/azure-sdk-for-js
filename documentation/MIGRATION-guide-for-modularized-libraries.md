@@ -13,21 +13,21 @@ Several packages released from Modular libraries have already reached General Av
 We recommend reviewing the [complete guide for the modularized libraries](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) for full details. Compared to the traditional libraries, Modular SDKs have following key benefits:
 
 1. Subpath exports: Modular SDKs use [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(available since Node.js version 12.7) to offer layered APIs. In which service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more lightweight client context for shared state across operations.
-1. Bundle size optimization: Modular SDKs rely on `@azure-rest/core-client`. This core package provides a general-purpose REST client and each package contains service-specific TypeScript type definitions. The TypeScript types are excluded from the assets bundle..
-1. Long-running operations: in stead of two methods (beginDoSth and beginDoSthAndWait) in our traditional clients for each long-running operation, which are both redundant and confusing to customers. In Modular,  Modular SDKs offer a single method (doSth) that supports both async and sync usage.
+1. Bundle size optimization: Modular SDKs leverage @azure-rest/core-client, which offers improved bundle size efficiency compared to the previous Azure core libraries. This core package provides a general-purpose REST client, while each service-specific package includes its own TypeScript type definitions. These TypeScript types are excluded from the final asset bundle, helping to minimize overall bundle size.
+1. Long-running operations: In stead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
 
 
 ## How to migrate to the modularized libraries?
 
 If you're updating an existing app to use Modular SDKs, focus on these areas:
 
-1. Long Running Operations
-1. Paging Operations
-1. Model property flattening
+1. Long-running Operations
+1. List Operations
+1. Model Property Flattening
 
-### Long Running Operations
+### Long-running Operations
 
-Many operations may take a long time to finish before receiving the desired response. Instead of two methods (beginDoSth and beginDoSthAndWait), Modular SDKs offer a single method (doSth) that supports both async and sync usage. The changes mainly are three parts:
+Many operations may take a long time to finish before receiving the desired response. Instead of two methods (beginDoSth and beginDoSthAndWait) for each long-running operation, Modular SDKs offer a single method (doSth) that supports both async and sync usage. The changes mainly are three parts:
 
 - Method signature changes
 - LRO poller changes from SimplePollerLike to PollerLike
@@ -176,7 +176,7 @@ const firstPage = await iter.byPage().next();
 const continuationToken = firstPage.value.continuationToken;
 ```
 
-## Model property flattening
+## Model Property Flattening
 
 Client libraries represent entities transferred to and from Azure services as model types. For the model types, in the traditional client we have supported the autorest extension [x-ms-client-flatten](https://azure.github.io/autorest/extensions/#x-ms-client-flatten). This extension allows to flatten deeply nested payloads into a top-level object structure. For example a payload that looks like this on the wire:
 
