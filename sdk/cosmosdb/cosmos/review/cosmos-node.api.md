@@ -635,7 +635,7 @@ export const Constants: {
     WriteRequestFailureCountThreshold: number;
     ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
-    ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR: string;
+    EnablePerPartitionFailover: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
