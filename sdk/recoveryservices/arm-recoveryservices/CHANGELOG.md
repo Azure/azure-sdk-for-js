@@ -1,4 +1,65 @@
 # Release History
+
+## 7.0.0 (2025-09-29)
+
+### Features Added
+  - Added operation group DeletedVaultsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation VaultsOperations.createOrUpdate
+  - Added operation VaultsOperations.delete
+  - Added operation VaultsOperations.update
+  - Added Interface DeletedVault
+  - Added Interface DeletedVaultProperties
+  - Added Interface DeletedVaultsGetOperationStatusOptionalParams
+  - Added Interface DeletedVaultsGetOptionalParams
+  - Added Interface DeletedVaultsListBySubscriptionIdOptionalParams
+  - Added Interface DeletedVaultsUndeleteOptionalParams
+  - Added Interface DeletedVaultUndeleteInput
+  - Added Interface DeletedVaultUndeleteInputProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProxyResource
+  - Added Interface RestorePollerOptions
+  - Added Interface VaultExtendedInfo
+  - Interface PatchTrackedResource has a new optional parameter systemData
+  - Interface PatchVault has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter properties
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Interface VaultExtendedInfoResource has a new optional parameter properties
+  - Interface VaultExtendedInfoResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation Vaults.beginCreateOrUpdate
+  - Removed operation Vaults.beginCreateOrUpdateAndWait
+  - Removed operation Vaults.beginDelete
+  - Removed operation Vaults.beginDeleteAndWait
+  - Removed operation Vaults.beginUpdate
+  - Removed operation Vaults.beginUpdateAndWait
+  - Operation VaultCertificates.create has a new signature
+  - Removed Interface ClientDiscoveryResponse
+  - Removed Interface PrivateLinkResources
+  - Removed Interface PrivateLinkResourcesOperationsOperations
+  - Removed Interface ReplicationUsageList
+  - Removed Interface VaultList
+  - Removed Interface VaultUsageList
+  - Type of parameter authType of interface ResourceCertificateDetails is changed from "AzureActiveDirectory" | "AccessControlService" to string
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
+  - Interface Resource no longer has parameter etag
+  - Interface TrackedResource no longer has parameter etag
+  - Interface VaultExtendedInfoResource no longer has parameter algorithm
+  - Interface VaultExtendedInfoResource no longer has parameter encryptionKey
+  - Interface VaultExtendedInfoResource no longer has parameter encryptionKeyThumbprint
+  - Interface VaultExtendedInfoResource no longer has parameter integrityKey
+  - Type alias "ResourceCertificateDetailsUnion" has been changed
+
     
 ## 6.1.0 (2025-06-11)
     
