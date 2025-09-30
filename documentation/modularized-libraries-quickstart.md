@@ -19,7 +19,7 @@ There are several possible approaches to Azure authentication. In this document 
 - **Client Secret**
 - **Tenant ID**
 
-These values can be obtained from the portal. You could follow the [instruction](https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id) to get Subscription ID. And please refer to [this document](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) to get Client ID, Client Secret, and Tenant ID. After you obtained the values, you need to set the following values as your environment variables.
+These values can be obtained from the portal. You could follow the [instructions](https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id) to get Subscription ID. And please refer to [this document](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal) to get Client ID, Client Secret, and Tenant ID. After you obtain the values, you need to set the following values as your environment variables.
 
 - `AZURE_CLIENT_ID`
 - `AZURE_CLIENT_SECRET`
