@@ -157,7 +157,7 @@ So we could reference the token by code.
 
 ```ts
 const firstPage = await iter.byPage().next();
-const continuationToken = getContinuationToken(getContinuationToken);
+const continuationToken = getContinuationToken(firstPage);
 ```
 
 Now we directly deliver the `continuationToken` with byPage return.
