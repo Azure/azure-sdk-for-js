@@ -12,7 +12,7 @@ If you're currently using an older generation of the Azure SDK for JavaScript/Ty
 
 ## Prerequisites
 
-There are several possible approaches to authentication Azure. In this document we would use the application secret authentication. You will need the following values:
+There are several possible approaches to Azure authentication. In this document we would use the application secret authentication. You will need the following values:
 
 - **Subscription ID**
 - **Client ID**
