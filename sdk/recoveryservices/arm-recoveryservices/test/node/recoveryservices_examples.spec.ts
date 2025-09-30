@@ -96,7 +96,7 @@ describe("Recoveryservices test", () => {
     const res = await client.vaultExtendedInfo.createOrUpdate(resourceGroup, vaultsName, {
       properties: {
         algorithm: "None",
-      }
+      },
     });
     assert.ok(res);
   });
