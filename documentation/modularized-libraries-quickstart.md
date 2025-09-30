@@ -288,7 +288,7 @@ async function main() {
 
 ## Code Samples
 
-You can find additional code samples for using the JavaScript/TypeScript SDK in this repo. These samples are located in the samples folder alongside the SDK source code—for example, AVS-related samples are available https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs/samples.
+You can find additional code samples for using the JavaScript/TypeScript SDK in this repo. These samples are located in the samples folder alongside the SDK source code—for example, AVS-related samples are available at https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs/samples.
 
 ## Need help?
 
