@@ -94,10 +94,10 @@ export class DatabaseAccount {
     } else {
       this.enableMultipleWritableLocations = false;
     }
-    if (body[Constants.ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR]) {
+    if (body[Constants.EnablePerPartitionFailover]) {
       this.enablePerPartitionFailover =
-        body[Constants.ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR] === true ||
-        body[Constants.ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR] === "true";
+        body[Constants.EnablePerPartitionFailover] === true ||
+        body[Constants.EnablePerPartitionFailover] === "true";
     }
   }
 }
