@@ -42,7 +42,7 @@ npm i @azure/identity
 
 ## Authentication
 
-Once the environment is setup, all you need to do is to create an authenticated client. Before creating a client, you will first need to authenticate to Azure. In specific, you will need to provide a credential for authenticating with the Azure service. The `@azure/identity` module provides facilities for various ways of authenticating with Azure including client/secret, certificate, managed identity, and more.
+Once the environment is setup, all you need to do is to create an authenticated client. The `@azure/identity` module provides facilities for various ways of authenticating with Azure including client/secret, certificate, managed identity, and more.
 
 Our default option is to use **DefaultAzureCredential** which will make use of the environment variables we have set and take care of the authentication flow for us.
 
@@ -88,19 +88,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
 ```
 
 **_Define some global variables_**  
-TypeScript
+TypeScript or JavaScript
 
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const credential = new DefaultAzureCredential();
-const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-```
-
-JavaScript
-
-```javascript
-const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
-const credential = new identity.DefaultAzureCredential();
 const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
 ```
 
@@ -159,19 +151,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
 ```
 
 **_Authentication and set up_**  
-TypeScript
+TypeScript or JavaScript
 
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const credential = new DefaultAzureCredential();
-const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-```
-
-JavaScript
-
-```javascript
-const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
-const credential = new identity.DefaultAzureCredential();
 const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
 ```
 
