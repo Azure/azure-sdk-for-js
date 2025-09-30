@@ -69,7 +69,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
+/sdk/communication/communication-alpha-ids/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft @besh2014 @ihuseynov-msft @kirill-linnik
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
@@ -97,7 +97,7 @@
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
+/sdk/communication/communication-phone-numbers/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft @besh2014 @ihuseynov-msft @kirill-linnik
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
@@ -109,11 +109,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
+/sdk/communication/communication-short-codes/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft @besh2014 @ihuseynov-msft @kirill-linnik
 
 # PRLabel: %Communication - Toll Free Verification
 # ServiceLabel: %Communication - Toll Free Verification
-/sdk/communication/communication-toll-free-verification/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
+/sdk/communication/communication-toll-free-verification/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft @besh2014 @ihuseynov-msft @kirill-linnik
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -1638,6 +1638,9 @@ sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
@@ -1668,8 +1671,8 @@ sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/.scripts/automation_generate.sh @wanlwanl @lirenhe
-/.scripts/automation_init.sh @wanlwanl @lirenhe
+/.scripts/automation_generate.sh @MaryGao @lirenhe
+/.scripts/automation_init.sh @MaryGao @lirenhe
 /vitest.*.config.ts @jeremymeng @deyaaeldeen
 /vitest.workspace.ts @jeremymeng @deyaaeldeen
 

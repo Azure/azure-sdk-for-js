@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry-json",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Schema Registry JSON Serializer Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

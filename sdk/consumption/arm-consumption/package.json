@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ConsumptionManagementClient.",
-  "version": "9.2.1",
+  "version": "9.2.2",
   "engines": {
     "node": ">=20.0.0"
   },

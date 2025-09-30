@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
- *
- * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/RunCommandResultFailed.json
- */
-
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
+ *
+ * @summary Gets the results of a command which has been run on the Managed Cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/RunCommandResultFailed.json
+ */
 async function commandFailedResult(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
@@ -34,7 +33,7 @@ async function commandFailedResult(): Promise<void> {
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/RunCommandResultSucceed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/RunCommandResultSucceed.json
  */
 async function commandSucceedResult(): Promise<void> {
   const subscriptionId =

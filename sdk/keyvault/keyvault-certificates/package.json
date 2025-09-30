@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.10.1",
+  "version": "4.10.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/README.md",
@@ -51,10 +51,6 @@
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "generated/keyVaultClient.ts",
-        "prefix": "packageDetails"
-      },
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"

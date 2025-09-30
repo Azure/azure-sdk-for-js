@@ -22,6 +22,7 @@ import type {
   BingGroundingSearchConfiguration,
   ConnectedAgentToolDefinition,
   MCPToolDefinition,
+  BrowserAutomationToolDefinition,
 } from "../index.js";
 import { OpenApiTool } from "./OpenApiTool.js";
 import { MCPTool } from "./MCPTool.js";
@@ -255,6 +256,28 @@ export class ToolUtility {
     allowedTools?: string[];
   }): MCPTool {
     return new MCPTool(options.serverLabel, options.serverUrl, options.allowedTools);
+  }
+
+  /**
+   * Creates a Browser Automation tool
+   *
+   * @param connectionId - Connection ID to an Azure Playwright service, to be used by tool.
+   *
+   * @returns An object containing the definition for the browser automation tool.
+   */
+  static createBrowserAutomationTool(connectionId: string): {
+    definition: BrowserAutomationToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "browser_automation",
+        browserAutomation: {
+          connection: {
+            id: connectionId,
+          },
+        },
+      },
+    };
   }
 }
 

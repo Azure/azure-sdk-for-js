@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Rebalance nodes across specific load balancers.
- *
- * @summary Rebalance nodes across specific load balancers.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/LoadBalancers_Rebalance.json
- */
-
 import type {
   RebalanceLoadBalancersRequestBody} from "@azure/arm-containerservice";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Rebalance nodes across specific load balancers.
+ *
+ * @summary Rebalance nodes across specific load balancers.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/LoadBalancers_Rebalance.json
+ */
 async function listAgentPoolsByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||

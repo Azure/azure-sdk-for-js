@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "keywords": [
     "node",
     "azure",
@@ -29,7 +29,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/generatedClient.ts",
         "prefix": "packageDetails"
       },
       {

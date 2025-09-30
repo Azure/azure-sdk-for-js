@@ -112,7 +112,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.9.1`;
+    const packageDetails = `azsdk-js-app-configuration/1.9.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

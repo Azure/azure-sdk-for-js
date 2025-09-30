@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ACEProvisioningManagementPartnerAPI.",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "engines": {
     "node": ">=20.0.0"
   },
