@@ -91,7 +91,7 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
         });
         if (resolvedVersion.type === "found") {
           console.log(`${logPrefix}resolved version = ${resolvedVersion.resolution.specifier}`);
-          if (semver.satisfies(packageVersion, depVersionRange)) {
+          if (semver.satisfies(packageVersion, resolvedVersion.resolution.specifier)) {
             repoPackages = updatePackageVersion(
               repoPackages,
               depName,
@@ -185,7 +185,7 @@ function makeDependencySectionConsistentForPackage(
         bareSpecifier: depVersionRange,
       });
       if (resolvedVersion.type === "found") {
-        shouldReplace = semver.satisfies(packageVersion, depVersionRange);
+        shouldReplace = semver.satisfies(packageVersion, resolvedVersion.resolution.specifier);
       }
     } else {
       shouldReplace = semver.satisfies(packageVersion, depVersionRange);
