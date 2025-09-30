@@ -1,7 +1,13 @@
 # Release History
-    
-## 1.0.0 (2025-09-25)
+
+## 1.0.0 (2025-09-29)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-storagediscovery
+- Updated versioning for general availability.
+    
+## 1.0.0-beta.1 (2025-07-25)
+
+### Features Added
+
+Initial release of the @azure/arm-storagediscovery package
