@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataSources } from "../operationsInterfaces/index.js";
+import { DataSources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SearchServiceClient } from "../searchServiceClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   SearchIndexerDataSource,
   DataSourcesCreateOrUpdateOptionalParams,
@@ -22,7 +22,7 @@ import {
   DataSourcesListResponse,
   DataSourcesCreateOptionalParams,
   DataSourcesCreateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing DataSources operations. */
 export class DataSourcesImpl implements DataSources {
@@ -126,10 +126,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.dataSource,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipIndexerResetRequirementForCache,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.contentType,

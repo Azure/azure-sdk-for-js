@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type { SearchField as GeneratedSearchField } from "../../src/generated/service/models/index.js";
-import { KnownAnalyzerNames } from "../../src/index.js";
-import type { ComplexField, SearchField } from "../../src/serviceModels.js";
-import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils.js";
-import { describe, it, assert } from "vitest";
+// Licensed under the MIT license.
 
-describe("serviceUtils", () => {
-  it("convert generated fields to public fields", () => {
+import { assert } from "chai";
+import { SearchField as GeneratedSearchField } from "../../src/generated/service/models/index";
+import { KnownAnalyzerNames } from "../../src/index";
+import { ComplexField, SearchField } from "../../src/serviceModels";
+import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils";
+
+describe("serviceUtils", function () {
+  it("convert generated fields to public fields", function () {
     const publicFields: SearchField[] = convertFieldsToPublic([
       {
         name: "id",
@@ -20,7 +21,6 @@ describe("serviceUtils", () => {
         retrievable: false,
         analyzer: KnownAnalyzerNames.ArMicrosoft,
         indexAnalyzer: KnownAnalyzerNames.ArLucene,
-        normalizer: KnownAnalyzerNames.BgLucene,
         searchAnalyzer: KnownAnalyzerNames.CaLucene,
         synonymMaps: undefined,
       },
@@ -37,13 +37,12 @@ describe("serviceUtils", () => {
       hidden: true,
       analyzerName: KnownAnalyzerNames.ArMicrosoft,
       indexAnalyzerName: KnownAnalyzerNames.ArLucene,
-      normalizerName: KnownAnalyzerNames.BgLucene,
       searchAnalyzerName: KnownAnalyzerNames.CaLucene,
       synonymMapNames: undefined,
     });
   });
 
-  it("convert generated fields (complex) to public fields", () => {
+  it("convert generated fields (complex) to public fields", function () {
     const publicFields: SearchField[] = convertFieldsToPublic([
       {
         name: "ComplexObj",
@@ -60,7 +59,6 @@ describe("serviceUtils", () => {
             retrievable: false,
             analyzer: KnownAnalyzerNames.ArMicrosoft,
             indexAnalyzer: KnownAnalyzerNames.ArLucene,
-            normalizer: KnownAnalyzerNames.BgLucene,
             searchAnalyzer: KnownAnalyzerNames.CaLucene,
             synonymMaps: undefined,
           },
@@ -84,14 +82,13 @@ describe("serviceUtils", () => {
       hidden: true,
       analyzerName: KnownAnalyzerNames.ArMicrosoft,
       indexAnalyzerName: KnownAnalyzerNames.ArLucene,
-      normalizerName: KnownAnalyzerNames.BgLucene,
       searchAnalyzerName: KnownAnalyzerNames.CaLucene,
       synonymMapNames: undefined,
     });
   });
 
-  it("convert public fields to generated fields", () => {
-    const generatedFields: GeneratedSearchField[] | undefined = convertFieldsToGenerated([
+  it("convert public fields to generated fields", function () {
+    const generatedFields: GeneratedSearchField[] = convertFieldsToGenerated([
       {
         name: "id",
         key: true,
@@ -103,13 +100,12 @@ describe("serviceUtils", () => {
         hidden: true,
         analyzerName: KnownAnalyzerNames.ArMicrosoft,
         indexAnalyzerName: KnownAnalyzerNames.ArLucene,
-        normalizerName: KnownAnalyzerNames.BgLucene,
         searchAnalyzerName: KnownAnalyzerNames.CaLucene,
         synonymMapNames: undefined,
       },
     ]);
 
-    assert.include(generatedFields?.[0], {
+    assert.include(generatedFields[0], {
       name: "id",
       key: true,
       type: "Edm.String",
@@ -120,14 +116,13 @@ describe("serviceUtils", () => {
       retrievable: false,
       analyzer: KnownAnalyzerNames.ArMicrosoft,
       indexAnalyzer: KnownAnalyzerNames.ArLucene,
-      normalizer: KnownAnalyzerNames.BgLucene,
       searchAnalyzer: KnownAnalyzerNames.CaLucene,
       synonymMaps: undefined,
     });
   });
 
-  it("convert public fields (complex) to generated fields", () => {
-    const generatedFields: GeneratedSearchField[] | undefined = convertFieldsToGenerated([
+  it("convert public fields (complex) to generated fields", function () {
+    const generatedFields: GeneratedSearchField[] = convertFieldsToGenerated([
       {
         name: "ComplexObj",
         type: "Edm.ComplexType",
@@ -143,7 +138,6 @@ describe("serviceUtils", () => {
             hidden: true,
             analyzerName: KnownAnalyzerNames.ArMicrosoft,
             indexAnalyzerName: KnownAnalyzerNames.ArLucene,
-            normalizerName: KnownAnalyzerNames.BgLucene,
             searchAnalyzerName: KnownAnalyzerNames.CaLucene,
             synonymMapNames: undefined,
           },
@@ -151,12 +145,12 @@ describe("serviceUtils", () => {
       },
     ]);
 
-    assert.include(generatedFields?.[0], {
+    assert.include(generatedFields[0], {
       name: "ComplexObj",
       type: "Edm.ComplexType",
     });
 
-    assert.include(generatedFields?.[0].fields![0], {
+    assert.include(generatedFields[0].fields![0], {
       name: "id",
       key: true,
       type: "Edm.String",
@@ -167,7 +161,6 @@ describe("serviceUtils", () => {
       retrievable: false,
       analyzer: KnownAnalyzerNames.ArMicrosoft,
       indexAnalyzer: KnownAnalyzerNames.ArLucene,
-      normalizer: KnownAnalyzerNames.BgLucene,
       searchAnalyzer: KnownAnalyzerNames.CaLucene,
       synonymMaps: undefined,
     });

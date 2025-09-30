@@ -19,29 +19,27 @@ import {
   SkillsetsImpl,
   SynonymMapsImpl,
   IndexesImpl,
-  AliasesImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
   Indexes,
-  Aliases,
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20241101Preview,
+  ApiVersion20240701,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
-} from "./models/index.js";
+} from "./models";
 
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20241101Preview;
+  apiVersion: ApiVersion20240701;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -51,7 +49,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20241101Preview,
+    apiVersion: ApiVersion20240701,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -69,7 +67,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.2`;
+    const packageDetails = `azsdk-js-search-documents/12.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -92,7 +90,6 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     this.skillsets = new SkillsetsImpl(this);
     this.synonymMaps = new SynonymMapsImpl(this);
     this.indexes = new IndexesImpl(this);
-    this.aliases = new AliasesImpl(this);
     this.addCustomApiVersionPolicy(apiVersion);
   }
 
@@ -142,7 +139,6 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   skillsets: Skillsets;
   synonymMaps: SynonymMaps;
   indexes: Indexes;
-  aliases: Aliases;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

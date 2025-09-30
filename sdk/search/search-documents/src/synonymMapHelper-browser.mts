@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import type { SynonymMap } from "./serviceModels.js";
+import { SynonymMap } from "./serviceModels.js";
 
 /**
  * Helper method to create a SynonymMap object. This is a NodeJS only method.

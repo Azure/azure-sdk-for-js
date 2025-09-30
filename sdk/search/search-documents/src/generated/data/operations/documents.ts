@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Documents } from "../operationsInterfaces/index.js";
+import { Documents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SearchClient } from "../searchClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SearchClient } from "../searchClient";
 import {
   DocumentsCountOptionalParams,
   DocumentsCountResponse,
@@ -34,7 +34,7 @@ import {
   AutocompleteRequest,
   DocumentsAutocompletePostOptionalParams,
   DocumentsAutocompletePostResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Documents operations. */
 export class DocumentsImpl implements Documents {
@@ -237,11 +237,6 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.answers,
     Parameters.captions,
     Parameters.semanticQuery,
-    Parameters.queryRewrites,
-    Parameters.debug,
-    Parameters.queryLanguage,
-    Parameters.speller,
-    Parameters.semanticFields,
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept],

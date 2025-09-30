@@ -29,7 +29,7 @@ import {
   AutocompleteRequest,
   DocumentsAutocompletePostOptionalParams,
   DocumentsAutocompletePostResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Documents. */
 export interface Documents {

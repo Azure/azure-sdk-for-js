@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import type {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import {
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
   KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
-} from "../../src/generated/data/index.js";
-import type {
+} from "../../src/generated/data";
+import {
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
@@ -32,7 +34,7 @@ import type {
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
   KnownVisualFeature,
-} from "../../src/generated/service/index.js";
+} from "../../src/generated/service";
 
 import type { IsEqual } from "type-plus";
 
@@ -79,7 +81,6 @@ type BlobIndexerParsingMode =
   | "json"
   | "jsonArray"
   | "jsonLines"
-  | "markdown"
   | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
@@ -395,8 +396,7 @@ type SearchIndexerDataSourceType =
   | "azuresql"
   | "azuretable"
   | "cosmosdb"
-  | "mysql"
-  | "onelake";
+  | "mysql";
 type SemanticErrorMode = "fail" | "partial";
 type SemanticErrorReason = "capacityOverloaded" | "maxWaitExceeded" | "transient";
 type SemanticSearchResultsType = "baseResults" | "rerankedResults";
@@ -525,7 +525,7 @@ type TextTranslationSkillLanguage =
   | "zh-Hans"
   | "zh-Hant";
 type VectorFilterMode = "postFilter" | "preFilter";
-type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
+type VectorQueryKind = "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =

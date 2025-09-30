@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type {
+import { assert } from "chai";
+import { Context, Suite } from "mocha";
+import {
+  AzureKeyCredential,
   AzureOpenAIVectorizer,
   SearchIndex,
+  SearchIndexClient,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
-} from "../../../src/index.js";
-import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
-import { defaultServiceVersion } from "../../../src/serviceUtils.js";
-import type { Hotel } from "../utils/interfaces.js";
-import { createClients } from "../utils/recordedClient.js";
+} from "../../../src";
+import { defaultServiceVersion } from "../../../src/serviceUtils";
+import { Hotel } from "../utils/interfaces";
+import { createClients } from "../utils/recordedClient";
 import {
   createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
-} from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+} from "../utils/setup";
 
-describe("SearchIndexClient", { timeout: 20_000 }, () => {
-  describe("constructor", () => {
+describe("SearchIndexClient", function (this: Suite) {
+  this.timeout(20_000);
+
+  describe("constructor", function () {
     const credential = new AzureKeyCredential("key");
 
     describe("Passing serviceVersion", () => {
@@ -62,13 +66,13 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  describe("stable", { skip: true }, () => {
+  describe("stable", function () {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
 
-    beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
+    beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
         defaultServiceVersion,
@@ -81,20 +85,20 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       await delay(WAIT_TIME);
     });
 
-    afterEach(async () => {
+    afterEach(async function () {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
       await recorder?.stop();
     });
 
-    describe("#synonymmaps", () => {
-      it("gets the list of synonymmaps", async () => {
+    describe("#synonymmaps", function () {
+      it("gets the list of synonymmaps", async function () {
         const synonymMaps = await indexClient.listSynonymMaps();
         assert.isAtLeast(synonymMaps.length, 2);
       });
 
-      it("gets the list of synonymmaps names", async () => {
+      it("gets the list of synonymmaps names", async function () {
         const synonymMapNames = await indexClient.listSynonymMapsNames();
         assert.isAtLeast(synonymMapNames.length, 2);
         for (let i = 1; i <= 2; i++) {
@@ -102,7 +106,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         }
       });
 
-      it("gets the correct synonymmap object", async () => {
+      it("gets the correct synonymmap object", async function () {
         const synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
         assert.equal(synonymMap.name, "my-azure-synonymmap-1");
         assert.equal(synonymMap.synonyms.length, 2);
@@ -114,7 +118,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         assert.include(synonyms, synonymMap.synonyms[1]);
       });
 
-      it("throws error for invalid synonymmap object", async () => {
+      it("throws error for invalid synonymmap object", async function () {
         let retrievalError: boolean = false;
         try {
           await indexClient.getSynonymMap("garbxyz");
@@ -124,7 +128,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         assert.isTrue(retrievalError);
       });
 
-      it("creates the synonymmap object using createOrUpdateSynonymMap", async () => {
+      it("creates the synonymmap object using createOrUpdateSynonymMap", async function () {
         let synonymMap: SynonymMap = {
           name: `my-azure-synonymmap-3`,
           synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
@@ -145,7 +149,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         }
       });
 
-      it("modify and updates the synonymmap object", async () => {
+      it("modify and updates the synonymmap object", async function () {
         let synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
         synonymMap.synonyms.push("California, Clif. => CA");
         await indexClient.createOrUpdateSynonymMap(synonymMap);
@@ -162,8 +166,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
-    describe("#indexes", () => {
-      it("gets the list of indexes", async () => {
+    describe("#indexes", function () {
+      it("gets the list of indexes", async function () {
         const result = await indexClient.listIndexes();
         let listOfIndexes = await result.next();
         const indexNames: string[] = [];
@@ -174,7 +178,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         assert.include(indexNames, TEST_INDEX_NAME);
       });
 
-      it("gets the list of indexes names", async () => {
+      it("gets the list of indexes names", async function () {
         const result = await indexClient.listIndexesNames();
         let listOfIndexNames = await result.next();
         const indexNames: string[] = [];
@@ -185,13 +189,13 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         assert.include(indexNames, TEST_INDEX_NAME);
       });
 
-      it("gets the correct index object", async () => {
+      it("gets the correct index object", async function () {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
         assert.equal(index.fields.length, 5);
       });
 
-      it("throws error for invalid index object", async () => {
+      it("throws error for invalid index object", async function () {
         let retrievalError: boolean = false;
         try {
           await indexClient.getIndex("garbxyz");
@@ -201,7 +205,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         assert.isTrue(retrievalError);
       });
 
-      it("creates the index object using createOrUpdateIndex", async () => {
+      it("creates the index object using createOrUpdateIndex", async function () {
         const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
         let index: SearchIndex = {
           name: indexName,
@@ -251,7 +255,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         }
       });
 
-      it("modify and updates the index object", async () => {
+      it("modify and updates the index object", async function () {
         let index = await indexClient.getIndex(TEST_INDEX_NAME);
         index.fields.push({
           type: "Edm.DateTimeOffset",
@@ -264,7 +268,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
-    it("creates the index object vector fields", async () => {
+    it("creates the index object vector fields", async function () {
       const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
 
       const algorithm: VectorSearchAlgorithmConfiguration = {

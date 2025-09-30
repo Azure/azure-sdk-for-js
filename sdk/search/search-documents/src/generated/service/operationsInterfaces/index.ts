@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dataSources.js";
-export * from "./indexers.js";
-export * from "./skillsets.js";
-export * from "./synonymMaps.js";
-export * from "./indexes.js";
-export * from "./aliases.js";
+export * from "./dataSources";
+export * from "./indexers";
+export * from "./skillsets";
+export * from "./synonymMaps";
+export * from "./indexes";

@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
-import type {
+import { OpenAIClient } from "@azure/openai";
+import { assert } from "chai";
+import {
+  GeographyPoint,
+  KnownAnalyzerNames,
   SearchClient,
   SearchField,
   SearchIndex,
@@ -12,15 +15,13 @@ import type {
   SearchIndexerClient,
   VectorSearchAlgorithmConfiguration,
   VectorSearchCompression,
-  VectorSearchProfile,
   VectorSearchVectorizer,
-} from "../../../src/index.js";
-import { GeographyPoint, KnownAnalyzerNames } from "../../../src/index.js";
-import type { Hotel } from "./interfaces.js";
-import { assert } from "vitest";
+} from "../../../src";
+import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(
   client: SearchIndexClient,
   name: string,
@@ -39,7 +40,7 @@ export async function createIndex(
       },
     },
   ];
-  await Promise.all(vectorizers.map((v) => renameUniquelyInPlace("vectorizerName", v)));
+  await Promise.all(vectorizers.map(renameUniquelyInPlace("vectorizerName")));
   const [azureOpenAiVectorizerName] = vectorizers.map((v) => v.vectorizerName);
 
   const algorithmConfigurations: VectorSearchAlgorithmConfiguration[] = [
@@ -54,7 +55,7 @@ export async function createIndex(
       parameters: { metric: "euclidean" },
     },
   ];
-  await Promise.all(algorithmConfigurations.map((c) => renameUniquelyInPlace("name", c)));
+  await Promise.all(algorithmConfigurations.map(renameUniquelyInPlace("name")));
   const [hnswAlgorithmConfigurationName, exhaustiveKnnAlgorithmConfigurationName] =
     algorithmConfigurations.map((c) => c.name);
 
@@ -66,27 +67,27 @@ export async function createIndex(
       rerankWithOriginalVectors: true,
     },
   ];
-  await Promise.all(
-    compressionConfigurations.map((c) => renameUniquelyInPlace("compressionName", c)),
-  );
+  await Promise.all(compressionConfigurations.map(renameUniquelyInPlace("compressionName")));
   const [scalarQuantizationCompressionConfigurationName] = compressionConfigurations.map(
     (c) => c.compressionName,
   );
 
-  const vectorSearchProfiles: VectorSearchProfile[] = [
+  const vectorSearchProfiles = [
     {
       name: "vector-search-profile",
-      vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
+      vectorizer: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: exhaustiveKnnAlgorithmConfigurationName,
     },
     {
       name: "vector-search-profile",
-      vectorizerName: isPreview ? azureOpenAiVectorizerName : undefined,
+      vectorizer: isPreview ? azureOpenAiVectorizerName : undefined,
       algorithmConfigurationName: hnswAlgorithmConfigurationName,
-      compressionName: isPreview ? scalarQuantizationCompressionConfigurationName : undefined,
+      compressionConfigurationName: isPreview
+        ? scalarQuantizationCompressionConfigurationName
+        : undefined,
     },
   ];
-  await Promise.all(vectorSearchProfiles.map((p) => renameUniquelyInPlace("name", p)));
+  await Promise.all(vectorSearchProfiles.map(renameUniquelyInPlace("name")));
   const [azureOpenAiVectorSearchProfileName, azureOpenAiCompressedVectorSearchProfileName] =
     vectorSearchProfiles.map((p) => p.name);
 
@@ -343,6 +344,7 @@ export async function createIndex(
   return client.createIndex(hotelIndex);
 }
 
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function populateIndex(
   client: SearchClient<Hotel>,
   openAIClient: OpenAIClient,
@@ -583,12 +585,14 @@ async function addVectorDescriptions(
   });
 }
 
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   for (let i = 1; i <= 2; i++) {
     await client.deleteDataSourceConnection(`my-data-source-${i}`);
   }
 }
 
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
   const testCaseNames: string[] = ["my-azureblob-skillset-1", "my-azureblob-skillset-2"];
   const skillSetNames: string[] = await client.listSkillsetsNames();
@@ -640,12 +644,14 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
   }
 }
 
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteSkillsets(client: SearchIndexerClient): Promise<void> {
   for (let i = 1; i <= 2; i++) {
     await client.deleteSkillset(`my-azureblob-skillset-${i}`);
   }
 }
 
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(
   client: SearchIndexerClient,
   targetIndexName: string,
@@ -762,11 +768,12 @@ export function createRandomIndexName(): string {
   return `hotel-live-test-${Math.floor(Math.random() * 100000) + 1000000}`;
 }
 
-async function renameUniquelyInPlace<T extends string>(
+function renameUniquelyInPlace<T extends string>(
   prop: T,
-  obj: Record<typeof prop, string>,
-): Promise<void> {
-  const hash = await computeSha256Hash(JSON.stringify(obj), "hex");
-  const name = [obj[prop], hash.toLowerCase()].join("-");
-  obj[prop] = name;
+): (obj: Record<typeof prop, string>) => Promise<void> {
+  return async (obj) => {
+    const hash = await computeSha256Hash(JSON.stringify(obj), "hex");
+    const name = [obj[prop], hash.toLowerCase()].join("-");
+    obj[prop] = name;
+  };
 }

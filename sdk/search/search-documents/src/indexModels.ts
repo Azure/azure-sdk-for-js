@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type {
+import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import {
   AutocompleteMode,
-  DebugInfo,
   FacetResult,
-  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
@@ -16,18 +14,11 @@ import type {
   KnownVectorQueryKind,
   QueryAnswerResult,
   QueryCaptionResult,
-  QueryDebugMode,
-  QueryLanguage,
-  QueryResultDocumentRerankerInput,
-  QuerySpellerType as QuerySpeller,
   QueryType,
   ScoringStatistics,
   SearchMode,
-  SemanticFieldState,
-  SemanticQueryRewritesResultType,
-  VectorsDebugInfo,
-} from "./generated/data/models/index.js";
-import type GeographyPoint from "./geographyPoint.js";
+} from "./generated/data/models";
+import GeographyPoint from "./geographyPoint";
 
 /**
  * Options for performing the count operation on the index.
@@ -190,9 +181,7 @@ export type SearchIterator<
 /** The query parameters for vector and hybrid search queries. */
 export type VectorQuery<TModel extends object> =
   | VectorizedQuery<TModel>
-  | VectorizableTextQuery<TModel>
-  | VectorizableImageUrlQuery<TModel>
-  | VectorizableImageBinaryQuery<TModel>;
+  | VectorizableTextQuery<TModel>;
 
 /** The query parameters for vector and hybrid search queries. */
 export interface BaseVectorQuery<TModel extends object> {
@@ -200,8 +189,6 @@ export interface BaseVectorQuery<TModel extends object> {
    * ### Known values supported by the service
    * **vector**: Vector query where a raw vector value is provided.
    * **text**: Vector query where a text value that needs to be vectorized is provided.
-   * **imageUrl**: Vector query where an url that represents an image value that needs to be vectorized is provided.
-   * **imageBinary**: Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided.
    */
   kind: VectorQueryKind;
   /** Number of nearest neighbors to return as top hits. */
@@ -223,11 +210,6 @@ export interface BaseVectorQuery<TModel extends object> {
   oversampling?: number;
   /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
   weight?: number;
-  /** The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric. */
-  threshold?: VectorThreshold;
-  /** The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in
-   * the top level filter parameter is used instead. */
-  filterOverride?: string;
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
@@ -244,28 +226,6 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
   kind: "text";
   /** The text to be vectorized to perform a vector search query. */
   text: string;
-  /**
-   * Can be configured to let a generative model rewrite the query before sending it to be
-   * vectorized.
-   */
-  queryRewrites?: QueryRewrites;
-}
-
-/** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
-export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "imageUrl";
-  /** The URL of an image to be vectorized to perform a vector search query. */
-  url: string;
-}
-
-/** The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided. */
-export interface VectorizableImageBinaryQuery<TModel extends object>
-  extends BaseVectorQuery<TModel> {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "imageBinary";
-  /** The base64 encoded binary of an image to be vectorized to perform a vector search query. */
-  binaryImage: string;
 }
 
 /**
@@ -344,14 +304,6 @@ export interface BaseSearchRequestOptions<
    */
   searchFields?: SearchFieldArray<TModel>;
   /**
-   * The language of the query.
-   */
-  queryLanguage?: QueryLanguage;
-  /**
-   * Improve search recall by spell-correcting individual search query terms.
-   */
-  speller?: QuerySpeller;
-  /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
    */
@@ -392,9 +344,6 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-
-  /** The query parameters to configure hybrid search behaviors. */
-  hybridSearch?: HybridSearch;
 }
 
 /**
@@ -445,12 +394,6 @@ export type SearchResult<
   readonly captions?: QueryCaptionResult[];
 
   document: NarrowedModel<TModel, TFields>;
-
-  /**
-   * Contains debugging information that can be used to further explore your search results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documentDebugInfo?: DocumentDebugInfo;
 };
 
 /**
@@ -484,11 +427,6 @@ export interface SearchDocumentsResultBase {
    */
   readonly answers?: QueryAnswerResult[];
   /**
-   * Debug information that applies to the search results as a whole.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly debugInfo?: DebugInfo;
-  /**
    * Reason that a partial response was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -498,11 +436,6 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semanticSearchResultsType?: SemanticSearchResultsType;
-  /**
-   * Type of query rewrite that was used to retrieve documents.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 /**
@@ -908,25 +841,6 @@ export interface QueryResultDocumentSemanticField {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
-}
-
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DocumentDebugInfo {
-  /**
-   * Contains debugging information specific to semantic search queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semantic?: SemanticDebugInfo;
-  /**
-   * Contains debugging information specific to vector and hybrid search.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vectors?: VectorsDebugInfo;
 }
 
 /**
@@ -948,11 +862,6 @@ export interface SemanticDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**
@@ -969,10 +878,6 @@ export interface ExtractiveQueryAnswer {
    * The confidence threshold. Default threshold is 0.7
    */
   threshold?: number;
-  /**
-   * An optional upper bound on the number of characters in each answer.
-   */
-  maxAnswerLength?: number;
 }
 
 /**
@@ -986,10 +891,6 @@ export type QueryAnswer = ExtractiveQueryAnswer;
 export interface ExtractiveQueryCaption {
   captionType: "extractive";
   highlight?: boolean;
-  /**
-   * An optional upper bound on the number of characters in each caption.
-   */
-  maxCaptionLength?: number;
 }
 
 /**
@@ -1030,35 +931,11 @@ export interface SemanticSearchOptions {
    */
   captions?: QueryCaption;
   /**
-   * When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will
-   * produce 10 (default) rewrites to help increase the recall of the request. Defaults to `none`.
-   */
-  queryRewrites?: QueryRewrites;
-  /**
    * Allows setting a separate search query that will be solely used for semantic reranking,
    * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
    * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
    */
   semanticQuery?: string;
-  /**
-   * The list of field names used for semantic search.
-   */
-  semanticFields?: string[];
-  /**
-   * Enables a debugging tool that can be used to further explore your search results.
-   */
-  debugMode?: QueryDebugMode;
-}
-
-/** Defines options for query rewrites. */
-export type QueryRewrites = GenerativeQueryRewrites;
-
-/** Generate alternative query terms to increase the recall of a search request. */
-export interface GenerativeQueryRewrites {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  rewritesType: "generative";
-  /** The number of query rewrites to generate. Defaults to 10.*/
-  count?: number;
 }
 
 /**
@@ -1099,6 +976,7 @@ export interface SearchScoreThreshold extends BaseVectorThreshold {
 
 /** The threshold used for vector queries. */
 export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;
+
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;

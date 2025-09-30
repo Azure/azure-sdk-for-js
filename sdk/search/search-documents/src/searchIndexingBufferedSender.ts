@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { RestError } from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
 import { delay } from "@azure/core-util";
-import EventEmitter from "node:events";
-import type { IndexDocumentsResult } from "./generated/data/models/index.js";
-import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
-import type {
+import EventEmitter from "events";
+import { IndexDocumentsResult } from "./generated/data/models";
+import { IndexDocumentsBatch } from "./indexDocumentsBatch";
+import {
   IndexDocumentsAction,
   IndexDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
@@ -16,9 +16,9 @@ import type {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
-} from "./indexModels.js";
-import { getRandomIntegerInclusive } from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+} from "./indexModels";
+import { getRandomIntegerInclusive } from "./serviceUtils";
+import { createSpan } from "./tracing";
 
 /**
  * Index Documents Client

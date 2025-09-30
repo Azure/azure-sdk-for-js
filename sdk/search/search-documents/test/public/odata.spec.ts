@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { odata } from "../../src/index.js";
-import { describe, it, assert } from "vitest";
+// Licensed under the MIT license.
+
+import { assert } from "chai";
+import * as sinon from "sinon";
+import { odata } from "../../src";
 
 describe("odata", function () {
   it("simple string isn't changed", function () {
@@ -78,5 +80,9 @@ describe("odata", function () {
     assert.strictEqual(odata`Foo eq ${"bar"}`, "Foo eq 'bar'");
     assert.strictEqual(odata`Foo eq ${"bar's"}`, "Foo eq 'bar''s'");
     assert.strictEqual(odata`Foo eq ${'"bar"'}`, "Foo eq '\"bar\"'");
+  });
+
+  afterEach(function () {
+    sinon.restore();
   });
 });

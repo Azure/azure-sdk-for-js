@@ -1,52 +1,42 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /// <reference lib="esnext.asynciterable" />
 
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult } from "./generated/service/models/index.js";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
-import { logger } from "./logger.js";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
-import { KnownSearchAudience } from "./searchAudience.js";
-import type { SearchClientOptions as GetSearchClientOptions } from "./searchClient.js";
-import { SearchClient } from "./searchClient.js";
-import type {
-  AliasIterator,
+import { AnalyzeResult } from "./generated/service/models";
+import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
+import { logger } from "./logger";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import { KnownSearchAudience } from "./searchAudience";
+import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
+import {
   AnalyzeTextOptions,
-  CreateAliasOptions,
   CreateIndexOptions,
-  CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
-  DeleteAliasOptions,
   DeleteIndexOptions,
   DeleteSynonymMapOptions,
-  GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
-  ListAliasesOptions,
   ListIndexesOptions,
   ListSynonymMapsOptions,
   SearchIndex,
-  SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
   SynonymMap,
-} from "./serviceModels.js";
-import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+} from "./serviceModels";
+import * as utils from "./serviceUtils";
+import { createSpan } from "./tracing";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -100,11 +90,6 @@ export class SearchIndexClient {
   private readonly client: GeneratedClient;
 
   /**
-   * A reference to the internal HTTP pipeline for use with raw requests
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
    * Used to authenticate requests to the service.
    */
   private readonly credential: KeyCredential | TokenCredential;
@@ -118,10 +103,13 @@ export class SearchIndexClient {
    * Creates an instance of SearchIndexClient.
    *
    * Example usage:
-   * ```ts snippet:ReadmeSampleSearchIndexClient
-   * import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
+   * ```ts
+   * const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
    *
-   * const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+   * const client = new SearchIndexClient(
+   *   "<endpoint>",
+   *   new AzureKeyCredential("<Admin Key>");
+   * );
    * ```
    * @param endpoint - The endpoint of the search service
    * @param credential - Used to authenticate requests to the service.
@@ -162,7 +150,6 @@ export class SearchIndexClient {
       this.serviceVersion,
       internalClientPipelineOptions,
     );
-    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = this.options.audience
@@ -226,52 +213,6 @@ export class SearchIndexClient {
     };
   }
 
-  private async *listAliasesPage(
-    options: ListAliasesOptions = {},
-  ): AsyncIterableIterator<SearchIndexAlias[]> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-listAliases", options);
-    try {
-      const result = await this.client.aliases.list(updatedOptions);
-      yield result.aliases;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async *listAliasesAll(
-    options: ListAliasesOptions = {},
-  ): AsyncIterableIterator<SearchIndexAlias> {
-    for await (const page of this.listAliasesPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all aliases available for a search service.
-   * @param options - The options parameters.
-   */
-  public listAliases(options: ListAliasesOptions = {}): AliasIterator {
-    const iter = this.listAliasesAll(options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAliasesPage(options);
-      },
-    };
-  }
-
   private async *listIndexesNamesPage(
     options: ListIndexesOptions = {},
   ): AsyncIterableIterator<string[]> {
@@ -306,7 +247,6 @@ export class SearchIndexClient {
    * Retrieves a list of names of existing indexes in the service.
    * @param options - Options to the list index operation.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listIndexesNames(options: ListIndexesOptions = {}): IndexNameIterator {
     const iter = this.listIndexesNamesAll(options);
 
@@ -347,7 +287,6 @@ export class SearchIndexClient {
    * Retrieves a list of names of existing SynonymMaps in the service.
    * @param options - Options to the list SynonymMaps operation.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
     try {
@@ -395,7 +334,6 @@ export class SearchIndexClient {
    */
   public async getSynonymMap(
     synonymMapName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetSynonymMapsOptions = {},
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getSynonymMaps", options);
@@ -589,114 +527,6 @@ export class SearchIndexClient {
         ...updatedOptions,
         ifMatch: etag,
       });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates a new search alias or updates an alias if it already exists.
-   * @param alias - The definition of the alias to create or update.
-   * @param options - The options parameters.
-   */
-  public async createOrUpdateAlias(
-    alias: SearchIndexAlias,
-    options: CreateOrUpdateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateAlias", options);
-    try {
-      const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-
-      const result = await this.client.aliases.createOrUpdate(alias.name, alias, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates a new search alias.
-   * @param alias - The definition of the alias to create.
-   * @param options - The options parameters.
-   */
-  public async createAlias(
-    alias: SearchIndexAlias,
-    options: CreateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createAlias", options);
-    try {
-      const result = await this.client.aliases.create(alias, updatedOptions);
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
-   * recovery option. The mapped index is untouched by this operation.
-   * @param alias - Alias/Name name of the alias to delete.
-   * @param options - The options parameters.
-   */
-  public async deleteAlias(
-    alias: string | SearchIndexAlias,
-    options: DeleteAliasOptions = {},
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteAlias", options);
-    try {
-      const aliasName: string = typeof alias === "string" ? alias : alias.name;
-      const etag =
-        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
-
-      await this.client.aliases.delete(aliasName, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves an alias definition.
-   * @param aliasName - The name of the alias to retrieve.
-   * @param options - The options parameters.
-   */
-  public async getAlias(
-    aliasName: string,
-    options: GetAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getAlias", options);
-    try {
-      const result = await this.client.aliases.get(aliasName, updatedOptions);
-      return result;
     } catch (e: any) {
       span.setStatus({
         status: "error",

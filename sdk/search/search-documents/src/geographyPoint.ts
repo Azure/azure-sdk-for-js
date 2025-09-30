@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 

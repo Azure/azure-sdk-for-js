@@ -22,7 +22,7 @@ import {
   AnalyzeRequest,
   IndexesAnalyzeOptionalParams,
   IndexesAnalyzeResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Indexes. */
 export interface Indexes {

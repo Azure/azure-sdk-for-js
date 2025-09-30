@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SynonymMaps } from "../operationsInterfaces/index.js";
+import { SynonymMaps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SearchServiceClient } from "../searchServiceClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   SynonymMap,
   SynonymMapsCreateOrUpdateOptionalParams,
@@ -22,7 +22,7 @@ import {
   SynonymMapsListResponse,
   SynonymMapsCreateOptionalParams,
   SynonymMapsCreateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing SynonymMaps operations. */
 export class SynonymMapsImpl implements SynonymMaps {

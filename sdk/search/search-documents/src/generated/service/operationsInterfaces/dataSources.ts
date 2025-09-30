@@ -17,7 +17,7 @@ import {
   DataSourcesListResponse,
   DataSourcesCreateOptionalParams,
   DataSourcesCreateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a DataSources. */
 export interface DataSources {

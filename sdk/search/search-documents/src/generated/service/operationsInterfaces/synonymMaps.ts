@@ -17,7 +17,7 @@ import {
   SynonymMapsListResponse,
   SynonymMapsCreateOptionalParams,
   SynonymMapsCreateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a SynonymMaps. */
 export interface SynonymMaps {
