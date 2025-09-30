@@ -1126,6 +1126,15 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
 }
 
 // @public
+export enum KnownLexicalNormalizerNames {
+    AsciiFolding = "asciifolding",
+    Elision = "elision",
+    Lowercase = "lowercase",
+    Standard = "standard",
+    Uppercase = "uppercase"
+}
+
+// @public
 export enum KnownOcrLineEnding {
     CarriageReturn = "carriageReturn",
     CarriageReturnLineFeed = "carriageReturnLineFeed",
@@ -1650,6 +1659,9 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 
 // @public
 export type LexicalAnalyzerName = string;
+
+// @public
+export type LexicalNormalizerName = string;
 
 // @public
 export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PatternTokenizer | LuceneStandardTokenizer | UaxUrlEmailTokenizer;
@@ -2504,6 +2516,7 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
+    normalizerName?: LexicalNormalizerName;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;

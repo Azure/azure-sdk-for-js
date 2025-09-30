@@ -246,7 +246,8 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const type: SearchFieldDataType = field.type as SearchFieldDataType;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
 
-      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, ...restField } = field;
+      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, normalizer, ...restField } =
+        field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
 
       const result: SimpleField = {
@@ -256,6 +257,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         analyzerName: analyzer,
         searchAnalyzerName: searchAnalyzer,
         indexAnalyzerName: indexAnalyzer,
+        normalizerName: normalizer,
         synonymMapNames,
       };
       return result;
@@ -285,6 +287,7 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
         analyzer: field.analyzerName,
         searchAnalyzer: field.searchAnalyzerName,
         indexAnalyzer: field.indexAnalyzerName,
+        normalizer: field.normalizerName,
         synonymMaps: field.synonymMapNames,
       };
     }
