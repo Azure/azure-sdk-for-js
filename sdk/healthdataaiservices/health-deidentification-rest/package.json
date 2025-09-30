@@ -76,7 +76,8 @@
     "@azure/identity": "^4.9.0",
     "@types/node": "^20.0.0",
     "eslint": "^9.9.0",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.2",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
