@@ -148,7 +148,7 @@ In Modular we adjusted paging interfaces a little for better experience and main
 - Use `continuationToken` to replace the helper `getContinuationToken`
 
 #### Remove un-supported maxpagesize in PageSetting
-The `maxpagesize` is not supported in tranditional client so in Modular we remove this setting winthin PageSettings. This are supposed to have no impact for customers.
+The `maxpagesize` is not supported in traditional client so in Modular we remove this setting within PageSettings. These changes are supposed to have no impact for customers.
 
 #### Remove the helper `getContinuationToken`
 In traditional client we build an util function to help customers to get the continuation token([here](https://github.com/Azure/azure-sdk-for-js/blob/735677407c4fbbceea95200f6d6de00e29804740/sdk/datadog/arm-datadog/src/pagingHelper.ts#L22-L29)).
