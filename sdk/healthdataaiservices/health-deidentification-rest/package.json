@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/health-deidentification",
-  "version": "1.1.0-beta.1",
+  "version": "1.1.0-beta.2",
   "description": "Health Deidentification Service",
   "engines": {
     "node": ">=20.0.0"
