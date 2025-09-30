@@ -32,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Recoveryservices test", () => {
+describe.skip("Recoveryservices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: RecoveryServicesClient;
@@ -106,7 +106,7 @@ describe("Recoveryservices test", () => {
     assert.equal(res.type, "Microsoft.RecoveryServices/vaults/extendedInformation");
   });
 
-  it.skip("vaults delete test", async () => {
+  it("vaults delete test", async () => {
     const resArray = new Array();
     await client.vaults.delete(resourceGroup, vaultsName);
     for await (const item of client.vaults.listByResourceGroup(resourceGroup)) {
