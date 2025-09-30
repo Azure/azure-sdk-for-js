@@ -1,6 +1,6 @@
 # Guide for migrating to the modularized libraries of Azure JavaScript SDK
 
-This document shows the customers of the JavaScript/TypeScript libraries on how to migrate their code to use the modularized libraries which are also known as Modular SDKs.
+This guide helps developers transition their JavaScript/TypeScript applications to use the modularized Azure SDK libraries, also known as Modular SDKs.
 
 **For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start guide for modularized libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/modularized-libraries-quickstart.md).**
 
@@ -10,25 +10,24 @@ Several packages released from Modular libraries have already reached General Av
 
 ## Why switching to the modularized libraries?
 
-We have a [complete guide for the modularized libraries](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) and feel free to take a look. Compared to the current management libraries, the modularized libraries have following advantages:
+We recommend reviewing the [complete guide for the modularized libraries](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) for full details. Compared to the traditional libraries, Modular SDKs have following key benefits:
 
-1. Subpath exports: we leverage [subpath exports](https://nodejs.org/api/packages.html#subpath-exports), available since Node.js version 12.7, to offer multiple layers API for customers. Service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more light-weight client context to encapsulates the common state shared across operations.
-1. Bundle size optimization: we minimize the footprint of adding an extra library by relying on a core package called `@azure-rest/core-client`. This core package provides a general-purpose REST client and each package contains service-specific TypeScript type definitions. The TypeScript types are excluded from the assets bundle..
-1. Long-running operations: previously, in our traditional clients, we generated two operations (beginDoSth and beginDoSthAndWait) for each of the long-running operations, which are both redundant and confusing to our customers. In Modular, there's just one operation (doSth) for each of the long-running operations. Customers can choose to call it in an asynchronous or synchronized fashion.
+1. Subpath exports: Modular SDKs use [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(available since Node.js version 12.7) to offer layered APIs. In which service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more lightweight client context for shared state across operations.
+1. Bundle size optimization: Modular SDKs rely on `@azure-rest/core-client`. This core package provides a general-purpose REST client and each package contains service-specific TypeScript type definitions. The TypeScript types are excluded from the assets bundle..
+1. Long-running operations: in stead of two methods (beginDoSth and beginDoSthAndWait) in our traditional clients for each long-running operation, which are both redundant and confusing to customers. In Modular,  Modular SDKs offer a single method (doSth) that supports both async and sync usage.
 
 
 ## How to migrate to the modularized libraries?
 
-If you have an existing application that uses the JavaScript/TypeScript Azure SDK packages and you're interested in updating your application to use the Modular SDKs, here are the main changes that you need to do for the migration
+If you're updating an existing app to use Modular SDKs, focus on these areas:
 
 1. Long Running Operations
 1. Paging Operations
 1. Model property flattening
-1. Other changes
 
 ### Long Running Operations
 
-Many operations may take a long time to finish before receiving the desired response. The LRO breakings are because in Modular we re-designed the LRO and implemented it in core-lro if you are interested in this change and here is the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md). The changes  mainly are three parts:
+Many operations may take a long time to finish before receiving the desired response. Instead of two methods (beginDoSth and beginDoSthAndWait), Modular SDKs offer a single method (doSth) that supports both async and sync usage. The changes mainly are three parts:
 
 - Method signature changes
 - LRO poller changes from SimplePollerLike to PollerLike
@@ -66,8 +65,6 @@ So the before-and-after code would be like below:
 | const poller = await beginStart();           | const poller = start(); // directly get the poller                             |
 |                                              | await poller.submitted(); // await the poller submitted if interested          |
 | const result = await poller.pollUntilDone(); | const result = await poller; // Or const result = await poller.pollUntilDone() |
-
-Please note considering the impact of LROs whether we should provide a beginXXX method with brownfeild SDKs in modular is not decided yet and let's discussion more in https://github.com/Azure/autorest.typescript/issues/2715.
 
 #### LRO poller change from SimplePollerLike to PollerLike
 
@@ -138,11 +135,12 @@ The before-and-after code would be like:
 
 ```ts
 // traditional client
-const result = await beginStartAndWait({resumeFrom: serializedState}); 
+const result = await client.beginStartAndWait({resumeFrom: serializedState}); 
 
 // Modular
 const result = await restorePoller(client, serializedState, client.start);   
 ```
+If you are interested in more details in core-lro and here is the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md). 
 
 ### List Operations
 In Modular we adjusted paging interfaces a little for better experience and mainly are two parts:
@@ -179,6 +177,75 @@ const continuationToken = firstPage.value.continuationToken;
 ```
 
 ## Model property flattening
+
+Client libraries represent entities transferred to and from Azure services as model types. For the model types, in the traditional client we have supported the autorest extension [x-ms-client-flatten](https://azure.github.io/autorest/extensions/#x-ms-client-flatten). This extension allows to flatten deeply nested payloads into a top-level object structure. For example a payload that looks like this on the wire:
+
+```json
+{
+  "hcxEnterpriseSite": {
+    "name": "hcxEnterpriseSiteName",
+    "properties": {
+      "provisioningState": "succeed",
+      "activationKey": "value2",
+      "status": "ok"
+    },
+  },
+}
+```
+Can be transformed into the following client model and see [generated code](https://github.com/Azure/azure-sdk-for-js/blob/835b3dca8d8c635c1471a8264b025409a75298fc/sdk/avs/arm-avs/src/models/index.ts#L1196C1-L1213C2):
+```ts
+/** An HCX Enterprise Site resource */
+export interface HcxEnterpriseSite extends ProxyResource {
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: HcxEnterpriseSiteProvisioningState;
+  /**
+   * The activation key
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activationKey?: string;
+  /**
+   * The status of the HCX Enterprise Site
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: HcxEnterpriseSiteStatus;
+}
+```
+
+Modular SDKs no longer support flattening to reduce confusion and maintenance overhead. So now [the model](https://github.com/azure/azure-sdk-for-js/blob/181311fe630b5609e78d55306ad2242bb881dacf/sdk/avs/arm-avs/src/models/models.ts#L3171-L3174) would be generated like below:
+```ts
+/** An HCX Enterprise Site resource */
+export interface HcxEnterpriseSite extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HcxEnterpriseSiteProperties;
+}
+
+/** The properties of an HCX Enterprise Site */
+export interface HcxEnterpriseSiteProperties {
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: HcxEnterpriseSiteProvisioningState;
+  /** The activation key */
+  readonly activationKey?: string;
+  /** The status of the HCX Enterprise Site */
+  readonly status?: HcxEnterpriseSiteStatus;
+}
+```
+
+Which means for these changes, we need to update our code from `result.activationKey` to `result.properties?.activationKey`. So the before-and-after code would be like:
+
+```ts
+// traditional client
+const result = await client.hcxEnterpriseSites.get("resourceGroupName", "privateCloudName", "hcxEnterpriseSiteName");
+console.log(result.activationKey);
+
+// Modular client
+const result = await client.hcxEnterpriseSites.get("resourceGroupName", "privateCloudName", "hcxEnterpriseSiteName");
+console.log(result.properties?.activationKey);
+```
+
+Please note for Azure models, majority of property flatten happened in `properties` property.
 
 
 ## Need help
