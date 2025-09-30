@@ -93,7 +93,7 @@ import {
   WebApiVectorizer,
 } from "./serviceModels.js";
 
-export const defaultServiceVersion = "2024-07-01";
+export const defaultServiceVersion = "2025-09-01";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.WebApiSkill": true,
