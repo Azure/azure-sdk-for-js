@@ -7,20 +7,21 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DataFlowOperations } from "../operationsInterfaces/index.js";
+import type { DataFlowOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ArtifactsClient } from "../artifactsClient.js";
-import {
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type {
   SimplePollerLike,
-  OperationState,
+  OperationState} from "@azure/core-lro";
+import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   DataFlowResource,
   DataFlowGetDataFlowsByWorkspaceNextOptionalParams,
   DataFlowGetDataFlowsByWorkspaceOptionalParams,
@@ -80,7 +81,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._getDataFlowsByWorkspace(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -91,7 +92,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }

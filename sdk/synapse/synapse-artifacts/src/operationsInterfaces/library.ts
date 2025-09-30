@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type * as coreRestPipeline from "@azure/core-rest-pipeline";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   LibraryResource,
   LibraryListOptionalParams,
   LibraryFlushOptionalParams,

@@ -7,18 +7,19 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import { RunNotebook } from "../operationsInterfaces/index.js";
+import type { RunNotebook } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ArtifactsClient } from "../artifactsClient.js";
-import {
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type {
   SimplePollerLike,
-  OperationState,
+  OperationState} from "@azure/core-lro";
+import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   RunNotebookRequest,
   RunNotebookCreateRunOptionalParams,
   RunNotebookCreateRunResponse,

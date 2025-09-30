@@ -7,12 +7,12 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import { WorkspaceGitRepoManagement } from "../operationsInterfaces/index.js";
+import type { WorkspaceGitRepoManagement } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ArtifactsClient } from "../artifactsClient.js";
-import {
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type {
   GitHubAccessTokenRequest,
   WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse,
