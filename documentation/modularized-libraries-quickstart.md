@@ -8,7 +8,7 @@ Modular SDKs are now our recommended approach for both data-plane and management
 
 ## Migrating from an older generation of Azure libraries for JavaScript/TypeScript
 
-If you're currently using an older generation of the Azure SDK for JavaScript/TypeScript and want to upgrade, refer to our [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md).
+If you're currently using an older generation of the Azure SDK for JavaScript/TypeScript and want to upgrade, refer to our [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-modularized-libraries.md).
 
 ## Prerequisites
 
@@ -277,12 +277,12 @@ async function main() {
   const resourceGroupName = "your resource group";
   const privateCloudName = "private cloud name";
   await privateCloudsCreateOrUpdate(resourceGroupName, privateCloudName);
-  await privateCloudsList();
+  await privateCloudsList(resourceGroupName);
   await privateCloudsGet(resourceGroupName, privateCloudName);
   await privateCloudsUpdate(resourceGroupName, privateCloudName);
   await privateCloudsGet(resourceGroupName, privateCloudName);
   await privateCloudsDelete(resourceGroupName, privateCloudName);
-  await privateCloudsList();
+  await privateCloudsList(resourceGroupName);
 }
 ```
 
