@@ -25,7 +25,6 @@ import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
-import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -38,7 +37,7 @@ export abstract class BaseSender {
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
-  private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
+  private customerSDKStatsMetrics: any;
   private longIntervalStatsbeatMetrics;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -79,12 +78,23 @@ export abstract class BaseSender {
             );
           }
         }
-        this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
-          instrumentationKey: options.instrumentationKey,
-          endpointUrl: options.endpointUrl,
-          disableOfflineStorage: this.disableOfflineStorage,
-          networkCollectionInterval: exportInterval,
-        });
+        // Initialize customer SDK stats metrics asynchronously to avoid circular dependency
+        // Only initialize if not already set (e.g., by tests)
+        if (!this.customerSDKStatsMetrics) {
+          import("../../export/statsbeat/customerSDKStats.js")
+            .then(({ CustomerSDKStatsMetrics }) => CustomerSDKStatsMetrics.getInstance({
+              instrumentationKey: options.instrumentationKey,
+              endpointUrl: options.endpointUrl,
+              disableOfflineStorage: this.disableOfflineStorage,
+              networkCollectionInterval: exportInterval,
+            }))
+            .then((metrics) => {
+              this.customerSDKStatsMetrics = metrics;
+            })
+            .catch((error) => {
+              diag.warn("Failed to initialize customer SDK stats metrics:", error);
+            });
+        }
       }
     }
     this.persister = new FileSystemPersist(
