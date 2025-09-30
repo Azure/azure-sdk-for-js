@@ -17,6 +17,7 @@ import {
   ConditionalSkill,
   CorsOptions,
   CustomEntity,
+  CustomNormalizer,
   DefaultCognitiveServicesAccount,
   DictionaryDecompounderTokenFilter,
   DistanceScoringFunction,
@@ -63,6 +64,8 @@ import {
   LanguageDetectionSkill,
   LengthTokenFilter,
   LexicalAnalyzerName,
+  LexicalNormalizerName,
+  LexicalNormalizer as BaseLexicalNormalizer,
   LexicalTokenizerName,
   LimitTokenFilter,
   LuceneStandardAnalyzer,
@@ -110,7 +113,6 @@ import {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-  LexicalNormalizerName,
 } from "./generated/service/models/index.js";
 
 /**
@@ -799,6 +801,11 @@ export interface NGramTokenFilter {
 }
 
 /**
+ * Contains the possible cases for LexicalNormalizer.
+ */
+export type LexicalNormalizer = CustomNormalizer | BaseLexicalNormalizer;
+
+/**
  * Contains the possible cases for TokenFilter.
  */
 export type TokenFilter =
@@ -1090,6 +1097,10 @@ export interface SearchIndex {
    * The tokenizers for the index.
    */
   tokenizers?: LexicalTokenizer[];
+  /**
+   * The normalizers for the index.
+   */
+  normalizers?: LexicalNormalizer[];
   /**
    * The token filters for the index.
    */

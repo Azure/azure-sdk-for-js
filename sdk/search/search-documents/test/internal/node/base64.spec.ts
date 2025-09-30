@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { decode, encode } from "@azure/search-documents";
+import { decode, encode } from "../../../src/base64.js";
 import { describe, it, assert } from "vitest";
 
 describe("base64", () => {

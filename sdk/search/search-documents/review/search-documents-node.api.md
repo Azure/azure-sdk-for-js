@@ -134,6 +134,12 @@ export interface BaseLexicalAnalyzer {
 }
 
 // @public
+export interface BaseLexicalNormalizer {
+    name: string;
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+}
+
+// @public
 export interface BaseLexicalTokenizer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.ClassicTokenizer" | "#Microsoft.Azure.Search.EdgeNGramTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer" | "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer" | "#Microsoft.Azure.Search.NGramTokenizer" | "#Microsoft.Azure.Search.PathHierarchyTokenizerV2" | "#Microsoft.Azure.Search.PatternTokenizer" | "#Microsoft.Azure.Search.StandardTokenizer" | "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
@@ -403,6 +409,13 @@ export interface CustomEntityLookupSkill extends BaseSearchIndexerSkill {
 
 // @public (undocumented)
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
+
+// @public
+export interface CustomNormalizer extends BaseLexicalNormalizer {
+    charFilters?: CharFilterName[];
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+    tokenFilters?: TokenFilterName[];
+}
 
 // @public
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
@@ -1672,6 +1685,9 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 export type LexicalAnalyzerName = string;
 
 // @public
+export type LexicalNormalizer = CustomNormalizer | BaseLexicalNormalizer;
+
+// @public
 export type LexicalNormalizerName = string;
 
 // @public
@@ -2044,6 +2060,7 @@ export interface SearchIndex {
     etag?: string;
     fields: SearchField[];
     name: string;
+    normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
     semanticSearch?: SemanticSearch;
     similarity?: SimilarityAlgorithm;
