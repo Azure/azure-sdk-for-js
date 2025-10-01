@@ -1,5 +1,20 @@
 # Release History
 
+## 12.2.0 (Unreleased)
+
+### Features Added
+
+- Added support for `2025-09-01` service version.
+  - Support for running `VectorQuery`s against sub-fields of complex fields.
+  - Support for reranker boosted scores in search results and the ability to sort results on either reranker or reranker
+    boosted scores in `SemanticConfiguration.rankingOrder`.
+  - Support for `VectorSearchCompression.RescoringOptions` to configure how vector compression handles the original
+    vector when indexing and how vectors are used during rescoring.
+  - Added `SearchIndex.description` to provide a textual description of the index.
+  - Support for `LexicalNormalizer` when defining `SearchIndex`, `SimpleField`, and `SearchableField` and the ability to
+    use it when analyzing text with `SearchIndexClient.analyzeText` and `SearchIndexAsyncClient.analyzeText`.
+  - Support `DocumentIntelligenceLayoutSkill` skillset skill and `OneLake` `SearchIndexerDataSourceConnection` data source.
+
 ## 12.2.0-beta.2 (2024-11-25)
 
 ### Features Added
