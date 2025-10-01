@@ -63,6 +63,7 @@ import {
   LanguageDetectionSkill,
   LengthTokenFilter,
   LexicalAnalyzerName,
+  LexicalNormalizer as BaseLexicalNormalizer,
   LexicalTokenizerName,
   LimitTokenFilter,
   LuceneStandardAnalyzer,
@@ -110,6 +111,7 @@ import {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
+  CustomNormalizer,
 } from "./generated/service/models/index.js";
 
 /**
@@ -534,6 +536,11 @@ export type LexicalAnalyzer =
   | PatternAnalyzer
   | LuceneStandardAnalyzer
   | StopAnalyzer;
+
+/**
+ * Contains the possible cases for LexicalNormalizer.
+ */
+export type LexicalNormalizer = BaseLexicalNormalizer | CustomNormalizer;
 
 /**
  * A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call
@@ -973,6 +980,10 @@ export interface SimpleField {
    * The encoding format to interpret the field contents.
    */
   vectorEncodingFormat?: VectorEncodingFormat;
+  /**
+   *
+   */
+  normalizerName?: string;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1088,6 +1099,10 @@ export interface SearchIndex {
    * The tokenizers for the index.
    */
   tokenizers?: LexicalTokenizer[];
+  /**
+   * The normalizers for the index.
+   */
+  normalizers?: LexicalNormalizer[];
   /**
    * The token filters for the index.
    */

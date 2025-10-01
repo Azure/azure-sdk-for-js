@@ -246,7 +246,8 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const type: SearchFieldDataType = field.type as SearchFieldDataType;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
 
-      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, ...restField } = field;
+      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, normalizer, ...restField } =
+        field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
 
       const result: SimpleField = {
@@ -254,6 +255,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         type,
         hidden,
         analyzerName: analyzer,
+        normalizerName: normalizer,
         searchAnalyzerName: searchAnalyzer,
         indexAnalyzerName: indexAnalyzer,
         synonymMapNames,
@@ -283,6 +285,7 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
         facetable: field.facetable ?? false,
         sortable: field.sortable ?? false,
         analyzer: field.analyzerName,
+        normalizer: field.normalizerName,
         searchAnalyzer: field.searchAnalyzerName,
         indexAnalyzer: field.indexAnalyzerName,
         synonymMaps: field.synonymMapNames,
@@ -415,6 +418,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
+    normalizers: generatedIndex.normalizers,
     charFilters: generatedIndex.charFilters as CharFilter[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
@@ -511,12 +515,14 @@ export function generatedSearchResultToPublicSearchResult<
         _highlights: highlights,
         _rerankerScore: rerankerScore,
         _captions: captions,
+        rerankerBoostedScore,
         ...restProps
       } = result;
       const obj = {
         score,
         highlights,
         rerankerScore,
+        rerankerBoostedScore,
         captions,
         document: restProps,
       };
