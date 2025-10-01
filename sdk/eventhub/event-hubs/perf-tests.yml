@@ -1,6 +1,6 @@
 Service: eventhubs
 
-Project: sdk/eventhub/perf-tests/event-hubs
+Project: sdk/eventhub/event-hubs-perf-tests
 
 PrimaryPackage: '@azure/event-hubs'
 

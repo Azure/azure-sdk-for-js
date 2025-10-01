@@ -1,6 +1,6 @@
 Service: servicebus
 
-Project: sdk/servicebus/perf-tests/service-bus
+Project: sdk/servicebus/service-bus-perf-tests
 
 PrimaryPackage: '@azure/service-bus'
 
