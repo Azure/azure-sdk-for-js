@@ -1,5 +1,11 @@
 # Release History
 
+## 1.2.0-beta.3 (2025-10-02)
+
+### Features Added
+
+- Add `ToolUtility.createComputerUseTool` to support computer use tool in agent
+
 ## 1.2.0-beta.2 (2025-09-26)
 
 ### Features Added
