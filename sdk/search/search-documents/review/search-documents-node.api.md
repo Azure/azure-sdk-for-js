@@ -134,6 +134,12 @@ export interface BaseLexicalAnalyzer {
 }
 
 // @public
+export interface BaseLexicalNormalizer {
+    name: string;
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+}
+
+// @public
 export interface BaseLexicalTokenizer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.ClassicTokenizer" | "#Microsoft.Azure.Search.EdgeNGramTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer" | "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer" | "#Microsoft.Azure.Search.NGramTokenizer" | "#Microsoft.Azure.Search.PathHierarchyTokenizerV2" | "#Microsoft.Azure.Search.PatternTokenizer" | "#Microsoft.Azure.Search.StandardTokenizer" | "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
@@ -404,6 +410,13 @@ export interface CustomEntityLookupSkill extends BaseSearchIndexerSkill {
 
 // @public (undocumented)
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
+
+// @public
+export interface CustomNormalizer extends BaseLexicalNormalizer {
+    charFilters?: CharFilterName[];
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+    tokenFilters?: TokenFilterName[];
+}
 
 // @public
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
@@ -1126,6 +1139,15 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
 }
 
 // @public
+export enum KnownLexicalNormalizerNames {
+    AsciiFolding = "asciifolding",
+    Elision = "elision",
+    Lowercase = "lowercase",
+    Standard = "standard",
+    Uppercase = "uppercase"
+}
+
+// @public
 export enum KnownOcrLineEnding {
     CarriageReturn = "carriageReturn",
     CarriageReturnLineFeed = "carriageReturnLineFeed",
@@ -1311,6 +1333,12 @@ export enum KnownOcrSkillLanguage {
 export enum KnownPIIDetectionSkillMaskingMode {
     None = "none",
     Replace = "replace"
+}
+
+// @public
+export enum KnownRankingOrder {
+    BoostedRerankerScore = "BoostedRerankerScore",
+    ReRankerScore = "RerankerScore"
 }
 
 // @public
@@ -1585,7 +1613,7 @@ export enum KnownVectorFilterMode {
 
 // @public
 export enum KnownVectorQueryKind {
-    $DO_NOT_NORMALIZE$_text = "text",
+    Text = "text",
     Vector = "vector"
 }
 
@@ -1650,6 +1678,12 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 
 // @public
 export type LexicalAnalyzerName = string;
+
+// @public
+export type LexicalNormalizer = BaseLexicalNormalizer | CustomNormalizer;
+
+// @public
+export type LexicalNormalizerName = string;
 
 // @public
 export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PatternTokenizer | LuceneStandardTokenizer | UaxUrlEmailTokenizer;
@@ -2006,10 +2040,12 @@ export interface SearchIndex {
     charFilters?: CharFilter[];
     corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
+    description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     fields: SearchField[];
     name: string;
+    normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
     semanticSearch?: SemanticSearch;
     similarity?: SimilarityAlgorithm;
@@ -2359,6 +2395,7 @@ export interface SearchResourceEncryptionKey {
 export type SearchResult<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = {
     readonly score: number;
     readonly rerankerScore?: number;
+    readonly rerankerBoostedScore?: number;
     readonly highlights?: {
         [k in SelectFields<TModel>]?: string[];
     };
@@ -2504,6 +2541,8 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
+    // (undocumented)
+    normalizerName?: string;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
