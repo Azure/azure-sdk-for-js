@@ -19,9 +19,6 @@ import {
 import { describe, it, expect, afterEach } from "vitest";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 
-const credential = new AzureKeyCredential(process.env.API_KEY!);
-const indexClient = new SearchIndexClient(process.env.ENDPOINT!, credential);
-
 const debugPolicy: PipelinePolicy = {
   name: "debugPolicy",
   async sendRequest(request, next) {
@@ -35,6 +32,8 @@ const debugPolicy: PipelinePolicy = {
 };
 
 describe.skip("1220GA", () => {
+  const credential = new AzureKeyCredential(process.env.API_KEY! ?? "api-key");
+  const indexClient = new SearchIndexClient(process.env.ENDPOINT!, credential);
   // Using this file to live test new features locally
   afterEach(async () => {
     for await (const index of indexClient.listIndexes()) {
