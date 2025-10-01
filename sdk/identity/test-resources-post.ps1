@@ -1,7 +1,11 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License.
-
-# IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
+# Licensed under the MIT License.az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
+sudo docker run \
+-e IDENTITY_STORAGE_NAME=$($DeploymentOutputs['IDENTITY_STORAGE_NAME']) \
+-e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$($DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID'])ORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
 param (
   [Parameter()]
@@ -87,7 +91,26 @@ $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
 docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image
+
 Write-Host "Deployed image to ACR"
+$uuid = [guid]::NewGuid().ToString()
+$vmScript = @"
+az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
+sudo docker run \
+-e IDENTITY_STORAGE_NAME=$($DeploymentOutputs['IDENTITY_STORAGE_NAME']) \
+-e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$($DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID']) \
+-e IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID']) \
+-p 80:8080 -d \
+$image && \
+/usr/bin/echo $uuid
+"@
+$output = az vm run-command invoke -g $rg -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
+Write-Host $output
+if (-not $output.Contains($uuid)) {
+  throw "couldn't start container on VM"
+}
 
 Write-Host "Deploying Azure Container Instance"
 
