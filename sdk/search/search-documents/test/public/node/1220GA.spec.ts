@@ -19,8 +19,6 @@ import {
 import { describe, it, expect, afterEach } from "vitest";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 
-// Test index names (prefixed to avoid conflicts)
-
 const credential = new AzureKeyCredential(process.env.API_KEY!);
 const indexClient = new SearchIndexClient(process.env.ENDPOINT!, credential);
 

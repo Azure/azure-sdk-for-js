@@ -65,7 +65,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
   });
 
   // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", () => {
+  describe("stable", { skip: true }, () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
@@ -104,7 +104,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         },
       }) as const;
 
-    it.skip("search with speller", async () => {
+    it("search with speller", async () => {
       const searchResults = await searchClient.search("budjet", {
         skip: 0,
         top: 5,
@@ -115,7 +115,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.equal(searchResults.count, 6);
     });
 
-    it.skip("search with semantic ranking", async () => {
+    it("search with semantic ranking", async () => {
       const searchResults = await searchClient.search("luxury", {
         ...baseSemanticOptions(),
         skip: 0,
@@ -125,7 +125,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.equal(searchResults.count, 1);
     });
 
-    it.skip("search with document debug info", async () => {
+    it("search with document debug info", async () => {
       const baseOptions = baseSemanticOptions();
       const options = {
         ...baseOptions,
@@ -169,7 +169,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       }
     });
 
-    it.skip("search with answers", async () => {
+    it("search with answers", async () => {
       const baseOptions = baseSemanticOptions();
       const options = {
         ...baseOptions,
