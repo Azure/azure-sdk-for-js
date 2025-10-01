@@ -7,6 +7,11 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+/**
+ * Sorts the dependencies, devDependencies, peerDependencies, and scripts fields of a package.json object alphabetically by key.
+ *
+ * @param packageJson - The package.json object to sort. This object is modified in-place.
+ */
 export function sortPackageJson(packageJson: any): void {
   if (packageJson.dependencies) {
     packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
