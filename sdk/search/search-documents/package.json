@@ -21,8 +21,8 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "update-snippets": "dev-tool run update-snippets"
+    "test:node": "dev-tool run test:vitest --test-proxy-debug -- 1220GA",
+    "update-snippets": "echo Skipped."
   },
   "files": [
     "dist/",

@@ -158,7 +158,7 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
@@ -210,9 +210,10 @@ export interface BaseVectorSearchAlgorithmConfiguration {
 // @public
 export interface BaseVectorSearchCompression {
     compressionName: string;
-    defaultOversampling?: number;
     kind: "scalarQuantization" | "binaryQuantization";
-    rerankWithOriginalVectors?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "RescoringOptions" needs to be exported by the entry point index.d.ts
+    rescoringOptions?: RescoringOptions;
+    truncationDimension?: number;
 }
 
 // @public
@@ -1355,7 +1356,8 @@ export enum KnownSearchIndexerDataSourceType {
     AzureSql = "azuresql",
     AzureTable = "azuretable",
     CosmosDb = "cosmosdb",
-    MySql = "mysql"
+    MySql = "mysql",
+    OneLake = "onelake"
 }
 
 // @public
@@ -2245,6 +2247,7 @@ export interface SearchIndexerStatus {
     readonly executionHistory: IndexerExecutionResult[];
     readonly lastResult?: IndexerExecutionResult;
     readonly limits: SearchIndexerLimits;
+    readonly name: string;
     readonly status: IndexerStatus;
 }
 
@@ -2388,6 +2391,8 @@ export type SelectFields<TModel extends object> = (<T>() => T extends TModel ? t
 export interface SemanticConfiguration {
     name: string;
     prioritizedFields: SemanticPrioritizedFields;
+    // Warning: (ae-forgotten-export) The symbol "RankingOrder" needs to be exported by the entry point index.d.ts
+    rankingOrder?: RankingOrder;
 }
 
 // @public (undocumented)

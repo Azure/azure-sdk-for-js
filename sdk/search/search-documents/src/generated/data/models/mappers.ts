@@ -352,6 +352,12 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      debug: {
+        serializedName: "debug",
+        type: {
+          name: "String",
+        },
+      },
       searchText: {
         serializedName: "search",
         type: {
@@ -524,6 +530,14 @@ export const SearchResult: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      rerankerBoostedScore: {
+        serializedName: "@search\\.rerankerBoostedScore",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
       _highlights: {
         serializedName: "@search\\.highlights",
         readOnly: true,
@@ -546,6 +560,13 @@ export const SearchResult: coreClient.CompositeMapper = {
               className: "QueryCaptionResult",
             },
           },
+        },
+      },
+      documentDebugInfo: {
+        serializedName: "@search\\.documentDebugInfo",
+        type: {
+          name: "Composite",
+          className: "DocumentDebugInfo",
         },
       },
     },
@@ -571,6 +592,118 @@ export const QueryCaptionResult: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DocumentDebugInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentDebugInfo",
+    modelProperties: {
+      vectors: {
+        serializedName: "vectors",
+        type: {
+          name: "Composite",
+          className: "VectorsDebugInfo",
+        },
+      },
+    },
+  },
+};
+
+export const VectorsDebugInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorsDebugInfo",
+    modelProperties: {
+      subscores: {
+        serializedName: "subscores",
+        type: {
+          name: "Composite",
+          className: "QueryResultDocumentSubscores",
+        },
+      },
+    },
+  },
+};
+
+export const QueryResultDocumentSubscores: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryResultDocumentSubscores",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        type: {
+          name: "Composite",
+          className: "TextResult",
+        },
+      },
+      vectors: {
+        serializedName: "vectors",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Composite",
+                  className: "SingleVectorFieldResult",
+                },
+              },
+            },
+          },
+        },
+      },
+      documentBoost: {
+        serializedName: "documentBoost",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const TextResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TextResult",
+    modelProperties: {
+      searchScore: {
+        serializedName: "searchScore",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SingleVectorFieldResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SingleVectorFieldResult",
+    modelProperties: {
+      searchScore: {
+        serializedName: "searchScore",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      vectorSimilarity: {
+        serializedName: "vectorSimilarity",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },

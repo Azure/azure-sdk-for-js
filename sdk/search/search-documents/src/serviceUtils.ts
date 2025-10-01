@@ -44,7 +44,12 @@ import {
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
   WebApiVectorizer as GeneratedWebAPIVectorizer,
 } from "./generated/service/models/index.js";
-import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels.js";
+import {
+  SearchResult,
+  SelectFields,
+  SuggestDocumentsResult,
+  SuggestResult,
+} from "./indexModels.js";
 import { logger } from "./logger.js";
 import {
   AzureOpenAIVectorizer,
@@ -88,7 +93,7 @@ import {
   WebApiVectorizer,
 } from "./serviceModels.js";
 
-export const defaultServiceVersion = "2024-07-01";
+export const defaultServiceVersion = "2025-09-01";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.WebApiSkill": true,
@@ -110,6 +115,7 @@ const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Util.ShaperSkill": true,
   "#Microsoft.Skills.Vision.ImageAnalysisSkill": true,
   "#Microsoft.Skills.Vision.OcrSkill": true,
+  "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill": true,
 };
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -400,6 +406,7 @@ function convertEncryptionKeyToGenerated(
 export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex): SearchIndex {
   return {
     name: generatedIndex.name,
+    description: generatedIndex.description,
     defaultScoringProfile: generatedIndex.defaultScoringProfile,
     corsOptions: generatedIndex.corsOptions,
     suggesters: generatedIndex.suggesters,

@@ -1055,6 +1055,10 @@ export interface SearchIndex {
    */
   name: string;
   /**
+   * The description of the index.
+   */
+  description?: string;
+  /**
    * The fields of the index.
    */
   fields: SearchField[];

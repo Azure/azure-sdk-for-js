@@ -356,6 +356,16 @@ export const semanticQuery: OperationQueryParameter = {
   },
 };
 
+export const debug: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "debug"],
+  mapper: {
+    serializedName: "debug",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
