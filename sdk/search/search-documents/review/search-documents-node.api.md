@@ -2541,7 +2541,6 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
-    // (undocumented)
     normalizerName?: string;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;

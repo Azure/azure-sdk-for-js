@@ -980,8 +980,9 @@ export interface SimpleField {
    * The encoding format to interpret the field contents.
    */
   vectorEncodingFormat?: VectorEncodingFormat;
-  /**
-   *
+  /** The name of the normalizer to use for the field. This option can be used only with fields with
+   * filterable, sortable, or facetable enabled. Once the normalizer is chosen, it cannot be changed
+   * for the field. Must be null for complex fields.
    */
   normalizerName?: string;
 }
