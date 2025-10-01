@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14531a7cf6101c1dd57e7c1c83103a047bb8f5bb/specification/search/data-plane/Azure.Search/preview/2024-11-01-preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/dc27f9b32787533cd4d07fe0de5245f2f8354dbe/specification/search/data-plane/Azure.Search/stable/2024-07-01/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
@@ -167,7 +167,7 @@ directive:
       $["$ref"] = "#/definitions/HybridSearch";
 ```
 
-### Fix `SearchResult["@search.documentDebugInfo"]`
+<!-- ### Fix `SearchResult["@search.documentDebugInfo"]`
 ```yaml
 directive:
   - from: swagger-document
@@ -176,4 +176,4 @@ directive:
       $["$ref"] = $.items["$ref"];
       delete $.type;
       delete $.items;
-```
+``` -->

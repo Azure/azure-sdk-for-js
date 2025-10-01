@@ -19,22 +19,22 @@ import {
   SkillsetsImpl,
   SynonymMapsImpl,
   IndexesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
   Indexes,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApiVersion20240701,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
@@ -67,7 +67,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.1.0`;
+    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

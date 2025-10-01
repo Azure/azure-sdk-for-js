@@ -16,7 +16,7 @@ import {
   SuggestRequest as SuggestRequestMapper,
   IndexBatch as IndexBatchMapper,
   AutocompleteRequest as AutocompleteRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

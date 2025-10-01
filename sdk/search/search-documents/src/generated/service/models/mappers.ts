@@ -4066,7 +4066,7 @@ export const PatternAnalyzer: coreClient.CompositeMapper = {
         },
       },
       pattern: {
-        defaultValue: "W+",
+        defaultValue: "\W+",
         serializedName: "pattern",
         type: {
           name: "String",
@@ -4543,7 +4543,7 @@ export const PatternTokenizer: coreClient.CompositeMapper = {
     modelProperties: {
       ...LexicalTokenizer.type.modelProperties,
       pattern: {
-        defaultValue: "W+",
+        defaultValue: "\W+",
         serializedName: "pattern",
         type: {
           name: "String",

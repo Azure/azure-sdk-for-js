@@ -1,31 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context, Suite } from "mocha";
-
 import { delay } from "@azure/core-util";
-import { OpenAIClient } from "@azure/openai";
-import {
+import type { OpenAIClient } from "@azure/openai";
+import type {
   AutocompleteResult,
-  AzureKeyCredential,
-  IndexDocumentsBatch,
-  SearchClient,
+  SearchFieldArray,
   SearchIndex,
   SearchIndexClient,
+  SelectArray,
   SelectFields,
-} from "../../../src";
-import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
-import { defaultServiceVersion } from "../../../src/serviceUtils";
-import { Hotel } from "../utils/interfaces";
-import { createClients } from "../utils/recordedClient";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
+} from "../../../src/index.js";
+import {
+  AzureKeyCredential,
+  IndexDocumentsBatch,
+  KnownQueryLanguage,
+  KnownQuerySpeller,
+  SearchClient,
+} from "../../../src/index.js";
+import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import type { Hotel } from "../utils/interfaces.js";
+import { createClients } from "../utils/recordedClient.js";
+import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("SearchClient", function (this: Suite) {
-  this.timeout(20_000);
-
-  describe("constructor", function () {
+describe("SearchClient", { timeout: 20_000 }, () => {
+  describe("constructor", () => {
     const credential = new AzureKeyCredential("key");
 
     describe("Passing serviceVersion", () => {
@@ -63,7 +64,8 @@ describe("SearchClient", function (this: Suite) {
     });
   });
 
-  describe("stable", function () {
+  // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
+  describe("stable", { skip: true }, () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
@@ -71,8 +73,8 @@ describe("SearchClient", function (this: Suite) {
     let TEST_INDEX_NAME: string;
     let indexDefinition: SearchIndex;
 
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
       ({
         searchClient,
@@ -85,24 +87,123 @@ describe("SearchClient", function (this: Suite) {
       await populateIndex(searchClient, openAIClient);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await recorder?.stop();
     });
 
-    it("count returns the correct document count", async function () {
+    const baseSemanticOptions = () =>
+      ({
+        queryLanguage: KnownQueryLanguage.EnUs,
+        queryType: "semantic",
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+        },
+      }) as const;
+
+    it("search with speller", async () => {
+      const searchResults = await searchClient.search("budjet", {
+        skip: 0,
+        top: 5,
+        includeTotalCount: true,
+        queryLanguage: KnownQueryLanguage.EnUs,
+        speller: KnownQuerySpeller.Lexicon,
+      });
+      assert.equal(searchResults.count, 6);
+    });
+
+    it("search with semantic ranking", async () => {
+      const searchResults = await searchClient.search("luxury", {
+        ...baseSemanticOptions(),
+        skip: 0,
+        top: 5,
+        includeTotalCount: true,
+      });
+      assert.equal(searchResults.count, 1);
+    });
+
+    it("search with document debug info", async () => {
+      const baseOptions = baseSemanticOptions();
+      const options = {
+        ...baseOptions,
+        semanticSearchOptions: {
+          ...baseOptions.semanticSearchOptions,
+          errorMode: "fail",
+          debugMode: "semantic",
+        },
+      } as const;
+      const searchResults = await searchClient.search("luxury", options);
+      for await (const result of searchResults.results) {
+        assert.deepEqual(
+          {
+            semantic: {
+              contentFields: [
+                {
+                  name: "description",
+                  state: "used",
+                },
+              ],
+              keywordFields: [
+                {
+                  name: "tags",
+                  state: "used",
+                },
+              ],
+              rerankerInput: {
+                content:
+                  "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+                keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+                title: "Fancy Stay",
+              },
+              titleField: {
+                name: "hotelName",
+                state: "used",
+              },
+            },
+          },
+          result.documentDebugInfo,
+        );
+      }
+    });
+
+    it("search with answers", async () => {
+      const baseOptions = baseSemanticOptions();
+      const options = {
+        ...baseOptions,
+        semanticSearchOptions: {
+          ...baseOptions.semanticSearchOptions,
+          answers: { answerType: "extractive", count: 3, threshold: 0.7 },
+        },
+        top: 3,
+        select: ["hotelId"],
+      } as const;
+      const searchResults = await searchClient.search(
+        "What are the most luxurious hotels?",
+        options,
+      );
+
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(["1", "9", "3"], resultIds);
+    });
+
+    it("count returns the correct document count", async () => {
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 10);
     });
 
-    it("autocomplete returns the correct autocomplete result", async function () {
+    it("autocomplete returns the correct autocomplete result", async () => {
       const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("sec", "sg");
       assert.equal(autoCompleteResult.results.length, 1);
       assert.equal(autoCompleteResult.results[0].text, "secret");
     });
 
-    it("autocomplete returns zero results for invalid query", async function () {
+    it("autocomplete returns zero results for invalid query", async () => {
       const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete(
         "garbxyz",
         "sg",
@@ -110,7 +211,7 @@ describe("SearchClient", function (this: Suite) {
       assert.isTrue(autoCompleteResult.results.length === 0);
     });
 
-    it("search returns the correct search result", async function () {
+    it("search returns the correct search result", async () => {
       const searchResults = await searchClient.search("budget", {
         skip: 0,
         top: 5,
@@ -120,9 +221,10 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(searchResults.count, 6);
     });
 
-    it("search narrows the result type", async function () {
-      // eslint-disable-next-line no-constant-condition
-      if (false) {
+    it("search narrows the result type", async () => {
+      // This part of the test is only for types. This doesn't need to be called.
+      // eslint-disable-next-line no-unused-expressions
+      async () => {
         const response = await searchClient.search("asdf", {
           select: ["address/city"],
         });
@@ -131,7 +233,7 @@ describe("SearchClient", function (this: Suite) {
           // @ts-expect-error
           result.document.category = "";
         }
-      }
+      };
 
       const hotelKeys: (keyof Hotel)[] = [
         "address",
@@ -236,7 +338,7 @@ describe("SearchClient", function (this: Suite) {
       await Promise.all(searchFieldsTestPromises);
     });
 
-    it("search returns zero results for invalid query", async function () {
+    it("search returns zero results for invalid query", async () => {
       const searchResults = await searchClient.search("garbxyz", {
         skip: 0,
         top: 5,
@@ -245,7 +347,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(searchResults.count, 0);
     });
 
-    it("suggest returns the correct suggestions", async function () {
+    it("suggest returns the correct suggestions", async () => {
       const suggestResult = await searchClient.suggest("WiFi", "sg");
       assert.equal(suggestResult.results.length, 1);
       assert.isTrue(
@@ -253,12 +355,12 @@ describe("SearchClient", function (this: Suite) {
       );
     });
 
-    it("suggest returns zero suggestions for invalid input", async function () {
+    it("suggest returns zero suggestions for invalid input", async () => {
       const suggestResult = await searchClient.suggest("garbxyz", "sg");
       assert.equal(suggestResult.results.length, 0);
     });
 
-    it("getDocument returns the correct document result", async function () {
+    it("getDocument returns the correct document result", async () => {
       const getDocumentResult = await searchClient.getDocument("8");
       assert.equal(
         getDocumentResult.description,
@@ -271,7 +373,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(getDocumentResult.hotelId, "8");
     });
 
-    it("getDocument throws error for invalid getDocument Value", async function () {
+    it("getDocument throws error for invalid getDocument Value", async () => {
       let errorThrown = false;
       try {
         await searchClient.getDocument("garbxyz");
@@ -281,7 +383,7 @@ describe("SearchClient", function (this: Suite) {
       assert.isTrue(errorThrown, "Expected getDocument to fail with an exception");
     });
 
-    it("deleteDocuments delete a document by documents", async function () {
+    it("deleteDocuments delete a document by documents", async () => {
       const getDocumentResult = await searchClient.getDocument("8");
       await searchClient.deleteDocuments([getDocumentResult]);
       await delay(WAIT_TIME);
@@ -289,14 +391,14 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(documentCount, 9);
     });
 
-    it("deleteDocuments delete a document by key/keyNames", async function () {
+    it("deleteDocuments delete a document by key/keyNames", async () => {
       await searchClient.deleteDocuments("hotelId", ["9", "10"]);
       await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 8);
     });
 
-    it("mergeOrUploadDocuments modify & merge an existing document", async function () {
+    it("mergeOrUploadDocuments modify & merge an existing document", async () => {
       let getDocumentResult = await searchClient.getDocument("6");
       getDocumentResult.description = "Modified Description";
       await searchClient.mergeOrUploadDocuments([getDocumentResult]);
@@ -305,7 +407,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(getDocumentResult.description, "Modified Description");
     });
 
-    it("mergeOrUploadDocuments merge a new document", async function () {
+    it("mergeOrUploadDocuments merge a new document", async () => {
       const document = {
         hotelId: "11",
         description: "New Hotel Description",
@@ -317,7 +419,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(documentCount, 11);
     });
 
-    it("mergeDocuments modify & merge an existing document", async function () {
+    it("mergeDocuments modify & merge an existing document", async () => {
       let getDocumentResult = await searchClient.getDocument("6");
       getDocumentResult.description = "Modified Description";
       await searchClient.mergeDocuments([getDocumentResult]);
@@ -326,7 +428,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(getDocumentResult.description, "Modified Description");
     });
 
-    it("uploadDocuments upload a set of documents", async function () {
+    it("uploadDocuments upload a set of documents", async () => {
       const documents = [
         {
           hotelId: "11",
@@ -345,7 +447,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(documentCount, 12);
     });
 
-    it("indexDocuments upload a new document", async function () {
+    it("indexDocuments upload a new document", async () => {
       const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
       batch.upload([
         {
@@ -360,7 +462,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(documentCount, 11);
     });
 
-    it("indexDocuments deletes existing documents", async function () {
+    it("indexDocuments deletes existing documents", async () => {
       const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
       batch.delete([
         {
@@ -377,7 +479,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(documentCount, 8);
     });
 
-    it("indexDocuments merges an existing document", async function () {
+    it("indexDocuments merges an existing document", async () => {
       const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
       batch.merge([
         {
@@ -392,7 +494,7 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(getDocumentResult.description, "Modified Description");
     });
 
-    it("indexDocuments merge/upload documents", async function () {
+    it("indexDocuments merge/upload documents", async () => {
       const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
       batch.mergeOrUpload([
         {
@@ -414,50 +516,9 @@ describe("SearchClient", function (this: Suite) {
       assert.equal(documentCount, 11);
     });
 
-    it("search with semantic ranking", async function () {
+    it("search with semantic error handling", async () => {
       const searchResults = await searchClient.search("luxury", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true,
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-        },
-      });
-      assert.equal(searchResults.count, 1);
-    });
-
-    it("search with answers", async function () {
-      const searchResults = await searchClient.search("What are the most luxurious hotels?", {
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-          answers: { answerType: "extractive", count: 3, threshold: 0.7 },
-        },
-        top: 3,
-        select: ["hotelId"],
-      });
-
-      const resultIds = [];
-      for await (const result of searchResults.results) {
-        resultIds.push(result.document.hotelId);
-      }
-      assert.deepEqual(["1", "9", "3"], resultIds);
-    });
-
-    it("search with semantic error handling", async function () {
-      const searchResults = await searchClient.search("luxury", {
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-          errorMode: "partial",
-        },
+        ...baseSemanticOptions(),
         select: ["hotelId"],
       });
 
@@ -468,10 +529,10 @@ describe("SearchClient", function (this: Suite) {
       assert.deepEqual(["1"], resultIds);
     });
 
-    it("search with vector", async function () {
+    it("search with vector", async (ctx) => {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
         env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
@@ -502,10 +563,10 @@ describe("SearchClient", function (this: Suite) {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("multi-vector search", async function () {
+    it("multi-vector search", async (ctx) => {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
         env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
@@ -542,10 +603,10 @@ describe("SearchClient", function (this: Suite) {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("oversampling compressed vectors", async function () {
+    it("oversampling compressed vectors", async (ctx) => {
       // This live test is disabled due to temporary limitations with the new OpenAI service
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       const embeddings = await openAIClient.getEmbeddings(

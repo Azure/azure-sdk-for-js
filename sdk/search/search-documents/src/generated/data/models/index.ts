@@ -599,7 +599,7 @@ export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
   Vector = "vector",
   /** Vector query where a text value that needs to be vectorized is provided. */
-  Text = "text",
+  $DO_NOT_NORMALIZE$_text = "text",
 }
 
 /**

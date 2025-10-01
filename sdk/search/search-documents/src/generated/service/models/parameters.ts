@@ -18,7 +18,7 @@ import {
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

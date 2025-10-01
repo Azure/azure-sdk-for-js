@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Indexes } from "../operationsInterfaces";
+import { Indexes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SearchServiceClient } from "../searchServiceClient.js";
 import {
   SearchIndex,
   IndexesCreateOptionalParams,
@@ -27,7 +27,7 @@ import {
   AnalyzeRequest,
   IndexesAnalyzeOptionalParams,
   IndexesAnalyzeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Indexes operations. */
 export class IndexesImpl implements Indexes {
