@@ -1073,8 +1073,8 @@ export class ClientContext {
    */
   public isPartitionLevelFailOverEnabled(): boolean {
     return (
-      this.connectionPolicy.enablePartitionLevelFailover ||
-      this.connectionPolicy.enablePartitionLevelCircuitBreaker
+      this.globalEndpointManager.enablePartitionLevelFailover ||
+      this.globalEndpointManager.enablePartitionLevelCircuitBreaker
     );
   }
 }
