@@ -210,7 +210,7 @@ export const Constants = {
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
-  ENABLE_PER_PARTITION_FAILOVER_BEHAVIOR: "enablePerPartitionFailoverBehavior",
+  EnablePerPartitionFailover: "enablePerPartitionFailoverBehavior",
 
   // Background refresh time
   DefaultUnavailableLocationExpirationTimeMS: 5 * 60 * 1000,

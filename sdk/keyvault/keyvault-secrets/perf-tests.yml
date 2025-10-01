@@ -1,6 +1,6 @@
 Service: keyvault-secrets
 
-Project: sdk/keyvault/perf-tests/keyvault-secrets
+Project: sdk/keyvault/keyvault-secrets-perf-tests
 
 PrimaryPackage: '@azure/storage-file-datalake'
 

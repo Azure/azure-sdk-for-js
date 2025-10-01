@@ -1,6 +1,6 @@
 Service: storage-file-datalake
 
-Project: sdk/storage/perf-tests/storage-file-datalake
+Project: sdk/storage/storage-file-datalake-perf-tests
 
 PrimaryPackage: '@azure/storage-file-datalake'
 

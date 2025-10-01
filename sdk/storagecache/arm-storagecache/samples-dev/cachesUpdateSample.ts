@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  Cache,
+  CachesUpdateOptionalParams,
+  StorageCacheManagementClient,
+} from "@azure/arm-storagecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update a cache instance.
  *
  * @summary Update a cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_Update.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_Update.json
  */
-
-import type { Cache, CachesUpdateOptionalParams } from "@azure/arm-storagecache";
-import { StorageCacheManagementClient } from "@azure/arm-storagecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function cachesUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const cache: Cache = {
     cacheSizeGB: 3072,
@@ -95,7 +99,11 @@ async function cachesUpdate(): Promise<void> {
   const options: CachesUpdateOptionalParams = { cache };
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
-  const result = await client.caches.beginUpdateAndWait(resourceGroupName, cacheName, options);
+  const result = await client.caches.beginUpdateAndWait(
+    resourceGroupName,
+    cacheName,
+    options,
+  );
   console.log(result);
 }
 
@@ -103,12 +111,14 @@ async function cachesUpdate(): Promise<void> {
  * This sample demonstrates how to Update a cache instance.
  *
  * @summary Update a cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_Update_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_Update_ldap_only.json
  */
 async function cachesUpdateLdapOnly(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const cache: Cache = {
     cacheSizeGB: 3072,
@@ -189,7 +199,11 @@ async function cachesUpdateLdapOnly(): Promise<void> {
   const options: CachesUpdateOptionalParams = { cache };
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
-  const result = await client.caches.beginUpdateAndWait(resourceGroupName, cacheName, options);
+  const result = await client.caches.beginUpdateAndWait(
+    resourceGroupName,
+    cacheName,
+    options,
+  );
   console.log(result);
 }
 

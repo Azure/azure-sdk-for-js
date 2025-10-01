@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Azure Web PubSub Client",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

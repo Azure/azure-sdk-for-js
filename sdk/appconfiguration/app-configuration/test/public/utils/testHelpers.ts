@@ -17,7 +17,7 @@ import type {
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { RestError } from "@azure/core-rest-pipeline";
+import { isRestError, type RestError } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "vitest";
@@ -78,7 +78,20 @@ export async function deleteEverySetting(): Promise<void> {
   const settingsList = client.listConfigurationSettings({});
 
   for await (const setting of settingsList) {
-    await client.setReadOnly({ key: setting.key, label: setting.label }, false);
+    // Other parallel tests may delete a setting after it was listed, creating a racing problem in the live mode.
+    // Service behaviors:
+    //   - Deleting an unexisted setting returns 204.
+    //   - Attempting to remove the read-only (lock) on a unexisted setting returns 404.
+    // Ignore the 404 from setReadOnly.
+    // Reference: https://learn.microsoft.com/azure/azure-app-configuration/rest-api-locks#unlock-key-value
+    try {
+      await client.setReadOnly({ key: setting.key, label: setting.label }, false);
+    } catch (error) {
+      if (isRestError(error) && error.statusCode === 404) {
+        continue;
+      }
+      throw error;
+    }
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
