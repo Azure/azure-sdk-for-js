@@ -97,9 +97,10 @@ export async function createClients<IndexModel extends object>(
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
 
-  const credential = new AzureKeyCredential(assertEnvironmentVariable("API_KEY"));
+  const credential = createTestCredential();
 
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
+  const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
 
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
@@ -123,7 +124,11 @@ export async function createClients<IndexModel extends object>(
       serviceVersion,
     }),
   );
-  const openAIClient = new OpenAIClient("", credential, recorder.configureClientOptions({}));
+  const openAIClient = new OpenAIClient(
+    openAIEndpoint,
+    credential,
+    recorder.configureClientOptions({}),
+  );
 
   return {
     searchClient,
