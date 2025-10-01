@@ -96,13 +96,13 @@
     "vitest": "catalog:testing"
   },
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
     "copy:yaml": "copy tsp-location.yaml .\\src\\generated\\tsp-location.yaml",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate": "dev-tool run vendored rimraf ./src/generated && dev-tool run vendored mkdirp ./src/generated && npm run copy:yaml && npm run tsp:update && dev-tool run vendored rimraf ./src/generated/test && dev-tool run vendored rimraf ./src/generated/tsp-location.yaml",
     "generate-samples": "dev-tool samples publish -f",
