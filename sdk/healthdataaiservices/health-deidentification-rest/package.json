@@ -1,15 +1,13 @@
 {
   "name": "@azure-rest/health-deidentification",
-  "version": "1.0.0",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/health-deidentification-rest",
-  "description": "Azure Health Data Services de-identification service",
+  "version": "1.1.0-beta.1",
+  "description": "Health Deidentification Service",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
   "tshy": {
-    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -22,9 +20,12 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "keywords": [
     "node",
     "azure",
@@ -37,6 +38,7 @@
   "license": "MIT",
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
@@ -45,68 +47,58 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/health-deidentification-rest/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
       {
         "path": "src/deidentificationClient.ts",
-        "prefix": "package-version"
+        "prefix": "userAgentInfo"
       }
-    ],
-    "sampleConfiguration": {
-      "skipFolder": false,
-      "disableDocsMs": true,
-      "productName": "Health Deidentification Service",
-      "productSlugs": [],
-      "apiRefLink": "https://learn.microsoft.com/javascript/api/",
-      "requiredResources": {
-        "De-identification Service": "https://learn.microsoft.com/javascript/api/"
-      }
-    }
+    ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.2.0",
+    "@azure-rest/core-client": "^2.3.1",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.0.0",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.2",
-    "@azure/identity": "^4.4.0",
-    "@azure/logger": "^1.1.4",
-    "dotenv": "^16.0.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@types/node": "catalog:",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "npm pack 2>&1",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "build:samples": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "dev-tool samples publish",
-    "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "pnpm pack 2>&1",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "exports": {
@@ -132,7 +124,5 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js",
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "module": "./dist/esm/index.js"
 }

@@ -1,5 +1,5 @@
 # Release History
-## 4.6.0 (2025-09-15)
+## 4.6.0 (2025-10-01)
 
 ### Features Added
 
@@ -17,6 +17,7 @@ await container.item("1").delete(requestOptions);
 ### Bugs Fixed
 - [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
  preventing partitionKeyMismatch error when an optional partition key value is provided in the operationInput
+- [#35967](https://github.com/Azure/azure-sdk-for-js/issues/35967) Changed the default values of `enablePartitionLevelFailover` and `enablePartitionLevelCircuitBreaker` flags to `true` in the connection policy.
 
 ## 4.5.1 (2025-09-01)
 
