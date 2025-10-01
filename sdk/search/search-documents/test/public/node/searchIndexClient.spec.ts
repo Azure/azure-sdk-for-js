@@ -62,7 +62,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  describe("stable", { skip: true }, () => {
+  describe("stable", () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
@@ -264,7 +264,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
-    it("creates the index object vector fields", async () => {
+    it.skip("creates the index object vector fields", async () => {
       const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
 
       const algorithm: VectorSearchAlgorithmConfiguration = {

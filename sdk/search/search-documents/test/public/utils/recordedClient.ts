@@ -6,7 +6,12 @@ import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-to
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
-import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src/index.js";
+import {
+  AzureKeyCredential,
+  SearchClient,
+  SearchIndexClient,
+  SearchIndexerClient,
+} from "../../../src/index.js";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
@@ -92,10 +97,9 @@ export async function createClients<IndexModel extends object>(
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
 
-  const credential = createTestCredential();
+  const credential = new AzureKeyCredential(assertEnvironmentVariable("API_KEY"));
 
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
-  const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
 
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
@@ -119,11 +123,7 @@ export async function createClients<IndexModel extends object>(
       serviceVersion,
     }),
   );
-  const openAIClient = new OpenAIClient(
-    openAIEndpoint,
-    credential,
-    recorder.configureClientOptions({}),
-  );
+  const openAIClient = new OpenAIClient("", credential, recorder.configureClientOptions({}));
 
   return {
     searchClient,

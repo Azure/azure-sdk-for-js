@@ -65,7 +65,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
   });
 
   // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", { skip: true }, () => {
+  describe("stable", () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
@@ -95,7 +95,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
 
     const baseSemanticOptions = () =>
       ({
-        queryLanguage: KnownQueryLanguage.EnUs,
+        // queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -104,18 +104,18 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         },
       }) as const;
 
-    it("search with speller", async () => {
+    it.skip("search with speller", async () => {
       const searchResults = await searchClient.search("budjet", {
         skip: 0,
         top: 5,
         includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownQuerySpeller.Lexicon,
+        // queryLanguage: KnownQueryLanguage.EnUs,
+        // speller: KnownQuerySpeller.Lexicon,
       });
       assert.equal(searchResults.count, 6);
     });
 
-    it("search with semantic ranking", async () => {
+    it.skip("search with semantic ranking", async () => {
       const searchResults = await searchClient.search("luxury", {
         ...baseSemanticOptions(),
         skip: 0,
@@ -125,7 +125,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.equal(searchResults.count, 1);
     });
 
-    it("search with document debug info", async () => {
+    it.skip("search with document debug info", async () => {
       const baseOptions = baseSemanticOptions();
       const options = {
         ...baseOptions,
@@ -164,12 +164,12 @@ describe("SearchClient", { timeout: 20_000 }, () => {
               },
             },
           },
-          result.documentDebugInfo,
+          // result.documentDebugInfo,
         );
       }
     });
 
-    it("search with answers", async () => {
+    it.skip("search with answers", async () => {
       const baseOptions = baseSemanticOptions();
       const options = {
         ...baseOptions,

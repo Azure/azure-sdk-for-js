@@ -33,8 +33,8 @@ export async function createIndex(
       kind: "azureOpenAI",
       vectorizerName: "vector-search-vectorizer",
       parameters: {
-        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
-        resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
+        // deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        // resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
         modelName: "text-embedding-ada-002",
       },
     },
