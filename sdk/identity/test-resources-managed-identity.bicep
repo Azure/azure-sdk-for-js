@@ -512,4 +512,4 @@ output IdentityTenantID string = tenantId
 output IdentityClientID string = testApplicationId
 output IdentityFunctionsCustomHandlerPort string = '80'
 output IdentityVMName string = virtualMachine.name
-output IdentityVMIp string = pub
+output IdentityVMIp string = publicIP.properties.ipAddress
