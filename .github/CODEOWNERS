@@ -294,7 +294,7 @@
 /sdk/formrecognizer/ @jeremymeng
 
 # ServiceLabel: %Cognitive - Form Recognizer
-# AzureSdkOwners: @HarshaNalluru
+# AzureSdkOwners: @jeremymeng
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
