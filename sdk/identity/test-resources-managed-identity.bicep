@@ -385,7 +385,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
         name: '${baseName}subnet'
         properties: {
           addressPrefix: '10.0.0.0/24'
-          defaultOutboundAccess: false
           networkSecurityGroup: {
             id: nsg.id
           }
