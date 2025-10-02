@@ -6,7 +6,8 @@
     {
       "Agent": {
         "msi_image": {
-          "OSVmImage": "env:LINUXNEXTVMIMAGE"
+          "OSVmImage": "env:LINUXVMIMAGE",
+          "Pool": "env:LINUXPOOL"
         }
       },
       "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
