@@ -54,9 +54,11 @@
     "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "magic-string": "^0.30.8",
     "prettier": "^3.3.3",
+    "rimraf": "catalog:",
     "rollup": "^4.14.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

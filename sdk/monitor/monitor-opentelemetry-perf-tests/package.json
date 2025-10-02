@@ -55,7 +55,10 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "scripts": {

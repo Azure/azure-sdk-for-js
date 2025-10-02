@@ -49,6 +49,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/node": "catalog:",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",

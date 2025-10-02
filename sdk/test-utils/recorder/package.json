@@ -61,9 +61,12 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "concurrently": "^9.2.1",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "express": "^5.1.0",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

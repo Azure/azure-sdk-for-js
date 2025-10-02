@@ -59,8 +59,8 @@
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.6.2",
-    "moment": "~2.30.1"
+    "moment": "~2.30.1",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
@@ -72,10 +72,13 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "moment": "^2.30.1",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

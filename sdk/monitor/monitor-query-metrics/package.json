@@ -47,8 +47,8 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-auth": "^1.9.0",
     "@azure-rest/core-client": "^2.5.0",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
@@ -69,9 +69,12 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

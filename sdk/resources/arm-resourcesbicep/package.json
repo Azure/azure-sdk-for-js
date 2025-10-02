@@ -63,10 +63,10 @@
     ]
   },
   "dependencies": {
-    "@azure/core-util": "^1.11.0",
     "@azure-rest/core-client": "^2.1.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.18.2",
+    "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
@@ -78,11 +78,14 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "eslint": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

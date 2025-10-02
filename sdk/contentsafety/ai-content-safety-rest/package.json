@@ -69,9 +69,12 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "autorest": "catalog:",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "rollup-plugin-copy": "^3.5.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

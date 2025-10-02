@@ -36,6 +36,8 @@
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

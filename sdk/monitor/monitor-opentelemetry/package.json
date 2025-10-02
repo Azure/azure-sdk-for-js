@@ -59,8 +59,11 @@
     "@opentelemetry/exporter-metrics-otlp-http": "^0.204.0",
     "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

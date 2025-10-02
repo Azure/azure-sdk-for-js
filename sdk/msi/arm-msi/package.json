@@ -8,9 +8,9 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-client": "^1.9.2",
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.2",
+    "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.0",
     "tslib": "^2.8.1"
   },
@@ -28,18 +28,20 @@
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
   "devDependencies": {
-    "typescript": "catalog:",
-    "dotenv": "catalog:testing",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "repository": "github:Azure/azure-sdk-for-js",

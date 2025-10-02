@@ -82,9 +82,12 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "buffer": "^6.0.0",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "safe-buffer": "^5.2.1",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

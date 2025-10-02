@@ -90,11 +90,13 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "magic-string": "~0.30.10",
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",
+    "rimraf": "catalog:",
     "rollup": "^4.0.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

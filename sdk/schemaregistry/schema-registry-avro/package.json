@@ -79,10 +79,13 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "buffer": "^6.0.3",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
     "process": "^0.11.10",
+    "rimraf": "catalog:",
     "stream": "^0.0.3",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
