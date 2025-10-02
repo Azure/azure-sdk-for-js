@@ -28,6 +28,6 @@ export interface JsonSecretReferenceValue {
 /**
  * @internal
  */
-export interface SnapshotReferenceValue {
+export interface JsonSnapshotReferenceValue {
   snapshot_name: string;
 }
