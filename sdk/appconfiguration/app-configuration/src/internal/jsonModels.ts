@@ -22,3 +22,12 @@ export type JsonFeatureFlagValue = {
 export interface JsonSecretReferenceValue {
   uri: string;
 }
+
+// snapshot reference
+
+/**
+ * @internal
+ */
+export interface SnapshotReferenceValue {
+  snapshot_name: string;
+}
