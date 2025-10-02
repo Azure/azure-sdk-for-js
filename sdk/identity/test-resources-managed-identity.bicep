@@ -371,7 +371,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2024-07-01' = {
   }
 }
 
-resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
   name: '${baseName}vnet'
   location: location
   properties: {
@@ -385,6 +385,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
         name: '${baseName}subnet'
         properties: {
           addressPrefix: '10.0.0.0/24'
+          defaultOutboundAccess: false
           networkSecurityGroup: {
             id: nsg.id
           }
@@ -405,7 +406,7 @@ resource publicIP 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
   }
 }
 
-resource networkInterface 'Microsoft.Network/networkInterfaces@2021-02-01' = {
+resource networkInterface 'Microsoft.Network/networkInterfaces@2024-07-01' = {
   name: '${baseName}NIC'
   location: location
   properties: {
@@ -426,13 +427,13 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2021-02-01' = {
   }
 }
 
-resource virtualMachine 'Microsoft.Compute/virtualMachines@2020-06-01' = {
+resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   name: '${baseName}vm'
   location: location
   identity: {
     type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {
-      '${userAssignedIdentity.id}' : { }
+      '${userAssignedIdentity.id}' : {}
     }
   }
   properties: {
