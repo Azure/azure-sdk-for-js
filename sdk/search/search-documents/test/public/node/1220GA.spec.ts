@@ -18,6 +18,7 @@ import {
 } from "@azure/search-documents";
 import { describe, it, expect, afterEach } from "vitest";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { isLiveMode } from "@azure-tools/test-recorder";
 
 const debugPolicy: PipelinePolicy = {
   name: "debugPolicy",
@@ -31,7 +32,7 @@ const debugPolicy: PipelinePolicy = {
   },
 };
 
-describe.skip("1220GA", () => {
+describe.skipIf(!isLiveMode())("1220GA", () => {
   const credential = new AzureKeyCredential(process.env.API_KEY! ?? "api-key");
   const indexClient = new SearchIndexClient(process.env.ENDPOINT!, credential);
   // Using this file to live test new features locally
