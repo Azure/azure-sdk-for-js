@@ -20,7 +20,6 @@ import type { TokenCachePersistenceOptions } from "@azure/identity";
  * - Darwin: '/Users/user/'
  * - Windows 8+: 'C:\Users\user\AppData\Local'
  * - Linux: '/home/user/.local/share'
- * @internal
  */
 const localApplicationDataFolder =
   process.env.APPDATA?.replace?.(/(.Roaming)*$/, "\\Local") ?? process.env.HOME!;
@@ -63,7 +62,6 @@ export type MsalPersistenceOptions = Omit<TokenCachePersistenceOptions, "enabled
 
 /**
  * A function that returns a persistent token cache instance.
- * @internal
  */
 type MsalPersistenceFactory = (options?: MsalPersistenceOptions) => Promise<Persistence>;
 
@@ -72,7 +70,6 @@ type MsalPersistenceFactory = (options?: MsalPersistenceOptions) => Promise<Pers
  * - Darwin: '/Users/user/.IdentityService/<name>'
  * - Windows 8+: 'C:\Users\user\AppData\Local\.IdentityService\<name>'
  * - Linux: '/home/user/.IdentityService/<name>'
- * @internal
  */
 function getPersistencePath(name: string): string {
   return path.join(defaultMsalValues.tokenCache.directory, name);
