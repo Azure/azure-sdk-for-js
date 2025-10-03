@@ -106,7 +106,7 @@ sudo docker run \
 $image && \
 /usr/bin/echo $uuid
 "@
-$output = az vm run-command invoke -g $rg -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
+$output = az vm run-command invoke -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_VM_NAME'] --command-id RunShellScript --scripts "$vmScript" | Out-String
 Write-Host $output
 if (-not $output.Contains($uuid)) {
   throw "couldn't start container on VM"
