@@ -1,5 +1,15 @@
 # Release History
 
+## 21.7.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 21.7.0 (2025-08-14)
 
 ### Features Added
