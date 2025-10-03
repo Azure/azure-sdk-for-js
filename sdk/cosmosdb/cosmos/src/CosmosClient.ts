@@ -133,6 +133,12 @@ export class CosmosClient {
       optionsOrConnectionString.connectionPolicy,
     );
 
+    // If endpoint discovery is disabled, automatically disable partition level features
+    if (!optionsOrConnectionString.connectionPolicy.enableEndpointDiscovery) {
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover = false;
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker = false;
+    }
+
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
@@ -161,11 +167,6 @@ export class CosmosClient {
       optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
       optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
     ) {
-      if (!optionsOrConnectionString.connectionPolicy.enableEndpointDiscovery) {
-        throw new Error(
-          "enableEndpointDiscovery must be set to true to use partition level failover or circuit breaker.",
-        );
-      }
       this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
         optionsOrConnectionString,
         globalEndpointManager,
