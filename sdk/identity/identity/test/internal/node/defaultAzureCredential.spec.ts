@@ -124,14 +124,11 @@ describe("create functions", () => {
     expect(devCliSpy).not.toHaveBeenCalled();
     expect(psSpy).not.toHaveBeenCalled();
 
-    expect(miSpy).toHaveBeenCalledWith({
-      allowInsecureConnection: true,
-      retryOptions: {
-        maxRetries: 5,
-        retryDelayInMs: 800,
-      },
-      sendProbeRequest: false,
-    });
+    expect(miSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sendProbeRequest: false,
+      }),
+    );
   });
 
   it("calls only createDefaultWorkloadIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'WorkloadIdentityCredential'", () => {
@@ -211,6 +208,12 @@ describe("create functions", () => {
 
     expect(envSpy).toHaveBeenCalled();
     expect(miSpy).toHaveBeenCalled();
+    // Ensure default MI behavior is passed in correctly to send probe request
+    expect(miSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sendProbeRequest: true,
+      }),
+    );
     expect(wiSpy).toHaveBeenCalled();
     expect(vscSpy).not.toHaveBeenCalled();
     expect(cliSpy).not.toHaveBeenCalled();

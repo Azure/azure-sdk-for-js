@@ -185,7 +185,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     // 3. Returning a UnavailableDefaultCredential from the factory function if a credential is unavailable for any reason
     const credentials: TokenCredential[] = credentialFunctions.map((createCredentialFn) => {
       try {
-        return createCredentialFn(options);
+        return createCredentialFn(options ?? {});
       } catch (err: any) {
         logger.warning(
           `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
