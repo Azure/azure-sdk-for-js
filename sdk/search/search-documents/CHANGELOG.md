@@ -15,6 +15,10 @@
     use it when analyzing text with `SearchIndexClient.analyzeText` and `SearchIndexAsyncClient.analyzeText`.
   - Support `DocumentIntelligenceLayoutSkill` skillset skill and `OneLake` `SearchIndexerDataSourceConnection` data source.
 
+### Other Changes
+
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM.
+
 ## 12.2.0-beta.2 (2024-11-25)
 
 ### Features Added
