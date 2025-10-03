@@ -507,3 +507,23 @@ directive:
     where: $.definitions.WebApiSkill.properties.authResourceId
     transform: $["x-ms-format"] = "arm-id";
 ```
+
+### Retain `rerankWithOriginalVectors` and `defaultOversampling` in `VectorSearchCompression`
+
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.VectorSearchCompressionConfiguration
+  transform: >
+    $.properties.rerankWithOriginalVectors = {
+      "type": "boolean",
+      "description": "If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency.",
+      "x-nullable": true
+    };
+    $.properties.defaultOversampling = {
+      "type": "number",
+      "format": "double",
+      "description": "Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency.",
+      "x-nullable": true
+    };
+```

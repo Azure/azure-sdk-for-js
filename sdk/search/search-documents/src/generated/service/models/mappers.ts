@@ -2436,6 +2436,20 @@ export const VectorSearchCompression: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      rerankWithOriginalVectors: {
+        serializedName: "rerankWithOriginalVectors",
+        nullable: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      defaultOversampling: {
+        serializedName: "defaultOversampling",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };

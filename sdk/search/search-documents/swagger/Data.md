@@ -71,13 +71,19 @@ modelerfour:
       ActionType: $DO_NOT_NORMALIZE$__actionType
 ```
 
-### Change text to \_text in SuggestResult
+### Change text to _text only in SuggestResult
 
 ```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SuggestResult.properties["@search.text"]
+    transform: >
+      $["x-ms-client-name"] = "SuggestResult_text";
+
 modelerfour:
   naming:
     override:
-      Text: $DO_NOT_NORMALIZE$_text
+      SuggestResult_text: $DO_NOT_NORMALIZE$_text
 ```
 
 ### Preserve underscore prefix in some result type properties

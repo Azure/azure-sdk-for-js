@@ -216,7 +216,9 @@ export interface BaseVectorSearchAlgorithmConfiguration {
 // @public
 export interface BaseVectorSearchCompression {
     compressionName: string;
+    defaultOversampling?: number;
     kind: "scalarQuantization" | "binaryQuantization";
+    rerankWithOriginalVectors?: boolean;
     // Warning: (ae-forgotten-export) The symbol "RescoringOptions" needs to be exported by the entry point index.d.ts
     rescoringOptions?: RescoringOptions;
     truncationDimension?: number;
