@@ -23,6 +23,7 @@ import type {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
+  OnStreamArgs,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -37,9 +38,18 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
+  StreamSendMessage,
+  StreamAckMessage,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
+import type {
+  WebPubSubStreamHandler,
+  StreamOptions,
+  WebPubSubStream,
+  StreamHandler,
+} from "./streaming.js";
+import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
 import type {
@@ -81,6 +91,10 @@ export class WebPubSubClient {
   private _isStopping: boolean = false;
   private _ackId: number;
   private _activeKeepaliveTask: AbortableTask | undefined;
+
+  // streaming
+  private readonly _streams: Map<string, Stream> = new Map();
+  private readonly _streamHandlers: Map<string, StreamHandler> = new Map();
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -176,7 +190,7 @@ export class WebPubSubClient {
     }
 
     try {
-      logger.verbose("Staring reconnecting.");
+      logger.verbose("Starting reconnecting.");
       await this._startCore(abortSignal);
     } catch (err) {
       this._changeState(WebPubSubClientState.Disconnected);
@@ -338,6 +352,7 @@ export class WebPubSubClient {
   private _emitEvent(event: "server-message", args: OnServerDataMessageArgs): void;
   private _emitEvent(event: "group-message", args: OnGroupDataMessageArgs): void;
   private _emitEvent(event: "rejoin-group-failed", args: OnRejoinGroupFailedArgs): void;
+  private _emitEvent(event: "group-stream-message", args: OnStreamArgs): void;
   private _emitEvent(
     event:
       | "connected"
@@ -345,7 +360,8 @@ export class WebPubSubClient {
       | "stopped"
       | "server-message"
       | "group-message"
-      | "rejoin-group-failed",
+      | "rejoin-group-failed"
+      | "group-stream-message",
     args: any,
   ): void {
     this._emitter.emit(event, args);
@@ -500,6 +516,71 @@ export class WebPubSubClient {
     );
   }
 
+  /**
+   * Create a stream for sending messages to a group
+   * @param groupName - The group name
+   * @param streamId - The unique identifier for the stream (optional, auto-generated if not provided)
+   * @param options - Stream configuration options (optional, use default values if not provided)
+   * @returns Stream instance
+   */
+  public stream(groupName: string, streamId?: string, options?: StreamOptions): WebPubSubStream {
+    const actualStreamId = streamId || this._generateStreamId();
+
+    // Check if streamId is already in use
+    if (this._streams.has(actualStreamId)) {
+      throw new Error(`Stream with ID '${actualStreamId}' already exists`);
+    }
+
+    // Validate streamId if it was explicitly provided
+    if (streamId !== undefined && (!streamId || streamId.trim().length === 0)) {
+      throw new Error("Stream ID must be a non-empty string");
+    }
+
+    const stream = new Stream(
+      groupName,
+      actualStreamId,
+      (group, content, dataType, sId, sequenceId, endOfStream, abortSignal) =>
+        this._sendStreamMessage(
+          group,
+          content,
+          dataType,
+          sId,
+          sequenceId,
+          endOfStream,
+          abortSignal,
+        ),
+      options,
+    );
+
+    this._streams.set(actualStreamId, stream);
+    return stream;
+  }
+
+  /**
+   * Register a callback handler for stream messages in a group
+   * @param groupName - The group name
+   * @param callback - Callback handler to
+   */
+  public onStream(groupName: string, callback: (e: OnStreamArgs) => WebPubSubStreamHandler): void {
+    this._emitter.on("group-stream-message", (e: OnStreamArgs) => {
+      const { streamId, group: sourceGroup, data: message, endOfStream: isCompleted } = e.message;
+      if (groupName === sourceGroup) {
+        let handler = this._streamHandlers.get(streamId!);
+        if (!handler) {
+          const userHandler = callback(e);
+          // We expect users to return a handler from StreamHandlerFactory.create() which returns IStreamHandler
+          // but internally we need access to _handle* methods, so we cast to concrete type
+          handler = userHandler as StreamHandler;
+          this._streamHandlers.set(streamId!, handler);
+        }
+        handler._handleMessage(message);
+        if (isCompleted) {
+          handler._handleComplete();
+        }
+      }
+    });
+  }
+
   private async _sendToGroupAttempt(
     groupName: string,
     content: JSONTypes | ArrayBuffer,
@@ -535,6 +616,38 @@ export class WebPubSubClient {
 
     await this._sendMessage(message, options?.abortSignal);
     return { isDuplicated: false };
+  }
+
+  private _generateStreamId(): string {
+    return `stream_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  private async _sendStreamMessage(
+    groupName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    streamId: string,
+    streamSequenceId: number,
+    endOfStream: boolean,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void> {
+    const message: StreamSendMessage = {
+      kind: "sendToStream",
+      streamId,
+      streamSequenceId,
+      endOfStream,
+      group: groupName,
+      dataType: dataType,
+      data: content,
+    };
+
+    await this._sendMessage(message, abortSignal);
+  }
+
+  private _safeEmitStreamMessage(message: GroupDataMessage): void {
+    this._emitEvent("group-stream-message", {
+      message: message,
+    } as OnStreamArgs);
   }
 
   private _getWebSocketClientFactory(): WebSocketClientFactoryLike {
@@ -641,6 +754,19 @@ export class WebPubSubClient {
           }
         };
 
+        const handleStreamAckMessage = (message: StreamAckMessage): void => {
+          const stream = this._streams.get(message.streamId);
+          if (stream) {
+            const autoResendStreamMessages = this._options.autoResendStreamMessages || true;
+            stream._handleStreamAck(
+              message.lastProcessedSequenceId,
+              message.success,
+              autoResendStreamMessages,
+              message.error,
+            );
+          }
+        };
+
         const handleConnectedMessage = async (message: ConnectedMessage): Promise<void> => {
           this._connectionId = message.connectionId;
           this._reconnectionToken = message.reconnectionToken;
@@ -691,7 +817,12 @@ export class WebPubSubClient {
             }
           }
 
-          this._safeEmitGroupMessage(message);
+          // Check if this is a stream message
+          if (message.streamId) {
+            this._safeEmitStreamMessage(message);
+          } else {
+            this._safeEmitGroupMessage(message);
+          }
         };
 
         const handleServerDataMessage = (message: ServerDataMessage): void => {
@@ -719,7 +850,6 @@ export class WebPubSubClient {
           } else {
             convertedData = data;
           }
-
           messages = this._protocol.parseMessages(convertedData);
           if (messages === null) {
             // null means the message is not recognized.
@@ -739,6 +869,10 @@ export class WebPubSubClient {
             switch (message.kind) {
               case "ack": {
                 handleAckMessage(message as AckMessage);
+                break;
+              }
+              case "streamAck": {
+                handleStreamAckMessage(message as StreamAckMessage);
                 break;
               }
               case "connected": {
@@ -926,6 +1060,22 @@ export class WebPubSubClient {
         try {
           await this._connectCore.call(this, recoveryUri);
           recovered = true;
+          // Resend buffered stream messages
+          if (this._options && this._options.autoResendStreamMessages) {
+            logger.info("Resending buffered stream messages after reconnecting");
+            const handleStreamReconnectPromises: Promise<void>[] = [];
+            if (this._streams.size > 0) {
+              this._streams.forEach((stream) => {
+                if (stream._hasUnackedMessages()) {
+                  handleStreamReconnectPromises.push(stream._resendUnackedMessages(abortSignal));
+                }
+              });
+            }
+            // Wait for all stream reconnect promises to settle
+            await Promise.all(handleStreamReconnectPromises).catch((err) => {
+              logger.error("Failed to resend buffered stream messages while reconnecting", err);
+            });
+          }
           return;
         } catch {
           await delay(1000);
@@ -990,6 +1140,10 @@ export class WebPubSubClient {
 
     if (clientOptions.protocol == null) {
       clientOptions.protocol = WebPubSubJsonReliableProtocol();
+    }
+
+    if (clientOptions.autoResendStreamMessages == null) {
+      clientOptions.autoResendStreamMessages = true;
     }
 
     this._buildMessageRetryOptions(clientOptions);
