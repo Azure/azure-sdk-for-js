@@ -4167,6 +4167,9 @@ importers:
 
   sdk/communication/communication-email:
     dependencies:
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/communication-common':
         specifier: ^2.3.1
         version: link:../communication-common
@@ -4177,7 +4180,7 @@ importers:
         specifier: ^1.9.2
         version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.0
+        specifier: ^2.7.2
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
@@ -4199,7 +4202,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/arm-communication':
-        specifier: ^4.1.0
+        specifier: workspace:^
         version: link:../arm-communication
       '@azure/dev-tool':
         specifier: workspace:^
