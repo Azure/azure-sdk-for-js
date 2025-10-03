@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
- *
- * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
- */
-
 import {
   AttachDetachDataDisksRequest,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
+ *
+ * @summary Attach and detach data disks to/from the virtual machine.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
+ */
 async function virtualMachineAttachDetachDataDisksMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -73,7 +72,7 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen(): Promise<void>
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMinimumSetGen(): Promise<void> {
   const subscriptionId =

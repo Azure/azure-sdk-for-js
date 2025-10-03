@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceClient.",
-  "version": "23.0.0-beta.3",
+  "version": "23.0.0-beta.4",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -55,20 +55,19 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "pack": "pnpm pack 2>&1",
+    "pack": "npm pack 2>&1",
     "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "build:samples": "echo skipped.",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "execute:samples": "echo skipped",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
     "test:browser": "echo skipped",
     "update-snippets": "dev-tool run update-snippets",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser"
+    "test:node:esm": "dev-tool run test:vitest --esm"
   },
   "sideEffects": false,
   "//metadata": {
@@ -83,7 +82,7 @@
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

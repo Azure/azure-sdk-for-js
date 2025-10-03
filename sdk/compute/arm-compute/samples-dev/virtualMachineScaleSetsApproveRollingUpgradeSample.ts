@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
- *
- * @summary Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
- */
-
 import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams,
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+ *
+ * @summary Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
+ */
 async function virtualMachineScaleSetApproveRollingUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

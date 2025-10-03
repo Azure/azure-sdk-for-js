@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureMigrateV2.",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "engines": {
     "node": ">=20.0.0"
   },

@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a managed namespace in the specified managed cluster.
- *
- * @summary Creates or updates a managed namespace in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/ManagedNamespacesCreate_Update.json
- */
-
 import type {
   ManagedNamespace} from "@azure/arm-containerservice";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates a managed namespace in the specified managed cluster.
+ *
+ * @summary Creates or updates a managed namespace in the specified managed cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/ManagedNamespacesCreate_Update.json
+ */
 async function createOrUpdateManagedNamespace(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||

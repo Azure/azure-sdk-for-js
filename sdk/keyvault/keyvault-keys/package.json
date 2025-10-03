@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.10.1",
+  "version": "4.10.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md",
@@ -38,8 +38,8 @@
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log dist-browser statistics.html coverage && dev-tool run vendored rimraf --glob src/**/*.js && dev-tool run vendored rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "tsp-client update -d -o src/generated --emitter-options=\"generate-metadata=false;generate-test=false\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\" && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -51,10 +51,6 @@
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "src/generated/keyVaultClient.ts",
-        "prefix": "packageDetails"
-      },
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"

@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for PowerBIEmbeddedManagementClient.",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "engines": {
     "node": ">=20.0.0"
   },

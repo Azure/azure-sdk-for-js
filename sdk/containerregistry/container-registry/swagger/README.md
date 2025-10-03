@@ -20,7 +20,7 @@ override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
 api-version-parameter: choice
-package-version: 1.1.1
+package-version: 1.1.2
 module-kind: esm
 use-extension:
   "@autorest/typescript": "6.0.34"

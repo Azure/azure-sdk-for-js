@@ -64,7 +64,7 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-maps/3.1.1`;
+    const packageDetails = `azsdk-js-arm-maps/3.1.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
