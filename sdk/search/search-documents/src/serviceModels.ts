@@ -898,8 +898,8 @@ export interface SimpleField {
    * contents in a search response to save on storage overhead. This can only be set during index
    * creation and only for vector fields. This property cannot be changed for existing fields or set
    * as false for new fields. If this property is set as false, the property 'hidden' must be set to
-   * 'true'. This property must be false or unset for key fields, for new fields, and for non-vector
-   * fields. Disabling this property will reduce index storage requirements.
+   * 'true'. This property must be true or unset for key fields, for new fields, and for non-vector
+   * fields. Disabling this property will reduce index storage requirements. The default is true for vector fields.
    */
   stored?: boolean;
   /**
