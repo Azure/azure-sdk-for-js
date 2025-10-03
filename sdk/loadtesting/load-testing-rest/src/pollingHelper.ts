@@ -12,19 +12,23 @@ import type {
   TestRunCreateOrUpdateSuccessResponse,
   TestProfileRunCreateOrUpdateSuccessResponse,
   TestProfileRunCompletionPoller,
+  PolledOperationOptions,
 } from "./models.js";
 
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestUploadFileSuccessResponse,
+  polledOperationOptions?: PolledOperationOptions,
 ): Promise<FileUploadAndValidatePoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestRunCreateOrUpdateSuccessResponse,
+  polledOperationOptions?: PolledOperationOptions,
 ): Promise<TestRunCompletionPoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestProfileRunCreateOrUpdateSuccessResponse,
+  polledOperationOptions?: PolledOperationOptions,
 ): Promise<TestProfileRunCompletionPoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
@@ -32,13 +36,14 @@ export async function getLongRunningPoller(
     | TestRunCreateOrUpdateSuccessResponse
     | TestUploadFileSuccessResponse
     | TestProfileRunCreateOrUpdateSuccessResponse,
+  polledOperationOptions: PolledOperationOptions = {},
 ): Promise<TestRunCompletionPoller | FileUploadAndValidatePoller | TestProfileRunCompletionPoller> {
   if (isFileUpload(initialResponse)) {
-    return getFileValidationPoller(client, initialResponse);
+    return getFileValidationPoller(client, initialResponse, polledOperationOptions);
   } else if (isTestRunCreation(initialResponse)) {
-    return getTestRunCompletionPoller(client, initialResponse);
+    return getTestRunCompletionPoller(client, initialResponse, polledOperationOptions);
   } else if (isTestProfileRunCreation(initialResponse)) {
-    return getTestProfileRunCompletionPoller(client, initialResponse);
+    return getTestProfileRunCompletionPoller(client, initialResponse, polledOperationOptions);
   }
 
   throw new Error("The Operation is not a long running operation.");
