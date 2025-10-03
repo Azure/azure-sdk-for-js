@@ -6,8 +6,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AsciiFoldingTokenFilter,
   AzureOpenAIModelName,
-  BinaryQuantizationCompression,
   BM25Similarity,
+  BinaryQuantizationCompression,
   CharFilterName,
   CjkBigramTokenFilter,
   ClassicSimilarity,
@@ -17,10 +17,12 @@ import {
   ConditionalSkill,
   CorsOptions,
   CustomEntity,
+  CustomNormalizer,
   DefaultCognitiveServicesAccount,
   DictionaryDecompounderTokenFilter,
   DistanceScoringFunction,
   DocumentExtractionSkill,
+  DocumentIntelligenceLayoutSkill,
   EdgeNGramTokenFilterSide,
   EdgeNGramTokenizer,
   ElisionTokenFilter,
@@ -29,14 +31,14 @@ import {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
-  IndexingSchedule,
   IndexProjectionMode,
+  IndexingSchedule,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
-  KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
+  KnownBlobIndexerParsingMode,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
   KnownEntityCategory,
@@ -64,6 +66,7 @@ import {
   LengthTokenFilter,
   LexicalAnalyzerName,
   LexicalNormalizer as BaseLexicalNormalizer,
+  LexicalNormalizerName,
   LexicalTokenizerName,
   LimitTokenFilter,
   LuceneStandardAnalyzer,
@@ -111,8 +114,6 @@ import {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-  CustomNormalizer,
-  LexicalNormalizerName,
 } from "./generated/service/models/index.js";
 
 /**
@@ -602,6 +603,7 @@ export type SearchIndexerSkill =
   | ConditionalSkill
   | CustomEntityLookupSkill
   | DocumentExtractionSkill
+  | DocumentIntelligenceLayoutSkill
   | EntityLinkingSkill
   | EntityRecognitionSkill
   | EntityRecognitionSkillV3

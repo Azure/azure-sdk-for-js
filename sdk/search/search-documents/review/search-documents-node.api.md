@@ -219,7 +219,6 @@ export interface BaseVectorSearchCompression {
     defaultOversampling?: number;
     kind: "scalarQuantization" | "binaryQuantization";
     rerankWithOriginalVectors?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "RescoringOptions" needs to be exported by the entry point index.d.ts
     rescoringOptions?: RescoringOptions;
     truncationDimension?: number;
 }
@@ -499,6 +498,38 @@ export interface DocumentExtractionSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
     parsingMode?: string;
 }
+
+// @public
+export interface DocumentIntelligenceLayoutSkill extends BaseSearchIndexerSkill {
+    chunkingProperties?: DocumentIntelligenceLayoutSkillChunkingProperties;
+    extractionOptions?: DocumentIntelligenceLayoutSkillExtractionOptions[];
+    markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth;
+    odatatype: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill";
+    outputFormat?: DocumentIntelligenceLayoutSkillOutputFormat;
+    outputMode?: DocumentIntelligenceLayoutSkillOutputMode;
+}
+
+// @public
+export interface DocumentIntelligenceLayoutSkillChunkingProperties {
+    maximumLength?: number;
+    overlapLength?: number;
+    unit?: DocumentIntelligenceLayoutSkillChunkingUnit;
+}
+
+// @public
+export type DocumentIntelligenceLayoutSkillChunkingUnit = string;
+
+// @public
+export type DocumentIntelligenceLayoutSkillExtractionOptions = string;
+
+// @public
+export type DocumentIntelligenceLayoutSkillMarkdownHeaderDepth = string;
+
+// @public
+export type DocumentIntelligenceLayoutSkillOutputFormat = string;
+
+// @public
+export type DocumentIntelligenceLayoutSkillOutputMode = string;
 
 // @public
 export interface EdgeNGramTokenFilter {
@@ -1006,6 +1037,32 @@ export enum KnownCustomEntityLookupSkillLanguage {
     It = "it",
     Ko = "ko",
     Pt = "pt"
+}
+
+// @public
+export enum KnownDocumentIntelligenceLayoutSkillChunkingUnit {
+    Characters = "characters"
+}
+
+// @public
+export enum KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth {
+    H1 = "h1",
+    H2 = "h2",
+    H3 = "h3",
+    H4 = "h4",
+    H5 = "h5",
+    H6 = "h6"
+}
+
+// @public
+export enum KnownDocumentIntelligenceLayoutSkillOutputFormat {
+    Markdown = "markdown",
+    Text = "text"
+}
+
+// @public
+export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
+    OneToMany = "oneToMany"
 }
 
 // @public
@@ -1640,6 +1697,12 @@ export enum KnownVectorSearchCompressionKind {
 }
 
 // @public
+export enum KnownVectorSearchCompressionRescoreStorageMethod {
+    DiscardOriginals = "discardOriginals",
+    PreserveOriginals = "preserveOriginals"
+}
+
+// @public
 export enum KnownVectorSearchCompressionTarget {
     Int8 = "int8"
 }
@@ -1934,6 +1997,13 @@ export type RankingOrder = string;
 
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
+
+// @public
+export interface RescoringOptions {
+    defaultOversampling?: number;
+    enableRescoring?: boolean;
+    rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
+}
 
 // @public
 export type ResetIndexerOptions = OperationOptions;
@@ -2269,7 +2339,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
+export type SearchIndexerSkill = AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | DocumentIntelligenceLayoutSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
 
 // @public
 export interface SearchIndexerSkillset {
@@ -2780,6 +2850,9 @@ export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuan
 
 // @public
 export type VectorSearchCompressionKind = string;
+
+// @public
+export type VectorSearchCompressionRescoreStorageMethod = string;
 
 // @public
 export type VectorSearchCompressionTarget = string;
