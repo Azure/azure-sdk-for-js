@@ -10,12 +10,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14531a7cf6101c1dd57e7c1c83103a047bb8f5bb/specification/search/data-plane/Azure.Search/preview/2024-11-01-preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/613315ec5a543cdc0f0b259b23a5ae02f46663dc/specification/search/data-plane/Azure.Search/stable/2025-09-01/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.34"
 core-http-compat-mode: true
-package-version: 12.2.0-beta.2
+package-version: 12.2.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -506,4 +506,24 @@ directive:
   - from: swagger-document
     where: $.definitions.WebApiSkill.properties.authResourceId
     transform: $["x-ms-format"] = "arm-id";
+```
+
+### Retain `rerankWithOriginalVectors` and `defaultOversampling` in `VectorSearchCompression`
+
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.VectorSearchCompressionConfiguration
+  transform: >
+    $.properties.rerankWithOriginalVectors = {
+      "type": "boolean",
+      "description": "If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency.",
+      "x-nullable": true
+    };
+    $.properties.defaultOversampling = {
+      "type": "number",
+      "format": "double",
+      "description": "Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency.",
+      "x-nullable": true
+    };
 ```

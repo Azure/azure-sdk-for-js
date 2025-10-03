@@ -206,6 +206,9 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
+    206: {
+      bodyMapper: Mappers.SearchDocumentsResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -237,11 +240,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.answers,
     Parameters.captions,
     Parameters.semanticQuery,
-    Parameters.queryRewrites,
     Parameters.debug,
-    Parameters.queryLanguage,
-    Parameters.speller,
-    Parameters.semanticFields,
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept],
@@ -252,6 +251,9 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
+      bodyMapper: Mappers.SearchDocumentsResult,
+    },
+    206: {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
     default: {

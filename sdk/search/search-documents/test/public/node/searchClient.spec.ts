@@ -95,7 +95,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
 
     const baseSemanticOptions = () =>
       ({
-        queryLanguage: KnownQueryLanguage.EnUs,
+        // queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -109,8 +109,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         skip: 0,
         top: 5,
         includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownQuerySpeller.Lexicon,
+        // queryLanguage: KnownQueryLanguage.EnUs,
+        // speller: KnownQuerySpeller.Lexicon,
       });
       assert.equal(searchResults.count, 6);
     });
@@ -164,7 +164,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
               },
             },
           },
-          result.documentDebugInfo,
+          // result.documentDebugInfo,
         );
       }
     });

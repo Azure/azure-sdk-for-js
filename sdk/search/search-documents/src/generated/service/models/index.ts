@@ -9,18 +9,13 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
-export type SearchIndexerDataIdentityUnion =
-  | SearchIndexerDataIdentity
-  | SearchIndexerDataNoneIdentity
-  | SearchIndexerDataUserAssignedIdentity;
 export type DataChangeDetectionPolicyUnion =
   | DataChangeDetectionPolicy
   | HighWaterMarkChangeDetectionPolicy
   | SqlIntegratedChangeTrackingPolicy;
 export type DataDeletionDetectionPolicyUnion =
   | DataDeletionDetectionPolicy
-  | SoftDeleteColumnDeletionDetectionPolicy
-  | NativeBlobSoftDeleteDeletionDetectionPolicy;
+  | SoftDeleteColumnDeletionDetectionPolicy;
 export type SearchIndexerSkillUnion =
   | SearchIndexerSkill
   | ConditionalSkill
@@ -42,15 +37,11 @@ export type SearchIndexerSkillUnion =
   | DocumentExtractionSkill
   | DocumentIntelligenceLayoutSkill
   | WebApiSkill
-  | AzureMachineLearningSkill
-  | AzureOpenAIEmbeddingSkill
-  | VisionVectorizeSkill;
+  | AzureOpenAIEmbeddingSkill;
 export type CognitiveServicesAccountUnion =
   | CognitiveServicesAccount
   | DefaultCognitiveServicesAccount
-  | CognitiveServicesAccountKey
-  | AIServicesAccountKey
-  | AIServicesAccountIdentity;
+  | CognitiveServicesAccountKey;
 export type ScoringFunctionUnion =
   | ScoringFunction
   | DistanceScoringFunction
@@ -117,13 +108,15 @@ export type VectorSearchAlgorithmConfigurationUnion =
 export type VectorSearchVectorizerUnion =
   | VectorSearchVectorizer
   | AzureOpenAIVectorizer
-  | WebApiVectorizer
-  | AIServicesVisionVectorizer
-  | AMLVectorizer;
+  | WebApiVectorizer;
 export type VectorSearchCompressionUnion =
   | VectorSearchCompression
   | ScalarQuantizationCompression
   | BinaryQuantizationCompression;
+export type SearchIndexerDataIdentityUnion =
+  | SearchIndexerDataIdentity
+  | SearchIndexerDataNoneIdentity
+  | SearchIndexerDataUserAssignedIdentity;
 
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSource {
@@ -137,8 +130,6 @@ export interface SearchIndexerDataSource {
   credentials: DataSourceCredentials;
   /** The data container for the datasource. */
   container: SearchIndexerDataContainer;
-  /** An explicit managed identity to use for this datasource. If not specified and the connection string is a managed identity, the system-assigned managed identity is used. If not specified, the value remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion;
   /** The data change detection policy for the datasource. */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion;
   /** The data deletion detection policy for the datasource. */
@@ -151,24 +142,16 @@ export interface SearchIndexerDataSource {
 
 /** Represents credentials that can be used to connect to a datasource. */
 export interface DataSourceCredentials {
-  /** The connection string for the datasource. Set to `<unchanged>` (with brackets) if you don't want the connection string updated. Set to `<redacted>` if you want to remove the connection string value from the datasource. */
+  /** The connection string for the datasource. For Azure SQL, Azure Blob, ADLS Gen 2 and Azure Table, this would be the connection string or resource ID if using managed identity. For CosmosDB this would be a formatted connection string specifying ApiKind or resource ID for managed identity. For Onelake files, connection string would be either the workspace guid or workspace FQDN; Onelake only supports managed identity connections. Set to `<unchanged>` (with brackets) if you don't want the connection string updated. Set to `<redacted>` if you want to remove the connection string value from the datasource. */
   connectionString?: string;
 }
 
 /** Represents information about the entity (such as Azure SQL table or CosmosDB collection) that will be indexed. */
 export interface SearchIndexerDataContainer {
-  /** The name of the table or view (for Azure SQL data source) or collection (for CosmosDB data source) that will be indexed. */
+  /** The name of the table or view (for Azure SQL datasource), collection (for CosmosDB datasource), container (for Azure Blob and ADLS Gen 2 datasources), Azure Table (for Azure Table datasource), or lakehouse (for Onelake datasource) that will be indexed. */
   name: string;
-  /** A query that is applied to this data container. The syntax and meaning of this parameter is datasource-specific. Not supported by Azure SQL datasources. */
+  /** A query that is applied to this data container. For CosmosDB datasource query can flatten and filter data. For Azure Blob and ADLS Gen 2 query can filter by folders. For Azure Table query can filter by row data. For Onelake query can filter by folder or shortcut. Not supported by Azure SQL datasources. */
   query?: string;
-}
-
-/** Abstract base type for data identities. */
-export interface SearchIndexerDataIdentity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype:
-    | "#Microsoft.Azure.Search.DataNoneIdentity"
-    | "#Microsoft.Azure.Search.DataUserAssignedIdentity";
 }
 
 /** Base type for data change detection policies. */
@@ -182,9 +165,7 @@ export interface DataChangeDetectionPolicy {
 /** Base type for data deletion detection policies. */
 export interface DataDeletionDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype:
-    | "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy"
-    | "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy";
+  odatatype: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
 }
 
 /** A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest, such as indexes and synonym maps. */
@@ -197,8 +178,6 @@ export interface SearchResourceEncryptionKey {
   vaultUri: string;
   /** Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not required if using managed identity instead. */
   accessCredentials?: AzureActiveDirectoryApplicationCredentials;
-  /** An explicit managed identity to use for this encryption key. If not specified and the access credentials property is null, the system-assigned managed identity is used. On update to the resource, if the explicit identity is unspecified, it remains unchanged. If "none" is specified, the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion;
 }
 
 /** Credentials of a registered application created for your search service, used for authenticated access to the encryption keys stored in Azure Key Vault. */
@@ -267,13 +246,6 @@ export interface ListDataSourcesResult {
   readonly dataSources: SearchIndexerDataSource[];
 }
 
-export interface DocumentKeysOrIds {
-  /** document keys to be reset */
-  documentKeys?: string[];
-  /** datasource document identifiers to be reset */
-  datasourceDocumentIds?: string[];
-}
-
 /** Represents an indexer. */
 export interface SearchIndexer {
   /** The name of the indexer. */
@@ -300,8 +272,6 @@ export interface SearchIndexer {
   etag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your indexer definition (as well as indexer execution status) when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your indexer definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your indexer definition (and indexer execution status) will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
-  /** Adds caching to an enrichment pipeline to allow for incremental modification steps without having to rebuild the index every time. */
-  cache?: SearchIndexerCache;
 }
 
 /** Represents a schedule for indexer execution. */
@@ -346,10 +316,6 @@ export interface IndexingParametersConfiguration {
   delimitedTextDelimiter?: string;
   /** For CSV blobs, indicates that the first (non-blank) line of each blob contains headers. */
   firstLineContainsHeaders?: boolean;
-  /** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
-  markdownParsingSubmode?: MarkdownParsingSubmode;
-  /** Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. */
-  markdownHeaderDepth?: MarkdownHeaderDepth;
   /** For JSON arrays, given a structured or semi-structured document, you can specify a path to the array using this property. */
   documentRoot?: string;
   /** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
@@ -384,15 +350,6 @@ export interface FieldMappingFunction {
   parameters?: { [propertyName: string]: any };
 }
 
-export interface SearchIndexerCache {
-  /** The connection string to the storage account where the cache data will be persisted. */
-  storageConnectionString?: string;
-  /** Specifies whether incremental reprocessing is enabled. */
-  enableReprocessing?: boolean;
-  /** The user-assigned managed identity used for connections to the enrichment cache.  If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion;
-}
-
 /** Response from a List Indexers request. If successful, it includes the full definitions of all indexers. */
 export interface ListIndexersResult {
   /**
@@ -404,6 +361,11 @@ export interface ListIndexersResult {
 
 /** Represents the current status and execution history of an indexer. */
 export interface SearchIndexerStatus {
+  /**
+   * The name of the indexer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
   /**
    * Overall indexer status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -433,16 +395,6 @@ export interface IndexerExecutionResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status: IndexerExecutionStatus;
-  /**
-   * The outcome of this indexer execution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusDetail?: IndexerExecutionStatusDetail;
-  /**
-   * All of the state that defines and dictates the indexer's current execution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currentState?: IndexerState;
   /**
    * The error message indicating the top-level error, if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -488,45 +440,6 @@ export interface IndexerExecutionResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly finalTrackingState?: string;
-}
-
-/** Represents all of the state that defines and dictates the indexer's current execution. */
-export interface IndexerState {
-  /**
-   * The mode the indexer is running in.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mode?: IndexingMode;
-  /**
-   * Change tracking state used when indexing starts on all documents in the datasource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly allDocumentsInitialChangeTrackingState?: string;
-  /**
-   * Change tracking state value when indexing finishes on all documents in the datasource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly allDocumentsFinalChangeTrackingState?: string;
-  /**
-   * Change tracking state used when indexing starts on select, reset documents in the datasource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resetDocumentsInitialChangeTrackingState?: string;
-  /**
-   * Change tracking state value when indexing finishes on select, reset documents in the datasource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resetDocumentsFinalChangeTrackingState?: string;
-  /**
-   * The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resetDocumentKeys?: string[];
-  /**
-   * The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resetDatasourceDocumentIds?: string[];
 }
 
 /** Represents an item- or document-level indexing error. */
@@ -653,9 +566,7 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Util.DocumentExtractionSkill"
     | "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill"
     | "#Microsoft.Skills.Custom.WebApiSkill"
-    | "#Microsoft.Skills.Custom.AmlSkill"
-    | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill"
-    | "#Microsoft.Skills.Vision.VectorizeSkill";
+    | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
   name?: string;
   /** The description of the skill which describes the inputs, outputs, and usage of the skill. */
@@ -693,9 +604,7 @@ export interface CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
     | "#Microsoft.Azure.Search.DefaultCognitiveServices"
-    | "#Microsoft.Azure.Search.CognitiveServicesByKey"
-    | "#Microsoft.Azure.Search.AIServicesByKey"
-    | "#Microsoft.Azure.Search.AIServicesByIdentity";
+    | "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** Description of the Azure AI service resource attached to a skillset. */
   description?: string;
 }
@@ -706,10 +615,6 @@ export interface SearchIndexerKnowledgeStore {
   storageConnectionString: string;
   /** A list of additional projections to perform during indexing. */
   projections: SearchIndexerKnowledgeStoreProjection[];
-  /** The user-assigned managed identity used for connections to Azure Storage when writing knowledge store projections. If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion;
-  /** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-  parameters?: SearchIndexerKnowledgeStoreParameters;
 }
 
 /** Container object for various projection selectors. */
@@ -734,14 +639,6 @@ export interface SearchIndexerKnowledgeStoreProjectionSelector {
   sourceContext?: string;
   /** Nested inputs for complex projections. */
   inputs?: InputFieldMappingEntry[];
-}
-
-/** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-export interface SearchIndexerKnowledgeStoreParameters {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Whether or not projections should synthesize a generated key name if one isn't already present. */
-  synthesizeGeneratedKeyName?: boolean;
 }
 
 /** Definition of additional projections to secondary search indexes. */
@@ -781,11 +678,6 @@ export interface ListSkillsetsResult {
   readonly skillsets: SearchIndexerSkillset[];
 }
 
-export interface SkillNames {
-  /** the names of skills to be reset. */
-  skillNames?: string[];
-}
-
 /** Represents a synonym map definition. */
 export interface SynonymMap {
   /** The name of the synonym map. */
@@ -813,6 +705,8 @@ export interface ListSynonymMapsResult {
 export interface SearchIndex {
   /** The name of the index. */
   name: string;
+  /** The description of the index. */
+  description?: string;
   /** The fields of the index. */
   fields: SearchField[];
   /** The scoring profiles for the index. */
@@ -1038,6 +932,8 @@ export interface SemanticConfiguration {
   name: string;
   /** Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. */
   prioritizedFields: SemanticPrioritizedFields;
+  /** Specifies the score type to be used for the sort order of the search results. */
+  rankingOrder?: RankingOrder;
 }
 
 /** Describes the title, content, and keywords fields to be used for semantic ranking, captions, highlights, and answers. */
@@ -1090,7 +986,7 @@ export interface VectorSearchAlgorithmConfiguration {
 /** Specifies the vectorization method to be used during query time. */
 export interface VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "azureOpenAI" | "customWebApi" | "aiServicesVision" | "aml";
+  kind: "azureOpenAI" | "customWebApi";
   /** The name to associate with this particular vectorization method. */
   vectorizerName: string;
 }
@@ -1101,14 +997,14 @@ export interface VectorSearchCompression {
   kind: "scalarQuantization" | "binaryQuantization";
   /** The name to associate with this particular configuration. */
   compressionName: string;
-  /** If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency. */
-  rerankWithOriginalVectors?: boolean;
-  /** Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency. */
-  defaultOversampling?: number;
   /** Contains the options for rescoring. */
   rescoringOptions?: RescoringOptions;
   /** The number of dimensions to truncate the vectors to. Truncating the vectors reduces the size of the vectors and the amount of data that needs to be transferred during search. This can save storage cost and improve search performance at the expense of recall. It should be only used for embeddings trained with Matryoshka Representation Learning (MRL) such as OpenAI text-embedding-3-large (small). The default value is null, which means no truncation. */
   truncationDimension?: number;
+  /** If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency. */
+  rerankWithOriginalVectors?: boolean;
+  /** Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency. */
+  defaultOversampling?: number;
 }
 
 /** Contains the options for rescoring. */
@@ -1195,25 +1091,6 @@ export interface AnalyzedTokenInfo {
   readonly position: number;
 }
 
-/** Represents an index alias, which describes a mapping from the alias name to an index. The alias name can be used in place of the index name for supported operations. */
-export interface SearchAlias {
-  /** The name of the alias. */
-  name: string;
-  /** The name of the index this alias maps to. Only one index name may be specified. */
-  indexes: string[];
-  /** The ETag of the alias. */
-  etag?: string;
-}
-
-/** Response from a List Aliases request. If successful, it includes the associated index mappings for all aliases. */
-export interface ListAliasesResult {
-  /**
-   * The aliases in the Search service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aliases: SearchAlias[];
-}
-
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface ServiceStatistics {
   /** Service level resource counters. */
@@ -1224,8 +1101,6 @@ export interface ServiceStatistics {
 
 /** Represents service-level resource counters and quotas. */
 export interface ServiceCounters {
-  /** Total number of aliases. */
-  aliasCounter: ResourceCounter;
   /** Total number of documents across all indexes in the service. */
   documentCounter: ResourceCounter;
   /** Total number of indexes. */
@@ -1304,6 +1179,14 @@ export interface AzureOpenAIParameters {
   modelName?: AzureOpenAIModelName;
 }
 
+/** Abstract base type for data identities. */
+export interface SearchIndexerDataIdentity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype:
+    | "#Microsoft.Azure.Search.DataNoneIdentity"
+    | "#Microsoft.Azure.Search.DataUserAssignedIdentity";
+}
+
 /** Specifies the properties for connecting to a user-defined vectorizer. */
 export interface WebApiParameters {
   /** The URI of the Web API providing the vectorizer. */
@@ -1318,34 +1201,6 @@ export interface WebApiParameters {
   authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   authIdentity?: SearchIndexerDataIdentityUnion;
-}
-
-/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
-export interface AIServicesVisionParameters {
-  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
-  /** The resource URI of the AI Services resource. */
-  resourceUri: string;
-  /** API key of the designated AI Services resource. */
-  apiKey?: string;
-  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion;
-}
-
-/** Specifies the properties for connecting to an AML vectorizer. */
-export interface AMLParameters {
-  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri: string | null;
-  /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string;
-  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string;
-  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string;
-  /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string;
-  /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
-  modelName?: AIStudioModelCatalogName;
 }
 
 /** Provides parameter values to a distance scoring function. */
@@ -1376,6 +1231,14 @@ export interface MagnitudeScoringParameters {
 export interface TagScoringParameters {
   /** The name of the parameter passed in search queries to specify the list of tags to compare against the target field. */
   tagsParameter: string;
+}
+
+/** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
+export interface SearchIndexerKnowledgeStoreParameters {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Whether or not projections should synthesize a generated key name if one isn't already present. */
+  synthesizeGeneratedKeyName?: boolean;
 }
 
 /** An object that contains information about the matches that were found, and related metadata. */
@@ -1418,27 +1281,14 @@ export interface CustomEntityAlias {
   fuzzyEditDistance?: number;
 }
 
-export interface AzureOpenAITokenizerParameters {
-  /** Only applies if the unit is set to azureOpenAITokens. Options include 'R50k_base', 'P50k_base', 'P50k_edit' and 'CL100k_base'. The default value is 'CL100k_base'. */
-  encoderModelName?: SplitSkillEncoderModelName;
-  /** (Optional) Only applies if the unit is set to azureOpenAITokens. This parameter defines a collection of special tokens that are permitted within the tokenization process. */
-  allowedSpecialTokens?: string[];
-}
-
-/** Clears the identity property of a datasource. */
-export interface SearchIndexerDataNoneIdentity
-  extends SearchIndexerDataIdentity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
-}
-
-/** Specifies the identity for a datasource to use. */
-export interface SearchIndexerDataUserAssignedIdentity
-  extends SearchIndexerDataIdentity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
-  /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
-  resourceId: string;
+/** Controls the cardinality for chunking the content. */
+export interface DocumentIntelligenceLayoutSkillChunkingProperties {
+  /** The unit of the chunk. */
+  unit?: DocumentIntelligenceLayoutSkillChunkingUnit;
+  /** The maximum chunk length in characters. Default is 500. */
+  maximumLength?: number;
+  /** The length of overlap provided between two text chunks. Default is 0. */
+  overlapLength?: number;
 }
 
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
@@ -1466,13 +1316,6 @@ export interface SoftDeleteColumnDeletionDetectionPolicy
   softDeleteColumnName?: string;
   /** The marker value that identifies an item as deleted. */
   softDeleteMarkerValue?: string;
-}
-
-/** Defines a data deletion detection policy utilizing Azure Blob Storage's native soft delete feature for deletion detection. */
-export interface NativeBlobSoftDeleteDeletionDetectionPolicy
-  extends DataDeletionDetectionPolicy {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy";
 }
 
 /** A skill that enables scenarios that require a Boolean operation to determine the data to assign to an output. */
@@ -1645,10 +1488,6 @@ export interface SplitSkill extends SearchIndexerSkill {
   pageOverlapLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
   maximumPagesToTake?: number;
-  /** Only applies if textSplitMode is set to pages. There are two possible values. The choice of the values will decide the length (maximumPageLength and pageOverlapLength) measurement. The default is 'characters', which means the length will be measured by character. */
-  unit?: SplitSkillUnit;
-  /** Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use these parameters when performing the tokenization. The parameters are a valid 'encoderModelName' and an optional 'allowedSpecialTokens' property. */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
@@ -1693,14 +1532,20 @@ export interface DocumentExtractionSkill extends SearchIndexerSkill {
   configuration?: { [propertyName: string]: any };
 }
 
-/** A skill that extracts content and layout information (as markdown), via Azure AI Services, from files within the enrichment pipeline. */
+/** A skill that extracts content and layout information, via Azure AI Services, from files within the enrichment pipeline. */
 export interface DocumentIntelligenceLayoutSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill";
+  /** Controls the cardinality of the output format. Default is 'markdown'. */
+  outputFormat?: DocumentIntelligenceLayoutSkillOutputFormat;
   /** Controls the cardinality of the output produced by the skill. Default is 'oneToMany'. */
   outputMode?: DocumentIntelligenceLayoutSkillOutputMode;
   /** The depth of headers in the markdown output. Default is h6. */
   markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth;
+  /** Controls the cardinality of the content extracted from the document by the skill */
+  extractionOptions?: DocumentIntelligenceLayoutSkillExtractionOptions[];
+  /** Controls the cardinality for chunking the content. */
+  chunkingProperties?: DocumentIntelligenceLayoutSkillChunkingProperties;
 }
 
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
@@ -1725,24 +1570,6 @@ export interface WebApiSkill extends SearchIndexerSkill {
   authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
-/** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
-export interface AzureMachineLearningSkill extends SearchIndexerSkill {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Skills.Custom.AmlSkill";
-  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri?: string;
-  /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string;
-  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string;
-  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string;
-  /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string;
-  /** (Optional) When specified, indicates the number of calls the indexer will make in parallel to the endpoint you have provided. You can decrease this value if your endpoint is failing under too high of a request load, or raise it if your endpoint is able to accept more requests and you would like an increase in the performance of the indexer. If not set, a default value of 5 is used. The degreeOfParallelism can be set to a maximum of 10 and a minimum of 1. */
-  degreeOfParallelism?: number;
-}
-
 /** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
 export interface AzureOpenAIEmbeddingSkill
   extends SearchIndexerSkill,
@@ -1751,14 +1578,6 @@ export interface AzureOpenAIEmbeddingSkill
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
   /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
   dimensions?: number;
-}
-
-/** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
-export interface VisionVectorizeSkill extends SearchIndexerSkill {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
-  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
 }
 
 /** An empty object that represents the default Azure AI service resource for a skillset. */
@@ -1774,26 +1593,6 @@ export interface CognitiveServicesAccountKey extends CognitiveServicesAccount {
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
-}
-
-/** The account key of an Azure AI service resource that's attached to a skillset, to be used with the resource's subdomain. */
-export interface AIServicesAccountKey extends CognitiveServicesAccount {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
-  /** The key used to provision the Azure AI service resource attached to a skillset. */
-  key: string;
-  /** The subdomain url for the corresponding AI Service. */
-  subdomainUrl: string;
-}
-
-/** The multi-region account of an Azure AI service resource that's attached to a skillset. */
-export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
-  /** The user-assigned managed identity used for connections to AI Service. If not specified, the system-assigned managed identity is used. On updates to the skillset, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity: SearchIndexerDataIdentityUnion | null;
-  /** The subdomain url for the corresponding AI Service. */
-  subdomainUrl: string;
 }
 
 /** Description for what data to store in Azure Tables. */
@@ -2366,22 +2165,6 @@ export interface WebApiVectorizer extends VectorSearchVectorizer {
   parameters?: WebApiParameters;
 }
 
-/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
-export interface AIServicesVisionVectorizer extends VectorSearchVectorizer {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "aiServicesVision";
-  /** Contains the parameters specific to AI Services Vision embedding vectorization. */
-  aIServicesVisionParameters?: AIServicesVisionParameters;
-}
-
-/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for generating the vector embedding of a query string. */
-export interface AMLVectorizer extends VectorSearchVectorizer {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "aml";
-  /** Specifies the properties of the AML vectorizer. */
-  aMLParameters?: AMLParameters;
-}
-
 /** Contains configuration options specific to the scalar quantization compression method used during indexing and querying. */
 export interface ScalarQuantizationCompression extends VectorSearchCompression {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2396,6 +2179,22 @@ export interface BinaryQuantizationCompression extends VectorSearchCompression {
   kind: "binaryQuantization";
 }
 
+/** Clears the identity property of a datasource. */
+export interface SearchIndexerDataNoneIdentity
+  extends SearchIndexerDataIdentity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
+}
+
+/** Specifies the identity for a datasource to use. */
+export interface SearchIndexerDataUserAssignedIdentity
+  extends SearchIndexerDataIdentity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
+  /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
+  resourceId: string;
+}
+
 /** Projection definition for what data to store in Azure Blob. */
 export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
@@ -2404,36 +2203,36 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20241101Preview} that the service accepts. */
-export enum KnownApiVersion20241101Preview {
-  /** Api Version '2024-11-01-preview' */
-  TwoThousandTwentyFour1101Preview = "2024-11-01-preview",
+/** Known values of {@link ApiVersion20250901} that the service accepts. */
+export enum KnownApiVersion20250901 {
+  /** Api Version '2025-09-01' */
+  TwoThousandTwentyFive0901 = "2025-09-01",
 }
 
 /**
- * Defines values for ApiVersion20241101Preview. \
- * {@link KnownApiVersion20241101Preview} can be used interchangeably with ApiVersion20241101Preview,
+ * Defines values for ApiVersion20250901. \
+ * {@link KnownApiVersion20250901} can be used interchangeably with ApiVersion20250901,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-11-01-preview**: Api Version '2024-11-01-preview'
+ * **2025-09-01**: Api Version '2025-09-01'
  */
-export type ApiVersion20241101Preview = string;
+export type ApiVersion20250901 = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
-  /** Indicates an Azure SQL datasource. */
+  /** Definition of an Azure SQL datasource whose credentials can either be a standard SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. */
   AzureSql = "azuresql",
-  /** Indicates a CosmosDB datasource. */
+  /** Definition of an CosmosDB datasource whose credentials can either be a formatted connection string containing details for AccountEndpoint, AccountKey, and Database for a key based connection or details for ResourceID and ApiKind for keyless connection. The container property refers to cosmosdb collection to be indexed and the optional query property refers to a SQL query on the collection. */
   CosmosDb = "cosmosdb",
-  /** Indicates an Azure Blob datasource. */
+  /** Definition of an Azure Blob datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. */
   AzureBlob = "azureblob",
-  /** Indicates an Azure Table datasource. */
+  /** Definition of an Azure Table datasource whose credentials can either be a table connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property can be used to filter rows. */
   AzureTable = "azuretable",
-  /** Indicates a MySql datasource. */
+  /** Definition of an Azure SQL datasource whose credentials can either be a standard ADO.NET formatted SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. */
   MySql = "mysql",
-  /** Indicates an ADLS Gen2 datasource. */
+  /** Definition of an Azure ADLS Gen 2 datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. */
   AdlsGen2 = "adlsgen2",
-  /** Indicates a Microsoft Fabric OneLake datasource. */
+  /** Definition of an Microsoft Fabric Onelake datasource whose credentials can either be the Fabric workspace GUID or a workspace FQDN. The container property refers to the lakehouse GUID and the optional query property refers to folders or shortcuts in the lakehouse. */
   OneLake = "onelake",
 }
 
@@ -2442,13 +2241,13 @@ export enum KnownSearchIndexerDataSourceType {
  * {@link KnownSearchIndexerDataSourceType} can be used interchangeably with SearchIndexerDataSourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azuresql**: Indicates an Azure SQL datasource. \
- * **cosmosdb**: Indicates a CosmosDB datasource. \
- * **azureblob**: Indicates an Azure Blob datasource. \
- * **azuretable**: Indicates an Azure Table datasource. \
- * **mysql**: Indicates a MySql datasource. \
- * **adlsgen2**: Indicates an ADLS Gen2 datasource. \
- * **onelake**: Indicates a Microsoft Fabric OneLake datasource.
+ * **azuresql**: Definition of an Azure SQL datasource whose credentials can either be a standard SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. \
+ * **cosmosdb**: Definition of an CosmosDB datasource whose credentials can either be a formatted connection string containing details for AccountEndpoint, AccountKey, and Database for a key based connection or details for ResourceID and ApiKind for keyless connection. The container property refers to cosmosdb collection to be indexed and the optional query property refers to a SQL query on the collection. \
+ * **azureblob**: Definition of an Azure Blob datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. \
+ * **azuretable**: Definition of an Azure Table datasource whose credentials can either be a table connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property can be used to filter rows. \
+ * **mysql**: Definition of an Azure SQL datasource whose credentials can either be a standard ADO.NET formatted SQL connection string or the ResourceId of the SQL resource. The container property refers to the table or view to be indexed. Query parameter is not supported for this datasource. \
+ * **adlsgen2**: Definition of an Azure ADLS Gen 2 datasource whose credentials can either be a storage connection string or the ResourceId of the storage account. The container property refers to the blob container to be indexed and the optional query property refers to a specific sub-folder in the container. \
+ * **onelake**: Definition of an Microsoft Fabric Onelake datasource whose credentials can either be the Fabric workspace GUID or a workspace FQDN. The container property refers to the lakehouse GUID and the optional query property refers to folders or shortcuts in the lakehouse.
  */
 export type SearchIndexerDataSourceType = string;
 
@@ -2466,8 +2265,6 @@ export enum KnownBlobIndexerParsingMode {
   JsonArray = "jsonArray",
   /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
   JsonLines = "jsonLines",
-  /** Set to markdown to extract content from markdown files. */
-  Markdown = "markdown",
 }
 
 /**
@@ -2480,58 +2277,9 @@ export enum KnownBlobIndexerParsingMode {
  * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
  * **json**: Set to json to extract structured content from JSON files. \
  * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
- * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
- * **markdown**: Set to markdown to extract content from markdown files.
+ * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents.
  */
 export type BlobIndexerParsingMode = string;
-
-/** Known values of {@link MarkdownParsingSubmode} that the service accepts. */
-export enum KnownMarkdownParsingSubmode {
-  /** Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. */
-  OneToMany = "oneToMany",
-  /** Indicates that each markdown file will be parsed into a single search document. */
-  OneToOne = "oneToOne",
-}
-
-/**
- * Defines values for MarkdownParsingSubmode. \
- * {@link KnownMarkdownParsingSubmode} can be used interchangeably with MarkdownParsingSubmode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **oneToMany**: Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. \
- * **oneToOne**: Indicates that each markdown file will be parsed into a single search document.
- */
-export type MarkdownParsingSubmode = string;
-
-/** Known values of {@link MarkdownHeaderDepth} that the service accepts. */
-export enum KnownMarkdownHeaderDepth {
-  /** Indicates that headers up to a level of h1 will be considered while grouping markdown content. */
-  H1 = "h1",
-  /** Indicates that headers up to a level of h2 will be considered while grouping markdown content. */
-  H2 = "h2",
-  /** Indicates that headers up to a level of h3 will be considered while grouping markdown content. */
-  H3 = "h3",
-  /** Indicates that headers up to a level of h4 will be considered while grouping markdown content. */
-  H4 = "h4",
-  /** Indicates that headers up to a level of h5 will be considered while grouping markdown content. */
-  H5 = "h5",
-  /** Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default. */
-  H6 = "h6",
-}
-
-/**
- * Defines values for MarkdownHeaderDepth. \
- * {@link KnownMarkdownHeaderDepth} can be used interchangeably with MarkdownHeaderDepth,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **h1**: Indicates that headers up to a level of h1 will be considered while grouping markdown content. \
- * **h2**: Indicates that headers up to a level of h2 will be considered while grouping markdown content. \
- * **h3**: Indicates that headers up to a level of h3 will be considered while grouping markdown content. \
- * **h4**: Indicates that headers up to a level of h4 will be considered while grouping markdown content. \
- * **h5**: Indicates that headers up to a level of h5 will be considered while grouping markdown content. \
- * **h6**: Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default.
- */
-export type MarkdownHeaderDepth = string;
 
 /** Known values of {@link BlobIndexerDataToExtract} that the service accepts. */
 export enum KnownBlobIndexerDataToExtract {
@@ -2610,39 +2358,6 @@ export enum KnownIndexerExecutionEnvironment {
  * **private**: Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources.
  */
 export type IndexerExecutionEnvironment = string;
-
-/** Known values of {@link IndexerExecutionStatusDetail} that the service accepts. */
-export enum KnownIndexerExecutionStatusDetail {
-  /** Indicates that the reset that occurred was for a call to ResetDocs. */
-  ResetDocs = "resetDocs",
-}
-
-/**
- * Defines values for IndexerExecutionStatusDetail. \
- * {@link KnownIndexerExecutionStatusDetail} can be used interchangeably with IndexerExecutionStatusDetail,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **resetDocs**: Indicates that the reset that occurred was for a call to ResetDocs.
- */
-export type IndexerExecutionStatusDetail = string;
-
-/** Known values of {@link IndexingMode} that the service accepts. */
-export enum KnownIndexingMode {
-  /** The indexer is indexing all documents in the datasource. */
-  IndexingAllDocs = "indexingAllDocs",
-  /** The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. */
-  IndexingResetDocs = "indexingResetDocs",
-}
-
-/**
- * Defines values for IndexingMode. \
- * {@link KnownIndexingMode} can be used interchangeably with IndexingMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **indexingAllDocs**: The indexer is indexing all documents in the datasource. \
- * **indexingResetDocs**: The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status.
- */
-export type IndexingMode = string;
 
 /** Known values of {@link IndexProjectionMode} that the service accepts. */
 export enum KnownIndexProjectionMode {
@@ -3046,6 +2761,24 @@ export enum KnownVectorEncodingFormat {
  */
 export type VectorEncodingFormat = string;
 
+/** Known values of {@link RankingOrder} that the service accepts. */
+export enum KnownRankingOrder {
+  /** Sets sort order as BoostedRerankerScore */
+  BoostedRerankerScore = "BoostedRerankerScore",
+  /** Sets sort order as ReRankerScore */
+  RerankerScore = "RerankerScore",
+}
+
+/**
+ * Defines values for RankingOrder. \
+ * {@link KnownRankingOrder} can be used interchangeably with RankingOrder,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BoostedRerankerScore**: Sets sort order as BoostedRerankerScore \
+ * **RerankerScore**: Sets sort order as ReRankerScore
+ */
+export type RankingOrder = string;
+
 /** Known values of {@link VectorSearchAlgorithmKind} that the service accepts. */
 export enum KnownVectorSearchAlgorithmKind {
   /** HNSW (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. */
@@ -3070,10 +2803,6 @@ export enum KnownVectorSearchVectorizerKind {
   AzureOpenAI = "azureOpenAI",
   /** Generate embeddings using a custom web endpoint at query time. */
   CustomWebApi = "customWebApi",
-  /** Generate embeddings for an image or text input at query time using the Azure AI Services Vision Vectorize API. */
-  AIServicesVision = "aiServicesVision",
-  /** Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog at query time. */
-  AML = "aml",
 }
 
 /**
@@ -3082,9 +2811,7 @@ export enum KnownVectorSearchVectorizerKind {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **azureOpenAI**: Generate embeddings using an Azure OpenAI resource at query time. \
- * **customWebApi**: Generate embeddings using a custom web endpoint at query time. \
- * **aiServicesVision**: Generate embeddings for an image or text input at query time using the Azure AI Services Vision Vectorize API. \
- * **aml**: Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog at query time.
+ * **customWebApi**: Generate embeddings using a custom web endpoint at query time.
  */
 export type VectorSearchVectorizerKind = string;
 
@@ -3312,36 +3039,6 @@ export enum KnownAzureOpenAIModelName {
  * **text-embedding-3-small**
  */
 export type AzureOpenAIModelName = string;
-
-/** Known values of {@link AIStudioModelCatalogName} that the service accepts. */
-export enum KnownAIStudioModelCatalogName {
-  /** OpenAIClipImageTextEmbeddingsVitBasePatch32 */
-  OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
-  /** OpenAIClipImageTextEmbeddingsViTLargePatch14336 */
-  OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336",
-  /** FacebookDinoV2ImageEmbeddingsViTBase */
-  FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
-  /** FacebookDinoV2ImageEmbeddingsViTGiant */
-  FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
-  /** CohereEmbedV3English */
-  CohereEmbedV3English = "Cohere-embed-v3-english",
-  /** CohereEmbedV3Multilingual */
-  CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
-}
-
-/**
- * Defines values for AIStudioModelCatalogName. \
- * {@link KnownAIStudioModelCatalogName} can be used interchangeably with AIStudioModelCatalogName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32** \
- * **OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336** \
- * **Facebook-DinoV2-Image-Embeddings-ViT-Base** \
- * **Facebook-DinoV2-Image-Embeddings-ViT-Giant** \
- * **Cohere-embed-v3-english** \
- * **Cohere-embed-v3-multilingual**
- */
-export type AIStudioModelCatalogName = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
 export enum KnownKeyPhraseExtractionSkillLanguage {
@@ -4486,48 +4183,6 @@ export enum KnownTextSplitMode {
  */
 export type TextSplitMode = string;
 
-/** Known values of {@link SplitSkillUnit} that the service accepts. */
-export enum KnownSplitSkillUnit {
-  /** The length will be measured by character. */
-  Characters = "characters",
-  /** The length will be measured by an AzureOpenAI tokenizer from the tiktoken library. */
-  AzureOpenAITokens = "azureOpenAITokens",
-}
-
-/**
- * Defines values for SplitSkillUnit. \
- * {@link KnownSplitSkillUnit} can be used interchangeably with SplitSkillUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **characters**: The length will be measured by character. \
- * **azureOpenAITokens**: The length will be measured by an AzureOpenAI tokenizer from the tiktoken library.
- */
-export type SplitSkillUnit = string;
-
-/** Known values of {@link SplitSkillEncoderModelName} that the service accepts. */
-export enum KnownSplitSkillEncoderModelName {
-  /** Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. */
-  R50KBase = "r50k_base",
-  /** A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. */
-  P50KBase = "p50k_base",
-  /** Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. */
-  P50KEdit = "p50k_edit",
-  /** A base model with a 100,000 token vocabulary. */
-  CL100KBase = "cl100k_base",
-}
-
-/**
- * Defines values for SplitSkillEncoderModelName. \
- * {@link KnownSplitSkillEncoderModelName} can be used interchangeably with SplitSkillEncoderModelName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **r50k_base**: Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. \
- * **p50k_base**: A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. \
- * **p50k_edit**: Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. \
- * **cl100k_base**: A base model with a 100,000 token vocabulary.
- */
-export type SplitSkillEncoderModelName = string;
-
 /** Known values of {@link CustomEntityLookupSkillLanguage} that the service accepts. */
 export enum KnownCustomEntityLookupSkillLanguage {
   /** Danish */
@@ -4795,9 +4450,27 @@ export enum KnownTextTranslationSkillLanguage {
  */
 export type TextTranslationSkillLanguage = string;
 
+/** Known values of {@link DocumentIntelligenceLayoutSkillOutputFormat} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillOutputFormat {
+  /** Specify the format of the output as text. */
+  Text = "text",
+  /** Specify the format of the output as markdown. */
+  Markdown = "markdown",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillOutputFormat. \
+ * {@link KnownDocumentIntelligenceLayoutSkillOutputFormat} can be used interchangeably with DocumentIntelligenceLayoutSkillOutputFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **text**: Specify the format of the output as text. \
+ * **markdown**: Specify the format of the output as markdown.
+ */
+export type DocumentIntelligenceLayoutSkillOutputFormat = string;
+
 /** Known values of {@link DocumentIntelligenceLayoutSkillOutputMode} that the service accepts. */
 export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
-  /** Specify the deepest markdown header section to parse. */
+  /** Specify that the output should be parsed as 'oneToMany'. */
   OneToMany = "oneToMany",
 }
 
@@ -4806,7 +4479,7 @@ export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
  * {@link KnownDocumentIntelligenceLayoutSkillOutputMode} can be used interchangeably with DocumentIntelligenceLayoutSkillOutputMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **oneToMany**: Specify the deepest markdown header section to parse.
+ * **oneToMany**: Specify that the output should be parsed as 'oneToMany'.
  */
 export type DocumentIntelligenceLayoutSkillOutputMode = string;
 
@@ -4839,6 +4512,39 @@ export enum KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth {
  * **h6**: Header level 6.
  */
 export type DocumentIntelligenceLayoutSkillMarkdownHeaderDepth = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillExtractionOptions} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillExtractionOptions {
+  /** Specify that image content should be extracted from the document. */
+  Images = "images",
+  /** Specify that location metadata should be extracted from the document. */
+  LocationMetadata = "locationMetadata",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillExtractionOptions. \
+ * {@link KnownDocumentIntelligenceLayoutSkillExtractionOptions} can be used interchangeably with DocumentIntelligenceLayoutSkillExtractionOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **images**: Specify that image content should be extracted from the document. \
+ * **locationMetadata**: Specify that location metadata should be extracted from the document.
+ */
+export type DocumentIntelligenceLayoutSkillExtractionOptions = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillChunkingUnit} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillChunkingUnit {
+  /** Specifies chunk by characters. */
+  Characters = "characters",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillChunkingUnit. \
+ * {@link KnownDocumentIntelligenceLayoutSkillChunkingUnit} can be used interchangeably with DocumentIntelligenceLayoutSkillChunkingUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **characters**: Specifies chunk by characters.
+ */
+export type DocumentIntelligenceLayoutSkillChunkingUnit = string;
 
 /** Known values of {@link LexicalTokenizerName} that the service accepts. */
 export enum KnownLexicalTokenizerName {
@@ -5187,8 +4893,6 @@ export interface DataSourcesCreateOrUpdateOptionalParams
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** Ignores cache reset requirements. */
-  skipIndexerResetRequirementForCache?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
@@ -5232,14 +4936,6 @@ export interface IndexersResetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexersResetDocsOptionalParams
-  extends coreClient.OperationOptions {
-  keysOrIds?: DocumentKeysOrIds;
-  /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
-  overwrite?: boolean;
-}
-
-/** Optional parameters. */
 export interface IndexersRunOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -5250,10 +4946,6 @@ export interface IndexersCreateOrUpdateOptionalParams
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** Ignores cache reset requirements. */
-  skipIndexerResetRequirementForCache?: boolean;
-  /** Disables cache reprocessing change detection. */
-  disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
@@ -5306,10 +4998,6 @@ export interface SkillsetsCreateOrUpdateOptionalParams
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   ifNoneMatch?: string;
-  /** Ignores cache reset requirements. */
-  skipIndexerResetRequirementForCache?: boolean;
-  /** Disables cache reprocessing change detection. */
-  disableCacheReprocessingChangeDetection?: boolean;
 }
 
 /** Contains response data for the createOrUpdate operation. */
@@ -5347,10 +5035,6 @@ export interface SkillsetsCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type SkillsetsCreateResponse = SearchIndexerSkillset;
-
-/** Optional parameters. */
-export interface SkillsetsResetSkillsOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SynonymMapsCreateOrUpdateOptionalParams
@@ -5455,47 +5139,6 @@ export interface IndexesAnalyzeOptionalParams
 
 /** Contains response data for the analyze operation. */
 export type IndexesAnalyzeResponse = AnalyzeResult;
-
-/** Optional parameters. */
-export interface AliasesCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type AliasesCreateResponse = SearchAlias;
-
-/** Optional parameters. */
-export interface AliasesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AliasesListResponse = ListAliasesResult;
-
-/** Optional parameters. */
-export interface AliasesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
-  ifMatch?: string;
-  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type AliasesCreateOrUpdateResponse = SearchAlias;
-
-/** Optional parameters. */
-export interface AliasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
-  ifMatch?: string;
-  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
-  ifNoneMatch?: string;
-}
-
-/** Optional parameters. */
-export interface AliasesGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AliasesGetResponse = SearchAlias;
 
 /** Optional parameters. */
 export interface GetServiceStatisticsOptionalParams

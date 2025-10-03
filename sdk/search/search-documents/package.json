@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.2.0-beta.2",
+  "version": "12.2.0",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -22,7 +22,7 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "echo Skipped."
   },
   "files": [
     "dist/",

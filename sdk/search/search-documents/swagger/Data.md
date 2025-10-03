@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14531a7cf6101c1dd57e7c1c83103a047bb8f5bb/specification/search/data-plane/Azure.Search/preview/2024-11-01-preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/613315ec5a543cdc0f0b259b23a5ae02f46663dc/specification/search/data-plane/Azure.Search/stable/2025-09-01/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
   "@autorest/typescript": "6.0.34"
 core-http-compat-mode: true
-package-version: 12.2.0-beta.2
+package-version: 12.2.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -71,13 +71,19 @@ modelerfour:
       ActionType: $DO_NOT_NORMALIZE$__actionType
 ```
 
-### Change text to \_text in SuggestResult
+### Change text to _text only in SuggestResult
 
 ```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SuggestResult.properties["@search.text"]
+    transform: >
+      $["x-ms-client-name"] = "SuggestResult_text";
+
 modelerfour:
   naming:
     override:
-      Text: $DO_NOT_NORMALIZE$_text
+      SuggestResult_text: $DO_NOT_NORMALIZE$_text
 ```
 
 ### Preserve underscore prefix in some result type properties
@@ -168,6 +174,7 @@ directive:
 ```
 
 ### Fix `SearchResult["@search.documentDebugInfo"]`
+
 ```yaml
 directive:
   - from: swagger-document
