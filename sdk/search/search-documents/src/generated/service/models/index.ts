@@ -2766,7 +2766,7 @@ export enum KnownRankingOrder {
   /** Sets sort order as BoostedRerankerScore */
   BoostedRerankerScore = "BoostedRerankerScore",
   /** Sets sort order as ReRankerScore */
-  ReRankerScore = "RerankerScore",
+  RerankerScore = "RerankerScore",
 }
 
 /**

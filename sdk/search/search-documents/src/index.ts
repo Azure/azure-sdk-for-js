@@ -130,6 +130,7 @@ export {
   PatternReplaceTokenFilter,
   PhoneticEncoder,
   PhoneticTokenFilter,
+  RankingOrder,
   ResourceCounter,
   ScalarQuantizationCompression,
   ScalarQuantizationParameters,

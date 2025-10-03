@@ -112,6 +112,7 @@ import {
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
   CustomNormalizer,
+  LexicalNormalizerName,
 } from "./generated/service/models/index.js";
 
 /**
@@ -984,7 +985,7 @@ export interface SimpleField {
    * filterable, sortable, or facetable enabled. Once the normalizer is chosen, it cannot be changed
    * for the field. Must be null for complex fields.
    */
-  normalizerName?: string;
+  normalizerName?: LexicalNormalizerName;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {

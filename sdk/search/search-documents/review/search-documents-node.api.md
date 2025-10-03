@@ -1340,7 +1340,7 @@ export enum KnownPIIDetectionSkillMaskingMode {
 // @public
 export enum KnownRankingOrder {
     BoostedRerankerScore = "BoostedRerankerScore",
-    ReRankerScore = "RerankerScore"
+    RerankerScore = "RerankerScore"
 }
 
 // @public
@@ -1929,6 +1929,9 @@ export interface QueryCaptionResult {
 // @public
 export type QueryType = "simple" | "full" | "semantic";
 
+// @public
+export type RankingOrder = string;
+
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
 
@@ -2430,7 +2433,6 @@ export type SelectFields<TModel extends object> = (<T>() => T extends TModel ? t
 export interface SemanticConfiguration {
     name: string;
     prioritizedFields: SemanticPrioritizedFields;
-    // Warning: (ae-forgotten-export) The symbol "RankingOrder" needs to be exported by the entry point index.d.ts
     rankingOrder?: RankingOrder;
 }
 
@@ -2543,7 +2545,7 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
-    normalizerName?: string;
+    normalizerName?: LexicalNormalizerName;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
