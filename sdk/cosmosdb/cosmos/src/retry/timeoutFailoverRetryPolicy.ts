@@ -35,7 +35,6 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private resourceType: ResourceType,
     private operationType: OperationType,
     private enableEndPointDiscovery: boolean,
-    private enablePartitionLevelFailover: boolean,
     private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {}
 
@@ -96,7 +95,11 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     );
     const readRequest = isReadRequest(this.operationType);
 
-    if (!canUseMultipleWriteLocations && !readRequest && !this.enablePartitionLevelFailover) {
+    if (
+      !canUseMultipleWriteLocations &&
+      !readRequest &&
+      !this.globalEndpointManager.enablePartitionLevelFailover
+    ) {
       // Write requests on single master cannot be retried if partition level failover is disabled.
       // This means there are no other regions available to serve the writes.
       return false;

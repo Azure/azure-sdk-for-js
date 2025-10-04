@@ -30,11 +30,18 @@ export interface ConnectionPolicy {
   /** Flag to enable/disable background refreshing of endpoints. Defaults to true.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
-  /** Flag to enable/disable the Per Partition Level Failover (PPAF).
-   * Defaults to true. When enablePartitionLevelFailover set to true, enablePartitionLevelCircuitBreaker will also be set to true.
-   * */
+  /**
+   * Flag to enable/disable Per Partition Level Failover (PPAF). Defaults to true.
+   * Automatically failovers to other available partitions when a partition becomes unavailable.
+   * When enabled, enablePartitionLevelCircuitBreaker will also be set to true.
+   * Note: Requires enableEndpointDiscovery to be true. Has no effect when endpoint discovery is disabled.
+   */
   enablePartitionLevelFailover?: boolean;
-  /** Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Defaults to true */
+
+  /**
+   * Flag to enable/disable Per Partition Level Circuit Breaker (PPCB). Defaults to true.
+   * Note: Requires enableEndpointDiscovery to be true. Has no effect when endpoint discovery is disabled.
+   */
   enablePartitionLevelCircuitBreaker?: boolean;
 }
 
