@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// test only
 import type { ConfigurationSetting, ConfigurationSettingParam } from "./models.js";
 import type { JsonFeatureFlagValue } from "./internal/jsonModels.js";
 import { logger } from "./logger.js";
