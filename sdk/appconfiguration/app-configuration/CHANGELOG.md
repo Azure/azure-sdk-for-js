@@ -4,6 +4,11 @@
 
 ### Features Added
 
+- Support snapshot referece.
+  - New types for SnapshotReference - `ConfigurationSetting<SnapshotReferenceValue>` and `ConfigurationSetting<SecretReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties(to translate `ConfigurationSetting` into the types above).
+  - Helper method `isSnapshotReference` checks the contentType and return boolean values.
+
 ### Breaking Changes
 
 ### Bugs Fixed
