@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
  *
  * @summary creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_FirewallRuleCreate.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_FirewallRuleCreate.json
  */
 async function createsAFirewallRuleOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

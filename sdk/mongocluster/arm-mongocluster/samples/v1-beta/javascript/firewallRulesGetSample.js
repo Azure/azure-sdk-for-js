@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a mongo cluster firewall rule.
  *
  * @summary gets information about a mongo cluster firewall rule.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_FirewallRuleGet.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_FirewallRuleGet.json
  */
 async function getsAFirewallRuleOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list existing private connections
  *
  * @summary list existing private connections
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_PrivateEndpointConnectionList.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_PrivateEndpointConnectionList.json
  */
 async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

@@ -557,27 +557,16 @@ export interface StorageProperties {
   sizeGb?: number;
   /** The type of storage to provision the cluster servers with. */
   type?: StorageType;
-  /** The IOPs of the storage assigned to each server. Only applicable if the type is 'PremiumSSDv2'. */
-  iops?: number;
-  /** The throughput of the storage assigned to each server. Only applicable if the type is 'PremiumSSDv2'. */
-  throughput?: number;
 }
 
 export function storagePropertiesSerializer(item: StorageProperties): any {
-  return {
-    sizeGb: item["sizeGb"],
-    type: item["type"],
-    iops: item["iops"],
-    throughput: item["throughput"],
-  };
+  return { sizeGb: item["sizeGb"], type: item["type"] };
 }
 
 export function storagePropertiesDeserializer(item: any): StorageProperties {
   return {
     sizeGb: item["sizeGb"],
     type: item["type"],
-    iops: item["iops"],
-    throughput: item["throughput"],
   };
 }
 
@@ -997,16 +986,18 @@ export function encryptionPropertiesDeserializer(item: any): EncryptionPropertie
 /** Customer managed key encryption settings. */
 export interface CustomerManagedKeyEncryptionProperties {
   /** The identity used to access the key encryption key. */
-  keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
   /** The URI of the key vault key used for encryption. */
-  keyEncryptionKeyUrl: string;
+  keyEncryptionKeyUrl?: string;
 }
 
 export function customerManagedKeyEncryptionPropertiesSerializer(
   item: CustomerManagedKeyEncryptionProperties,
 ): any {
   return {
-    keyEncryptionKeyIdentity: keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
@@ -1015,9 +1006,9 @@ export function customerManagedKeyEncryptionPropertiesDeserializer(
   item: any,
 ): CustomerManagedKeyEncryptionProperties {
   return {
-    keyEncryptionKeyIdentity: keyEncryptionKeyIdentityDeserializer(
-      item["keyEncryptionKeyIdentity"],
-    ),
+    keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
+      ? item["keyEncryptionKeyIdentity"]
+      : keyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
@@ -1025,9 +1016,9 @@ export function customerManagedKeyEncryptionPropertiesDeserializer(
 /** The identity used for key encryption key. */
 export interface KeyEncryptionKeyIdentity {
   /** The type of identity. Only 'UserAssignedIdentity' is supported. */
-  identityType: KeyEncryptionKeyIdentityType;
+  identityType?: KeyEncryptionKeyIdentityType;
   /** The user assigned identity resource id. */
-  userAssignedIdentityResourceId: string;
+  userAssignedIdentityResourceId?: string;
 }
 
 export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
@@ -1200,7 +1191,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -1281,6 +1272,8 @@ export interface MongoClusterUpdateProperties {
   previewFeatures?: PreviewFeature[];
   /** The authentication configuration for the cluster. */
   authConfig?: AuthConfigProperties;
+  /** The encryption configuration for the cluster. Depends on identity being configured. */
+  encryption?: EncryptionProperties;
 }
 
 export function mongoClusterUpdatePropertiesSerializer(item: MongoClusterUpdateProperties): any {
@@ -1306,6 +1299,9 @@ export function mongoClusterUpdatePropertiesSerializer(item: MongoClusterUpdateP
     authConfig: !item["authConfig"]
       ? item["authConfig"]
       : authConfigPropertiesSerializer(item["authConfig"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionPropertiesSerializer(item["encryption"]),
   };
 }
 
@@ -2000,4 +1996,6 @@ export enum KnownVersions {
   V20250401Preview = "2025-04-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
   V20250701Preview = "2025-07-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-08-01-preview. */
+  V20250801Preview = "2025-08-01-preview",
 }
