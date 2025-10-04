@@ -808,6 +808,7 @@ export class CosmosClient {
 // @public (undocumented)
 export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
+    aadScope?: string;
     agent?: Agent;
     clientEncryptionOptions?: ClientEncryptionOptions;
     connectionPolicy?: ConnectionPolicy;

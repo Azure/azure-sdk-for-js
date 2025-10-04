@@ -49,6 +49,19 @@ import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager
  *   },
  * });
  * ```
+ * @example Instantiate a client with AAD authentication and custom scope
+ * ```ts snippet:CosmosClientWithAADScope
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const aadCredentials = new DefaultAzureCredential();
+ * const client = new CosmosClient({
+ *   endpoint,
+ *   aadCredentials,
+ *   aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
+ * });
+ * ```
  */
 export class CosmosClient {
   /**

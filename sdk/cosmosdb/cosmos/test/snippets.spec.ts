@@ -33,7 +33,7 @@ import {
   StoredProcedureDefinition,
   ItemDefinition,
 } from "@azure/cosmos";
-import { ClientSecretCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
@@ -552,6 +552,16 @@ describe("snippets", () => {
       connectionPolicy: {
         requestTimeout: 10000,
       },
+    });
+  });
+
+  it("CosmosClientWithAADScope", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const aadCredentials = new DefaultAzureCredential();
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials,
+      aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
     });
   });
 
