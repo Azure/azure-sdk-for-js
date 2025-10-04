@@ -8,13 +8,11 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
+
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 
 // The prompt to generate images from
 const prompt = "a monkey eating a banana";
@@ -26,12 +24,14 @@ const n = 1;
 export async function main(): Promise<void> {
   console.log("== Batch Image Generation ==");
 
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "dall-e-3";
-  const apiVersion = "2025-04-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const results = await client.images.generate({ prompt, model: "", n, size });
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
+  const results = await client.images.generate({ prompt, model: deployment, n, size });
 
   for (const image of results.data ?? []) {
     console.log(`Image generation result URL: ${image.url}`);
