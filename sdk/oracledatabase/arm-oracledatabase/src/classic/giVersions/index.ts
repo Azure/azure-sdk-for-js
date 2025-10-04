@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { GiVersion } from "../../models/models.js";
-import {
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { listByLocation, get } from "../../api/giVersions/operations.js";
+import type {
   GiVersionsListByLocationOptionalParams,
   GiVersionsGetOptionalParams,
 } from "../../api/giVersions/options.js";
-import { listByLocation, get } from "../../api/giVersions/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GiVersion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GiVersions operations. */
 export interface GiVersionsOperations {

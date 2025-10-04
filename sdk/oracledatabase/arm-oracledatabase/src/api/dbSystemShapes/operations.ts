@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext as Client } from "../index.js";
+import type { OracleDatabaseManagementContext as Client } from "../index.js";
+import type { DbSystemShape, _DbSystemShapeListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  DbSystemShape,
   dbSystemShapeDeserializer,
-  _DbSystemShapeListResult,
   _dbSystemShapeListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   DbSystemShapesListByLocationOptionalParams,
   DbSystemShapesGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByLocationSend(
   context: Client,
@@ -31,12 +24,13 @@ export function _listByLocationSend(
   options: DbSystemShapesListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dbSystemShapes{?api%2Dversion,zone}",
+    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dbSystemShapes{?api%2Dversion,zone,shapeAttribute}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       "api%2Dversion": context.apiVersion,
       zone: options?.zone,
+      shapeAttribute: options?.shapeAttribute,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
