@@ -3,6 +3,8 @@ Getting Started: Generate JavaScript/TypeScript RLC (Rest Level Client) Librarie
 
 # Before you start
 
+:warning: **Important**: Only proceed with RLC code generation for JavaScript/TypeScript if you have been explicitly instructed to do so by the AZSDK Architecture Board. Otherwise, please use the [DPG Quickstart Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/DPG-quickstart.md).
+
 :warning: Ensure that your TypeSpec definition has been merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs) before you begin.
 
 For an overview of the review and release process for new libraries, visit: https://aka.ms/azsdk/dpcodegen.
