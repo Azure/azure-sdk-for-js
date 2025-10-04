@@ -23,6 +23,8 @@ import type {
   ConnectedAgentToolDefinition,
   MCPToolDefinition,
   BrowserAutomationToolDefinition,
+  ComputerUseToolDefinition,
+  ComputerUseEnvironment,
 } from "../index.js";
 import { OpenApiTool } from "./OpenApiTool.js";
 import { MCPTool } from "./MCPTool.js";
@@ -275,6 +277,19 @@ export class ToolUtility {
           connection: {
             id: connectionId,
           },
+        },
+      },
+    };
+  }
+
+  static createComputerUseTool(displayWidth: number, displayHeight: number, env: ComputerUseEnvironment): { definition: ComputerUseToolDefinition } {
+    return {
+      definition: {
+        type: "computer_use_preview",
+        computerUsePreview: {
+          displayWidth,
+          displayHeight,
+          environment: env,
         },
       },
     };
