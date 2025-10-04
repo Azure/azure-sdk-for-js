@@ -1,5 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
-/* eslint-disable tsdoc/syntax */
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,7 +8,10 @@
 
 import type * as coreClient from "@azure/core-client";
 
-export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
+export type SecretBaseUnion =
+  | SecretBase
+  | SecureString
+  | AzureKeyVaultSecretReference;
 export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
   | IntegrationRuntime
@@ -243,7 +244,8 @@ export type LinkedServiceUnion =
   | PowerBIWorkspaceLinkedService
   | SalesforceV2LinkedService
   | SalesforceServiceCloudV2LinkedService
-  | WarehouseLinkedService;
+  | WarehouseLinkedService
+  | ServiceNowV2LinkedService;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -1702,7 +1704,8 @@ export interface LinkedService {
     | "PowerBIWorkspace"
     | "SalesforceV2"
     | "SalesforceServiceCloudV2"
-    | "Warehouse";
+    | "Warehouse"
+    | "ServiceNowV2";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Version of the linked service. */
@@ -3093,7 +3096,12 @@ export interface DatasetSchemaDataElement {
 /** The format definition of a storage. */
 export interface DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
+  type:
+    | "TextFormat"
+    | "JsonFormat"
+    | "AvroFormat"
+    | "OrcFormat"
+    | "ParquetFormat";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Serializer. Type: string (or Expression with resultType string). */
@@ -3198,26 +3206,6 @@ export interface ScriptAction {
   roles: any;
   /** The parameters for the script action. */
   parameters?: string;
-}
-
-/** ServiceNowV2 server linked service properties. */
-export interface ServiceNowV2LinkedServiceTypeProperties {
-  /** The endpoint of the ServiceNowV2 server. (i.e. <instance>.service-now.com) */
-  endpoint: any;
-  /** The authentication type to use. */
-  authenticationType: ServiceNowV2AuthenticationType;
-  /** The user name used to connect to the ServiceNowV2 server for Basic and OAuth2 authentication. */
-  username?: any;
-  /** The password corresponding to the user name for Basic and OAuth2 authentication. */
-  password?: SecretBaseUnion;
-  /** The client id for OAuth2 authentication. */
-  clientId?: any;
-  /** The client secret for OAuth2 authentication. */
-  clientSecret?: SecretBaseUnion;
-  /** GrantType for OAuth2 authentication. Default value is password. */
-  grantType?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
-  encryptedCredential?: string;
 }
 
 /** Execution policy for an activity. */
@@ -3675,6 +3663,12 @@ export interface OutputColumn {
   name?: string;
 }
 
+/** Azure Database for PostgreSQL upsert option settings */
+export interface AzurePostgreSqlSinkUpsertSettings {
+  /** Key column names for unique row identification. Type: array of strings (or Expression with resultType array of strings). */
+  keys?: any;
+}
+
 /** The settings that will be leveraged for Netezza source partitioning. */
 export interface NetezzaPartitionSettings {
   /** The name of the column in integer type that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
@@ -3775,6 +3769,10 @@ export interface TypeConversionSettings {
   dateTimeOffsetFormat?: any;
   /** The format for TimeSpan values. Type: string (or Expression with resultType string). */
   timeSpanFormat?: any;
+  /** The format for Time values. Type: string (or Expression with resultType string). */
+  timeFormat?: any;
+  /** The format for Date values. Type: string (or Expression with resultType string). */
+  dateFormat?: any;
   /** The culture used to convert data from/to string. Type: string (or Expression with resultType string). */
   culture?: any;
 }
@@ -3981,8 +3979,8 @@ export interface SynapseActivityAuthentication {
 export interface ExpressionV2 {
   /** Type of expressions supported by the system. Type: string. */
   type?: ExpressionV2Type;
-  /** Value for Constant/Field Type: string. */
-  value?: string;
+  /** Value for Constant/Field Type: object. */
+  value?: any;
   /** Expression operator value Type: list of strings. */
   operators?: string[];
   /** List of nested expressions. */
@@ -4062,7 +4060,7 @@ export interface TriggerReference {
 export interface IntegrationRuntimeComputeProperties {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
-  /** The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/azure/data-factory/data-factory-data-movement-activities */
+  /** The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities */
   location?: string;
   /** The node size requirement to managed integration runtime. */
   nodeSize?: string;
@@ -4278,7 +4276,8 @@ export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
 }
 
 /** Integration runtime debug resource. */
-export interface IntegrationRuntimeDebugResource extends SubResourceDebugResource {
+export interface IntegrationRuntimeDebugResource
+  extends SubResourceDebugResource {
   /** Integration runtime properties. */
   properties: IntegrationRuntimeUnion;
 }
@@ -5374,6 +5373,8 @@ export interface ServiceNowV2ObjectDataset extends Dataset {
   type: "ServiceNowV2Object";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
+  /** Type of value copied from source. */
+  valueType?: ValueType;
 }
 
 /** The storage account linked service. */
@@ -5922,6 +5923,8 @@ export interface HDInsightLinkedService extends LinkedService {
   type: "HDInsight";
   /** HDInsight cluster URI. Type: string (or Expression with resultType string). */
   clusterUri: any;
+  /** HDInsight cluster authentication type. */
+  clusterAuthType?: HDInsightClusterAuthenticationType;
   /** HDInsight cluster user name. Type: string (or Expression with resultType string). */
   userName?: any;
   /** HDInsight cluster password. */
@@ -5936,6 +5939,8 @@ export interface HDInsightLinkedService extends LinkedService {
   isEspEnabled?: any;
   /** Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type: string (or Expression with resultType string). */
   fileSystem?: any;
+  /** The credential reference containing MI authentication information for the HDInsight cluster. */
+  credential?: CredentialReference;
 }
 
 /** File system linked service. */
@@ -6001,7 +6006,7 @@ export interface OracleLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Oracle";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Only used for Version 1.0. */
-  connectionString: any;
+  connectionString?: any;
   /** The location of Oracle database you want to connect to, the supported forms include connector descriptor, Easy Connect (Plus) Naming and Oracle Net Services Name (Only self-hosted IR). Type: string. Only used for Version 2.0. */
   server?: any;
   /** Authentication type for connecting to the Oracle database. Only used for Version 2.0. */
@@ -6036,14 +6041,42 @@ export interface OracleLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
-/** AmazonRdsForOracle database. */
+/** AmazonRdsForOracle database. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracle";
-  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Only used for Version 1.0. */
+  connectionString?: any;
+  /** The location of AmazonRdsForOracle database you want to connect to, the supported forms include connector descriptor, Easy Connect (Plus) Naming and Oracle Net Services Name (Only self-hosted IR). Type: string. Only used for Version 2.0. */
+  server?: any;
+  /** Authentication type for connecting to the AmazonRdsForOracle database. Only used for Version 2.0. */
+  authenticationType?: AmazonRdsForOracleAuthenticationType;
+  /** The AmazonRdsForOracle database username. Type: string. Only used for Version 2.0. */
+  username?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: SecretBaseUnion;
+  /** Specifies the encryption client behavior. Supported values are accepted, rejected, requested or required, default value is required. Type: string. Only used for Version 2.0. */
+  encryptionClient?: any;
+  /** Specifies the encryption algorithms that client can use. Supported values are AES128, AES192, AES256, 3DES112, 3DES168, default value is (AES256). Type: string. Only used for Version 2.0. */
+  encryptionTypesClient?: any;
+  /** Specifies the desired data integrity behavior when this client connects to a server. Supported values are accepted, rejected, requested or required, default value is required. Type: string. Only used for Version 2.0. */
+  cryptoChecksumClient?: any;
+  /** Specifies the crypto-checksum algorithms that client can use. Supported values are SHA1, SHA256, SHA384, SHA512, default value is (SHA512). Type: string. Only used for Version 2.0. */
+  cryptoChecksumTypesClient?: any;
+  /** Specifies the amount that the source initially fetches for LOB columns, default value is 0. Type: integer. Only used for Version 2.0. */
+  initialLobFetchSize?: any;
+  /** Specifies the number of bytes that the driver allocates to fetch the data in one database round-trip, default value is 10485760. Type: integer. Only used for Version 2.0. */
+  fetchSize?: any;
+  /** Specifies the number of cursors or statements to be cached for each database connection, default value is 0. Type: integer. Only used for Version 2.0. */
+  statementCacheSize?: any;
+  /** Specifies a command that is issued immediately after connecting to the database to manage session settings. Type: string. Only used for Version 2.0. */
+  initializationString?: any;
+  /** Specifies whether to use bulk copy or batch insert when loading data into the database, default value is true. Type: boolean. Only used for Version 2.0. */
+  enableBulkLoad?: any;
+  /** Specifies whether to use the Version 1.0 data type mappings. Do not set this to true unless you want to keep backward compatibility with Version 1.0's data type mappings, default value is false. Type: boolean. Only used for Version 2.0. */
+  supportV1DataTypes?: any;
+  /** Specifies whether the driver returns column value with the TIMESTAMP WITH TIME ZONE data type as DateTime or string. This setting is ignored if supportV1DataTypes is not true, default value is true. Type: boolean. Only used for Version 2.0. */
+  fetchTswtzAsTimestamp?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 }
@@ -6530,6 +6563,12 @@ export interface Office365LinkedService extends LinkedService {
   servicePrincipalId: any;
   /** Specify the application's key. */
   servicePrincipalKey: SecretBaseUnion;
+  /** The service principal credential type for authentication.'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. If not specified, 'ServicePrincipalKey' is in use. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** Specify the base64 encoded certificate of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCert?: SecretBaseUnion;
+  /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 }
@@ -7210,8 +7249,6 @@ export interface GreenplumLinkedService extends LinkedService {
   connectionTimeout?: any;
   /** The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity. Type: integer. Only used for V2. */
   commandTimeout?: any;
-  /** The Azure key vault secret reference of password in connection string. Type: string. Only used for V2. */
-  password?: SecretBaseUnion;
 }
 
 /** HBase server linked service. */
@@ -7270,6 +7307,8 @@ export interface HiveLinkedService extends LinkedService {
   httpPath?: any;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
   enableSsl?: any;
+  /** Specifies whether the connections to the server will validate server certificate, the default value is True. Only used for Version 2.0 */
+  enableServerCertificateValidation?: any;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
   trustedCertPath?: any;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
@@ -7318,8 +7357,12 @@ export interface ImpalaLinkedService extends LinkedService {
   username?: any;
   /** The password corresponding to the user name when using UsernameAndPassword. */
   password?: SecretBaseUnion;
+  /** The transport protocol to use in the Thrift layer (for V2 only). Default value is Binary. */
+  thriftTransportProtocol?: ImpalaThriftTransportProtocol;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
   enableSsl?: any;
+  /** Specify whether to enable server SSL certificate validation when you connect.Always use System Trust Store (for V2 only). The default value is true. */
+  enableServerCertificateValidation?: any;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
   trustedCertPath?: any;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
@@ -7480,17 +7523,17 @@ export interface PhoenixLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
-/** Presto server linked service. */
+/** Presto server linked service. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface PrestoLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Presto";
   /** The IP address or host name of the Presto server. (i.e. 192.168.222.160) */
   host: any;
-  /** The version of the Presto server. (i.e. 0.148-t) */
-  serverVersion: any;
+  /** The version of the Presto server. (i.e. 0.148-t) Only used for Version 1.0. */
+  serverVersion?: any;
   /** The catalog context for all request against the server. */
   catalog: any;
-  /** The TCP port that the Presto server uses to listen for client connections. The default value is 8080. */
+  /** The TCP port that the Presto server uses to listen for client connections. The default value is 8080 when disable SSL, default value is 443 when enable SSL. */
   port?: any;
   /** The authentication mechanism used to connect to the Presto server. */
   authenticationType: PrestoAuthenticationType;
@@ -7498,23 +7541,25 @@ export interface PrestoLinkedService extends LinkedService {
   username?: any;
   /** The password corresponding to the user name. */
   password?: SecretBaseUnion;
-  /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
+  /** Specifies whether the connections to the server are encrypted using SSL. The default value for legacy version is False. The default value for version 2.0 is True. */
   enableSsl?: any;
-  /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
+  /** Specifies whether the connections to the server will validate server certificate, the default value is True. Only used for Version 2.0 */
+  enableServerCertificateValidation?: any;
+  /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. Only used for Version 1.0. */
   trustedCertPath?: any;
-  /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
+  /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. Only used for Version 1.0. */
   useSystemTrustStore?: any;
-  /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
+  /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. Only used for Version 1.0. */
   allowHostNameCNMismatch?: any;
-  /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
+  /** Specifies whether to allow self-signed certificates from the server. The default value is false. Only used for Version 1.0. */
   allowSelfSignedServerCert?: any;
-  /** The local time zone used by the connection. Valid values for this option are specified in the IANA Time Zone Database. The default value is the system time zone. */
+  /** The local time zone used by the connection. Valid values for this option are specified in the IANA Time Zone Database. The default value for Version 1.0 is the client system time zone. The default value for Version 2.0 is server system timeZone */
   timeZoneID?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 }
 
-/** QuickBooks server linked service. */
+/** QuickBooks server linked service. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface QuickBooksLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooks";
@@ -7524,14 +7569,16 @@ export interface QuickBooksLinkedService extends LinkedService {
   endpoint: any;
   /** The company ID of the QuickBooks company to authorize. */
   companyId: any;
-  /** The consumer key for OAuth 1.0 authentication. */
+  /** The consumer key for OAuth 2.0 authentication. */
   consumerKey: any;
-  /** The consumer secret for OAuth 1.0 authentication. */
+  /** The consumer secret for OAuth 2.0 authentication. */
   consumerSecret: SecretBaseUnion;
-  /** The access token for OAuth 1.0 authentication. */
-  accessToken: SecretBaseUnion;
-  /** The access token secret for OAuth 1.0 authentication. */
-  accessTokenSecret: SecretBaseUnion;
+  /** The access token for OAuth 2.0 authentication. */
+  accessToken?: SecretBaseUnion;
+  /** The access token secret is deprecated for OAuth 1.0 authentication. Only used for version 1.0. */
+  accessTokenSecret?: SecretBaseUnion;
+  /** The refresh token for OAuth 2.0 authentication. */
+  refreshToken?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
   useEncryptedEndpoints?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
@@ -7604,6 +7651,8 @@ export interface SparkLinkedService extends LinkedService {
   httpPath?: any;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
   enableSsl?: any;
+  /** Specifies whether the connections to the server will validate server certificate, the default value is True. Only used for Version 2.0 */
+  enableServerCertificateValidation?: any;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
   trustedCertPath?: any;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
@@ -7801,7 +7850,7 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   dataNodeSize?: any;
   /** Specifies the size of the Zoo Keeper node for the HDInsight cluster. */
   zookeeperNodeSize?: any;
-  /** Custom script actions to run on HDI ondemand cluster once it's up. Please refer to https://docs.microsoft.com/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions. */
+  /** Custom script actions to run on HDI ondemand cluster once it's up. Please refer to https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions. */
   scriptActions?: ScriptAction[];
   /** The ARM resource ID for the vNet to which the cluster should be joined after creation. Type: string (or Expression with resultType string). */
   virtualNetworkId?: any;
@@ -7875,6 +7924,8 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   policyId?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
+  /** The data security mode for the Databricks Cluster. Type: string (or Expression with resultType string). */
+  dataSecurityMode?: any;
 }
 
 /** Azure Databricks Delta Lake linked service. */
@@ -8099,8 +8150,12 @@ export interface SnowflakeV2LinkedService extends LinkedService {
   tenantId?: any;
   /** The scope of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
   scope?: any;
-  /** The host name of the Snowflake account. */
+  /** The default access control role to use in the Snowflake session. Type: string (or Expression with resultType string). */
+  role?: any;
+  /** The host name of the Snowflake account. Type: string (or Expression with resultType string). */
   host?: any;
+  /** Schema name for connection. Type: string (or Expression with resultType string). */
+  schema?: any;
   /** The Azure key vault secret reference of privateKey for KeyPair auth. */
   privateKey?: SecretBaseUnion;
   /** The Azure key vault secret reference of private key password for KeyPair auth with encrypted private key. */
@@ -8151,6 +8206,8 @@ export interface LakeHouseLinkedService extends LinkedService {
   workspaceId?: any;
   /** The ID of Microsoft Fabric Lakehouse artifact. Type: string (or Expression with resultType string). */
   artifactId?: any;
+  /** The authentication type to use. */
+  authenticationType?: LakehouseAuthenticationType;
   /** The ID of the application used to authenticate against Microsoft Fabric Lakehouse. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The Key of the application used to authenticate against Microsoft Fabric Lakehouse. */
@@ -8163,6 +8220,8 @@ export interface LakeHouseLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Power BI Workspace linked service. */
@@ -8221,6 +8280,8 @@ export interface WarehouseLinkedService extends LinkedService {
   endpoint: any;
   /** The ID of Microsoft Fabric workspace. Type: string (or Expression with resultType string). */
   workspaceId?: any;
+  /** The authentication type to use. */
+  authenticationType?: WarehouseAuthenticationType;
   /** The ID of the application used to authenticate against Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The Key of the application used to authenticate against Microsoft Fabric Warehouse. */
@@ -8233,6 +8294,30 @@ export interface WarehouseLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** ServiceNowV2 server linked service. */
+export interface ServiceNowV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2";
+  /** The endpoint of the ServiceNowV2 server. (i.e. <instance>.service-now.com) */
+  endpoint: any;
+  /** The authentication type to use. */
+  authenticationType: ServiceNowV2AuthenticationType;
+  /** The user name used to connect to the ServiceNowV2 server for Basic and OAuth2 authentication. */
+  username?: any;
+  /** The password corresponding to the user name for Basic and OAuth2 authentication. */
+  password?: SecretBaseUnion;
+  /** The client id for OAuth2 authentication. */
+  clientId?: any;
+  /** The client secret for OAuth2 authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** GrantType for OAuth2 authentication. Default value is password. */
+  grantType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -8661,7 +8746,8 @@ export interface AzureSqlMILinkedServiceTypeProperties
 }
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
-export interface WebAnonymousAuthentication extends WebLinkedServiceTypeProperties {
+export interface WebAnonymousAuthentication
+  extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous";
 }
@@ -8677,7 +8763,8 @@ export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
 }
 
 /** A WebLinkedService that uses client certificate based authentication to communicate with an HTTP endpoint. This scheme follows mutual authentication; the server must also provide valid credentials to the client. */
-export interface WebClientCertificateAuthentication extends WebLinkedServiceTypeProperties {
+export interface WebClientCertificateAuthentication
+  extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "ClientCertificate";
   /** Base64-encoded contents of a PFX file. */
@@ -9523,6 +9610,10 @@ export interface OracleSource extends CopySource {
   partitionSettings?: OraclePartitionSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
+  /** The decimal precision used to represent Oracle NUMBER type without precision and scale. The range is 1 to 256 and default value is 256 if not specified. Type: integer (or Expression with resultType integer). Only used for Version 2.0. */
+  numberPrecision?: any;
+  /** The decimal scale used to represent Oracle NUMBER type without precision and scale. The range is 0 to 130 and default value is 130 if not specified. Type: integer (or Expression with resultType integer). Only used for Version 2.0. */
+  numberScale?: any;
 }
 
 /** A copy activity AmazonRdsForOracle source. */
@@ -9539,6 +9630,10 @@ export interface AmazonRdsForOracleSource extends CopySource {
   partitionSettings?: AmazonRdsForOraclePartitionSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
+  /** The decimal precision used to represent Oracle NUMBER type without precision and scale. The range is 1 to 256 and default value is 256 if not specified. Type: integer (or Expression with resultType integer). Only used for Version 2.0. */
+  numberPrecision?: any;
+  /** The decimal scale used to represent Oracle NUMBER type without precision and scale. The range is 0 to 130 and default value is 130 if not specified. Type: integer (or Expression with resultType integer). Only used for Version 2.0. */
+  numberScale?: any;
 }
 
 /** A copy activity source for web page table. */
@@ -9773,12 +9868,16 @@ export interface TeradataSink extends CopySink {
   importSettings?: TeradataImportCommand;
 }
 
-/** A copy activity Azure PostgreSQL sink. */
+/** A copy activity Azure Database for PostgreSQL sink. */
 export interface AzurePostgreSqlSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
+  /** The write behavior for the operation. Default is Bulk Insert. */
+  writeMethod?: AzurePostgreSqlWriteMethodEnum;
+  /** Azure Database for PostgreSQL upsert option settings */
+  upsertSettings?: AzurePostgreSqlSinkUpsertSettings;
 }
 
 /** A copy activity Azure MySql sink. */
@@ -10101,6 +10200,10 @@ export interface DynamicsSink extends CopySink {
   ignoreNullValues?: any;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
   alternateKeyName?: any;
+  /** Controls the bypass of Dataverse custom business logic. Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
+  bypassBusinessLogicExecution?: any;
+  /** Controls the bypass of Power Automate flows. Default is false. Type: boolean (or Expression with resultType boolean). */
+  bypassPowerAutomateFlows?: any;
 }
 
 /** A copy activity Dynamics CRM sink. */
@@ -10113,6 +10216,10 @@ export interface DynamicsCrmSink extends CopySink {
   ignoreNullValues?: any;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
   alternateKeyName?: any;
+  /** Controls the bypass of Dataverse custom business logic. Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
+  bypassBusinessLogicExecution?: any;
+  /** Controls the bypass of Power Automate flows. Default is false. Type: boolean (or Expression with resultType boolean). */
+  bypassPowerAutomateFlows?: any;
 }
 
 /** A copy activity Common Data Service for Apps sink. */
@@ -10125,6 +10232,10 @@ export interface CommonDataServiceForAppsSink extends CopySink {
   ignoreNullValues?: any;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
   alternateKeyName?: any;
+  /** Controls the bypass of Dataverse custom business logic. Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
+  bypassBusinessLogicExecution?: any;
+  /** Controls the bypass of Power Automate flows. Default is false. Type: boolean (or Expression with resultType boolean). */
+  bypassPowerAutomateFlows?: any;
 }
 
 /** A copy activity Azure Data Explorer sink. */
@@ -10278,13 +10389,16 @@ export interface TabularTranslator extends CopyTranslator {
 /** Trigger referenced dependency. */
 export interface TriggerDependencyReference extends DependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference";
+  type:
+    | "TriggerDependencyReference"
+    | "TumblingWindowTriggerDependencyReference";
   /** Referenced trigger. */
   referenceTrigger: TriggerReference;
 }
 
 /** Self referenced tumbling window trigger dependency. */
-export interface SelfDependencyTumblingWindowTriggerReference extends DependencyReference {
+export interface SelfDependencyTumblingWindowTriggerReference
+  extends DependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfDependencyTumblingWindowTriggerReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
@@ -10294,7 +10408,8 @@ export interface SelfDependencyTumblingWindowTriggerReference extends Dependency
 }
 
 /** The key authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrationRuntimeType {
+export interface LinkedIntegrationRuntimeKeyAuthorization
+  extends LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "Key";
   /** The key used for authorization. */
@@ -10302,7 +10417,8 @@ export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrat
 }
 
 /** The role based access control (RBAC) authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeRbacAuthorization extends LinkedIntegrationRuntimeType {
+export interface LinkedIntegrationRuntimeRbacAuthorization
+  extends LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
@@ -11486,7 +11602,7 @@ export interface AmazonMWSSource extends TabularSource {
   query?: any;
 }
 
-/** A copy activity Azure PostgreSQL source. */
+/** A copy activity Azure Database for PostgreSQL source. */
 export interface AzurePostgreSqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlSource";
@@ -11817,7 +11933,8 @@ export interface ServiceNowV2Source extends TabularSource {
 }
 
 /** Referenced tumbling window trigger dependency. */
-export interface TumblingWindowTriggerDependencyReference extends TriggerDependencyReference {
+export interface TumblingWindowTriggerDependencyReference
+  extends TriggerDependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TumblingWindowTriggerDependencyReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
@@ -12817,6 +12934,24 @@ export enum KnownCredentialReferenceType {
  */
 export type CredentialReferenceType = string;
 
+/** Known values of {@link ValueType} that the service accepts. */
+export enum KnownValueType {
+  /** Actual */
+  Actual = "actual",
+  /** Display */
+  Display = "display",
+}
+
+/**
+ * Defines values for ValueType. \
+ * {@link KnownValueType} can be used interchangeably with ValueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **actual** \
+ * **display**
+ */
+export type ValueType = string;
+
 /** Known values of {@link AzureStorageAuthenticationType} that the service accepts. */
 export enum KnownAzureStorageAuthenticationType {
   /** Anonymous */
@@ -12976,6 +13111,27 @@ export enum KnownAzureSqlMIAuthenticationType {
  */
 export type AzureSqlMIAuthenticationType = string;
 
+/** Known values of {@link HDInsightClusterAuthenticationType} that the service accepts. */
+export enum KnownHDInsightClusterAuthenticationType {
+  /** BasicAuth */
+  BasicAuth = "BasicAuth",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for HDInsightClusterAuthenticationType. \
+ * {@link KnownHDInsightClusterAuthenticationType} can be used interchangeably with HDInsightClusterAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BasicAuth** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type HDInsightClusterAuthenticationType = string;
+
 /** Known values of {@link OracleAuthenticationType} that the service accepts. */
 export enum KnownOracleAuthenticationType {
   /** Basic */
@@ -12990,6 +13146,21 @@ export enum KnownOracleAuthenticationType {
  * **Basic**
  */
 export type OracleAuthenticationType = string;
+
+/** Known values of {@link AmazonRdsForOracleAuthenticationType} that the service accepts. */
+export enum KnownAmazonRdsForOracleAuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+}
+
+/**
+ * Defines values for AmazonRdsForOracleAuthenticationType. \
+ * {@link KnownAmazonRdsForOracleAuthenticationType} can be used interchangeably with AmazonRdsForOracleAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic**
+ */
+export type AmazonRdsForOracleAuthenticationType = string;
 
 /** Known values of {@link SybaseAuthenticationType} that the service accepts. */
 export enum KnownSybaseAuthenticationType {
@@ -13588,6 +13759,48 @@ export enum KnownSnowflakeAuthenticationType {
  */
 export type SnowflakeAuthenticationType = string;
 
+/** Known values of {@link LakehouseAuthenticationType} that the service accepts. */
+export enum KnownLakehouseAuthenticationType {
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for LakehouseAuthenticationType. \
+ * {@link KnownLakehouseAuthenticationType} can be used interchangeably with LakehouseAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type LakehouseAuthenticationType = string;
+
+/** Known values of {@link WarehouseAuthenticationType} that the service accepts. */
+export enum KnownWarehouseAuthenticationType {
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for WarehouseAuthenticationType. \
+ * {@link KnownWarehouseAuthenticationType} can be used interchangeably with WarehouseAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type WarehouseAuthenticationType = string;
+
 /** Known values of {@link ServiceNowV2AuthenticationType} that the service accepts. */
 export enum KnownServiceNowV2AuthenticationType {
   /** Basic */
@@ -13689,6 +13902,27 @@ export enum KnownCassandraSourceReadConsistencyLevels {
  * **LOCAL_SERIAL**
  */
 export type CassandraSourceReadConsistencyLevels = string;
+
+/** Known values of {@link AzurePostgreSqlWriteMethodEnum} that the service accepts. */
+export enum KnownAzurePostgreSqlWriteMethodEnum {
+  /** BulkInsert */
+  BulkInsert = "BulkInsert",
+  /** CopyCommand */
+  CopyCommand = "CopyCommand",
+  /** Upsert */
+  Upsert = "Upsert",
+}
+
+/**
+ * Defines values for AzurePostgreSqlWriteMethodEnum. \
+ * {@link KnownAzurePostgreSqlWriteMethodEnum} can be used interchangeably with AzurePostgreSqlWriteMethodEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BulkInsert** \
+ * **CopyCommand** \
+ * **Upsert**
+ */
+export type AzurePostgreSqlWriteMethodEnum = string;
 
 /** Known values of {@link NetezzaPartitionOption} that the service accepts. */
 export enum KnownNetezzaPartitionOption {
@@ -14771,6 +15005,8 @@ export enum KnownSapTablePartitionOption {
 export type SapTablePartitionOption = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "None" | "SystemAssigned";
+/** Defines values for ImpalaThriftTransportProtocol. */
+export type ImpalaThriftTransportProtocol = "Binary" | "HTTP";
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
   | "Sunday"
@@ -14782,73 +15018,88 @@ export type DayOfWeek =
   | "Saturday";
 
 /** Optional parameters. */
-export interface LinkConnectionListByWorkspaceOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
 export type LinkConnectionListByWorkspaceResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
-export interface LinkConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type LinkConnectionCreateOrUpdateResponse = LinkConnectionResource;
 
 /** Optional parameters. */
-export interface LinkConnectionGetOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LinkConnectionGetResponse = LinkConnectionResource;
 
 /** Optional parameters. */
-export interface LinkConnectionDeleteOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionEditTablesOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionEditTablesOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionStartOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionStartOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionStopOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionStopOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LinkConnectionGetDetailedStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetailedStatus operation. */
-export type LinkConnectionGetDetailedStatusResponse = LinkConnectionDetailedStatus;
+export type LinkConnectionGetDetailedStatusResponse =
+  LinkConnectionDetailedStatus;
 
 /** Optional parameters. */
-export interface LinkConnectionListLinkTablesOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionListLinkTablesOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkTables operation. */
 export type LinkConnectionListLinkTablesResponse = LinkTableListResponse;
 
 /** Optional parameters. */
-export interface LinkConnectionQueryTableStatusOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionQueryTableStatusOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryTableStatus operation. */
-export type LinkConnectionQueryTableStatusResponse = LinkConnectionQueryTableStatus;
+export type LinkConnectionQueryTableStatusResponse =
+  LinkConnectionQueryTableStatus;
 
 /** Optional parameters. */
 export interface LinkConnectionUpdateLandingZoneCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionPauseOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionPauseOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionResumeOptionalParams extends coreClient.OperationOptions {}
+export interface LinkConnectionResumeOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LinkConnectionListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type LinkConnectionListByWorkspaceNextResponse = LinkConnectionListResponse;
+export type LinkConnectionListByWorkspaceNextResponse =
+  LinkConnectionListResponse;
 
 /** Optional parameters. */
-export interface RunNotebookCreateRunOptionalParams extends coreClient.OperationOptions {
+export interface RunNotebookCreateRunOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14856,40 +15107,47 @@ export interface RunNotebookCreateRunOptionalParams extends coreClient.Operation
 }
 
 /** Contains response data for the createRun operation. */
-export type RunNotebookCreateRunResponse = RunNotebookCreateRunHeaders & RunNotebookResponse;
+export type RunNotebookCreateRunResponse = RunNotebookCreateRunHeaders &
+  RunNotebookResponse;
 
 /** Optional parameters. */
-export interface RunNotebookGetStatusOptionalParams extends coreClient.OperationOptions {}
+export interface RunNotebookGetStatusOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
 export type RunNotebookGetStatusResponse = RunNotebookResponse;
 
 /** Optional parameters. */
-export interface RunNotebookCancelRunOptionalParams extends coreClient.OperationOptions {}
+export interface RunNotebookCancelRunOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelRun operation. */
 export type RunNotebookCancelRunResponse = RunNotebookResponse;
 
 /** Optional parameters. */
-export interface RunNotebookGetSnapshotOptionalParams extends coreClient.OperationOptions {}
+export interface RunNotebookGetSnapshotOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSnapshot operation. */
 export type RunNotebookGetSnapshotResponse = RunNotebookSnapshotResponse;
 
 /** Optional parameters. */
-export interface KqlScriptsGetAllOptionalParams extends coreClient.OperationOptions {}
+export interface KqlScriptsGetAllOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAll operation. */
 export type KqlScriptsGetAllResponse = KqlScriptsResourceCollectionResponse;
 
 /** Optional parameters. */
-export interface KqlScriptsGetAllNextOptionalParams extends coreClient.OperationOptions {}
+export interface KqlScriptsGetAllNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAllNext operation. */
 export type KqlScriptsGetAllNextResponse = KqlScriptsResourceCollectionResponse;
 
 /** Optional parameters. */
-export interface KqlScriptCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface KqlScriptCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14900,13 +15158,15 @@ export interface KqlScriptCreateOrUpdateOptionalParams extends coreClient.Operat
 export type KqlScriptCreateOrUpdateResponse = KqlScriptResource;
 
 /** Optional parameters. */
-export interface KqlScriptGetByNameOptionalParams extends coreClient.OperationOptions {}
+export interface KqlScriptGetByNameOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByName operation. */
 export type KqlScriptGetByNameResponse = KqlScriptResource;
 
 /** Optional parameters. */
-export interface KqlScriptDeleteByNameOptionalParams extends coreClient.OperationOptions {
+export interface KqlScriptDeleteByNameOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14914,7 +15174,8 @@ export interface KqlScriptDeleteByNameOptionalParams extends coreClient.Operatio
 }
 
 /** Optional parameters. */
-export interface KqlScriptRenameOptionalParams extends coreClient.OperationOptions {
+export interface KqlScriptRenameOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14922,25 +15183,30 @@ export interface KqlScriptRenameOptionalParams extends coreClient.OperationOptio
 }
 
 /** Optional parameters. */
-export interface MetastoreRegisterOptionalParams extends coreClient.OperationOptions {}
+export interface MetastoreRegisterOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the register operation. */
 export type MetastoreRegisterResponse = MetastoreRegistrationResponse;
 
 /** Optional parameters. */
-export interface MetastoreGetDatabaseOperationsOptionalParams extends coreClient.OperationOptions {}
+export interface MetastoreGetDatabaseOperationsOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseOperations operation. */
-export type MetastoreGetDatabaseOperationsResponse = MetastoreRequestSuccessResponse;
+export type MetastoreGetDatabaseOperationsResponse =
+  MetastoreRequestSuccessResponse;
 
 /** Optional parameters. */
-export interface MetastoreUpdateOptionalParams extends coreClient.OperationOptions {}
+export interface MetastoreUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type MetastoreUpdateResponse = MetastoreUpdationResponse;
 
 /** Optional parameters. */
-export interface MetastoreDeleteOptionalParams extends coreClient.OperationOptions {}
+export interface MetastoreDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
@@ -14962,7 +15228,8 @@ export interface SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParam
 }
 
 /** Contains response data for the createOrUpdateSparkConfiguration operation. */
-export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse = SparkConfigurationResource;
+export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse =
+  SparkConfigurationResource;
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationOptionalParams
@@ -14972,7 +15239,8 @@ export interface SparkConfigurationGetSparkConfigurationOptionalParams
 }
 
 /** Contains response data for the getSparkConfiguration operation. */
-export type SparkConfigurationGetSparkConfigurationResponse = SparkConfigurationResource;
+export type SparkConfigurationGetSparkConfigurationResponse =
+  SparkConfigurationResource;
 
 /** Optional parameters. */
 export interface SparkConfigurationDeleteSparkConfigurationOptionalParams
@@ -15001,19 +15269,22 @@ export type SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse =
   SparkConfigurationListResponse;
 
 /** Optional parameters. */
-export interface BigDataPoolsListOptionalParams extends coreClient.OperationOptions {}
+export interface BigDataPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult;
 
 /** Optional parameters. */
-export interface BigDataPoolsGetOptionalParams extends coreClient.OperationOptions {}
+export interface BigDataPoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
 
 /** Optional parameters. */
-export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowCreateOrUpdateDataFlowOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15026,7 +15297,8 @@ export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreClient
 export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowGetDataFlowOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowGetDataFlowOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15035,7 +15307,8 @@ export interface DataFlowGetDataFlowOptionalParams extends coreClient.OperationO
 export type DataFlowGetDataFlowResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowDeleteDataFlowOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowDeleteDataFlowOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15043,7 +15316,8 @@ export interface DataFlowDeleteDataFlowOptionalParams extends coreClient.Operati
 }
 
 /** Optional parameters. */
-export interface DataFlowRenameDataFlowOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowRenameDataFlowOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15090,7 +15364,8 @@ export interface DataFlowDebugSessionAddDataFlowOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addDataFlow operation. */
-export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
+export type DataFlowDebugSessionAddDataFlowResponse =
+  AddDataFlowToDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams
@@ -15106,7 +15381,8 @@ export interface DataFlowDebugSessionExecuteCommandOptionalParams
 }
 
 /** Contains response data for the executeCommand operation. */
-export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
+export type DataFlowDebugSessionExecuteCommandResponse =
+  DataFlowDebugCommandResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams
@@ -15117,13 +15393,15 @@ export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextRespons
   QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
-export interface DatasetGetDatasetsByWorkspaceOptionalParams extends coreClient.OperationOptions {}
+export interface DatasetGetDatasetsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatasetsByWorkspace operation. */
 export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse;
 
 /** Optional parameters. */
-export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreClient.OperationOptions {
+export interface DatasetCreateOrUpdateDatasetOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15136,7 +15414,8 @@ export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreClient.O
 export type DatasetCreateOrUpdateDatasetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface DatasetGetDatasetOptionalParams extends coreClient.OperationOptions {
+export interface DatasetGetDatasetOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the dataset entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15145,7 +15424,8 @@ export interface DatasetGetDatasetOptionalParams extends coreClient.OperationOpt
 export type DatasetGetDatasetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface DatasetDeleteDatasetOptionalParams extends coreClient.OperationOptions {
+export interface DatasetDeleteDatasetOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15153,7 +15433,8 @@ export interface DatasetDeleteDatasetOptionalParams extends coreClient.Operation
 }
 
 /** Optional parameters. */
-export interface DatasetRenameDatasetOptionalParams extends coreClient.OperationOptions {
+export interface DatasetRenameDatasetOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15175,28 +15456,33 @@ export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
 }
 
 /** Contains response data for the getGitHubAccessToken operation. */
-export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
+export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse =
+  GitHubAccessTokenResponse;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesListOptionalParams extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type IntegrationRuntimesListResponse = IntegrationRuntimeListResponse;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesGetOptionalParams extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
 
 /** Optional parameters. */
-export interface LibraryListOptionalParams extends coreClient.OperationOptions {}
+export interface LibraryListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type LibraryListOperationResponse = LibraryListResponse;
 
 /** Optional parameters. */
-export interface LibraryFlushOptionalParams extends coreClient.OperationOptions {
+export interface LibraryFlushOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15204,13 +15490,15 @@ export interface LibraryFlushOptionalParams extends coreClient.OperationOptions 
 }
 
 /** Optional parameters. */
-export interface LibraryGetOperationResultOptionalParams extends coreClient.OperationOptions {}
+export interface LibraryGetOperationResultOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationResult operation. */
 export type LibraryGetOperationResultResponse = LibraryResource;
 
 /** Optional parameters. */
-export interface LibraryDeleteOptionalParams extends coreClient.OperationOptions {
+export interface LibraryDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15224,7 +15512,8 @@ export interface LibraryGetOptionalParams extends coreClient.OperationOptions {}
 export type LibraryGetResponse = LibraryResource;
 
 /** Optional parameters. */
-export interface LibraryCreateOptionalParams extends coreClient.OperationOptions {
+export interface LibraryCreateOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15232,13 +15521,15 @@ export interface LibraryCreateOptionalParams extends coreClient.OperationOptions
 }
 
 /** Optional parameters. */
-export interface LibraryAppendOptionalParams extends coreClient.OperationOptions {
+export interface LibraryAppendOptionalParams
+  extends coreClient.OperationOptions {
   /** Set this header to a byte offset at which the block is expected to be appended. The request succeeds only if the current offset matches this value. Otherwise, the request fails with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed) */
   blobConditionAppendPosition?: number;
 }
 
 /** Optional parameters. */
-export interface LibraryListNextOptionalParams extends coreClient.OperationOptions {}
+export interface LibraryListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type LibraryListNextResponse = LibraryListResponse;
@@ -15248,7 +15539,8 @@ export interface LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedServicesByWorkspace operation. */
-export type LinkedServiceGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse;
+export type LinkedServiceGetLinkedServicesByWorkspaceResponse =
+  LinkedServiceListResponse;
 
 /** Optional parameters. */
 export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
@@ -15262,10 +15554,12 @@ export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
 }
 
 /** Contains response data for the createOrUpdateLinkedService operation. */
-export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceResource;
+export type LinkedServiceCreateOrUpdateLinkedServiceResponse =
+  LinkedServiceResource;
 
 /** Optional parameters. */
-export interface LinkedServiceGetLinkedServiceOptionalParams extends coreClient.OperationOptions {
+export interface LinkedServiceGetLinkedServiceOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15296,7 +15590,8 @@ export interface LinkedServiceGetLinkedServicesByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedServicesByWorkspaceNext operation. */
-export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse;
+export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse =
+  LinkedServiceListResponse;
 
 /** Optional parameters. */
 export interface NotebookGetNotebooksByWorkspaceOptionalParams
@@ -15310,10 +15605,12 @@ export interface NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNotebookSummaryByWorkSpace operation. */
-export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse;
+export type NotebookGetNotebookSummaryByWorkSpaceResponse =
+  NotebookListResponse;
 
 /** Optional parameters. */
-export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreClient.OperationOptions {
+export interface NotebookCreateOrUpdateNotebookOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the Note book entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15326,7 +15623,8 @@ export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreClient
 export type NotebookCreateOrUpdateNotebookResponse = NotebookResource;
 
 /** Optional parameters. */
-export interface NotebookGetNotebookOptionalParams extends coreClient.OperationOptions {
+export interface NotebookGetNotebookOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15335,7 +15633,8 @@ export interface NotebookGetNotebookOptionalParams extends coreClient.OperationO
 export type NotebookGetNotebookResponse = NotebookResource;
 
 /** Optional parameters. */
-export interface NotebookDeleteNotebookOptionalParams extends coreClient.OperationOptions {
+export interface NotebookDeleteNotebookOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15343,7 +15642,8 @@ export interface NotebookDeleteNotebookOptionalParams extends coreClient.Operati
 }
 
 /** Optional parameters. */
-export interface NotebookRenameNotebookOptionalParams extends coreClient.OperationOptions {
+export interface NotebookRenameNotebookOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15362,10 +15662,12 @@ export interface NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNotebookSummaryByWorkSpaceNext operation. */
-export type NotebookGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse;
+export type NotebookGetNotebookSummaryByWorkSpaceNextResponse =
+  NotebookListResponse;
 
 /** Optional parameters. */
-export interface NotebookOperationResultGetOptionalParams extends coreClient.OperationOptions {}
+export interface NotebookOperationResultGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PipelineGetPipelinesByWorkspaceOptionalParams
@@ -15375,7 +15677,8 @@ export interface PipelineGetPipelinesByWorkspaceOptionalParams
 export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse;
 
 /** Optional parameters. */
-export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreClient.OperationOptions {
+export interface PipelineCreateOrUpdatePipelineOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15388,7 +15691,8 @@ export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreClient
 export type PipelineCreateOrUpdatePipelineResponse = PipelineResource;
 
 /** Optional parameters. */
-export interface PipelineGetPipelineOptionalParams extends coreClient.OperationOptions {
+export interface PipelineGetPipelineOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15397,7 +15701,8 @@ export interface PipelineGetPipelineOptionalParams extends coreClient.OperationO
 export type PipelineGetPipelineResponse = PipelineResource;
 
 /** Optional parameters. */
-export interface PipelineDeletePipelineOptionalParams extends coreClient.OperationOptions {
+export interface PipelineDeletePipelineOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15405,7 +15710,8 @@ export interface PipelineDeletePipelineOptionalParams extends coreClient.Operati
 }
 
 /** Optional parameters. */
-export interface PipelineRenamePipelineOptionalParams extends coreClient.OperationOptions {
+export interface PipelineRenamePipelineOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15413,7 +15719,8 @@ export interface PipelineRenamePipelineOptionalParams extends coreClient.Operati
 }
 
 /** Optional parameters. */
-export interface PipelineCreatePipelineRunOptionalParams extends coreClient.OperationOptions {
+export interface PipelineCreatePipelineRunOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
   parameters?: { [propertyName: string]: any };
   /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
@@ -15439,22 +15746,26 @@ export interface PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryPipelineRunsByWorkspace operation. */
-export type PipelineRunQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse;
+export type PipelineRunQueryPipelineRunsByWorkspaceResponse =
+  PipelineRunsQueryResponse;
 
 /** Optional parameters. */
-export interface PipelineRunGetPipelineRunOptionalParams extends coreClient.OperationOptions {}
+export interface PipelineRunGetPipelineRunOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPipelineRun operation. */
 export type PipelineRunGetPipelineRunResponse = PipelineRun;
 
 /** Optional parameters. */
-export interface PipelineRunQueryActivityRunsOptionalParams extends coreClient.OperationOptions {}
+export interface PipelineRunQueryActivityRunsOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryActivityRuns operation. */
 export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse;
 
 /** Optional parameters. */
-export interface PipelineRunCancelPipelineRunOptionalParams extends coreClient.OperationOptions {
+export interface PipelineRunCancelPipelineRunOptionalParams
+  extends coreClient.OperationOptions {
   /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
   isRecursive?: boolean;
 }
@@ -15479,7 +15790,8 @@ export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParam
 }
 
 /** Contains response data for the createOrUpdateSparkJobDefinition operation. */
-export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource;
+export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse =
+  SparkJobDefinitionResource;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
@@ -15489,7 +15801,8 @@ export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
 }
 
 /** Contains response data for the getSparkJobDefinition operation. */
-export type SparkJobDefinitionGetSparkJobDefinitionResponse = SparkJobDefinitionResource;
+export type SparkJobDefinitionGetSparkJobDefinitionResponse =
+  SparkJobDefinitionResource;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
@@ -15542,13 +15855,15 @@ export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse =
   SparkJobDefinitionsListResponse;
 
 /** Optional parameters. */
-export interface SqlPoolsListOptionalParams extends coreClient.OperationOptions {}
+export interface SqlPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SqlPoolsListResponse = SqlPoolInfoListResult;
 
 /** Optional parameters. */
-export interface SqlPoolsGetOptionalParams extends coreClient.OperationOptions {}
+export interface SqlPoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SqlPoolsGetResponse = SqlPool;
@@ -15575,7 +15890,8 @@ export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams
 export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource;
 
 /** Optional parameters. */
-export interface SqlScriptGetSqlScriptOptionalParams extends coreClient.OperationOptions {
+export interface SqlScriptGetSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the sql compute entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15584,7 +15900,8 @@ export interface SqlScriptGetSqlScriptOptionalParams extends coreClient.Operatio
 export type SqlScriptGetSqlScriptResponse = SqlScriptResource;
 
 /** Optional parameters. */
-export interface SqlScriptDeleteSqlScriptOptionalParams extends coreClient.OperationOptions {
+export interface SqlScriptDeleteSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15592,7 +15909,8 @@ export interface SqlScriptDeleteSqlScriptOptionalParams extends coreClient.Opera
 }
 
 /** Optional parameters. */
-export interface SqlScriptRenameSqlScriptOptionalParams extends coreClient.OperationOptions {
+export interface SqlScriptRenameSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15604,16 +15922,19 @@ export interface SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlScriptsByWorkspaceNext operation. */
-export type SqlScriptGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse;
+export type SqlScriptGetSqlScriptsByWorkspaceNextResponse =
+  SqlScriptsListResponse;
 
 /** Optional parameters. */
-export interface TriggerGetTriggersByWorkspaceOptionalParams extends coreClient.OperationOptions {}
+export interface TriggerGetTriggersByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTriggersByWorkspace operation. */
 export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse;
 
 /** Optional parameters. */
-export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreClient.OperationOptions {
+export interface TriggerCreateOrUpdateTriggerOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15626,7 +15947,8 @@ export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreClient.O
 export type TriggerCreateOrUpdateTriggerResponse = TriggerResource;
 
 /** Optional parameters. */
-export interface TriggerGetTriggerOptionalParams extends coreClient.OperationOptions {
+export interface TriggerGetTriggerOptionalParams
+  extends coreClient.OperationOptions {
   /** ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15635,7 +15957,8 @@ export interface TriggerGetTriggerOptionalParams extends coreClient.OperationOpt
 export type TriggerGetTriggerResponse = TriggerResource;
 
 /** Optional parameters. */
-export interface TriggerDeleteTriggerOptionalParams extends coreClient.OperationOptions {
+export interface TriggerDeleteTriggerOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15643,7 +15966,8 @@ export interface TriggerDeleteTriggerOptionalParams extends coreClient.Operation
 }
 
 /** Optional parameters. */
-export interface TriggerSubscribeTriggerToEventsOptionalParams extends coreClient.OperationOptions {
+export interface TriggerSubscribeTriggerToEventsOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15651,14 +15975,16 @@ export interface TriggerSubscribeTriggerToEventsOptionalParams extends coreClien
 }
 
 /** Contains response data for the subscribeTriggerToEvents operation. */
-export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus;
+export type TriggerSubscribeTriggerToEventsResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerGetEventSubscriptionStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventSubscriptionStatus operation. */
-export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
+export type TriggerGetEventSubscriptionStatusResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
@@ -15670,10 +15996,12 @@ export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
 }
 
 /** Contains response data for the unsubscribeTriggerFromEvents operation. */
-export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus;
+export type TriggerUnsubscribeTriggerFromEventsResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
-export interface TriggerStartTriggerOptionalParams extends coreClient.OperationOptions {
+export interface TriggerStartTriggerOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15681,7 +16009,8 @@ export interface TriggerStartTriggerOptionalParams extends coreClient.OperationO
 }
 
 /** Optional parameters. */
-export interface TriggerStopTriggerOptionalParams extends coreClient.OperationOptions {
+export interface TriggerStopTriggerOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15696,7 +16025,8 @@ export interface TriggerGetTriggersByWorkspaceNextOptionalParams
 export type TriggerGetTriggersByWorkspaceNextResponse = TriggerListResponse;
 
 /** Optional parameters. */
-export interface TriggerRunRerunTriggerInstanceOptionalParams extends coreClient.OperationOptions {}
+export interface TriggerRunRerunTriggerInstanceOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TriggerRunCancelTriggerInstanceOptionalParams
@@ -15707,16 +16037,19 @@ export interface TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryTriggerRunsByWorkspace operation. */
-export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse;
+export type TriggerRunQueryTriggerRunsByWorkspaceResponse =
+  TriggerRunsQueryResponse;
 
 /** Optional parameters. */
-export interface WorkspaceGetOptionalParams extends coreClient.OperationOptions {}
+export interface WorkspaceGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceGetResponse = Workspace;
 
 /** Optional parameters. */
-export interface ArtifactsClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface ArtifactsClientOptionalParams
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }
