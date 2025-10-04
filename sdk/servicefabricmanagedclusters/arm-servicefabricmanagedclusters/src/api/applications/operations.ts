@@ -1,20 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type {
   ApplicationResource,
-  applicationResourceSerializer,
-  applicationResourceDeserializer,
   ApplicationUpdateParameters,
-  applicationUpdateParametersSerializer,
   _ApplicationResourceList,
-  _applicationResourceListDeserializer,
   RuntimeResumeApplicationUpgradeParameters,
-  runtimeResumeApplicationUpgradeParametersSerializer,
+  RuntimeUpdateApplicationUpgradeParameters,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  applicationResourceSerializer,
+  applicationResourceDeserializer,
+  applicationUpdateParametersSerializer,
+  _applicationResourceListDeserializer,
+  runtimeResumeApplicationUpgradeParametersSerializer,
+  runtimeUpdateApplicationUpgradeParametersSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
   ApplicationsReadUpgradeOptionalParams,
@@ -24,19 +33,73 @@ import {
   ApplicationsCreateOrUpdateOptionalParams,
   ApplicationsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _updateUpgradeSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  applicationName: string,
+  parameters: RuntimeUpdateApplicationUpgradeParameters,
+  options: ApplicationsUpdateUpgradeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/updateUpgrade{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      applicationName: applicationName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: runtimeUpdateApplicationUpgradeParametersSerializer(parameters),
+  });
+}
+
+export async function _updateUpgradeDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Send a request to update the current application upgrade. */
+export function updateUpgrade(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  applicationName: string,
+  parameters: RuntimeUpdateApplicationUpgradeParameters,
+  options: ApplicationsUpdateUpgradeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _updateUpgradeDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateUpgradeSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        parameters,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _startRollbackSend(
   context: Client,
@@ -58,13 +121,7 @@ export function _startRollbackSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _startRollbackDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -119,10 +176,6 @@ export function _resumeUpgradeSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: runtimeResumeApplicationUpgradeParametersSerializer(parameters),
   });
 }
@@ -183,13 +236,7 @@ export function _readUpgradeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _readUpgradeDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -296,13 +343,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {

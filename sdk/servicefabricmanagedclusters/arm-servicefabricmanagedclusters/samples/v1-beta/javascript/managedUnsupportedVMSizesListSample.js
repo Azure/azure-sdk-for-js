@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
  *
  * @summary get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
- * x-ms-original-file: 2025-03-01-preview/managedUnsupportedVMSizesList_example.json
+ * x-ms-original-file: 2025-06-01-preview/managedUnsupportedVMSizesList_example.json
  */
 async function listUnsupportedVmSizes() {
   const credential = new DefaultAzureCredential();

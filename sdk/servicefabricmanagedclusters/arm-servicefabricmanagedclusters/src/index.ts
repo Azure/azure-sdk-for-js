@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -36,6 +37,16 @@ export {
   CreatedByType,
   ApplicationUpdateParameters,
   RuntimeResumeApplicationUpgradeParameters,
+  RuntimeUpdateApplicationUpgradeParameters,
+  KnownRuntimeUpgradeKind,
+  RuntimeUpgradeKind,
+  RuntimeApplicationHealthPolicy,
+  RuntimeServiceTypeHealthPolicy,
+  RuntimeRollingUpgradeUpdateMonitoringPolicy,
+  KnownRuntimeRollingUpgradeMode,
+  RuntimeRollingUpgradeMode,
+  KnownRuntimeFailureAction,
+  RuntimeFailureAction,
   ApplicationTypeResource,
   ApplicationTypeResourceProperties,
   ApplicationTypeUpdateParameters,
@@ -216,6 +227,7 @@ export {
 } from "./models/index.js";
 export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/index.js";
 export {
+  ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
   ApplicationsReadUpgradeOptionalParams,
@@ -310,3 +322,4 @@ export {
   ServicesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

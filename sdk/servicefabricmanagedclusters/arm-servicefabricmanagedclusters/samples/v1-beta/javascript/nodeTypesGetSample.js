@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Service Fabric node type of a given managed cluster.
  *
  * @summary get a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2025-03-01-preview/NodeTypeGetOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/NodeTypeGetOperation_example.json
  */
 async function getANodeType() {
   const credential = new DefaultAzureCredential();
