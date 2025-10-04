@@ -106,7 +106,7 @@ vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
   return {
     CustomerSDKStatsMetrics: {
       getInstance: vi.fn().mockImplementation(() => {
-        return mockCustomerSDKStatsMetrics;
+        return Promise.resolve(mockCustomerSDKStatsMetrics);
       }),
       shutdown: vi.fn(),
     },
