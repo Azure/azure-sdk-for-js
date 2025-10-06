@@ -221,16 +221,24 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 interface BuildRequestBodyResponse {
-  body:
-    | string
-    | Blob
-    | ReadableStream<Uint8Array>
-    | ArrayBuffer
-    | ArrayBufferView
-    | FormData
-    | null
-    | undefined;
+  body?: BodyInit;
   streaming: boolean;
+}
+
+function arrayBufferViewToArrayBuffer(source: ArrayBufferView): ArrayBuffer {
+  if (
+    source.buffer instanceof ArrayBuffer &&
+    source.byteOffset === 0 &&
+    source.byteLength === source.buffer.byteLength
+  ) {
+    return source.buffer;
+  }
+
+  const arrayBuffer = new ArrayBuffer(source.byteLength);
+  const view = new Uint8Array(arrayBuffer);
+  const sourceView = new Uint8Array(source.buffer as SharedArrayBuffer);
+  view.set(sourceView);
+  return view.buffer;
 }
 
 function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
@@ -239,9 +247,18 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isWebReadableStream(body)
-    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
-    : { streaming: false, body };
+  if (isWebReadableStream(body)) {
+    return {
+      streaming: true,
+      body: buildBodyStream(body, { onProgress: request.onUploadProgress }),
+    };
+  } else if (typeof body === "object" && body && "buffer" in body) {
+    return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
+  } else if (body === null || body === undefined) {
+    return { streaming: false };
+  } else {
+    return { streaming: false, body };
+  }
 }
 
 /**
