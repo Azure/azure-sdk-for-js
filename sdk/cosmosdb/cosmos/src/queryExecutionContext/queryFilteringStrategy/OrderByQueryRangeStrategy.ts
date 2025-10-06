@@ -50,6 +50,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const targetRangeMapping = continuationRanges[continuationRanges.length - 1].range;
       // It is assumed that range mapping array is going to contain only range
       const targetRange: PartitionKeyRange = targetRangeMapping;
+      
+      // Set the target partition ID for filter context identification
+      result.targetPartitionId = targetRange.id;
 
       const targetContinuationToken =
         continuationRanges[continuationRanges.length - 1].continuationToken;
@@ -86,16 +89,16 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
           });
         });
       }
-      const targetFilter = this.createTargetRangeFilterCondition(
-        (queryInfo?.orderByItems as any[]) || [],
-        queryInfo?.rid as string,
-        queryInfo,
-      );
+      // const targetFilter = this.createTargetRangeFilterCondition(
+      //   (queryInfo?.orderByItems as any[]) || [],
+      //   queryInfo?.rid as string,
+      //   queryInfo,
+      // );
 
       result.rangeTokenPairs.push({
         range: targetRange,
         continuationToken: targetContinuationToken,
-        filteringCondition: targetFilter,
+        filteringCondition: rightFilter,
       });
 
       // Apply filtering logic for right ranges
@@ -143,34 +146,34 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
    * @param queryInfo - Query information containing sort orders and other metadata
    * @returns SQL filter condition string for the target range
    */
-  private createTargetRangeFilterCondition(
-    orderByItems: any[],
-    rid: string | undefined,
-    queryInfo: Record<string, unknown> | undefined,
-  ): string {
-    // Create the left filter condition (documents greater than continuation point)
-    const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
+  // private createTargetRangeFilterCondition(
+  //   orderByItems: any[],
+  //   rid: string | undefined,
+  //   queryInfo: Record<string, unknown> | undefined,
+  // ): string {
+  //   // Create the left filter condition (documents greater than continuation point)
+  //   const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
 
-    // If we have ORDER BY items and a RID, create the optimal filter
-    if (leftFilter && rid) {
-      const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
+  //   // If we have ORDER BY items and a RID, create the optimal filter
+  //   if (leftFilter && rid) {
+  //     const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
 
-      // Create equality condition for documents with same ORDER BY values
-      // This should always succeed if leftFilter succeeded since they use the same data
-      const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
+  //     // Create equality condition for documents with same ORDER BY values
+  //     // This should always succeed if leftFilter succeeded since they use the same data
+  //     const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
 
-      // Combine ORDER BY filter with RID filter using OR logic
-      // This ensures we get documents that:
-      // 1. Have ORDER BY values greater than the continuation point, OR
-      // 2. Have the same ORDER BY values but RID greater than continuation point
-      // This prevents duplicates while ensuring proper continuation
-      const finalFilter = `${leftFilter} OR (${equalityFilter} AND ${ridCondition})`;
-      return finalFilter;
-    }
+  //     // Combine ORDER BY filter with RID filter using OR logic
+  //     // This ensures we get documents that:
+  //     // 1. Have ORDER BY values greater than the continuation point, OR
+  //     // 2. Have the same ORDER BY values but RID greater than continuation point
+  //     // This prevents duplicates while ensuring proper continuation
+  //     const finalFilter = `${leftFilter} OR (${equalityFilter} AND ${ridCondition})`;
+  //     return finalFilter;
+  //   }
 
-    // If no RID available, return just the left filter (could be empty string)
-    return leftFilter || "";
-  }
+  //   // If no RID available, return just the left filter (could be empty string)
+  //   return leftFilter || "";
+  // }
 
   /**
    * Creates a filter condition for ranges based on ORDER BY items and sort orders
@@ -430,58 +433,58 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
    * @param queryInfo - Query information containing sort orders and other metadata
    * @returns SQL filter condition string for equality matching
    */
-  private createEqualityFilterCondition(
-    orderByItems: any[],
-    queryInfo: Record<string, unknown> | undefined,
-  ): string {
-    if (!orderByItems || orderByItems.length === 0) {
-      return "";
-    }
+  // private createEqualityFilterCondition(
+  //   orderByItems: any[],
+  //   queryInfo: Record<string, unknown> | undefined,
+  // ): string {
+  //   if (!orderByItems || orderByItems.length === 0) {
+  //     return "";
+  //   }
 
-    // Extract sort orders and expressions from query info
-    const sortOrders = this.extractSortOrders(queryInfo);
+  //   // Extract sort orders and expressions from query info
+  //   const sortOrders = this.extractSortOrders(queryInfo);
 
-    let orderByExpressions: any[] | undefined;
-    if (
-      queryInfo &&
-      queryInfo.quereyInfo &&
-      typeof queryInfo.quereyInfo === "object" &&
-      (queryInfo.quereyInfo as any).queryInfo &&
-      (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-      Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
-    ) {
-      orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
-    }
+  //   let orderByExpressions: any[] | undefined;
+  //   if (
+  //     queryInfo &&
+  //     queryInfo.quereyInfo &&
+  //     typeof queryInfo.quereyInfo === "object" &&
+  //     (queryInfo.quereyInfo as any).queryInfo &&
+  //     (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
+  //     Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
+  //   ) {
+  //     orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
+  //   }
 
-    if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
-      return "";
-    }
+  //   if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
+  //     return "";
+  //   }
 
-    const equalityConditions: string[] = [];
+  //   const equalityConditions: string[] = [];
 
-    // Create equality conditions for each ORDER BY field
-    for (
-      let i = 0;
-      i < orderByItems.length && i < sortOrders.length && i < orderByExpressions.length;
-      i++
-    ) {
-      const orderByItem = orderByItems[i];
+  //   // Create equality conditions for each ORDER BY field
+  //   for (
+  //     let i = 0;
+  //     i < orderByItems.length && i < sortOrders.length && i < orderByExpressions.length;
+  //     i++
+  //   ) {
+  //     const orderByItem = orderByItems[i];
 
-      if (!orderByItem || orderByItem.item === undefined) {
-        continue;
-      }
+  //     if (!orderByItem || orderByItem.item === undefined) {
+  //       continue;
+  //     }
 
-      // Get the field path for this ORDER BY item
-      const fieldPath = this.extractFieldPath(queryInfo, i);
-      const formattedValue = this.formatValueForSQL(orderByItem.item);
+  //     // Get the field path for this ORDER BY item
+  //     const fieldPath = this.extractFieldPath(queryInfo, i);
+  //     const formattedValue = this.formatValueForSQL(orderByItem.item);
 
-      // Create equality condition: field = value
-      equalityConditions.push(`${fieldPath} = ${formattedValue}`);
-    }
+  //     // Create equality condition: field = value
+  //     equalityConditions.push(`${fieldPath} = ${formattedValue}`);
+  //   }
 
-    // Combine all equality conditions with AND
-    return equalityConditions.length > 0 ? equalityConditions.join(" AND ") : "";
-  }
+  //   // Combine all equality conditions with AND
+  //   return equalityConditions.length > 0 ? equalityConditions.join(" AND ") : "";
+  // }
 
   /**
    * Compares partition key range boundaries with proper handling for inclusive/exclusive semantics

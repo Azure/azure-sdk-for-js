@@ -15,6 +15,9 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import type { FilterContext } from "./queryFilteringStrategy/FilterStrategy.js";
+import type { FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
+import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
@@ -182,6 +185,32 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // Extract ranges and tokens from the combined result
           const rangeTokenPairs = filterResult.rangeTokenPairs;
 
+          // Create filter context for ORDER BY queries with continuation
+          let filterContext: FilterContext | undefined;
+          console.log(`[ParallelQueryExecutionContextBase] Checking filter context creation:`, {
+            hasOrderByItems: !!processedContinuationResponse.orderByItems,
+            orderByItems: processedContinuationResponse.orderByItems,
+            hasRid: !!processedContinuationResponse.rid,
+            rid: processedContinuationResponse.rid,
+            hasSkipCount: processedContinuationResponse.skipCount !== undefined,
+            skipCount: processedContinuationResponse.skipCount
+          });
+          if (
+            processedContinuationResponse.orderByItems &&
+            processedContinuationResponse.rid &&
+            processedContinuationResponse.skipCount !== undefined
+          ) {
+            console.log(`[ParallelQueryExecutionContextBase] ✓ Creating filter context`);
+            filterContext = {
+              orderByItems: processedContinuationResponse.orderByItems,
+              rid: processedContinuationResponse.rid,
+              skipCount: processedContinuationResponse.skipCount,
+              sortOrders: this.sortOrders || [],
+            };
+          } else {
+            console.log(`[ParallelQueryExecutionContextBase] ✗ NOT creating filter context - missing required fields`);
+          }
+
           rangeTokenPairs.forEach((rangeTokenPair, _) => {
             const partitionTargetRange = rangeTokenPair.range;
             const continuationToken = rangeTokenPair.continuationToken;
@@ -196,6 +225,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const startEpk = matchingContinuationRange?.epkMin;
             const endEpk = matchingContinuationRange?.epkMax;
 
+            // Only apply filter to target partition (the one from which continuation originated)
+            // Use the partitionTargetRange.id directly for comparison since that's what we're processing
+            const isTargetPartition = filterResult.targetPartitionId === partitionTargetRange.id;
+            const partitionFilterContext = isTargetPartition ? filterContext : undefined;
+
+            console.log(`[ParallelQueryExecutionContextBase] Partition ${partitionTargetRange.id}: isTarget=${isTargetPartition} (targetPartitionId=${filterResult.targetPartitionId} [${typeof filterResult.targetPartitionId}] vs partitionId=${partitionTargetRange.id} [${typeof partitionTargetRange.id}]), hasFilter=${!!partitionFilterContext}`);
+            if (partitionFilterContext) {
+              console.log(`[ParallelQueryExecutionContextBase] Target partition filter context: ${JSON.stringify({rid: partitionFilterContext.rid, skipCount: partitionFilterContext.skipCount, orderByItems: partitionFilterContext.orderByItems})}`);
+            }
+            console.log(`[ParallelQueryExecutionContextBase] Partition ${partitionTargetRange.id}: filterCondition=${filterCondition}`);
+
             targetPartitionQueryExecutionContextList.push(
               this._createTargetPartitionQueryExecutionContext(
                 partitionTargetRange,
@@ -204,6 +244,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 endEpk,
                 !!(startEpk && endEpk), // populateEpkRangeHeaders - true if both EPK values are present
                 filterCondition,
+                partitionFilterContext,
               ),
             );
           });
@@ -300,6 +341,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     ranges: { range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[];
     orderByItems?: any[];
     rid?: string;
+    skipCount?: number;
   }> {
     if (!continuationToken) {
       return { ranges: [] };
@@ -317,15 +359,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       rangeMappings,
       orderByItems: parsedOrderByItems,
       rid: parsedRid,
+      skipCount: parsedSkipCount,
     } = this._parseContinuationToken(continuationToken);
 
     if (!rangeMappings || rangeMappings.length === 0) {
-      return { ranges: [], orderByItems: parsedOrderByItems, rid: parsedRid };
+      return { 
+        ranges: [], 
+        orderByItems: parsedOrderByItems, 
+        rid: parsedRid,
+        skipCount: parsedSkipCount,
+      };
     }
-
-    // Set the extracted metadata
-    const orderByItems = parsedOrderByItems;
-    const rid: string | undefined = parsedRid;
 
     // Check each range mapping for potential splits/merges
     for (const rangeWithToken of rangeMappings) {
@@ -383,7 +427,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       }
     }
 
-    return { ranges: processedRanges, orderByItems, rid };
+    return { 
+      ranges: processedRanges, 
+      orderByItems: parsedOrderByItems, 
+      rid: parsedRid,
+      skipCount: parsedSkipCount,
+    };
   }
 
   /**
@@ -397,24 +446,40 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     rangeMappings: QueryRangeWithContinuationToken[] | null;
     orderByItems?: any[];
     rid?: string;
+    skipCount?: number;
   } {
     try {
       const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
+      console.log(`[_parseContinuationToken] isOrderByQuery: ${isOrderByQuery}, sortOrders: ${JSON.stringify(this.sortOrders)}`);
+      console.log(`[_parseContinuationToken] Token (first 200 chars): ${continuationToken.substring(0, 200)}`);
+      
       let parsed: any;
       if (isOrderByQuery) {
         // For ORDER BY queries, parse the token and extract all needed information
         parsed = parseOrderByQueryContinuationToken(continuationToken);
+        console.log(`[_parseContinuationToken] Parsed ORDER BY token:`, {
+          hasRangeMappings: !!parsed?.rangeMappings,
+          orderByItems: parsed?.orderByItems,
+          documentRid: parsed?.documentRid,
+          skipCount: parsed?.skipCount
+        });
 
         if (parsed && parsed.rangeMappings) {
           return {
             rangeMappings: parsed.rangeMappings,
             orderByItems: parsed.orderByItems,
             rid: parsed.documentRid,
+            skipCount: parsed.skipCount,
           };
         }
       } else {
         // For parallel queries, parse directly and extract range mappings
         parsed = parseCompositeQueryContinuationToken(continuationToken);
+        console.log(`[_parseContinuationToken] Parsed PARALLEL token:`, {
+          hasRangeMappings: !!parsed?.rangeMappings,
+          rid: parsed?.rid
+        });
+        
         if (parsed && parsed.rangeMappings) {
           return {
             rangeMappings: parsed.rangeMappings,
@@ -656,6 +721,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     endEpk?: string,
     populateEpkRangeHeaders?: boolean,
     filterCondition?: string,
+    filterContext?: FilterContext,
   ): DocumentProducer {
     let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
@@ -678,6 +744,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const options = { ...this.options };
     options.continuationToken = continuationToken;
 
+    let filter: FilterStrategy | undefined;
+    if (filterContext) {
+      filter = new RidSkipCountFilter(filterContext);
+    }
+
     return new DocumentProducer(
       this.clientContext,
       this.collectionLink,
@@ -688,6 +759,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       startEpk,
       endEpk,
       populateEpkRangeHeaders,
+      filter,
     );
   }
   protected async drainBufferedItems(): Promise<Response<any>> {

@@ -13,6 +13,12 @@ export interface PartitionRangeFilterResult {
    * The filtered partition ranges with their associated continuation tokens and filtering conditions
    */
   rangeTokenPairs: PartitionRangeWithContinuationToken[];
+
+  /**
+   * 
+   **/
+
+  targetPartitionId?: string;
 }
 
 /**

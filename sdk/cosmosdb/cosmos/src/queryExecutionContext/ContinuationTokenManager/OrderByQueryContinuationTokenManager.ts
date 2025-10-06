@@ -121,8 +121,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
             skipCount++;
           }
         }
-        // Exclude the last document from the skip count
-        skipCount -= 1;
       }
     }
 

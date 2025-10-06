@@ -1,7 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NonStreamingOrderByResult } from "./nonStreamingOrderByResult.js";
+import type { NonStreamingOrderByResult, OrderByDocument } from "./nonStreamingOrderByResult.js";
+
+/**
+ * @hidden
+ * Utility function to compare two sets of OrderBy items according to sort orders
+ * @param orderByItemsA - First set of order by items
+ * @param orderByItemsB - Second set of order by items  
+ * @param sortOrders - Array of sort orders ("Ascending" or "Descending")
+ * @returns Comparison result: negative if A \< B, 0 if A == B, positive if A \> B
+ */
+export function compareOrderByItems(
+  orderByItemsA: any[],
+  orderByItemsB: any[], 
+  sortOrders: string[]
+): number {
+  const comparator = new OrderByComparator(sortOrders);
+  
+  // Create temporary OrderByDocument objects for comparison
+  const docA: OrderByDocument = { orderByItems: orderByItemsA, payload: null };
+  const docB: OrderByDocument = { orderByItems: orderByItemsB, payload: null };
+  
+  return comparator.compareItems(docA, docB);
+}
 
 /**
  *  @hidden
@@ -41,9 +63,9 @@ const TYPEORDCOMPARATOR: {
 export class OrderByComparator {
   constructor(public sortOrder: string[]) {}
 
-  public compareItems(item1: NonStreamingOrderByResult, item2: NonStreamingOrderByResult): number {
-    const orderByItemsRes1 = this.getOrderByItems(item1);
-    const orderByItemsRes2 = this.getOrderByItems(item2);
+  public compareItems(a: OrderByDocument, b: OrderByDocument): number {
+    const orderByItemsRes1 = this.getOrderByItems(a);
+    const orderByItemsRes2 = this.getOrderByItems(b);
 
     for (let i = 0; i < orderByItemsRes1.length; i++) {
       // compares the orderby items one by one
@@ -56,6 +78,8 @@ export class OrderByComparator {
         }
       }
     }
+    // If all orderBy items are equal, return 0
+    return 0;
   }
 
   private getOrderByItems(res: any): any {
