@@ -225,7 +225,7 @@ interface BuildRequestBodyResponse {
   streaming: boolean;
 }
 
-function arrayBufferViewToArrayBuffer(source: ArrayBufferView): ArrayBuffer {
+export function arrayBufferViewToArrayBuffer(source: ArrayBufferView): ArrayBuffer {
   if (
     source.buffer instanceof ArrayBuffer &&
     source.byteOffset === 0 &&
@@ -236,7 +236,7 @@ function arrayBufferViewToArrayBuffer(source: ArrayBufferView): ArrayBuffer {
 
   const arrayBuffer = new ArrayBuffer(source.byteLength);
   const view = new Uint8Array(arrayBuffer);
-  const sourceView = new Uint8Array(source.buffer as SharedArrayBuffer);
+  const sourceView = new Uint8Array(source.buffer, source.byteOffset, source.byteLength);
   view.set(sourceView);
   return view.buffer;
 }
