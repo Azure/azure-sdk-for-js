@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageDiscoveryClient } from "@azure/arm-storagediscovery";
-import { DefaultAzureCredential } from "@azure/identity";
+const { StorageDiscoveryClient } = require("@azure/arm-storagediscovery");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list StorageDiscoveryWorkspace resources by subscription ID
  *
  * @summary list StorageDiscoveryWorkspace resources by subscription ID
- * x-ms-original-file: 2025-06-01-preview/StorageDiscoveryWorkspaces_ListBySubscription.json
+ * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_ListBySubscription.json
  */
-async function listStorageDiscoveryWorkspacesBySubscription(): Promise<void> {
+async function listStorageDiscoveryWorkspacesBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listStorageDiscoveryWorkspacesBySubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listStorageDiscoveryWorkspacesBySubscription();
 }
 
