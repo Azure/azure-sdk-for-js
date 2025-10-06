@@ -6,8 +6,6 @@
 
 - Properly handle single-element headers of template registrations [PR #36114](https://github.com/Azure/azure-sdk-for-js/pull/36114).
 
-### Other Changes
-
 ## 2.0.0 (2024-10-14)
 
 ### Features Added
