@@ -1,11 +1,5 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.az acr login -n $($DeploymentOutputs['IDENTITY_ACR_NAME']) && \
-sudo docker run \
--e IDENTITY_STORAGE_NAME=$($DeploymentOutputs['IDENTITY_STORAGE_NAME']) \
--e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$($DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']) \
--e IDENTITY_USER_ASSIGNED_IDENTITY=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY']) \
--e IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_CLIENT_ID']) \
--e IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID=$($DeploymentOutputs['IDENTITY_USER_ASSIGNED_IDENTITY_OBJECT_ID'])ORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
 param (
   [Parameter()]
