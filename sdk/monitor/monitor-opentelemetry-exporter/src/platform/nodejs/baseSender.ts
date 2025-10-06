@@ -90,6 +90,7 @@ export abstract class BaseSender {
             }))
             .then((metrics) => {
               this.customerSDKStatsMetrics = metrics;
+              return;
             })
             .catch((error) => {
               diag.warn("Failed to initialize customer SDK stats metrics:", error);
