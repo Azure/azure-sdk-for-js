@@ -22,7 +22,7 @@ async function dpsCreateOrUpdateCertificate(): Promise<void> {
   const provisioningServiceName = "myFirstProvisioningService";
   const certificateName = "cert";
   const certificateDescription: CertificateResponse = {
-    properties: { certificate: Buffer.from("MA==") },
+    properties: { certificate: Buffer.from("MA==") as Uint8Array },
   };
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);

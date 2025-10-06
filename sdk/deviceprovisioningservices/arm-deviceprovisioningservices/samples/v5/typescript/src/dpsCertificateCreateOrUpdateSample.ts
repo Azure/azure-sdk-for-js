@@ -29,7 +29,7 @@ async function dpsCreateOrUpdateCertificate(): Promise<void> {
   const certificateName = "cert";
   const certificateDescription: CertificateResponse = {
     properties: {
-      certificate: Buffer.from("############################################")
+      certificate: Buffer.from("############################################") as Uint8Array
     }
   };
   const credential = new DefaultAzureCredential();
