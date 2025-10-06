@@ -1,6 +1,6 @@
 # Azure Identity client library for JavaScript
 
-The Azure Identity library provides [Microsoft Entra ID](https://learn.microsoft.com/entra/fundamentals/whatis) ([formerly Azure Active Directory](https://learn.microsoft.com/entra/fundamentals/new-name)) token authentication through a set of convenient [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
+The Azure Identity library provides [Microsoft Entra ID](https://learn.microsoft.com/entra/fundamentals/whatis) token-based authentication through a set of convenient [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations.
 
 For examples of various credentials, see the [Azure Identity examples page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md).
 

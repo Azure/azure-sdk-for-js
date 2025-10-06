@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { StorageDiscoveryClient } from "@azure/arm-storagediscovery";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to update a StorageDiscoveryWorkspace
  *
  * @summary update a StorageDiscoveryWorkspace
- * x-ms-original-file: 2025-06-01-preview/StorageDiscoveryWorkspaces_Update.json
+ * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_Update.json
  */
-
-import { StorageDiscoveryClient } from "@azure/arm-storagediscovery";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function updateAStorageDiscoveryWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
@@ -20,7 +19,7 @@ async function updateAStorageDiscoveryWorkspace(): Promise<void> {
     "Sample-Storage-Workspace",
     {
       properties: {
-        sku: "Premium",
+        sku: "Free",
         workspaceRoots: ["/subscriptions/b79cb3ba-745e-5d9a-8903-4a02327a7e09"],
         description: "Updated Sample Storage Discovery Workspace",
         scopes: [
