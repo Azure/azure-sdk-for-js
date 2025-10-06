@@ -12,6 +12,7 @@ import type {
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
+import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -225,22 +226,6 @@ interface BuildRequestBodyResponse {
   streaming: boolean;
 }
 
-export function arrayBufferViewToArrayBuffer(source: ArrayBufferView): ArrayBuffer {
-  if (
-    source.buffer instanceof ArrayBuffer &&
-    source.byteOffset === 0 &&
-    source.byteLength === source.buffer.byteLength
-  ) {
-    return source.buffer;
-  }
-
-  const arrayBuffer = new ArrayBuffer(source.byteLength);
-  const view = new Uint8Array(arrayBuffer);
-  const sourceView = new Uint8Array(source.buffer, source.byteOffset, source.byteLength);
-  view.set(sourceView);
-  return view.buffer;
-}
-
 function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
@@ -253,6 +238,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
       body: buildBodyStream(body, { onProgress: request.onUploadProgress }),
     };
   } else if (typeof body === "object" && body && "buffer" in body) {
+    // ArrayBufferView
     return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
   } else if (body === null || body === undefined) {
     return { streaming: false };
