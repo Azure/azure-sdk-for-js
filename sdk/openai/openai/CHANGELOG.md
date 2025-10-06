@@ -1,5 +1,15 @@
 # Release History
 
+## 3.1.0-beta.1 (2025-10-06)
+
+### Features Added
+
+- Augments the types in v6 of the openai library
+
+### Breaking Changes
+
+- There are slight incompatabilities between v5 and v6 of the openai library.
+
 ## 2.1.0-beta.1 (2025-04-02)
 
 ### Features Added

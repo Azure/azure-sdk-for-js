@@ -19278,8 +19278,8 @@ importers:
         specifier: 'catalog:'
         version: 9.37.0
       openai:
-        specifier: ^5.10.1
-        version: 5.23.2(ws@8.18.3)(zod@3.25.76)
+        specifier: ^6.1.0
+        version: 6.1.0(ws@8.18.3)(zod@3.25.76)
       playwright:
         specifier: catalog:testing
         version: 1.55.1
@@ -32213,6 +32213,18 @@ packages:
       zod:
         optional: true
 
+  openai@6.1.0:
+    resolution: {integrity: sha512-5sqb1wK67HoVgGlsPwcH2bUbkg66nnoIYKoyV9zi5pZPqh7EWlmSrSDjAh4O5jaIg/0rIlcDKBtWvZBuacmGZg==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   optionator@0.8.3:
     resolution: {integrity: sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA==}
     engines: {node: '>= 0.8.0'}
@@ -37986,6 +37998,11 @@ snapshots:
       wsl-utils: 0.1.0
 
   openai@5.23.2(ws@8.18.3)(zod@3.25.76):
+    optionalDependencies:
+      ws: 8.18.3
+      zod: 3.25.76
+
+  openai@6.1.0(ws@8.18.3)(zod@3.25.76):
     optionalDependencies:
       ws: 8.18.3
       zod: 3.25.76
