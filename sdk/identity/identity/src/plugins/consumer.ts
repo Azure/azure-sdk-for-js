@@ -11,7 +11,6 @@ import {
 /**
  * The context passed to an Identity plugin. This contains objects that
  * plugins can use to set backend implementations.
- * @internal
  */
 const pluginContext: AzurePluginContext = {
   cachePluginControl: msalNodeFlowCacheControl,

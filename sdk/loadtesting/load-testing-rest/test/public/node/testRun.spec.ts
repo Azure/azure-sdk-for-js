@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecorder, createClient } from "../utils/recordedClient.js";
 import type {
   AppComponent,
@@ -14,6 +14,10 @@ import { isUnexpected } from "../../../src/index.js";
 import fs from "node:fs";
 import { getLongRunningPoller } from "../../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+
+const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+};
 
 describe("Test Run Operations", () => {
   let recorder: Recorder;
@@ -61,7 +65,11 @@ describe("Test Run Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
@@ -121,7 +129,11 @@ describe("Test Run Operations", () => {
       throw testRunCreationResult.body.error;
     }
 
-    const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
+    const testRunPoller = await getLongRunningPoller(
+      client,
+      testRunCreationResult,
+      testPollingOptions,
+    );
     await testRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(600000),
     });
@@ -234,7 +246,11 @@ describe("Test Profile Run Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
@@ -293,7 +309,11 @@ describe("Test Profile Run Operations", () => {
       throw testProfileRunCreationResult.body.error;
     }
 
-    const testProfileRunPoller = await getLongRunningPoller(client, testProfileRunCreationResult);
+    const testProfileRunPoller = await getLongRunningPoller(
+      client,
+      testProfileRunCreationResult,
+      testPollingOptions,
+    );
     const polledResult = await testProfileRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(1200000),
     });

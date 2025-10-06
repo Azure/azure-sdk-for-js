@@ -47,10 +47,10 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms @juniwang @RichardChen820
+/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms @juniwang @RichardChen820
 
 # ServiceLabel: %App Configuration
-# AzureSdkOwners:  @HarshaNalluru @minhanh-phan
+# AzureSdkOwners:  @minhanh-phan
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
@@ -214,10 +214,10 @@
 # AzureSdkOwners: @joheredi
 
 # PRLabel: %ConfidentialLedger
-/sdk/confidentialledger/ @amruthashree18 @taicchoumsft
+/sdk/confidentialledger/ @taicchoumsft
 
 # ServiceLabel: %ConfidentialLedger
-# AzureSdkOwners: @amruthashree18 @taicchoumsft
+# AzureSdkOwners: @taicchoumsft
 
 # PRLabel: %DocumentTranslator
 /sdk/documenttranslator/ @joheredi
@@ -239,10 +239,10 @@
 # AzureSdkOwners: @mikeharder @weshaggard @benbp
 
 # PRLabel: %test-utils
-/sdk/test-utils/ @HarshaNalluru @timovv
+/sdk/test-utils/ @timovv
 
 # ServiceLabel: %test-utils
-# AzureSdkOwners: @HarshaNalluru @timovv
+# AzureSdkOwners: @timovv
 
 # PRLabel: %Cognitive - Text Analytics
 # ServiceLabel: %Cognitive - Text Analytics
@@ -263,22 +263,22 @@
 /sdk/openai/ @trrwilson @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
-/sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
+/sdk/ai/ai-inference-rest @glharper @dargilco
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-/sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+/sdk/ai/ai-projects @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+# ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # PRLLabel: %AI Agents
-/sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+/sdk/ai/ai-agents @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Agents
-# ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+# ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -291,10 +291,10 @@
 # ServiceOwners: @axisc @sjkwak @hmlam
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @HarshaNalluru @jeremymeng
+/sdk/formrecognizer/ @jeremymeng
 
 # ServiceLabel: %Cognitive - Form Recognizer
-# AzureSdkOwners: @HarshaNalluru
+# AzureSdkOwners: @jeremymeng
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
@@ -1158,7 +1158,7 @@
 # ServiceOwners:          @divka78 @amitchat @aishu
 
 # ServiceLabel: %Azure Stack %Service Attention
-# ServiceOwners:          @sarathys @bganapa @rakku-ms
+# ServiceOwners:          @bganapa @rakku-ms
 
 # ServiceLabel: %Batch %Service Attention
 # ServiceOwners:          @mksuni @bgklein @mscurrell @cRui861 @paterasMSFT @gingi @dpwatrous
@@ -1510,7 +1510,7 @@
 # ServiceOwners:          @atpham256
 
 # ServiceLabel: %Service Attention %Subscription
-# ServiceOwners:          @anuragdalmia @shilpigautam @ramaganesan-rg
+# ServiceOwners:          @anuragdalmia @ramaganesan-rg
 
 # ServiceLabel: %Service Attention %Support
 # ServiceOwners:          @shahbj79 @mit2nil @aygoya @ganganarayanan

@@ -24,7 +24,11 @@ packages:
 catalog:
   '@types/node': ^20.19.0
   autorest: latest
+  cross-env: ^7.0.3
   eslint: ^9.33.0
+  mkdirp: ^3.0.1
+  prettier: ^3.6.2
+  rimraf: ^6.0.1
   tslib: ^2.8.1
   tsx: ^4.20.4
   typescript: ~5.8.3

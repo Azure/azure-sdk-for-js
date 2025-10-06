@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createStorageDiscovery,
-  StorageDiscoveryContext,
-  StorageDiscoveryClientOptionalParams,
-} from "./api/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  StorageDiscoveryWorkspacesOperations,
-  _getStorageDiscoveryWorkspacesOperations,
-} from "./classic/storageDiscoveryWorkspaces/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { StorageDiscoveryContext, StorageDiscoveryClientOptionalParams } from "./api/index.js";
+import { createStorageDiscovery } from "./api/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { StorageDiscoveryWorkspacesOperations } from "./classic/storageDiscoveryWorkspaces/index.js";
+import { _getStorageDiscoveryWorkspacesOperations } from "./classic/storageDiscoveryWorkspaces/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { StorageDiscoveryClientOptionalParams } from "./api/storageDiscoveryContext.js";
 

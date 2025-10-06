@@ -8,6 +8,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { vendoredWithOptions } from "../run/vendored";
 import { getRushJson, RushJsonProject } from "../../util/synthesizedRushJson";
+import { sortPackageJson } from "../../util/sortPackageJson";
 
 const log = createPrinter("migrate-tests");
 
@@ -133,7 +134,7 @@ async function updatePackageJson(projectFolder: string): Promise<boolean> {
     packageJson.scripts["test"] = "npm run test:node && npm run test:browser";
 
     // Clean it up
-    sortPackage(packageJson);
+    sortPackageJson(packageJson);
 
     await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
@@ -144,27 +145,6 @@ async function updatePackageJson(projectFolder: string): Promise<boolean> {
   }
 
   return true;
-}
-
-function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: string]: string } {
-  const sortedEntries = Object.entries(unsortedObj).sort((a, b) => a[0].localeCompare(b[0]));
-  return Object.fromEntries(sortedEntries);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortPackage(packageJson: any): void {
-  if (packageJson.dependencies) {
-    packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
-  }
-  if (packageJson.devDependencies) {
-    packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
-  }
-  if (packageJson.peerDependencies) {
-    packageJson.peerDependencies = sortObjectByKeys(packageJson.peerDependencies);
-  }
-  if (packageJson.scripts) {
-    packageJson.scripts = sortObjectByKeys(packageJson.scripts);
-  }
 }
 
 async function runCleanup(projectFolder: string): Promise<boolean> {
