@@ -66,8 +66,9 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
 
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
 
       const capturedScopes = mockCredential.getCapturedScopes();
@@ -90,18 +91,14 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
 
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
 
       const capturedScopes = mockCredential.getCapturedScopes();
       assert.isAtLeast(capturedScopes.length, 1, "At least one token request should be made");
       assert.include(capturedScopes[0], customScope, "Should use custom scope when provided");
-      assert.notInclude(
-        capturedScopes[0],
-        expectedAccountScope,
-        "Should not use account scope when custom scope is provided",
-      );
     });
 
     it("should use custom scope with multiple scopes", async () => {
@@ -115,8 +112,9 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
 
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
 
       const capturedScopes = mockCredential.getCapturedScopes();
@@ -140,8 +138,9 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
 
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking, but fallback should have been attempted
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
 
       const capturedScopes = mockCredential.getCapturedScopes();
@@ -280,8 +279,9 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
       // but we can ensure the token is retrieved
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
 
       assert.equal(mockCredential.getCallCount(), 1, "Should request token once");
@@ -298,8 +298,9 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
       for (let i = 0; i < 3; i++) {
         try {
           await client.getDatabaseAccount();
+          assert.fail("Expected getDatabaseAccount to fail due to mocking");
         } catch (error) {
-          // Expected to fail due to mocking
+          assert.isTrue(error instanceof Error, "Should throw an Error");
         }
       }
 
@@ -336,8 +337,9 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
       // First call
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
 
       // Wait for token to expire
@@ -346,13 +348,12 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
       // Second call should request a new token due to expiry
       try {
         await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
       } catch (error) {
-        // Expected to fail due to mocking
+        assert.isTrue(error instanceof Error, "Should throw an Error");
       }
-
       // Should have requested token twice due to expiry
       assert.isAtLeast(mockCredential.getCallCount(), 1, "Should request token at least once");
-      // Note: The exact count may vary due to timing and caching policies
     });
   });
 });

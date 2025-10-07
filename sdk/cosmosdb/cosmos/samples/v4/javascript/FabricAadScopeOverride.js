@@ -40,12 +40,6 @@ function getTestItem(num) {
 }
 
 async function run() {
-  // If you want to override scope for AAD authentication, you can use the aadScope option:
-  // const client = new CosmosClient({
-  //   endpoint,
-  //   aadCredentials: credentials,
-  //   aadScope: "https://cosmos.azure.com/.default"
-  // });
 
   logStep("Setting up AAD credentials");
   
@@ -56,7 +50,9 @@ async function run() {
   const client = new CosmosClient({
     endpoint,
     aadCredentials: credentials,
+    aadScope: "https://cosmos.azure.com/.default"
   });
+
 
   // Do R/W data operations with your authorized AAD client
   logStep("Getting database and container references");

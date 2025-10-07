@@ -46,7 +46,7 @@ import { getUserAgent } from "./common/platform.js";
 import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
 import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
-import { AAD_DEFAULT_SCOPE } from "./common/constants.js";
+import { AAD_DEFAULT_SCOPE, AAD_AUTH_PREFIX } from "./common/constants.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -89,7 +89,6 @@ export class ClientContext {
       const accountScope = `${hrefEndpoint}/.default`;
       const primaryScope = cosmosClientOptions.aadScope || accountScope;
       const fallbackScope = AAD_DEFAULT_SCOPE;
-      const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
 
       this.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
@@ -100,16 +99,16 @@ export class ClientContext {
               try {
                 const tokenResponse = await getAccessToken([primaryScope], {});
 
-                const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
-                request.headers.set("Authorization", authorizationToken);
+                const authorizationToken = `${AAD_AUTH_PREFIX}${tokenResponse.token}`;
+                request.headers.set(Constants.HttpHeaders.Authorization, authorizationToken);
               } catch (error: any) {
                 // If no custom scope is provided and we get AADSTS500011 error,
                 // fallback to the default Cosmos scope
                 if (!cosmosClientOptions.aadScope && error?.message?.includes("AADSTS500011")) {
                   try {
                     const fallbackTokenResponse = await getAccessToken([fallbackScope], {});
-                    const authorizationToken = `${AUTH_PREFIX}${fallbackTokenResponse.token}`;
-                    request.headers.set("Authorization", authorizationToken);
+                    const authorizationToken = `${AAD_AUTH_PREFIX}${fallbackTokenResponse.token}`;
+                    request.headers.set(Constants.HttpHeaders.Authorization, authorizationToken);
                   } catch (fallbackError) {
                     // If fallback also fails, throw the original error
                     throw error;

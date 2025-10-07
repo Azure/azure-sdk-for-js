@@ -307,6 +307,7 @@ export const Constants = {
 };
 
 export const AAD_DEFAULT_SCOPE = "https://cosmos.azure.com/.default";
+export const AAD_AUTH_PREFIX = "type=aad&ver=1.0&sig=";
 
 /**
  * @hidden
