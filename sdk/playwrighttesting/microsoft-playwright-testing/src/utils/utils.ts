@@ -18,6 +18,7 @@ import process from "node:process";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
+import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -140,15 +141,20 @@ export const emitReportingUrl = (): void => {
 };
 
 export const getPackageVersion = (): string => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const version = require("../../package.json").version;
-    return version;
-  } catch (error) {
-    console.error("Error fetching package version:", error);
-    return "unknown version";
+  // hacky way to get package version
+  // try from dist folder first (customer perspective)
+  const distVersion = getPackageVersionFromFolder("../../../");
+  if (distVersion) {
+    return distVersion;
   }
+  // if not found, try from src folder (internal test suite)
+  const srcVersion = getPackageVersionFromFolder("../../");
+  if (srcVersion) {
+    return srcVersion;
+  }
+  return "unknown-version";
 };
+
 export const getVersionInfo = (version: string): VersionInfo => {
   const regex = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?/;
   const match = version.match(regex);
