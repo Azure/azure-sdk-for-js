@@ -22,48 +22,14 @@ import type {
   KqlScriptsGetAllNextResponse,
 } from "../models/index.js";
 
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const getAllOperationSpec: coreClient.OperationSpec = {
-  path: "/kqlScripts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract,
-    },
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getAllNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract,
-    },
-  },
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-
+/// <reference lib="esnext.asynciterable" />
 /** Class containing KqlScripts operations. */
 export class KqlScriptsImpl implements KqlScripts {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class KqlScripts class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -71,7 +37,7 @@ export class KqlScriptsImpl implements KqlScripts {
 
   /**
    * Get all KQL scripts
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   public listAll(
     options?: KqlScriptsGetAllOptionalParams,
@@ -125,7 +91,7 @@ export class KqlScriptsImpl implements KqlScripts {
 
   /**
    * Get all KQL scripts
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   private async _getAll(
     options?: KqlScriptsGetAllOptionalParams,
@@ -133,9 +99,9 @@ export class KqlScriptsImpl implements KqlScripts {
     return tracingClient.withSpan(
       "ArtifactsClient._getAll",
       options ?? {},
-      async (updatedOptions) => {
+      async (options) => {
         return this.client.sendOperationRequest(
-          { updatedOptions },
+          { options },
           getAllOperationSpec,
         ) as Promise<KqlScriptsGetAllResponse>;
       },
@@ -144,8 +110,8 @@ export class KqlScriptsImpl implements KqlScripts {
 
   /**
    * GetAllNext
-   * @param nextLink - The nextLink from the previous successful call to the GetAll method.
-   * @param options - The options parameters.
+   * @param nextLink The nextLink from the previous successful call to the GetAll method.
+   * @param options The options parameters.
    */
   private async _getAllNext(
     nextLink: string,
@@ -154,12 +120,46 @@ export class KqlScriptsImpl implements KqlScripts {
     return tracingClient.withSpan(
       "ArtifactsClient._getAllNext",
       options ?? {},
-      async (updatedOptions) => {
+      async (options) => {
         return this.client.sendOperationRequest(
-          { nextLink, updatedOptions },
+          { nextLink, options },
           getAllNextOperationSpec,
         ) as Promise<KqlScriptsGetAllNextResponse>;
       },
     );
   }
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const getAllOperationSpec: coreClient.OperationSpec = {
+  path: "/kqlScripts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAllNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KqlScriptsResourceCollectionResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
