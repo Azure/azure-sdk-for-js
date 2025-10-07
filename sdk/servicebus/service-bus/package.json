@@ -122,7 +122,8 @@
     "events": "^3.0.0",
     "https-proxy-agent": "^7.0.0",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:adventurous",
     "vitest": "catalog:testing",
     "ws": "^8.0.0"
   },
