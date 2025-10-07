@@ -91,7 +91,8 @@
     "eslint": "catalog:",
     "inherits": "^2.0.3",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:adventurous",
     "vitest": "catalog:testing"
   },
   "//metadata": {

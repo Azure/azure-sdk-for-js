@@ -3994,7 +3994,7 @@ importers:
         version: 20.19.19
       '@vitest/browser':
         specifier: catalog:testing
-        version: 3.2.4(msw@2.7.3(@types/node@20.19.19)(typescript@5.8.3))(playwright@1.55.1)(vite@7.1.9(@types/node@20.19.19)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
+        version: 3.2.4(msw@2.7.3(@types/node@20.19.19)(typescript@5.9.3))(playwright@1.55.1)(vite@7.1.9(@types/node@20.19.19)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 3.2.4(vitest@3.2.4)
@@ -4010,12 +4010,15 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
-      typescript:
+      tshy:
         specifier: 'catalog:'
-        version: 5.8.3
+        version: 3.0.3
+      typescript:
+        specifier: catalog:adventurous
+        version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.19)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.19)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.19)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.19)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/communication/communication-chat:
     dependencies:
