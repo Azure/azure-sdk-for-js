@@ -72,7 +72,8 @@
     "mockdate": "^3.0.5",
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:adventurous",
     "vitest": "catalog:testing"
   },
   "type": "module",
