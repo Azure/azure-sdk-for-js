@@ -101,6 +101,24 @@ const APPLE_TEMPLATE_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
     </content>
 </entry>`;
 
+const APPLE_TEMPLATE_REGISTRATION_SINGLE_APNSHEADER = `<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/xml">
+        <AppleTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
+            <Tags>myTag,myOtherTag</Tags>
+            <RegistrationId>{Registration Id}</RegistrationId> 
+            <DeviceToken>{DeviceToken}</DeviceToken> 
+            <BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate>
+            <ApnsHeaders>
+                <ApnsHeader>
+                    <Header>apns-priority</Header>
+                    <Value>10</Value>
+                </ApnsHeader>
+            </ApnsHeaders>
+        </AppleTemplateRegistrationDescription>
+    </content>
+</entry>`;
+
 const BAIDU_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -335,6 +353,19 @@ describe("parseRegistrationEntry", () => {
     assert.equal(registration.bodyTemplate, "{Template for the body}");
     assert.equal(registration.apnsHeaders!["apns-priority"], "10");
     assert.equal(registration.apnsHeaders!["apns-expiration"], "0");
+  });
+
+  it("should parse an apple template registration description with single apns header", async () => {
+    const registration = (await registrationDescriptionParser.parseRegistrationEntry(
+      APPLE_TEMPLATE_REGISTRATION_SINGLE_APNSHEADER,
+    )) as AppleTemplateRegistrationDescription;
+
+    assert.equal(registration.kind, "AppleTemplate");
+    assert.equal(registration.registrationId, "{Registration Id}");
+    assert.equal(registration.deviceToken, "{DeviceToken}");
+    assert.deepEqual(registration.tags, ["myTag", "myOtherTag"]);
+    assert.equal(registration.bodyTemplate, "{Template for the body}");
+    assert.equal(registration.apnsHeaders!["apns-priority"], "10");
   });
 
   it("should parse an Baidu registration description", async () => {

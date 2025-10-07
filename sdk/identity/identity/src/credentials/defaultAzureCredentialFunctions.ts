@@ -55,15 +55,20 @@ export function createDefaultVisualStudioCodeCredential(
  * @internal
  */
 export function createDefaultManagedIdentityCredential(
-  options:
+  options: (
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions = {},
+    | DefaultAzureCredentialClientIdOptions
+  ) & { sendProbeRequest?: boolean } = {},
 ): TokenCredential {
   options.retryOptions ??= {
     maxRetries: 5,
     retryDelayInMs: 800,
   };
+  // ManagedIdentityCredential inside DAC chain should send a probe request by default.
+  // This is different from standalone ManagedIdentityCredential behavior
+  // or when AZURE_TOKEN_CREDENTIALS is set to only ManagedIdentityCredential.
+  options.sendProbeRequest ??= true;
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
     process.env.AZURE_CLIENT_ID;
