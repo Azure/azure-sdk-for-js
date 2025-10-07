@@ -79,32 +79,13 @@ export class KnowledgeRetrievalClient {
    * ```ts snippet:ReadmeSampleKnowledgeRetrievalClient
    * import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
    *
-   * const searchClient = new KnowledgeRetrievalClient(
+   * const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
    *   "<endpoint>",
    *   "<agentName>",
    *   new AzureKeyCredential("<apiKey>"),
    * );
    * ```
-   *
-   * Optionally, the type of the model can be used to enable strong typing and type hints:
-   * ```ts snippet:ReadmeSampleKnowledgeRetrievalClientWithModel
-   * import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
-   *
-   * type TModel = {
-   *   keyName: string;
-   *   field1?: string | null;
-   *   field2?: {
-   *     anotherField?: string | null;
-   *   } | null;
-   * };
-   *
-   * const searchClient = new KnowledgeRetrievalClient<TModel>(
-   *   "<endpoint>",
-   *   "<agentName>",
-   *   new AzureKeyCredential("<apiKey>"),
-   * );
-   * ```
-   *
+   
    * @param endpoint - The endpoint of the search service
    * @param agentName - The name of the knowledge agent
    * @param credential - Used to authenticate requests to the service.
