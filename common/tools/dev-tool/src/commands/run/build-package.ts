@@ -17,7 +17,7 @@ const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", 
 export default leafCommand(commandInfo, async () => {
   const centralCommandPath = isWindows() ? `${TSHY_BIN_PATH}.CMD` : TSHY_BIN_PATH;
   const localBinPath = path.resolve(process.cwd(), "node_modules", ".bin", "tshy");
-  const localCommandPath = isWindows()? `${localBinPath}.CMD` : localBinPath;
+  const localCommandPath = isWindows() ? `${localBinPath}.CMD` : localBinPath;
   const commandPath = existsSync(localCommandPath) ? localCommandPath : centralCommandPath;
 
   log.info(`Building package with tshy from ${commandPath}`);
