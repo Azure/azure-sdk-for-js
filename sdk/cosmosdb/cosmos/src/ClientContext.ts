@@ -46,7 +46,7 @@ import { getUserAgent } from "./common/platform.js";
 import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
 import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
-import { AAD_DEFAULT_SCOPE, AAD_AUTH_PREFIX } from "./common/constants.js";
+import { AAD_DEFAULT_SCOPE, AAD_AUTH_PREFIX, AAD_RESOURCE_NOT_FOUND_ERROR } from "./common/constants.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -104,7 +104,7 @@ export class ClientContext {
               } catch (error: any) {
                 // If no custom scope is provided and we get AADSTS500011 error,
                 // fallback to the default Cosmos scope
-                if (!cosmosClientOptions.aadScope && error?.message?.includes("AADSTS500011")) {
+                if (!cosmosClientOptions.aadScope && error?.message?.includes(AAD_RESOURCE_NOT_FOUND_ERROR)) {
                   try {
                     const fallbackTokenResponse = await getAccessToken([fallbackScope], {});
                     const authorizationToken = `${AAD_AUTH_PREFIX}${fallbackTokenResponse.token}`;

@@ -308,6 +308,7 @@ export const Constants = {
 
 export const AAD_DEFAULT_SCOPE = "https://cosmos.azure.com/.default";
 export const AAD_AUTH_PREFIX = "type=aad&ver=1.0&sig=";
+export const AAD_RESOURCE_NOT_FOUND_ERROR = "AADSTS500011";
 
 /**
  * @hidden
