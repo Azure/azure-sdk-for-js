@@ -3,7 +3,8 @@
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
-import type { SharedOptions, RequestOptions, ChangeFeedIteratorOptions } from "./index.js";
+import type { RequestOptions } from "./index.js";
+import type { ResolveServiceEndpointOptions } from "./GlobalEndpointManagerOptions.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -147,17 +148,14 @@ export class GlobalEndpointManager {
   }
 
   private getEffectiveExcludedLocations(
-    options: SharedOptions | ChangeFeedIteratorOptions = {},
+    excludedLocations: string[] = [],
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
       return new Set();
     }
-    const excludedLocations = options?.excludedLocations;
 
-    return excludedLocations?.length
-      ? new Set(excludedLocations.map(normalizeEndpoint))
-      : new Set();
+    return excludedLocations.length ? new Set(excludedLocations.map(normalizeEndpoint)) : new Set();
   }
 
   private filterExcludedLocations(
@@ -177,10 +175,30 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    startServiceEndpointIndex: number = 0,
-    options: SharedOptions | ChangeFeedIteratorOptions = {}, // add to support request-level excluded region(location)
+    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
   ): Promise<string> {
-    // startServiceEndpointIndex : This is used to indicate the starting index for selecting servers.
+    return this.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: resourceType,
+      operationType: operationType,
+      startServiceEndpointIndex: startServiceEndpointIndex,
+    });
+  }
+
+  /**
+   * @internal
+   */
+  public async resolveServiceEndpointInternal(
+    resolveServiceEndpointOptions: ResolveServiceEndpointOptions,
+  ): Promise<string> {
+    // Extract all fields from ResolveServiceEndpointOptions
+    const {
+      diagnosticNode,
+      resourceType,
+      operationType,
+      startServiceEndpointIndex,
+      excludedLocations = [],
+    } = resolveServiceEndpointOptions;
 
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -210,23 +228,26 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
-      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailoverBehavior);
+      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailover);
     }
 
     const locations = isReadRequest(operationType)
       ? this.readableLocations
       : this.writeableLocations;
 
-    const excludedLocations = this.getEffectiveExcludedLocations(options, resourceType);
+    const effectiveExcludedLocations = this.getEffectiveExcludedLocations(
+      excludedLocations,
+      resourceType,
+    );
     diagnosticNode.addData(
-      { excludedLocations: Array.from(excludedLocations) },
+      { excludedLocations: Array.from(effectiveExcludedLocations) },
       "excluded_locations",
     );
 
     // Filter locations based on exclusions
     const availableLocations = this.filterExcludedLocations(
       this.preferredLocations,
-      excludedLocations,
+      effectiveExcludedLocations,
     );
 
     let location;
@@ -259,7 +280,9 @@ export class GlobalEndpointManager {
         ? locations.slice(startServiceEndpointIndex)
         : locations;
       location = locationsToSearch.find((loc) => {
-        return loc.unavailable !== true && !excludedLocations.has(normalizeEndpoint(loc.name));
+        return (
+          loc.unavailable !== true && !effectiveExcludedLocations.has(normalizeEndpoint(loc.name))
+        );
       });
     }
 
@@ -281,7 +304,7 @@ export class GlobalEndpointManager {
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
-        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailoverBehavior);
+        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailover);
       }
       this.isRefreshing = false;
     }
@@ -436,14 +459,14 @@ export class GlobalEndpointManager {
   /**
    * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
    * based on the value from database account.
-   * @param enablePerPartitionFailoverBehavior - value from database account
+   * @param enablePerPartitionFailover - value from database account
    */
-  private refreshPPAFFeatureFlag(enablePerPartitionFailoverBehavior: boolean): void {
+  private refreshPPAFFeatureFlag(enablePerPartitionFailover: boolean): void {
     // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
     // we will override it to false.
-    if (enablePerPartitionFailoverBehavior === false) {
-      this.enablePartitionLevelFailover = enablePerPartitionFailoverBehavior;
-      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailoverBehavior;
+    if (enablePerPartitionFailover === false) {
+      this.enablePartitionLevelFailover = enablePerPartitionFailover;
+      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailover;
     }
   }
 }

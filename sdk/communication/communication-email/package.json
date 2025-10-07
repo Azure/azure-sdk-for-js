@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-email",
-  "version": "1.0.1-beta.2",
+  "version": "1.1.0",
   "description": "The is the JS Client SDK for email. This SDK enables users to send emails and get the status of sent email message.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -38,10 +38,11 @@
     "email"
   ],
   "dependencies": {
+    "@azure/abort-controller": "^2.1.2",
     "@azure/communication-common": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.0",
+    "@azure/core-lro": "^2.7.2",
     "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
@@ -50,7 +51,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
-    "@azure/arm-communication": "^4.1.0",
+    "@azure/arm-communication": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
@@ -60,7 +61,7 @@
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
+    "typescript": "~5.8.3",
     "vitest": "catalog:testing"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-email/",

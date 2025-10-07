@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageDiscoveryClient } from "@azure/arm-storagediscovery";
-import { DefaultAzureCredential } from "@azure/identity";
+const { StorageDiscoveryClient } = require("@azure/arm-storagediscovery");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a StorageDiscoveryWorkspace
  *
  * @summary create a StorageDiscoveryWorkspace
- * x-ms-original-file: 2025-06-01-preview/StorageDiscoveryWorkspaces_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_CreateOrUpdate.json
  */
-async function createOrUpdateAStorageDiscoveryWorkspace(): Promise<void> {
+async function createOrUpdateAStorageDiscoveryWorkspace() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function createOrUpdateAStorageDiscoveryWorkspace(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createOrUpdateAStorageDiscoveryWorkspace();
 }
 
