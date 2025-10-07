@@ -24,7 +24,7 @@ packages:
 catalog:
   '@types/node': ^20.19.0
   autorest: latest
-  cross-env: ^7.0.3
+  cross-env: ^10.1.0
   eslint: ^9.33.0
   mkdirp: ^3.0.1
   prettier: ^3.6.2
