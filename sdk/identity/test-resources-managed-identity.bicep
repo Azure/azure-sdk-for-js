@@ -305,7 +305,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
       {
         name: 'agentpool'
         count: 1
-        vmSize: 'Standard_D2s_v5'
+        vmSize: 'Standard_D2s_v3'
         osDiskSizeGB: 128
         osDiskType: 'Managed'
         kubeletDiskType: 'OS'
