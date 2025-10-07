@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-computerecommender",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for ComputeRecommenderManagementClient.",
   "engines": {
     "node": ">=20.0.0"
