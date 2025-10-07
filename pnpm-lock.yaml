@@ -29,6 +29,9 @@ catalogs:
     eslint:
       specifier: ^9.33.0
       version: 9.37.0
+    tshy:
+      specifier: ^3.0.0
+      version: 3.0.3
     tslib:
       specifier: ^2.8.1
       version: 2.8.1
@@ -6415,6 +6418,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6494,6 +6500,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6537,6 +6546,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6592,6 +6604,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6641,6 +6656,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6681,6 +6699,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6730,6 +6751,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6764,6 +6788,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6819,6 +6846,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6868,6 +6898,9 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6926,6 +6959,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       tsx:
         specifier: 'catalog:'
         version: 4.20.6
@@ -6966,6 +7002,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -7009,6 +7048,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -7049,6 +7091,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -7089,6 +7134,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -7132,6 +7180,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       tsx:
         specifier: 'catalog:'
         version: 4.20.6
