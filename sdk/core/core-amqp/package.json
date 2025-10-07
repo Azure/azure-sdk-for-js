@@ -93,6 +93,7 @@
     "debug": "^4.3.4",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
     "ws": "^8.17.0"

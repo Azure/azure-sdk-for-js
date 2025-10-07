@@ -89,6 +89,7 @@
     "eslint": "catalog:",
     "express": "^5.1.0",
     "playwright": "catalog:testing",
+    "tshy": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
