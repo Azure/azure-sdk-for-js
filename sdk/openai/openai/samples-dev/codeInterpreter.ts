@@ -2,82 +2,77 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the AOAI assistants API with the code interpreter tool
+ * Demonstrates how to use the Responses API with the code interpreter tool
  *
  *
  * @summary interpreting code.
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 
 export async function main(): Promise<void> {
-  const apiVersion = "2025-04-01-preview";
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
-  const client = new AzureOpenAI({
-    azureADTokenProvider,
-    apiVersion,
+  const client = new OpenAI({
+    baseURL: endpoint + "/openai/v1",
+    apiKey: azureADTokenProvider,
   });
 
-  // Create an assistant using code interpreter tool
-  const assistant = await client.beta.assistants.create({
-    tools: [{ type: "code_interpreter" }],
-    model: "gpt-4-1106-preview",
-    name: "JS CI Math Tutor",
-    description: "Math Tutor for Math Problems",
-    instructions: "You are a personal math tutor. Write and run code to answer math questions.",
-    metadata: { foo: "bar" },
+  const runner = client.responses.stream({
+    model: "gpt-4o",
+    input: "solve 8x + 31 = 2",
+    tools: [{ type: "code_interpreter", container: { type: "auto" } }],
+    background: true,
   });
 
-  // Create a new thread
-  const thread = await client.beta.threads.create();
-  const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-  const role = "user";
+  let response_id: string | undefined = undefined;
 
-  // Create a message on the thread
-  await client.beta.threads.messages.create(thread.id, {
-    role,
-    content: question,
-  });
+  for await (const event of runner) {
+    if (event.type === "response.created") {
+      response_id = event.response.id;
+    }
 
-  // Start a new run with instructions
-  const instructions = "Please address the user as Jane Doe. The user has a premium account.";
-  const run = await client.beta.threads.runs.createAndPoll(thread.id, {
-    assistant_id: assistant.id,
-    instructions,
-  });
-
-  // Check for potential error
-  if (run.status === "failed") {
-    throw new Error(run.last_error?.message);
+    console.log("event", event);
+    if (event.sequence_number === 10) {
+      break;
+    }
   }
 
-  // Retrieve the messages from the run
-  const runMessages = await client.beta.threads.messages.list(thread.id);
-  for await (const runMessageDatum of runMessages) {
-    for (const item of runMessageDatum.content) {
-      switch (item.type) {
-        case "text": {
-          console.log(`${runMessageDatum.role}: ${item.text.value}`);
-          break;
-        }
-        case "image_file": {
-          console.log(`Received image: ${item.image_file.file_id}`);
-          break;
-        }
-        case "image_url": {
-          console.log(`Received image: ${item.image_url.url}`);
-          break;
-        }
-        default: {
-          console.log(`Unhandled item type: ${item.type}`);
-        }
+  if (!response_id) {
+    throw new Error("Response ID not found");
+  }
+
+  console.log("Interrupted. Continuing...");
+
+  const runner2 = client.responses.stream({
+    response_id,
+    starting_after: 10,
+  });
+
+  for await (const event of runner2) {
+    console.log("event", event);
+  }
+
+  const result = await runner2.finalResponse();
+  for (const output of result.output) {
+    switch (output.type) {
+      case "message": {
+        console.log("Message:", output.content);
+        break;
       }
+      default:
+        console.log("Output:", JSON.stringify(output, null, 2));
     }
   }
 }
