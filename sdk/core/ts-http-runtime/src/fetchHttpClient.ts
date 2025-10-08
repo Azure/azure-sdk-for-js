@@ -222,7 +222,7 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 interface BuildRequestBodyResponse {
-  body?: BodyInit;
+  body?: BodyInit | null;
   streaming: boolean;
 }
 
