@@ -226,6 +226,7 @@ export class CosmosClient {
       diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
       pluginsConfigured: optionsOrConnectionString.plugins !== undefined,
       sDKVersion: Constants.SDKVersion,
+      aadScopeOverride: optionsOrConnectionString.aadScope !== undefined,
     };
   }
 

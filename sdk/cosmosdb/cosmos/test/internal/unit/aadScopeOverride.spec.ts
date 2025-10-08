@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert } from "vitest";
 import { CosmosClient } from "../../../src/CosmosClient.js";
+import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
 // Mock TokenCredential for testing
@@ -120,6 +121,24 @@ describe("AAD Authentication Tests", { timeout: 10000 }, () => {
       const capturedScopes = mockCredential.getCapturedScopes();
       assert.isAtLeast(capturedScopes.length, 1, "At least one token request should be made");
       assert.include(capturedScopes[0], customScope, "Should use custom scope when provided");
+    });
+
+    it("diagnostics should capture if custom scope is passed", async () => {
+      const customScope = "https://custom.scope/.default";
+      const mockCredential = new MockTokenCredential();
+      const client = new CosmosClient({
+        endpoint: testEndpoint,
+        aadCredentials: mockCredential,
+        aadScope: customScope,
+        diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+      });
+      try {
+        await client.getDatabaseAccount();
+        assert.fail("Expected getDatabaseAccount to fail due to mocking");
+      } catch (error) {
+        assert.isTrue(error.diagnostics.clientConfig.aadScopeOverride);
+        assert.isTrue(error instanceof Error, "Should throw an Error");
+      }
     });
   });
 
