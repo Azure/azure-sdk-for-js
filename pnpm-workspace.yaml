@@ -32,7 +32,7 @@ catalog:
   tslib: ^2.8.1
   tsx: ^4.20.4
   tshy: ^3.0.0
-  typescript: ~5.8.3
+  typescript: ~5.9.3
 
 # Named catalogs
 catalogs:
