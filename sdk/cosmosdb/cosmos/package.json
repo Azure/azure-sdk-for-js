@@ -94,7 +94,7 @@
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
     "tshy": "catalog:",
-    "typescript": "catalog:adventurous",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "//sampleConfiguration": {

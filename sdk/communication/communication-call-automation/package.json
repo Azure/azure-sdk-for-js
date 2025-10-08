@@ -92,7 +92,7 @@
     "inherits": "^2.0.3",
     "playwright": "catalog:testing",
     "tshy": "catalog:",
-    "typescript": "catalog:adventurous",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "//metadata": {

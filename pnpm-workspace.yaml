@@ -56,5 +56,3 @@ catalogs:
     vitest: ^3.2.3
   internal:
     '@azure/identity': 4.11.1
-  adventurous:
-    typescript: 5.9.3

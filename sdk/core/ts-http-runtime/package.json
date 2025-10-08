@@ -154,7 +154,7 @@
     "playwright": "catalog:testing",
     "tshy": "catalog:",
     "tsx": "catalog:",
-    "typescript": "catalog:adventurous",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "tshy": {
