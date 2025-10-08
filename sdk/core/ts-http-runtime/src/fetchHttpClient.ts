@@ -240,7 +240,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   } else if (typeof body === "object" && body && "buffer" in body) {
     // ArrayBufferView
     return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
-  } else if (body === null || body === undefined) {
+  } else if (body === undefined) {
     return { streaming: false };
   } else {
     return { streaming: false, body };
