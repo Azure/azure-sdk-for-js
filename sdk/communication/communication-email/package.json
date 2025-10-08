@@ -61,7 +61,7 @@
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
-    "typescript": "~5.8.3",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-email/",
