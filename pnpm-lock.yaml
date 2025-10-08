@@ -23053,31 +23053,31 @@ importers:
   sdk/search/search-documents:
     dependencies:
       '@azure/core-auth':
-        specifier: workspace:^
+        specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: workspace:^
+        specifier: ^1.9.2
         version: link:../../core/core-client
       '@azure/core-http-compat':
-        specifier: workspace:^
+        specifier: ^2.1.2
         version: link:../../core/core-http-compat
       '@azure/core-paging':
-        specifier: workspace:^
+        specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: workspace:^
+        specifier: ^1.18.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
+        specifier: ^1.2.0
         version: link:../../core/core-tracing
       '@azure/core-util':
-        specifier: workspace:^
+        specifier: ^1.11.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: workspace:^
+        specifier: ^1.1.4
         version: link:../../core/logger
       events:
-        specifier: ^3.3.0
+        specifier: ^3.0.0
         version: 3.3.0
       tslib:
         specifier: ^2.8.1
