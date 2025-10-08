@@ -4006,9 +4006,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
-      tshy:
-        specifier: 'catalog:'
-        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4164,9 +4161,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
-      tshy:
-        specifier: 'catalog:'
-        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7340,9 +7334,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
-      tshy:
-        specifier: 'catalog:'
-        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23737,9 +23728,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.55.1
-      tshy:
-        specifier: 'catalog:'
-        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

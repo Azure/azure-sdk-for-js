@@ -93,7 +93,6 @@
     "eslint": "catalog:",
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
