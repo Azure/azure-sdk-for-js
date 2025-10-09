@@ -25,7 +25,7 @@ If you’re updating an existing application from **libraries generated with Aut
 2. **List operations (paging)** – Simplified continuation token handling
 3. **Model property flattening** – **Libraries generated from TypeSpec** no longer support client-side flattening. This decision was based on customer feedback to reduce confusion and maintenance overhead
 
-### Long-running Operations
+### Long-running Operations (LROs)
 
 Many operations may take a long time to finish before receiving the desired response named long-running operations. We re-designed LRO in Modular SDKs. The changes mainly are three parts:
 
