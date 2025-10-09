@@ -50,7 +50,7 @@ beginStartAndWait(
     options?: IntegrationRuntimesStartOptionalParams,
   ): Promise<IntegrationRuntimesStartResponse>;
 ```
-Now we would only have one method in Modular SDK.
+**TypeSpec‑generated (current)**
 
 ```ts
 start(options?: IntegrationRuntimesStartOptionalParams): PollerLike<
