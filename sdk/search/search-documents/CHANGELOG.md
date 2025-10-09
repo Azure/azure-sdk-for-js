@@ -1,5 +1,9 @@
 # Release History
 
+## 12.3.0-beta.1 (Unreleased)
+
+### Features Added
+
 ## 12.2.0 (2025-10-09)
 
 ### Features Added
@@ -19,7 +23,7 @@
 ### Breaking Changes
 
 - `VectorSearchCompression.rerankWithOriginalVectors` and `VectorSearchCompression.defaultOversampling` don't work with
-  `2025-09-01` and were replaced by `VectorSearchCompression.RescoringOptions.enabledRescoring` and
+  `2025-09-01` and were replaced by `VectorSearchCompression.RescoringOptions.enableRescoring` and
   `VectorSearchCompression.RescoringOptions.defaultOversampling`. If using `2024-07-01` continue using the old properties,
   otherwise if using `2025-09-01` use the new properties in `RescoringOptions`.
 
