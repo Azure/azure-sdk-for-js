@@ -192,7 +192,7 @@ Client libraries represent entities transferred to and from Azure services as mo
   },
 }
 ```
-Can be transformed into the following client model and see [generated code](https://github.com/Azure/azure-sdk-for-js/blob/835b3dca8d8c635c1471a8264b025409a75298fc/sdk/avs/arm-avs/src/models/index.ts#L1196C1-L1213C2):
+would generate a model where `activationKey` and other properties were surfaced at the top level:
 ```ts
 /** An HCX Enterprise Site resource */
 export interface HcxEnterpriseSite extends ProxyResource {
