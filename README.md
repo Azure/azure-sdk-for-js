@@ -46,9 +46,11 @@ Newer versions of these libraries follow the [Azure SDK Design Guidelines for Ty
 - Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
 ## Data Collection
+
 The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described below. You can learn more about data collection and use in the help documentation and Microsoft’s [privacy statement](https://go.microsoft.com/fwlink/?LinkID=824704). For more information on the data collected by the Azure SDK, please visit the [Telemetry Guidelines](https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy) page.
 
 ### Telemetry Configuration
+
 Telemetry collection is on by default.
 
 To opt out, you can disable telemetry at client construction. Create a custom HTTP pipeline policy that removes the user agent string, and then pass that policy into the `additionalPolicies` option during client creation. This will disable telemetry for all methods in the client. Do this for every new client.
@@ -113,6 +115,8 @@ Security issues and bugs should be reported privately, via email, to the Microso
 ## Contributing
 
 For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).
+
+For guidance on how AI agents (e.g., GitHub Copilot, LLM-based assistants) should interact with this repository, see [AGENTS.md](https://github.com/Azure/azure-sdk-for-js/blob/main/AGENTS.md).
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
 <https://cla.microsoft.com>.
