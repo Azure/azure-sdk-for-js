@@ -130,10 +130,11 @@ https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRA
 - If you depended on `stopPolling()`/`isStopped()`, revisit your control flow (these are not exposed on `PollerLike`).
 
 ---
-### List Operations
-In Modular we adjusted paging interfaces a little for better experience and mainly are two parts:
-- Remove un-supported maxpagesize in PageSetting
-- Use `continuationToken` to replace the helper `getContinuationToken`
+### List operations (paging)
+Paging has been simplified in libraries generated from TypeSpec. Two main changes:
+
+- **Removed unsupported `maxpagesize`**  
+- **Replaced `getContinuationToken` helper with direct `continuationToken` property**
 
 #### Remove un-supported maxpagesize in PageSetting
 The `maxpagesize` is not supported in traditional client so in Modular we remove this setting within PageSettings. These changes are supposed to have no impact for customers.
