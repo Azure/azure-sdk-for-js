@@ -10,7 +10,7 @@ Several packages released from Modular libraries have already reached General Av
 
 ## Why switching to the modularized libraries?
 
-We recommend reviewing the [complete guide for the modularized libraries](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) for full details. Compared to the traditional libraries, Modular SDKs have following key benefits:
+We recommend reviewing the [complete guide](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) for full details. Compared to libraries generated with *Autorest*, *TypeSpec code generation* has following key benefits:
 
 1. Subpath exports: Modular SDKs use [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(available since Node.js version 12.7) to offer layered APIs. In which service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more lightweight client context for shared state across operations.
 1. Bundle size optimization: Modular SDKs leverage @azure-rest/core-client, which offers improved bundle size efficiency compared to the previous Azure core libraries. This core package provides a general-purpose REST client, while each service-specific package includes its own TypeScript type definitions. These TypeScript types are excluded from the final asset bundle, helping to minimize overall bundle size.
