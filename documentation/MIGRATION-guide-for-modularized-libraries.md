@@ -234,7 +234,8 @@ export interface HcxEnterpriseSiteProperties {
 }
 ```
 
-Which means for these changes, we need to update our code from `result.activationKey` to `result.properties?.activationKey`. So the before-and-after code would be like:
+### What does this mean for you?
+Update your code to access nested properties through `properties`. For example:
 
 ```ts
 // traditional client
