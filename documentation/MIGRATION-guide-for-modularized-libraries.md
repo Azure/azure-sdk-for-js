@@ -19,11 +19,11 @@ We recommend reviewing the [complete guide](https://devblogs.microsoft.com/azure
 
 ## How to migrate to the modularized libraries?
 
-If you're updating an existing app to use Modular SDKs, focus on these areas:
+If you’re updating an existing application from **libraries generated with AutoRest** to **libraries generated from TypeSpec**, focus on these key areas:
 
-1. Long-running Operations
-1. List Operations
-1. Model Property Flattening
+1. **Long-running operations (LROs)** – Updated method signatures and poller behavior
+2. **List operations (paging)** – Simplified continuation token handling
+3. **Model property flattening** – **Libraries generated from TypeSpec** no longer support client-side flattening. This decision was based on customer feedback to reduce confusion and maintenance overhead
 
 ### Long-running Operations
 
