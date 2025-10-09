@@ -72,7 +72,7 @@ const poller = start();                 // direct access to the poller
 await poller.submitted();               // optional: await initial submission
 const result2 = await poller;           // or: await poller.pollUntilDone()
 
-#### LRO poller change from SimplePollerLike to PollerLike
+#### Poller type: `SimplePollerLike` → `PollerLike`
 
 In traditional client, the return type of  `beginXXX` method is `SimplePollerLike`. Now the return type is changed to `PollerLike` in Modular and this interface is also a PromiseLike. The following table compares `SimplePollerLike` and `PollerLike`:
 
