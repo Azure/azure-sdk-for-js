@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type {
+import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import {
   AutocompleteMode,
-  DebugInfo,
   FacetResult,
-  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
@@ -16,19 +14,11 @@ import type {
   KnownVectorQueryKind,
   QueryAnswerResult,
   QueryCaptionResult,
-  QueryDebugMode,
-  QueryLanguage,
-  QueryResultDocumentInnerHit,
-  QueryResultDocumentRerankerInput,
-  QuerySpellerType as QuerySpeller,
   QueryType,
   ScoringStatistics,
   SearchMode,
-  SemanticFieldState,
-  SemanticQueryRewritesResultType,
-  VectorsDebugInfo,
 } from "./generated/data/models/index.js";
-import type GeographyPoint from "./geographyPoint.js";
+import GeographyPoint from "./geographyPoint.js";
 
 /**
  * Options for performing the count operation on the index.
@@ -104,10 +94,6 @@ export interface GetDocumentOptions<
    * the returned document.
    */
   selectedFields?: SelectArray<TFields>;
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
 }
 
 /**
@@ -192,34 +178,22 @@ export type SearchIterator<
   ListSearchResultsPageSettings
 >;
 
-/**
- * The query parameters for vector and hybrid search queries.
- */
+/** The query parameters for vector and hybrid search queries. */
 export type VectorQuery<TModel extends object> =
   | VectorizedQuery<TModel>
-  | VectorizableTextQuery<TModel>
-  | VectorizableImageUrlQuery<TModel>
-  | VectorizableImageBinaryQuery<TModel>;
+  | VectorizableTextQuery<TModel>;
 
-/**
- * The query parameters for vector and hybrid search queries.
- */
+/** The query parameters for vector and hybrid search queries. */
 export interface BaseVectorQuery<TModel extends object> {
   /**
    * ### Known values supported by the service
    * **vector**: Vector query where a raw vector value is provided.
    * **text**: Vector query where a text value that needs to be vectorized is provided.
-   * **imageUrl**: Vector query where an url that represents an image value that needs to be vectorized is provided.
-   * **imageBinary**: Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided.
    */
   kind: VectorQueryKind;
-  /**
-   * Number of nearest neighbors to return as top hits.
-   */
+  /** Number of nearest neighbors to return as top hits. */
   kNearestNeighborsCount?: number;
-  /**
-   * Vector Fields of type Collection(Edm.Single) to be included in the vector searched.
-   */
+  /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
   fields?: SearchFieldArray<TModel>;
   /**
    * When true, triggers an exhaustive k-nearest neighbor search across all vectors within the
@@ -234,85 +208,24 @@ export interface BaseVectorQuery<TModel extends object> {
    * vector field.
    */
   oversampling?: number;
-  /**
-   * Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero.
-   */
+  /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
   weight?: number;
-  /**
-   * The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric.
-   */
-  threshold?: VectorThreshold;
-  /**
-   * The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in
-   * the top level filter parameter is used instead.
-   */
-  filterOverride?: string;
-  /**
-   * Controls how many vectors can be matched from each document in a vector search query. Setting it to 1 ensures at most one vector per document is matched, guaranteeing results come from distinct documents. Setting it to 0 (unlimited) allows multiple relevant vectors from the same document to be matched. Default is 0.
-   */
-  perDocumentVectorLimit?: number;
 }
 
-/**
- * The query parameters to use for vector search when a raw vector value is provided.
- */
+/** The query parameters to use for vector search when a raw vector value is provided. */
 export interface VectorizedQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "vector";
-  /**
-   * The vector representation of a search query.
-   */
+  /** The vector representation of a search query. */
   vector: number[];
 }
 
-/**
- * The query parameters to use for vector search when a text value that needs to be vectorized is provided.
- */
+/** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
 export interface VectorizableTextQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "text";
-  /**
-   * The text to be vectorized to perform a vector search query.
-   */
+  /** The text to be vectorized to perform a vector search query. */
   text: string;
-  /**
-   * Can be configured to let a generative model rewrite the query before sending it to be
-   * vectorized.
-   */
-  queryRewrites?: QueryRewrites;
-}
-
-/**
- * The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided.
- */
-export interface VectorizableImageUrlQuery<TModel extends object> extends BaseVectorQuery<TModel> {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "imageUrl";
-  /**
-   * The URL of an image to be vectorized to perform a vector search query.
-   */
-  url: string;
-}
-
-/**
- * The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided.
- */
-export interface VectorizableImageBinaryQuery<TModel extends object>
-  extends BaseVectorQuery<TModel> {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "imageBinary";
-  /**
-   * The base64 encoded binary of an image to be vectorized to perform a vector search query.
-   */
-  binaryImage: string;
 }
 
 /**
@@ -391,14 +304,6 @@ export interface BaseSearchRequestOptions<
    */
   searchFields?: SearchFieldArray<TModel>;
   /**
-   * The language of the query.
-   */
-  queryLanguage?: QueryLanguage;
-  /**
-   * Improve search recall by spell-correcting individual search query terms.
-   */
-  speller?: QuerySpeller;
-  /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
    */
@@ -439,14 +344,6 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-  /**
-   * The query parameters to configure hybrid search behaviors.
-   */
-  hybridSearch?: HybridSearch;
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
 }
 
 /**
@@ -502,12 +399,6 @@ export type SearchResult<
   readonly captions?: QueryCaptionResult[];
 
   document: NarrowedModel<TModel, TFields>;
-
-  /**
-   * Contains debugging information that can be used to further explore your search results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documentDebugInfo?: DocumentDebugInfo;
 };
 
 /**
@@ -517,7 +408,7 @@ export interface SearchDocumentsResultBase {
   /**
    * The total count of results found by the search operation, or null if the count was not
    * requested. If present, the count may be greater than the number of results in this response.
-   * This can happen if you use the $top or $skip parameters, or if Azure AI Search can't
+   * This can happen if you use the $top or $skip parameters, or if Azure Cognitive Search can't
    * return all the requested documents in a single Search response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -541,11 +432,6 @@ export interface SearchDocumentsResultBase {
    */
   readonly answers?: QueryAnswerResult[];
   /**
-   * Debug information that applies to the search results as a whole.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly debugInfo?: DebugInfo;
-  /**
    * Reason that a partial response was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -555,11 +441,6 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semanticSearchResultsType?: SemanticSearchResultsType;
-  /**
-   * Type of query rewrite that was used to retrieve documents.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 /**
@@ -792,7 +673,7 @@ export type UnionToIntersection<Union> =
 export type ExcludedODataTypes = Date | GeographyPoint;
 
 /**
- * Produces a union of valid AI Search OData $select paths for T
+ * Produces a union of valid Cognitive Search OData $select paths for T
  * using a post-order traversal of the field tree rooted at T.
  */
 export type SelectFields<TModel extends object> =
@@ -835,7 +716,7 @@ export type SelectFields<TModel extends object> =
               string;
 
 /**
- * Deeply pick fields of T using valid AI Search OData $select
+ * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
 export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> =
@@ -945,58 +826,26 @@ export type SuggestNarrowedModel<
     : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
       ? TModel
       : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-        ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by
-          // the service by default
+        ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
+          // service by default
           keyof ExtractDocumentKey<TModel> extends never
           ? // Return the original model if none of the properties are non-nullable
             TModel
           : ExtractDocumentKey<TModel>
-        : // TFields isn't narrowed to exclude null by the first condition, so it needs to be
-          // narrowed here
+        : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
+          // here
           TFields extends SelectFields<TModel>
           ? NarrowedModel<TModel, TFields>
           : // Unreachable by construction
             never;
 
-/**
- * Description of fields that were sent to the semantic enrichment process, as well as how they were
- * used
- */
+/** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
 export interface QueryResultDocumentSemanticField {
   /**
    * The name of the field that was sent to the semantic enrichment process
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or
-   * unused)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
-}
-
-/**
- * Contains debugging information that can be used to further explore your search results.
- */
-export interface DocumentDebugInfo {
-  /**
-   * Contains debugging information specific to semantic search queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semantic?: SemanticDebugInfo;
-  /**
-   * Contains debugging information specific to vector and hybrid search.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vectors?: VectorsDebugInfo;
-  /**
-   * Contains debugging information specific to vectors matched within a collection of complex types.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innerHits?: {
-    [propertyName: string]: QueryResultDocumentInnerHit[];
-  };
 }
 
 /**
@@ -1018,11 +867,6 @@ export interface SemanticDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**
@@ -1039,10 +883,6 @@ export interface ExtractiveQueryAnswer {
    * The confidence threshold. Default threshold is 0.7
    */
   threshold?: number;
-  /**
-   * An optional upper bound on the number of characters in each answer.
-   */
-  maxAnswerLength?: number;
 }
 
 /**
@@ -1052,16 +892,10 @@ export interface ExtractiveQueryAnswer {
  */
 export type QueryAnswer = ExtractiveQueryAnswer;
 
-/**
- * Extracts captions from the matching documents that contain passages relevant to the search query.
- */
+/** Extracts captions from the matching documents that contain passages relevant to the search query. */
 export interface ExtractiveQueryCaption {
   captionType: "extractive";
   highlight?: boolean;
-  /**
-   * An optional upper bound on the number of characters in each caption.
-   */
-  maxCaptionLength?: number;
 }
 
 /**
@@ -1102,43 +936,11 @@ export interface SemanticSearchOptions {
    */
   captions?: QueryCaption;
   /**
-   * When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will
-   * produce 10 (default) rewrites to help increase the recall of the request. Defaults to `none`.
-   */
-  queryRewrites?: QueryRewrites;
-  /**
    * Allows setting a separate search query that will be solely used for semantic reranking,
    * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
    * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
    */
   semanticQuery?: string;
-  /**
-   * The list of field names used for semantic search.
-   */
-  semanticFields?: string[];
-  /**
-   * Enables a debugging tool that can be used to further explore your search results.
-   */
-  debugMode?: QueryDebugMode;
-}
-
-/**
- * Defines options for query rewrites.
- */
-export type QueryRewrites = GenerativeQueryRewrites;
-
-/**
- * Generate alternative query terms to increase the recall of a search request.
- */
-export interface GenerativeQueryRewrites {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  rewritesType: "generative";
-  /**
-   * The number of query rewrites to generate. Defaults to 10.
-   */
-  count?: number;
 }
 
 /**
@@ -1155,57 +957,31 @@ export interface VectorSearchOptions<TModel extends object> {
    */
   filterMode?: VectorFilterMode;
 }
-/**
- * The threshold used for vector queries.
- */
+/** The threshold used for vector queries. */
 export interface BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "vectorSimilarity" | "searchScore";
 }
 
-/**
- * The results of the vector query will be filtered based on the vector similarity metric. Note this
- * is the canonical definition of similarity metric, not the 'distance' version. The threshold
- * direction (larger or smaller) will be chosen automatically according to the metric used by the
- * field.
- */
+/** The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
 export interface VectorSimilarityThreshold extends BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "vectorSimilarity";
-  /**
-   * The threshold will filter based on the similarity metric value. Note this is the canonical
-   * definition of similarity metric, not the 'distance' version. The threshold direction (larger or
-   * smaller) will be chosen automatically according to the metric used by the field.
-   */
+  /** The threshold will filter based on the similarity metric value. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
   value: number;
 }
 
-/**
- * The results of the vector query will filter based on the '\@search.score' value. Note this is the
- * \@search.score returned as part of the search response. The threshold direction will be chosen
- * for higher \@search.score.
- */
+/** The results of the vector query will filter based on the '\@search.score' value. Note this is the \@search.score returned as part of the search response. The threshold direction will be chosen for higher \@search.score. */
 export interface SearchScoreThreshold extends BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "searchScore";
-  /**
-   * The threshold will filter based on the '\@search.score' value. Note this is the \@search.score
-   * returned as part of the search response. The threshold direction will be chosen for higher
-   * \@search.score.
-   */
+  /** The threshold will filter based on the '\@search.score' value. Note this is the \@search.score returned as part of the search response. The threshold direction will be chosen for higher \@search.score. */
   value: number;
 }
 
-/**
- * The threshold used for vector queries.
- */
+/** The threshold used for vector queries. */
 export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;
+
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;

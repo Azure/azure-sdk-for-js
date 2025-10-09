@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { SearchIndexerStatus } from "./generated/service/models/index.js";
+import { SearchIndexerStatus } from "./generated/service/models/index.js";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
-import type {
+import {
   CreateDataSourceConnectionOptions,
   CreateIndexerOptions,
   CreateorUpdateDataSourceConnectionOptions,
@@ -30,9 +28,7 @@ import type {
   ListDataSourceConnectionsOptions,
   ListIndexersOptions,
   ListSkillsetsOptions,
-  ResetDocumentsOptions,
   ResetIndexerOptions,
-  ResetSkillsOptions,
   RunIndexerOptions,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
@@ -42,7 +38,7 @@ import * as utils from "./serviceUtils.js";
 import { createSpan } from "./tracing.js";
 
 /**
- * Client options used to configure AI Search API requests.
+ * Client options used to configure Cognitive Search API requests.
  */
 export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
   /**
@@ -93,18 +89,16 @@ export class SearchIndexerClient {
   private readonly client: GeneratedClient;
 
   /**
-   * A reference to the internal HTTP pipeline for use with raw requests
-   */
-  public readonly pipeline: Pipeline;
-
-  /**
    * Creates an instance of SearchIndexerClient.
    *
    * Example usage:
-   * ```ts snippet:ReadmeSampleSearchIndexerClient
-   * import { SearchIndexerClient, AzureKeyCredential } from "@azure/search-documents";
+   * ```ts
+   * const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
    *
-   * const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+   * const client = new SearchIndexerClient(
+   *   "<endpoint>",
+   *   new AzureKeyCredential("<Admin Key>");
+   * );
    * ```
    * @param endpoint - The endpoint of the search service
    * @param credential - Used to authenticate requests to the service.
@@ -143,7 +137,6 @@ export class SearchIndexerClient {
       this.serviceVersion,
       internalClientPipelineOptions,
     );
-    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -184,7 +177,6 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing indexers in the service.
    * @param options - Options to the list indexers operation.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
     try {
@@ -234,7 +226,6 @@ export class SearchIndexerClient {
    * @param options - Options to the list indexers operation.
    */
   public async listDataSourceConnectionsNames(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListDataSourceConnectionsOptions = {},
   ): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan(
@@ -284,7 +275,6 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing Skillsets in the service.
    * @param options - Options to the list Skillsets operation.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
     try {
@@ -733,60 +723,6 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
     try {
       await this.client.indexers.run(indexerName, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName - The name of the indexer to reset documents for.
-   * @param options - Additional optional arguments.
-   */
-  public async resetDocuments(
-    indexerName: string,
-    options: ResetDocumentsOptions = {},
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
-    try {
-      await this.client.indexers.resetDocs(indexerName, {
-        ...updatedOptions,
-        keysOrIds: {
-          documentKeys: updatedOptions.documentKeys,
-          datasourceDocumentIds: updatedOptions.datasourceDocumentIds,
-        },
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Reset an existing skillset in a search service.
-   * @param skillsetName - The name of the skillset to reset.
-   * @param skillNames - The names of skills to reset.
-   * @param options - The options parameters.
-   */
-  public async resetSkills(skillsetName: string, options: ResetSkillsOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSkills", options);
-    try {
-      await this.client.skillsets.resetSkills(
-        skillsetName,
-        { skillNames: options.skillNames },
-        updatedOptions,
-      );
     } catch (e: any) {
       span.setStatus({
         status: "error",

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { RestError } from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
 import { delay } from "@azure/core-util";
-import EventEmitter from "node:events";
-import type { IndexDocumentsResult } from "./generated/data/models/index.js";
+import EventEmitter from "events";
+import { IndexDocumentsResult } from "./generated/data/models/index.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
-import type {
+import {
   IndexDocumentsAction,
   IndexDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,

@@ -79,7 +79,6 @@ type BlobIndexerParsingMode =
   | "json"
   | "jsonArray"
   | "jsonLines"
-  | "markdown"
   | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
@@ -525,7 +524,7 @@ type TextTranslationSkillLanguage =
   | "zh-Hans"
   | "zh-Hant";
 type VectorFilterMode = "postFilter" | "preFilter";
-type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
+type VectorQueryKind = "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =

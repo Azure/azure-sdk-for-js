@@ -13,9 +13,6 @@ import * as Parameters from "../models/parameters.js";
 import { SearchServiceClient } from "../searchServiceClient.js";
 import {
   IndexersResetOptionalParams,
-  IndexersResetDocsOptionalParams,
-  IndexerResyncBody,
-  IndexersResyncOptionalParams,
   IndexersRunOptionalParams,
   SearchIndexer,
   IndexersCreateOrUpdateOptionalParams,
@@ -55,38 +52,6 @@ export class IndexersImpl implements Indexers {
     return this.client.sendOperationRequest(
       { indexerName, options },
       resetOperationSpec,
-    );
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName The name of the indexer to reset documents for.
-   * @param options The options parameters.
-   */
-  resetDocs(
-    indexerName: string,
-    options?: IndexersResetDocsOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { indexerName, options },
-      resetDocsOperationSpec,
-    );
-  }
-
-  /**
-   * Resync selective options from the datasource to be re-ingested by the indexer.
-   * @param indexerName The name of the indexer to resync for.
-   * @param indexerResync
-   * @param options The options parameters.
-   */
-  resync(
-    indexerName: string,
-    indexerResync: IndexerResyncBody,
-    options?: IndexersResyncOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { indexerName, indexerResync, options },
-      resyncOperationSpec,
     );
   }
 
@@ -204,38 +169,6 @@ const resetOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const resetDocsOperationSpec: coreClient.OperationSpec = {
-  path: "/indexers('{indexerName}')/search.resetdocs",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.keysOrIds,
-  queryParameters: [Parameters.apiVersion, Parameters.overwrite],
-  urlParameters: [Parameters.endpoint, Parameters.indexerName],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const resyncOperationSpec: coreClient.OperationSpec = {
-  path: "/indexers('{indexerName}')/search.resync",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.indexerResync,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.indexerName],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
 const runOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')/search.run",
   httpMethod: "POST",
@@ -265,11 +198,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.indexer,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipIndexerResetRequirementForCache,
-    Parameters.disableCacheReprocessingChangeDetection,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexerName],
   headerParameters: [
     Parameters.contentType,

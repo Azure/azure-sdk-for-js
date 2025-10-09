@@ -240,14 +240,10 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.answers,
     Parameters.captions,
     Parameters.semanticQuery,
-    Parameters.queryRewrites,
     Parameters.debug,
-    Parameters.queryLanguage,
-    Parameters.speller,
-    Parameters.semanticFields,
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept, Parameters.xMsQuerySourceAuthorization],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const searchPostOperationSpec: coreClient.OperationSpec = {
@@ -267,11 +263,7 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.searchRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.xMsQuerySourceAuthorization,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -290,7 +282,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.selectedFields],
   urlParameters: [Parameters.endpoint, Parameters.indexName, Parameters.key],
-  headerParameters: [Parameters.accept, Parameters.xMsQuerySourceAuthorization],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const suggestGetOperationSpec: coreClient.OperationSpec = {

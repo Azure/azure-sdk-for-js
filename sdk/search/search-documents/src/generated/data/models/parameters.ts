@@ -356,66 +356,10 @@ export const semanticQuery: OperationQueryParameter = {
   },
 };
 
-export const queryRewrites: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "queryRewrites"],
-  mapper: {
-    serializedName: "queryRewrites",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const debug: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "debug"],
   mapper: {
     serializedName: "debug",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const queryLanguage: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "queryLanguage"],
-  mapper: {
-    serializedName: "queryLanguage",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const speller: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "speller"],
-  mapper: {
-    serializedName: "speller",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const semanticFields: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticFields"],
-  mapper: {
-    serializedName: "semanticFields",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-  collectionFormat: "CSV",
-};
-
-export const xMsQuerySourceAuthorization: OperationParameter = {
-  parameterPath: ["options", "xMsQuerySourceAuthorization"],
-  mapper: {
-    serializedName: "x-ms-query-source-authorization",
     type: {
       name: "String",
     },

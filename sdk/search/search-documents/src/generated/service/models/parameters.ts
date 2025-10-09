@@ -12,18 +12,12 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  KnowledgeAgent as KnowledgeAgentMapper,
-  KnowledgeSource as KnowledgeSourceMapper,
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
-  DocumentKeysOrIds as DocumentKeysOrIdsMapper,
-  IndexerResyncBody as IndexerResyncBodyMapper,
   SearchIndexer as SearchIndexerMapper,
   SearchIndexerSkillset as SearchIndexerSkillsetMapper,
-  SkillNames as SkillNamesMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper,
-  SearchAlias as SearchAliasMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -38,9 +32,9 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const knowledgeAgent: OperationParameter = {
-  parameterPath: "knowledgeAgent",
-  mapper: KnowledgeAgentMapper,
+export const dataSource: OperationParameter = {
+  parameterPath: "dataSource",
+  mapper: SearchIndexerDataSourceMapper,
 };
 
 export const accept: OperationParameter = {
@@ -67,10 +61,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const agentName: OperationURLParameter = {
-  parameterPath: "agentName",
+export const dataSourceName: OperationURLParameter = {
+  parameterPath: "dataSourceName",
   mapper: {
-    serializedName: "agentName",
+    serializedName: "dataSourceName",
     required: true,
     type: {
       name: "String",
@@ -121,48 +115,6 @@ export const apiVersion: OperationQueryParameter = {
   },
 };
 
-export const knowledgeSource: OperationParameter = {
-  parameterPath: "knowledgeSource",
-  mapper: KnowledgeSourceMapper,
-};
-
-export const sourceName: OperationURLParameter = {
-  parameterPath: "sourceName",
-  mapper: {
-    serializedName: "sourceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const dataSource: OperationParameter = {
-  parameterPath: "dataSource",
-  mapper: SearchIndexerDataSourceMapper,
-};
-
-export const dataSourceName: OperationURLParameter = {
-  parameterPath: "dataSourceName",
-  mapper: {
-    serializedName: "dataSourceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const skipIndexerResetRequirementForCache: OperationQueryParameter = {
-  parameterPath: ["options", "skipIndexerResetRequirementForCache"],
-  mapper: {
-    serializedName: "ignoreResetRequirements",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
 export const select: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
@@ -184,42 +136,10 @@ export const indexerName: OperationURLParameter = {
   },
 };
 
-export const keysOrIds: OperationParameter = {
-  parameterPath: ["options", "keysOrIds"],
-  mapper: DocumentKeysOrIdsMapper,
-};
-
-export const overwrite: OperationQueryParameter = {
-  parameterPath: ["options", "overwrite"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "overwrite",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
-export const indexerResync: OperationParameter = {
-  parameterPath: "indexerResync",
-  mapper: IndexerResyncBodyMapper,
-};
-
 export const indexer: OperationParameter = {
   parameterPath: "indexer",
   mapper: SearchIndexerMapper,
 };
-
-export const disableCacheReprocessingChangeDetection: OperationQueryParameter =
-  {
-    parameterPath: ["options", "disableCacheReprocessingChangeDetection"],
-    mapper: {
-      serializedName: "disableCacheReprocessingChangeDetection",
-      type: {
-        name: "Boolean",
-      },
-    },
-  };
 
 export const skillset: OperationParameter = {
   parameterPath: "skillset",
@@ -235,11 +155,6 @@ export const skillsetName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const skillNames: OperationParameter = {
-  parameterPath: "skillNames",
-  mapper: SkillNamesMapper,
 };
 
 export const synonymMap: OperationParameter = {
@@ -287,20 +202,4 @@ export const allowIndexDowntime: OperationQueryParameter = {
 export const request: OperationParameter = {
   parameterPath: "request",
   mapper: AnalyzeRequestMapper,
-};
-
-export const alias: OperationParameter = {
-  parameterPath: "alias",
-  mapper: SearchAliasMapper,
-};
-
-export const aliasName: OperationURLParameter = {
-  parameterPath: "aliasName",
-  mapper: {
-    serializedName: "aliasName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };
