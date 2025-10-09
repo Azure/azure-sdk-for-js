@@ -73,14 +73,10 @@ export const FeatureFlagHelper = {
       description: featureFlag.value.description,
       conditions: {
         client_filters: featureFlag.value.conditions.clientFilters,
+        requirement_type: featureFlag.value.conditions.requirementType ?? "Any",
       },
       display_name: featureFlag.value.displayName,
     };
-
-    if (featureFlag.value.conditions.requirementType) {
-      jsonFeatureFlagValue.conditions.requirement_type =
-        featureFlag.value.conditions.requirementType;
-    }
 
     const configSetting = {
       ...featureFlag,
