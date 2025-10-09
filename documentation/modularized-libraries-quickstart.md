@@ -1,14 +1,22 @@
-# Getting Started - Azure SDK modularized libraries for JavaScript/TypeScript
+# Getting started – Libraries generated from TypeSpec (Azure JavaScript/TypeScript SDK)
 
-We are excited to introduce the Azure SDK modular libraries for JavaScript/TypeScript, also known as Modular SDKs. These libraries offer enhanced usability, built on top of Azure Core, delivering consistent tooling and out-of-the-box benefits. They also provide greater flexibility with reduced bundle sizes, while minimizing disruptions for existing client users.
+> **Terminology**
+>
+> - **Libraries generated from TypeSpec**: the latest Azure SDK libraries produced by the **TypeSpec Emitter**  
+>   *(previously referred to as “modularized libraries” or “Modular SDKs”)*  
+> - **Libraries generated with AutoRest**: the previous generation produced by the **AutoRest Code Generator**
 
-Several packages have already reached General Availability (GA), including `@azure/arm-avs`, `@azure/arm-fabric`, `@azure/arm-oracledatabase`, `@azure/keyvault-admin`. You can find the latest versions of these libraries on [npm](https://www.npmjs.com) and give them a try.
+Libraries generated from TypeSpec offer layered APIs, smaller bundles, and cleaner ergonomics—while remaining familiar to existing users of the Azure SDK for JavaScript/TypeScript.
 
-Modular SDKs are now our recommended approach for both data-plane and management-plane libraries. This quickstart guide walks you through how to begin interacting with Azure management resources using Modular SDKs. For a deeper understanding, visit [the page](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/).
+Several packages are already GA, including `@azure/arm-avs`, `@azure/arm-fabric`, `@azure/arm-oracledatabase`, and `@azure/keyvault-admin`. Find the latest versions on **npm**: <https://www.npmjs.com>.
 
-## Migrating from an older generation of Azure libraries for JavaScript/TypeScript
+This quickstart walks you through managing Azure resources using a TypeSpec‑generated management library. For an overview, see:  
+<https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/>
 
-If you're currently using an older generation of the Azure SDK for JavaScript/TypeScript and want to upgrade, refer to our [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-modularized-libraries.md).
+## Migrating from older libraries
+
+If you’re upgrading from **libraries generated with AutoRest**, use the migration guide:  
+<https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-modularized-libraries.md>
 
 ## Prerequisites
 
