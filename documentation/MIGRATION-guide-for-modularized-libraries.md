@@ -1,4 +1,4 @@
-# Guide for migrating to the modularized libraries of Azure JavaScript SDK
+# Guide for migrating to code generation from TypeSpec (Azure JavaScript SDK)
 
 This guide helps developers transition their JavaScript/TypeScript applications to use the modularized Azure SDK libraries, also known as Modular SDKs.
 
