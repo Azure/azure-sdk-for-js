@@ -76,20 +76,19 @@ const result2 = await poller;           // or: await poller.pollUntilDone()
 
 TypeSpec‑generated LROs return a `PollerLike`, which is also **Promise‑like**.
 
-| operation                                                                  | `SimplePollerLike`    | `PollerLike`      |
-| -------------------------------------------------------------------------- | --------------------- | ----------------- |
-| return final results                                                       | `pollUntilDone()`     | `pollUntilDone()` |
-| poll                                                                       | `poll()`              | `poll()`          |
-| access the current state after receiving the response of each poll request | `onProgress()`        | `onProgress()`    |
-| check whether the operation finished                                       | `isDone()`            | `isDone`          |
-| stop polling                                                               | `stopPolling()`       | N/A               |
-| check if the polling stopped                                               | `isStopped()`         | N/A               |
-| get the current operation state                                            | `getOperationState()` | `operationState`  |
-| access the final result                                                    | `getResult()`         | `result`          |
-| serialize the poller state                                                 | `toString()`          | `serialize()`     |
-| wait the poller submitted successfully                                     | N/A                   | `submitted()`       |
+| Capability                                  | AutoRest (`SimplePollerLike`) | TypeSpec (`PollerLike`) |
+|---------------------------------------------|-------------------------------|-------------------------|
+| Return final results                        | `pollUntilDone()`             | `pollUntilDone()`       |
+| Poll                                        | `poll()`                      | `poll()`                |
+| Observe progress                            | `onProgress()`                | `onProgress()`          |
+| Check completion                            | `getOperationState().isCompleted`/`isDone()` | `isDone`               |
+| Stop / check stopped                        | `stopPolling()` / `isStopped()` | N/A                   |
+| Read current state                          | `getOperationState()`         | `operationState`        |
+| Access final result                         | `getResult()`                 | `result`                |
+| Serialize poller state                      | `toString()`                  | `serialize()`           |
+| Await initial submission                    | N/A                           | `submitted()`           |
 
-Please note the operation `getOperationState(): TState` is changed to attribute `operationState: TState | undefined`, so the value could be `undefined` if the poller is not initialized yet.
+> **Note:** `getOperationState(): TState` becomes the property `operationState?: TState`. Guard for `undefined` before access:
 
 ```ts
 const status = poller.getOperationState().status;
