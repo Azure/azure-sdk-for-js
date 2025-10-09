@@ -12,7 +12,7 @@ Several packages released from Modular libraries have already reached General Av
 
 We recommend reviewing the [complete guide](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) for full details. Compared to libraries generated with *Autorest*, *TypeSpec code generation* has following key benefits:
 
-1. Subpath exports: Modular SDKs use [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(available since Node.js version 12.7) to offer layered APIs. In which service client layer from `.` root subpath would provide similar experience to traditional client. And the API layer from `./api` subpath would provide more lightweight client context for shared state across operations.
+1. Subpath exports: Libraries now leverage [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(introduced in Node.js version 12.7) to provide layered APIs. This means developer can access the familiar `Client` at the root level while also using the `/api` subpath for fine-grained, operation-level imports.
 1. Bundle size optimization: Modular SDKs leverage @azure-rest/core-client, which offers improved bundle size efficiency compared to the previous Azure core libraries. This core package provides a general-purpose REST client, while each service-specific package includes its own TypeScript type definitions. These TypeScript types are excluded from the final asset bundle, helping to minimize overall bundle size.
 1. Long-running operations: Instead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
 
