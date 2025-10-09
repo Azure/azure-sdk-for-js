@@ -180,7 +180,7 @@ export type ClientConfigDiagnostic = {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     pluginsConfigured: boolean;
     sDKVersion: string;
-    aadScopeOverride: boolean;
+    aadScopeOverride?: boolean;
 };
 
 // @public (undocumented)
