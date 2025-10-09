@@ -27,12 +27,11 @@ If you’re updating an existing application from **libraries generated with Aut
 
 ### Long-running Operations (LROs)
 
-Many operations may take a long time to finish before receiving the desired response named long-running operations. We re-designed LRO in Modular SDKs. The changes mainly are three parts:
+Based on customer feedback, we simplified LROs to make the API **cleaner and more ergonomic**. Three changes matter for migration:
 
-- Method signature changes
-- LRO poller changes from SimplePollerLike to PollerLike
-- Rehydration changes
-
+- **Method shape**: two methods → one method  
+- **Poller type**: `SimplePollerLike` → `PollerLike` (Promise‑like)  
+- **Rehydration**: option‑based → helper function
 #### Method signature changes
 
 Taking a simple LRO operation as an example with operationId `IntegrationRuntimes_Start`. In traditional client we would have two methods([link](https://github.com/Azure/azure-sdk-for-js/blob/8c1c0027d79354d2b91b318c4ceb52e462f7db92/sdk/datafactory/arm-datafactory/src/operationsInterfaces/integrationRuntimes.ts#L193)).
