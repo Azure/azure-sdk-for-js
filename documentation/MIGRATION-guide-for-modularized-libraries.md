@@ -106,39 +106,15 @@ const serialized = poller.toString();
 const serialized = await poller.serialize();
 #### Rehydration change
 
-We also change the way to restore an existing LRO. The main change is we deliver the restore functionality as a helper function not binding with methods.
+Rehydration moved from an operation option (`resumeFrom`) to a **client‑level helper**.
 
-In traditional client we build an option `resumeFrom`.
-
+**Before → After**
 ```ts
-export interface IntegrationRuntimesStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-```
-Now we build a client-level helper for this.
-```ts
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: DataFactoryManagementClient,
-  serializedState: string,
-  sourceOperation: (
-    ...args: any[]
-  ) => PollerLike<OperationState<TResult>, TResult>,
-  options?: RestorePollerOptions<TResult>,
-): PollerLike<OperationState<TResult>, TResult>
-```
+// Before (AutoRest-generated)
+const result = await client.beginStartAndWait({ resumeFrom: serializedState });
 
-The before-and-after code would be like:
-
-```ts
-// traditional client
-const result = await client.beginStartAndWait({resumeFrom: serializedState}); 
-
-// Modular
-const result = await restorePoller(client, serializedState, client.start);   
-```
-If you are interested in more details in core-lro and here is the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md). 
+// After (TypeSpec-generated)
+const result = await restorePoller(client, serializedState, client.start);
 
 ### List Operations
 In Modular we adjusted paging interfaces a little for better experience and mainly are two parts:
