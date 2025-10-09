@@ -74,7 +74,7 @@ const result2 = await poller;           // or: await poller.pollUntilDone()
 
 #### Poller type: `SimplePollerLike` → `PollerLike`
 
-In traditional client, the return type of  `beginXXX` method is `SimplePollerLike`. Now the return type is changed to `PollerLike` in Modular and this interface is also a PromiseLike. The following table compares `SimplePollerLike` and `PollerLike`:
+TypeSpec‑generated LROs return a `PollerLike`, which is also **Promise‑like**.
 
 | operation                                                                  | `SimplePollerLike`    | `PollerLike`      |
 | -------------------------------------------------------------------------- | --------------------- | ----------------- |
