@@ -58,13 +58,19 @@ start(options?: IntegrationRuntimesStartOptionalParams): PollerLike<
       IntegrationRuntimesStartResponse
     >;
 ```
-So the before-and-after code would be like below:
-| traditional client                                          | Modular                                                                        |
-|----------------------------------------------|--------------------------------------------------------------------------------|
-| const result = await beginStartAndWait();    | const result = await start(); // awaiting would get result directly                                                 |
-| const poller = await beginStart();           | const poller = start(); // directly get the poller                             |
-|                                              | await poller.submitted(); // await the poller submitted if interested          |
-| const result = await poller.pollUntilDone(); | const result = await poller; // Or const result = await poller.pollUntilDone() |
+**Migrate your usage**
+```ts
+// Before (AutoRest-generated)
+const result = await beginStartAndWait();
+
+const poller = await beginStart();
+const result2 = await poller.pollUntilDone();
+
+// After (TypeSpec-generated)
+const result = await start();           // awaiting returns the final result
+const poller = start();                 // direct access to the poller
+await poller.submitted();               // optional: await initial submission
+const result2 = await poller;           // or: await poller.pollUntilDone()
 
 #### LRO poller change from SimplePollerLike to PollerLike
 
