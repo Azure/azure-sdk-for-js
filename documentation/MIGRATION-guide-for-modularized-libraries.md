@@ -33,9 +33,10 @@ Based on customer feedback, we simplified LROs to make the API **cleaner and mor
 - **Poller type**: `SimplePollerLike` → `PollerLike` (Promise‑like)  
 - **Rehydration**: option‑based → helper function
 #### Method signature changes
+Previously (libraries generated with **AutoRest**), each LRO exposed two methods (e.g., `beginStart` and `beginStartAndWait`).  
+Now (libraries generated from **TypeSpec**), there’s a **single** method that behaves as a poller **and** can be directly awaited.
 
-Taking a simple LRO operation as an example with operationId `IntegrationRuntimes_Start`. In traditional client we would have two methods([link](https://github.com/Azure/azure-sdk-for-js/blob/8c1c0027d79354d2b91b318c4ceb52e462f7db92/sdk/datafactory/arm-datafactory/src/operationsInterfaces/integrationRuntimes.ts#L193)).
-
+**AutoRest‑generated (previous)**  
 ```ts
 beginStart(
     options?: IntegrationRuntimesStartOptionalParams,
