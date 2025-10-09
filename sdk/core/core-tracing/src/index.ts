@@ -21,3 +21,4 @@ export {
 } from "./interfaces.js";
 export { useInstrumenter } from "./instrumenter.js";
 export { createTracingClient } from "./tracingClient.js";
+export { traced, traceable, TracedDecoratorOptions } from "./decorators.js";

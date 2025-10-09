@@ -65,6 +65,21 @@ export type SpanStatusSuccess = {
 };
 
 // @public
+export function traceable<T extends new (...args: any[]) => any>(target: T, _context: ClassDecoratorContext<T>): T;
+
+// @public
+export function traced(decoratorOptions?: TracedDecoratorOptions): <This, Args extends any[], Return>(target: (this: This, ...args: Args) => Return, context: ClassMethodDecoratorContext<This & {
+    tracingClient: TracingClient;
+}, (this: This, ...args: Args) => Return>) => (this: This, ...args: Args) => Return;
+
+// @public
+export interface TracedDecoratorOptions {
+    optionsIndex?: number;
+    spanName?: string;
+    spanOptions?: TracingSpanOptions;
+}
+
+// @public
 export interface TracingClient {
     createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
     parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
