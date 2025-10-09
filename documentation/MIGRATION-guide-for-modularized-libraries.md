@@ -247,7 +247,7 @@ const result = await client.hcxEnterpriseSites.get("resourceGroupName", "private
 console.log(result.properties?.activationKey);
 ```
 
-Please note for Azure models, majority of property flatten happened in `properties` property.
+> **Tip:** In most Azure resource models, flattening occurred under the `properties` bag, so expect to adjust references accordingly.
 
 
 ## Need help
