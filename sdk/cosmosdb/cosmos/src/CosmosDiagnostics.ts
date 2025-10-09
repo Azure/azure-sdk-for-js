@@ -100,7 +100,7 @@ export type ClientConfigDiagnostic = {
   /**
    * True if `aadScope` were supplied during client initialization.
    */
-  aadScopeOverride: boolean;
+  aadScopeOverride?: boolean;
 };
 
 /**
