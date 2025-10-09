@@ -100,17 +100,13 @@ now
 const status = poller?.operationState?.status;
 ```
 
-If you want to serialize a poller, use the `serialize` instead.
-
+**Serialization change**
 ```ts
-const serializeState = poller.toString();
-```
+// Before
+const serialized = poller.toString();
 
-now
-
-```ts
-const serializeState = await poller.serialize();
-```
+// Now
+const serialized = await poller.serialize();
 #### Rehydration change
 
 We also change the way to restore an existing LRO. The main change is we deliver the restore functionality as a helper function not binding with methods.
