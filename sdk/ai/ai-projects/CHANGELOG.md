@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.1 (2015-10-10)
 
 ### Other Changes
+
+- Update dependency package `openai` version to `5.10.1`
 
 ## 1.0.0 (2025-08-06)
 
