@@ -214,7 +214,8 @@ export interface HcxEnterpriseSite extends ProxyResource {
 }
 ```
 
-Modular SDKs no longer support flattening to reduce confusion and maintenance overhead. So now [the model](https://github.com/azure/azure-sdk-for-js/blob/181311fe630b5609e78d55306ad2242bb881dacf/sdk/avs/arm-avs/src/models/models.ts#L3171-L3174) would be generated like below:
+### What changed?
+**Libraries generated from TypeSpec** no longer support client-side flattening. This decision was based on customer feedback to reduce confusion and maintenance overhead. Models now preserve the original structure, so properties are grouped under a `properties` object (as defined in TypeSpec):
 ```ts
 /** An HCX Enterprise Site resource */
 export interface HcxEnterpriseSite extends ProxyResource {
