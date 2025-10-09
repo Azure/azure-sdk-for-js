@@ -1,5 +1,32 @@
 # Release History
 
+## 12.2.0 (2025-10-09)
+
+### Features Added
+
+- Added support for `2025-09-01` service version.
+  - Support for reranker boosted scores in search results and the ability to sort results on either reranker or reranker
+    boosted scores in `SemanticConfiguration.rankingOrder`.
+  - Support for `VectorSearchCompression.RescoringOptions` to configure how vector compression handles the original
+    vector when indexing and how vectors are used during rescoring.
+  - Added `SearchIndex.description` to provide a textual description of the index.
+  - Support for `LexicalNormalizer` when defining `SearchIndex`, `SimpleField`, and `SearchableField` and the ability to
+    use it when analyzing text with `SearchIndexClient.analyzeText` and `SearchIndexAsyncClient.analyzeText`.
+  - Support `DocumentIntelligenceLayoutSkill` skillset skill and `OneLake` `SearchIndexerDataSourceConnection` data source.
+  - Support for `QueryDebugMode` in searching to retrieve detailed information about search processing. Only `vector` is
+    supported for `QueryDebugMode`.
+
+### Breaking Changes
+
+- `VectorSearchCompression.rerankWithOriginalVectors` and `VectorSearchCompression.defaultOversampling` don't work with
+  `2025-09-01` and were replaced by `VectorSearchCompression.RescoringOptions.enabledRescoring` and
+  `VectorSearchCompression.RescoringOptions.defaultOversampling`. If using `2024-07-01` continue using the old properties,
+  otherwise if using `2025-09-01` use the new properties in `RescoringOptions`.
+
+### Other Changes
+
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM.
+
 ## 12.2.0-beta.3 (2025-10-07)
 
 ### Features Added
