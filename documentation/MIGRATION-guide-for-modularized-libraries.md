@@ -115,7 +115,21 @@ const result = await client.beginStartAndWait({ resumeFrom: serializedState });
 
 // After (TypeSpec-generated)
 const result = await restorePoller(client, serializedState, client.start);
+For more detail, see the core‑lro migration guide:  
+https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md
 
+---
+
+### Quick migration checklist
+
+- Replace `beginXxxAndWait()` → `await xxx()`.  
+- Replace `await beginXxx()` → `const poller = xxx()`.  
+- Replace `poller.toString()` → `await poller.serialize()`.  
+- Replace `poller.getOperationState()` → `poller.operationState` (guard for `undefined`).  
+- If you previously used `resumeFrom`, switch to `restorePoller(client, serialized, client.xxx)`.  
+- If you depended on `stopPolling()`/`isStopped()`, revisit your control flow (these are not exposed on `PollerLike`).
+
+---
 ### List Operations
 In Modular we adjusted paging interfaces a little for better experience and mainly are two parts:
 - Remove un-supported maxpagesize in PageSetting
