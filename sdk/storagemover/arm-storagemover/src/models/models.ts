@@ -221,9 +221,13 @@ export function storageMoverPropertiesDeserializer(item: any): StorageMoverPrope
 
 /** The provisioning state of a resource. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Deleting */
   Deleting = "Deleting",
 }
 
@@ -334,7 +338,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -488,11 +492,17 @@ export function agentPropertiesDeserializer(item: any): AgentProperties {
 
 /** The Agent status. */
 export enum KnownAgentStatus {
+  /** Registering */
   Registering = "Registering",
+  /** Offline */
   Offline = "Offline",
+  /** Online */
   Online = "Online",
+  /** Executing */
   Executing = "Executing",
+  /** RequiresAttention */
   RequiresAttention = "RequiresAttention",
+  /** Unregistering */
   Unregistering = "Unregistering",
 }
 
@@ -670,7 +680,9 @@ export function timeDeserializer(item: any): Time {
 
 /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
 export enum KnownMinute {
+  /** 0 */
   Zero = 0,
+  /** 30 */
   Thirty = 30,
 }
 
@@ -895,11 +907,17 @@ export function endpointBasePropertiesUnionDeserializer(item: any): EndpointBase
 
 /** The Endpoint resource type. */
 export enum KnownEndpointType {
+  /** AzureStorageBlobContainer */
   AzureStorageBlobContainer = "AzureStorageBlobContainer",
+  /** NfsMount */
   NfsMount = "NfsMount",
+  /** AzureStorageSmbFileShare */
   AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
+  /** SmbMount */
   SmbMount = "SmbMount",
+  /** AzureMultiCloudConnector */
   AzureMultiCloudConnector = "AzureMultiCloudConnector",
+  /** AzureStorageNfsFileShare */
   AzureStorageNfsFileShare = "AzureStorageNfsFileShare",
 }
 
@@ -985,8 +1003,11 @@ export function nfsMountEndpointPropertiesDeserializer(item: any): NfsMountEndpo
 
 /** The NFS protocol version. */
 export enum KnownNfsVersion {
+  /** NFSauto */
   NFSauto = "NFSauto",
+  /** NFSv3 */
   NFSv3 = "NFSv3",
+  /** NFSv4 */
   NFSv4 = "NFSv4",
 }
 
@@ -1300,6 +1321,7 @@ export function credentialsUnionDeserializer(item: any): CredentialsUnion {
 
 /** The Credentials type. */
 export enum KnownCredentialType {
+  /** AzureKeyVaultSmb */
   AzureKeyVaultSmb = "AzureKeyVaultSmb",
 }
 
@@ -1717,7 +1739,9 @@ export function jobDefinitionPropertiesDeserializer(item: any): JobDefinitionPro
 
 /** The type of the Job. */
 export enum KnownJobType {
+  /** OnPremToCloud */
   OnPremToCloud = "OnPremToCloud",
+  /** CloudToCloud */
   CloudToCloud = "CloudToCloud",
 }
 
@@ -1733,7 +1757,9 @@ export type JobType = string;
 
 /** Strategy to use for copy. */
 export enum KnownCopyMode {
+  /** Additive */
   Additive = "Additive",
+  /** Mirror */
   Mirror = "Mirror",
 }
 
@@ -1749,14 +1775,23 @@ export type CopyMode = string;
 
 /** The current status of the Job Run in a non-terminal state, if exists. */
 export enum KnownJobRunStatus {
+  /** Queued */
   Queued = "Queued",
+  /** Started */
   Started = "Started",
+  /** Running */
   Running = "Running",
+  /** CancelRequested */
   CancelRequested = "CancelRequested",
+  /** Canceling */
   Canceling = "Canceling",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** PausedByBandwidthManagement */
   PausedByBandwidthManagement = "PausedByBandwidthManagement",
 }
 
@@ -2074,8 +2109,11 @@ export function jobRunPropertiesDeserializer(item: any): JobRunProperties {
 
 /** The status of Agent's scanning of source. */
 export enum KnownJobRunScanStatus {
+  /** NotStarted */
   NotStarted = "NotStarted",
+  /** Scanning */
   Scanning = "Scanning",
+  /** Completed */
   Completed = "Completed",
 }
 

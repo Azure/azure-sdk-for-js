@@ -286,25 +286,17 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAgentStatus {
-    // (undocumented)
     Executing = "Executing",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     Registering = "Registering",
-    // (undocumented)
     RequiresAttention = "RequiresAttention",
-    // (undocumented)
     Unregistering = "Unregistering"
 }
 
 // @public
 export enum KnownCopyMode {
-    // (undocumented)
     Additive = "Additive",
-    // (undocumented)
     Mirror = "Mirror"
 }
 
@@ -318,63 +310,42 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownCredentialType {
-    // (undocumented)
     AzureKeyVaultSmb = "AzureKeyVaultSmb"
 }
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     AzureMultiCloudConnector = "AzureMultiCloudConnector",
-    // (undocumented)
     AzureStorageBlobContainer = "AzureStorageBlobContainer",
-    // (undocumented)
     AzureStorageNfsFileShare = "AzureStorageNfsFileShare",
-    // (undocumented)
     AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
-    // (undocumented)
     NfsMount = "NfsMount",
-    // (undocumented)
     SmbMount = "SmbMount"
 }
 
 // @public
 export enum KnownJobRunScanStatus {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     NotStarted = "NotStarted",
-    // (undocumented)
     Scanning = "Scanning"
 }
 
 // @public
 export enum KnownJobRunStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Canceling = "Canceling",
-    // (undocumented)
     CancelRequested = "CancelRequested",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     PausedByBandwidthManagement = "PausedByBandwidthManagement",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Started = "Started",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     CloudToCloud = "CloudToCloud",
-    // (undocumented)
     OnPremToCloud = "OnPremToCloud"
 }
 
@@ -388,7 +359,6 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownMinute {
-    // (undocumented)
     Thirty = 30,
     // (undocumented)
     Zero = 0
@@ -396,11 +366,8 @@ export enum KnownMinute {
 
 // @public
 export enum KnownNfsVersion {
-    // (undocumented)
     NFSauto = "NFSauto",
-    // (undocumented)
     NFSv3 = "NFSv3",
-    // (undocumented)
     NFSv4 = "NFSv4"
 }
 
@@ -413,13 +380,9 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
