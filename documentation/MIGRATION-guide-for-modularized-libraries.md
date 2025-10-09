@@ -14,7 +14,7 @@ We recommend reviewing the [complete guide](https://devblogs.microsoft.com/azure
 
 1. Subpath exports: Libraries now leverage [subpath exports](https://nodejs.org/api/packages.html#subpath-exports)(introduced in Node.js version 12.7) to provide layered APIs. This means developer can access the familiar `Client` at the root level while also using the `/api` subpath for fine-grained, operation-level imports.
 1. Bundle size optimization: By leveraging the new `/api` subpath export, developers can selectively import only the operations they need. This approach minimizes the overall library footprint in the application bundle, ensuring that only the required pieces are included.
-1. Long-running operations: Instead of two methods (beginDoSth and beginDoSthAndWait) in the traditional clients for each long-running operation, which are both redundant and confusing to customers. Modular SDKs offer a single method (doSth) that supports both async and sync usage.
+1. Long-running operations: Based on customer feedback, we simplified the API to make it cleaner and more ergonomic. Previously, clients exposed two methods for each *long-running operation* (`beginDoSth` and `beginDoSthAndWait`), which often felt redundant and confusing. Libraries generated from *TypeSpec* now provide a single method (`doSth`) that supports both async and sync usage, reducing complexity while improving developer experience.
 
 
 ## How to migrate to the modularized libraries?
