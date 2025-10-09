@@ -5,6 +5,7 @@ import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
+import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import type {
   SnapshotComposition,
   ConfigurationSettingsFilter,
@@ -73,7 +74,7 @@ export interface ConfigurationSettingId {
  * Necessary fields for updating or creating a new configuration setting
  */
 export type ConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingId & {
   /**
    * The content type of the setting's value
@@ -103,7 +104,7 @@ export type ConfigurationSettingParam<
  * its etag, whether it is currently readOnly and when it was last modified.
  */
 export type ConfigurationSetting<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingParam<T> & {
   /**
    * Whether or not the setting is read-only
@@ -150,14 +151,14 @@ export interface HttpResponseField<HeadersT> {
  * Parameters for adding a new configuration setting
  */
 export type AddConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
 export type SetConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string,
+  T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
