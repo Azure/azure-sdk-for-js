@@ -178,7 +178,7 @@ const continuationToken = firstPage.value.continuationToken;
 
 ## Model Property Flattening
 
-Client libraries represent entities transferred to and from Azure services as model types. For the model types, in the traditional client we have supported the autorest extension [x-ms-client-flatten](https://azure.github.io/autorest/extensions/#x-ms-client-flatten). This extension allows to flatten deeply nested payloads into a top-level object structure. For example a payload that looks like this on the wire:
+Previously, **libraries generated with AutoRest** supported the `x-ms-client-flatten` extension, which allowed deeply nested payloads to be flattened into a top-level object structure. For example, a payload like this:
 
 ```json
 {
