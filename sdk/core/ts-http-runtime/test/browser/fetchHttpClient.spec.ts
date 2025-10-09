@@ -8,6 +8,7 @@ import { png } from "./mocks/encodedPng.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { AbortError } from "../../src/abort-controller/AbortError.js";
 import { delay } from "../../src/util/helpers.js";
+import { arrayBufferViewToArrayBuffer } from "../../src/util/arrayBuffer.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -511,6 +512,180 @@ describe("FetchHttpClient", function () {
       allowInsecureConnection: true,
       url: "http://example.com",
     });
+    const response = await client.sendRequest(request);
+    assert.strictEqual(response.status, 200);
+  });
+});
+
+describe("arrayBufferViewToArrayBuffer", function () {
+  it("should return the original buffer when no offset and full length", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const view = new Uint8Array(originalBuffer);
+
+    const result = arrayBufferViewToArrayBuffer(view);
+
+    // Should return the exact same ArrayBuffer reference
+    assert.strictEqual(result, originalBuffer);
+    assert.strictEqual(result.byteLength, 16);
+  });
+
+  it("should create a new buffer when view has an offset", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const view = new Uint8Array(originalBuffer, 4, 8); // offset=4, length=8
+
+    const result = arrayBufferViewToArrayBuffer(view);
+
+    // Should be a different ArrayBuffer reference
+    assert.notStrictEqual(result, originalBuffer);
+    assert.strictEqual(result.byteLength, 8);
+  });
+
+  it("should create a new buffer when view length is less than buffer length", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const view = new Uint8Array(originalBuffer, 0, 8); // no offset, but length < buffer length
+
+    const result = arrayBufferViewToArrayBuffer(view);
+
+    // Should be a different ArrayBuffer reference
+    assert.notStrictEqual(result, originalBuffer);
+    assert.strictEqual(result.byteLength, 8);
+  });
+
+  it("should preserve data when creating a new buffer", function () {
+    const originalBuffer = new ArrayBuffer(8);
+    const sourceView = new Uint8Array(originalBuffer);
+    // Fill with test data
+    for (let i = 0; i < sourceView.length; i++) {
+      sourceView[i] = i + 1;
+    }
+
+    // Create a view with offset
+    const offsetView = new Uint8Array(originalBuffer, 2, 4); // bytes 2,3,4,5
+
+    const result = arrayBufferViewToArrayBuffer(offsetView);
+    const resultView = new Uint8Array(result);
+
+    assert.strictEqual(result.byteLength, 4);
+    assert.strictEqual(resultView[0], 3); // originalBuffer[2]
+    assert.strictEqual(resultView[1], 4); // originalBuffer[3]
+    assert.strictEqual(resultView[2], 5); // originalBuffer[4]
+    assert.strictEqual(resultView[3], 6); // originalBuffer[5]
+  });
+
+  it("should work with different typed array views", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const uint32View = new Uint32Array(originalBuffer, 4, 2); // 8 bytes, offset 4
+    uint32View[0] = 0x12345678;
+    uint32View[1] = 0xabcdef00;
+
+    const result = arrayBufferViewToArrayBuffer(uint32View);
+    const resultView = new Uint32Array(result);
+
+    assert.strictEqual(result.byteLength, 8);
+    assert.strictEqual(resultView[0], 0x12345678);
+    assert.strictEqual(resultView[1], 0xabcdef00);
+  });
+
+  it("should work with Int8Array", function () {
+    const originalBuffer = new ArrayBuffer(8);
+    const view = new Int8Array(originalBuffer);
+    view.set([-1, -2, -3, -4, 5, 6, 7, 8]);
+
+    const result = arrayBufferViewToArrayBuffer(view);
+    const resultView = new Int8Array(result);
+
+    assert.strictEqual(result, originalBuffer); // Should be same reference
+    assert.deepEqual(Array.from(resultView), [-1, -2, -3, -4, 5, 6, 7, 8]);
+  });
+
+  it("should work with Float32Array", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const view = new Float32Array(originalBuffer, 4, 2); // 8 bytes, offset 4
+    view[0] = 3.14159;
+    view[1] = 2.71828;
+
+    const result = arrayBufferViewToArrayBuffer(view);
+    const resultView = new Float32Array(result);
+
+    assert.strictEqual(result.byteLength, 8);
+    assert.approximately(resultView[0], 3.14159, 0.00001);
+    assert.approximately(resultView[1], 2.71828, 0.00001);
+  });
+
+  it("should handle zero-length views", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const view = new Uint8Array(originalBuffer, 8, 0); // zero length
+
+    const result = arrayBufferViewToArrayBuffer(view);
+
+    assert.strictEqual(result.byteLength, 0);
+  });
+
+  it("should handle single-byte views", function () {
+    const originalBuffer = new ArrayBuffer(16);
+    const sourceView = new Uint8Array(originalBuffer);
+    sourceView[10] = 42;
+
+    const view = new Uint8Array(originalBuffer, 10, 1); // single byte at offset 10
+
+    const result = arrayBufferViewToArrayBuffer(view);
+    const resultView = new Uint8Array(result);
+
+    assert.strictEqual(result.byteLength, 1);
+    assert.strictEqual(resultView[0], 42);
+  });
+});
+
+describe("FetchHttpClient with ArrayBufferView request body", function () {
+  beforeEach(() => {
+    vi.stubGlobal("fetch", vi.fn());
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it("should handle Uint8Array request body correctly", async function () {
+    const client = createFetchHttpClient();
+    const testData = new Uint8Array([1, 2, 3, 4, 5]);
+
+    vi.mocked(fetch).mockImplementation(async (_url, options) => {
+      const body = options?.body;
+      assert.instanceOf(body, ArrayBuffer);
+      const bodyView = new Uint8Array(body as ArrayBuffer);
+      assert.deepEqual(Array.from(bodyView), [1, 2, 3, 4, 5]);
+      return new Response(null, { status: 200 });
+    });
+
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "POST",
+      body: testData,
+    });
+
+    const response = await client.sendRequest(request);
+    assert.strictEqual(response.status, 200);
+  });
+
+  it("should optimize when no copy is needed", async function () {
+    const client = createFetchHttpClient();
+    const buffer = new ArrayBuffer(8);
+    const view = new Uint8Array(buffer); // Full view, no offset
+    view.set([10, 20, 30, 40, 50, 60, 70, 80]);
+
+    vi.mocked(fetch).mockImplementation(async (_url, options) => {
+      const body = options?.body;
+      assert.strictEqual(body, buffer); // Should be the same reference
+      return new Response(null, { status: 200 });
+    });
+
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "POST",
+      body: view,
+    });
+
     const response = await client.sendRequest(request);
     assert.strictEqual(response.status, 200);
   });

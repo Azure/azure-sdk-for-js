@@ -147,7 +147,11 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           credentialFunctions = [createDefaultWorkloadIdentityCredential];
           break;
         case "managedidentitycredential":
-          credentialFunctions = [createDefaultManagedIdentityCredential];
+          // Setting `sendProbeRequest` to false to ensure ManagedIdentityCredential behavior
+          // is consistent when used standalone in DAC chain or used directly.
+          credentialFunctions = [
+            () => createDefaultManagedIdentityCredential({ sendProbeRequest: false }),
+          ];
           break;
         case "visualstudiocodecredential":
           credentialFunctions = [createDefaultVisualStudioCodeCredential];
@@ -181,7 +185,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     // 3. Returning a UnavailableDefaultCredential from the factory function if a credential is unavailable for any reason
     const credentials: TokenCredential[] = credentialFunctions.map((createCredentialFn) => {
       try {
-        return createCredentialFn(options);
+        return createCredentialFn(options ?? {});
       } catch (err: any) {
         logger.warning(
           `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
@@ -195,7 +199,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 }
 
 /**
- * @internal This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
+ * This function checks that all environment variables in `options.requiredEnvVars` are set and non-empty.
  * If any are missing or empty, it throws an error.
  */
 function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions) {
