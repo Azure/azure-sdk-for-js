@@ -26,7 +26,7 @@ export interface SnapshotReferenceValue {
  */
 export const SnapshotReferenceHelper = {
   /**
-   * Takes the SnapshotReference (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
+   * Takes the SnapshotReference (JSON) and returns a ConfigurationSetting (with the props encoded in the value).
    */
   toConfigurationSettingParam: (
     snapshotReference: ConfigurationSettingParam<SnapshotReferenceValue>,
