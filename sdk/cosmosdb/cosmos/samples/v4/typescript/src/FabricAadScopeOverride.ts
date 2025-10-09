@@ -28,8 +28,8 @@ import { handleError, finish, logStep } from "./Shared/handleError.js";
 
 // Configuration - replace with your values
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
-const databaseId = process.env.COSMOS_DATABASE || "SampleDB";
-const containerId = process.env.COSMOS_CONTAINER || "Items";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 // Test item structure
 interface TestItem {
