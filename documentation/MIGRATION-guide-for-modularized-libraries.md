@@ -91,14 +91,11 @@ TypeSpec‑generated LROs return a `PollerLike`, which is also **Promise‑like*
 > **Note:** `getOperationState(): TState` becomes the property `operationState?: TState`. Guard for `undefined` before access:
 
 ```ts
+// Before
 const status = poller.getOperationState().status;
-```
 
-now
-
-```ts
+// Now
 const status = poller?.operationState?.status;
-```
 
 **Serialization change**
 ```ts
