@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createDurableTask,
-  DurableTaskContext,
-  DurableTaskClientOptionalParams,
-} from "./api/index.js";
-import {
-  RetentionPoliciesOperations,
-  _getRetentionPoliciesOperations,
-} from "./classic/retentionPolicies/index.js";
-import { TaskHubsOperations, _getTaskHubsOperations } from "./classic/taskHubs/index.js";
-import { SchedulersOperations, _getSchedulersOperations } from "./classic/schedulers/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { DurableTaskContext, DurableTaskClientOptionalParams } from "./api/index.js";
+import { createDurableTask } from "./api/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { RetentionPoliciesOperations } from "./classic/retentionPolicies/index.js";
+import { _getRetentionPoliciesOperations } from "./classic/retentionPolicies/index.js";
+import type { SchedulersOperations } from "./classic/schedulers/index.js";
+import { _getSchedulersOperations } from "./classic/schedulers/index.js";
+import type { TaskHubsOperations } from "./classic/taskHubs/index.js";
+import { _getTaskHubsOperations } from "./classic/taskHubs/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { DurableTaskClientOptionalParams } from "./api/durableTaskContext.js";
 

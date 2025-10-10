@@ -17,25 +17,25 @@ export const EmailSendResult: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -47,22 +47,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -72,10 +72,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -85,13 +85,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -103,19 +103,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -127,11 +127,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const EmailMessage: coreClient.CompositeMapper = {
@@ -143,29 +143,29 @@ export const EmailMessage: coreClient.CompositeMapper = {
         serializedName: "headers",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       senderAddress: {
         serializedName: "senderAddress",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       content: {
         serializedName: "content",
         type: {
           name: "Composite",
-          className: "EmailContent"
-        }
+          className: "EmailContent",
+        },
       },
       recipients: {
         serializedName: "recipients",
         type: {
           name: "Composite",
-          className: "EmailRecipients"
-        }
+          className: "EmailRecipients",
+        },
       },
       attachments: {
         serializedName: "attachments",
@@ -174,10 +174,10 @@ export const EmailMessage: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EmailAttachment"
-            }
-          }
-        }
+              className: "EmailAttachment",
+            },
+          },
+        },
       },
       replyTo: {
         serializedName: "replyTo",
@@ -186,19 +186,19 @@ export const EmailMessage: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EmailAddress"
-            }
-          }
-        }
+              className: "EmailAddress",
+            },
+          },
+        },
       },
       disableUserEngagementTracking: {
         serializedName: "userEngagementTrackingDisabled",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const EmailContent: coreClient.CompositeMapper = {
@@ -210,23 +210,23 @@ export const EmailContent: coreClient.CompositeMapper = {
         serializedName: "subject",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       plainText: {
         serializedName: "plainText",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       html: {
         serializedName: "html",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EmailRecipients: coreClient.CompositeMapper = {
@@ -241,10 +241,10 @@ export const EmailRecipients: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EmailAddress"
-            }
-          }
-        }
+              className: "EmailAddress",
+            },
+          },
+        },
       },
       cc: {
         serializedName: "cc",
@@ -253,10 +253,10 @@ export const EmailRecipients: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EmailAddress"
-            }
-          }
-        }
+              className: "EmailAddress",
+            },
+          },
+        },
       },
       bcc: {
         serializedName: "bcc",
@@ -265,13 +265,13 @@ export const EmailRecipients: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EmailAddress"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "EmailAddress",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const EmailAddress: coreClient.CompositeMapper = {
@@ -283,17 +283,17 @@ export const EmailAddress: coreClient.CompositeMapper = {
         serializedName: "address",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EmailAttachment: coreClient.CompositeMapper = {
@@ -305,31 +305,31 @@ export const EmailAttachment: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       contentType: {
         serializedName: "contentType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       contentInBase64: {
         serializedName: "contentInBase64",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       contentId: {
         serializedName: "contentId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EmailGetSendResultHeaders: coreClient.CompositeMapper = {
@@ -340,11 +340,11 @@ export const EmailGetSendResultHeaders: coreClient.CompositeMapper = {
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const EmailGetSendResultExceptionHeaders: coreClient.CompositeMapper = {
@@ -355,11 +355,11 @@ export const EmailGetSendResultExceptionHeaders: coreClient.CompositeMapper = {
       xMsErrorCode: {
         serializedName: "x-ms-error-code",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EmailSendHeaders: coreClient.CompositeMapper = {
@@ -370,17 +370,17 @@ export const EmailSendHeaders: coreClient.CompositeMapper = {
       operationLocation: {
         serializedName: "operation-location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const EmailSendExceptionHeaders: coreClient.CompositeMapper = {
@@ -391,9 +391,9 @@ export const EmailSendExceptionHeaders: coreClient.CompositeMapper = {
       xMsErrorCode: {
         serializedName: "x-ms-error-code",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

@@ -304,7 +304,6 @@ export class GlobalEndpointManager {
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
-        this.refreshPPAFFeatureFlag(databaseAccount.enablePerPartitionFailover);
       }
       this.isRefreshing = false;
     }

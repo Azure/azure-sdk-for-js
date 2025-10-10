@@ -20,8 +20,6 @@ interface VSCodeCredentialControl {
  *
  * Plugin authors are responsible for casting their plugin context values
  * to this type.
- *
- * @internal
  */
 interface AzurePluginContext {
   vsCodeCredentialControl: VSCodeCredentialControl;

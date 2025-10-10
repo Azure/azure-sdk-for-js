@@ -1,5 +1,18 @@
 # Release History
 
+## 12.2.0-beta.3 (2025-10-07)
+
+### Features Added
+
+- Added API for listing index statistics [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added semantic ranking based on scoring profile boosted score [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added agentic retrieval functionality through `KnowledgeRetrievalClient` and `KnowledgeAgent` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added ACL functionality for indexer ingestion [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added document-level access control [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added support for vector fields in top-level complex fields [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added `ChatCompletionSkill` as a variant of `WebAPISkill` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added `strictPostFilter` option for filtering on global top results [#35924](https://github.com/Azure/azure-sdk-for-js/pull/35924)
+
 ## 12.2.0-beta.2 (2024-11-25)
 
 ### Features Added
@@ -14,7 +27,7 @@
   - Configure through the `markdownParsingSubmode` and `markdownHeaderDepth` properties of `IndexingParametersConfiguration`.
 - Added `DocumentIntelligenceLayoutSkill` [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
 - Added subdomain billing for skillsets [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
- 
+
 ### Bugs Fixed
 
 - Fixed the type of `SearchResult.documentDebugInfo` to not erroneously describe it as an array [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
@@ -35,8 +48,8 @@
 
 ### Features Added
 
-- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597) 
-  - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text. 
+- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597)
+  - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text.
 - Added `AzureOpenAIEmbeddingSkill` to allow for `SearchIndexer`s to populate embedding fields at index-time.
 - Added index configuration for vector quantization through `VectorSearchCompression`
 
