@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Update dependency package `openai` version to `5.10.1`
+- Update dependency package `openai` version to `6.1.0`
 
 ## 1.0.0 (2025-08-06)
 

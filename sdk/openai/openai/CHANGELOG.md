@@ -1,4 +1,7 @@
 # Release History
+## 2.1.0-beta.2 (2025-10-10)
+
+- Update dependency package `openai` version to `6.1.0` 
 
 ## 2.1.0-beta.1 (2025-04-02)
 
