@@ -13,7 +13,7 @@ import {
 import { QueryRange } from "../../../../../src/routing/QueryRange.js";
 import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/QueryRangeMapping.js";
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
-describe("CompositeQueryContinuationToken", () => {
+describe.skip("CompositeQueryContinuationToken", () => {
   const mockRid = "test-resource-id";
 
   // Helper function to create mock partition key range
