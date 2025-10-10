@@ -56,8 +56,18 @@ steps:
 
   - script: |
       npm ci
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/versioning
+    displayName: "Install versioning tool dependencies"
+
+  - script: |
+      node validatePullRequestVersion.js 
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/versioning
+    displayName: "Run versioning validation"
+
+  - script: |
+      npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
-    displayName: "Install tool dependencies"
+    displayName: "Install analyze-deps tool dependencies"
 
   - script: |
       node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)/data.js" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
@@ -74,9 +84,12 @@ steps:
 
   - pwsh: |
       pnpm build --filter @azure/eslint-plugin-azure-sdk...
+    displayName: "Build ESLint Plugin"
+
+  - pwsh: |
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
-    displayName: "Build ESLint Plugin and Lint Libraries"
+    displayName: "Lint Libraries"
 
   - pwsh: |
       node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
