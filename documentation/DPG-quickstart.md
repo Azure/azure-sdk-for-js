@@ -3,8 +3,6 @@ Getting Started: Generate JavaScript/TypeScript DPG Libraries with TypeSpec
 
 # Before you start
 
-:warning: **Important**: Only proceed with DPG code generation for JavaScript/TypeScript if you have been explicitly instructed to do so by the AZSDK Architecture Board. Otherwise, please use the [RLC Quickstart Guide](https://aka.ms/azsdk/rlc/js).
-
 :warning: Ensure that your TypeSpec definition has been merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs) before you begin.
 
 For an overview of the review and release process for new libraries, visit: https://aka.ms/azsdk/dpcodegen.
