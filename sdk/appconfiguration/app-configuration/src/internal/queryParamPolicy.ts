@@ -17,62 +17,52 @@ import type {
  */
 export function queryParamPolicy(): PipelinePolicy {
   return {
-    name: "normalizeQueryPolicy",
+    name: "queryParamPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       try {
         const originalUrl = request.url;
 
-        // Separate out any hash fragment so we can keep it verbatim.
-        const hashIndex = originalUrl.indexOf("#");
-        const beforeHash = hashIndex >= 0 ? originalUrl.slice(0, hashIndex) : originalUrl;
-        const hashFrag = hashIndex >= 0 ? originalUrl.slice(hashIndex) : "";
+        // Use URL API to decompose parts
+        const url = new URL(originalUrl);
 
-        const qIndex = beforeHash.indexOf("?");
-        if (qIndex < 0) {
+        if (url.search === "") {
           return next(request);
         }
 
-        // We don't use URLSearchParams because it will do percent-encoding.
-        // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#percent_encoding
-        const base = beforeHash.slice(0, qIndex);
-        const queryString = beforeHash.slice(qIndex + 1);
-        const segments = queryString.split("&").filter((s) => s.length > 0);
+        const search: string = url.search.slice(1); // Remove leading '?'
+        // We don't use URLSearchParams because it doesn't distinguish ?param= and ?param.
+        const rawParams = search.split("&").filter((value) => value !== "");
 
-        type Entry = {
-          rawName: string;
-          lowerName: string;
-          value: string | undefined;
-          index: number;
-        };
-
-        const entries: Entry[] = segments.map((seg, i) => {
-          const eq = seg.indexOf("=");
-          const rawName = eq === -1 ? seg : seg.slice(0, eq);
-          const value = eq === -1 ? undefined : seg.slice(eq + 1);
-          return {
-            rawName,
-            lowerName: rawName.toLowerCase(),
-            value,
-            index: i,
-          };
-        });
-
-        entries.sort((a, b) => {
-          if (a.lowerName < b.lowerName) return -1;
-          if (a.lowerName > b.lowerName) return 1;
-          return a.index - b.index; // stability for duplicates
-        });
-
-        const normalizedQuery = entries
-          .map((e) => (e.value !== undefined ? `${e.lowerName}=${e.value}` : e.lowerName))
-          .join("&");
-
-        const newUrl = `${base}${normalizedQuery ? "?" + normalizedQuery : ""}${hashFrag}`;
-
-        // Only update if changed (optional, but nice to avoid surprising downstream logic).
-        if (newUrl !== originalUrl) {
-          request.url = newUrl;
+        const params: ParamEntry[] = [];
+        for (const p of rawParams) {
+          const eq = p.indexOf("=");
+          if (eq >= 0) {
+            params.push({
+              lowercaseName: p.substring(0, eq).toLowerCase(),
+              value: p.substring(eq), // Keep the '='
+            });
+          } else {
+            params.push({
+              lowercaseName: p.toLowerCase(),
+              value: "",
+            });
+          }
         }
+
+        // Modern JavaScript Array.prototype.sort is stable
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#sort_stability
+        params.sort((a, b) => {
+          if (a.lowercaseName < b.lowercaseName) {
+            return -1;
+          } else if (a.lowercaseName > b.lowercaseName) {
+            return 1;
+          }
+          return 0;
+        });
+
+        const newSearch = params.map((p) => p.lowercaseName + p.value).join("&");
+        const newUrl = url.origin + url.pathname + "?" + newSearch + url.hash;
+        request.url = newUrl;
       } catch {
         // If anything goes wrong, fall back to sending the original request.
       }
@@ -80,4 +70,9 @@ export function queryParamPolicy(): PipelinePolicy {
       return next(request);
     },
   };
+}
+
+interface ParamEntry {
+  lowercaseName: string;
+  value: string;
 }
