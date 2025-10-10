@@ -22,7 +22,10 @@ export interface PlanetaryComputerClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2025-04-30-preview", ...options }: PlanetaryComputerClientOptions = {},
+  {
+    apiVersion = "2025-04-30-preview",
+    ...options
+  }: PlanetaryComputerClientOptions = {},
 ): PlanetaryComputerClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-planetarycomputer-rest/1.0.0-beta.1`;
@@ -39,10 +42,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://geocatalog.spatio.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://geocatalog.spatio.azure.com/.default",
+      ],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as PlanetaryComputerClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as PlanetaryComputerClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

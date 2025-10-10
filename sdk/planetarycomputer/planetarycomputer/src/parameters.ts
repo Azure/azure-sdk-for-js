@@ -47,8 +47,8 @@ export interface IngestionOperationsListQueryParam {
   queryParameters?: IngestionOperationsListQueryParamProperties;
 }
 
-export type IngestionOperationsListParameters = IngestionOperationsListQueryParam &
-  RequestParameters;
+export type IngestionOperationsListParameters =
+  IngestionOperationsListQueryParam & RequestParameters;
 export type IngestionOperationsGetParameters = RequestParameters;
 export type IngestionOperationsDeleteParameters = RequestParameters;
 export type IngestionOperationsDeleteAllParameters = RequestParameters;
@@ -64,7 +64,8 @@ export interface IngestionRunsListQueryParam {
   queryParameters?: IngestionRunsListQueryParamProperties;
 }
 
-export type IngestionRunsListParameters = IngestionRunsListQueryParam & RequestParameters;
+export type IngestionRunsListParameters = IngestionRunsListQueryParam &
+  RequestParameters;
 export type IngestionRunsGetParameters = RequestParameters;
 export type IngestionRunsCreateParameters = RequestParameters;
 
@@ -79,7 +80,8 @@ export interface IngestionsListQueryParam {
   queryParameters?: IngestionsListQueryParamProperties;
 }
 
-export type IngestionsListParameters = IngestionsListQueryParam & RequestParameters;
+export type IngestionsListParameters = IngestionsListQueryParam &
+  RequestParameters;
 export type IngestionsGetParameters = RequestParameters;
 
 export interface IngestionsCreateBodyParam {
@@ -87,7 +89,8 @@ export interface IngestionsCreateBodyParam {
   body: Ingestion;
 }
 
-export type IngestionsCreateParameters = IngestionsCreateBodyParam & RequestParameters;
+export type IngestionsCreateParameters = IngestionsCreateBodyParam &
+  RequestParameters;
 /** Ingestion properties to update */
 export type IngestionResourceMergeAndPatch = Partial<Ingestion>;
 
@@ -117,7 +120,8 @@ export interface IngestionSourcesListQueryParam {
   queryParameters?: IngestionSourcesListQueryParamProperties;
 }
 
-export type IngestionSourcesListParameters = IngestionSourcesListQueryParam & RequestParameters;
+export type IngestionSourcesListParameters = IngestionSourcesListQueryParam &
+  RequestParameters;
 export type IngestionSourcesGetParameters = RequestParameters;
 
 export interface IngestionSourcesCreateBodyParam {
@@ -125,15 +129,16 @@ export interface IngestionSourcesCreateBodyParam {
   body: IngestionSource;
 }
 
-export type IngestionSourcesCreateParameters = IngestionSourcesCreateBodyParam & RequestParameters;
+export type IngestionSourcesCreateParameters = IngestionSourcesCreateBodyParam &
+  RequestParameters;
 
 export interface IngestionSourcesCreateOrReplaceBodyParam {
   /** Definition of the ingestion source */
   body: IngestionSource;
 }
 
-export type IngestionSourcesCreateOrReplaceParameters = IngestionSourcesCreateOrReplaceBodyParam &
-  RequestParameters;
+export type IngestionSourcesCreateOrReplaceParameters =
+  IngestionSourcesCreateOrReplaceBodyParam & RequestParameters;
 export type IngestionSourcesDeleteParameters = RequestParameters;
 export type IngestionSourcesListManagedIdentitiesParameters = RequestParameters;
 
@@ -147,9 +152,10 @@ export interface StacCollectionAssetsCreateMediaTypesParam {
   contentType: "multipart/form-data";
 }
 
-export type StacCollectionAssetsCreateParameters = StacCollectionAssetsCreateMediaTypesParam &
-  StacCollectionAssetsCreateBodyParam &
-  RequestParameters;
+export type StacCollectionAssetsCreateParameters =
+  StacCollectionAssetsCreateMediaTypesParam &
+    StacCollectionAssetsCreateBodyParam &
+    RequestParameters;
 
 export interface StacCollectionAssetsCreateOrReplaceBodyParam {
   /** Multi-part form data */
@@ -174,8 +180,8 @@ export interface StacCollectionMosaicsAddBodyParam {
   body: StacMosaic;
 }
 
-export type StacCollectionMosaicsAddParameters = StacCollectionMosaicsAddBodyParam &
-  RequestParameters;
+export type StacCollectionMosaicsAddParameters =
+  StacCollectionMosaicsAddBodyParam & RequestParameters;
 export type StacCollectionMosaicsGetParameters = RequestParameters;
 
 export interface StacCollectionMosaicsCreateOrReplaceBodyParam {
@@ -202,14 +208,16 @@ export interface StacCollectionsGetAllQueryParam {
   queryParameters?: StacCollectionsGetAllQueryParamProperties;
 }
 
-export type StacCollectionsGetAllParameters = StacCollectionsGetAllQueryParam & RequestParameters;
+export type StacCollectionsGetAllParameters = StacCollectionsGetAllQueryParam &
+  RequestParameters;
 
 export interface StacCollectionsCreateBodyParam {
   /** Request collection body */
   body: StacCollection;
 }
 
-export type StacCollectionsCreateParameters = StacCollectionsCreateBodyParam & RequestParameters;
+export type StacCollectionsCreateParameters = StacCollectionsCreateBodyParam &
+  RequestParameters;
 
 export interface StacCollectionsGetQueryParamProperties {
   /**
@@ -226,15 +234,16 @@ export interface StacCollectionsGetQueryParam {
   queryParameters?: StacCollectionsGetQueryParamProperties;
 }
 
-export type StacCollectionsGetParameters = StacCollectionsGetQueryParam & RequestParameters;
+export type StacCollectionsGetParameters = StacCollectionsGetQueryParam &
+  RequestParameters;
 
 export interface StacCollectionsCreateOrReplaceBodyParam {
   /** Request collection body */
   body: StacCollection;
 }
 
-export type StacCollectionsCreateOrReplaceParameters = StacCollectionsCreateOrReplaceBodyParam &
-  RequestParameters;
+export type StacCollectionsCreateOrReplaceParameters =
+  StacCollectionsCreateOrReplaceBodyParam & RequestParameters;
 export type StacCollectionsDeleteParameters = RequestParameters;
 export type StacCollectionPartitionTypesGetParameters = RequestParameters;
 
@@ -351,7 +360,8 @@ export interface StacItemsGetFeaturesQueryParam {
   queryParameters?: StacItemsGetFeaturesQueryParamProperties;
 }
 
-export type StacItemsGetFeaturesParameters = StacItemsGetFeaturesQueryParam & RequestParameters;
+export type StacItemsGetFeaturesParameters = StacItemsGetFeaturesQueryParam &
+  RequestParameters;
 export type StacItemsGetParameters = RequestParameters;
 
 export interface StacItemsCreateBodyParam {
@@ -372,15 +382,16 @@ export interface StacItemsCreateBodyParam {
   body: StacItemOrStacItemCollection;
 }
 
-export type StacItemsCreateParameters = StacItemsCreateBodyParam & RequestParameters;
+export type StacItemsCreateParameters = StacItemsCreateBodyParam &
+  RequestParameters;
 
 export interface StacItemsCreateOrReplaceBodyParam {
   /** STAC Item */
   body: StacItem;
 }
 
-export type StacItemsCreateOrReplaceParameters = StacItemsCreateOrReplaceBodyParam &
-  RequestParameters;
+export type StacItemsCreateOrReplaceParameters =
+  StacItemsCreateOrReplaceBodyParam & RequestParameters;
 /** STAC Item */
 export type StacItemResourceMergeAndPatch = Partial<StacItem>;
 
@@ -408,15 +419,16 @@ export interface StacQueryablesCreateBodyParam {
   body: Array<StacQueryable>;
 }
 
-export type StacQueryablesCreateParameters = StacQueryablesCreateBodyParam & RequestParameters;
+export type StacQueryablesCreateParameters = StacQueryablesCreateBodyParam &
+  RequestParameters;
 
 export interface StacQueryablesCreateOrReplaceBodyParam {
   /** Request queryable definition body */
   body: StacQueryable;
 }
 
-export type StacQueryablesCreateOrReplaceParameters = StacQueryablesCreateOrReplaceBodyParam &
-  RequestParameters;
+export type StacQueryablesCreateOrReplaceParameters =
+  StacQueryablesCreateOrReplaceBodyParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `collections` with explode set to false and style set to form. */
 export interface StacSearchGetCollectionsQueryParam {
@@ -485,14 +497,16 @@ export interface StacSearchGetQueryParam {
   queryParameters?: StacSearchGetQueryParamProperties;
 }
 
-export type StacSearchGetParameters = StacSearchGetQueryParam & RequestParameters;
+export type StacSearchGetParameters = StacSearchGetQueryParam &
+  RequestParameters;
 
 export interface StacSearchCreateBodyParam {
   /** Request body */
   body: StacSearchParameters;
 }
 
-export type StacSearchCreateParameters = StacSearchCreateBodyParam & RequestParameters;
+export type StacSearchCreateParameters = StacSearchCreateBodyParam &
+  RequestParameters;
 export type TileMatrixDefinitionsGetParameters = RequestParameters;
 export type TileMatrixListGetParameters = RequestParameters;
 
@@ -592,8 +606,8 @@ export interface TilerAssetStatisticsGetAllQueryParam {
   queryParameters?: TilerAssetStatisticsGetAllQueryParamProperties;
 }
 
-export type TilerAssetStatisticsGetAllParameters = TilerAssetStatisticsGetAllQueryParam &
-  RequestParameters;
+export type TilerAssetStatisticsGetAllParameters =
+  TilerAssetStatisticsGetAllQueryParam & RequestParameters;
 export type TilerAvailableAssetsGetAllParameters = RequestParameters;
 export type TilerBoundGetAllParameters = RequestParameters;
 
@@ -638,7 +652,9 @@ export interface TilerGeoJsonsCropWidthByHeightFormatQueryParamProperties {
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerGeoJsonsCropWidthByHeightFormatAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | TilerGeoJsonsCropWidthByHeightFormatAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -778,9 +794,10 @@ export interface TilerGeoJsonsCropFormatQueryParam {
   queryParameters?: TilerGeoJsonsCropFormatQueryParamProperties;
 }
 
-export type TilerGeoJsonsCropFormatParameters = TilerGeoJsonsCropFormatQueryParam &
-  TilerGeoJsonsCropFormatBodyParam &
-  RequestParameters;
+export type TilerGeoJsonsCropFormatParameters =
+  TilerGeoJsonsCropFormatQueryParam &
+    TilerGeoJsonsCropFormatBodyParam &
+    RequestParameters;
 
 export interface TilerGeoJsonStatisticsGetAllBodyParam {
   /** Request GeoJson body */
@@ -885,9 +902,10 @@ export interface TilerGeoJsonStatisticsGetAllQueryParam {
   queryParameters?: TilerGeoJsonStatisticsGetAllQueryParamProperties;
 }
 
-export type TilerGeoJsonStatisticsGetAllParameters = TilerGeoJsonStatisticsGetAllQueryParam &
-  TilerGeoJsonStatisticsGetAllBodyParam &
-  RequestParameters;
+export type TilerGeoJsonStatisticsGetAllParameters =
+  TilerGeoJsonStatisticsGetAllQueryParam &
+    TilerGeoJsonStatisticsGetAllBodyParam &
+    RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerInfoGeoJsonOperationsGetAssetsQueryParam {
@@ -908,8 +926,8 @@ export interface TilerInfoGeoJsonOperationsGetQueryParam {
   queryParameters?: TilerInfoGeoJsonOperationsGetQueryParamProperties;
 }
 
-export type TilerInfoGeoJsonOperationsGetParameters = TilerInfoGeoJsonOperationsGetQueryParam &
-  RequestParameters;
+export type TilerInfoGeoJsonOperationsGetParameters =
+  TilerInfoGeoJsonOperationsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerInfoOperationsGetAssetsQueryParam {
@@ -930,7 +948,8 @@ export interface TilerInfoOperationsGetQueryParam {
   queryParameters?: TilerInfoOperationsGetQueryParamProperties;
 }
 
-export type TilerInfoOperationsGetParameters = TilerInfoOperationsGetQueryParam & RequestParameters;
+export type TilerInfoOperationsGetParameters =
+  TilerInfoOperationsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetBidxQueryParam {
@@ -968,7 +987,9 @@ export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightQueryParamPropert
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1155,7 +1176,8 @@ export interface TilerPointsGetPointQueryParam {
   queryParameters?: TilerPointsGetPointQueryParamProperties;
 }
 
-export type TilerPointsGetPointParameters = TilerPointsGetPointQueryParam & RequestParameters;
+export type TilerPointsGetPointParameters = TilerPointsGetPointQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerPreviewsGetFormatAssetBidxQueryParam {
@@ -1242,7 +1264,8 @@ export interface TilerPreviewsGetFormatQueryParam {
   queryParameters?: TilerPreviewsGetFormatQueryParamProperties;
 }
 
-export type TilerPreviewsGetFormatParameters = TilerPreviewsGetFormatQueryParam & RequestParameters;
+export type TilerPreviewsGetFormatParameters =
+  TilerPreviewsGetFormatQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerPreviewsGetAssetBidxQueryParam {
@@ -1335,15 +1358,16 @@ export interface TilerPreviewsGetQueryParam {
   queryParameters?: TilerPreviewsGetQueryParamProperties;
 }
 
-export type TilerPreviewsGetParameters = TilerPreviewsGetQueryParam & RequestParameters;
+export type TilerPreviewsGetParameters = TilerPreviewsGetQueryParam &
+  RequestParameters;
 
 export interface TilerStaticImagesCreateBodyParam {
   /** Image request body */
   body: ImageRequest;
 }
 
-export type TilerStaticImagesCreateParameters = TilerStaticImagesCreateBodyParam &
-  RequestParameters;
+export type TilerStaticImagesCreateParameters =
+  TilerStaticImagesCreateBodyParam & RequestParameters;
 export type TilerStaticImagesGetParameters = RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
@@ -1442,7 +1466,8 @@ export interface TilerStatisticsGetAllQueryParam {
   queryParameters?: TilerStatisticsGetAllQueryParamProperties;
 }
 
-export type TilerStatisticsGetAllParameters = TilerStatisticsGetAllQueryParam & RequestParameters;
+export type TilerStatisticsGetAllParameters = TilerStatisticsGetAllQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerTileJsonTileMatrixSetsGetAssetBidxQueryParam {
@@ -1540,8 +1565,8 @@ export interface TilerTileJsonTileMatrixSetsGetQueryParam {
   queryParameters?: TilerTileJsonTileMatrixSetsGetQueryParamProperties;
 }
 
-export type TilerTileJsonTileMatrixSetsGetParameters = TilerTileJsonTileMatrixSetsGetQueryParam &
-  RequestParameters;
+export type TilerTileJsonTileMatrixSetsGetParameters =
+  TilerTileJsonTileMatrixSetsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam {
@@ -1589,7 +1614,9 @@ export interface TilerTileMatrixSetsGetZxyScaleByFormatQueryParamProperties {
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | TilerTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1633,7 +1660,9 @@ export interface TilerTileMatrixSetsGetZxyScaleByFormatQueryParamProperties {
   /** The name of a subdataset within the asset. */
   subdataset_name?: string;
   /** The index of a subdataset band within the asset. */
-  subdataset_bands?: string[] | TilerTileMatrixSetsGetZxyScaleByFormatSubdatasetBandsQueryParam;
+  subdataset_bands?:
+    | string[]
+    | TilerTileMatrixSetsGetZxyScaleByFormatSubdatasetBandsQueryParam;
 }
 
 export interface TilerTileMatrixSetsGetZxyScaleByFormatQueryParam {
@@ -1679,7 +1708,9 @@ export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlQueryParamProperties {
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1752,7 +1783,8 @@ export interface MapsClassMapLegendsGetQueryParam {
   queryParameters?: MapsClassMapLegendsGetQueryParamProperties;
 }
 
-export type MapsClassMapLegendsGetParameters = MapsClassMapLegendsGetQueryParam & RequestParameters;
+export type MapsClassMapLegendsGetParameters =
+  MapsClassMapLegendsGetQueryParam & RequestParameters;
 
 export interface MapsIntervalLegendsGetByClassMapNameQueryParamProperties {
   /** Number of items to trim from the start of the cmap */
@@ -1783,7 +1815,8 @@ export interface MapsLegendsGetQueryParam {
   queryParameters?: MapsLegendsGetQueryParamProperties;
 }
 
-export type MapsLegendsGetParameters = MapsLegendsGetQueryParam & RequestParameters;
+export type MapsLegendsGetParameters = MapsLegendsGetQueryParam &
+  RequestParameters;
 
 export interface MosaicsAssetsForPointsGetPointAssetsQueryParamProperties {
   /** Return as soon as we scan N items (defaults to 10000 in PgSTAC). */
@@ -1838,8 +1871,8 @@ export interface MosaicsRegisterSearchRegisterBodyParam {
   body: RegisterMosaic;
 }
 
-export type MosaicsRegisterSearchRegisterParameters = MosaicsRegisterSearchRegisterBodyParam &
-  RequestParameters;
+export type MosaicsRegisterSearchRegisterParameters =
+  MosaicsRegisterSearchRegisterBodyParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface MosaicsTileMatrixSetsTileJsonGetAssetBidxQueryParam {
@@ -1937,7 +1970,7 @@ export interface MosaicsTileMatrixSetsTileJsonGetQueryParamProperties {
   /**
    * Pixel selection method.
    *
-   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhight"
+   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhigh"
    */
   pixel_selection?: PixelSelection;
   /** comma (',') delimited Min,Max range. Can set multiple time for multiple bands. */
@@ -1997,7 +2030,9 @@ export interface MosaicsTileMatrixSetsGetZxyScaleByFormatQueryParamProperties {
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | MosaicsTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | MosaicsTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2044,7 +2079,7 @@ export interface MosaicsTileMatrixSetsGetZxyScaleByFormatQueryParamProperties {
   /**
    * Pixel selection method.
    *
-   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhight"
+   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhigh"
    */
   pixel_selection?: PixelSelection;
   /** comma (',') delimited Min,Max range. Can set multiple time for multiple bands. */
@@ -2104,7 +2139,9 @@ export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParamPro
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2164,7 +2201,8 @@ export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParam {
 }
 
 export type MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlParameters =
-  MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParam & RequestParameters;
+  MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParam &
+    RequestParameters;
 
 export interface SasGetTokenQueryParamProperties {
   /** The duration, in minutes, that the SAS token will be valid. Only valid for approved users. */
@@ -2186,7 +2224,8 @@ export interface SasRevokeTokenQueryParam {
   queryParameters?: SasRevokeTokenQueryParamProperties;
 }
 
-export type SasRevokeTokenParameters = SasRevokeTokenQueryParam & RequestParameters;
+export type SasRevokeTokenParameters = SasRevokeTokenQueryParam &
+  RequestParameters;
 
 export interface SasGetSignQueryParamProperties {
   /** HREF (URL) to sign */
@@ -2298,15 +2337,17 @@ export interface TilerTilesGetZxyScaleByFormatQueryParamProperties {
   /** The name of a subdataset within the asset. */
   subdataset_name?: string;
   /** The index of a subdataset band within the asset. */
-  subdataset_bands?: string[] | TilerTilesGetZxyScaleByFormatSubdatasetBandsQueryParam;
+  subdataset_bands?:
+    | string[]
+    | TilerTilesGetZxyScaleByFormatSubdatasetBandsQueryParam;
 }
 
 export interface TilerTilesGetZxyScaleByFormatQueryParam {
   queryParameters?: TilerTilesGetZxyScaleByFormatQueryParamProperties;
 }
 
-export type TilerTilesGetZxyScaleByFormatParameters = TilerTilesGetZxyScaleByFormatQueryParam &
-  RequestParameters;
+export type TilerTilesGetZxyScaleByFormatParameters =
+  TilerTilesGetZxyScaleByFormatQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerTileJsonOperationsGetAssetBidxQueryParam {
@@ -2411,8 +2452,8 @@ export interface TilerTileJsonOperationsGetQueryParam {
   queryParameters?: TilerTileJsonOperationsGetQueryParamProperties;
 }
 
-export type TilerTileJsonOperationsGetParameters = TilerTileJsonOperationsGetQueryParam &
-  RequestParameters;
+export type TilerTileJsonOperationsGetParameters =
+  TilerTileJsonOperationsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface TilerWmtsGetCapabilitiesXmlAssetBidxQueryParam {
@@ -2516,8 +2557,8 @@ export interface TilerWmtsGetCapabilitiesXmlQueryParam {
   queryParameters?: TilerWmtsGetCapabilitiesXmlQueryParamProperties;
 }
 
-export type TilerWmtsGetCapabilitiesXmlParameters = TilerWmtsGetCapabilitiesXmlQueryParam &
-  RequestParameters;
+export type TilerWmtsGetCapabilitiesXmlParameters =
+  TilerWmtsGetCapabilitiesXmlQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface MosaicsTilesGetZxyScaleByFormatAssetBidxQueryParam {
@@ -2609,7 +2650,7 @@ export interface MosaicsTilesGetZxyScaleByFormatQueryParamProperties {
   /**
    * Pixel selection method.
    *
-   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhight"
+   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhigh"
    */
   pixel_selection?: PixelSelection;
   /** comma (',') delimited Min,Max range. Can set multiple time for multiple bands. */
@@ -2630,8 +2671,8 @@ export interface MosaicsTilesGetZxyScaleByFormatQueryParam {
   queryParameters?: MosaicsTilesGetZxyScaleByFormatQueryParamProperties;
 }
 
-export type MosaicsTilesGetZxyScaleByFormatParameters = MosaicsTilesGetZxyScaleByFormatQueryParam &
-  RequestParameters;
+export type MosaicsTilesGetZxyScaleByFormatParameters =
+  MosaicsTilesGetZxyScaleByFormatQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface MosaicsTileJsonOperationsGetAssetBidxQueryParam {
@@ -2727,7 +2768,7 @@ export interface MosaicsTileJsonOperationsGetQueryParamProperties {
   /**
    * Pixel selection method.
    *
-   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhight"
+   * Possible values: "first", "highest", "lowest", "mean", "median", "stdev", "lastbandlow", "lastbandhigh"
    */
   pixel_selection?: PixelSelection;
   /**
@@ -2756,8 +2797,8 @@ export interface MosaicsTileJsonOperationsGetQueryParam {
   queryParameters?: MosaicsTileJsonOperationsGetQueryParamProperties;
 }
 
-export type MosaicsTileJsonOperationsGetParameters = MosaicsTileJsonOperationsGetQueryParam &
-  RequestParameters;
+export type MosaicsTileJsonOperationsGetParameters =
+  MosaicsTileJsonOperationsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
 export interface MosaicsWmtsMosaicsGetCapabilitiesXmlAssetBidxQueryParam {
@@ -2795,7 +2836,9 @@ export interface MosaicsWmtsMosaicsGetCapabilitiesXmlQueryParamProperties {
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | MosaicsWmtsMosaicsGetCapabilitiesXmlAssetBidxQueryParam;
+  asset_bidx?:
+    | string[]
+    | MosaicsWmtsMosaicsGetCapabilitiesXmlAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */

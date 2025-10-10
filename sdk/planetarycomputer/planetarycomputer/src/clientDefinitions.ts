@@ -314,12 +314,15 @@ export interface IngestionOperationsList {
   /** Get operations of a geo-catalog collection */
   get(
     options?: IngestionOperationsListParameters,
-  ): StreamableMethod<IngestionOperationsList200Response | IngestionOperationsListDefaultResponse>;
+  ): StreamableMethod<
+    IngestionOperationsList200Response | IngestionOperationsListDefaultResponse
+  >;
   /** Cancel all running operations of a geo-catalog collection */
   delete(
     options?: IngestionOperationsDeleteAllParameters,
   ): StreamableMethod<
-    IngestionOperationsDeleteAll204Response | IngestionOperationsDeleteAllDefaultResponse
+    | IngestionOperationsDeleteAll204Response
+    | IngestionOperationsDeleteAllDefaultResponse
   >;
 }
 
@@ -327,12 +330,15 @@ export interface IngestionOperationsGet {
   /** Get an operation of a geo-catalog collection */
   get(
     options?: IngestionOperationsGetParameters,
-  ): StreamableMethod<IngestionOperationsGet200Response | IngestionOperationsGetDefaultResponse>;
+  ): StreamableMethod<
+    IngestionOperationsGet200Response | IngestionOperationsGetDefaultResponse
+  >;
   /** Cancel a running operation of a geo-catalog collection */
   delete(
     options?: IngestionOperationsDeleteParameters,
   ): StreamableMethod<
-    IngestionOperationsDelete204Response | IngestionOperationsDeleteDefaultResponse
+    | IngestionOperationsDelete204Response
+    | IngestionOperationsDeleteDefaultResponse
   >;
 }
 
@@ -340,29 +346,39 @@ export interface IngestionRunsList {
   /** Get the runs of an ingestion */
   get(
     options?: IngestionRunsListParameters,
-  ): StreamableMethod<IngestionRunsList200Response | IngestionRunsListDefaultResponse>;
+  ): StreamableMethod<
+    IngestionRunsList200Response | IngestionRunsListDefaultResponse
+  >;
   /** Create a new run of an ingestion */
   post(
     options?: IngestionRunsCreateParameters,
-  ): StreamableMethod<IngestionRunsCreate201Response | IngestionRunsCreateDefaultResponse>;
+  ): StreamableMethod<
+    IngestionRunsCreate201Response | IngestionRunsCreateDefaultResponse
+  >;
 }
 
 export interface IngestionRunsGet {
   /** Get a run of an ingestion */
   get(
     options?: IngestionRunsGetParameters,
-  ): StreamableMethod<IngestionRunsGet200Response | IngestionRunsGetDefaultResponse>;
+  ): StreamableMethod<
+    IngestionRunsGet200Response | IngestionRunsGetDefaultResponse
+  >;
 }
 
 export interface IngestionsList {
   /** Get ingestions of a catalog */
   get(
     options?: IngestionsListParameters,
-  ): StreamableMethod<IngestionsList200Response | IngestionsListDefaultResponse>;
+  ): StreamableMethod<
+    IngestionsList200Response | IngestionsListDefaultResponse
+  >;
   /** Create a new ingestion */
   post(
     options: IngestionsCreateParameters,
-  ): StreamableMethod<IngestionsCreate201Response | IngestionsCreateDefaultResponse>;
+  ): StreamableMethod<
+    IngestionsCreate201Response | IngestionsCreateDefaultResponse
+  >;
 }
 
 export interface IngestionsGet {
@@ -373,29 +389,39 @@ export interface IngestionsGet {
   /** Update an existing ingestion */
   patch(
     options: IngestionsUpdateParameters,
-  ): StreamableMethod<IngestionsUpdate200Response | IngestionsUpdateDefaultResponse>;
+  ): StreamableMethod<
+    IngestionsUpdate200Response | IngestionsUpdateDefaultResponse
+  >;
   /** Delete an ingestion from a catalog. All runs of the ingestion will be deleted. Ingestion must not have any runs in progress or queued. */
   delete(
     options?: IngestionsDeleteParameters,
-  ): StreamableMethod<IngestionsDelete202Response | IngestionsDeleteDefaultResponse>;
+  ): StreamableMethod<
+    IngestionsDelete202Response | IngestionsDeleteDefaultResponse
+  >;
 }
 
 export interface IngestionSourcesList {
   /** Get ingestion sources in a geo-catalog */
   get(
     options?: IngestionSourcesListParameters,
-  ): StreamableMethod<IngestionSourcesList200Response | IngestionSourcesListDefaultResponse>;
+  ): StreamableMethod<
+    IngestionSourcesList200Response | IngestionSourcesListDefaultResponse
+  >;
   /** Create a new ingestion source in a geo-catalog */
   post(
     options: IngestionSourcesCreateParameters,
-  ): StreamableMethod<IngestionSourcesCreate201Response | IngestionSourcesCreateDefaultResponse>;
+  ): StreamableMethod<
+    IngestionSourcesCreate201Response | IngestionSourcesCreateDefaultResponse
+  >;
 }
 
 export interface IngestionSourcesGet {
   /** Get an ingestion source in a geo-catalog */
   get(
     options?: IngestionSourcesGetParameters,
-  ): StreamableMethod<IngestionSourcesGet200Response | IngestionSourcesGetDefaultResponse>;
+  ): StreamableMethod<
+    IngestionSourcesGet200Response | IngestionSourcesGetDefaultResponse
+  >;
   /** Update an existing ingestion source in a geo-catalog */
   put(
     options: IngestionSourcesCreateOrReplaceParameters,
@@ -407,7 +433,9 @@ export interface IngestionSourcesGet {
   /** Delete an ingestion source from a geo-catalog */
   delete(
     options?: IngestionSourcesDeleteParameters,
-  ): StreamableMethod<IngestionSourcesDelete204Response | IngestionSourcesDeleteDefaultResponse>;
+  ): StreamableMethod<
+    IngestionSourcesDelete204Response | IngestionSourcesDeleteDefaultResponse
+  >;
 }
 
 export interface IngestionSourcesListManagedIdentities {
@@ -424,16 +452,6 @@ export interface StacCollectionAssetsCreate {
   /**
    * Create a new asset in the Collection metadata and write the associated
    * file to managed storage.
-   *
-   * Args:
-   * request: The incoming request.
-   * asset: The Asset object to write, without a valid href to the asset.
-   * file: The file to write.
-   * collection_id: The ID of the collection to write the asset to.
-   * content_type: The content type of the request.
-   *
-   * Returns:
-   * A Response object containing the newly created asset.
    */
   post(
     options: StacCollectionAssetsCreateParameters,
@@ -445,20 +463,7 @@ export interface StacCollectionAssetsCreate {
 }
 
 export interface StacCollectionAssetsCreateOrReplace {
-  /**
-   * Update an existing asset in a given collection.
-   *
-   * Args:
-   * request: The incoming request.
-   * asset: The Asset object to update.
-   * file: The file to update (optional).
-   * collection_id: The ID of the collection to update the asset in.
-   * asset_id: The ID of the asset to update.
-   * content_type: The content type of the request.
-   *
-   * Returns:
-   * A Response object containing the updated asset.
-   */
+  /** Update an existing asset in a given collection. */
   put(
     options: StacCollectionAssetsCreateOrReplaceParameters,
   ): StreamableMethod<
@@ -466,21 +471,12 @@ export interface StacCollectionAssetsCreateOrReplace {
     | StacCollectionAssetsCreateOrReplace201Response
     | StacCollectionAssetsCreateOrReplaceDefaultResponse
   >;
-  /**
-   * Delete an asset from a given collection.
-   *
-   * Args:
-   * request: The incoming request.
-   * collection_id: The ID of the collection to delete the asset from.
-   * asset_id: The ID of the asset to delete.
-   *
-   * Returns:
-   * A Response object indicating the success of the deletion.
-   */
+  /** Delete an asset from a given collection. */
   delete(
     options?: StacCollectionAssetsDeleteParameters,
   ): StreamableMethod<
-    StacCollectionAssetsDelete200Response | StacCollectionAssetsDeleteDefaultResponse
+    | StacCollectionAssetsDelete200Response
+    | StacCollectionAssetsDeleteDefaultResponse
   >;
 }
 
@@ -488,7 +484,9 @@ export interface StacCollectionConfigGet {
   /** Get the complete user configuration for a given collection */
   get(
     options?: StacCollectionConfigGetParameters,
-  ): StreamableMethod<StacCollectionConfigGet200Response | StacCollectionConfigGetDefaultResponse>;
+  ): StreamableMethod<
+    StacCollectionConfigGet200Response | StacCollectionConfigGetDefaultResponse
+  >;
 }
 
 export interface StacCollectionMosaicsGetAll {
@@ -496,7 +494,8 @@ export interface StacCollectionMosaicsGetAll {
   get(
     options?: StacCollectionMosaicsGetAllParameters,
   ): StreamableMethod<
-    StacCollectionMosaicsGetAll200Response | StacCollectionMosaicsGetAllDefaultResponse
+    | StacCollectionMosaicsGetAll200Response
+    | StacCollectionMosaicsGetAllDefaultResponse
   >;
   /** Add a mosaic definition to a given collection */
   post(
@@ -513,7 +512,8 @@ export interface StacCollectionMosaicsGet {
   get(
     options?: StacCollectionMosaicsGetParameters,
   ): StreamableMethod<
-    StacCollectionMosaicsGet200Response | StacCollectionMosaicsGetDefaultResponse
+    | StacCollectionMosaicsGet200Response
+    | StacCollectionMosaicsGetDefaultResponse
   >;
   /** Update a mosaic definition from a given collection */
   put(
@@ -527,52 +527,55 @@ export interface StacCollectionMosaicsGet {
   delete(
     options?: StacCollectionMosaicsDeleteParameters,
   ): StreamableMethod<
-    StacCollectionMosaicsDelete200Response | StacCollectionMosaicsDeleteDefaultResponse
+    | StacCollectionMosaicsDelete200Response
+    | StacCollectionMosaicsDeleteDefaultResponse
   >;
 }
 
 export interface StacCollectionsGetAll {
-  /** Endpoint. */
+  /** List all collections in the GeoCatalog instance */
   get(
     options?: StacCollectionsGetAllParameters,
-  ): StreamableMethod<StacCollectionsGetAll200Response | StacCollectionsGetAllDefaultResponse>;
+  ): StreamableMethod<
+    StacCollectionsGetAll200Response | StacCollectionsGetAllDefaultResponse
+  >;
   /** Create a new collection in the GeoCatalog instance */
   post(
     options: StacCollectionsCreateParameters,
-  ): StreamableMethod<StacCollectionsCreate202Response | StacCollectionsCreateDefaultResponse>;
+  ): StreamableMethod<
+    StacCollectionsCreate202Response | StacCollectionsCreateDefaultResponse
+  >;
 }
 
 export interface StacCollectionsGet {
   /** Get a collection in the GeoCatalog instance */
   get(
     options?: StacCollectionsGetParameters,
-  ): StreamableMethod<StacCollectionsGet200Response | StacCollectionsGetDefaultResponse>;
+  ): StreamableMethod<
+    StacCollectionsGet200Response | StacCollectionsGetDefaultResponse
+  >;
   /** Create or replace a collection in the GeoCatalog instance */
   put(
     options: StacCollectionsCreateOrReplaceParameters,
   ): StreamableMethod<
-    StacCollectionsCreateOrReplace200Response | StacCollectionsCreateOrReplaceDefaultResponse
+    | StacCollectionsCreateOrReplace200Response
+    | StacCollectionsCreateOrReplaceDefaultResponse
   >;
   /** Delete a collection in the GeoCatalog instance */
   delete(
     options?: StacCollectionsDeleteParameters,
-  ): StreamableMethod<StacCollectionsDelete202Response | StacCollectionsDeleteDefaultResponse>;
+  ): StreamableMethod<
+    StacCollectionsDelete202Response | StacCollectionsDeleteDefaultResponse
+  >;
 }
 
 export interface StacCollectionPartitionTypesGet {
-  /**
-   * Get the partitiontype for a GeoCatalog Collection.
-   *
-   * Args:
-   * collection_id: the collection id to get the partitiontype for.
-   *
-   * Returns:
-   * The partitiontype for the collection.
-   */
+  /** Get the partitiontype for a GeoCatalog Collection. */
   get(
     options?: StacCollectionPartitionTypesGetParameters,
   ): StreamableMethod<
-    StacCollectionPartitionTypesGet200Response | StacCollectionPartitionTypesGetDefaultResponse
+    | StacCollectionPartitionTypesGet200Response
+    | StacCollectionPartitionTypesGetDefaultResponse
   >;
   /**
    * Updates partition type for a GeoCatalog Collection. This will
@@ -582,13 +585,6 @@ export interface StacCollectionPartitionTypesGet {
    * Ideal partitioning schemes result in partitions of roughly 100k items each.
    *
    * The default partitioning scheme is "none" which does not partition items.
-   *
-   * Args:
-   * collection_id: the collection id to add the partitiontype to.
-   * partitiontype: the partitiontype to add.
-   *
-   * Returns:
-   * None
    */
   put(
     options: StacCollectionPartitionTypesReplaceParameters,
@@ -604,7 +600,8 @@ export interface StacCollectionRenderOptionsGetAll {
   get(
     options?: StacCollectionRenderOptionsGetAllParameters,
   ): StreamableMethod<
-    StacCollectionRenderOptionsGetAll200Response | StacCollectionRenderOptionsGetAllDefaultResponse
+    | StacCollectionRenderOptionsGetAll200Response
+    | StacCollectionRenderOptionsGetAllDefaultResponse
   >;
   /** Add a render option for a given collection */
   post(
@@ -621,7 +618,8 @@ export interface StacCollectionRenderOptionsGet {
   get(
     options?: StacCollectionRenderOptionsGetParameters,
   ): StreamableMethod<
-    StacCollectionRenderOptionsGet200Response | StacCollectionRenderOptionsGetDefaultResponse
+    | StacCollectionRenderOptionsGet200Response
+    | StacCollectionRenderOptionsGetDefaultResponse
   >;
   /** Update a render option for a given collection */
   put(
@@ -635,25 +633,18 @@ export interface StacCollectionRenderOptionsGet {
   delete(
     options?: StacCollectionRenderOptionsDeleteParameters,
   ): StreamableMethod<
-    StacCollectionRenderOptionsDelete200Response | StacCollectionRenderOptionsDeleteDefaultResponse
+    | StacCollectionRenderOptionsDelete200Response
+    | StacCollectionRenderOptionsDeleteDefaultResponse
   >;
 }
 
 export interface StacCollectionThumbnailsGet {
-  /**
-   * Get thumbnail for given collection.
-   *
-   * Args:
-   * request: The incoming request.
-   * collection_id: The ID of the collection to retrieve assets for.
-   *
-   * Returns:
-   * thumbnail image
-   */
+  /** Get thumbnail for given collection. */
   get(
     options?: StacCollectionThumbnailsGetParameters,
   ): StreamableMethod<
-    StacCollectionThumbnailsGet200Response | StacCollectionThumbnailsGetDefaultResponse
+    | StacCollectionThumbnailsGet200Response
+    | StacCollectionThumbnailsGetDefaultResponse
   >;
 }
 
@@ -662,21 +653,25 @@ export interface StacCollectionTileSettingsGet {
   get(
     options?: StacCollectionTileSettingsGetParameters,
   ): StreamableMethod<
-    StacCollectionTileSettingsGet200Response | StacCollectionTileSettingsGetDefaultResponse
+    | StacCollectionTileSettingsGet200Response
+    | StacCollectionTileSettingsGetDefaultResponse
   >;
   /** Update the tile settings for a given collection */
   put(
     options: StacCollectionTileSettingsReplaceParameters,
   ): StreamableMethod<
-    StacCollectionTileSettingsReplace200Response | StacCollectionTileSettingsReplaceDefaultResponse
+    | StacCollectionTileSettingsReplace200Response
+    | StacCollectionTileSettingsReplaceDefaultResponse
   >;
 }
 
 export interface StacConformanceClassGet {
-  /** Endpoint. */
+  /** Returns the STAC conformance classes. */
   get(
     options?: StacConformanceClassGetParameters,
-  ): StreamableMethod<StacConformanceClassGet200Response | StacConformanceClassGetDefaultResponse>;
+  ): StreamableMethod<
+    StacConformanceClassGet200Response | StacConformanceClassGetDefaultResponse
+  >;
 }
 
 export interface StacItemsGetFeatures {
@@ -685,15 +680,19 @@ export interface StacItemsGetFeatures {
    *
    * Every feature in a dataset belongs to a collection. A dataset may
    * consist of multiple feature collections. A feature collection is often a
-   * collection of features of a similar type, based on a common schema.")
+   * collection of features of a similar type, based on a common schema.
    */
   get(
     options?: StacItemsGetFeaturesParameters,
-  ): StreamableMethod<StacItemsGetFeatures200Response | StacItemsGetFeaturesDefaultResponse>;
+  ): StreamableMethod<
+    StacItemsGetFeatures200Response | StacItemsGetFeaturesDefaultResponse
+  >;
   /** Create a new STAC item or a set of items in a collection */
   post(
     options: StacItemsCreateParameters,
-  ): StreamableMethod<StacItemsCreate202Response | StacItemsCreateDefaultResponse>;
+  ): StreamableMethod<
+    StacItemsCreate202Response | StacItemsCreateDefaultResponse
+  >;
 }
 
 export interface StacItemsGet {
@@ -705,37 +704,48 @@ export interface StacItemsGet {
   put(
     options: StacItemsCreateOrReplaceParameters,
   ): StreamableMethod<
-    StacItemsCreateOrReplace202Response | StacItemsCreateOrReplaceDefaultResponse
+    | StacItemsCreateOrReplace202Response
+    | StacItemsCreateOrReplaceDefaultResponse
   >;
   /** Update a STAC item in a collection */
   patch(
     options: StacItemsUpdateParameters,
-  ): StreamableMethod<StacItemsUpdate202Response | StacItemsUpdateDefaultResponse>;
+  ): StreamableMethod<
+    StacItemsUpdate202Response | StacItemsUpdateDefaultResponse
+  >;
   /** Delete a STAC item from a collection */
   delete(
     options?: StacItemsDeleteParameters,
-  ): StreamableMethod<StacItemsDelete202Response | StacItemsDeleteDefaultResponse>;
+  ): StreamableMethod<
+    StacItemsDelete202Response | StacItemsDeleteDefaultResponse
+  >;
 }
 
 export interface StacLandingPagesGet {
-  /** Endpoint. */
+  /** Return the STAC landing page. */
   get(
     options?: StacLandingPagesGetParameters,
-  ): StreamableMethod<StacLandingPagesGet200Response | StacLandingPagesGetDefaultResponse>;
+  ): StreamableMethod<
+    StacLandingPagesGet200Response | StacLandingPagesGetDefaultResponse
+  >;
 }
 
 export interface StacQueryablesGetAll {
-  /** Endpoint. */
+  /** List all queryables in the GeoCatalog instance */
   get(
     options?: StacQueryablesGetAllParameters,
-  ): StreamableMethod<StacQueryablesGetAll200Response | StacQueryablesGetAllDefaultResponse>;
+  ): StreamableMethod<
+    StacQueryablesGetAll200Response | StacQueryablesGetAllDefaultResponse
+  >;
 }
 
 export interface StacQueryablesDelete {
   /** Delete queryables by name for specified collection. */
   delete(
     options?: StacQueryablesDeleteParameters,
-  ): StreamableMethod<StacQueryablesDelete200Response | StacQueryablesDeleteDefaultResponse>;
+  ): StreamableMethod<
+    StacQueryablesDelete200Response | StacQueryablesDeleteDefaultResponse
+  >;
   /**
    * Updates a queryable given a queryable definition and
    * corresponding collection id.
@@ -750,27 +760,32 @@ export interface StacQueryablesDelete {
 }
 
 export interface StacQueryablesGetAllByCollection {
-  /** Endpoint. */
+  /** List all queryables in a given collection */
   get(
     options?: StacQueryablesGetAllByCollectionParameters,
   ): StreamableMethod<
-    StacQueryablesGetAllByCollection200Response | StacQueryablesGetAllByCollectionDefaultResponse
+    | StacQueryablesGetAllByCollection200Response
+    | StacQueryablesGetAllByCollectionDefaultResponse
   >;
   /** Set queryables for a collection given a list of queryable definitions */
   post(
     options: StacQueryablesCreateParameters,
-  ): StreamableMethod<StacQueryablesCreate201Response | StacQueryablesCreateDefaultResponse>;
+  ): StreamableMethod<
+    StacQueryablesCreate201Response | StacQueryablesCreateDefaultResponse
+  >;
 }
 
 export interface StacSearchGet {
-  /** Endpoint. */
+  /** STAC search operation with query parameters. */
   get(
     options?: StacSearchGetParameters,
   ): StreamableMethod<StacSearchGet200Response | StacSearchGetDefaultResponse>;
-  /** Endpoint. */
+  /** STAC search operation. */
   post(
     options: StacSearchCreateParameters,
-  ): StreamableMethod<StacSearchCreate200Response | StacSearchCreateDefaultResponse>;
+  ): StreamableMethod<
+    StacSearchCreate200Response | StacSearchCreateDefaultResponse
+  >;
 }
 
 export interface TileMatrixDefinitionsGet {
@@ -778,7 +793,8 @@ export interface TileMatrixDefinitionsGet {
   get(
     options?: TileMatrixDefinitionsGetParameters,
   ): StreamableMethod<
-    TileMatrixDefinitionsGet200Response | TileMatrixDefinitionsGetDefaultResponse
+    | TileMatrixDefinitionsGet200Response
+    | TileMatrixDefinitionsGetDefaultResponse
   >;
 }
 
@@ -786,7 +802,9 @@ export interface TileMatrixListGet {
   /** Return Matrix List */
   get(
     options?: TileMatrixListGetParameters,
-  ): StreamableMethod<TileMatrixListGet200Response | TileMatrixListGetDefaultResponse>;
+  ): StreamableMethod<
+    TileMatrixListGet200Response | TileMatrixListGetDefaultResponse
+  >;
 }
 
 export interface TilerAssetStatisticsGetAll {
@@ -794,7 +812,8 @@ export interface TilerAssetStatisticsGetAll {
   get(
     options?: TilerAssetStatisticsGetAllParameters,
   ): StreamableMethod<
-    TilerAssetStatisticsGetAll200Response | TilerAssetStatisticsGetAllDefaultResponse
+    | TilerAssetStatisticsGetAll200Response
+    | TilerAssetStatisticsGetAllDefaultResponse
   >;
 }
 
@@ -803,7 +822,8 @@ export interface TilerAvailableAssetsGetAll {
   get(
     options?: TilerAvailableAssetsGetAllParameters,
   ): StreamableMethod<
-    TilerAvailableAssetsGetAll200Response | TilerAvailableAssetsGetAllDefaultResponse
+    | TilerAvailableAssetsGetAll200Response
+    | TilerAvailableAssetsGetAllDefaultResponse
   >;
 }
 
@@ -811,7 +831,9 @@ export interface TilerBoundGetAll {
   /** Return all Bounds */
   get(
     options?: TilerBoundGetAllParameters,
-  ): StreamableMethod<TilerBoundGetAll200Response | TilerBoundGetAllDefaultResponse>;
+  ): StreamableMethod<
+    TilerBoundGetAll200Response | TilerBoundGetAllDefaultResponse
+  >;
 }
 
 export interface TilerGeoJsonsCropWidthByHeightFormat {
@@ -828,7 +850,9 @@ export interface TilerGeoJsonsCropFormat {
   /** Create image from a geojson feature. */
   post(
     options: TilerGeoJsonsCropFormatParameters,
-  ): StreamableMethod<TilerGeoJsonsCropFormat200Response | TilerGeoJsonsCropFormatDefaultResponse>;
+  ): StreamableMethod<
+    TilerGeoJsonsCropFormat200Response | TilerGeoJsonsCropFormatDefaultResponse
+  >;
 }
 
 export interface TilerGeoJsonStatisticsGetAll {
@@ -836,12 +860,15 @@ export interface TilerGeoJsonStatisticsGetAll {
   post(
     options: TilerGeoJsonStatisticsGetAllParameters,
   ): StreamableMethod<
-    TilerGeoJsonStatisticsGetAll200Response | TilerGeoJsonStatisticsGetAllDefaultResponse
+    | TilerGeoJsonStatisticsGetAll200Response
+    | TilerGeoJsonStatisticsGetAllDefaultResponse
   >;
   /** Merged assets statistics. */
   get(
     options?: TilerStatisticsGetAllParameters,
-  ): StreamableMethod<TilerStatisticsGetAll200Response | TilerStatisticsGetAllDefaultResponse>;
+  ): StreamableMethod<
+    TilerStatisticsGetAll200Response | TilerStatisticsGetAllDefaultResponse
+  >;
 }
 
 export interface TilerInfoGeoJsonOperationsGet {
@@ -849,7 +876,8 @@ export interface TilerInfoGeoJsonOperationsGet {
   get(
     options?: TilerInfoGeoJsonOperationsGetParameters,
   ): StreamableMethod<
-    TilerInfoGeoJsonOperationsGet200Response | TilerInfoGeoJsonOperationsGetDefaultResponse
+    | TilerInfoGeoJsonOperationsGet200Response
+    | TilerInfoGeoJsonOperationsGetDefaultResponse
   >;
 }
 
@@ -857,7 +885,9 @@ export interface TilerInfoOperationsGet {
   /** Return dataset's basic info. */
   get(
     options?: TilerInfoOperationsGetParameters,
-  ): StreamableMethod<TilerInfoOperationsGet200Response | TilerInfoOperationsGetDefaultResponse>;
+  ): StreamableMethod<
+    TilerInfoOperationsGet200Response | TilerInfoOperationsGetDefaultResponse
+  >;
 }
 
 export interface TilerPartsGetCroppedToBoundingBoxWidthByHeight {
@@ -875,7 +905,8 @@ export interface TilerPartsGetCroppedToBoundingBox {
   get(
     options?: TilerPartsGetCroppedToBoundingBoxParameters,
   ): StreamableMethod<
-    TilerPartsGetCroppedToBoundingBox200Response | TilerPartsGetCroppedToBoundingBoxDefaultResponse
+    | TilerPartsGetCroppedToBoundingBox200Response
+    | TilerPartsGetCroppedToBoundingBoxDefaultResponse
   >;
 }
 
@@ -883,35 +914,45 @@ export interface TilerPointsGetPoint {
   /** Get Point value for a dataset. */
   get(
     options?: TilerPointsGetPointParameters,
-  ): StreamableMethod<TilerPointsGetPoint200Response | TilerPointsGetPointDefaultResponse>;
+  ): StreamableMethod<
+    TilerPointsGetPoint200Response | TilerPointsGetPointDefaultResponse
+  >;
 }
 
 export interface TilerPreviewsGetFormat {
   /** Create preview of a dataset. */
   get(
     options?: TilerPreviewsGetFormatParameters,
-  ): StreamableMethod<TilerPreviewsGetFormat200Response | TilerPreviewsGetFormatDefaultResponse>;
+  ): StreamableMethod<
+    TilerPreviewsGetFormat200Response | TilerPreviewsGetFormatDefaultResponse
+  >;
 }
 
 export interface TilerPreviewsGet {
   /** Create preview of a dataset. */
   get(
     options?: TilerPreviewsGetParameters,
-  ): StreamableMethod<TilerPreviewsGet200Response | TilerPreviewsGetDefaultResponse>;
+  ): StreamableMethod<
+    TilerPreviewsGet200Response | TilerPreviewsGetDefaultResponse
+  >;
 }
 
 export interface TilerStaticImagesCreate {
   /** Create a new image export. */
   post(
     options: TilerStaticImagesCreateParameters,
-  ): StreamableMethod<TilerStaticImagesCreate200Response | TilerStaticImagesCreateDefaultResponse>;
+  ): StreamableMethod<
+    TilerStaticImagesCreate200Response | TilerStaticImagesCreateDefaultResponse
+  >;
 }
 
 export interface TilerStaticImagesGet {
   /** Fetch an existing image export by ID */
   get(
     options?: TilerStaticImagesGetParameters,
-  ): StreamableMethod<TilerStaticImagesGet200Response | TilerStaticImagesGetDefaultResponse>;
+  ): StreamableMethod<
+    TilerStaticImagesGet200Response | TilerStaticImagesGetDefaultResponse
+  >;
 }
 
 export interface TilerTileJsonTileMatrixSetsGet {
@@ -919,7 +960,8 @@ export interface TilerTileJsonTileMatrixSetsGet {
   get(
     options?: TilerTileJsonTileMatrixSetsGetParameters,
   ): StreamableMethod<
-    TilerTileJsonTileMatrixSetsGet200Response | TilerTileJsonTileMatrixSetsGetDefaultResponse
+    | TilerTileJsonTileMatrixSetsGet200Response
+    | TilerTileJsonTileMatrixSetsGetDefaultResponse
   >;
 }
 
@@ -944,28 +986,16 @@ export interface TilerWmtsTileMatrixSetsGetCapabilitiesXml {
 }
 
 export interface MapsClassMapLegendsGet {
-  /**
-   * Generate values and color swatches mapping for a given classmap.
-   *
-   * Args:
-   * trim_start (int, optional): Number of items to trim
-   * from the start of the cmap
-   * trim_end (int, optional): Number of items to trim from the end of the cmap
-   */
+  /** Generate values and color swatches mapping for a given classmap. */
   get(
     options?: MapsClassMapLegendsGetParameters,
-  ): StreamableMethod<MapsClassMapLegendsGet200Response | MapsClassMapLegendsGetDefaultResponse>;
+  ): StreamableMethod<
+    MapsClassMapLegendsGet200Response | MapsClassMapLegendsGetDefaultResponse
+  >;
 }
 
 export interface MapsIntervalLegendsGetByClassMapName {
-  /**
-   * Generate values and color swatches mapping for a given interval classmap.
-   *
-   * Args:
-   * trim_start (int, optional): Number of items to trim from
-   * the start of the cmap
-   * trim_end (int, optional): Number of items to trim from the end of the cmap
-   */
+  /** Generate values and color swatches mapping for a given interval classmap. */
   get(
     options?: MapsIntervalLegendsGetByClassMapNameParameters,
   ): StreamableMethod<
@@ -981,22 +1011,12 @@ export interface MapsLegendsGet {
    * If the colormap has non-contiguous values at the beginning or end,
    * which aren't desired in the output image, they can be trimmed by specifying
    * the number of values to trim.
-   *
-   * Args:
-   * cmap_name (string): The name of the registered colormap to generate
-   * a legend for
-   * height (float, optional): The output height of the legend image
-   * width (float, optional): The output width of the legend image
-   * trim_start (int, optional): Number of items to trim from
-   * the start of the cmap
-   * trim_end (int, optional): Number of items to trim from the end of the cmap
-   *
-   * Returns:
-   * HTTP response with jpeg encoded image data
    */
   get(
     options?: MapsLegendsGetParameters,
-  ): StreamableMethod<MapsLegendsGet200Response | MapsLegendsGetDefaultResponse>;
+  ): StreamableMethod<
+    MapsLegendsGet200Response | MapsLegendsGetDefaultResponse
+  >;
 }
 
 export interface MosaicsAssetsForPointsGetPointAssets {
@@ -1023,7 +1043,9 @@ export interface MosaicsInfoSearchGet {
   /** Get Search query metadata. */
   get(
     options?: MosaicsInfoSearchGetParameters,
-  ): StreamableMethod<MosaicsInfoSearchGet200Response | MosaicsInfoSearchGetDefaultResponse>;
+  ): StreamableMethod<
+    MosaicsInfoSearchGet200Response | MosaicsInfoSearchGetDefaultResponse
+  >;
 }
 
 export interface MosaicsRegisterSearchRegister {
@@ -1031,7 +1053,8 @@ export interface MosaicsRegisterSearchRegister {
   post(
     options: MosaicsRegisterSearchRegisterParameters,
   ): StreamableMethod<
-    MosaicsRegisterSearchRegister200Response | MosaicsRegisterSearchRegisterDefaultResponse
+    | MosaicsRegisterSearchRegister200Response
+    | MosaicsRegisterSearchRegisterDefaultResponse
   >;
 }
 
@@ -1040,7 +1063,8 @@ export interface MosaicsTileMatrixSetsTileJsonGet {
   get(
     options?: MosaicsTileMatrixSetsTileJsonGetParameters,
   ): StreamableMethod<
-    MosaicsTileMatrixSetsTileJsonGet200Response | MosaicsTileMatrixSetsTileJsonGetDefaultResponse
+    | MosaicsTileMatrixSetsTileJsonGet200Response
+    | MosaicsTileMatrixSetsTileJsonGetDefaultResponse
   >;
 }
 
@@ -1082,7 +1106,9 @@ export interface SasRevokeToken {
    */
   post(
     options?: SasRevokeTokenParameters,
-  ): StreamableMethod<SasRevokeToken200Response | SasRevokeTokenDefaultResponse>;
+  ): StreamableMethod<
+    SasRevokeToken200Response | SasRevokeTokenDefaultResponse
+  >;
 }
 
 export interface SasGetSign {
@@ -1100,7 +1126,8 @@ export interface TilerTilesGetZxyScaleByFormat {
   get(
     options?: TilerTilesGetZxyScaleByFormatParameters,
   ): StreamableMethod<
-    TilerTilesGetZxyScaleByFormat200Response | TilerTilesGetZxyScaleByFormatDefaultResponse
+    | TilerTilesGetZxyScaleByFormat200Response
+    | TilerTilesGetZxyScaleByFormatDefaultResponse
   >;
 }
 
@@ -1109,7 +1136,8 @@ export interface TilerTileJsonOperationsGet {
   get(
     options?: TilerTileJsonOperationsGetParameters,
   ): StreamableMethod<
-    TilerTileJsonOperationsGet200Response | TilerTileJsonOperationsGetDefaultResponse
+    | TilerTileJsonOperationsGet200Response
+    | TilerTileJsonOperationsGetDefaultResponse
   >;
 }
 
@@ -1118,7 +1146,8 @@ export interface TilerWmtsGetCapabilitiesXml {
   get(
     options?: TilerWmtsGetCapabilitiesXmlParameters,
   ): StreamableMethod<
-    TilerWmtsGetCapabilitiesXml200Response | TilerWmtsGetCapabilitiesXmlDefaultResponse
+    | TilerWmtsGetCapabilitiesXml200Response
+    | TilerWmtsGetCapabilitiesXmlDefaultResponse
   >;
 }
 
@@ -1127,7 +1156,8 @@ export interface MosaicsTilesGetZxyScaleByFormat {
   get(
     options?: MosaicsTilesGetZxyScaleByFormatParameters,
   ): StreamableMethod<
-    MosaicsTilesGetZxyScaleByFormat200Response | MosaicsTilesGetZxyScaleByFormatDefaultResponse
+    | MosaicsTilesGetZxyScaleByFormat200Response
+    | MosaicsTilesGetZxyScaleByFormatDefaultResponse
   >;
 }
 
@@ -1136,7 +1166,8 @@ export interface MosaicsTileJsonOperationsGet {
   get(
     options?: MosaicsTileJsonOperationsGetParameters,
   ): StreamableMethod<
-    MosaicsTileJsonOperationsGet200Response | MosaicsTileJsonOperationsGetDefaultResponse
+    | MosaicsTileJsonOperationsGet200Response
+    | MosaicsTileJsonOperationsGetDefaultResponse
   >;
 }
 
@@ -1155,7 +1186,8 @@ export interface MosaicsAssetsForTilesGetZxyAssets {
   get(
     options?: MosaicsAssetsForTilesGetZxyAssetsParameters,
   ): StreamableMethod<
-    MosaicsAssetsForTilesGetZxyAssets200Response | MosaicsAssetsForTilesGetZxyAssetsDefaultResponse
+    | MosaicsAssetsForTilesGetZxyAssets200Response
+    | MosaicsAssetsForTilesGetZxyAssetsDefaultResponse
   >;
 }
 
@@ -1163,7 +1195,10 @@ export interface Routes {
   /** Resource for '/inma/operations' has methods for the following verbs: get, delete */
   (path: "/inma/operations"): IngestionOperationsList;
   /** Resource for '/inma/operations/\{operationId\}' has methods for the following verbs: get, delete */
-  (path: "/inma/operations/{operationId}", operationId: string): IngestionOperationsGet;
+  (
+    path: "/inma/operations/{operationId}",
+    operationId: string,
+  ): IngestionOperationsGet;
   /** Resource for '/inma/collections/\{collectionId\}/ingestions/\{ingestionId\}/runs' has methods for the following verbs: get, post */
   (
     path: "/inma/collections/{collectionId}/ingestions/{ingestionId}/runs",
@@ -1178,7 +1213,10 @@ export interface Routes {
     runId: string,
   ): IngestionRunsGet;
   /** Resource for '/inma/collections/\{collectionId\}/ingestions' has methods for the following verbs: get, post */
-  (path: "/inma/collections/{collectionId}/ingestions", collectionId: string): IngestionsList;
+  (
+    path: "/inma/collections/{collectionId}/ingestions",
+    collectionId: string,
+  ): IngestionsList;
   /** Resource for '/inma/collections/\{collectionId\}/ingestions/\{ingestionId\}' has methods for the following verbs: get, patch, delete */
   (
     path: "/inma/collections/{collectionId}/ingestions/{ingestionId}",
@@ -1190,7 +1228,9 @@ export interface Routes {
   /** Resource for '/inma/ingestion-sources/\{id\}' has methods for the following verbs: get, put, delete */
   (path: "/inma/ingestion-sources/{id}", id: string): IngestionSourcesGet;
   /** Resource for '/inma/ingestion-sources/managed-identities' has methods for the following verbs: get */
-  (path: "/inma/ingestion-sources/managed-identities"): IngestionSourcesListManagedIdentities;
+  (
+    path: "/inma/ingestion-sources/managed-identities",
+  ): IngestionSourcesListManagedIdentities;
   /** Resource for '/stac/collections/\{collectionId\}/assets' has methods for the following verbs: post */
   (
     path: "/stac/collections/{collectionId}/assets",
@@ -1221,7 +1261,10 @@ export interface Routes {
   /** Resource for '/stac/collections' has methods for the following verbs: get, post */
   (path: "/stac/collections"): StacCollectionsGetAll;
   /** Resource for '/stac/collections/\{collectionId\}' has methods for the following verbs: get, put, delete */
-  (path: "/stac/collections/{collectionId}", collectionId: string): StacCollectionsGet;
+  (
+    path: "/stac/collections/{collectionId}",
+    collectionId: string,
+  ): StacCollectionsGet;
   /** Resource for '/stac/collections/\{collectionId\}/configurations/partition-type' has methods for the following verbs: get, put */
   (
     path: "/stac/collections/{collectionId}/configurations/partition-type",
@@ -1251,7 +1294,10 @@ export interface Routes {
   /** Resource for '/stac/conformance' has methods for the following verbs: get */
   (path: "/stac/conformance"): StacConformanceClassGet;
   /** Resource for '/stac/collections/\{collectionId\}/items' has methods for the following verbs: get, post */
-  (path: "/stac/collections/{collectionId}/items", collectionId: string): StacItemsGetFeatures;
+  (
+    path: "/stac/collections/{collectionId}/items",
+    collectionId: string,
+  ): StacItemsGetFeatures;
   /** Resource for '/stac/collections/\{collectionId\}/items/\{itemId\}' has methods for the following verbs: get, put, patch, delete */
   (
     path: "/stac/collections/{collectionId}/items/{itemId}",
@@ -1417,14 +1463,20 @@ export interface Routes {
     tileMatrixSetId: string,
   ): TilerWmtsTileMatrixSetsGetCapabilitiesXml;
   /** Resource for '/data/legend/classmap/\{classmapName\}' has methods for the following verbs: get */
-  (path: "/data/legend/classmap/{classmapName}", classmapName: string): MapsClassMapLegendsGet;
+  (
+    path: "/data/legend/classmap/{classmapName}",
+    classmapName: string,
+  ): MapsClassMapLegendsGet;
   /** Resource for '/data/legend/interval/\{classmapName\}' has methods for the following verbs: get */
   (
     path: "/data/legend/interval/{classmapName}",
     classmapName: string,
   ): MapsIntervalLegendsGetByClassMapName;
   /** Resource for '/data/legend/colormap/\{colorMapName\}' has methods for the following verbs: get */
-  (path: "/data/legend/colormap/{colorMapName}", colorMapName: string): MapsLegendsGet;
+  (
+    path: "/data/legend/colormap/{colorMapName}",
+    colorMapName: string,
+  ): MapsLegendsGet;
   /** Resource for '/data/mosaic/\{searchId\}/\{longitude\},\{latitude\}/assets' has methods for the following verbs: get */
   (
     path: "/data/mosaic/{searchId}/{longitude},{latitude}/assets",
@@ -1442,7 +1494,10 @@ export interface Routes {
     y: number,
   ): MosaicsAssetsForTileMatrixSetsGetZxyAssets;
   /** Resource for '/data/mosaic/\{searchId\}/info' has methods for the following verbs: get */
-  (path: "/data/mosaic/{searchId}/info", searchId: string): MosaicsInfoSearchGet;
+  (
+    path: "/data/mosaic/{searchId}/info",
+    searchId: string,
+  ): MosaicsInfoSearchGet;
   /** Resource for '/data/mosaic/register' has methods for the following verbs: post */
   (path: "/data/mosaic/register"): MosaicsRegisterSearchRegister;
   /** Resource for '/data/mosaic/\{searchId\}/\{tileMatrixSetId\}/tilejson.json' has methods for the following verbs: get */
@@ -1508,7 +1563,10 @@ export interface Routes {
     format: string,
   ): MosaicsTilesGetZxyScaleByFormat;
   /** Resource for '/data/mosaic/\{searchId\}/tilejson.json' has methods for the following verbs: get */
-  (path: "/data/mosaic/{searchId}/tilejson.json", searchId: string): MosaicsTileJsonOperationsGet;
+  (
+    path: "/data/mosaic/{searchId}/tilejson.json",
+    searchId: string,
+  ): MosaicsTileJsonOperationsGet;
   /** Resource for '/data/mosaic/\{searchId\}/WMTSCapabilities.xml' has methods for the following verbs: get */
   (
     path: "/data/mosaic/{searchId}/WMTSCapabilities.xml",

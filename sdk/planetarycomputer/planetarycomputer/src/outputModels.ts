@@ -195,7 +195,8 @@ export interface SharedAccessSignatureTokenConnectionOutput {
 }
 
 /** Managed Identity ingestion source */
-export interface ManagedIdentityIngestionSourceOutput extends IngestionSourceOutputParent {
+export interface ManagedIdentityIngestionSourceOutput
+  extends IngestionSourceOutputParent {
   kind: "BlobManagedIdentity";
   /** Managed identity connection information */
   connectionInfo: ManagedIdentityConnectionOutput;
@@ -590,7 +591,8 @@ export interface StacConformanceClassesOutput {
  *
  * Represents a collection of STAC Items as a GeoJSON FeatureCollection.
  */
-export interface StacItemCollectionOutput extends StacItemOrStacItemCollectionOutputParent {
+export interface StacItemCollectionOutput
+  extends StacItemOrStacItemCollectionOutputParent {
   /** GeoJSON FeatureCollection type. */
   type: "FeatureCollection";
   /** Array of STAC Items in the collection. */
@@ -602,7 +604,8 @@ export interface StacItemCollectionOutput extends StacItemOrStacItemCollectionOu
 }
 
 /** Represents a STAC Item, which is a GeoJSON Feature with additional metadata. */
-export interface StacItemOutput extends StacItemOrStacItemCollectionOutputParent {
+export interface StacItemOutput
+  extends StacItemOrStacItemCollectionOutputParent {
   /** Geometry object defining the feature's shape */
   geometry: GeometryOutput;
   /** Bounding box coordinates for the feature */
@@ -1124,7 +1127,8 @@ export interface ImageResponseOutput {
 }
 
 /** Return dataset's statistics. */
-export interface StatisticsResponseOutput extends Record<string, BandStatisticsOutput> {}
+export interface StatisticsResponseOutput
+  extends Record<string, BandStatisticsOutput> {}
 
 /**
  * TileJSON model.
@@ -1281,8 +1285,8 @@ export type GeometryOutput =
 /** Base type for STAC items and collections with discriminator. */
 export type StacItemOrStacItemCollectionOutput =
   | StacItemOrStacItemCollectionOutputParent
-  | StacItemCollectionOutput
-  | StacItemOutput;
+  | StacItemOutput
+  | StacItemCollectionOutput;
 /** Alias for OperationStatusOutput */
 export type OperationStatusOutput = string;
 /** Alias for IngestionTypeOutput */

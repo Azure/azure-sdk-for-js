@@ -41,7 +41,10 @@ import type {
 /**
  * A simple poller that can be used to poll a long running operation.
  */
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+export interface SimplePollerLike<
+  TState extends OperationState<TResult>,
+  TResult,
+> {
   /**
    * Returns true if the poller has finished polling.
    */
@@ -65,7 +68,9 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
+  pollUntilDone(pollOptions?: {
+    abortSignal?: AbortSignalLike;
+  }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.
@@ -112,17 +117,25 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export async function getLongRunningPoller<
-  TResult extends IngestionsDeleteLogicalResponse | IngestionsDeleteDefaultResponse,
+  TResult extends
+    | IngestionsDeleteLogicalResponse
+    | IngestionsDeleteDefaultResponse,
 >(
   client: Client,
-  initialResponse: IngestionsDelete202Response | IngestionsDeleteDefaultResponse,
+  initialResponse:
+    | IngestionsDelete202Response
+    | IngestionsDeleteDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends StacCollectionsCreateLogicalResponse | StacCollectionsCreateDefaultResponse,
+  TResult extends
+    | StacCollectionsCreateLogicalResponse
+    | StacCollectionsCreateDefaultResponse,
 >(
   client: Client,
-  initialResponse: StacCollectionsCreate202Response | StacCollectionsCreateDefaultResponse,
+  initialResponse:
+    | StacCollectionsCreate202Response
+    | StacCollectionsCreateDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -137,35 +150,49 @@ export async function getLongRunningPoller<
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends StacCollectionsDeleteLogicalResponse | StacCollectionsDeleteDefaultResponse,
+  TResult extends
+    | StacCollectionsDeleteLogicalResponse
+    | StacCollectionsDeleteDefaultResponse,
 >(
   client: Client,
-  initialResponse: StacCollectionsDelete202Response | StacCollectionsDeleteDefaultResponse,
+  initialResponse:
+    | StacCollectionsDelete202Response
+    | StacCollectionsDeleteDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends StacItemsCreateLogicalResponse | StacItemsCreateDefaultResponse,
+  TResult extends
+    | StacItemsCreateLogicalResponse
+    | StacItemsCreateDefaultResponse,
 >(
   client: Client,
   initialResponse: StacItemsCreate202Response | StacItemsCreateDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends StacItemsCreateOrReplaceLogicalResponse | StacItemsCreateOrReplaceDefaultResponse,
+  TResult extends
+    | StacItemsCreateOrReplaceLogicalResponse
+    | StacItemsCreateOrReplaceDefaultResponse,
 >(
   client: Client,
-  initialResponse: StacItemsCreateOrReplace202Response | StacItemsCreateOrReplaceDefaultResponse,
+  initialResponse:
+    | StacItemsCreateOrReplace202Response
+    | StacItemsCreateOrReplaceDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends StacItemsUpdateLogicalResponse | StacItemsUpdateDefaultResponse,
+  TResult extends
+    | StacItemsUpdateLogicalResponse
+    | StacItemsUpdateDefaultResponse,
 >(
   client: Client,
   initialResponse: StacItemsUpdate202Response | StacItemsUpdateDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends StacItemsDeleteLogicalResponse | StacItemsDeleteDefaultResponse,
+  TResult extends
+    | StacItemsDeleteLogicalResponse
+    | StacItemsDeleteDefaultResponse,
 >(
   client: Client,
   initialResponse: StacItemsDelete202Response | StacItemsDeleteDefaultResponse,
@@ -184,7 +211,10 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       // response we were provided.
       return getLroResponse(initialResponse);
     },
-    sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+    sendPollRequest: async (
+      path: string,
+      pollOptions?: { abortSignal?: AbortSignalLike },
+    ) => {
       // This is the callback that is going to be called to poll the service
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
@@ -210,7 +240,8 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
         inputAbortSignal?.removeEventListener("abort", abortListener);
       }
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] =
+        initialResponse.request.url;
       return lroResponse;
     },
   };
@@ -266,7 +297,9 @@ function getLroResponse<TResult extends HttpResponse>(
   response: TResult,
 ): OperationResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
+    throw new TypeError(
+      `Status code of the response is not a number. Value: ${response.status}`,
+    );
   }
 
   return {

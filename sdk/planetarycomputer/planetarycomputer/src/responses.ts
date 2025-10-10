@@ -103,7 +103,8 @@ export interface IngestionOperationsDeleteAllDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface IngestionOperationsDeleteAllDefaultResponse extends HttpResponse {
+export interface IngestionOperationsDeleteAllDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & IngestionOperationsDeleteAllDefaultHeaders;
@@ -334,7 +335,8 @@ export interface IngestionSourcesCreateOrReplace200Headers {
 }
 
 /** The request has succeeded. */
-export interface IngestionSourcesCreateOrReplace200Response extends HttpResponse {
+export interface IngestionSourcesCreateOrReplace200Response
+  extends HttpResponse {
   status: "200";
   body: IngestionSourceOutput;
   headers: RawHttpHeaders & IngestionSourcesCreateOrReplace200Headers;
@@ -346,7 +348,8 @@ export interface IngestionSourcesCreateOrReplace201Headers {
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface IngestionSourcesCreateOrReplace201Response extends HttpResponse {
+export interface IngestionSourcesCreateOrReplace201Response
+  extends HttpResponse {
   status: "201";
   body: IngestionSourceOutput;
   headers: RawHttpHeaders & IngestionSourcesCreateOrReplace201Headers;
@@ -357,7 +360,8 @@ export interface IngestionSourcesCreateOrReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface IngestionSourcesCreateOrReplaceDefaultResponse extends HttpResponse {
+export interface IngestionSourcesCreateOrReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & IngestionSourcesCreateOrReplaceDefaultHeaders;
@@ -380,7 +384,8 @@ export interface IngestionSourcesDeleteDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface IngestionSourcesListManagedIdentities200Response extends HttpResponse {
+export interface IngestionSourcesListManagedIdentities200Response
+  extends HttpResponse {
   status: "200";
   body: PageManagedIdentityMetadataOutput;
 }
@@ -390,7 +395,8 @@ export interface IngestionSourcesListManagedIdentitiesDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface IngestionSourcesListManagedIdentitiesDefaultResponse extends HttpResponse {
+export interface IngestionSourcesListManagedIdentitiesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & IngestionSourcesListManagedIdentitiesDefaultHeaders;
@@ -413,20 +419,23 @@ export interface StacCollectionAssetsCreateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionAssetsCreateDefaultResponse extends HttpResponse {
+export interface StacCollectionAssetsCreateDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionAssetsCreateDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionAssetsCreateOrReplace200Response extends HttpResponse {
+export interface StacCollectionAssetsCreateOrReplace200Response
+  extends HttpResponse {
   status: "200";
   body: StacCollectionOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface StacCollectionAssetsCreateOrReplace201Response extends HttpResponse {
+export interface StacCollectionAssetsCreateOrReplace201Response
+  extends HttpResponse {
   status: "201";
   body: StacCollectionOutput;
 }
@@ -436,7 +445,8 @@ export interface StacCollectionAssetsCreateOrReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionAssetsCreateOrReplaceDefaultResponse extends HttpResponse {
+export interface StacCollectionAssetsCreateOrReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionAssetsCreateOrReplaceDefaultHeaders;
@@ -452,7 +462,8 @@ export interface StacCollectionAssetsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionAssetsDeleteDefaultResponse extends HttpResponse {
+export interface StacCollectionAssetsDeleteDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionAssetsDeleteDefaultHeaders;
@@ -486,7 +497,8 @@ export interface StacCollectionMosaicsGetAllDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionMosaicsGetAllDefaultResponse extends HttpResponse {
+export interface StacCollectionMosaicsGetAllDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionMosaicsGetAllDefaultHeaders;
@@ -533,13 +545,15 @@ export interface StacCollectionMosaicsGetDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface StacCollectionMosaicsCreateOrReplace200Response extends HttpResponse {
+export interface StacCollectionMosaicsCreateOrReplace200Response
+  extends HttpResponse {
   status: "200";
   body: StacMosaicOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface StacCollectionMosaicsCreateOrReplace201Response extends HttpResponse {
+export interface StacCollectionMosaicsCreateOrReplace201Response
+  extends HttpResponse {
   status: "201";
   body: StacMosaicOutput;
 }
@@ -549,7 +563,8 @@ export interface StacCollectionMosaicsCreateOrReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionMosaicsCreateOrReplaceDefaultResponse extends HttpResponse {
+export interface StacCollectionMosaicsCreateOrReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionMosaicsCreateOrReplaceDefaultHeaders;
@@ -565,7 +580,8 @@ export interface StacCollectionMosaicsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionMosaicsDeleteDefaultResponse extends HttpResponse {
+export interface StacCollectionMosaicsDeleteDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionMosaicsDeleteDefaultHeaders;
@@ -644,7 +660,8 @@ export interface StacCollectionsCreateOrReplace200Headers {
 }
 
 /** The request has succeeded. */
-export interface StacCollectionsCreateOrReplace200Response extends HttpResponse {
+export interface StacCollectionsCreateOrReplace200Response
+  extends HttpResponse {
   status: "200";
   body: OperationOutput;
   headers: RawHttpHeaders & StacCollectionsCreateOrReplace200Headers;
@@ -655,14 +672,16 @@ export interface StacCollectionsCreateOrReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionsCreateOrReplaceDefaultResponse extends HttpResponse {
+export interface StacCollectionsCreateOrReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionsCreateOrReplaceDefaultHeaders;
 }
 
 /** The final response for long-running createOrReplace operation */
-export interface StacCollectionsCreateOrReplaceLogicalResponse extends HttpResponse {
+export interface StacCollectionsCreateOrReplaceLogicalResponse
+  extends HttpResponse {
   status: "200";
   body: OperationOutput;
 }
@@ -699,7 +718,8 @@ export interface StacCollectionsDeleteLogicalResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface StacCollectionPartitionTypesGet200Response extends HttpResponse {
+export interface StacCollectionPartitionTypesGet200Response
+  extends HttpResponse {
   status: "200";
   body: PartitionTypeOutput;
 }
@@ -709,19 +729,22 @@ export interface StacCollectionPartitionTypesGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionPartitionTypesGetDefaultResponse extends HttpResponse {
+export interface StacCollectionPartitionTypesGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionPartitionTypesGetDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionPartitionTypesReplace200Response extends HttpResponse {
+export interface StacCollectionPartitionTypesReplace200Response
+  extends HttpResponse {
   status: "200";
 }
 
 /** The server cannot find the requested resource. */
-export interface StacCollectionPartitionTypesReplace404Response extends HttpResponse {
+export interface StacCollectionPartitionTypesReplace404Response
+  extends HttpResponse {
   status: "404";
 }
 
@@ -730,14 +753,16 @@ export interface StacCollectionPartitionTypesReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionPartitionTypesReplaceDefaultResponse extends HttpResponse {
+export interface StacCollectionPartitionTypesReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionPartitionTypesReplaceDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionRenderOptionsGetAll200Response extends HttpResponse {
+export interface StacCollectionRenderOptionsGetAll200Response
+  extends HttpResponse {
   status: "200";
   body: Array<RenderOptionOutput>;
 }
@@ -747,20 +772,23 @@ export interface StacCollectionRenderOptionsGetAllDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionRenderOptionsGetAllDefaultResponse extends HttpResponse {
+export interface StacCollectionRenderOptionsGetAllDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionRenderOptionsGetAllDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionRenderOptionsCreate200Response extends HttpResponse {
+export interface StacCollectionRenderOptionsCreate200Response
+  extends HttpResponse {
   status: "200";
   body: RenderOptionOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface StacCollectionRenderOptionsCreate201Response extends HttpResponse {
+export interface StacCollectionRenderOptionsCreate201Response
+  extends HttpResponse {
   status: "201";
   body: RenderOptionOutput;
 }
@@ -770,14 +798,16 @@ export interface StacCollectionRenderOptionsCreateDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionRenderOptionsCreateDefaultResponse extends HttpResponse {
+export interface StacCollectionRenderOptionsCreateDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionRenderOptionsCreateDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionRenderOptionsGet200Response extends HttpResponse {
+export interface StacCollectionRenderOptionsGet200Response
+  extends HttpResponse {
   status: "200";
   body: RenderOptionOutput;
 }
@@ -787,20 +817,23 @@ export interface StacCollectionRenderOptionsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionRenderOptionsGetDefaultResponse extends HttpResponse {
+export interface StacCollectionRenderOptionsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionRenderOptionsGetDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionRenderOptionsCreateOrReplace200Response extends HttpResponse {
+export interface StacCollectionRenderOptionsCreateOrReplace200Response
+  extends HttpResponse {
   status: "200";
   body: RenderOptionOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface StacCollectionRenderOptionsCreateOrReplace201Response extends HttpResponse {
+export interface StacCollectionRenderOptionsCreateOrReplace201Response
+  extends HttpResponse {
   status: "201";
   body: RenderOptionOutput;
 }
@@ -810,14 +843,17 @@ export interface StacCollectionRenderOptionsCreateOrReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionRenderOptionsCreateOrReplaceDefaultResponse extends HttpResponse {
+export interface StacCollectionRenderOptionsCreateOrReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & StacCollectionRenderOptionsCreateOrReplaceDefaultHeaders;
+  headers: RawHttpHeaders &
+    StacCollectionRenderOptionsCreateOrReplaceDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionRenderOptionsDelete200Response extends HttpResponse {
+export interface StacCollectionRenderOptionsDelete200Response
+  extends HttpResponse {
   status: "200";
 }
 
@@ -826,7 +862,8 @@ export interface StacCollectionRenderOptionsDeleteDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionRenderOptionsDeleteDefaultResponse extends HttpResponse {
+export interface StacCollectionRenderOptionsDeleteDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionRenderOptionsDeleteDefaultHeaders;
@@ -850,7 +887,8 @@ export interface StacCollectionThumbnailsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionThumbnailsGetDefaultResponse extends HttpResponse {
+export interface StacCollectionThumbnailsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionThumbnailsGetDefaultHeaders;
@@ -867,14 +905,16 @@ export interface StacCollectionTileSettingsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionTileSettingsGetDefaultResponse extends HttpResponse {
+export interface StacCollectionTileSettingsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionTileSettingsGetDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface StacCollectionTileSettingsReplace200Response extends HttpResponse {
+export interface StacCollectionTileSettingsReplace200Response
+  extends HttpResponse {
   status: "200";
   body: TileSettingsOutput;
 }
@@ -884,7 +924,8 @@ export interface StacCollectionTileSettingsReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacCollectionTileSettingsReplaceDefaultResponse extends HttpResponse {
+export interface StacCollectionTileSettingsReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacCollectionTileSettingsReplaceDefaultHeaders;
@@ -1116,7 +1157,8 @@ export interface StacQueryablesDeleteDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface StacQueryablesGetAllByCollection200Response extends HttpResponse {
+export interface StacQueryablesGetAllByCollection200Response
+  extends HttpResponse {
   status: "200";
   body: Record<string, any>;
 }
@@ -1126,7 +1168,8 @@ export interface StacQueryablesGetAllByCollectionDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacQueryablesGetAllByCollectionDefaultResponse extends HttpResponse {
+export interface StacQueryablesGetAllByCollectionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacQueryablesGetAllByCollectionDefaultHeaders;
@@ -1166,7 +1209,8 @@ export interface StacQueryablesCreateOrReplaceDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface StacQueryablesCreateOrReplaceDefaultResponse extends HttpResponse {
+export interface StacQueryablesCreateOrReplaceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & StacQueryablesCreateOrReplaceDefaultHeaders;
@@ -1251,7 +1295,8 @@ export interface TilerAssetStatisticsGetAllDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerAssetStatisticsGetAllDefaultResponse extends HttpResponse {
+export interface TilerAssetStatisticsGetAllDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerAssetStatisticsGetAllDefaultHeaders;
@@ -1268,7 +1313,8 @@ export interface TilerAvailableAssetsGetAllDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerAvailableAssetsGetAllDefaultResponse extends HttpResponse {
+export interface TilerAvailableAssetsGetAllDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerAvailableAssetsGetAllDefaultHeaders;
@@ -1297,7 +1343,8 @@ export interface TilerGeoJsonsCropWidthByHeightFormat200Headers {
 }
 
 /** Return an image. */
-export interface TilerGeoJsonsCropWidthByHeightFormat200Response extends HttpResponse {
+export interface TilerGeoJsonsCropWidthByHeightFormat200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
@@ -1309,7 +1356,8 @@ export interface TilerGeoJsonsCropWidthByHeightFormatDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerGeoJsonsCropWidthByHeightFormatDefaultResponse extends HttpResponse {
+export interface TilerGeoJsonsCropWidthByHeightFormatDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerGeoJsonsCropWidthByHeightFormatDefaultHeaders;
@@ -1350,7 +1398,8 @@ export interface TilerGeoJsonStatisticsGetAllDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerGeoJsonStatisticsGetAllDefaultResponse extends HttpResponse {
+export interface TilerGeoJsonStatisticsGetAllDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerGeoJsonStatisticsGetAllDefaultHeaders;
@@ -1367,7 +1416,8 @@ export interface TilerInfoGeoJsonOperationsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerInfoGeoJsonOperationsGetDefaultResponse extends HttpResponse {
+export interface TilerInfoGeoJsonOperationsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerInfoGeoJsonOperationsGetDefaultHeaders;
@@ -1396,11 +1446,13 @@ export interface TilerPartsGetCroppedToBoundingBoxWidthByHeight200Headers {
 }
 
 /** Return an image. */
-export interface TilerPartsGetCroppedToBoundingBoxWidthByHeight200Response extends HttpResponse {
+export interface TilerPartsGetCroppedToBoundingBoxWidthByHeight200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
-  headers: RawHttpHeaders & TilerPartsGetCroppedToBoundingBoxWidthByHeight200Headers;
+  headers: RawHttpHeaders &
+    TilerPartsGetCroppedToBoundingBoxWidthByHeight200Headers;
 }
 
 export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightDefaultHeaders {
@@ -1412,7 +1464,8 @@ export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & TilerPartsGetCroppedToBoundingBoxWidthByHeightDefaultHeaders;
+  headers: RawHttpHeaders &
+    TilerPartsGetCroppedToBoundingBoxWidthByHeightDefaultHeaders;
 }
 
 export interface TilerPartsGetCroppedToBoundingBox200Headers {
@@ -1421,7 +1474,8 @@ export interface TilerPartsGetCroppedToBoundingBox200Headers {
 }
 
 /** Return an image. */
-export interface TilerPartsGetCroppedToBoundingBox200Response extends HttpResponse {
+export interface TilerPartsGetCroppedToBoundingBox200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
@@ -1433,7 +1487,8 @@ export interface TilerPartsGetCroppedToBoundingBoxDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerPartsGetCroppedToBoundingBoxDefaultResponse extends HttpResponse {
+export interface TilerPartsGetCroppedToBoundingBoxDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerPartsGetCroppedToBoundingBoxDefaultHeaders;
@@ -1563,7 +1618,8 @@ export interface TilerStatisticsGetAllDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface TilerTileJsonTileMatrixSetsGet200Response extends HttpResponse {
+export interface TilerTileJsonTileMatrixSetsGet200Response
+  extends HttpResponse {
   status: "200";
   body: TileJsonMetaDataOutput;
 }
@@ -1573,7 +1629,8 @@ export interface TilerTileJsonTileMatrixSetsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerTileJsonTileMatrixSetsGetDefaultResponse extends HttpResponse {
+export interface TilerTileJsonTileMatrixSetsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerTileJsonTileMatrixSetsGetDefaultHeaders;
@@ -1585,7 +1642,8 @@ export interface TilerTileMatrixSetsGetZxyScaleByFormat200Headers {
 }
 
 /** Return an image. */
-export interface TilerTileMatrixSetsGetZxyScaleByFormat200Response extends HttpResponse {
+export interface TilerTileMatrixSetsGetZxyScaleByFormat200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
@@ -1597,10 +1655,12 @@ export interface TilerTileMatrixSetsGetZxyScaleByFormatDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerTileMatrixSetsGetZxyScaleByFormatDefaultResponse extends HttpResponse {
+export interface TilerTileMatrixSetsGetZxyScaleByFormatDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & TilerTileMatrixSetsGetZxyScaleByFormatDefaultHeaders;
+  headers: RawHttpHeaders &
+    TilerTileMatrixSetsGetZxyScaleByFormatDefaultHeaders;
 }
 
 export interface TilerWmtsTileMatrixSetsGetCapabilitiesXml200Headers {
@@ -1609,7 +1669,8 @@ export interface TilerWmtsTileMatrixSetsGetCapabilitiesXml200Headers {
 }
 
 /** Successful Response */
-export interface TilerWmtsTileMatrixSetsGetCapabilitiesXml200Response extends HttpResponse {
+export interface TilerWmtsTileMatrixSetsGetCapabilitiesXml200Response
+  extends HttpResponse {
   status: "200";
   body: string;
   headers: RawHttpHeaders & TilerWmtsTileMatrixSetsGetCapabilitiesXml200Headers;
@@ -1620,10 +1681,12 @@ export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlDefaultResponse extends HttpResponse {
+export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & TilerWmtsTileMatrixSetsGetCapabilitiesXmlDefaultHeaders;
+  headers: RawHttpHeaders &
+    TilerWmtsTileMatrixSetsGetCapabilitiesXmlDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -1674,7 +1737,8 @@ export interface MapsIntervalLegendsGetByClassMapName200Headers {
  * - The interval `[-2, 0]` is mapped to the color `[0, 0, 0, 0]` (transparent black).
  * - The interval `[1, 32]` is mapped to the color `[255, 255, 178, 255]` (opaque yellow).
  */
-export interface MapsIntervalLegendsGetByClassMapName200Response extends HttpResponse {
+export interface MapsIntervalLegendsGetByClassMapName200Response
+  extends HttpResponse {
   status: "200";
   body: Array<IntervalLegendsElementOutput>[];
   headers: RawHttpHeaders & MapsIntervalLegendsGetByClassMapName200Headers;
@@ -1685,7 +1749,8 @@ export interface MapsIntervalLegendsGetByClassMapNameDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MapsIntervalLegendsGetByClassMapNameDefaultResponse extends HttpResponse {
+export interface MapsIntervalLegendsGetByClassMapNameDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MapsIntervalLegendsGetByClassMapNameDefaultHeaders;
@@ -1716,7 +1781,8 @@ export interface MapsLegendsGetDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface MosaicsAssetsForPointsGetPointAssets200Response extends HttpResponse {
+export interface MosaicsAssetsForPointsGetPointAssets200Response
+  extends HttpResponse {
   status: "200";
   body: Array<StacAssetOutput>;
 }
@@ -1726,14 +1792,16 @@ export interface MosaicsAssetsForPointsGetPointAssetsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsAssetsForPointsGetPointAssetsDefaultResponse extends HttpResponse {
+export interface MosaicsAssetsForPointsGetPointAssetsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsAssetsForPointsGetPointAssetsDefaultHeaders;
 }
 
 /** Return list of assets */
-export interface MosaicsAssetsForTileMatrixSetsGetZxyAssets200Response extends HttpResponse {
+export interface MosaicsAssetsForTileMatrixSetsGetZxyAssets200Response
+  extends HttpResponse {
   status: "200";
   body: any[];
 }
@@ -1743,10 +1811,12 @@ export interface MosaicsAssetsForTileMatrixSetsGetZxyAssetsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsAssetsForTileMatrixSetsGetZxyAssetsDefaultResponse extends HttpResponse {
+export interface MosaicsAssetsForTileMatrixSetsGetZxyAssetsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & MosaicsAssetsForTileMatrixSetsGetZxyAssetsDefaultHeaders;
+  headers: RawHttpHeaders &
+    MosaicsAssetsForTileMatrixSetsGetZxyAssetsDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -1777,14 +1847,16 @@ export interface MosaicsRegisterSearchRegisterDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsRegisterSearchRegisterDefaultResponse extends HttpResponse {
+export interface MosaicsRegisterSearchRegisterDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsRegisterSearchRegisterDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface MosaicsTileMatrixSetsTileJsonGet200Response extends HttpResponse {
+export interface MosaicsTileMatrixSetsTileJsonGet200Response
+  extends HttpResponse {
   status: "200";
   body: TileJsonMetaDataOutput;
 }
@@ -1794,7 +1866,8 @@ export interface MosaicsTileMatrixSetsTileJsonGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsTileMatrixSetsTileJsonGetDefaultResponse extends HttpResponse {
+export interface MosaicsTileMatrixSetsTileJsonGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsTileMatrixSetsTileJsonGetDefaultHeaders;
@@ -1806,7 +1879,8 @@ export interface MosaicsTileMatrixSetsGetZxyScaleByFormat200Headers {
 }
 
 /** Return an image. */
-export interface MosaicsTileMatrixSetsGetZxyScaleByFormat200Response extends HttpResponse {
+export interface MosaicsTileMatrixSetsGetZxyScaleByFormat200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
@@ -1818,10 +1892,12 @@ export interface MosaicsTileMatrixSetsGetZxyScaleByFormatDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsTileMatrixSetsGetZxyScaleByFormatDefaultResponse extends HttpResponse {
+export interface MosaicsTileMatrixSetsGetZxyScaleByFormatDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & MosaicsTileMatrixSetsGetZxyScaleByFormatDefaultHeaders;
+  headers: RawHttpHeaders &
+    MosaicsTileMatrixSetsGetZxyScaleByFormatDefaultHeaders;
 }
 
 export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXml200Headers {
@@ -1834,7 +1910,8 @@ export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXml200Response
   extends HttpResponse {
   status: "200";
   body: string;
-  headers: RawHttpHeaders & MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXml200Headers;
+  headers: RawHttpHeaders &
+    MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXml200Headers;
 }
 
 export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlDefaultHeaders {
@@ -1846,7 +1923,8 @@ export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlDefaultRespon
   extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlDefaultHeaders;
+  headers: RawHttpHeaders &
+    MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlDefaultHeaders;
 }
 
 /** Successful Response */
@@ -1917,7 +1995,8 @@ export interface TilerTilesGetZxyScaleByFormatDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerTilesGetZxyScaleByFormatDefaultResponse extends HttpResponse {
+export interface TilerTilesGetZxyScaleByFormatDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerTilesGetZxyScaleByFormatDefaultHeaders;
@@ -1934,7 +2013,8 @@ export interface TilerTileJsonOperationsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerTileJsonOperationsGetDefaultResponse extends HttpResponse {
+export interface TilerTileJsonOperationsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerTileJsonOperationsGetDefaultHeaders;
@@ -1957,7 +2037,8 @@ export interface TilerWmtsGetCapabilitiesXmlDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface TilerWmtsGetCapabilitiesXmlDefaultResponse extends HttpResponse {
+export interface TilerWmtsGetCapabilitiesXmlDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TilerWmtsGetCapabilitiesXmlDefaultHeaders;
@@ -1969,7 +2050,8 @@ export interface MosaicsTilesGetZxyScaleByFormat200Headers {
 }
 
 /** Return an image. */
-export interface MosaicsTilesGetZxyScaleByFormat200Response extends HttpResponse {
+export interface MosaicsTilesGetZxyScaleByFormat200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
@@ -1981,7 +2063,8 @@ export interface MosaicsTilesGetZxyScaleByFormatDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsTilesGetZxyScaleByFormatDefaultResponse extends HttpResponse {
+export interface MosaicsTilesGetZxyScaleByFormatDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsTilesGetZxyScaleByFormatDefaultHeaders;
@@ -1998,7 +2081,8 @@ export interface MosaicsTileJsonOperationsGetDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsTileJsonOperationsGetDefaultResponse extends HttpResponse {
+export interface MosaicsTileJsonOperationsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsTileJsonOperationsGetDefaultHeaders;
@@ -2010,7 +2094,8 @@ export interface MosaicsWmtsMosaicsGetCapabilitiesXml200Headers {
 }
 
 /** Successful Response */
-export interface MosaicsWmtsMosaicsGetCapabilitiesXml200Response extends HttpResponse {
+export interface MosaicsWmtsMosaicsGetCapabilitiesXml200Response
+  extends HttpResponse {
   status: "200";
   body: string;
   headers: RawHttpHeaders & MosaicsWmtsMosaicsGetCapabilitiesXml200Headers;
@@ -2021,14 +2106,16 @@ export interface MosaicsWmtsMosaicsGetCapabilitiesXmlDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsWmtsMosaicsGetCapabilitiesXmlDefaultResponse extends HttpResponse {
+export interface MosaicsWmtsMosaicsGetCapabilitiesXmlDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsWmtsMosaicsGetCapabilitiesXmlDefaultHeaders;
 }
 
 /** Return list of assets */
-export interface MosaicsAssetsForTilesGetZxyAssets200Response extends HttpResponse {
+export interface MosaicsAssetsForTilesGetZxyAssets200Response
+  extends HttpResponse {
   status: "200";
   body: any[];
 }
@@ -2038,7 +2125,8 @@ export interface MosaicsAssetsForTilesGetZxyAssetsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface MosaicsAssetsForTilesGetZxyAssetsDefaultResponse extends HttpResponse {
+export interface MosaicsAssetsForTilesGetZxyAssetsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & MosaicsAssetsForTilesGetZxyAssetsDefaultHeaders;

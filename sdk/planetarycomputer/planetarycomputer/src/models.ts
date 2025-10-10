@@ -27,7 +27,8 @@ export interface IngestionSourceParent {
 }
 
 /** SAS Token ingestion source */
-export interface SharedAccessSignatureTokenIngestionSource extends IngestionSourceParent {
+export interface SharedAccessSignatureTokenIngestionSource
+  extends IngestionSourceParent {
   kind: "SasToken";
   /** SAS token connection information */
   connectionInfo: SharedAccessSignatureTokenConnection;
@@ -63,7 +64,12 @@ export interface FormContentDataPartDescriptor {
 
 export interface FormContentFilePartDescriptor {
   name: "file";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
@@ -785,8 +791,8 @@ export type Geometry =
 /** Base type for STAC items and collections with discriminator. */
 export type StacItemOrStacItemCollection =
   | StacItemOrStacItemCollectionParent
-  | StacItemCollection
-  | StacItem;
+  | StacItem
+  | StacItemCollection;
 /** Alias for OperationStatus */
 export type OperationStatus = string;
 /** Alias for IngestionType */
