@@ -3,9 +3,11 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 /** The Microsoft.Dashboard Rest API spec. */
 export interface DashboardManagementContext extends Client {
@@ -34,7 +36,7 @@ export function createDashboardManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-dashboard/2.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-dashboard/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -48,7 +50,7 @@ export function createDashboardManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-11-01-preview";
+  const apiVersion = options.apiVersion ?? "2025-08-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
