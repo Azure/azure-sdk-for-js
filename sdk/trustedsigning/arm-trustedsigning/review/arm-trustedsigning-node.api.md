@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccountSku {
@@ -19,11 +19,27 @@ export interface AccountSku {
 }
 
 // @public
+export interface AccountSkuPatch {
+    name?: SkuName;
+}
+
+// @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface Certificate {
     createdDate?: string;
+    enhancedKeyUsage?: string;
     expiryDate?: string;
     revocation?: Revocation;
     serialNumber?: string;
@@ -40,24 +56,15 @@ export interface CertificateProfile extends ProxyResource {
 // @public
 export interface CertificateProfileProperties {
     readonly certificates?: Certificate[];
-    readonly city?: string;
-    readonly commonName?: string;
-    readonly country?: string;
-    readonly enhancedKeyUsage?: string;
-    identityValidationId?: string;
+    identityValidationId: string;
     includeCity?: boolean;
     includeCountry?: boolean;
     includePostalCode?: boolean;
     includeState?: boolean;
     includeStreetAddress?: boolean;
-    readonly organization?: string;
-    readonly organizationUnit?: string;
-    readonly postalCode?: string;
     profileType: ProfileType;
     readonly provisioningState?: ProvisioningState;
-    readonly state?: string;
     readonly status?: CertificateProfileStatus;
-    readonly streetAddress?: string;
 }
 
 // @public
@@ -122,7 +129,7 @@ export interface CodeSigningAccountPatch {
 
 // @public
 export interface CodeSigningAccountPatchProperties {
-    sku?: AccountSku;
+    sku?: AccountSkuPatch;
 }
 
 // @public
@@ -186,6 +193,7 @@ export class CodeSigningClient {
 // @public
 export interface CodeSigningClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -195,6 +203,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export enum KnownActionType {
@@ -269,12 +297,17 @@ export enum KnownSkuName {
 }
 
 // @public
+export enum KnownVersions {
+    V20251013 = "2025-10-13"
+}
+
+// @public
 export type NameUnavailabilityReason = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
