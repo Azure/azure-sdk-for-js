@@ -6,11 +6,12 @@ import type { OperationTracingOptions, TracingClient, TracingSpanOptions } from 
 /**
  * Type guard to check if a value has tracing options.
  */
-function hasTracingOptions(value: unknown): value is { tracingOptions?: OperationTracingOptions } {
+function hasTracingOptions(value: unknown): value is { tracingOptions: OperationTracingOptions } {
   return (
     typeof value === "object" &&
     value !== null &&
-    ("tracingOptions" in value || !("tracingOptions" in value))
+    "tracingOptions" in value &&
+    (value as any).tracingOptions !== undefined
   );
 }
 
@@ -95,17 +96,10 @@ export function traced(
           ? decoratorOptions.optionsIndex
           : Math.max(0, args.length - 1);
 
-      let operationOptions = args[optionsIndex];
+      const operationOptions = args[optionsIndex];
 
-      // If options is undefined (e.g., method called with no arguments but has default parameter),
-      // create an empty options object
-      if (operationOptions === undefined) {
-        operationOptions = {} as typeof operationOptions;
-      }
-
-      // Validate that the options parameter has the correct shape
-      if (!hasTracingOptions(operationOptions)) {
-        // If no options or invalid options, call the original method
+      // If options is undefined or doesn't have tracing options, call the original method
+      if (operationOptions === undefined || !hasTracingOptions(operationOptions)) {
         return target.apply(this, args);
       }
 

@@ -84,7 +84,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      await client.myOperation();
+      await client.myOperation({ tracingOptions: {} });
 
       expect(setAttributeSpy).toHaveBeenCalledWith("az.namespace", "Microsoft.Test");
     });
@@ -104,7 +104,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      await client.testMethod();
+      await client.testMethod({ tracingOptions: {} });
 
       expect(withSpanSpy).toHaveBeenCalledWith(
         "CustomSpanName",
@@ -133,7 +133,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      await client.testMethod();
+      await client.testMethod({ tracingOptions: {} });
 
       expect(withSpanSpy).toHaveBeenCalledWith(
         expect.anything(),
@@ -162,7 +162,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      const result = await client.testMethod("test", 123);
+      const result = await client.testMethod("test", 123, { tracingOptions: {} });
       assert.equal(result, "test-123");
     });
 
@@ -181,7 +181,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      const result = await client.testMethod({}, "value");
+      const result = await client.testMethod({ tracingOptions: {} }, "value");
       assert.equal(result, "value");
     });
 
@@ -203,7 +203,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      await client.testMethod();
+      await client.testMethod({ tracingOptions: {} });
 
       expect(setStatusSpy).toHaveBeenCalledWith({ status: "success" });
     });
@@ -230,7 +230,7 @@ describe("decorators", () => {
       let errorThrown = false;
 
       try {
-        await client.testMethod();
+        await client.testMethod({ tracingOptions: {} });
       } catch (err) {
         errorThrown = true;
         expect(setStatusSpy).toHaveBeenCalledWith({ status: "error", error: testError });
@@ -255,7 +255,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      await client.testMethod();
+      await client.testMethod({ tracingOptions: {} });
 
       expect(endSpy).toHaveBeenCalledOnce();
     });
@@ -332,7 +332,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      const result = await client.testMethod({ customProp: "customValue" });
+      const result = await client.testMethod({ tracingOptions: {}, customProp: "customValue" });
       assert.equal(result, "customValue");
     });
   });
@@ -372,7 +372,7 @@ describe("decorators", () => {
       }
 
       const client = new TestClient(tracingClient);
-      const result = await client.testMethod();
+      const result = await client.testMethod({ tracingOptions: {} });
       assert.equal(result, 42);
     });
   });
