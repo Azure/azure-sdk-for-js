@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the replicas for the mongo cluster.
  *
  * @summary list all the replicas for the mongo cluster.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_ReplicaList.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_ReplicaList.json
  */
 async function listTheReplicasLinkedToAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

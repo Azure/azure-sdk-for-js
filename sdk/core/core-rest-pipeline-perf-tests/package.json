@@ -58,6 +58,7 @@
     "concurrently": "^9.2.1",
     "eslint": "catalog:",
     "express": "^5.1.0",
+    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "scripts": {

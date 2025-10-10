@@ -1,18 +1,14 @@
 # Release History
 
-## 4.12.1 (Unreleased)
+## 4.13.0 (2025-10-07)
 
 ### Features Added
 
 - When `AZURE_TOKEN_CREDENTIALS` is set to only `ManagedIdentityCredential`, `DefaultAzureCredential` does not issue a probe request and performs retries with exponential backoff. [#36047](https://github.com/Azure/azure-sdk-for-js/pull/36047)
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fixed an issue where `ManagedIdentityCredential` will make an additional probe request in the `getToken` call. [#36047](https://github.com/Azure/azure-sdk-for-js/pull/36047)
-
-### Other Changes
 
 ## 4.12.0 (2025-09-09)
 
