@@ -251,4 +251,4 @@ Use the `CheckPackageReleaseReadiness` tool if available.
 
 ---
 
-For detailed technical guidance specific to GitHub Copilot, see [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+For detailed technical guidance specific to GitHub Copilot, see [`.github/copilot-instructions.md`](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/copilot-instructions.md).
