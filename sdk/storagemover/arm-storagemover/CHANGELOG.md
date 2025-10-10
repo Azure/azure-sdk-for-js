@@ -1,22 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
-## 3.0.0 (2025-09-04)
+## 3.0.0 (2025-10-09)
 
 ### Features Added
   - Added operation AgentsOperations.delete

@@ -4,8 +4,8 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export function get(context: StorageMoverContext, resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobRunName: string, options?: JobRunsGetOptionalParams): Promise<JobRun>;
