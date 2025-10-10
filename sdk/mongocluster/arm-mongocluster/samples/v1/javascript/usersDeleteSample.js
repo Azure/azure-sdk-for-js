@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to deletes a mongo cluster user.
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary deletes a mongo cluster user.
  * x-ms-original-file: 2025-09-01/MongoClusters_UserDelete.json
  */
-async function deletesAUserOnAMongoClusterResource(): Promise<void> {
+async function deletesAUserOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   await client.users.delete("TestGroup", "myMongoCluster", "uuuuuuuu-uuuu-uuuu-uuuu-uuuuuuuuuuuu");
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deletesAUserOnAMongoClusterResource();
 }
 

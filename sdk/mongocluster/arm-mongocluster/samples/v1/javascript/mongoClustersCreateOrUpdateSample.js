@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_Create.json
  */
-async function createsANewMongoClusterResource(): Promise<void> {
+async function createsANewMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -35,7 +35,7 @@ async function createsANewMongoClusterResource(): Promise<void> {
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_CreateGeoReplica.json
  */
-async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise<void> {
+async function createsAReplicaMongoClusterResourceFromASourceResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -63,7 +63,7 @@ async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_CreateGeoReplica_CMK.json
  */
-async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource(): Promise<void> {
+async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -108,7 +108,7 @@ async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncrypti
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_CreatePITR.json
  */
-async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<void> {
+async function createsAMongoClusterResourceFromAPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -133,7 +133,7 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<vo
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_CreatePITR_CMK.json
  */
-async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore(): Promise<void> {
+async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -174,7 +174,7 @@ async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromA
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_CreatePITR_EntraAuth.json
  */
-async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled(): Promise<void> {
+async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -199,7 +199,7 @@ async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftE
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_Create_CMK.json
  */
-async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption(): Promise<void> {
+async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -239,7 +239,7 @@ async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption()
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2025-09-01/MongoClusters_Create_SSDv2.json
  */
-async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise<void> {
+async function createsANewMongoClusterResourceWithPremiumSSDv2Storage() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -258,7 +258,7 @@ async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createsANewMongoClusterResource();
   await createsAReplicaMongoClusterResourceFromASourceResource();
   await createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource();

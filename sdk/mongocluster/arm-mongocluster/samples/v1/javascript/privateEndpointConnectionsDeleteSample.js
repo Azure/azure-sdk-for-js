@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete the private endpoint connection
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete the private endpoint connection
  * x-ms-original-file: 2025-09-01/MongoClusters_PrivateEndpointConnectionDelete.json
  */
-async function deleteAPrivateEndpointConnectionOnAMongoClusterResource(): Promise<void> {
+async function deleteAPrivateEndpointConnectionOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function deleteAPrivateEndpointConnectionOnAMongoClusterResource(): Promis
   );
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deleteAPrivateEndpointConnectionOnAMongoClusterResource();
 }
 

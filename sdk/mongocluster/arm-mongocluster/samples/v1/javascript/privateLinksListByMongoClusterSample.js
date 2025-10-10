@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list private links on the given resource
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list private links on the given resource
  * x-ms-original-file: 2025-09-01/MongoClusters_PrivateLinkResourceList.json
  */
-async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource(): Promise<void> {
+async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource(): P
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
 }
 

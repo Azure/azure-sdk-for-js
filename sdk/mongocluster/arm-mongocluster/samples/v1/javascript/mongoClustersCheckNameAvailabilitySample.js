@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to check if mongo cluster name is available for use.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary check if mongo cluster name is available for use.
  * x-ms-original-file: 2025-09-01/MongoClusters_NameAvailability.json
  */
-async function checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse(): Promise<void> {
+async function checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse(): Promi
  * @summary check if mongo cluster name is available for use.
  * x-ms-original-file: 2025-09-01/MongoClusters_NameAvailability_AlreadyExists.json
  */
-async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse(): Promise<void> {
+async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse(): Promise<
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse();
   await checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse();
 }

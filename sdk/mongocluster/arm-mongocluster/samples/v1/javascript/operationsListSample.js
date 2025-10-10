@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list the operations for the provider
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-09-01/Operations_List.json
  */
-async function operationsList(): Promise<void> {
+async function operationsList() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function operationsList(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await operationsList();
 }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get a specific private connection
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a specific private connection
  * x-ms-original-file: 2025-09-01/MongoClusters_PrivateEndpointConnectionGet.json
  */
-async function getAPrivateEndpointConnectionOnAMongoClusterResource(): Promise<void> {
+async function getAPrivateEndpointConnectionOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function getAPrivateEndpointConnectionOnAMongoClusterResource(): Promise<v
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getAPrivateEndpointConnectionOnAMongoClusterResource();
 }
 

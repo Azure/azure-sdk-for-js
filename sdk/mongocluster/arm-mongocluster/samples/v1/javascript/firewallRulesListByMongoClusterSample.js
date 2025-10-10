@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list all the firewall rules in a given mongo cluster.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list all the firewall rules in a given mongo cluster.
  * x-ms-original-file: 2025-09-01/MongoClusters_FirewallRuleList.json
  */
-async function listTheFirewallRulesOnAMongoClusterResource(): Promise<void> {
+async function listTheFirewallRulesOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listTheFirewallRulesOnAMongoClusterResource(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listTheFirewallRulesOnAMongoClusterResource();
 }
 
