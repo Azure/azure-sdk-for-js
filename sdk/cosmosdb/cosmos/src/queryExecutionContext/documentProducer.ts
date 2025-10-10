@@ -215,7 +215,7 @@ export class DocumentProducer {
     }
   }
 
-  public getTargetParitionKeyRange(): PartitionKeyRange {
+  public getTargetPartitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
   /**
