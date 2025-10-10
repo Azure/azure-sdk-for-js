@@ -898,7 +898,7 @@ importers:
         specifier: ^12.26.0
         version: link:../../storage/storage-blob
       openai:
-        specifier: ^5.9.0
+        specifier: ^5.10.1
         version: 5.23.2(ws@8.18.3)(zod@3.25.76)
       tslib:
         specifier: ^2.6.2
