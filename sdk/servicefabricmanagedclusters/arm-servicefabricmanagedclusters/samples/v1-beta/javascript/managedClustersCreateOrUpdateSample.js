@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Service Fabric managed cluster resource with the specified name.
  *
  * @summary create or update a Service Fabric managed cluster resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ManagedClusterPutOperation_example_max.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedClusterPutOperation_example_max.json
  */
 async function putAClusterWithMaximumParameters() {
   const credential = new DefaultAzureCredential();
@@ -107,7 +107,14 @@ async function putAClusterWithMaximumParameters() {
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.Network/publicIPPrefixes/myPublicIPPrefix",
       publicIPv6PrefixId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.Network/publicIPPrefixes/myPublicIPv6Prefix",
-      serviceEndpoints: [{ locations: ["eastus2", "usnorth"], service: "Microsoft.Storage" }],
+      serviceEndpoints: [
+        {
+          locations: ["eastus2", "usnorth"],
+          service: "Microsoft.Storage",
+          networkIdentifier:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/publicIPAddresses/myPublicIP",
+        },
+      ],
       upgradeDescription: {
         deltaHealthPolicy: {
           maxPercentDeltaUnhealthyApplications: 40,
@@ -130,6 +137,7 @@ async function putAClusterWithMaximumParameters() {
       useCustomVnet: true,
       zonalResiliency: true,
       zonalUpdateMode: "Fast",
+      enableOutboundOnlyNodeTypes: true,
     },
     sku: { name: "Basic" },
     tags: {},
@@ -141,7 +149,7 @@ async function putAClusterWithMaximumParameters() {
  * This sample demonstrates how to create or update a Service Fabric managed cluster resource with the specified name.
  *
  * @summary create or update a Service Fabric managed cluster resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ManagedClusterPutOperation_example_min.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedClusterPutOperation_example_min.json
  */
 async function putAClusterWithMinimumParameters() {
   const credential = new DefaultAzureCredential();

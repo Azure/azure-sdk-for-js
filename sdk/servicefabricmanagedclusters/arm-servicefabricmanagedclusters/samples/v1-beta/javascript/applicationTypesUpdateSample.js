@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the tags of an application type resource of a given managed cluster.
  *
  * @summary updates the tags of an application type resource of a given managed cluster.
- * x-ms-original-file: 2025-03-01-preview/ApplicationTypeNamePatchOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ApplicationTypeNamePatchOperation_example.json
  */
 async function patchAnApplicationType() {
   const credential = new DefaultAzureCredential();

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  updateUpgrade,
   startRollback,
   resumeUpgrade,
   readUpgrade,
@@ -12,6 +13,7 @@ export {
   get,
 } from "./operations.js";
 export {
+  ApplicationsUpdateUpgradeOptionalParams,
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
   ApplicationsReadUpgradeOptionalParams,
