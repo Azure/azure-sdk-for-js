@@ -558,6 +558,21 @@
       "words": [
         "protobuf"
       ]
+    },
+    {
+      "filename": "sdk/planetarycomputer/planetarycomputer/review/**/*.md",
+      "words": [
+        "bbox",
+        "inma",
+        "stac",
+        "miny",
+        "maxx",
+        "maxy",
+        "WMTS",
+        "Bbox",
+        "colorinterp",
+        "dtype"
+      ]
     }
   ]
 }
