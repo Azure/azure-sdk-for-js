@@ -13,7 +13,7 @@ import {
   agentsToolChoiceOptionSerializer,
   threadRunDeserializer,
   _agentsPagedResultThreadRunDeserializer,
-  toolOutputArraySerializer,
+  structuredToolOutputUnionArraySerializer,
   toolApprovalArraySerializer,
 } from "../../models/models.js";
 import type {
@@ -108,7 +108,7 @@ export function _submitToolOutputsToRunSend(
     },
     body: {
       tool_outputs: options?.toolOutputs?.length
-        ? toolOutputArraySerializer(options?.toolOutputs)
+        ? structuredToolOutputUnionArraySerializer(options?.toolOutputs)
         : undefined,
       tool_approvals: options?.toolApprovals?.length
         ? toolApprovalArraySerializer(options?.toolApprovals)
