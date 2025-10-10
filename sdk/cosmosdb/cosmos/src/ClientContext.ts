@@ -131,7 +131,6 @@ export class ClientContext {
       );
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this);
   }
 
   /** @hidden */
