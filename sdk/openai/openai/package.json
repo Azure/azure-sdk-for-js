@@ -127,7 +127,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "openai": "^5.10.1",
+    "openai": "^6.1.0",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
