@@ -33,15 +33,27 @@ export interface AudioMetadata {
   /** Specifies the number of audio channels in the audio configuration.
           Currently, only "mono" (single channel) is supported.*/
   channels: Channel;
+  /** The size of the audio data being sent, based on the sample rate and duration.*/
+  length: number;
 }
 
-/**
- * Streaming media kind.
- */
-export type MediaKind = "audioData" | "stopAudio";
+export enum MediaKind {
+  /** Audio data.*/
+  AudioData = "audioData",
+  /** stop audio data*/
+  StopAudio = "stopAudio",
+}
 
 // Out streaming Stop Audio Data
 export interface StopAudio {}
+
+/**
+ * The format of transcription text.
+ */
+export enum TextFormat {
+  /** Formatted recognize text with punctuations.*/
+  Display = "display",
+}
 
 /**
  * Text in the phrase.
@@ -67,8 +79,6 @@ export interface TranscriptionMetadata {
   callConnectionId: string;
   /** correlation Id.*/
   correlationId: string;
-  /** The custom speech recognition model endpoint id.*/
-  speechRecognitionModelEndpointId: string;
 }
 
 /**
@@ -78,7 +88,7 @@ export interface TranscriptionData {
   /** The display form of the recognized word.*/
   text: string;
   /** The format of text.*/
-  format: string;
+  format: TextFormat;
   /** Confidence of recognition of the whole phrase, from 0.0 (no confidence) to 1.0 (full confidence). */
   confidence: number;
   /** The position of this payload. 1 tick = 100 nanoseconds. */
@@ -93,29 +103,24 @@ export interface TranscriptionData {
   resultState: TranscriptionResultState;
 }
 
-/**
- * Dtmf streaming data.
- */
-export interface DtmfData {
-  /** A unique identifier for the media subscription.*/
-  data: string;
-}
-
 // StreamingDataResult type  | TranscriptionMetadata| TranscriptionData| AudioData| AudioMetadata;
 export type StreamingDataResult =
   | TranscriptionMetadata
   | TranscriptionData
   | AudioData
-  | AudioMetadata
-  | DtmfData;
+  | AudioMetadata;
 
 // Enum for different kinds of streaming data in a call automation system
-export type StreamingDataKind =
-  | "AudioData"
-  | "AudioMetadata"
-  | "TranscriptionData"
-  | "TranscriptionMetadata"
-  | "DtmfData";
+export enum StreamingDataKind {
+  // Audio data type
+  AudioData = "AudioData",
+  // Audio metadata type
+  AudioMetadata = "AudioMetadata",
+  // Transcription data type
+  TranscriptionData = "TranscriptionData",
+  // Transcription metadata type
+  TranscriptionMetadata = "TranscriptionMetadata",
+}
 
 // Enum for channel.
 export enum Channel {
@@ -123,46 +128,44 @@ export enum Channel {
   Mono = 1,
 }
 
-/**
- * OutboundStreamingAudioData interface for outbound audio streaming payload.
- */
-export interface OutStreamingData {
+// Base class for Out Streaming Data
+export class OutStreamingData {
   /** Out streaming data kind ex. StopAudio, AudioData*/
   kind: MediaKind;
   /** Out streaming Audio Data */
   audioData?: AudioData;
   /** Out streaming Stop Audio Data */
   stopAudio?: StopAudio;
-}
 
-/**
- * Helper function to create outbound audio data payload.
- */
-export function createOutboundAudioData(data: string): string {
-  const outStreamingData: OutStreamingData = {
-    kind: "audioData",
-    audioData: {
-      data: data,
-      timestamp: undefined,
-      participant: undefined,
-      isSilent: false,
-    },
-    stopAudio: {},
-  };
+  constructor(kind: MediaKind) {
+    this.kind = kind;
+  }
 
-  const json = JSON.stringify(outStreamingData);
-  return json;
-}
+  /** Public static method to stringify the outbound audio data. */
+  static getStreamingDataForOutbound(data: string): string {
+    const outStreamingData: OutStreamingData = {
+      kind: MediaKind.AudioData,
+      audioData: {
+        data: data,
+        timestamp: undefined,
+        participant: undefined,
+        isSilent: false,
+      },
+      stopAudio: {},
+    };
 
-/**
- * Helper function to create outbound stop audio data payload.
- */
-export function createOutboundStopAudioData(): string {
-  const outStreamingData: OutStreamingData = {
-    kind: "stopAudio",
-    audioData: undefined,
-    stopAudio: {},
-  };
-  const json = JSON.stringify(outStreamingData);
-  return json;
+    const json = JSON.stringify(outStreamingData);
+    return json;
+  }
+
+  /** Public static method to stringify the stop audio data. */
+  static getStopAudioForOutbound(): string {
+    const outStreamingData: OutStreamingData = {
+      kind: MediaKind.StopAudio,
+      audioData: undefined,
+      stopAudio: {},
+    };
+    const json = JSON.stringify(outStreamingData);
+    return json;
+  }
 }
