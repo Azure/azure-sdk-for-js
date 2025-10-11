@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { AutonomousDbVersion } from "../../models/models.js";
-import {
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { listByLocation, get } from "../../api/autonomousDatabaseVersions/operations.js";
+import type {
   AutonomousDatabaseVersionsListByLocationOptionalParams,
   AutonomousDatabaseVersionsGetOptionalParams,
 } from "../../api/autonomousDatabaseVersions/options.js";
-import { listByLocation, get } from "../../api/autonomousDatabaseVersions/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AutonomousDbVersion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutonomousDatabaseVersions operations. */
 export interface AutonomousDatabaseVersionsOperations {

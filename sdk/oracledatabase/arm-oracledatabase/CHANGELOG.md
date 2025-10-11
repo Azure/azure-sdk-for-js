@@ -1,4 +1,108 @@
 # Release History
+
+## 3.0.0 (2025-09-25)
+
+### Features Added
+  - Added operation group DbSystemsOperations
+  - Added operation group DbVersionsOperations
+  - Added operation group NetworkAnchorsOperations
+  - Added operation group ResourceAnchorsOperations
+  - Added operation AutonomousDatabasesOperations.action
+  - Added operation CloudExadataInfrastructuresOperations.configureExascale
+  - Added Interface AutonomousDatabaseLifecycleAction
+  - Added Interface AutonomousDatabasesActionOptionalParams
+  - Added Interface CloudExadataInfrastructuresConfigureExascaleOptionalParams
+  - Added Interface ConfigureExascaleCloudExadataInfrastructureDetails
+  - Added Interface DbSystem
+  - Added Interface DbSystemBaseProperties
+  - Added Interface DbSystemOptions
+  - Added Interface DbSystemProperties
+  - Added Interface DbSystemsCreateOrUpdateOptionalParams
+  - Added Interface DbSystemsDeleteOptionalParams
+  - Added Interface DbSystemsGetOptionalParams
+  - Added Interface DbSystemsListByResourceGroupOptionalParams
+  - Added Interface DbSystemsListBySubscriptionOptionalParams
+  - Added Interface DbSystemsUpdateOptionalParams
+  - Added Interface DbSystemUpdate
+  - Added Interface DbSystemUpdateProperties
+  - Added Interface DbVersion
+  - Added Interface DbVersionProperties
+  - Added Interface DbVersionsGetOptionalParams
+  - Added Interface DbVersionsListByLocationOptionalParams
+  - Added Interface DnsForwardingRule
+  - Added Interface ExascaleConfigDetails
+  - Added Interface NetworkAnchor
+  - Added Interface NetworkAnchorProperties
+  - Added Interface NetworkAnchorsCreateOrUpdateOptionalParams
+  - Added Interface NetworkAnchorsDeleteOptionalParams
+  - Added Interface NetworkAnchorsGetOptionalParams
+  - Added Interface NetworkAnchorsListByResourceGroupOptionalParams
+  - Added Interface NetworkAnchorsListBySubscriptionOptionalParams
+  - Added Interface NetworkAnchorsUpdateOptionalParams
+  - Added Interface NetworkAnchorUpdate
+  - Added Interface NetworkAnchorUpdateProperties
+  - Added Interface ResourceAnchor
+  - Added Interface ResourceAnchorProperties
+  - Added Interface ResourceAnchorsCreateOrUpdateOptionalParams
+  - Added Interface ResourceAnchorsDeleteOptionalParams
+  - Added Interface ResourceAnchorsGetOptionalParams
+  - Added Interface ResourceAnchorsListByResourceGroupOptionalParams
+  - Added Interface ResourceAnchorsListBySubscriptionOptionalParams
+  - Added Interface ResourceAnchorsUpdateOptionalParams
+  - Added Interface ResourceAnchorUpdate
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter scheduledOperationsList
+  - Interface AutonomousDatabaseCloneProperties has a new optional parameter scheduledOperationsList
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties has a new optional parameter scheduledOperationsList
+  - Interface AutonomousDatabaseFromBackupTimestampProperties has a new optional parameter scheduledOperationsList
+  - Interface AutonomousDatabaseProperties has a new optional parameter scheduledOperationsList
+  - Interface AutonomousDatabaseUpdateProperties has a new optional parameter scheduledOperationsList
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter exascaleConfig
+  - Interface CloudVmClusterProperties has a new optional parameter exascaleDbStorageVaultId
+  - Interface CloudVmClusterProperties has a new optional parameter storageManagementType
+  - Interface DbSystemShapeProperties has a new optional parameter shapeAttributes
+  - Interface DbSystemShapesListByLocationOptionalParams has a new optional parameter shapeAttribute
+  - Interface ExadbVmClusterProperties has a new optional parameter shapeAttribute
+  - Interface ExascaleDbStorageVaultProperties has a new optional parameter attachedShapeAttributes
+  - Interface ExascaleDbStorageVaultProperties has a new optional parameter exadataInfrastructureId
+  - Interface GiVersionsListByLocationOptionalParams has a new optional parameter shapeAttribute
+  - Interface OracleDatabaseManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AutonomousDatabaseLifecycleActionEnum
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BaseDbSystemShapes
+  - Added Type Alias DbSystemBasePropertiesUnion
+  - Added Type Alias DbSystemDatabaseEditionType
+  - Added Type Alias DbSystemLifecycleState
+  - Added Type Alias DbSystemSourceType
+  - Added Type Alias DiskRedundancyType
+  - Added Type Alias ExadataVmClusterStorageManagementType
+  - Added Type Alias ShapeAttribute
+  - Added Type Alias ShapeFamilyType
+  - Added Type Alias StorageManagementType
+  - Added Type Alias StorageVolumePerformanceMode
+  - Added Enum AzureClouds
+  - Added Enum KnownAutonomousDatabaseLifecycleActionEnum
+  - Added Enum KnownBaseDbSystemShapes
+  - Added Enum KnownDbSystemDatabaseEditionType
+  - Added Enum KnownDbSystemLifecycleState
+  - Added Enum KnownDbSystemSourceType
+  - Added Enum KnownDiskRedundancyType
+  - Added Enum KnownExadataVmClusterStorageManagementType
+  - Added Enum KnownShapeAttribute
+  - Added Enum KnownShapeFamilyType
+  - Added Enum KnownStorageManagementType
+  - Added Enum KnownStorageVolumePerformanceMode
+  - Enum KnownVersions has a new value V20250901
+
+### Breaking Changes
+  - Interface AutonomousDatabaseBaseProperties no longer has parameter scheduledOperations
+  - Interface AutonomousDatabaseCloneProperties no longer has parameter scheduledOperations
+  - Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties no longer has parameter scheduledOperations
+  - Interface AutonomousDatabaseFromBackupTimestampProperties no longer has parameter scheduledOperations
+  - Interface AutonomousDatabaseProperties no longer has parameter scheduledOperations
+  - Interface AutonomousDatabaseUpdateProperties no longer has parameter scheduledOperations
+  - Parameter name of interface DayOfWeekUpdate is now optional
+  - Parameter dayOfWeek of interface ScheduledOperationsTypeUpdate is now optional
+
     
 ## 2.0.0 (2025-06-05)
     
