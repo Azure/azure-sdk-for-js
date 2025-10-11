@@ -1,0 +1,24 @@
+{
+  "apiVersion": "2025-10-15",
+  "emitterVersion": "0.44.1-alpha.20251010.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Ai.Speech.Transcription",
+    "CrossLanguageDefinitionId": {
+      "@azure/azure-ai-speech-transcription!TranscribeRequestContent:interface": "Azure.Ai.Speech.Transcription.TranscribeRequestContent",
+      "@azure/azure-ai-speech-transcription!TranscriptionOptions:interface": "Azure.Ai.Speech.Transcription.TranscriptionOptions",
+      "@azure/azure-ai-speech-transcription!TranscriptionDiarizationOptions:interface": "Azure.Ai.Speech.Transcription.TranscriptionDiarizationOptions",
+      "@azure/azure-ai-speech-transcription!EnhancedModeProperties:interface": "Azure.Ai.Speech.Transcription.EnhancedModeProperties",
+      "@azure/azure-ai-speech-transcription!PhraseListProperties:interface": "Azure.Ai.Speech.Transcription.PhraseListProperties",
+      "@azure/azure-ai-speech-transcription!TranscriptionResult:interface": "Azure.Ai.Speech.Transcription.TranscriptionResult",
+      "@azure/azure-ai-speech-transcription!ChannelCombinedPhrases:interface": "Azure.Ai.Speech.Transcription.ChannelCombinedPhrases",
+      "@azure/azure-ai-speech-transcription!TranscribedPhrase:interface": "Azure.Ai.Speech.Transcription.TranscribedPhrase",
+      "@azure/azure-ai-speech-transcription!TranscribedWord:interface": "Azure.Ai.Speech.Transcription.TranscribedWord",
+      "@azure/azure-ai-speech-transcription!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/azure-ai-speech-transcription!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/azure-ai-speech-transcription!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/azure-ai-speech-transcription!KnownProfanityFilterMode:enum": "Azure.Ai.Speech.Transcription.ProfanityFilterMode",
+      "@azure/azure-ai-speech-transcription!KnownServiceApiVersions:enum": "Azure.Ai.Speech.Transcription.ServiceApiVersions",
+      "@azure/azure-ai-speech-transcription!TranscriptionClient#transcribe:member(1)": "Azure.Ai.Speech.Transcription.transcribe"
+    }
+  }
+}
