@@ -571,7 +571,11 @@
         "WMTS",
         "Bbox",
         "colorinterp",
-        "dtype"
+        "dtype",
+        "Jsons",
+        "Bidx",
+        "bidx",
+        "unscale"
       ]
     }
   ]
