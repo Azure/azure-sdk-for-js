@@ -4,11 +4,11 @@
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
-Key links:
+Key links (To do):
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/planetarycomputer)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/planetarycomputer?view=azure-node-preview)
+- [Source code](https://github.com/Azure/)
+- [Package (NPM)](https://www.npmjs.com/)
+- [API reference documentation](https://learn.microsoft.com/)
 
 ## Getting started
 
