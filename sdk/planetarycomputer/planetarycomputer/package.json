@@ -12,18 +12,53 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts"
     },
-    "dialects": ["esm", "commonjs"],
-    "esmDialects": ["browser", "react-native"],
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
     "selfLink": false,
     "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "azure",
+    "planetary",
+    "planetarycomputer",
+    "computer",
+    "cloud",
+    "node",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "gis",
+    "geospatial",
+    "stac",
+    "geojson",
+    "raster",
+    "imagery",
+    "tiles",
+    "tiler",
+    "wmts",
+    "maps",
+    "map",
+    "remote-sensing",
+    "satellite",
+    "earth"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
