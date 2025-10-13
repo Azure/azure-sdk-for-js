@@ -71,12 +71,12 @@ You can find the endpoint for your Azure AI Speech resource in the [Azure Portal
 The batch transcription client uses an API key credential for authentication. You can get the API key from your Speech resource in the Azure Portal.
 
 ```ts snippet:ReadmeSampleCreateClient_ApiKey
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 ```
 
 ### JavaScript Bundle
@@ -108,19 +108,17 @@ To use this client library in the browser, first you need to use a bundler. For 
 Submit audio files for batch transcription:
 
 ```ts snippet:ReadmeSampleBasicBatchTranscription
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
-
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const transcriptionJob = await client.startTranscription({
   contentUrls: ["https://example.com/audio-file.wav"],
   locale: "en-US",
-  displayName: "My Batch Transcription"
+  displayName: "My Batch Transcription",
 });
-
 console.log(`Started transcription job: ${transcriptionJob.self}`);
 console.log(`Status: ${transcriptionJob.status}`);
 ```
@@ -130,23 +128,20 @@ console.log(`Status: ${transcriptionJob.status}`);
 Check the status of a transcription job and wait for completion:
 
 ```ts snippet:ReadmeSampleMonitorBatchJob
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
-
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const transcriptionId = "<transcription-id>";
-
 // Poll until the transcription completes
 let transcription = await client.getTranscription(transcriptionId);
 while (transcription.status === "Running" || transcription.status === "NotStarted") {
-  await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+  await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
   transcription = await client.getTranscription(transcriptionId);
   console.log(`Status: ${transcription.status}`);
 }
-
 console.log(`Final status: ${transcription.status}`);
 ```
 
@@ -155,20 +150,17 @@ console.log(`Final status: ${transcription.status}`);
 Get the transcription files once the job succeeds:
 
 ```ts snippet:ReadmeSampleRetrieveResults
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
-
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const transcriptionId = "<transcription-id>";
-
 // Get transcription files
 for await (const file of client.listTranscriptionFiles(transcriptionId)) {
   console.log(`File: ${file.name}`);
   console.log(`Content URL: ${file.links?.contentUrl}`);
-  
   // Download the transcription result from file.links.contentUrl
 }
 ```
@@ -178,22 +170,20 @@ for await (const file of client.listTranscriptionFiles(transcriptionId)) {
 Transcribe audio using a custom trained model:
 
 ```ts snippet:ReadmeSampleCustomModel
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
-
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const transcriptionJob = await client.startTranscription({
   contentUrls: ["https://example.com/audio-file.wav"],
   locale: "en-US",
   displayName: "Transcription with Custom Model",
   model: {
-    self: "https://<region>.api.cognitive.microsoft.com/speechtotext/v3.2/models/<model-id>"
-  }
+    self: "https://<region>.api.cognitive.microsoft.com/speechtotext/v3.2/models/<model-id>",
+  },
 });
-
 console.log(`Started transcription with custom model: ${transcriptionJob.self}`);
 ```
 
@@ -202,13 +192,12 @@ console.log(`Started transcription with custom model: ${transcriptionJob.self}`)
 View all transcription jobs in your subscription:
 
 ```ts snippet:ReadmeSampleListTranscriptions
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
-
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 console.log("Listing all transcriptions:");
 for await (const transcription of client.listTranscriptions()) {
   console.log(`- ${transcription.displayName}: ${transcription.status}`);
@@ -220,16 +209,14 @@ for await (const transcription of client.listTranscriptions()) {
 Clean up a completed transcription job:
 
 ```ts snippet:ReadmeSampleDeleteTranscription
-import { BatchTranscriptionClient, AzureKeyCredential } from "@azure/azure-ai-speech-batchtranscription";
+import {
+  BatchTranscriptionClient,
+  AzureKeyCredential,
+} from "@azure/azure-ai-speech-batchtranscription";
 
-const client = new BatchTranscriptionClient(
-  "<endpoint>",
-  new AzureKeyCredential("<api-key>")
-);
-
+const client = new BatchTranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const transcriptionId = "<transcription-id>";
 await client.deleteTranscription(transcriptionId);
-
 console.log(`Deleted transcription: ${transcriptionId}`);
 ```
 
