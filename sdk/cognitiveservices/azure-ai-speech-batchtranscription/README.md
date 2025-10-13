@@ -10,7 +10,7 @@ Key links:
 - [Package (NPM)](https://www.npmjs.com/package/@azure/azure-ai-speech-batchtranscription)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/azure-ai-speech-batchtranscription?view=azure-node-preview)
 - [Product documentation](https://learn.microsoft.com/azure/ai-services/speech-service/batch-transcription)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-batchtranscription/samples/v1)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-batchtranscription/samples/v1-beta)
 
 ## Getting started
 
@@ -235,7 +235,7 @@ console.log(`Deleted transcription: ${transcriptionId}`);
 
 ### Additional Examples
 
-More examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-batchtranscription/samples/v1) folder.
+More examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-batchtranscription/samples/v1-beta) folder.
 
 ## Troubleshooting
 
@@ -253,7 +253,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-- Review the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-batchtranscription/samples/v1) for practical examples
+- Review the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-batchtranscription/samples/v1-beta) for practical examples
 - Learn more about [Azure AI Speech Batch Transcription](https://learn.microsoft.com/azure/ai-services/speech-service/batch-transcription)
 - Explore the [Speech service documentation](https://learn.microsoft.com/azure/ai-services/speech-service/)
 

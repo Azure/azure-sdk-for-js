@@ -6,18 +6,16 @@ import type {
   TranscriptionJob,
   _SpeechToTextCustomPageTranscriptionJob,
   _SpeechToTextCustomPageTranscriptionFile,
-  TranscriptionFile} from "../models/models.js";
+  TranscriptionFile,
+} from "../models/models.js";
 import {
   transcriptionJobSerializer,
   transcriptionJobDeserializer,
   _speechToTextCustomPageTranscriptionJobDeserializer,
-  _speechToTextCustomPageTranscriptionFileDeserializer
+  _speechToTextCustomPageTranscriptionFileDeserializer,
 } from "../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type {
   ListTranscriptionFilesOptionalParams,
@@ -26,13 +24,8 @@ import type {
   GetTranscriptionOptionalParams,
   StartTranscriptionOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listTranscriptionFilesSend(
   context: Client,

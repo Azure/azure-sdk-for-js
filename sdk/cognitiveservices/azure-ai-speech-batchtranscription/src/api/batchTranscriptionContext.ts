@@ -3,7 +3,7 @@
 
 import { logger } from "../logger.js";
 import { KnownServiceApiVersions } from "../models/models.js";
-import type { Client, ClientOptions} from "@azure-rest/core-client";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { KeyCredential } from "@azure/core-auth";
 

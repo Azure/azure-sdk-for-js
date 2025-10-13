@@ -3,10 +3,9 @@
 
 import type {
   BatchTranscriptionContext,
-  BatchTranscriptionClientOptionalParams} from "./api/index.js";
-import {
-  createBatchTranscription
+  BatchTranscriptionClientOptionalParams,
 } from "./api/index.js";
+import { createBatchTranscription } from "./api/index.js";
 import {
   listTranscriptionFiles,
   listTranscriptions,
