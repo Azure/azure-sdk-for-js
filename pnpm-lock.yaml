@@ -117,8 +117,8 @@ importers:
         specifier: ^0.17.4
         version: 0.17.4
       '@azure/identity':
-        specifier: 4.10.1
-        version: 4.10.1
+        specifier: 4.12.0
+        version: 4.12.0
       '@microsoft/api-extractor':
         specifier: ^7.52.4
         version: 7.53.1(@types/node@20.19.21)
@@ -162,7 +162,7 @@ importers:
         specifier: ^1.2.8
         version: 1.2.8
       prettier:
-        specifier: ^3.5.3
+        specifier: 'catalog:'
         version: 3.6.2
       semver:
         specifier: ^7.6.0
@@ -177,17 +177,17 @@ importers:
         specifier: ^27.0.0
         version: 27.0.0
       tshy:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.0.3
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
       tsx:
-        specifier: ^4.19.3
+        specifier: 'catalog:'
         version: 4.20.6
       typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
+        specifier: ~5.9.3
+        version: 5.9.3
       unzipper:
         specifier: ~0.12.3
         version: 0.12.3
@@ -238,14 +238,14 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       rimraf:
-        specifier: ^6.0.1
+        specifier: 'catalog:'
         version: 6.0.1
       typescript-eslint:
         specifier: ~8.43.0
-        version: 8.43.0(eslint@9.37.0)(typescript@5.8.3)
+        version: 8.43.0(eslint@9.37.0)(typescript@5.9.3)
       vitest:
         specifier: catalog:testing
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.21)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.21)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.21)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   common/tools/eslint-plugin-azure-sdk:
     dependencies:
@@ -353,9 +353,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.21
-      cross-env:
-        specifier: 'catalog:'
-        version: 7.0.3
       eslint:
         specifier: 'catalog:'
         version: 9.37.0
@@ -405,9 +402,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: ^3.1.1
         version: 3.2.4(vitest@3.2.4)
-      cross-env:
-        specifier: 'catalog:'
-        version: 7.0.3
       eslint:
         specifier: ^9.9.0
         version: 9.37.0
@@ -33207,12 +33201,12 @@ packages:
     resolution: {integrity: sha512-LNtl3xZNE40vE7+SIST+GYQX5cnnI1M65fXPi26l9XCdPakuQrz54lHv+qQQt1GG5JbqLfQk75iM7A6Y9O+2dQ==}
     engines: {node: '>=18.0'}
 
-  '@azure/identity@4.10.1':
-    resolution: {integrity: sha512-YM/z6RxRtFlXUH2egAYF/FDPes+MUE6ZoknjEdaq7ebJMMNUzn9zCJ3bd2ZZZlkP0r1xKa88kolhFH/FGV7JnA==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/identity@4.11.1':
     resolution: {integrity: sha512-0ZdsLRaOyLxtCYgyuqyWqGU5XQ9gGnjxgfoNTt1pvELGkkUFrMATABZFIq8gusM7N1qbqpVtwLOhk0d/3kacLg==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/identity@4.12.0':
+    resolution: {integrity: sha512-6vuh2R3Cte6SD6azNalLCjIDoryGdcvDVEV7IDRPtm5lHX5ffkDlIalaoOp5YJU08e4ipjJENel20kSMDLAcug==}
     engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-common@2.0.0':
@@ -38252,7 +38246,7 @@ snapshots:
   '@azure/app-configuration-provider@2.2.0':
     dependencies:
       '@azure/app-configuration': 1.9.0
-      '@azure/identity': 4.11.1
+      '@azure/identity': 4.12.0
       '@azure/keyvault-secrets': 4.10.0
       jsonc-parser: 3.3.1
     transitivePeerDependencies:
@@ -38569,7 +38563,7 @@ snapshots:
       long: 4.0.0
       undici: 5.29.0
 
-  '@azure/identity@4.10.1':
+  '@azure/identity@4.11.1':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
@@ -38585,7 +38579,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/identity@4.11.1':
+  '@azure/identity@4.12.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
@@ -40800,7 +40794,7 @@ snapshots:
       magicast: 0.3.5
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.21)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.21)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.21)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
