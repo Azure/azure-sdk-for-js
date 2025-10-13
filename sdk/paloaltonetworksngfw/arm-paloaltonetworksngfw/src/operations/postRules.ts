@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { PostRules } from "../operationsInterfaces/index.js";
+import type { PostRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
-import {
+import type { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
+import type {
   SimplePollerLike,
-  OperationState,
-  createHttpPoller
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   PostRulesResource,
   PostRulesListNextOptionalParams,
   PostRulesListOptionalParams,
@@ -34,7 +35,7 @@ import {
   PostRulesRefreshCountersOptionalParams,
   PostRulesResetCountersOptionalParams,
   PostRulesResetCountersResponse,
-  PostRulesListNextResponse
+  PostRulesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +58,7 @@ export class PostRulesImpl implements PostRules {
    */
   public list(
     globalRulestackName: string,
-    options?: PostRulesListOptionalParams
+    options?: PostRulesListOptionalParams,
   ): PagedAsyncIterableIterator<PostRulesResource> {
     const iter = this.listPagingAll(globalRulestackName, options);
     return {
@@ -72,20 +73,20 @@ export class PostRulesImpl implements PostRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(globalRulestackName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     globalRulestackName: string,
     options?: PostRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PostRulesResource[]> {
     let result: PostRulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(globalRulestackName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -94,10 +95,10 @@ export class PostRulesImpl implements PostRules {
       result = await this._listNext(
         globalRulestackName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -105,11 +106,11 @@ export class PostRulesImpl implements PostRules {
 
   private async *listPagingAll(
     globalRulestackName: string,
-    options?: PostRulesListOptionalParams
+    options?: PostRulesListOptionalParams,
   ): AsyncIterableIterator<PostRulesResource> {
     for await (const page of this.listPagingPage(
       globalRulestackName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +123,11 @@ export class PostRulesImpl implements PostRules {
    */
   private _list(
     globalRulestackName: string,
-    options?: PostRulesListOptionalParams
+    options?: PostRulesListOptionalParams,
   ): Promise<PostRulesListResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class PostRulesImpl implements PostRules {
   get(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesGetOptionalParams
+    options?: PostRulesGetOptionalParams,
   ): Promise<PostRulesGetResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,7 +159,7 @@ export class PostRulesImpl implements PostRules {
     globalRulestackName: string,
     priority: string,
     resource: PostRulesResource,
-    options?: PostRulesCreateOrUpdateOptionalParams
+    options?: PostRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PostRulesCreateOrUpdateResponse>,
@@ -167,21 +168,20 @@ export class PostRulesImpl implements PostRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PostRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +190,8 @@ export class PostRulesImpl implements PostRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,15 +199,15 @@ export class PostRulesImpl implements PostRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, priority, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PostRulesCreateOrUpdateResponse,
@@ -215,7 +215,7 @@ export class PostRulesImpl implements PostRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -232,13 +232,13 @@ export class PostRulesImpl implements PostRules {
     globalRulestackName: string,
     priority: string,
     resource: PostRulesResource,
-    options?: PostRulesCreateOrUpdateOptionalParams
+    options?: PostRulesCreateOrUpdateOptionalParams,
   ): Promise<PostRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       globalRulestackName,
       priority,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -252,25 +252,24 @@ export class PostRulesImpl implements PostRules {
   async beginDelete(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesDeleteOptionalParams
+    options?: PostRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -279,8 +278,8 @@ export class PostRulesImpl implements PostRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -288,20 +287,20 @@ export class PostRulesImpl implements PostRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, priority, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -316,12 +315,12 @@ export class PostRulesImpl implements PostRules {
   async beginDeleteAndWait(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesDeleteOptionalParams
+    options?: PostRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       globalRulestackName,
       priority,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -335,11 +334,11 @@ export class PostRulesImpl implements PostRules {
   getCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesGetCountersOptionalParams
+    options?: PostRulesGetCountersOptionalParams,
   ): Promise<PostRulesGetCountersResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      getCountersOperationSpec
+      getCountersOperationSpec,
     );
   }
 
@@ -352,11 +351,11 @@ export class PostRulesImpl implements PostRules {
   refreshCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesRefreshCountersOptionalParams
+    options?: PostRulesRefreshCountersOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      refreshCountersOperationSpec
+      refreshCountersOperationSpec,
     );
   }
 
@@ -369,11 +368,11 @@ export class PostRulesImpl implements PostRules {
   resetCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesResetCountersOptionalParams
+    options?: PostRulesResetCountersOptionalParams,
   ): Promise<PostRulesResetCountersResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      resetCountersOperationSpec
+      resetCountersOperationSpec,
     );
   }
 
@@ -386,11 +385,11 @@ export class PostRulesImpl implements PostRules {
   private _listNext(
     globalRulestackName: string,
     nextLink: string,
-    options?: PostRulesListNextOptionalParams
+    options?: PostRulesListNextOptionalParams,
   ): Promise<PostRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -398,78 +397,74 @@ export class PostRulesImpl implements PostRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PostRulesResourceListResult
+      bodyMapper: Mappers.PostRulesResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.globalRulestackName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PostRulesResource
+      bodyMapper: Mappers.PostRulesResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PostRulesResource
+      bodyMapper: Mappers.PostRulesResource,
     },
     201: {
-      bodyMapper: Mappers.PostRulesResource
+      bodyMapper: Mappers.PostRulesResource,
     },
     202: {
-      bodyMapper: Mappers.PostRulesResource
+      bodyMapper: Mappers.PostRulesResource,
     },
     204: {
-      bodyMapper: Mappers.PostRulesResource
+      bodyMapper: Mappers.PostRulesResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -477,95 +472,92 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}/getCounters",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}/getCounters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleCounter
+      bodyMapper: Mappers.RuleCounter,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}/refreshCounters",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}/refreshCounters",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resetCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}/resetCounters",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/postRules/{priority}/resetCounters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleCounterReset
+      bodyMapper: Mappers.RuleCounterReset,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PostRulesResourceListResult
+      bodyMapper: Mappers.PostRulesResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

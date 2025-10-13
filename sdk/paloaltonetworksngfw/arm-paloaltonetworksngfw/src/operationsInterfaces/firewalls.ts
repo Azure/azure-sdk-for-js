@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   FirewallResource,
   FirewallsListBySubscriptionOptionalParams,
   FirewallsListByResourceGroupOptionalParams,
@@ -26,7 +26,7 @@ import {
   FirewallsGetLogProfileResponse,
   FirewallsGetSupportInfoOptionalParams,
   FirewallsGetSupportInfoResponse,
-  FirewallsSaveLogProfileOptionalParams
+  FirewallsSaveLogProfileOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface Firewalls {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: FirewallsListBySubscriptionOptionalParams
+    options?: FirewallsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<FirewallResource>;
   /**
    * List FirewallResource resources by resource group
@@ -46,7 +46,7 @@ export interface Firewalls {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: FirewallsListByResourceGroupOptionalParams
+    options?: FirewallsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<FirewallResource>;
   /**
    * Get a FirewallResource
@@ -57,7 +57,7 @@ export interface Firewalls {
   get(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetOptionalParams
+    options?: FirewallsGetOptionalParams,
   ): Promise<FirewallsGetResponse>;
   /**
    * Create a FirewallResource
@@ -70,7 +70,7 @@ export interface Firewalls {
     resourceGroupName: string,
     firewallName: string,
     resource: FirewallResource,
-    options?: FirewallsCreateOrUpdateOptionalParams
+    options?: FirewallsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallsCreateOrUpdateResponse>,
@@ -88,7 +88,7 @@ export interface Firewalls {
     resourceGroupName: string,
     firewallName: string,
     resource: FirewallResource,
-    options?: FirewallsCreateOrUpdateOptionalParams
+    options?: FirewallsCreateOrUpdateOptionalParams,
   ): Promise<FirewallsCreateOrUpdateResponse>;
   /**
    * Update a FirewallResource
@@ -101,7 +101,7 @@ export interface Firewalls {
     resourceGroupName: string,
     firewallName: string,
     properties: FirewallResourceUpdate,
-    options?: FirewallsUpdateOptionalParams
+    options?: FirewallsUpdateOptionalParams,
   ): Promise<FirewallsUpdateResponse>;
   /**
    * Delete a FirewallResource
@@ -112,7 +112,7 @@ export interface Firewalls {
   beginDelete(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsDeleteOptionalParams
+    options?: FirewallsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a FirewallResource
@@ -123,7 +123,7 @@ export interface Firewalls {
   beginDeleteAndWait(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsDeleteOptionalParams
+    options?: FirewallsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get Global Rulestack associated with the Firewall
@@ -134,7 +134,7 @@ export interface Firewalls {
   getGlobalRulestack(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetGlobalRulestackOptionalParams
+    options?: FirewallsGetGlobalRulestackOptionalParams,
   ): Promise<FirewallsGetGlobalRulestackResponse>;
   /**
    * Log Profile for Firewall
@@ -145,7 +145,7 @@ export interface Firewalls {
   getLogProfile(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetLogProfileOptionalParams
+    options?: FirewallsGetLogProfileOptionalParams,
   ): Promise<FirewallsGetLogProfileResponse>;
   /**
    * support info for firewall.
@@ -156,7 +156,7 @@ export interface Firewalls {
   getSupportInfo(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetSupportInfoOptionalParams
+    options?: FirewallsGetSupportInfoOptionalParams,
   ): Promise<FirewallsGetSupportInfoResponse>;
   /**
    * Log Profile for Firewall
@@ -167,6 +167,6 @@ export interface Firewalls {
   saveLogProfile(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsSaveLogProfileOptionalParams
+    options?: FirewallsSaveLogProfileOptionalParams,
   ): Promise<void>;
 }

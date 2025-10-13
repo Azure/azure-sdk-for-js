@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   FirewallStatusResource,
   FirewallStatusListByFirewallsOptionalParams,
   FirewallStatusGetOptionalParams,
-  FirewallStatusGetResponse
+  FirewallStatusGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface FirewallStatus {
   listByFirewalls(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusListByFirewallsOptionalParams
+    options?: FirewallStatusListByFirewallsOptionalParams,
   ): PagedAsyncIterableIterator<FirewallStatusResource>;
   /**
    * Get a FirewallStatusResource
@@ -37,6 +37,6 @@ export interface FirewallStatus {
   get(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusGetOptionalParams
+    options?: FirewallStatusGetOptionalParams,
   ): Promise<FirewallStatusGetResponse>;
 }

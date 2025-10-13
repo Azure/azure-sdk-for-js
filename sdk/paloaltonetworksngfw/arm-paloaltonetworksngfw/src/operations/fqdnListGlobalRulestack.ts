@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { FqdnListGlobalRulestack } from "../operationsInterfaces/index.js";
+import type { FqdnListGlobalRulestack } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
-import {
+import type { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
+import type {
   SimplePollerLike,
-  OperationState,
-  createHttpPoller
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   FqdnListGlobalRulestackResource,
   FqdnListGlobalRulestackListNextOptionalParams,
   FqdnListGlobalRulestackListOptionalParams,
@@ -29,7 +30,7 @@ import {
   FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   FqdnListGlobalRulestackCreateOrUpdateResponse,
   FqdnListGlobalRulestackDeleteOptionalParams,
-  FqdnListGlobalRulestackListNextResponse
+  FqdnListGlobalRulestackListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +53,7 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
    */
   public list(
     globalRulestackName: string,
-    options?: FqdnListGlobalRulestackListOptionalParams
+    options?: FqdnListGlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<FqdnListGlobalRulestackResource> {
     const iter = this.listPagingAll(globalRulestackName, options);
     return {
@@ -67,20 +68,20 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(globalRulestackName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     globalRulestackName: string,
     options?: FqdnListGlobalRulestackListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FqdnListGlobalRulestackResource[]> {
     let result: FqdnListGlobalRulestackListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(globalRulestackName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -89,10 +90,10 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
       result = await this._listNext(
         globalRulestackName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -100,11 +101,11 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
 
   private async *listPagingAll(
     globalRulestackName: string,
-    options?: FqdnListGlobalRulestackListOptionalParams
+    options?: FqdnListGlobalRulestackListOptionalParams,
   ): AsyncIterableIterator<FqdnListGlobalRulestackResource> {
     for await (const page of this.listPagingPage(
       globalRulestackName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -117,11 +118,11 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
    */
   private _list(
     globalRulestackName: string,
-    options?: FqdnListGlobalRulestackListOptionalParams
+    options?: FqdnListGlobalRulestackListOptionalParams,
   ): Promise<FqdnListGlobalRulestackListResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -134,11 +135,11 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
   get(
     globalRulestackName: string,
     name: string,
-    options?: FqdnListGlobalRulestackGetOptionalParams
+    options?: FqdnListGlobalRulestackGetOptionalParams,
   ): Promise<FqdnListGlobalRulestackGetResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -153,7 +154,7 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: FqdnListGlobalRulestackResource,
-    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FqdnListGlobalRulestackCreateOrUpdateResponse>,
@@ -162,21 +163,20 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FqdnListGlobalRulestackCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -185,8 +185,8 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -194,15 +194,15 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, name, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       FqdnListGlobalRulestackCreateOrUpdateResponse,
@@ -210,7 +210,7 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -227,13 +227,13 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: FqdnListGlobalRulestackResource,
-    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<FqdnListGlobalRulestackCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       globalRulestackName,
       name,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -247,25 +247,24 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
   async beginDelete(
     globalRulestackName: string,
     name: string,
-    options?: FqdnListGlobalRulestackDeleteOptionalParams
+    options?: FqdnListGlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -274,8 +273,8 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -283,20 +282,20 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -311,7 +310,7 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
   async beginDeleteAndWait(
     globalRulestackName: string,
     name: string,
-    options?: FqdnListGlobalRulestackDeleteOptionalParams
+    options?: FqdnListGlobalRulestackDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(globalRulestackName, name, options);
     return poller.pollUntilDone();
@@ -326,11 +325,11 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
   private _listNext(
     globalRulestackName: string,
     nextLink: string,
-    options?: FqdnListGlobalRulestackListNextOptionalParams
+    options?: FqdnListGlobalRulestackListNextOptionalParams,
   ): Promise<FqdnListGlobalRulestackListNextResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -338,78 +337,74 @@ export class FqdnListGlobalRulestackImpl implements FqdnListGlobalRulestack {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResourceListResult
+      bodyMapper: Mappers.FqdnListGlobalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.globalRulestackName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResource
+      bodyMapper: Mappers.FqdnListGlobalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResource
+      bodyMapper: Mappers.FqdnListGlobalRulestackResource,
     },
     201: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResource
+      bodyMapper: Mappers.FqdnListGlobalRulestackResource,
     },
     202: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResource
+      bodyMapper: Mappers.FqdnListGlobalRulestackResource,
     },
     204: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResource
+      bodyMapper: Mappers.FqdnListGlobalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/fqdnlists/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -417,34 +412,34 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FqdnListGlobalRulestackResourceListResult
+      bodyMapper: Mappers.FqdnListGlobalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { PrefixListGlobalRulestack } from "../operationsInterfaces/index.js";
+import type { PrefixListGlobalRulestack } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
-import {
+import type { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
+import type {
   SimplePollerLike,
-  OperationState,
-  createHttpPoller
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   PrefixListGlobalRulestackResource,
   PrefixListGlobalRulestackListNextOptionalParams,
   PrefixListGlobalRulestackListOptionalParams,
@@ -29,13 +30,14 @@ import {
   PrefixListGlobalRulestackCreateOrUpdateOptionalParams,
   PrefixListGlobalRulestackCreateOrUpdateResponse,
   PrefixListGlobalRulestackDeleteOptionalParams,
-  PrefixListGlobalRulestackListNextResponse
+  PrefixListGlobalRulestackListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrefixListGlobalRulestack operations. */
 export class PrefixListGlobalRulestackImpl
-  implements PrefixListGlobalRulestack {
+  implements PrefixListGlobalRulestack
+{
   private readonly client: PaloAltoNetworksCloudngfw;
 
   /**
@@ -53,7 +55,7 @@ export class PrefixListGlobalRulestackImpl
    */
   public list(
     globalRulestackName: string,
-    options?: PrefixListGlobalRulestackListOptionalParams
+    options?: PrefixListGlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<PrefixListGlobalRulestackResource> {
     const iter = this.listPagingAll(globalRulestackName, options);
     return {
@@ -68,20 +70,20 @@ export class PrefixListGlobalRulestackImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(globalRulestackName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     globalRulestackName: string,
     options?: PrefixListGlobalRulestackListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrefixListGlobalRulestackResource[]> {
     let result: PrefixListGlobalRulestackListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(globalRulestackName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -90,10 +92,10 @@ export class PrefixListGlobalRulestackImpl
       result = await this._listNext(
         globalRulestackName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -101,11 +103,11 @@ export class PrefixListGlobalRulestackImpl
 
   private async *listPagingAll(
     globalRulestackName: string,
-    options?: PrefixListGlobalRulestackListOptionalParams
+    options?: PrefixListGlobalRulestackListOptionalParams,
   ): AsyncIterableIterator<PrefixListGlobalRulestackResource> {
     for await (const page of this.listPagingPage(
       globalRulestackName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,11 +120,11 @@ export class PrefixListGlobalRulestackImpl
    */
   private _list(
     globalRulestackName: string,
-    options?: PrefixListGlobalRulestackListOptionalParams
+    options?: PrefixListGlobalRulestackListOptionalParams,
   ): Promise<PrefixListGlobalRulestackListResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -135,11 +137,11 @@ export class PrefixListGlobalRulestackImpl
   get(
     globalRulestackName: string,
     name: string,
-    options?: PrefixListGlobalRulestackGetOptionalParams
+    options?: PrefixListGlobalRulestackGetOptionalParams,
   ): Promise<PrefixListGlobalRulestackGetResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -154,7 +156,7 @@ export class PrefixListGlobalRulestackImpl
     globalRulestackName: string,
     name: string,
     resource: PrefixListGlobalRulestackResource,
-    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrefixListGlobalRulestackCreateOrUpdateResponse>,
@@ -163,21 +165,20 @@ export class PrefixListGlobalRulestackImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrefixListGlobalRulestackCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -186,8 +187,8 @@ export class PrefixListGlobalRulestackImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -195,15 +196,15 @@ export class PrefixListGlobalRulestackImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, name, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PrefixListGlobalRulestackCreateOrUpdateResponse,
@@ -211,7 +212,7 @@ export class PrefixListGlobalRulestackImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -228,13 +229,13 @@ export class PrefixListGlobalRulestackImpl
     globalRulestackName: string,
     name: string,
     resource: PrefixListGlobalRulestackResource,
-    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<PrefixListGlobalRulestackCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       globalRulestackName,
       name,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,25 +249,24 @@ export class PrefixListGlobalRulestackImpl
   async beginDelete(
     globalRulestackName: string,
     name: string,
-    options?: PrefixListGlobalRulestackDeleteOptionalParams
+    options?: PrefixListGlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -275,8 +275,8 @@ export class PrefixListGlobalRulestackImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -284,20 +284,20 @@ export class PrefixListGlobalRulestackImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -312,7 +312,7 @@ export class PrefixListGlobalRulestackImpl
   async beginDeleteAndWait(
     globalRulestackName: string,
     name: string,
-    options?: PrefixListGlobalRulestackDeleteOptionalParams
+    options?: PrefixListGlobalRulestackDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(globalRulestackName, name, options);
     return poller.pollUntilDone();
@@ -327,11 +327,11 @@ export class PrefixListGlobalRulestackImpl
   private _listNext(
     globalRulestackName: string,
     nextLink: string,
-    options?: PrefixListGlobalRulestackListNextOptionalParams
+    options?: PrefixListGlobalRulestackListNextOptionalParams,
   ): Promise<PrefixListGlobalRulestackListNextResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -339,78 +339,74 @@ export class PrefixListGlobalRulestackImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResourceListResult
+      bodyMapper: Mappers.PrefixListGlobalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.globalRulestackName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResource
+      bodyMapper: Mappers.PrefixListGlobalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResource
+      bodyMapper: Mappers.PrefixListGlobalRulestackResource,
     },
     201: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResource
+      bodyMapper: Mappers.PrefixListGlobalRulestackResource,
     },
     202: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResource
+      bodyMapper: Mappers.PrefixListGlobalRulestackResource,
     },
     204: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResource
+      bodyMapper: Mappers.PrefixListGlobalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/prefixlists/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -418,34 +414,34 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrefixListGlobalRulestackResourceListResult
+      bodyMapper: Mappers.PrefixListGlobalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

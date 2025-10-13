@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { LocalRulestacks } from "../operationsInterfaces/index.js";
+import type { LocalRulestacks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
-import {
+import type { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
+import type {
   SimplePollerLike,
-  OperationState,
-  createHttpPoller
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   LocalRulestackResource,
   LocalRulestacksListBySubscriptionNextOptionalParams,
   LocalRulestacksListBySubscriptionOptionalParams,
@@ -56,7 +57,7 @@ import {
   LocalRulestacksListSecurityServicesResponse,
   LocalRulestacksRevertOptionalParams,
   LocalRulestacksListBySubscriptionNextResponse,
-  LocalRulestacksListByResourceGroupNextResponse
+  LocalRulestacksListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -77,7 +78,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: LocalRulestacksListBySubscriptionOptionalParams
+    options?: LocalRulestacksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<LocalRulestackResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -92,19 +93,19 @@ export class LocalRulestacksImpl implements LocalRulestacks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: LocalRulestacksListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LocalRulestackResource[]> {
     let result: LocalRulestacksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -112,14 +113,14 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: LocalRulestacksListBySubscriptionOptionalParams
+    options?: LocalRulestacksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<LocalRulestackResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -133,7 +134,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: LocalRulestacksListByResourceGroupOptionalParams
+    options?: LocalRulestacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<LocalRulestackResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -150,22 +151,22 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: LocalRulestacksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LocalRulestackResource[]> {
     let result: LocalRulestacksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -174,10 +175,10 @@ export class LocalRulestacksImpl implements LocalRulestacks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -185,11 +186,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: LocalRulestacksListByResourceGroupOptionalParams
+    options?: LocalRulestacksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<LocalRulestackResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -200,11 +201,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: LocalRulestacksListBySubscriptionOptionalParams
+    options?: LocalRulestacksListBySubscriptionOptionalParams,
   ): Promise<LocalRulestacksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -215,11 +216,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: LocalRulestacksListByResourceGroupOptionalParams
+    options?: LocalRulestacksListByResourceGroupOptionalParams,
   ): Promise<LocalRulestacksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -232,11 +233,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   get(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksGetOptionalParams
+    options?: LocalRulestacksGetOptionalParams,
   ): Promise<LocalRulestacksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -251,7 +252,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     resource: LocalRulestackResource,
-    options?: LocalRulestacksCreateOrUpdateOptionalParams
+    options?: LocalRulestacksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LocalRulestacksCreateOrUpdateResponse>,
@@ -260,21 +261,20 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LocalRulestacksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -283,8 +283,8 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -292,15 +292,15 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, localRulestackName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       LocalRulestacksCreateOrUpdateResponse,
@@ -308,7 +308,7 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -325,13 +325,13 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     resource: LocalRulestackResource,
-    options?: LocalRulestacksCreateOrUpdateOptionalParams
+    options?: LocalRulestacksCreateOrUpdateOptionalParams,
   ): Promise<LocalRulestacksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       localRulestackName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -347,11 +347,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     properties: LocalRulestackResourceUpdate,
-    options?: LocalRulestacksUpdateOptionalParams
+    options?: LocalRulestacksUpdateOptionalParams,
   ): Promise<LocalRulestacksUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, properties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -364,25 +364,24 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   async beginDelete(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksDeleteOptionalParams
+    options?: LocalRulestacksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -391,8 +390,8 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -400,20 +399,20 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, localRulestackName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -428,12 +427,12 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   async beginDeleteAndWait(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksDeleteOptionalParams
+    options?: LocalRulestacksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       localRulestackName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -447,25 +446,24 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   async beginCommit(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksCommitOptionalParams
+    options?: LocalRulestacksCommitOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -474,8 +472,8 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -483,20 +481,20 @@ export class LocalRulestacksImpl implements LocalRulestacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, localRulestackName, options },
-      spec: commitOperationSpec
+      spec: commitOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -511,12 +509,12 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   async beginCommitAndWait(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksCommitOptionalParams
+    options?: LocalRulestacksCommitOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCommit(
       resourceGroupName,
       localRulestackName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -530,11 +528,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   getChangeLog(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksGetChangeLogOptionalParams
+    options?: LocalRulestacksGetChangeLogOptionalParams,
   ): Promise<LocalRulestacksGetChangeLogResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      getChangeLogOperationSpec
+      getChangeLogOperationSpec,
     );
   }
 
@@ -547,11 +545,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   getSupportInfo(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksGetSupportInfoOptionalParams
+    options?: LocalRulestacksGetSupportInfoOptionalParams,
   ): Promise<LocalRulestacksGetSupportInfoResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      getSupportInfoOperationSpec
+      getSupportInfoOperationSpec,
     );
   }
 
@@ -566,11 +564,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     typeParam: AdvSecurityObjectTypeEnum,
-    options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams
+    options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams,
   ): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, typeParam, options },
-      listAdvancedSecurityObjectsOperationSpec
+      listAdvancedSecurityObjectsOperationSpec,
     );
   }
 
@@ -583,11 +581,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   listAppIds(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListAppIdsOptionalParams
+    options?: LocalRulestacksListAppIdsOptionalParams,
   ): Promise<LocalRulestacksListAppIdsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      listAppIdsOperationSpec
+      listAppIdsOperationSpec,
     );
   }
 
@@ -600,11 +598,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   listCountries(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListCountriesOptionalParams
+    options?: LocalRulestacksListCountriesOptionalParams,
   ): Promise<LocalRulestacksListCountriesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      listCountriesOperationSpec
+      listCountriesOperationSpec,
     );
   }
 
@@ -617,11 +615,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   listFirewalls(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListFirewallsOptionalParams
+    options?: LocalRulestacksListFirewallsOptionalParams,
   ): Promise<LocalRulestacksListFirewallsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      listFirewallsOperationSpec
+      listFirewallsOperationSpec,
     );
   }
 
@@ -634,11 +632,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   listPredefinedUrlCategories(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams
+    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
   ): Promise<LocalRulestacksListPredefinedUrlCategoriesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      listPredefinedUrlCategoriesOperationSpec
+      listPredefinedUrlCategoriesOperationSpec,
     );
   }
 
@@ -653,11 +651,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     typeParam: SecurityServicesTypeEnum,
-    options?: LocalRulestacksListSecurityServicesOptionalParams
+    options?: LocalRulestacksListSecurityServicesOptionalParams,
   ): Promise<LocalRulestacksListSecurityServicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, typeParam, options },
-      listSecurityServicesOperationSpec
+      listSecurityServicesOperationSpec,
     );
   }
 
@@ -670,11 +668,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   revert(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksRevertOptionalParams
+    options?: LocalRulestacksRevertOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      revertOperationSpec
+      revertOperationSpec,
     );
   }
 
@@ -685,11 +683,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: LocalRulestacksListBySubscriptionNextOptionalParams
+    options?: LocalRulestacksListBySubscriptionNextOptionalParams,
   ): Promise<LocalRulestacksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -702,11 +700,11 @@ export class LocalRulestacksImpl implements LocalRulestacks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LocalRulestacksListByResourceGroupNextOptionalParams
+    options?: LocalRulestacksListByResourceGroupNextOptionalParams,
   ): Promise<LocalRulestacksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -714,85 +712,81 @@ export class LocalRulestacksImpl implements LocalRulestacks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks",
+  path: "/subscriptions/{subscriptionId}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulestackResourceListResult
+      bodyMapper: Mappers.LocalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulestackResourceListResult
+      bodyMapper: Mappers.LocalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LocalRulestackResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LocalRulestackResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.localRulestackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulestackResource
+      bodyMapper: Mappers.LocalRulestackResource,
     },
     201: {
-      bodyMapper: Mappers.LocalRulestackResource
+      bodyMapper: Mappers.LocalRulestackResource,
     },
     202: {
-      bodyMapper: Mappers.LocalRulestackResource
+      bodyMapper: Mappers.LocalRulestackResource,
     },
     204: {
-      bodyMapper: Mappers.LocalRulestackResource
+      bodyMapper: Mappers.LocalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource7,
   queryParameters: [Parameters.apiVersion],
@@ -800,23 +794,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulestackResource
+      bodyMapper: Mappers.LocalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties2,
   queryParameters: [Parameters.apiVersion],
@@ -824,15 +817,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -840,22 +832,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const commitOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/commit",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/commit",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -863,267 +854,258 @@ const commitOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getChangeLogOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/getChangeLog",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/getChangeLog",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Changelog
+      bodyMapper: Mappers.Changelog,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSupportInfoOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/getSupportInfo",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/getSupportInfo",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportInfo
+      bodyMapper: Mappers.SupportInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.email],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAdvancedSecurityObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listAdvancedSecurityObjects",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listAdvancedSecurityObjects",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AdvSecurityObjectListResponse
+      bodyMapper: Mappers.AdvSecurityObjectListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.top,
-    Parameters.typeParam
+    Parameters.typeParam,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAppIdsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listAppIds",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listAppIds",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListAppIdResponse
+      bodyMapper: Mappers.ListAppIdResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.top,
     Parameters.appIdVersion,
-    Parameters.appPrefix
+    Parameters.appPrefix,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCountriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listCountries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listCountries",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CountriesResponse
+      bodyMapper: Mappers.CountriesResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listFirewallsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listFirewalls",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listFirewalls",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListFirewallsResponse
+      bodyMapper: Mappers.ListFirewallsResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPredefinedUrlCategoriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listPredefinedUrlCategories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listPredefinedUrlCategories",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PredefinedUrlCategoriesResponse
+      bodyMapper: Mappers.PredefinedUrlCategoriesResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSecurityServicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listSecurityServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/listSecurityServices",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityServicesResponse
+      bodyMapper: Mappers.SecurityServicesResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.top,
-    Parameters.typeParam1
+    Parameters.typeParam1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const revertOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/revert",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/revert",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulestackResourceListResult
+      bodyMapper: Mappers.LocalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulestackResourceListResult
+      bodyMapper: Mappers.LocalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   GlobalRulestackResource,
   GlobalRulestackListOptionalParams,
   GlobalRulestackGetOptionalParams,
@@ -36,7 +36,7 @@ import {
   SecurityServicesTypeEnum,
   GlobalRulestackListSecurityServicesOptionalParams,
   GlobalRulestackListSecurityServicesResponse,
-  GlobalRulestackRevertOptionalParams
+  GlobalRulestackRevertOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export interface GlobalRulestack {
    * @param options The options parameters.
    */
   list(
-    options?: GlobalRulestackListOptionalParams
+    options?: GlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<GlobalRulestackResource>;
   /**
    * Get a GlobalRulestackResource
@@ -56,7 +56,7 @@ export interface GlobalRulestack {
    */
   get(
     globalRulestackName: string,
-    options?: GlobalRulestackGetOptionalParams
+    options?: GlobalRulestackGetOptionalParams,
   ): Promise<GlobalRulestackGetResponse>;
   /**
    * Create a GlobalRulestackResource
@@ -67,7 +67,7 @@ export interface GlobalRulestack {
   beginCreateOrUpdate(
     globalRulestackName: string,
     resource: GlobalRulestackResource,
-    options?: GlobalRulestackCreateOrUpdateOptionalParams
+    options?: GlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GlobalRulestackCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface GlobalRulestack {
   beginCreateOrUpdateAndWait(
     globalRulestackName: string,
     resource: GlobalRulestackResource,
-    options?: GlobalRulestackCreateOrUpdateOptionalParams
+    options?: GlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<GlobalRulestackCreateOrUpdateResponse>;
   /**
    * Update a GlobalRulestackResource
@@ -94,7 +94,7 @@ export interface GlobalRulestack {
   update(
     globalRulestackName: string,
     properties: GlobalRulestackResourceUpdate,
-    options?: GlobalRulestackUpdateOptionalParams
+    options?: GlobalRulestackUpdateOptionalParams,
   ): Promise<GlobalRulestackUpdateResponse>;
   /**
    * Delete a GlobalRulestackResource
@@ -103,7 +103,7 @@ export interface GlobalRulestack {
    */
   beginDelete(
     globalRulestackName: string,
-    options?: GlobalRulestackDeleteOptionalParams
+    options?: GlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a GlobalRulestackResource
@@ -112,7 +112,7 @@ export interface GlobalRulestack {
    */
   beginDeleteAndWait(
     globalRulestackName: string,
-    options?: GlobalRulestackDeleteOptionalParams
+    options?: GlobalRulestackDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Commit rulestack configuration
@@ -121,7 +121,7 @@ export interface GlobalRulestack {
    */
   beginCommit(
     globalRulestackName: string,
-    options?: GlobalRulestackCommitOptionalParams
+    options?: GlobalRulestackCommitOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Commit rulestack configuration
@@ -130,7 +130,7 @@ export interface GlobalRulestack {
    */
   beginCommitAndWait(
     globalRulestackName: string,
-    options?: GlobalRulestackCommitOptionalParams
+    options?: GlobalRulestackCommitOptionalParams,
   ): Promise<void>;
   /**
    * Get changelog
@@ -139,7 +139,7 @@ export interface GlobalRulestack {
    */
   getChangeLog(
     globalRulestackName: string,
-    options?: GlobalRulestackGetChangeLogOptionalParams
+    options?: GlobalRulestackGetChangeLogOptionalParams,
   ): Promise<GlobalRulestackGetChangeLogResponse>;
   /**
    * Get the list of advanced security objects
@@ -150,7 +150,7 @@ export interface GlobalRulestack {
   listAdvancedSecurityObjects(
     globalRulestackName: string,
     typeParam: AdvSecurityObjectTypeEnum,
-    options?: GlobalRulestackListAdvancedSecurityObjectsOptionalParams
+    options?: GlobalRulestackListAdvancedSecurityObjectsOptionalParams,
   ): Promise<GlobalRulestackListAdvancedSecurityObjectsResponse>;
   /**
    * List of AppIds for GlobalRulestack ApiVersion
@@ -159,7 +159,7 @@ export interface GlobalRulestack {
    */
   listAppIds(
     globalRulestackName: string,
-    options?: GlobalRulestackListAppIdsOptionalParams
+    options?: GlobalRulestackListAppIdsOptionalParams,
   ): Promise<GlobalRulestackListAppIdsResponse>;
   /**
    * List of countries for Rulestack
@@ -168,7 +168,7 @@ export interface GlobalRulestack {
    */
   listCountries(
     globalRulestackName: string,
-    options?: GlobalRulestackListCountriesOptionalParams
+    options?: GlobalRulestackListCountriesOptionalParams,
   ): Promise<GlobalRulestackListCountriesResponse>;
   /**
    * List of Firewalls associated with Rulestack
@@ -177,7 +177,7 @@ export interface GlobalRulestack {
    */
   listFirewalls(
     globalRulestackName: string,
-    options?: GlobalRulestackListFirewallsOptionalParams
+    options?: GlobalRulestackListFirewallsOptionalParams,
   ): Promise<GlobalRulestackListFirewallsResponse>;
   /**
    * List predefined URL categories for rulestack
@@ -186,7 +186,7 @@ export interface GlobalRulestack {
    */
   listPredefinedUrlCategories(
     globalRulestackName: string,
-    options?: GlobalRulestackListPredefinedUrlCategoriesOptionalParams
+    options?: GlobalRulestackListPredefinedUrlCategoriesOptionalParams,
   ): Promise<GlobalRulestackListPredefinedUrlCategoriesResponse>;
   /**
    * List the security services for rulestack
@@ -197,7 +197,7 @@ export interface GlobalRulestack {
   listSecurityServices(
     globalRulestackName: string,
     typeParam: SecurityServicesTypeEnum,
-    options?: GlobalRulestackListSecurityServicesOptionalParams
+    options?: GlobalRulestackListSecurityServicesOptionalParams,
   ): Promise<GlobalRulestackListSecurityServicesResponse>;
   /**
    * Revert rulestack configuration
@@ -206,6 +206,6 @@ export interface GlobalRulestack {
    */
   revert(
     globalRulestackName: string,
-    options?: GlobalRulestackRevertOptionalParams
+    options?: GlobalRulestackRevertOptionalParams,
   ): Promise<void>;
 }

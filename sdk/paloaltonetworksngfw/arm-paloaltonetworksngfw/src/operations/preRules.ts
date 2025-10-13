@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { PreRules } from "../operationsInterfaces/index.js";
+import type { PreRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
-import {
+import type { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
+import type {
   SimplePollerLike,
-  OperationState,
-  createHttpPoller
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   PreRulesResource,
   PreRulesListNextOptionalParams,
   PreRulesListOptionalParams,
@@ -34,7 +35,7 @@ import {
   PreRulesRefreshCountersOptionalParams,
   PreRulesResetCountersOptionalParams,
   PreRulesResetCountersResponse,
-  PreRulesListNextResponse
+  PreRulesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +58,7 @@ export class PreRulesImpl implements PreRules {
    */
   public list(
     globalRulestackName: string,
-    options?: PreRulesListOptionalParams
+    options?: PreRulesListOptionalParams,
   ): PagedAsyncIterableIterator<PreRulesResource> {
     const iter = this.listPagingAll(globalRulestackName, options);
     return {
@@ -72,20 +73,20 @@ export class PreRulesImpl implements PreRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(globalRulestackName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     globalRulestackName: string,
     options?: PreRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PreRulesResource[]> {
     let result: PreRulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(globalRulestackName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -94,10 +95,10 @@ export class PreRulesImpl implements PreRules {
       result = await this._listNext(
         globalRulestackName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -105,11 +106,11 @@ export class PreRulesImpl implements PreRules {
 
   private async *listPagingAll(
     globalRulestackName: string,
-    options?: PreRulesListOptionalParams
+    options?: PreRulesListOptionalParams,
   ): AsyncIterableIterator<PreRulesResource> {
     for await (const page of this.listPagingPage(
       globalRulestackName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +123,11 @@ export class PreRulesImpl implements PreRules {
    */
   private _list(
     globalRulestackName: string,
-    options?: PreRulesListOptionalParams
+    options?: PreRulesListOptionalParams,
   ): Promise<PreRulesListResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class PreRulesImpl implements PreRules {
   get(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesGetOptionalParams
+    options?: PreRulesGetOptionalParams,
   ): Promise<PreRulesGetResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,7 +159,7 @@ export class PreRulesImpl implements PreRules {
     globalRulestackName: string,
     priority: string,
     resource: PreRulesResource,
-    options?: PreRulesCreateOrUpdateOptionalParams
+    options?: PreRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PreRulesCreateOrUpdateResponse>,
@@ -167,21 +168,20 @@ export class PreRulesImpl implements PreRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PreRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +190,8 @@ export class PreRulesImpl implements PreRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,15 +199,15 @@ export class PreRulesImpl implements PreRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, priority, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PreRulesCreateOrUpdateResponse,
@@ -215,7 +215,7 @@ export class PreRulesImpl implements PreRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -232,13 +232,13 @@ export class PreRulesImpl implements PreRules {
     globalRulestackName: string,
     priority: string,
     resource: PreRulesResource,
-    options?: PreRulesCreateOrUpdateOptionalParams
+    options?: PreRulesCreateOrUpdateOptionalParams,
   ): Promise<PreRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       globalRulestackName,
       priority,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -252,25 +252,24 @@ export class PreRulesImpl implements PreRules {
   async beginDelete(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesDeleteOptionalParams
+    options?: PreRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -279,8 +278,8 @@ export class PreRulesImpl implements PreRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -288,20 +287,20 @@ export class PreRulesImpl implements PreRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, priority, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -316,12 +315,12 @@ export class PreRulesImpl implements PreRules {
   async beginDeleteAndWait(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesDeleteOptionalParams
+    options?: PreRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       globalRulestackName,
       priority,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -335,11 +334,11 @@ export class PreRulesImpl implements PreRules {
   getCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesGetCountersOptionalParams
+    options?: PreRulesGetCountersOptionalParams,
   ): Promise<PreRulesGetCountersResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      getCountersOperationSpec
+      getCountersOperationSpec,
     );
   }
 
@@ -352,11 +351,11 @@ export class PreRulesImpl implements PreRules {
   refreshCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesRefreshCountersOptionalParams
+    options?: PreRulesRefreshCountersOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      refreshCountersOperationSpec
+      refreshCountersOperationSpec,
     );
   }
 
@@ -369,11 +368,11 @@ export class PreRulesImpl implements PreRules {
   resetCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesResetCountersOptionalParams
+    options?: PreRulesResetCountersOptionalParams,
   ): Promise<PreRulesResetCountersResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, priority, options },
-      resetCountersOperationSpec
+      resetCountersOperationSpec,
     );
   }
 
@@ -386,11 +385,11 @@ export class PreRulesImpl implements PreRules {
   private _listNext(
     globalRulestackName: string,
     nextLink: string,
-    options?: PreRulesListNextOptionalParams
+    options?: PreRulesListNextOptionalParams,
   ): Promise<PreRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -398,78 +397,74 @@ export class PreRulesImpl implements PreRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PreRulesResourceListResult
+      bodyMapper: Mappers.PreRulesResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.globalRulestackName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PreRulesResource
+      bodyMapper: Mappers.PreRulesResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PreRulesResource
+      bodyMapper: Mappers.PreRulesResource,
     },
     201: {
-      bodyMapper: Mappers.PreRulesResource
+      bodyMapper: Mappers.PreRulesResource,
     },
     202: {
-      bodyMapper: Mappers.PreRulesResource
+      bodyMapper: Mappers.PreRulesResource,
     },
     204: {
-      bodyMapper: Mappers.PreRulesResource
+      bodyMapper: Mappers.PreRulesResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -477,95 +472,92 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}/getCounters",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}/getCounters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleCounter
+      bodyMapper: Mappers.RuleCounter,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}/refreshCounters",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}/refreshCounters",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resetCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}/resetCounters",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/preRules/{priority}/resetCounters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleCounterReset
+      bodyMapper: Mappers.RuleCounterReset,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.priority
+    Parameters.priority,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PreRulesResourceListResult
+      bodyMapper: Mappers.PreRulesResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
