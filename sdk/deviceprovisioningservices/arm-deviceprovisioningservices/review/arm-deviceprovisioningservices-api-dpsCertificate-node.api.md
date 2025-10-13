@@ -64,16 +64,16 @@ export interface DpsCertificateVerifyCertificateOptionalParams extends Operation
 }
 
 // @public
-export function generateVerificationCode(context: IotDpsContext, resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams): Promise<VerificationCodeResponse>;
+export function generateVerificationCode(context: IotDpsContext, certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams): Promise<VerificationCodeResponse>;
 
 // @public
-export function get(context: IotDpsContext, resourceGroupName: string, provisioningServiceName: string, certificateName: string, options?: DpsCertificateGetOptionalParams): Promise<CertificateResponse>;
+export function get(context: IotDpsContext, certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGetOptionalParams): Promise<CertificateResponse>;
 
 // @public
 export function list(context: IotDpsContext, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateListOptionalParams): PagedAsyncIterableIterator<CertificateResponse>;
 
 // @public
-export function verifyCertificate(context: IotDpsContext, resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams): Promise<CertificateResponse>;
+export function verifyCertificate(context: IotDpsContext, certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams): Promise<CertificateResponse>;
 
 // (No @packageDocumentation comment for this package)
 

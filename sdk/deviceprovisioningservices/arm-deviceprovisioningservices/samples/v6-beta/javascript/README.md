@@ -27,6 +27,7 @@ These sample programs show how to use the JavaScript client libraries for @azure
 | [iotDpsResourceListPrivateLinkResourcesSample.js][iotdpsresourcelistprivatelinkresourcessample]                                 | list private link resources for the given provisioning service x-ms-original-file: 2025-02-01-preview/DPSListPrivateLinkResources.json                                                                                                                                                                                           |
 | [iotDpsResourceListValidSkusSample.js][iotdpsresourcelistvalidskussample]                                                       | gets the list of valid SKUs and tiers for a provisioning service. x-ms-original-file: 2025-02-01-preview/DPSGetValidSku.json                                                                                                                                                                                                     |
 | [iotDpsResourceUpdateSample.js][iotdpsresourceupdatesample]                                                                     | update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method x-ms-original-file: 2025-02-01-preview/DPSPatch.json                                                                                                                                                                        |
+| [operationsListSample.js][operationslistsample]                                                                                 | list the operations for the provider x-ms-original-file: 2025-02-01-preview/DPSOperations.json                                                                                                                                                                                                                                   |
 
 ## Prerequisites
 
@@ -89,6 +90,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iotdpsresourcelistprivatelinkresourcessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/samples/v6-beta/javascript/iotDpsResourceListPrivateLinkResourcesSample.js
 [iotdpsresourcelistvalidskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/samples/v6-beta/javascript/iotDpsResourceListValidSkusSample.js
 [iotdpsresourceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/samples/v6-beta/javascript/iotDpsResourceUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/samples/v6-beta/javascript/operationsListSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/README.md

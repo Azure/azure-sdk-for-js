@@ -115,10 +115,10 @@ export interface DpsCertificateListOptionalParams extends OperationOptions {
 export interface DpsCertificateOperations {
     createOrUpdate: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: CertificateResponse, options?: DpsCertificateCreateOrUpdateOptionalParams) => Promise<CertificateResponse>;
     delete: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, options?: DpsCertificateDeleteOptionalParams) => Promise<void>;
-    generateVerificationCode: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams) => Promise<VerificationCodeResponse>;
-    get: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, options?: DpsCertificateGetOptionalParams) => Promise<CertificateResponse>;
+    generateVerificationCode: (certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams) => Promise<VerificationCodeResponse>;
+    get: (certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGetOptionalParams) => Promise<CertificateResponse>;
     list: (resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateListOptionalParams) => PagedAsyncIterableIterator<CertificateResponse>;
-    verifyCertificate: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams) => Promise<CertificateResponse>;
+    verifyCertificate: (certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams) => Promise<CertificateResponse>;
 }
 
 // @public

@@ -33,10 +33,10 @@ import { uint8ArrayToString } from "@azure/core-util";
 
 export function _verifyCertificateSend(
   context: Client,
-  resourceGroupName: string,
-  provisioningServiceName: string,
   certificateName: string,
   ifMatch: string,
+  resourceGroupName: string,
+  provisioningServiceName: string,
   request: VerificationCodeRequest,
   options: DpsCertificateVerifyCertificateOptionalParams = {
     requestOptions: {},
@@ -97,10 +97,10 @@ export async function _verifyCertificateDeserialize(
 /** Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate. */
 export async function verifyCertificate(
   context: Client,
-  resourceGroupName: string,
-  provisioningServiceName: string,
   certificateName: string,
   ifMatch: string,
+  resourceGroupName: string,
+  provisioningServiceName: string,
   request: VerificationCodeRequest,
   options: DpsCertificateVerifyCertificateOptionalParams = {
     requestOptions: {},
@@ -108,10 +108,10 @@ export async function verifyCertificate(
 ): Promise<CertificateResponse> {
   const result = await _verifyCertificateSend(
     context,
-    resourceGroupName,
-    provisioningServiceName,
     certificateName,
     ifMatch,
+    resourceGroupName,
+    provisioningServiceName,
     request,
     options,
   );
@@ -120,10 +120,10 @@ export async function verifyCertificate(
 
 export function _generateVerificationCodeSend(
   context: Client,
-  resourceGroupName: string,
-  provisioningServiceName: string,
   certificateName: string,
   ifMatch: string,
+  resourceGroupName: string,
+  provisioningServiceName: string,
   options: DpsCertificateGenerateVerificationCodeOptionalParams = {
     requestOptions: {},
   },
@@ -181,20 +181,20 @@ export async function _generateVerificationCodeDeserialize(
 /** Generate verification code for Proof of Possession. */
 export async function generateVerificationCode(
   context: Client,
-  resourceGroupName: string,
-  provisioningServiceName: string,
   certificateName: string,
   ifMatch: string,
+  resourceGroupName: string,
+  provisioningServiceName: string,
   options: DpsCertificateGenerateVerificationCodeOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VerificationCodeResponse> {
   const result = await _generateVerificationCodeSend(
     context,
-    resourceGroupName,
-    provisioningServiceName,
     certificateName,
     ifMatch,
+    resourceGroupName,
+    provisioningServiceName,
     options,
   );
   return _generateVerificationCodeDeserialize(result);
@@ -401,9 +401,9 @@ export async function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  certificateName: string,
   resourceGroupName: string,
   provisioningServiceName: string,
-  certificateName: string,
   options: DpsCertificateGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -443,16 +443,16 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ce
 /** Get the certificate from the provisioning service. */
 export async function get(
   context: Client,
+  certificateName: string,
   resourceGroupName: string,
   provisioningServiceName: string,
-  certificateName: string,
   options: DpsCertificateGetOptionalParams = { requestOptions: {} },
 ): Promise<CertificateResponse> {
   const result = await _getSend(
     context,
+    certificateName,
     resourceGroupName,
     provisioningServiceName,
-    certificateName,
     options,
   );
   return _getDeserialize(result);

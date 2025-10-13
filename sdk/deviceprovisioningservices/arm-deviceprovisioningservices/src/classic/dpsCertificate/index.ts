@@ -29,19 +29,19 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 export interface DpsCertificateOperations {
   /** Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate. */
   verifyCertificate: (
-    resourceGroupName: string,
-    provisioningServiceName: string,
     certificateName: string,
     ifMatch: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
     request: VerificationCodeRequest,
     options?: DpsCertificateVerifyCertificateOptionalParams,
   ) => Promise<CertificateResponse>;
   /** Generate verification code for Proof of Possession. */
   generateVerificationCode: (
-    resourceGroupName: string,
-    provisioningServiceName: string,
     certificateName: string,
     ifMatch: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
     options?: DpsCertificateGenerateVerificationCodeOptionalParams,
   ) => Promise<VerificationCodeResponse>;
   /** Get all the certificates tied to the provisioning service. */
@@ -73,9 +73,9 @@ export interface DpsCertificateOperations {
   ) => Promise<CertificateResponse>;
   /** Get the certificate from the provisioning service. */
   get: (
+    certificateName: string,
     resourceGroupName: string,
     provisioningServiceName: string,
-    certificateName: string,
     options?: DpsCertificateGetOptionalParams,
   ) => Promise<CertificateResponse>;
 }
@@ -83,35 +83,35 @@ export interface DpsCertificateOperations {
 function _getDpsCertificate(context: IotDpsContext) {
   return {
     verifyCertificate: (
-      resourceGroupName: string,
-      provisioningServiceName: string,
       certificateName: string,
       ifMatch: string,
+      resourceGroupName: string,
+      provisioningServiceName: string,
       request: VerificationCodeRequest,
       options?: DpsCertificateVerifyCertificateOptionalParams,
     ) =>
       verifyCertificate(
         context,
-        resourceGroupName,
-        provisioningServiceName,
         certificateName,
         ifMatch,
+        resourceGroupName,
+        provisioningServiceName,
         request,
         options,
       ),
     generateVerificationCode: (
-      resourceGroupName: string,
-      provisioningServiceName: string,
       certificateName: string,
       ifMatch: string,
+      resourceGroupName: string,
+      provisioningServiceName: string,
       options?: DpsCertificateGenerateVerificationCodeOptionalParams,
     ) =>
       generateVerificationCode(
         context,
-        resourceGroupName,
-        provisioningServiceName,
         certificateName,
         ifMatch,
+        resourceGroupName,
+        provisioningServiceName,
         options,
       ),
     list: (
@@ -150,11 +150,11 @@ function _getDpsCertificate(context: IotDpsContext) {
         options,
       ),
     get: (
+      certificateName: string,
       resourceGroupName: string,
       provisioningServiceName: string,
-      certificateName: string,
       options?: DpsCertificateGetOptionalParams,
-    ) => get(context, resourceGroupName, provisioningServiceName, certificateName, options),
+    ) => get(context, certificateName, resourceGroupName, provisioningServiceName, options),
   };
 }
 

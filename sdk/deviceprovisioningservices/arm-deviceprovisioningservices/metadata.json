@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-02-01-preview",
-  "emitterVersion": "0.44.1",
+  "emitterVersion": "0.45.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Devices",
     "CrossLanguageDefinitionId": {

@@ -18,7 +18,7 @@ async function dpsCreateOrUpdateCertificate(): Promise<void> {
     "myResourceGroup",
     "myFirstProvisioningService",
     "cert",
-    { properties: { certificate: Buffer.from("MA==") } },
+    { properties: { certificate: Buffer.from("MA==", "base64") } },
   );
   console.log(result);
 }
