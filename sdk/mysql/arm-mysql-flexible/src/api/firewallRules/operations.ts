@@ -1,0 +1,258 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { MySQLManagementFlexibleServerContext as Client } from "../index.js";
+import type { FirewallRule, _FirewallRuleListResult } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  firewallRuleSerializer,
+  firewallRuleDeserializer,
+  _firewallRuleListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  FirewallRulesListByServerOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listByServerSend(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  options: FirewallRulesListByServerOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serverName: serverName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listByServerDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_FirewallRuleListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _firewallRuleListResultDeserializer(result.body);
+}
+
+/** List all the firewall rules in a given server. */
+export function listByServer(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  options: FirewallRulesListByServerOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<FirewallRule> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByServerSend(context, resourceGroupName, serverName, options),
+    _listByServerDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _$deleteSend(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  firewallRuleName: string,
+  options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serverName: serverName,
+      firewallRuleName: firewallRuleName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200", "202", "204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a firewall rule. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  firewallRuleName: string,
+  options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, serverName, firewallRuleName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  firewallRuleName: string,
+  parameters: FirewallRule,
+  options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serverName: serverName,
+      firewallRuleName: firewallRuleName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: firewallRuleSerializer(parameters),
+  });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FirewallRule> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return firewallRuleDeserializer(result.body);
+}
+
+/** Creates a new firewall rule or updates an existing firewall rule. */
+export function createOrUpdate(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  firewallRuleName: string,
+  parameters: FirewallRule,
+  options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<FirewallRule>, FirewallRule> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(
+        context,
+        resourceGroupName,
+        serverName,
+        firewallRuleName,
+        parameters,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
+}
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  firewallRuleName: string,
+  options: FirewallRulesGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serverName: serverName,
+      firewallRuleName: firewallRuleName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<FirewallRule> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return firewallRuleDeserializer(result.body);
+}
+
+/** Gets information about a server firewall rule. */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  serverName: string,
+  firewallRuleName: string,
+  options: FirewallRulesGetOptionalParams = { requestOptions: {} },
+): Promise<FirewallRule> {
+  const result = await _getSend(context, resourceGroupName, serverName, firewallRuleName, options);
+  return _getDeserialize(result);
+}
