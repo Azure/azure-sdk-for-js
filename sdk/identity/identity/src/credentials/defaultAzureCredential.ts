@@ -54,7 +54,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 /**
  * Provides a default {@link ChainedTokenCredential} configuration that works for most
  * applications that use Azure SDK client libraries. For more information, see
- * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
+ * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#defaultazurecredential-overview).
  *
  * The following credential types will be tried, in order:
  *
