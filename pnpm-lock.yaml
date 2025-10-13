@@ -815,6 +815,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.37.0
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
       playwright:
         specifier: catalog:testing
         version: 1.56.0
@@ -921,6 +924,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.37.0
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
       playwright:
         specifier: catalog:testing
         version: 1.56.0
@@ -1039,6 +1045,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.37.0
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
       playwright:
         specifier: catalog:testing
         version: 1.56.0
@@ -12600,6 +12609,9 @@ importers:
       tshy:
         specifier: 'catalog:'
         version: 3.0.3
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.6
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

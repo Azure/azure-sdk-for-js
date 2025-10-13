@@ -38,7 +38,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"scripts/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "generate-certs": "dev-tool run vendored tsx scripts/generateCerts.mts",
+    "generate-certs": "tsx scripts/generateCerts.mts",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -140,6 +140,7 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
     "ws": "^8.2.0"
