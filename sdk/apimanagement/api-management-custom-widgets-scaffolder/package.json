@@ -60,6 +60,7 @@
     "prettier": "^3.3.3",
     "rimraf": "catalog:",
     "rollup": "^4.14.0",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

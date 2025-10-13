@@ -111,6 +111,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "unzipper": "~0.12.3",
     "vitest": "catalog:testing"

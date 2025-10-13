@@ -98,6 +98,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "type-plus": "^7.6.2",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

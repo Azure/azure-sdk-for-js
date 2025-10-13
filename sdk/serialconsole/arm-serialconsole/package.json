@@ -37,6 +37,7 @@
     "cross-env": "catalog:",
     "playwright": "catalog:testing",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

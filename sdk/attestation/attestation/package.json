@@ -89,6 +89,7 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "safe-buffer": "^5.2.1",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

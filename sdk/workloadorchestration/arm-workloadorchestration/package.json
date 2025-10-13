@@ -106,6 +106,7 @@
     "playwright": "^1.52.0",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },

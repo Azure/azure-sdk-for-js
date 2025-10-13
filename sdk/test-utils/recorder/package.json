@@ -67,6 +67,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

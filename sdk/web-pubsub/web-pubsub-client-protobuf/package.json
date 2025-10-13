@@ -75,6 +75,7 @@
     "prettier": "catalog:",
     "protobufjs-cli": "^1.1.3",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

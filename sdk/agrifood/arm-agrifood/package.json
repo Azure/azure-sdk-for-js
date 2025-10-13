@@ -38,6 +38,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

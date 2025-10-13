@@ -76,6 +76,7 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "rollup-plugin-copy": "^3.5.0",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

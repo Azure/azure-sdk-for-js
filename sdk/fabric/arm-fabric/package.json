@@ -82,6 +82,7 @@
     "playwright": "catalog:testing",
     "prettier": "^3.2.5",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

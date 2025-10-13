@@ -115,7 +115,7 @@
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "tshy": "^3.0.0",
+    "tshy": "catalog:",
     "vitest": "catalog:testing"
   },
   "tshy": {
