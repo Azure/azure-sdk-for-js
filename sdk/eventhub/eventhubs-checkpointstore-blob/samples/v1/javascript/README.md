@@ -51,7 +51,7 @@ node receiveEventsUsingCheckpointStore.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" EVENTHUB_CONSUMER_GROUP="<eventhub consumer group>" STORAGE_CONTAINER_URL="<storage container url>" node receiveEventsUsingCheckpointStore.js
+cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" EVENTHUB_CONSUMER_GROUP="<eventhub consumer group>" STORAGE_CONTAINER_URL="<storage container url>" node receiveEventsUsingCheckpointStore.js
 ```
 
 ## Next Steps
