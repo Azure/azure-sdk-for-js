@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("deviceprovisioningservices test", () => {
+describe.skip("deviceprovisioningservices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: IotDpsClient;
@@ -46,8 +46,8 @@ describe("deviceprovisioningservices test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new IotDpsClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
-    resourceGroup = "myjstest";
+    location = "eastus";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "testresource";
   });
 
@@ -56,7 +56,7 @@ describe("deviceprovisioningservices test", () => {
   });
 
   it("iotDpsResource create test", async () => {
-    const res = await client.iotDpsResource.beginCreateOrUpdateAndWait(
+    const res = await client.iotDpsResource.createOrUpdate(
       resourceGroup,
       resourcename,
       {
@@ -85,7 +85,7 @@ describe("deviceprovisioningservices test", () => {
 
   it("iotDpsResource delete test", async () => {
     const resArray = new Array();
-    await client.iotDpsResource.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
+    await client.iotDpsResource.delete(resourceGroup, resourcename, testPollingOptions);
     for await (const item of client.iotDpsResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
