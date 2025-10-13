@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.samples.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/azure-ai-speech-batchtranscription": ["./src/index"]
+    }
+  },
+  "include": ["samples-dev/**/*.ts"]
+}

@@ -27,3 +27,5 @@ extends:
     Artifacts:
       - name: azure-ai-speech-transcription
         safeName: azureaispeech transcription
+      - name: azure-ai-speech-batchtranscription
+        safeName: azureaispeechbatchtranscription
