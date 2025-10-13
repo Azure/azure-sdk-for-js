@@ -105,6 +105,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

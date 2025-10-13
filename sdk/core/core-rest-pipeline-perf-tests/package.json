@@ -61,6 +61,7 @@
     "express": "^5.1.0",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "scripts": {
