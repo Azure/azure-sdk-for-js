@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   LocalRulestackResource,
   LocalRulestacksListBySubscriptionOptionalParams,
   LocalRulestacksListByResourceGroupOptionalParams,
@@ -39,7 +39,7 @@ import {
   SecurityServicesTypeEnum,
   LocalRulestacksListSecurityServicesOptionalParams,
   LocalRulestacksListSecurityServicesResponse,
-  LocalRulestacksRevertOptionalParams
+  LocalRulestacksRevertOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export interface LocalRulestacks {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: LocalRulestacksListBySubscriptionOptionalParams
+    options?: LocalRulestacksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<LocalRulestackResource>;
   /**
    * List LocalRulestackResource resources by resource group
@@ -59,7 +59,7 @@ export interface LocalRulestacks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: LocalRulestacksListByResourceGroupOptionalParams
+    options?: LocalRulestacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<LocalRulestackResource>;
   /**
    * Get a LocalRulestackResource
@@ -70,7 +70,7 @@ export interface LocalRulestacks {
   get(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksGetOptionalParams
+    options?: LocalRulestacksGetOptionalParams,
   ): Promise<LocalRulestacksGetResponse>;
   /**
    * Create a LocalRulestackResource
@@ -83,7 +83,7 @@ export interface LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     resource: LocalRulestackResource,
-    options?: LocalRulestacksCreateOrUpdateOptionalParams
+    options?: LocalRulestacksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LocalRulestacksCreateOrUpdateResponse>,
@@ -101,7 +101,7 @@ export interface LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     resource: LocalRulestackResource,
-    options?: LocalRulestacksCreateOrUpdateOptionalParams
+    options?: LocalRulestacksCreateOrUpdateOptionalParams,
   ): Promise<LocalRulestacksCreateOrUpdateResponse>;
   /**
    * Update a LocalRulestackResource
@@ -114,7 +114,7 @@ export interface LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     properties: LocalRulestackResourceUpdate,
-    options?: LocalRulestacksUpdateOptionalParams
+    options?: LocalRulestacksUpdateOptionalParams,
   ): Promise<LocalRulestacksUpdateResponse>;
   /**
    * Delete a LocalRulestackResource
@@ -125,7 +125,7 @@ export interface LocalRulestacks {
   beginDelete(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksDeleteOptionalParams
+    options?: LocalRulestacksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a LocalRulestackResource
@@ -136,7 +136,7 @@ export interface LocalRulestacks {
   beginDeleteAndWait(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksDeleteOptionalParams
+    options?: LocalRulestacksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Commit rulestack configuration
@@ -147,7 +147,7 @@ export interface LocalRulestacks {
   beginCommit(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksCommitOptionalParams
+    options?: LocalRulestacksCommitOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Commit rulestack configuration
@@ -158,7 +158,7 @@ export interface LocalRulestacks {
   beginCommitAndWait(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksCommitOptionalParams
+    options?: LocalRulestacksCommitOptionalParams,
   ): Promise<void>;
   /**
    * Get changelog
@@ -169,7 +169,7 @@ export interface LocalRulestacks {
   getChangeLog(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksGetChangeLogOptionalParams
+    options?: LocalRulestacksGetChangeLogOptionalParams,
   ): Promise<LocalRulestacksGetChangeLogResponse>;
   /**
    * support info for rulestack.
@@ -180,7 +180,7 @@ export interface LocalRulestacks {
   getSupportInfo(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksGetSupportInfoOptionalParams
+    options?: LocalRulestacksGetSupportInfoOptionalParams,
   ): Promise<LocalRulestacksGetSupportInfoResponse>;
   /**
    * Get the list of advanced security objects
@@ -193,7 +193,7 @@ export interface LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     typeParam: AdvSecurityObjectTypeEnum,
-    options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams
+    options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams,
   ): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse>;
   /**
    * List of AppIds for LocalRulestack ApiVersion
@@ -204,7 +204,7 @@ export interface LocalRulestacks {
   listAppIds(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListAppIdsOptionalParams
+    options?: LocalRulestacksListAppIdsOptionalParams,
   ): Promise<LocalRulestacksListAppIdsResponse>;
   /**
    * List of countries for Rulestack
@@ -215,7 +215,7 @@ export interface LocalRulestacks {
   listCountries(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListCountriesOptionalParams
+    options?: LocalRulestacksListCountriesOptionalParams,
   ): Promise<LocalRulestacksListCountriesResponse>;
   /**
    * List of Firewalls associated with Rulestack
@@ -226,7 +226,7 @@ export interface LocalRulestacks {
   listFirewalls(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListFirewallsOptionalParams
+    options?: LocalRulestacksListFirewallsOptionalParams,
   ): Promise<LocalRulestacksListFirewallsResponse>;
   /**
    * List predefined URL categories for rulestack
@@ -237,7 +237,7 @@ export interface LocalRulestacks {
   listPredefinedUrlCategories(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams
+    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
   ): Promise<LocalRulestacksListPredefinedUrlCategoriesResponse>;
   /**
    * List the security services for rulestack
@@ -250,7 +250,7 @@ export interface LocalRulestacks {
     resourceGroupName: string,
     localRulestackName: string,
     typeParam: SecurityServicesTypeEnum,
-    options?: LocalRulestacksListSecurityServicesOptionalParams
+    options?: LocalRulestacksListSecurityServicesOptionalParams,
   ): Promise<LocalRulestacksListSecurityServicesResponse>;
   /**
    * Revert rulestack configuration
@@ -261,6 +261,6 @@ export interface LocalRulestacks {
   revert(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulestacksRevertOptionalParams
+    options?: LocalRulestacksRevertOptionalParams,
   ): Promise<void>;
 }

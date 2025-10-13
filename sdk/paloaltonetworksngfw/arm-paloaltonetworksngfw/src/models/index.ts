@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** The response of a GlobalRulestackResource list operation. */
 export interface GlobalRulestackResourceListResult {
@@ -1280,7 +1280,7 @@ export enum KnownScopeType {
   /** Local */
   Local = "LOCAL",
   /** Global */
-  Global = "GLOBAL"
+  Global = "GLOBAL",
 }
 
 /**
@@ -1300,7 +1300,7 @@ export enum KnownDefaultMode {
   /** Firewall */
   Firewall = "FIREWALL",
   /** None */
-  None = "NONE"
+  None = "NONE",
 }
 
 /**
@@ -1333,7 +1333,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -1362,7 +1362,7 @@ export enum KnownManagedIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAndUserAssigned */
-  SystemAndUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAndUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1386,7 +1386,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1406,7 +1406,7 @@ export enum KnownBooleanEnum {
   /** True */
   True = "TRUE",
   /** False */
-  False = "FALSE"
+  False = "FALSE",
 }
 
 /**
@@ -1424,7 +1424,7 @@ export enum KnownAdvSecurityObjectTypeEnum {
   /** UrlCustom */
   UrlCustom = "urlCustom",
   /** Feeds */
-  Feeds = "feeds"
+  Feeds = "feeds",
 }
 
 /**
@@ -1450,7 +1450,7 @@ export enum KnownSecurityServicesTypeEnum {
   /** FileBlocking */
   FileBlocking = "fileBlocking",
   /** DnsSubscription */
-  DnsSubscription = "dnsSubscription"
+  DnsSubscription = "dnsSubscription",
 }
 
 /**
@@ -1472,7 +1472,7 @@ export enum KnownStateEnum {
   /** Disabled */
   Disabled = "DISABLED",
   /** Enabled */
-  Enabled = "ENABLED"
+  Enabled = "ENABLED",
 }
 
 /**
@@ -1494,7 +1494,7 @@ export enum KnownActionEnum {
   /** DenyResetServer */
   DenyResetServer = "DenyResetServer",
   /** DenyResetBoth */
-  DenyResetBoth = "DenyResetBoth"
+  DenyResetBoth = "DenyResetBoth",
 }
 
 /**
@@ -1516,7 +1516,7 @@ export enum KnownDecryptionRuleTypeEnum {
   /** SSLInboundInspection */
   SSLInboundInspection = "SSLInboundInspection",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1537,7 +1537,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -1554,7 +1554,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -1571,7 +1571,7 @@ export enum KnownNetworkType {
   /** Vnet */
   Vnet = "VNET",
   /** Vwan */
-  Vwan = "VWAN"
+  Vwan = "VWAN",
 }
 
 /**
@@ -1589,7 +1589,7 @@ export enum KnownEgressNat {
   /** Disabled */
   Disabled = "DISABLED",
   /** Enabled */
-  Enabled = "ENABLED"
+  Enabled = "ENABLED",
 }
 
 /**
@@ -1607,7 +1607,7 @@ export enum KnownDNSProxy {
   /** Disabled */
   Disabled = "DISABLED",
   /** Enabled */
-  Enabled = "ENABLED"
+  Enabled = "ENABLED",
 }
 
 /**
@@ -1625,7 +1625,7 @@ export enum KnownEnabledDNSType {
   /** Custom */
   Custom = "CUSTOM",
   /** Azure */
-  Azure = "AZURE"
+  Azure = "AZURE",
 }
 
 /**
@@ -1643,7 +1643,7 @@ export enum KnownProtocolType {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -1661,7 +1661,7 @@ export enum KnownUsageType {
   /** Payg */
   Payg = "PAYG",
   /** Committed */
-  Committed = "COMMITTED"
+  Committed = "COMMITTED",
 }
 
 /**
@@ -1679,7 +1679,7 @@ export enum KnownBillingCycle {
   /** Weekly */
   Weekly = "WEEKLY",
   /** Monthly */
-  Monthly = "MONTHLY"
+  Monthly = "MONTHLY",
 }
 
 /**
@@ -1705,7 +1705,7 @@ export enum KnownMarketplaceSubscriptionStatus {
   /** NotStarted */
   NotStarted = "NotStarted",
   /** FulfillmentRequested */
-  FulfillmentRequested = "FulfillmentRequested"
+  FulfillmentRequested = "FulfillmentRequested",
 }
 
 /**
@@ -1735,7 +1735,7 @@ export enum KnownLogType {
   /** DLP */
   DLP = "DLP",
   /** Audit */
-  Audit = "AUDIT"
+  Audit = "AUDIT",
 }
 
 /**
@@ -1757,7 +1757,7 @@ export enum KnownLogOption {
   /** SameDestination */
   SameDestination = "SAME_DESTINATION",
   /** IndividualDestination */
-  IndividualDestination = "INDIVIDUAL_DESTINATION"
+  IndividualDestination = "INDIVIDUAL_DESTINATION",
 }
 
 /**
@@ -1779,7 +1779,7 @@ export enum KnownHealthStatus {
   /** RED */
   RED = "RED",
   /** Initializing */
-  Initializing = "INITIALIZING"
+  Initializing = "INITIALIZING",
 }
 
 /**
@@ -1799,7 +1799,7 @@ export enum KnownServerStatus {
   /** UP */
   UP = "UP",
   /** Down */
-  Down = "DOWN"
+  Down = "DOWN",
 }
 
 /**
@@ -1819,7 +1819,7 @@ export enum KnownReadOnlyProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -1899,7 +1899,8 @@ export interface GlobalRulestackListAdvancedSecurityObjectsOptionalParams
 }
 
 /** Contains response data for the listAdvancedSecurityObjects operation. */
-export type GlobalRulestackListAdvancedSecurityObjectsResponse = AdvSecurityObjectListResponse;
+export type GlobalRulestackListAdvancedSecurityObjectsResponse =
+  AdvSecurityObjectListResponse;
 
 /** Optional parameters. */
 export interface GlobalRulestackListAppIdsOptionalParams
@@ -1938,7 +1939,8 @@ export interface GlobalRulestackListPredefinedUrlCategoriesOptionalParams
 }
 
 /** Contains response data for the listPredefinedUrlCategories operation. */
-export type GlobalRulestackListPredefinedUrlCategoriesResponse = PredefinedUrlCategoriesResponse;
+export type GlobalRulestackListPredefinedUrlCategoriesResponse =
+  PredefinedUrlCategoriesResponse;
 
 /** Optional parameters. */
 export interface GlobalRulestackListSecurityServicesOptionalParams
@@ -1948,7 +1950,8 @@ export interface GlobalRulestackListSecurityServicesOptionalParams
 }
 
 /** Contains response data for the listSecurityServices operation. */
-export type GlobalRulestackListSecurityServicesResponse = SecurityServicesResponse;
+export type GlobalRulestackListSecurityServicesResponse =
+  SecurityServicesResponse;
 
 /** Optional parameters. */
 export interface GlobalRulestackRevertOptionalParams
@@ -1966,14 +1969,16 @@ export interface CertificateObjectGlobalRulestackListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type CertificateObjectGlobalRulestackListResponse = CertificateObjectGlobalRulestackResourceListResult;
+export type CertificateObjectGlobalRulestackListResponse =
+  CertificateObjectGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface CertificateObjectGlobalRulestackGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CertificateObjectGlobalRulestackGetResponse = CertificateObjectGlobalRulestackResource;
+export type CertificateObjectGlobalRulestackGetResponse =
+  CertificateObjectGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
@@ -1985,7 +1990,8 @@ export interface CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CertificateObjectGlobalRulestackCreateOrUpdateResponse = CertificateObjectGlobalRulestackResource;
+export type CertificateObjectGlobalRulestackCreateOrUpdateResponse =
+  CertificateObjectGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface CertificateObjectGlobalRulestackDeleteOptionalParams
@@ -2001,21 +2007,24 @@ export interface CertificateObjectGlobalRulestackListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type CertificateObjectGlobalRulestackListNextResponse = CertificateObjectGlobalRulestackResourceListResult;
+export type CertificateObjectGlobalRulestackListNextResponse =
+  CertificateObjectGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface FqdnListGlobalRulestackListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type FqdnListGlobalRulestackListResponse = FqdnListGlobalRulestackResourceListResult;
+export type FqdnListGlobalRulestackListResponse =
+  FqdnListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface FqdnListGlobalRulestackGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FqdnListGlobalRulestackGetResponse = FqdnListGlobalRulestackResource;
+export type FqdnListGlobalRulestackGetResponse =
+  FqdnListGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams
@@ -2027,7 +2036,8 @@ export interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type FqdnListGlobalRulestackCreateOrUpdateResponse = FqdnListGlobalRulestackResource;
+export type FqdnListGlobalRulestackCreateOrUpdateResponse =
+  FqdnListGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface FqdnListGlobalRulestackDeleteOptionalParams
@@ -2043,7 +2053,8 @@ export interface FqdnListGlobalRulestackListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FqdnListGlobalRulestackListNextResponse = FqdnListGlobalRulestackResourceListResult;
+export type FqdnListGlobalRulestackListNextResponse =
+  FqdnListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface PostRulesListOptionalParams
@@ -2116,14 +2127,16 @@ export interface PrefixListGlobalRulestackListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrefixListGlobalRulestackListResponse = PrefixListGlobalRulestackResourceListResult;
+export type PrefixListGlobalRulestackListResponse =
+  PrefixListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrefixListGlobalRulestackGetResponse = PrefixListGlobalRulestackResource;
+export type PrefixListGlobalRulestackGetResponse =
+  PrefixListGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams
@@ -2135,7 +2148,8 @@ export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrefixListGlobalRulestackCreateOrUpdateResponse = PrefixListGlobalRulestackResource;
+export type PrefixListGlobalRulestackCreateOrUpdateResponse =
+  PrefixListGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackDeleteOptionalParams
@@ -2151,7 +2165,8 @@ export interface PrefixListGlobalRulestackListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrefixListGlobalRulestackListNextResponse = PrefixListGlobalRulestackResourceListResult;
+export type PrefixListGlobalRulestackListNextResponse =
+  PrefixListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface PreRulesListOptionalParams
@@ -2318,28 +2333,32 @@ export interface FirewallsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type FirewallsListBySubscriptionNextResponse = FirewallResourceListResult;
+export type FirewallsListBySubscriptionNextResponse =
+  FirewallResourceListResult;
 
 /** Optional parameters. */
 export interface FirewallsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type FirewallsListByResourceGroupNextResponse = FirewallResourceListResult;
+export type FirewallsListByResourceGroupNextResponse =
+  FirewallResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type LocalRulestacksListBySubscriptionResponse = LocalRulestackResourceListResult;
+export type LocalRulestacksListBySubscriptionResponse =
+  LocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type LocalRulestacksListByResourceGroupResponse = LocalRulestackResourceListResult;
+export type LocalRulestacksListByResourceGroupResponse =
+  LocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksGetOptionalParams
@@ -2410,7 +2429,8 @@ export interface LocalRulestacksListAdvancedSecurityObjectsOptionalParams
 }
 
 /** Contains response data for the listAdvancedSecurityObjects operation. */
-export type LocalRulestacksListAdvancedSecurityObjectsResponse = AdvSecurityObjectListResponse;
+export type LocalRulestacksListAdvancedSecurityObjectsResponse =
+  AdvSecurityObjectListResponse;
 
 /** Optional parameters. */
 export interface LocalRulestacksListAppIdsOptionalParams
@@ -2449,7 +2469,8 @@ export interface LocalRulestacksListPredefinedUrlCategoriesOptionalParams
 }
 
 /** Contains response data for the listPredefinedUrlCategories operation. */
-export type LocalRulestacksListPredefinedUrlCategoriesResponse = PredefinedUrlCategoriesResponse;
+export type LocalRulestacksListPredefinedUrlCategoriesResponse =
+  PredefinedUrlCategoriesResponse;
 
 /** Optional parameters. */
 export interface LocalRulestacksListSecurityServicesOptionalParams
@@ -2459,7 +2480,8 @@ export interface LocalRulestacksListSecurityServicesOptionalParams
 }
 
 /** Contains response data for the listSecurityServices operation. */
-export type LocalRulestacksListSecurityServicesResponse = SecurityServicesResponse;
+export type LocalRulestacksListSecurityServicesResponse =
+  SecurityServicesResponse;
 
 /** Optional parameters. */
 export interface LocalRulestacksRevertOptionalParams
@@ -2470,21 +2492,24 @@ export interface LocalRulestacksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type LocalRulestacksListBySubscriptionNextResponse = LocalRulestackResourceListResult;
+export type LocalRulestacksListBySubscriptionNextResponse =
+  LocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type LocalRulestacksListByResourceGroupNextResponse = LocalRulestackResourceListResult;
+export type LocalRulestacksListByResourceGroupNextResponse =
+  LocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface FirewallStatusListByFirewallsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFirewalls operation. */
-export type FirewallStatusListByFirewallsResponse = FirewallStatusResourceListResult;
+export type FirewallStatusListByFirewallsResponse =
+  FirewallStatusResourceListResult;
 
 /** Optional parameters. */
 export interface FirewallStatusGetOptionalParams
@@ -2498,21 +2523,24 @@ export interface FirewallStatusListByFirewallsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFirewallsNext operation. */
-export type FirewallStatusListByFirewallsNextResponse = FirewallStatusResourceListResult;
+export type FirewallStatusListByFirewallsNextResponse =
+  FirewallStatusResourceListResult;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacks operation. */
-export type CertificateObjectLocalRulestackListByLocalRulestacksResponse = CertificateObjectLocalRulestackResourceListResult;
+export type CertificateObjectLocalRulestackListByLocalRulestacksResponse =
+  CertificateObjectLocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CertificateObjectLocalRulestackGetResponse = CertificateObjectLocalRulestackResource;
+export type CertificateObjectLocalRulestackGetResponse =
+  CertificateObjectLocalRulestackResource;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackCreateOrUpdateOptionalParams
@@ -2524,7 +2552,8 @@ export interface CertificateObjectLocalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CertificateObjectLocalRulestackCreateOrUpdateResponse = CertificateObjectLocalRulestackResource;
+export type CertificateObjectLocalRulestackCreateOrUpdateResponse =
+  CertificateObjectLocalRulestackResource;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackDeleteOptionalParams
@@ -2540,14 +2569,16 @@ export interface CertificateObjectLocalRulestackListByLocalRulestacksNextOptiona
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacksNext operation. */
-export type CertificateObjectLocalRulestackListByLocalRulestacksNextResponse = CertificateObjectLocalRulestackResourceListResult;
+export type CertificateObjectLocalRulestackListByLocalRulestacksNextResponse =
+  CertificateObjectLocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface FqdnListLocalRulestackListByLocalRulestacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacks operation. */
-export type FqdnListLocalRulestackListByLocalRulestacksResponse = FqdnListLocalRulestackResourceListResult;
+export type FqdnListLocalRulestackListByLocalRulestacksResponse =
+  FqdnListLocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface FqdnListLocalRulestackGetOptionalParams
@@ -2566,7 +2597,8 @@ export interface FqdnListLocalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type FqdnListLocalRulestackCreateOrUpdateResponse = FqdnListLocalRulestackResource;
+export type FqdnListLocalRulestackCreateOrUpdateResponse =
+  FqdnListLocalRulestackResource;
 
 /** Optional parameters. */
 export interface FqdnListLocalRulestackDeleteOptionalParams
@@ -2582,14 +2614,16 @@ export interface FqdnListLocalRulestackListByLocalRulestacksNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacksNext operation. */
-export type FqdnListLocalRulestackListByLocalRulestacksNextResponse = FqdnListLocalRulestackResourceListResult;
+export type FqdnListLocalRulestackListByLocalRulestacksNextResponse =
+  FqdnListLocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulesListByLocalRulestacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacks operation. */
-export type LocalRulesListByLocalRulestacksResponse = LocalRulesResourceListResult;
+export type LocalRulesListByLocalRulestacksResponse =
+  LocalRulesResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulesGetOptionalParams
@@ -2648,14 +2682,16 @@ export interface LocalRulesListByLocalRulestacksNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacksNext operation. */
-export type LocalRulesListByLocalRulestacksNextResponse = LocalRulesResourceListResult;
+export type LocalRulesListByLocalRulestacksNextResponse =
+  LocalRulesResourceListResult;
 
 /** Optional parameters. */
 export interface PrefixListLocalRulestackListByLocalRulestacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacks operation. */
-export type PrefixListLocalRulestackListByLocalRulestacksResponse = PrefixListResourceListResult;
+export type PrefixListLocalRulestackListByLocalRulestacksResponse =
+  PrefixListResourceListResult;
 
 /** Optional parameters. */
 export interface PrefixListLocalRulestackGetOptionalParams
@@ -2690,7 +2726,8 @@ export interface PrefixListLocalRulestackListByLocalRulestacksNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacksNext operation. */
-export type PrefixListLocalRulestackListByLocalRulestacksNextResponse = PrefixListResourceListResult;
+export type PrefixListLocalRulestackListByLocalRulestacksNextResponse =
+  PrefixListResourceListResult;
 
 /** Optional parameters. */
 export interface PaloAltoNetworksCloudngfwOptionalParams

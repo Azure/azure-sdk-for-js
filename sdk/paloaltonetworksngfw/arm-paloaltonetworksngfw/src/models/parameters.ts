@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   GlobalRulestackResource as GlobalRulestackResourceMapper,
@@ -27,7 +27,7 @@ import {
   CertificateObjectLocalRulestackResource as CertificateObjectLocalRulestackResourceMapper,
   FqdnListLocalRulestackResource as FqdnListLocalRulestackResourceMapper,
   LocalRulesResource as LocalRulesResourceMapper,
-  PrefixListResource as PrefixListResourceMapper
+  PrefixListResource as PrefixListResourceMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -37,9 +37,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -48,10 +48,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -61,9 +61,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const globalRulestackName: OperationURLParameter = {
@@ -72,9 +72,9 @@ export const globalRulestackName: OperationURLParameter = {
     serializedName: "globalRulestackName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -84,19 +84,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: GlobalRulestackResourceMapper
+  mapper: GlobalRulestackResourceMapper,
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: GlobalRulestackResourceUpdateMapper
+  mapper: GlobalRulestackResourceUpdateMapper,
 };
 
 export const skip: OperationQueryParameter = {
@@ -104,9 +104,9 @@ export const skip: OperationQueryParameter = {
   mapper: {
     serializedName: "skip",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -114,9 +114,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const typeParam: OperationQueryParameter = {
@@ -125,9 +125,9 @@ export const typeParam: OperationQueryParameter = {
     serializedName: "type",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const appIdVersion: OperationQueryParameter = {
@@ -135,9 +135,9 @@ export const appIdVersion: OperationQueryParameter = {
   mapper: {
     serializedName: "appIdVersion",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const appPrefix: OperationQueryParameter = {
@@ -145,9 +145,9 @@ export const appPrefix: OperationQueryParameter = {
   mapper: {
     serializedName: "appPrefix",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const typeParam1: OperationQueryParameter = {
@@ -156,9 +156,9 @@ export const typeParam1: OperationQueryParameter = {
     serializedName: "type",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -167,10 +167,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const name: OperationURLParameter = {
@@ -179,19 +179,19 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource1: OperationParameter = {
   parameterPath: "resource",
-  mapper: CertificateObjectGlobalRulestackResourceMapper
+  mapper: CertificateObjectGlobalRulestackResourceMapper,
 };
 
 export const resource2: OperationParameter = {
   parameterPath: "resource",
-  mapper: FqdnListGlobalRulestackResourceMapper
+  mapper: FqdnListGlobalRulestackResourceMapper,
 };
 
 export const priority: OperationURLParameter = {
@@ -200,14 +200,14 @@ export const priority: OperationURLParameter = {
     serializedName: "priority",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource3: OperationParameter = {
   parameterPath: "resource",
-  mapper: PostRulesResourceMapper
+  mapper: PostRulesResourceMapper,
 };
 
 export const firewallName: OperationQueryParameter = {
@@ -215,33 +215,33 @@ export const firewallName: OperationQueryParameter = {
   mapper: {
     serializedName: "firewallName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource4: OperationParameter = {
   parameterPath: "resource",
-  mapper: PrefixListGlobalRulestackResourceMapper
+  mapper: PrefixListGlobalRulestackResourceMapper,
 };
 
 export const resource5: OperationParameter = {
   parameterPath: "resource",
-  mapper: PreRulesResourceMapper
+  mapper: PreRulesResourceMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -249,14 +249,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const firewallName1: OperationURLParameter = {
@@ -265,19 +265,19 @@ export const firewallName1: OperationURLParameter = {
     serializedName: "firewallName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource6: OperationParameter = {
   parameterPath: "resource",
-  mapper: FirewallResourceMapper
+  mapper: FirewallResourceMapper,
 };
 
 export const properties1: OperationParameter = {
   parameterPath: "properties",
-  mapper: FirewallResourceUpdateMapper
+  mapper: FirewallResourceUpdateMapper,
 };
 
 export const email: OperationQueryParameter = {
@@ -285,14 +285,14 @@ export const email: OperationQueryParameter = {
   mapper: {
     serializedName: "email",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const logSettings: OperationParameter = {
   parameterPath: ["options", "logSettings"],
-  mapper: LogSettingsMapper
+  mapper: LogSettingsMapper,
 };
 
 export const localRulestackName: OperationURLParameter = {
@@ -301,37 +301,37 @@ export const localRulestackName: OperationURLParameter = {
     serializedName: "localRulestackName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource7: OperationParameter = {
   parameterPath: "resource",
-  mapper: LocalRulestackResourceMapper
+  mapper: LocalRulestackResourceMapper,
 };
 
 export const properties2: OperationParameter = {
   parameterPath: "properties",
-  mapper: LocalRulestackResourceUpdateMapper
+  mapper: LocalRulestackResourceUpdateMapper,
 };
 
 export const resource8: OperationParameter = {
   parameterPath: "resource",
-  mapper: CertificateObjectLocalRulestackResourceMapper
+  mapper: CertificateObjectLocalRulestackResourceMapper,
 };
 
 export const resource9: OperationParameter = {
   parameterPath: "resource",
-  mapper: FqdnListLocalRulestackResourceMapper
+  mapper: FqdnListLocalRulestackResourceMapper,
 };
 
 export const resource10: OperationParameter = {
   parameterPath: "resource",
-  mapper: LocalRulesResourceMapper
+  mapper: LocalRulesResourceMapper,
 };
 
 export const resource11: OperationParameter = {
   parameterPath: "resource",
-  mapper: PrefixListResourceMapper
+  mapper: PrefixListResourceMapper,
 };

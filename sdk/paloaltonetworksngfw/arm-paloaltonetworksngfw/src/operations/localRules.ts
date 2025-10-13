@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { LocalRules } from "../operationsInterfaces/index.js";
+import type { LocalRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
-import {
+import type { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
+import type {
   SimplePollerLike,
-  OperationState,
-  createHttpPoller
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   LocalRulesResource,
   LocalRulesListByLocalRulestacksNextOptionalParams,
   LocalRulesListByLocalRulestacksOptionalParams,
@@ -34,7 +35,7 @@ import {
   LocalRulesRefreshCountersOptionalParams,
   LocalRulesResetCountersOptionalParams,
   LocalRulesResetCountersResponse,
-  LocalRulesListByLocalRulestacksNextResponse
+  LocalRulesListByLocalRulestacksNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,12 +60,12 @@ export class LocalRulesImpl implements LocalRules {
   public listByLocalRulestacks(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulesListByLocalRulestacksOptionalParams
+    options?: LocalRulesListByLocalRulestacksOptionalParams,
   ): PagedAsyncIterableIterator<LocalRulesResource> {
     const iter = this.listByLocalRulestacksPagingAll(
       resourceGroupName,
       localRulestackName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +82,9 @@ export class LocalRulesImpl implements LocalRules {
           resourceGroupName,
           localRulestackName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +92,7 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     options?: LocalRulesListByLocalRulestacksOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LocalRulesResource[]> {
     let result: LocalRulesListByLocalRulestacksResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,9 +100,9 @@ export class LocalRulesImpl implements LocalRules {
       result = await this._listByLocalRulestacks(
         resourceGroupName,
         localRulestackName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -111,10 +112,10 @@ export class LocalRulesImpl implements LocalRules {
         resourceGroupName,
         localRulestackName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -123,12 +124,12 @@ export class LocalRulesImpl implements LocalRules {
   private async *listByLocalRulestacksPagingAll(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulesListByLocalRulestacksOptionalParams
+    options?: LocalRulesListByLocalRulestacksOptionalParams,
   ): AsyncIterableIterator<LocalRulesResource> {
     for await (const page of this.listByLocalRulestacksPagingPage(
       resourceGroupName,
       localRulestackName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +144,11 @@ export class LocalRulesImpl implements LocalRules {
   private _listByLocalRulestacks(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulesListByLocalRulestacksOptionalParams
+    options?: LocalRulesListByLocalRulestacksOptionalParams,
   ): Promise<LocalRulesListByLocalRulestacksResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, options },
-      listByLocalRulestacksOperationSpec
+      listByLocalRulestacksOperationSpec,
     );
   }
 
@@ -162,11 +163,11 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesGetOptionalParams
+    options?: LocalRulesGetOptionalParams,
   ): Promise<LocalRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, priority, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,7 +184,7 @@ export class LocalRulesImpl implements LocalRules {
     localRulestackName: string,
     priority: string,
     resource: LocalRulesResource,
-    options?: LocalRulesCreateOrUpdateOptionalParams
+    options?: LocalRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LocalRulesCreateOrUpdateResponse>,
@@ -192,21 +193,20 @@ export class LocalRulesImpl implements LocalRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LocalRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -215,8 +215,8 @@ export class LocalRulesImpl implements LocalRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -224,8 +224,8 @@ export class LocalRulesImpl implements LocalRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -236,9 +236,9 @@ export class LocalRulesImpl implements LocalRules {
         localRulestackName,
         priority,
         resource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       LocalRulesCreateOrUpdateResponse,
@@ -246,7 +246,7 @@ export class LocalRulesImpl implements LocalRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -265,14 +265,14 @@ export class LocalRulesImpl implements LocalRules {
     localRulestackName: string,
     priority: string,
     resource: LocalRulesResource,
-    options?: LocalRulesCreateOrUpdateOptionalParams
+    options?: LocalRulesCreateOrUpdateOptionalParams,
   ): Promise<LocalRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       localRulestackName,
       priority,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,25 +288,24 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesDeleteOptionalParams
+    options?: LocalRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +314,8 @@ export class LocalRulesImpl implements LocalRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,20 +323,20 @@ export class LocalRulesImpl implements LocalRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, localRulestackName, priority, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -354,13 +353,13 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesDeleteOptionalParams
+    options?: LocalRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       localRulestackName,
       priority,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -376,11 +375,11 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesGetCountersOptionalParams
+    options?: LocalRulesGetCountersOptionalParams,
   ): Promise<LocalRulesGetCountersResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, priority, options },
-      getCountersOperationSpec
+      getCountersOperationSpec,
     );
   }
 
@@ -395,11 +394,11 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesRefreshCountersOptionalParams
+    options?: LocalRulesRefreshCountersOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, priority, options },
-      refreshCountersOperationSpec
+      refreshCountersOperationSpec,
     );
   }
 
@@ -414,11 +413,11 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesResetCountersOptionalParams
+    options?: LocalRulesResetCountersOptionalParams,
   ): Promise<LocalRulesResetCountersResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, priority, options },
-      resetCountersOperationSpec
+      resetCountersOperationSpec,
     );
   }
 
@@ -433,11 +432,11 @@ export class LocalRulesImpl implements LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     nextLink: string,
-    options?: LocalRulesListByLocalRulestacksNextOptionalParams
+    options?: LocalRulesListByLocalRulestacksNextOptionalParams,
   ): Promise<LocalRulesListByLocalRulestacksNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, localRulestackName, nextLink, options },
-      listByLocalRulestacksNextOperationSpec
+      listByLocalRulestacksNextOperationSpec,
     );
   }
 }
@@ -445,38 +444,36 @@ export class LocalRulesImpl implements LocalRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocalRulestacksOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulesResourceListResult
+      bodyMapper: Mappers.LocalRulesResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulesResource
+      bodyMapper: Mappers.LocalRulesResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -484,31 +481,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.priority,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulesResource
+      bodyMapper: Mappers.LocalRulesResource,
     },
     201: {
-      bodyMapper: Mappers.LocalRulesResource
+      bodyMapper: Mappers.LocalRulesResource,
     },
     202: {
-      bodyMapper: Mappers.LocalRulesResource
+      bodyMapper: Mappers.LocalRulesResource,
     },
     204: {
-      bodyMapper: Mappers.LocalRulesResource
+      bodyMapper: Mappers.LocalRulesResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource10,
   queryParameters: [Parameters.apiVersion],
@@ -517,15 +513,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.priority,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -533,8 +528,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -542,22 +537,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.priority,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}/getCounters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}/getCounters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleCounter
+      bodyMapper: Mappers.RuleCounter,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
@@ -565,20 +559,19 @@ const getCountersOperationSpec: coreClient.OperationSpec = {
     Parameters.priority,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}/refreshCounters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}/refreshCounters",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
@@ -586,22 +579,21 @@ const refreshCountersOperationSpec: coreClient.OperationSpec = {
     Parameters.priority,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resetCountersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}/resetCounters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/localRulestacks/{localRulestackName}/localRules/{priority}/resetCounters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleCounterReset
+      bodyMapper: Mappers.RuleCounterReset,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.firewallName],
   urlParameters: [
@@ -609,29 +601,29 @@ const resetCountersOperationSpec: coreClient.OperationSpec = {
     Parameters.priority,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocalRulestacksNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocalRulesResourceListResult
+      bodyMapper: Mappers.LocalRulesResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.localRulestackName
+    Parameters.localRulestackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

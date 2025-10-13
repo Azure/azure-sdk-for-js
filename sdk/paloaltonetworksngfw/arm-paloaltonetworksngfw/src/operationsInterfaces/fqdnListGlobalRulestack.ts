@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   FqdnListGlobalRulestackResource,
   FqdnListGlobalRulestackListOptionalParams,
   FqdnListGlobalRulestackGetOptionalParams,
   FqdnListGlobalRulestackGetResponse,
   FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   FqdnListGlobalRulestackCreateOrUpdateResponse,
-  FqdnListGlobalRulestackDeleteOptionalParams
+  FqdnListGlobalRulestackDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface FqdnListGlobalRulestack {
    */
   list(
     globalRulestackName: string,
-    options?: FqdnListGlobalRulestackListOptionalParams
+    options?: FqdnListGlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<FqdnListGlobalRulestackResource>;
   /**
    * Get a FqdnListGlobalRulestackResource
@@ -39,7 +39,7 @@ export interface FqdnListGlobalRulestack {
   get(
     globalRulestackName: string,
     name: string,
-    options?: FqdnListGlobalRulestackGetOptionalParams
+    options?: FqdnListGlobalRulestackGetOptionalParams,
   ): Promise<FqdnListGlobalRulestackGetResponse>;
   /**
    * Create a FqdnListGlobalRulestackResource
@@ -52,7 +52,7 @@ export interface FqdnListGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: FqdnListGlobalRulestackResource,
-    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FqdnListGlobalRulestackCreateOrUpdateResponse>,
@@ -70,7 +70,7 @@ export interface FqdnListGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: FqdnListGlobalRulestackResource,
-    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<FqdnListGlobalRulestackCreateOrUpdateResponse>;
   /**
    * Delete a FqdnListGlobalRulestackResource
@@ -81,7 +81,7 @@ export interface FqdnListGlobalRulestack {
   beginDelete(
     globalRulestackName: string,
     name: string,
-    options?: FqdnListGlobalRulestackDeleteOptionalParams
+    options?: FqdnListGlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a FqdnListGlobalRulestackResource
@@ -92,6 +92,6 @@ export interface FqdnListGlobalRulestack {
   beginDeleteAndWait(
     globalRulestackName: string,
     name: string,
-    options?: FqdnListGlobalRulestackDeleteOptionalParams
+    options?: FqdnListGlobalRulestackDeleteOptionalParams,
   ): Promise<void>;
 }

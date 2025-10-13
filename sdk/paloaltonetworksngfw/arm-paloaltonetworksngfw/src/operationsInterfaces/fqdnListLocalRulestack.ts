@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   FqdnListLocalRulestackResource,
   FqdnListLocalRulestackListByLocalRulestacksOptionalParams,
   FqdnListLocalRulestackGetOptionalParams,
   FqdnListLocalRulestackGetResponse,
   FqdnListLocalRulestackCreateOrUpdateOptionalParams,
   FqdnListLocalRulestackCreateOrUpdateResponse,
-  FqdnListLocalRulestackDeleteOptionalParams
+  FqdnListLocalRulestackDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface FqdnListLocalRulestack {
   listByLocalRulestacks(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: FqdnListLocalRulestackListByLocalRulestacksOptionalParams
+    options?: FqdnListLocalRulestackListByLocalRulestacksOptionalParams,
   ): PagedAsyncIterableIterator<FqdnListLocalRulestackResource>;
   /**
    * Get a FqdnListLocalRulestackResource
@@ -43,7 +43,7 @@ export interface FqdnListLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: FqdnListLocalRulestackGetOptionalParams
+    options?: FqdnListLocalRulestackGetOptionalParams,
   ): Promise<FqdnListLocalRulestackGetResponse>;
   /**
    * Create a FqdnListLocalRulestackResource
@@ -58,7 +58,7 @@ export interface FqdnListLocalRulestack {
     localRulestackName: string,
     name: string,
     resource: FqdnListLocalRulestackResource,
-    options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams
+    options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FqdnListLocalRulestackCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface FqdnListLocalRulestack {
     localRulestackName: string,
     name: string,
     resource: FqdnListLocalRulestackResource,
-    options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams
+    options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams,
   ): Promise<FqdnListLocalRulestackCreateOrUpdateResponse>;
   /**
    * Delete a FqdnListLocalRulestackResource
@@ -91,7 +91,7 @@ export interface FqdnListLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: FqdnListLocalRulestackDeleteOptionalParams
+    options?: FqdnListLocalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a FqdnListLocalRulestackResource
@@ -104,6 +104,6 @@ export interface FqdnListLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: FqdnListLocalRulestackDeleteOptionalParams
+    options?: FqdnListLocalRulestackDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PreRulesResource,
   PreRulesListOptionalParams,
   PreRulesGetOptionalParams,
@@ -20,7 +20,7 @@ import {
   PreRulesGetCountersResponse,
   PreRulesRefreshCountersOptionalParams,
   PreRulesResetCountersOptionalParams,
-  PreRulesResetCountersResponse
+  PreRulesResetCountersResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface PreRules {
    */
   list(
     globalRulestackName: string,
-    options?: PreRulesListOptionalParams
+    options?: PreRulesListOptionalParams,
   ): PagedAsyncIterableIterator<PreRulesResource>;
   /**
    * Get a PreRulesResource
@@ -44,7 +44,7 @@ export interface PreRules {
   get(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesGetOptionalParams
+    options?: PreRulesGetOptionalParams,
   ): Promise<PreRulesGetResponse>;
   /**
    * Create a PreRulesResource
@@ -57,7 +57,7 @@ export interface PreRules {
     globalRulestackName: string,
     priority: string,
     resource: PreRulesResource,
-    options?: PreRulesCreateOrUpdateOptionalParams
+    options?: PreRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PreRulesCreateOrUpdateResponse>,
@@ -75,7 +75,7 @@ export interface PreRules {
     globalRulestackName: string,
     priority: string,
     resource: PreRulesResource,
-    options?: PreRulesCreateOrUpdateOptionalParams
+    options?: PreRulesCreateOrUpdateOptionalParams,
   ): Promise<PreRulesCreateOrUpdateResponse>;
   /**
    * Delete a PreRulesResource
@@ -86,7 +86,7 @@ export interface PreRules {
   beginDelete(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesDeleteOptionalParams
+    options?: PreRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a PreRulesResource
@@ -97,7 +97,7 @@ export interface PreRules {
   beginDeleteAndWait(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesDeleteOptionalParams
+    options?: PreRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get counters
@@ -108,7 +108,7 @@ export interface PreRules {
   getCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesGetCountersOptionalParams
+    options?: PreRulesGetCountersOptionalParams,
   ): Promise<PreRulesGetCountersResponse>;
   /**
    * Refresh counters
@@ -119,7 +119,7 @@ export interface PreRules {
   refreshCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesRefreshCountersOptionalParams
+    options?: PreRulesRefreshCountersOptionalParams,
   ): Promise<void>;
   /**
    * Reset counters
@@ -130,6 +130,6 @@ export interface PreRules {
   resetCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PreRulesResetCountersOptionalParams
+    options?: PreRulesResetCountersOptionalParams,
   ): Promise<PreRulesResetCountersResponse>;
 }
