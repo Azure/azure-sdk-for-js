@@ -79,7 +79,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "autorest": "catalog:",
     "builtin-modules": "^3.1.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "^6.0.1",

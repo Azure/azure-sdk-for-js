@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "cspell": "^9.2.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "mkdirp": "^3.0.1",
     "prettier": "^3.6.2",
     "prettier-plugin-packagejson": "^2.5.19",
