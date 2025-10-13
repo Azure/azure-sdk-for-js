@@ -24,6 +24,7 @@
 <a href="vscode://open?url=https://aka.ms/azsdk-js-migration">
   <img src="https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"/>
 </a>
+
 <br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode-insiders://open?url=https://aka.ms/azsdk-js-migration)
 
 #### **Step 2: Copy This Prompt into Copilot**
