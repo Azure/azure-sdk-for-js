@@ -20,7 +20,7 @@
 ### 🚀 **Migrate Faster with Copilot**
 
 #### **Step 1: Open Migration Instructions in VS Code**
- [Azure SDK Migration Instructions](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/2053e09c46855348927769fe0f5809a225a0add6/documentation/azure-sdk-migration.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode://open?url=https://raw.githubusercontent.com/Azure/azure-sdk-for-js/2053e09c46855348927769fe0f5809a225a0add6/documentation/azure-sdk-migration.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode-insiders://open?url=https://raw.githubusercontent.com/Azure/azure-sdk-for-js/2053e09c46855348927769fe0f5809a225a0add6/documentation/azure-sdk-migration.instructions.md)
+ [Azure SDK Migration Instructions](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/2053e09c46855348927769fe0f5809a225a0add6/documentation/azure-sdk-migration.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode://open?url=https://aka.ms/azsdk-js-migration)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode-insiders://open?url=https://aka.ms/azsdk-js-migration)
 
 #### **Step 2: Copy This Prompt into Copilot**
 > using #file:azure-sdk-migration.instructions.md azsdk upgrade @azure/arm-avs 7.0.0
