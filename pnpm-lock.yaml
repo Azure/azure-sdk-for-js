@@ -92,18 +92,9 @@ importers:
 
   .:
     devDependencies:
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
       cspell:
         specifier: ^9.2.0
         version: 9.2.1
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
-      prettier:
-        specifier: ^3.6.2
-        version: 3.6.2
       prettier-plugin-packagejson:
         specifier: ^2.5.19
         version: 2.5.19(prettier@3.6.2)

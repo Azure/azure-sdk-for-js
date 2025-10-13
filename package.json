@@ -24,9 +24,6 @@
   },
   "devDependencies": {
     "cspell": "^9.2.0",
-    "cross-env": "^7.0.3",
-    "mkdirp": "^3.0.1",
-    "prettier": "^3.6.2",
     "prettier-plugin-packagejson": "^2.5.19",
     "rimraf": "^6.0.1",
     "turbo": "^2.5.6"
