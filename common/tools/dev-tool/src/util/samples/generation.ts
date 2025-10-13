@@ -255,7 +255,7 @@ export async function makeSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-            // In TypeScript samples, we include TypeScript, `cross-env`, and `rimraf`, because they're used
+              // In TypeScript samples, we include TypeScript, `cross-env`, and `rimraf`, because they're used
               // in the package scripts as well as @types/node.
               devDependencies: {
                 ...typesDependencies,
