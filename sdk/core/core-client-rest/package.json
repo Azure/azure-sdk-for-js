@@ -83,6 +83,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

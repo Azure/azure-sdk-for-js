@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -29,6 +29,16 @@ export interface AuthConfigProperties {
 
 // @public
 export type AuthenticationMode = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BackupProperties {
@@ -76,8 +86,8 @@ export type CreateMode = string;
 
 // @public
 export interface CustomerManagedKeyEncryptionProperties {
-    keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl: string;
+    keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
 }
 
 // @public
@@ -192,8 +202,8 @@ export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
 
 // @public
 export interface KeyEncryptionKeyIdentity {
-    identityType: KeyEncryptionKeyIdentityType;
-    userAssignedIdentityResourceId: string;
+    identityType?: KeyEncryptionKeyIdentityType;
+    userAssignedIdentityResourceId?: string;
 }
 
 // @public
@@ -368,7 +378,8 @@ export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20241001Preview = "2024-10-01-preview",
     V20250401Preview = "2025-04-01-preview",
-    V20250701Preview = "2025-07-01-preview"
+    V20250701Preview = "2025-07-01-preview",
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -409,6 +420,7 @@ export class MongoClusterManagementClient {
 // @public
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -518,6 +530,7 @@ export interface MongoClusterUpdateProperties {
     backup?: BackupProperties;
     compute?: ComputeProperties;
     dataApi?: DataApiProperties;
+    encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
@@ -727,9 +740,7 @@ export interface ShardingProperties {
 
 // @public
 export interface StorageProperties {
-    iops?: number;
     sizeGb?: number;
-    throughput?: number;
     type?: StorageType;
 }
 
