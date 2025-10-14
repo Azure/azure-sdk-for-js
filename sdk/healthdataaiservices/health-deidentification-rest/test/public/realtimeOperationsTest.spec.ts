@@ -114,4 +114,41 @@ describe("Realtime", () => {
       "Expected first tag to be 10 characters long.",
     );
   }, 20000);
+
+  it("surrogateOnly returns expected", async () => {
+    const content: DeidentificationContent = {
+      inputText: inputText,
+      operation: "SurrogateOnly",
+      taggedEntities: {
+        encoding: "utf8",
+        entities: [
+          {
+            category: "Patient",
+            offset: 18,
+            length: 10,
+          },
+        ],
+      },
+      customizations: {
+        inputLocale: "en-US",
+      },
+    };
+
+    const response = await client.path("/deid").post({ body: content });
+    assert.equal(response.status, "200");
+    const output = response.body as DeidentificationResultOutput;
+    assert.isUndefined(
+      output.taggerResult,
+      "On SurrogateOnly Operation, expect TaggerResult to be null.",
+    );
+    assert.isNotNull(
+      output.outputText,
+      "On SurrogateOnly Operation, expect OutputText to be not null.",
+    );
+    assert.notEqual(
+      content.inputText,
+      output.outputText,
+      "Expected output text to be different from input text.",
+    );
+  }, 20000);
 });

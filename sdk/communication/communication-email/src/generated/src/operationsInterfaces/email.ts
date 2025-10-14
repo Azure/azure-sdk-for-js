@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EmailGetSendResultOptionalParams,
   EmailGetSendResultResponse,
   EmailMessage,
   EmailSendOptionalParams,
-  EmailSendResponse
+  EmailSendResponse,
 } from "../models/index.js";
 
 /** Interface representing a Email. */
@@ -25,7 +25,7 @@ export interface Email {
    */
   getSendResult(
     operationId: string,
-    options?: EmailGetSendResultOptionalParams
+    options?: EmailGetSendResultOptionalParams,
   ): Promise<EmailGetSendResultResponse>;
   /**
    * Queues an email message to be sent to one or more recipients
@@ -34,9 +34,9 @@ export interface Email {
    */
   beginSend(
     message: EmailMessage,
-    options?: EmailSendOptionalParams
+    options?: EmailSendOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>
+    SimplePollerLike<OperationState<EmailSendResponse>, EmailSendResponse>
   >;
   /**
    * Queues an email message to be sent to one or more recipients
@@ -45,6 +45,6 @@ export interface Email {
    */
   beginSendAndWait(
     message: EmailMessage,
-    options?: EmailSendOptionalParams
+    options?: EmailSendOptionalParams,
   ): Promise<EmailSendResponse>;
 }

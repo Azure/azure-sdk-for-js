@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import {
-  OracleSubscription,
-  OracleSubscriptionUpdate,
-  CloudAccountDetails,
-  SaasSubscriptionDetails,
-  ActivationLinks,
-  AzureSubscriptions,
-} from "../../models/models.js";
-import {
-  OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
-  OracleSubscriptionsListActivationLinksOptionalParams,
-  OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
-  OracleSubscriptionsListCloudAccountDetailsOptionalParams,
-  OracleSubscriptionsDeleteOptionalParams,
-  OracleSubscriptionsUpdateOptionalParams,
-  OracleSubscriptionsGetOptionalParams,
-  OracleSubscriptionsCreateOrUpdateOptionalParams,
-  OracleSubscriptionsListBySubscriptionOptionalParams,
-} from "../../api/oracleSubscriptions/options.js";
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   addAzureSubscriptions,
   listActivationLinks,
@@ -32,8 +13,27 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/oracleSubscriptions/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  OracleSubscriptionsListActivationLinksOptionalParams,
+  OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
+  OracleSubscriptionsListCloudAccountDetailsOptionalParams,
+  OracleSubscriptionsDeleteOptionalParams,
+  OracleSubscriptionsUpdateOptionalParams,
+  OracleSubscriptionsGetOptionalParams,
+  OracleSubscriptionsCreateOrUpdateOptionalParams,
+  OracleSubscriptionsListBySubscriptionOptionalParams,
+} from "../../api/oracleSubscriptions/options.js";
+import type {
+  OracleSubscription,
+  OracleSubscriptionUpdate,
+  CloudAccountDetails,
+  SaasSubscriptionDetails,
+  ActivationLinks,
+  AzureSubscriptions,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OracleSubscriptions operations. */
 export interface OracleSubscriptionsOperations {

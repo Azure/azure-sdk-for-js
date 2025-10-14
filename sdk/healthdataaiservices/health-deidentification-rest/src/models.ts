@@ -6,7 +6,7 @@ export interface DeidentificationJob {
   /**
    * Operation to perform on the input documents.
    *
-   * Possible values: "Redact", "Surrogate", "Tag"
+   * Possible values: "Redact", "Surrogate", "Tag", "SurrogateOnly"
    */
   operation?: DeidentificationOperationType;
   /** Storage location to perform the operation on. */
@@ -50,11 +50,13 @@ export interface TargetStorageLocation {
 export interface DeidentificationJobCustomizationOptions {
   /**
    * Format of the redacted output. Only valid when Operation is Redact.
-   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   * Please refer to https://learn.microsoft.com/azure/healthcare-apis/deidentification/redaction-format for more details.
    */
   redactionFormat?: string;
   /** Locale in which the output surrogates are written. */
   surrogateLocale?: string;
+  /** Locale of the input text. Used for better PHI detection. Defaults to 'en-US'. */
+  inputLocale?: string;
 }
 
 /** Summary metrics of a job. */
@@ -78,25 +80,61 @@ export interface DeidentificationContent {
   /**
    * Operation to perform on the input documents.
    *
-   * Possible values: "Redact", "Surrogate", "Tag"
+   * Possible values: "Redact", "Surrogate", "Tag", "SurrogateOnly"
    */
   operation?: DeidentificationOperationType;
+  /** Grouped PHI entities with single encoding specification for SurrogateOnly operation. */
+  taggedEntities?: TaggedPhiEntities;
   /** Customization parameters to override default service behaviors. */
   customizations?: DeidentificationCustomizationOptions;
+}
+
+/** Grouped PHI entities with shared encoding specification. */
+export interface TaggedPhiEntities {
+  /**
+   * The encoding type used for all entities in this group.
+   *
+   * Possible values: "Utf8", "Utf16", "CodePoint"
+   */
+  encoding: TextEncodingType;
+  /** List of PHI entities using the specified encoding. */
+  entities: Array<SimplePhiEntity>;
+}
+
+/** Simple PHI entity with encoding-specific offset and length values. */
+export interface SimplePhiEntity {
+  /**
+   * PHI Category of the entity.
+   *
+   * Possible values: "Unknown", "Account", "Age", "BioID", "City", "CountryOrRegion", "Date", "Device", "Doctor", "Email", "Fax", "HealthPlan", "Hospital", "IDNum", "IPAddress", "License", "LocationOther", "MedicalRecord", "Organization", "Patient", "Phone", "Profession", "SocialSecurity", "State", "Street", "Url", "Username", "Vehicle", "Zip"
+   */
+  category: PhiCategory;
+  /** Starting index of the location from within the input text using the group's encoding. */
+  offset: number;
+  /** Length of the input text using the group's encoding. */
+  length: number;
+  /** Text of the entity (optional). */
+  text?: string;
 }
 
 /** Customizations options to override default service behaviors for synchronous usage. */
 export interface DeidentificationCustomizationOptions {
   /**
    * Format of the redacted output. Only valid when Operation is Redact.
-   * Please refer to https://learn.microsoft.com/en-us/azure/healthcare-apis/deidentification/redaction-format for more details.
+   * Please refer to https://learn.microsoft.com/azure/healthcare-apis/deidentification/redaction-format for more details.
    */
   redactionFormat?: string;
   /** Locale in which the output surrogates are written. */
   surrogateLocale?: string;
+  /** Locale of the input text. Used for better PHI detection. Defaults to 'en-US'. */
+  inputLocale?: string;
 }
 
 /** Alias for DeidentificationOperationType */
 export type DeidentificationOperationType = string;
 /** Alias for OperationState */
 export type OperationState = string;
+/** Alias for TextEncodingType */
+export type TextEncodingType = string;
+/** Alias for PhiCategory */
+export type PhiCategory = string;

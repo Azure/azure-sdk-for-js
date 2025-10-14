@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DurableTaskContext } from "../../api/durableTaskContext.js";
-import { TaskHub } from "../../models/models.js";
-import {
+import type { DurableTaskContext } from "../../api/durableTaskContext.js";
+import { listByScheduler, $delete, createOrUpdate, get } from "../../api/taskHubs/operations.js";
+import type {
   TaskHubsListBySchedulerOptionalParams,
   TaskHubsDeleteOptionalParams,
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
 } from "../../api/taskHubs/options.js";
-import { listByScheduler, $delete, createOrUpdate, get } from "../../api/taskHubs/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { TaskHub } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TaskHubs operations. */
 export interface TaskHubsOperations {

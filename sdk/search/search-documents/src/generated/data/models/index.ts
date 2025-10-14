@@ -121,11 +121,6 @@ export interface SearchDocumentsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
-  /**
-   * Debug information that applies to the search results as a whole.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly debugInfo?: DebugInfo;
 }
 
 /** A single bucket of a facet query result. Reports the number of documents with a field value falling within a particular range or having a particular value or interval. */
@@ -137,6 +132,11 @@ export interface FacetResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly count?: number;
+  /**
+   * The resulting total sum for the facet when a sum metric is requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sum?: number;
   /**
    * The nested facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not contain any nested facets.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -258,6 +258,8 @@ export interface VectorQuery {
   threshold?: VectorThresholdUnion;
   /** The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in the top level filter parameter is used instead. */
   filterOverride?: string;
+  /** Controls how many vectors can be matched from each document in a vector search query. Setting it to 1 ensures at most one vector per document is matched, guaranteeing results come from distinct documents. Setting it to 0 (unlimited) allows multiple relevant vectors from the same document to be matched. Default is 0. */
+  perDocumentVectorLimit?: number;
 }
 
 /** The threshold used for vector queries. */
@@ -289,6 +291,11 @@ export interface SearchResult {
    */
   readonly _rerankerScore?: number;
   /**
+   * The relevance score computed by boosting the Reranker Score. Search results are sorted by the RerankerScore/RerankerBoostedScore based on useScoringProfileBoostedRanking in the Semantic Config. RerankerBoostedScore is only returned for queries of type 'semantic'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly _rerankerBoostedScore?: number;
+  /**
    * Text fragments from the document that indicate the matching search terms, organized by each applicable field; null if hit highlighting was not enabled for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -302,7 +309,7 @@ export interface SearchResult {
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly documentDebugInfo?: DocumentDebugInfo;
+  readonly _documentDebugInfo?: DocumentDebugInfo;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
@@ -333,6 +340,13 @@ export interface DocumentDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vectors?: VectorsDebugInfo;
+  /**
+   * Contains debugging information specific to vectors matched within a collection of complex types.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerHits?: {
+    [propertyName: string]: QueryResultDocumentInnerHit[];
+  };
 }
 
 export interface SemanticDebugInfo {
@@ -441,41 +455,18 @@ export interface SingleVectorFieldResult {
   readonly vectorSimilarity?: number;
 }
 
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DebugInfo {
+/** Detailed scoring information for an individual element of a complex collection. */
+export interface QueryResultDocumentInnerHit {
   /**
-   * Contains debugging information specific to query rewrites.
+   * Position of this specific matching element within it's original collection. Position starts at 0.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly queryRewrites?: QueryRewritesDebugInfo;
-}
-
-/** Contains debugging information specific to query rewrites. */
-export interface QueryRewritesDebugInfo {
+  readonly ordinal?: number;
   /**
-   * List of query rewrites generated for the text query.
+   * Detailed scoring information for an individual element of a complex collection that matched a vector query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly text?: QueryRewritesValuesDebugInfo;
-  /**
-   * List of query rewrites generated for the vectorizable text queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vectors?: QueryRewritesValuesDebugInfo[];
-}
-
-/** Contains debugging information specific to query rewrites. */
-export interface QueryRewritesValuesDebugInfo {
-  /**
-   * The input text to the generative query rewriting model. There may be cases where the user query and the input to the generative model are not identical.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inputQuery?: string;
-  /**
-   * List of query rewrites.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rewrites?: string[];
+  readonly vectors?: { [propertyName: string]: SingleVectorFieldResult }[];
 }
 
 /** Response containing suggestion query results from an index. */
@@ -626,6 +617,43 @@ export interface AutocompleteRequest {
   suggesterName: string;
   /** The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
+}
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DebugInfo {
+  /**
+   * Contains debugging information specific to query rewrites.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queryRewrites?: QueryRewritesDebugInfo;
+}
+
+/** Contains debugging information specific to query rewrites. */
+export interface QueryRewritesDebugInfo {
+  /**
+   * List of query rewrites generated for the text query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly text?: QueryRewritesValuesDebugInfo;
+  /**
+   * List of query rewrites generated for the vectorizable text queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectors?: QueryRewritesValuesDebugInfo[];
+}
+
+/** Contains debugging information specific to query rewrites. */
+export interface QueryRewritesValuesDebugInfo {
+  /**
+   * The input text to the generative query rewriting model. There may be cases where the user query and the input to the generative model are not identical.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputQuery?: string;
+  /**
+   * List of query rewrites.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rewrites?: string[];
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
@@ -782,20 +810,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20241101Preview} that the service accepts. */
-export enum KnownApiVersion20241101Preview {
-  /** Api Version '2024-11-01-preview' */
-  TwoThousandTwentyFour1101Preview = "2024-11-01-preview",
+/** Known values of {@link ApiVersion20250801Preview} that the service accepts. */
+export enum KnownApiVersion20250801Preview {
+  /** Api Version '2025-08-01-preview' */
+  TwoThousandTwentyFive0801Preview = "2025-08-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20241101Preview. \
- * {@link KnownApiVersion20241101Preview} can be used interchangeably with ApiVersion20241101Preview,
+ * Defines values for ApiVersion20250801Preview. \
+ * {@link KnownApiVersion20250801Preview} can be used interchangeably with ApiVersion20250801Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-11-01-preview**: Api Version '2024-11-01-preview'
+ * **2025-08-01-preview**: Api Version '2025-08-01-preview'
  */
-export type ApiVersion20241101Preview = string;
+export type ApiVersion20250801Preview = string;
 
 /** Known values of {@link SemanticErrorMode} that the service accepts. */
 export enum KnownSemanticErrorMode {
@@ -879,6 +907,8 @@ export enum KnownQueryDebugMode {
   Vector = "vector",
   /** Allows the user to explore the list of query rewrites generated for their search request. */
   QueryRewrites = "queryRewrites",
+  /** Allows the user to retrieve scoring information regarding vectors matched within a collection of complex types. */
+  InnerHits = "innerHits",
   /** Turn on all debug options. */
   All = "all",
 }
@@ -892,6 +922,7 @@ export enum KnownQueryDebugMode {
  * **semantic**: Allows the user to further explore their reranked results. \
  * **vector**: Allows the user to further explore their hybrid and vector query results. \
  * **queryRewrites**: Allows the user to explore the list of query rewrites generated for their search request. \
+ * **innerHits**: Allows the user to retrieve scoring information regarding vectors matched within a collection of complex types. \
  * **all**: Turn on all debug options.
  */
 export type QueryDebugMode = string;
@@ -1190,6 +1221,8 @@ export enum KnownVectorFilterMode {
   PostFilter = "postFilter",
   /** The filter will be applied before the search query. */
   PreFilter = "preFilter",
+  /** The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'. */
+  StrictPostFilter = "strictPostFilter",
 }
 
 /**
@@ -1198,7 +1231,8 @@ export enum KnownVectorFilterMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **postFilter**: The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. \
- * **preFilter**: The filter will be applied before the search query.
+ * **preFilter**: The filter will be applied before the search query. \
+ * **strictPostFilter**: The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'.
  */
 export type VectorFilterMode = string;
 
@@ -1322,6 +1356,8 @@ export interface DocumentsSearchGetOptionalParams
   searchOptions?: SearchOptions;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
   searchText?: string;
+  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
+  xMsQuerySourceAuthorization?: string;
 }
 
 /** Contains response data for the searchGet operation. */
@@ -1329,7 +1365,10 @@ export type DocumentsSearchGetResponse = SearchDocumentsResult;
 
 /** Optional parameters. */
 export interface DocumentsSearchPostOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
+  xMsQuerySourceAuthorization?: string;
+}
 
 /** Contains response data for the searchPost operation. */
 export type DocumentsSearchPostResponse = SearchDocumentsResult;
@@ -1337,6 +1376,8 @@ export type DocumentsSearchPostResponse = SearchDocumentsResult;
 /** Optional parameters. */
 export interface DocumentsGetOptionalParams
   extends coreClient.OperationOptions {
+  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
+  xMsQuerySourceAuthorization?: string;
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
   selectedFields?: string[];
 }
