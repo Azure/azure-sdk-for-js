@@ -4257,6 +4257,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4321,6 +4324,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

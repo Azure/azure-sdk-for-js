@@ -85,6 +85,7 @@
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
     "eslint": "catalog:",
+    "prettier": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
