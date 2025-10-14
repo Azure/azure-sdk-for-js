@@ -6,10 +6,13 @@ trigger:
       - main
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/healthdataaiservices/ci.mgmt.yml
       - sdk/healthdataaiservices/arm-healthdataaiservices
+      - sdk/healthdataaiservices/health-deidentification-rest
 pr:
   branches:
     include:
@@ -23,6 +26,7 @@ pr:
     include:
       - sdk/healthdataaiservices/ci.mgmt.yml
       - sdk/healthdataaiservices/arm-healthdataaiservices
+      - sdk/healthdataaiservices/health-deidentification-rest
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-arm-healthdataaiservices
         safeName: azurearmhealthdataaiservices
+      - name: azure-rest-health-deidentification
+        safeName: azureresthealthdeidentification
