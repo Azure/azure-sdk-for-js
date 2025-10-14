@@ -82,12 +82,14 @@ export abstract class BaseSender {
         // Only initialize if not already set (e.g., by tests)
         if (!this.customerSDKStatsMetrics) {
           import("../../export/statsbeat/customerSDKStats.js")
-            .then(({ CustomerSDKStatsMetrics }) => CustomerSDKStatsMetrics.getInstance({
-              instrumentationKey: options.instrumentationKey,
-              endpointUrl: options.endpointUrl,
-              disableOfflineStorage: this.disableOfflineStorage,
-              networkCollectionInterval: exportInterval,
-            }))
+            .then(({ CustomerSDKStatsMetrics }) =>
+              CustomerSDKStatsMetrics.getInstance({
+                instrumentationKey: options.instrumentationKey,
+                endpointUrl: options.endpointUrl,
+                disableOfflineStorage: this.disableOfflineStorage,
+                networkCollectionInterval: exportInterval,
+              }),
+            )
             .then((metrics) => {
               this.customerSDKStatsMetrics = metrics;
               return;

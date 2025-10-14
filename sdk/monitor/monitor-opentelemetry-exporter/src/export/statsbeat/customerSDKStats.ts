@@ -54,10 +54,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
   // Customer SDK Stats properties
   private customerProperties: CustomerSDKStatsProperties;
 
-  private constructor(
-    options: StatsbeatOptions, 
-    exporter: AzureMonitorStatsbeatExporter
-  ) {
+  private constructor(options: StatsbeatOptions, exporter: AzureMonitorStatsbeatExporter) {
     super();
     this.customerSDKStatsExporter = exporter;
     // Exports Customer SDK Stats every 15 minutes
