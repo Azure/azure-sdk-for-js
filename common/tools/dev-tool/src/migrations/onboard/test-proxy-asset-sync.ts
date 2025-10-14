@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFile, pathExists } from "fs-extra";
+import { readFile } from "node:fs/promises";
+import { pathExists } from "../../util/fsHelpers";
 import path from "node:path";
 import { createMigration } from "../../util/migrations";
 import { runMigrationScript } from "../../util/testProxyUtils";

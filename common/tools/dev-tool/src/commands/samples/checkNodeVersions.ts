@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { cpSync, copyFileSync, existsSync, writeFileSync } from "node:fs";
+import { mkdtemp, readdir } from "node:fs/promises";
 import path from "node:path";
 import pr from "node:child_process";
 import os from "node:os";
@@ -148,19 +149,19 @@ function createDockerContextDirectory(
     throw new Error("artifact_path is a required argument but it was not passed");
   }
   const envFileName = path.basename(envPath);
-  fs.copySync(samplesPath, path.join(dockerContextDirectory, "samples"));
+  cpSync(samplesPath, path.join(dockerContextDirectory, "samples"), { recursive: true });
   let artifactURL: string | undefined = undefined;
-  if (fs.existsSync(artifactPath)) {
+  if (existsSync(artifactPath)) {
     const artifactName = path.basename(artifactPath);
-    fs.copyFileSync(artifactPath, path.join(dockerContextDirectory, artifactName));
+    copyFileSync(artifactPath, path.join(dockerContextDirectory, artifactName));
     artifactURL = `${containerWorkspacePath}/${artifactName}`;
   } else if (stringIsAValidUrl(artifactPath)) {
     artifactURL = artifactPath;
   } else {
     throw new Error(`artifact path passed does not exist: ${artifactPath}`);
   }
-  fs.copyFileSync(envPath, path.join(dockerContextDirectory, envFileName));
-  fs.writeFileSync(
+  copyFileSync(envPath, path.join(dockerContextDirectory, envFileName));
+  writeFileSync(
     path.join(dockerContextDirectory, "run_samples.sh"),
     buildRunSamplesScript(
       containerWorkspacePath,
@@ -283,7 +284,7 @@ export default leafCommand(commandInfo, async (options) => {
   ];
   const dockerContextDirectory: string =
     options["context-directory-path"] === ""
-      ? await fs.mkdtemp(path.join(os.tmpdir(), "context"))
+      ? await mkdtemp(path.join(os.tmpdir(), "context"))
       : options["context-directory-path"];
   const pkg = await resolveProject(options.directory);
   const samplesPath = path.join(pkg.path, "samples");
@@ -299,7 +300,7 @@ export default leafCommand(commandInfo, async (options) => {
   const stdoutListener = (chunk: Buffer | string) => log.info(chunk.toString());
   const stderrListener = (chunk: Buffer | string) => log.error(chunk.toString());
   async function cleanupBefore(): Promise<void> {
-    const dockerContextDirectoryChildren = await fs.readdir(dockerContextDirectory);
+    const dockerContextDirectoryChildren = await readdir(dockerContextDirectory);
     await cleanup(
       // If the directory is empty, we will not delete it.
       dockerContextDirectoryChildren.length === 0 ? undefined : dockerContextDirectory,

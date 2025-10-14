@@ -6,7 +6,7 @@
  * can use them without themselves depending on that command's package.
  */
 
-import fs from "fs-extra";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { spawn, SpawnOptions } from "node:child_process";
 import { makeCommandInfo, subCommand } from "../../framework/command";
@@ -54,7 +54,7 @@ export const commandInfo = makeCommandInfo("vendored", "run dev-tool's dependenc
 
 export default async (...args: string[]): Promise<boolean> => {
   // I'm not 100% sure what underscore-prefixed commands do, but the only one we have now is _mocha.
-  const commands = (await fs.readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
+  const commands = (await readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
 
   const executor = subCommand(
     commandInfo,
@@ -78,7 +78,7 @@ export async function vendoredWithOptions(
   options: SpawnOptions,
   ...args: string[]
 ): Promise<boolean> {
-  const commands = (await fs.readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
+  const commands = (await readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
 
   const executor = subCommand(
     commandInfo,

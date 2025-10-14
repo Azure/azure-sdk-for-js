@@ -9,7 +9,7 @@ import { makeCommandInfo } from "../../framework/command";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs/promises";
-import { pathExists } from "fs-extra";
+import { pathExists } from "../../util/fsHelpers";
 import type { Dirent } from "node:fs";
 
 const log = createPrinter("apply-customization");
