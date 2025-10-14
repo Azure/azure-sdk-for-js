@@ -95,14 +95,14 @@ function resolveDependencyVersion(name: string, specifier: string): string {
     return "latest";
   } else {
     const resolvedVersion = resolveCatalogVersion(name, specifier);
-    // Our pnpm workspace has "linkWorkspacePackages: true" so we couldn't use a
-    // caret version for "@azure/identity" in the "catalog:internal" catalog.
-    // Otherwise it would introduce a circular because the source version would satisfy
-    // the caret version range. To avoid that we use a specific recent version that is
-    // different from the source version so it resolves to a npmjs version.
-    // However, for our samples we still want the caret version.  Our sample usage
-    // is mostly `DefaultAzureCredential` so changing to a caret version is fine
-    // and allows customers to get the latest version.
+    // Our pnpm workspace has "linkWorkspacePackages: true" so we can't use a
+    // caret version for "@azure/identity" in the "catalog:internal" catalog;
+    // Otherwise it would introduce a circular dependency as the source version satisfies
+    // the caret version range. To avoid that we used a specific version that is
+    // different from the source version so it resolves to a npmjs version instead.
+    // However, for our samples we still want the caret version so that customers
+    // can get the latest version. Our sample usage of @azure/identity is mostly
+    // `DefaultAzureCredential` so changing to a caret version is fine.
     if (name === "@azure/identity" && specifier === "catalog:internal") {
       return `^${resolvedVersion}`;
     }
