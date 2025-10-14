@@ -140,7 +140,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 
-  const command = envVars.length > 0 ? `cross-env ${envVars} node` : "node";
+  const command = envVars !== "" ? `cross-env ${envVars} node` : "node";
 
   return `${command} ${
     info.useTypeScript ? "dist/" : ""
