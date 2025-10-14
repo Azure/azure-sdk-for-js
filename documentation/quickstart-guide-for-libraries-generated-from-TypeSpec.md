@@ -76,12 +76,11 @@ After identifying the specific operation you want to perform, you can implement 
 We will walk through two examples:
 
 - **Example 1**: Creating a private cloud resource using the Azure VMware Solution client.
-- **Example 2**: Managing a private cloud with the Azure SDK for JavaScript/TypeScript.
+- **Example 2**: Managing a private cloud with the Azure SDK for TypeScript.
 
 ### Example 1: Create a private cloud resource
 
 **_Import the packages_**  
-TypeScript
 
 ```typescript
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
@@ -90,7 +89,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 
 **_Define some global variables_**  
-TypeScript
 
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
@@ -99,7 +97,6 @@ const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
 ```
 
 **_Create a private cloud_**  
-TypeScript
 
 ```typescript
 async function privateCloudsCreateOrUpdate(resourceGroupName: string, privateCloudName: string): Promise<void> {
@@ -119,7 +116,6 @@ async function privateCloudsCreateOrUpdate(resourceGroupName: string, privateClo
 ### Example 2: Manage a private cloud with the Azure SDK
 
 **_Import the packages_**  
-TypeScript
 
 ```typescript
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
@@ -127,7 +123,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 ```
 
 **_Authentication and set up_**  
-TypeScript
 
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
@@ -137,7 +132,6 @@ const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
 
 
 **_Update a private cloud_**  
-TypeScript
 
 ```typescript
 async function privateCloudsUpdate(resourceGroupName: string, privateCloudName: string): Promise<void> {
@@ -158,31 +152,7 @@ async function privateCloudsUpdate(resourceGroupName: string, privateCloudName: 
   console.log(result);
 }
 ```
-
-JavaScript
-
-```javascript
-async function privateCloudsUpdate(resourceGroupName, privateCloudName) {
-  const result = await client.privateClouds.update(resourceGroupName, privateCloudName, {
-    identity: { type: "None" },
-    properties: {
-      managementCluster: { clusterSize: 4 },
-      encryption: {
-        status: "Enabled",
-        keyVaultProperties: {
-          keyName: "keyname1",
-          keyVersion: "ver1.0",
-          keyVaultUrl: "https://keyvault1-kmip-kvault.vault.azure.net/",
-        },
-      },
-    },
-  });
-  console.log(result);
-}
-```
-
 **_List all private clouds_**  
-TypeScript
 
 ```typescript
 async function privateCloudsList(resourceGroupName: string): Promise<void> {
@@ -196,7 +166,6 @@ async function privateCloudsList(resourceGroupName: string): Promise<void> {
 ```
 
 **_Get a private cloud_**  
-TypeScript
 
 ```typescript
 async function privateCloudsGet(resourceGroupName: string, privateCloudName: string): Promise<void> {
@@ -206,7 +175,6 @@ async function privateCloudsGet(resourceGroupName: string, privateCloudName: str
 ```
 
 **_Delete a private cloud_**  
-TypeScript
 
 ```typescript
 async function privateCloudsDelete(resourceGroupName: string, privateCloudName: string): Promise<void> {
@@ -215,7 +183,6 @@ async function privateCloudsDelete(resourceGroupName: string, privateCloudName: 
 ```
 
 **_Manage private clouds_**  
-TypeScript 
 
 ```typescript
 async function main() {
