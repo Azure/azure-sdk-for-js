@@ -146,7 +146,7 @@ export interface FeatureFlagValue {
     description?: string;
     displayName?: string;
     enabled: boolean;
-    id: string;
+    id?: string;
 }
 
 // @public
