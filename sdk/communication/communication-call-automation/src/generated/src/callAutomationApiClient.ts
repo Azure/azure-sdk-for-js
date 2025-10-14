@@ -15,11 +15,13 @@ import {
 import {
   CallConnectionImpl,
   CallMediaImpl,
+  CallDialogImpl,
   CallRecordingImpl,
 } from "./operations/index.js";
 import {
   CallConnection,
   CallMedia,
+  CallDialog,
   CallRecording,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
@@ -66,7 +68,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-call-automation/1.5.0`;
+    const packageDetails = `azsdk-js-communication-call-automation/1.6.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -85,9 +87,10 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2025-06-15";
+    this.apiVersion = options.apiVersion || "2024-09-01-preview";
     this.callConnection = new CallConnectionImpl(this);
     this.callMedia = new CallMediaImpl(this);
+    this.callDialog = new CallDialogImpl(this);
     this.callRecording = new CallRecordingImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -197,6 +200,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
 
   callConnection: CallConnection;
   callMedia: CallMedia;
+  callDialog: CallDialog;
   callRecording: CallRecording;
 }
 // Operation Specifications
