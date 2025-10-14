@@ -1,4 +1,4 @@
-# Azure Cognitive Search TypeScript Protocol Layer
+# Azure AI Search TypeScript Protocol Layer
 
 > see https://aka.ms/autorest
 
@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14531a7cf6101c1dd57e7c1c83103a047bb8f5bb/specification/search/data-plane/Azure.Search/preview/2024-11-01-preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/429fd8c039c5b08541df2389f8c58d1090e01127/specification/search/data-plane/Azure.Search/preview/2025-08-01-preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.34"
+  "@autorest/typescript": "6.0.46"
 core-http-compat-mode: true
-package-version: 12.2.0-beta.2
+package-version: 12.2.0-beta.3
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -90,6 +90,8 @@ modelerfour:
       Highlights: $DO_NOT_NORMALIZE$_highlights
       RerankerScore: $DO_NOT_NORMALIZE$_rerankerScore
       Captions: $DO_NOT_NORMALIZE$_captions
+      DocumentDebugInfo: $DO_NOT_NORMALIZE$_documentDebugInfo
+      RerankerBoostedScore: $DO_NOT_NORMALIZE$_rerankerBoostedScore
 ```
 
 ### Mark score, key and text fields as required in AnswerResult Object

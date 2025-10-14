@@ -376,7 +376,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -397,7 +397,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TrustedAccessRoleBinding,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -483,7 +483,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

@@ -1,4 +1,20 @@
 # Release History
+
+## 8.0.0 (2025-09-17)
+
+### Features Added
+  - Added Interface NetworkInjection
+
+### Breaking Changes
+  - Operation Accounts.beginCreate has a new signature
+  - Operation Accounts.beginCreateAndWait has a new signature
+  - Operation Accounts.beginUpdate has a new signature
+  - Operation Accounts.beginUpdateAndWait has a new signature
+  - Operation Accounts.get has a new signature
+  - Operation DeletedAccounts.get has a new signature
+  - Removed Interface NetworkInjections
+  - Type of parameter networkInjections of interface AccountProperties is changed from NetworkInjections to NetworkInjection[]
+
     
 ## 7.7.0 (2025-07-08)
     

@@ -10,7 +10,9 @@ export { CloudExadataInfrastructuresOperations } from "./cloudExadataInfrastruct
 export { CloudVmClustersOperations } from "./cloudVmClusters/index.js";
 export { DbNodesOperations } from "./dbNodes/index.js";
 export { DbServersOperations } from "./dbServers/index.js";
+export { DbSystemsOperations } from "./dbSystems/index.js";
 export { DbSystemShapesOperations } from "./dbSystemShapes/index.js";
+export { DbVersionsOperations } from "./dbVersions/index.js";
 export { DnsPrivateViewsOperations } from "./dnsPrivateViews/index.js";
 export { DnsPrivateZonesOperations } from "./dnsPrivateZones/index.js";
 export { ExadbVmClustersOperations } from "./exadbVmClusters/index.js";
@@ -19,7 +21,9 @@ export { ExascaleDbStorageVaultsOperations } from "./exascaleDbStorageVaults/ind
 export { FlexComponentsOperations } from "./flexComponents/index.js";
 export { GiMinorVersionsOperations } from "./giMinorVersions/index.js";
 export { GiVersionsOperations } from "./giVersions/index.js";
+export { NetworkAnchorsOperations } from "./networkAnchors/index.js";
 export { OperationsOperations } from "./operations/index.js";
 export { OracleSubscriptionsOperations } from "./oracleSubscriptions/index.js";
+export { ResourceAnchorsOperations } from "./resourceAnchors/index.js";
 export { SystemVersionsOperations } from "./systemVersions/index.js";
 export { VirtualNetworkAddressesOperations } from "./virtualNetworkAddresses/index.js";
