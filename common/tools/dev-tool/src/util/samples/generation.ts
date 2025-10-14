@@ -94,7 +94,20 @@ function resolveDependencyVersion(name: string, specifier: string): string {
   } else if (specifier === "workspace:^") {
     return "latest";
   } else {
-    return resolveCatalogVersion(name, specifier);
+    const resolvedVersion = resolveCatalogVersion(name, specifier);
+    // Our pnpm workspace has "linkWorkspacePackages: true" so we couldn't use a
+    // caret version for "@azure/identity" in the "catalog:internal" catalog.
+    // Otherwise it would introduce a circular because the source version would satisfy
+    // the caret version range. To avoid that we use a specific recent version that is
+    // different from the source version so it resolves to a npmjs version.
+    // However, for our samples we still want the caret version.  Our sample usage
+    // is mostly `DefaultAzureCredential` so changing to a caret version is fine
+    // and allows customers to get the latest version.
+    if (name === "@azure/identity" && specifier === "catalog:internal") {
+      return `^${resolvedVersion}`;
+    }
+
+    return resolvedVersion;
   }
 }
 
@@ -265,7 +278,11 @@ export async function makeSampleGenerationInfo(
                 typescript: devToolPackageJson.dependencies.typescript,
               },
             }
-          : {}),
+          : {
+              devDependencies: {
+                "cross-env": "latest",
+              },
+            }),
       };
     },
   };
