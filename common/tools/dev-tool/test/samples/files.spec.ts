@@ -34,7 +34,9 @@ describe("File content tests", { timeout: 50000 }, async function () {
 
   // For whatever reason, calling `stat` asynchronously makes mocha hang up the test context, so we intentionally use
   // `statSync` throughout this file.
-  const areDirectories = await Promise.all(dirs.map(async (dir) => (await stat(dir)).isDirectory()));
+  const areDirectories = await Promise.all(
+    dirs.map(async (dir) => (await stat(dir)).isDirectory()),
+  );
   const inputDirectories = dirs.filter((_, idx) => areDirectories[idx]);
 
   const ownPackageJson = await import("../../package.json");

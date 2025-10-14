@@ -440,9 +440,7 @@ export async function makeSamplesFactory(
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
                   file(relativeSourcePath, () => postProcess(readFileSync(filePath))),
                 ),
-                ...dtsFiles.map(([relative, absolute]) =>
-                  file(relative, readFileSync(absolute)),
-                ),
+                ...dtsFiles.map(([relative, absolute]) => file(relative, readFileSync(absolute))),
               ]),
             ]),
             dir("javascript", [
