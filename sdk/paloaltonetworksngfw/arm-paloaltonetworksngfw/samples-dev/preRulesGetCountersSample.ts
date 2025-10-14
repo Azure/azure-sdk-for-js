@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  PreRulesGetCountersOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_getCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_getCounters_MaximumSet_Gen.json
  */
-
-import type { PreRulesGetCountersOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function preRulesGetCountersMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
@@ -20,7 +21,11 @@ async function preRulesGetCountersMaximumSetGen(): Promise<void> {
   const options: PreRulesGetCountersOptionalParams = { firewallName };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.preRules.getCounters(globalRulestackName, priority, options);
+  const result = await client.preRules.getCounters(
+    globalRulestackName,
+    priority,
+    options,
+  );
   console.log(result);
 }
 
@@ -28,14 +33,17 @@ async function preRulesGetCountersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_getCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_getCounters_MinimumSet_Gen.json
  */
 async function preRulesGetCountersMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.preRules.getCounters(globalRulestackName, priority);
+  const result = await client.preRules.getCounters(
+    globalRulestackName,
+    priority,
+  );
   console.log(result);
 }
 

@@ -214,6 +214,11 @@ export interface Changelog {
 }
 
 // @public
+export interface CloudManagerTenantList {
+    value: string[];
+}
+
+// @public
 export interface CountriesResponse {
     nextLink?: string;
     value: Country[];
@@ -260,6 +265,9 @@ export type EgressNat = string;
 export type EnabledDNSType = string;
 
 // @public
+export type EnableStatus = string;
+
+// @public
 export interface EndpointConfiguration {
     address: IPAddress;
     port: string;
@@ -301,12 +309,14 @@ export interface FirewallResource extends TrackedResource {
     frontEndSettings?: FrontendSetting[];
     identity?: AzureResourceManagerManagedIdentityProperties;
     isPanoramaManaged?: BooleanEnum;
+    isStrataCloudManaged?: BooleanEnum;
     marketplaceDetails: MarketplaceDetails;
     networkProfile: NetworkProfile;
     panEtag?: string;
     panoramaConfig?: PanoramaConfig;
     planData: PlanData;
     readonly provisioningState?: ProvisioningState;
+    strataCloudManagerConfig?: StrataCloudManagerConfig;
 }
 
 // @public
@@ -330,11 +340,13 @@ export interface FirewallResourceUpdateProperties {
     dnsSettings?: DNSSettings;
     frontEndSettings?: FrontendSetting[];
     isPanoramaManaged?: BooleanEnum;
+    isStrataCloudManaged?: BooleanEnum;
     marketplaceDetails?: MarketplaceDetails;
     networkProfile?: NetworkProfile;
     panEtag?: string;
     panoramaConfig?: PanoramaConfig;
     planData?: PlanData;
+    strataCloudManagerConfig?: StrataCloudManagerConfig;
 }
 
 // @public
@@ -462,8 +474,10 @@ export interface FirewallStatusResource extends ProxyResource {
     readonly healthReason?: string;
     readonly healthStatus?: HealthStatus;
     readonly isPanoramaManaged?: BooleanEnum;
+    readonly isStrataCloudManaged?: BooleanEnum;
     readonly panoramaStatus?: PanoramaStatus;
     readonly provisioningState?: ReadOnlyProvisioningState;
+    strataCloudManagerInfo?: StrataCloudManagerInfo;
 }
 
 // @public
@@ -891,6 +905,12 @@ export enum KnownEnabledDNSType {
 }
 
 // @public
+export enum KnownEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownHealthStatus {
     Green = "GREEN",
     Initializing = "INITIALIZING",
@@ -969,6 +989,12 @@ export enum KnownReadOnlyProvisioningState {
     Deleted = "Deleted",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRegistrationStatus {
+    NotRegistered = "Not Registered",
+    Registered = "Registered"
 }
 
 // @public
@@ -1173,12 +1199,12 @@ export interface LocalRulestacks {
     getChangeLog(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetChangeLogOptionalParams): Promise<LocalRulestacksGetChangeLogResponse>;
     getSupportInfo(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetSupportInfoOptionalParams): Promise<LocalRulestacksGetSupportInfoResponse>;
     listAdvancedSecurityObjects(resourceGroupName: string, localRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse>;
-    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): Promise<LocalRulestacksListAppIdsResponse>;
+    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): PagedAsyncIterableIterator<string>;
     listByResourceGroup(resourceGroupName: string, options?: LocalRulestacksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
     listBySubscription(options?: LocalRulestacksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
-    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): Promise<LocalRulestacksListCountriesResponse>;
+    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): PagedAsyncIterableIterator<Country>;
     listFirewalls(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListFirewallsOptionalParams): Promise<LocalRulestacksListFirewallsResponse>;
-    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): Promise<LocalRulestacksListPredefinedUrlCategoriesResponse>;
+    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): PagedAsyncIterableIterator<PredefinedUrlCategory>;
     listSecurityServices(resourceGroupName: string, localRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: LocalRulestacksListSecurityServicesOptionalParams): Promise<LocalRulestacksListSecurityServicesResponse>;
     revert(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksRevertOptionalParams): Promise<void>;
     update(resourceGroupName: string, localRulestackName: string, properties: LocalRulestackResourceUpdate, options?: LocalRulestacksUpdateOptionalParams): Promise<LocalRulestacksUpdateResponse>;
@@ -1371,6 +1397,75 @@ export interface MarketplaceDetails {
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
+export interface MetricsObjectFirewall {
+    beginCreateOrUpdate(resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MetricsObjectFirewallCreateOrUpdateResponse>, MetricsObjectFirewallCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams): Promise<MetricsObjectFirewallCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MetricsObjectFirewallDeleteResponse>, MetricsObjectFirewallDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams): Promise<MetricsObjectFirewallDeleteResponse>;
+    get(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallGetOptionalParams): Promise<MetricsObjectFirewallGetResponse>;
+    listByFirewalls(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallListByFirewallsOptionalParams): PagedAsyncIterableIterator<MetricsObjectFirewallResource>;
+}
+
+// @public
+export interface MetricsObjectFirewallCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MetricsObjectFirewallCreateOrUpdateResponse = MetricsObjectFirewallResource;
+
+// @public
+export interface MetricsObjectFirewallDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MetricsObjectFirewallDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MetricsObjectFirewallDeleteResponse = MetricsObjectFirewallDeleteHeaders;
+
+// @public
+export interface MetricsObjectFirewallGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetricsObjectFirewallGetResponse = MetricsObjectFirewallResource;
+
+// @public
+export interface MetricsObjectFirewallListByFirewallsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetricsObjectFirewallListByFirewallsNextResponse = MetricsObjectFirewallResourceListResult;
+
+// @public
+export interface MetricsObjectFirewallListByFirewallsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetricsObjectFirewallListByFirewallsResponse = MetricsObjectFirewallResourceListResult;
+
+// @public
+export interface MetricsObjectFirewallResource extends ProxyResource {
+    applicationInsightsConnectionString: string;
+    applicationInsightsResourceId: string;
+    panEtag?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface MetricsObjectFirewallResourceListResult {
+    nextLink?: string;
+    value: MetricsObjectFirewallResource[];
+}
+
+// @public
 export interface MonitorLog {
     id?: string;
     primaryKey?: string;
@@ -1390,6 +1485,7 @@ export interface NetworkProfile {
     egressNatIp?: IPAddress[];
     enableEgressNat: EgressNat;
     networkType: NetworkType;
+    privateSourceNatRulesDestination?: string[];
     publicIps: IPAddress[];
     trustedRanges?: string[];
     vnetConfiguration?: VnetConfiguration;
@@ -1471,7 +1567,11 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     // (undocumented)
     localRulestacks: LocalRulestacks;
     // (undocumented)
+    metricsObjectFirewall: MetricsObjectFirewall;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    paloAltoNetworksCloudngfwOperations: PaloAltoNetworksCloudngfwOperations;
     // (undocumented)
     postRules: PostRules;
     // (undocumented)
@@ -1483,6 +1583,46 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionId?: string;
 }
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperations {
+    // (undocumented)
+    createProductSerialNumber(options?: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberResponse>;
+    // (undocumented)
+    listCloudManagerTenants(options?: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsResponse>;
+    // (undocumented)
+    listProductSerialNumberStatus(options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusResponse>;
+    // (undocumented)
+    listSupportInfo(options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse>;
+}
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberResponse = ProductSerialNumberRequestStatus;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsResponse = CloudManagerTenantList;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusResponse = ProductSerialNumberStatus;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse = SupportInfoModel;
 
 // @public
 export interface PaloAltoNetworksCloudngfwOptionalParams extends coreClient.ServiceClientOptions {
@@ -1860,6 +2000,20 @@ export interface PreRulesResourceListResult {
 }
 
 // @public
+export interface ProductSerialNumberRequestStatus {
+    status: string;
+}
+
+// @public
+export interface ProductSerialNumberStatus {
+    serialNumber?: string;
+    status: ProductSerialStatusValues;
+}
+
+// @public
+export type ProductSerialStatusValues = "Allocated" | "InProgress";
+
+// @public
 export type ProtocolType = string;
 
 // @public
@@ -1871,6 +2025,9 @@ export interface ProxyResource extends Resource {
 
 // @public
 export type ReadOnlyProvisioningState = string;
+
+// @public
+export type RegistrationStatus = string;
 
 // @public
 export interface Resource {
@@ -1962,6 +2119,17 @@ export interface StorageAccount {
 }
 
 // @public
+export interface StrataCloudManagerConfig {
+    cloudManagerName: string;
+}
+
+// @public
+export interface StrataCloudManagerInfo {
+    folderName?: string;
+    hubUrl?: string;
+}
+
+// @public
 export interface SupportInfo {
     accountId?: string;
     accountRegistered?: BooleanEnum;
@@ -1975,6 +2143,25 @@ export interface SupportInfo {
     supportURL?: string;
     userDomainSupported?: BooleanEnum;
     userRegistered?: BooleanEnum;
+}
+
+// @public
+export interface SupportInfoModel {
+    accountId?: string;
+    accountRegistrationStatus?: RegistrationStatus;
+    credits?: number;
+    endDateForCredits?: string;
+    freeTrial?: EnableStatus;
+    freeTrialCreditLeft?: number;
+    freeTrialDaysLeft?: number;
+    helpURL?: string;
+    hubUrl?: string;
+    monthlyCreditLeft?: number;
+    productSerial?: string;
+    productSku?: string;
+    registerURL?: string;
+    startDateForCredits?: string;
+    supportURL?: string;
 }
 
 // @public
