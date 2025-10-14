@@ -6,15 +6,15 @@
 >   Previously referred to as *“modular”/“modularized libraries.”*
 > - **Libraries generated with AutoRest**: Client libraries produced by the **AutoRest Code Generator** (previous generation).  
 >   Previously referred to as *“HLC”, "Swagger generator", "OpenAPI Generator"*
-This guide helps developers transition their JavaScript/TypeScript applications to use the modularized Azure SDK libraries, also known as Modular SDKs.
+This guide helps developers transition their JavaScript/TypeScript applications to use the *TypeSpec generated* Azure SDK libraries.
 
-**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start guide for modularized libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/modularized-libraries-quickstart.md).**
+**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/quickstart-guide-for-libraries-generated-from-TypeSpec.md).**
 
 ## Current status
 
-Several packages released from Modular libraries have already reached General Availability (GA), including `@azure/arm-avs`, `@azure/arm-fabric`, `@azure/arm-oracledatabase`, `@azure/keyvault-admin`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and give them a try.
+Several packages generated from *TypeSpec* have already reached General Availability (GA), including `@azure/arm-avs`, `@azure/arm-fabric`, `@azure/arm-oracledatabase`, `@azure/keyvault-admin`. We are actively working on releasing more packages and eventually cover all Azure services. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and give them a try.
 
-## Why switching to the modularized libraries?
+## Library improvements when generating from *TypeSpec*
 
 We recommend reviewing the [complete guide](https://devblogs.microsoft.com/azure-sdk/azure-sdk-modularized-libraries-for-javascript/) for full details. Compared to libraries generated with *Autorest*, *TypeSpec code generation* has following key benefits:
 
@@ -23,7 +23,7 @@ We recommend reviewing the [complete guide](https://devblogs.microsoft.com/azure
 1. Long-running operations: Based on customer feedback, we simplified the API to make it cleaner and more ergonomic. Previously, clients exposed two methods for each *long-running operation* (`beginDoSth` and `beginDoSthAndWait`), which often felt redundant and confusing. Libraries generated from *TypeSpec* now provide a single method (`doSth`) that supports both async and sync usage, reducing complexity while improving developer experience.
 
 
-## How to migrate to the modularized libraries?
+## How to migrate to libraries generated from TypeSpec
 
 If you’re updating an existing application from **libraries generated with AutoRest** to **libraries generated from TypeSpec**, focus on these key areas:
 
@@ -77,6 +77,7 @@ const result = await start();           // awaiting returns the final result
 const poller = start();                 // direct access to the poller
 await poller.submitted();               // optional: await initial submission
 const result2 = await poller;           // or: await poller.pollUntilDone()
+```
 
 #### Poller type: `SimplePollerLike` → `PollerLike`
 
@@ -102,6 +103,7 @@ const status = poller.getOperationState().status;
 
 // Now
 const status = poller?.operationState?.status;
+```
 
 **Serialization change**
 ```ts
@@ -110,7 +112,8 @@ const serialized = poller.toString();
 
 // Now
 const serialized = await poller.serialize();
-#### Rehydration change
+```
+#### Rehydration (restoring a poller)
 
 Rehydration moved from an operation option (`resumeFrom`) to a **client‑level helper**.
 
@@ -121,6 +124,7 @@ const result = await client.beginStartAndWait({ resumeFrom: serializedState });
 
 // After (TypeSpec-generated)
 const result = await restorePoller(client, serializedState, client.start);
+```
 For more detail, see the core‑lro migration guide:  
 https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md
 
@@ -142,34 +146,32 @@ Paging has been simplified in libraries generated from TypeSpec. Two main change
 - **Removed unsupported `maxpagesize`**  
 - **Replaced `getContinuationToken` helper with direct `continuationToken` property**
 
-#### Remove un-supported maxpagesize in PageSetting
-The `maxpagesize` is not supported in traditional client so in Modular we remove this setting within PageSettings. These changes are supposed to have no impact for customers.
 
-#### Remove the helper `getContinuationToken`
-In traditional client we build an util function to help customers to get the continuation token([here](https://github.com/Azure/azure-sdk-for-js/blob/735677407c4fbbceea95200f6d6de00e29804740/sdk/datadog/arm-datadog/src/pagingHelper.ts#L22-L29)).
+#### `maxpagesize` removed
+The `maxpagesize` setting was never supported in AutoRest-generated clients, so it has been removed from `PageSettings`. No behavioral impact is expected.
 
-So we could reference the token by code.
+#### Continuation token access simplified
+Previously, you needed a helper function to extract the continuation token:
 
+**AutoRest-generated (previous)**  
 ```ts
 const firstPage = await iter.byPage().next();
 const continuationToken = getContinuationToken(firstPage);
 ```
 
-Now we directly deliver the `continuationToken` with byPage return.
+Now, the token is exposed directly on the page object:
 
+**TypeSpec-generated (current)**  
 ```ts
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-  /**
-   * The token that keeps track of where to continue the iterator
-   */
+  /** Token to continue iteration */
   continuationToken?: string;
 };
-```
-So we could reference the token like below:
-```ts
+
 const firstPage = await iter.byPage().next();
 const continuationToken = firstPage.value.continuationToken;
 ```
+
 
 ## Model Property Flattening
 
@@ -233,11 +235,11 @@ export interface HcxEnterpriseSiteProperties {
 Update your code to access nested properties through `properties`. For example:
 
 ```ts
-// traditional client
+// Before (AutoRest-generated)
 const result = await client.hcxEnterpriseSites.get("resourceGroupName", "privateCloudName", "hcxEnterpriseSiteName");
 console.log(result.activationKey);
 
-// Modular client
+// After (TypeSpec-generated)
 const result = await client.hcxEnterpriseSites.get("resourceGroupName", "privateCloudName", "hcxEnterpriseSiteName");
 console.log(result.properties?.activationKey);
 ```
