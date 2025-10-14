@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  GlobalRulestackListCountriesOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to List of countries for Rulestack
  *
  * @summary List of countries for Rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listCountries_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listCountries_MaximumSet_Gen.json
  */
-
-import type { GlobalRulestackListCountriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function globalRulestackListCountriesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
@@ -20,7 +21,10 @@ async function globalRulestackListCountriesMaximumSetGen(): Promise<void> {
   const options: GlobalRulestackListCountriesOptionalParams = { skip, top };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.globalRulestack.listCountries(globalRulestackName, options);
+  const result = await client.globalRulestack.listCountries(
+    globalRulestackName,
+    options,
+  );
   console.log(result);
 }
 
@@ -28,13 +32,14 @@ async function globalRulestackListCountriesMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List of countries for Rulestack
  *
  * @summary List of countries for Rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listCountries_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listCountries_MinimumSet_Gen.json
  */
 async function globalRulestackListCountriesMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.globalRulestack.listCountries(globalRulestackName);
+  const result =
+    await client.globalRulestack.listCountries(globalRulestackName);
   console.log(result);
 }
 
