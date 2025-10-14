@@ -65,7 +65,7 @@ node dist/autoScaleVCoresCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env POWERBIDEDICATED_SUBSCRIPTION_ID="<powerbidedicated subscription id>" POWERBIDEDICATED_RESOURCE_GROUP="<powerbidedicated resource group>" node dist/autoScaleVCoresCreateSample.js
+cross-env POWERBIDEDICATED_SUBSCRIPTION_ID="<powerbidedicated subscription id>" POWERBIDEDICATED_RESOURCE_GROUP="<powerbidedicated resource group>" node dist/autoScaleVCoresCreateSample.js
 ```
 
 ## Next Steps

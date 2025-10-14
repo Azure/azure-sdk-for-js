@@ -68,7 +68,7 @@ node dist/getOperationResultSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env RECOVERYSERVICES_SUBSCRIPTION_ID="<recoveryservices subscription id>" RECOVERYSERVICES_RESOURCE_GROUP="<recoveryservices resource group>" node dist/getOperationResultSample.js
+cross-env RECOVERYSERVICES_SUBSCRIPTION_ID="<recoveryservices subscription id>" RECOVERYSERVICES_RESOURCE_GROUP="<recoveryservices resource group>" node dist/getOperationResultSample.js
 ```
 
 ## Next Steps
