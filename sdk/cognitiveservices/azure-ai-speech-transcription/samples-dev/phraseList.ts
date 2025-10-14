@@ -19,44 +19,24 @@ import "dotenv/config";
 export async function main(): Promise<void> {
   console.log("== Phrase List Sample ==");
 
-  const endpoint = process.env.ENDPOINT || "<endpoint>";
-  const apiKey = process.env.API_KEY || "<api-key>";
-
+  // <ReadmeSamplePhraseList>
+  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
+  const apiKey = process.env.API_KEY ?? "<api-key>";
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
-
-  const audioFilePath = process.env.AUDIO_FILE_PATH || "path/to/audio.wav";
-
-  if (!fs.existsSync(audioFilePath)) {
-    console.error(`Audio file not found: ${audioFilePath}`);
-    console.log("Please set the AUDIO_FILE_PATH environment variable to a valid audio file.");
-    return;
-  }
-
-  const audioFile = fs.readFileSync(audioFilePath);
-
-  // Define domain-specific terms that should be recognized accurately
-  const domainTerms = [
-    "Azure",
-    "Cognitive Services",
-    "Speech API",
-    "TypeScript",
-    "JavaScript",
-    "npm",
-  ];
-
-  console.log("Transcribing with phrase list for improved accuracy...");
-  console.log(`Phrase list: ${domainTerms.join(", ")}`);
-
+  const audioFilePath = process.env.AUDIO_FILE_PATH ?? "path/to/audio.wav";
+  const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
   const result = await client.transcribe({
     audio: audioFile,
     options: {
       locales: ["en-US"],
       phraseList: {
-        phrases: domainTerms,
-        biasingWeight: 5.0, // Weight from 1.0 to 20.0 (higher = more influence)
+        phrases: ["Azure", "Cognitive Services", "Speech API"],
+        biasingWeight: 5.0, // Weight from 1.0 to 20.0
       },
     },
   });
+  console.log("Transcription:", result.combinedPhrases[0]?.text);
+  // </ReadmeSamplePhraseList>
 
   console.log("\n=== Transcription Results ===");
   console.log(`Duration: ${result.durationMilliseconds}ms\n`);

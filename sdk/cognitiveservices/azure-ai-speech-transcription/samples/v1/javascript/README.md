@@ -12,13 +12,15 @@ urlFragment: azure-ai-speech-transcription-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Speech Transcription in some common scenarios.
 
-| **File Name**                                   | **Description**                                               |
-| ----------------------------------------------- | ------------------------------------------------------------- |
-| [basicTranscription.js][basictranscription]     | transcribe an audio file with automatic language detection    |
-| [transcriptionFromUrl.js][transcriptionfromurl] | transcribe audio from a URL with automatic language detection |
-| [speakerDiarization.js][speakerdiarization]     | identify and separate different speakers in audio             |
-| [phraseList.js][phraselist]                     | use phrase lists to improve transcription accuracy            |
-| [profanityFiltering.js][profanityfiltering]     | control profanity handling in transcription results           |
+| **File Name**                                           | **Description**                                               |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| [basicTranscription.js][basictranscription]             | transcribe an audio file with automatic language detection    |
+| [transcriptionWithLocale.js][transcriptionwithlocale]   | transcribe audio with specific locale options                 |
+| [transcriptionFromUrl.js][transcriptionfromurl]         | transcribe audio from a URL with automatic language detection |
+| [speakerDiarization.js][speakerdiarization]             | identify and separate different speakers in audio             |
+| [phraseList.js][phraselist]                             | use phrase lists to improve transcription accuracy            |
+| [profanityFiltering.js][profanityfiltering]             | control profanity handling in transcription results           |
+| [setLogLevel.js][setloglevel]                           | enable logging to troubleshoot issues                         |
 
 ## Prerequisites
 
@@ -61,10 +63,13 @@ npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" AU
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [basictranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/basicTranscription.js
+[transcriptionwithlocale]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/transcriptionWithLocale.js
 [transcriptionfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/transcriptionFromUrl.js
 [speakerdiarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/speakerDiarization.js
 [phraselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/phraseList.js
 [profanityfiltering]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/profanityFiltering.js
+[setloglevel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/javascript/setLogLevel.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/azure-ai-speech-transcription?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureaispeechresource]: https://learn.microsoft.com/azure/ai-services/speech-service/overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/azure-ai-speech-transcription/README.md

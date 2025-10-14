@@ -21,11 +21,11 @@ export interface TranscriptionClientOptionalParams extends ClientOptions {
 }
 
 export function createTranscription(
-  endpointParam: string,
+  endpoint: string,
   credential: KeyCredential,
   options: TranscriptionClientOptionalParams = {},
 ): TranscriptionContext {
-  const endpointUrl = options.endpoint ?? `${endpointParam}/speechtotext`;
+  const endpointUrl = options.endpoint ?? `${endpoint}/speechtotext`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-azure-ai-speech-transcription/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

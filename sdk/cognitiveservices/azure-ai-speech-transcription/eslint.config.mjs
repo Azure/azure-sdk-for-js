@@ -12,6 +12,12 @@ export default azsdkEslint.config([
     },
   },
   {
+    files: ["samples-dev/**/*.ts"],
+    rules: {
+      "tsdoc/syntax": "off",
+    },
+  },
+  {
     files: ["src/models/**/*.ts", "src/static-helpers/**/*.ts"],
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": "off",

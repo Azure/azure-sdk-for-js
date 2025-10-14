@@ -75,7 +75,7 @@ export interface TranscribeRequestContent {
 
 // @public (undocumented)
 export class TranscriptionClient {
-    constructor(endpointParam: string, credential: KeyCredential, options?: TranscriptionClientOptionalParams);
+    constructor(endpoint: string, credential: KeyCredential, options?: TranscriptionClientOptionalParams);
     readonly pipeline: Pipeline;
     transcribe(body: TranscribeRequestContent, options?: TranscribeOptionalParams): Promise<TranscriptionResult>;
 }

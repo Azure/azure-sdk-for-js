@@ -17,7 +17,7 @@ export class TranscriptionClient {
   public readonly pipeline: Pipeline;
 
   constructor(
-    endpointParam: string,
+    endpoint: string,
     credential: KeyCredential,
     options: TranscriptionClientOptionalParams = {},
   ) {
@@ -25,7 +25,7 @@ export class TranscriptionClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createTranscription(endpointParam, credential, {
+    this._client = createTranscription(endpoint, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

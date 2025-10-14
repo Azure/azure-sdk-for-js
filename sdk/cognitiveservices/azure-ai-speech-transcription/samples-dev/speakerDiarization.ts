@@ -20,32 +20,27 @@ import "dotenv/config";
 export async function main(): Promise<void> {
   console.log("== Speaker Diarization Sample ==");
 
-  const endpoint = process.env.ENDPOINT || "<endpoint>";
-  const apiKey = process.env.API_KEY || "<api-key>";
-
+  // <ReadmeSampleSpeakerDiarization>
+  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
+  const apiKey = process.env.API_KEY ?? "<api-key>";
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
-
-  const audioFilePath = process.env.AUDIO_FILE_PATH || "path/to/audio.wav";
-
-  if (!fs.existsSync(audioFilePath)) {
-    console.error(`Audio file not found: ${audioFilePath}`);
-    console.log("Please set the AUDIO_FILE_PATH environment variable to a valid audio file.");
-    return;
-  }
-
-  const audioFile = fs.readFileSync(audioFilePath);
-
-  console.log("Transcribing with speaker diarization...");
+  const audioFilePath = process.env.AUDIO_FILE_PATH ?? "path/to/audio.wav";
+  const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
   const result = await client.transcribe({
     audio: audioFile,
     options: {
       locales: ["en-US"],
       diarization: {
         enabled: true,
-        maxSpeakers: 4, // Hint for maximum number of speakers
+        maxSpeakers: 4,
       },
     },
   });
+  // Access speaker information from the results
+  for (const phrase of result.phrases || []) {
+    console.log(`Speaker ${phrase.speaker}: ${phrase.text}`);
+  }
+  // </ReadmeSampleSpeakerDiarization>
 
   console.log("\n=== Transcription with Speaker Information ===");
   console.log(`Duration: ${result.durationMilliseconds}ms\n`);

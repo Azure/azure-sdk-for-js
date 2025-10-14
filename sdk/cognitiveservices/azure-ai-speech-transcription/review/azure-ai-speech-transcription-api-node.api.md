@@ -10,7 +10,7 @@ import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public (undocumented)
-export function createTranscription(endpointParam: string, credential: KeyCredential, options?: TranscriptionClientOptionalParams): TranscriptionContext;
+export function createTranscription(endpoint: string, credential: KeyCredential, options?: TranscriptionClientOptionalParams): TranscriptionContext;
 
 // @public
 export function transcribe(context: TranscriptionContext, body: TranscribeRequestContent, options?: TranscribeOptionalParams): Promise<TranscriptionResult>;
