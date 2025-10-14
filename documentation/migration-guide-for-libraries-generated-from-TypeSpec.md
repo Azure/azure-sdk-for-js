@@ -74,6 +74,7 @@ const result2 = await poller.pollUntilDone();
 
 // After (TypeSpec-generated)
 const result = await start();           // awaiting returns the final result
+
 const poller = start();                 // direct access to the poller
 await poller.submitted();               // optional: await initial submission
 const result2 = await poller;           // or: await poller.pollUntilDone()
@@ -130,7 +131,7 @@ https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRA
 
 ---
 
-### Quick migration checklist
+#### Quick migration checklist
 
 - Replace `beginXxxAndWait()` → `await xxx()`.  
 - Replace `await beginXxx()` → `const poller = xxx()`.  
@@ -173,7 +174,7 @@ const continuationToken = firstPage.value.continuationToken;
 ```
 
 
-## Model Property Flattening
+### Model Property Flattening
 
 Previously, **libraries generated with AutoRest** supported the `x-ms-client-flatten` extension, which allowed deeply nested payloads to be flattened into a top-level object structure. For example, a payload like this:
 
@@ -211,7 +212,7 @@ export interface HcxEnterpriseSite extends ProxyResource {
 }
 ```
 
-### What changed?
+#### What changed?
 **Libraries generated from TypeSpec** no longer support client-side flattening. This decision was based on customer feedback to reduce confusion and maintenance overhead. Models now preserve the original structure, so properties are grouped under a `properties` object (as defined in TypeSpec):
 ```ts
 /** An HCX Enterprise Site resource */
@@ -231,7 +232,7 @@ export interface HcxEnterpriseSiteProperties {
 }
 ```
 
-### What does this mean for you?
+#### What does this mean for you?
 Update your code to access nested properties through `properties`. For example:
 
 ```ts
