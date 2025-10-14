@@ -167,18 +167,6 @@ export async function toSortedLabelsArray(
   for await (const label of pagedIterator) {
     labels.push(label);
   }
-
-  /**
-   * Comment out the sanity check. During the live test, there might be other parallel tests adding labels, which causes the sanity check to fail.
-   */
-  // let labelsViaPageIterator: SettingLabel[] = [];
-
-  // for await (const page of pagedIterator.byPage()) {
-  //   labelsViaPageIterator = labelsViaPageIterator.concat(page.items);
-  // }
-
-  // assert.deepEqual(labels, labelsViaPageIterator);
-
   labels.sort((a, b) => (compareFn ? compareFn(a, b) : `${a.name}`.localeCompare(`${b.name}`)));
 
   return labels;
