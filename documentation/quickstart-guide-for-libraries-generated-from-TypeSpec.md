@@ -16,7 +16,7 @@ This quickstart walks you through managing Azure resources using a TypeSpec‑ge
 ## Migrating from older libraries
 
 If you’re upgrading from **libraries generated with AutoRest**, use the migration guide:  
-<https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-modularized-libraries.md>
+<https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/migration-guide-for-libraries-generated-from-TypeSpec.md>
 
 ## Prerequisites
 
@@ -88,15 +88,9 @@ import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 ```
 
-JavaScript
-
-```javascript
-const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-const { DefaultAzureCredential } = require("@azure/identity");
-```
 
 **_Define some global variables_**  
-TypeScript or JavaScript
+TypeScript
 
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
@@ -122,25 +116,6 @@ async function privateCloudsCreateOrUpdate(resourceGroupName: string, privateClo
   console.log(result);
 }
 ```
-
-JavaScript
-
-```javascript
-async function privateCloudsCreateOrUpdate(resourceGroupName, privateCloudName) {
-  const result = await client.privateClouds.createOrUpdate(resourceGroupName, privateCloudName, {
-    location: "eastus2",
-    sku: { name: "AV36" },
-    identity: { type: "SystemAssigned" },
-    properties: {
-      networkBlock: "192.168.48.0/22",
-      managementCluster: { clusterSize: 4 },
-    },
-    tags: {},
-  });
-  console.log(result);
-}
-```
-
 ### Example 2: Manage a private cloud with the Azure SDK
 
 **_Import the packages_**  
@@ -151,15 +126,8 @@ import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 ```
 
-JavaScript
-
-```javascript
-const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-const { DefaultAzureCredential } = require("@azure/identity");
-```
-
 **_Authentication and set up_**  
-TypeScript or JavaScript
+TypeScript
 
 ```typescript
 const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
@@ -227,34 +195,11 @@ async function privateCloudsList(resourceGroupName: string): Promise<void> {
 }
 ```
 
-JavaScript
-
-```javascript
-async function privateCloudsList(resourceGroupName) {
-  const resArray = new Array();
-  for await (const item of client.privateClouds.list(resourceGroupName)) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
-}
-
-```
-
 **_Get a private cloud_**  
 TypeScript
 
 ```typescript
 async function privateCloudsGet(resourceGroupName: string, privateCloudName: string): Promise<void> {
-  const result = await client.privateClouds.get(resourceGroupName, privateCloudName);
-  console.log(result);
-}
-```
-
-JavaScript
-
-```javascript
-async function privateCloudsGet(resourceGroupName, privateCloudName) {
   const result = await client.privateClouds.get(resourceGroupName, privateCloudName);
   console.log(result);
 }
@@ -269,16 +214,8 @@ async function privateCloudsDelete(resourceGroupName: string, privateCloudName: 
 }
 ```
 
-JavaScript
-
-```javascript
-async function privateCloudsDelete(resourceGroupName, privateCloudName) {
-  await client.privateClouds.delete(resourceGroupName, privateCloudName);
-}
-```
-
 **_Manage private clouds_**  
-TypeScript or JavaScript
+TypeScript 
 
 ```typescript
 async function main() {
