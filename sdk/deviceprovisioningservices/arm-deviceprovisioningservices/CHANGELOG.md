@@ -62,6 +62,12 @@ Compared with version 5.1.0
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
 
+
+## 6.0.0-beta.2 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
     
 ## 6.0.0-beta.1 (2023-06-07)
     
