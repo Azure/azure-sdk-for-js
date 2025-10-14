@@ -13,3 +13,16 @@ export * from "./parallelQueryExecutionContext.js";
 export * from "./orderByQueryExecutionContext.js";
 export * from "./pipelinedQueryExecutionContext.js";
 export * from "./orderByComparator.js";
+
+// Target Partition Range Management
+export {
+  TargetPartitionRangeManager,
+  QueryExecutionContextType,
+} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+export type { TargetPartitionRangeManagerConfig } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+export type {
+  TargetPartitionRangeStrategy,
+  PartitionRangeFilterResult,
+} from "./queryFilteringStrategy/TargetPartitionRangeStrategy.js";
+export { ParallelQueryRangeStrategy } from "./queryFilteringStrategy/ParallelQueryRangeStrategy.js";
+export { OrderByQueryRangeStrategy } from "./queryFilteringStrategy/OrderByQueryRangeStrategy.js";
