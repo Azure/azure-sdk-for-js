@@ -147,8 +147,8 @@ import type {
   TilerGeoJsonsCropWidthByHeightFormatDefaultResponse,
   TilerGeoJsonsCropFormat200Response,
   TilerGeoJsonsCropFormatDefaultResponse,
-  TilerGeoJsonStatisticsGetAll200Response,
-  TilerGeoJsonStatisticsGetAllDefaultResponse,
+  TilerGeoJsonStatisticsGet200Response,
+  TilerGeoJsonStatisticsGetDefaultResponse,
   TilerStatisticsGetAll200Response,
   TilerStatisticsGetAllDefaultResponse,
   TilerInfoGeoJsonOperationsGet200Response,
@@ -669,9 +669,9 @@ export function isUnexpected(
 ): response is TilerGeoJsonsCropFormatDefaultResponse;
 export function isUnexpected(
   response:
-    | TilerGeoJsonStatisticsGetAll200Response
-    | TilerGeoJsonStatisticsGetAllDefaultResponse,
-): response is TilerGeoJsonStatisticsGetAllDefaultResponse;
+    | TilerGeoJsonStatisticsGet200Response
+    | TilerGeoJsonStatisticsGetDefaultResponse,
+): response is TilerGeoJsonStatisticsGetDefaultResponse;
 export function isUnexpected(
   response:
     | TilerStatisticsGetAll200Response
@@ -972,8 +972,8 @@ export function isUnexpected(
     | TilerGeoJsonsCropWidthByHeightFormatDefaultResponse
     | TilerGeoJsonsCropFormat200Response
     | TilerGeoJsonsCropFormatDefaultResponse
-    | TilerGeoJsonStatisticsGetAll200Response
-    | TilerGeoJsonStatisticsGetAllDefaultResponse
+    | TilerGeoJsonStatisticsGet200Response
+    | TilerGeoJsonStatisticsGetDefaultResponse
     | TilerStatisticsGetAll200Response
     | TilerStatisticsGetAllDefaultResponse
     | TilerInfoGeoJsonOperationsGet200Response
@@ -1105,7 +1105,7 @@ export function isUnexpected(
   | TilerBoundGetAllDefaultResponse
   | TilerGeoJsonsCropWidthByHeightFormatDefaultResponse
   | TilerGeoJsonsCropFormatDefaultResponse
-  | TilerGeoJsonStatisticsGetAllDefaultResponse
+  | TilerGeoJsonStatisticsGetDefaultResponse
   | TilerStatisticsGetAllDefaultResponse
   | TilerInfoGeoJsonOperationsGetDefaultResponse
   | TilerInfoOperationsGetDefaultResponse

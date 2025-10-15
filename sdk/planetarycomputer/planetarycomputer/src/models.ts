@@ -426,14 +426,14 @@ export interface StacItemCollection extends StacItemOrStacItemCollectionParent {
 export interface StacItem extends StacItemOrStacItemCollectionParent {
   /** Geometry object defining the feature's shape */
   geometry: Geometry;
-  /** Bounding box coordinates for the feature */
-  bbox: number[];
   /** Unique identifier for the feature */
   id: string;
   /** GeoJSON type identifier for Feature */
   type: "Feature";
   /** ID of the STAC collection this item belongs to. */
   collection?: string;
+  /** Bounding box coordinates for the feature */
+  bbox: number[];
   /** Attributes associated with the feature */
   properties: StacItemProperties;
   /** Assets */
@@ -692,6 +692,20 @@ export interface SearchOptionsFields {
   exclude?: string[];
 }
 
+/** GeoJSON Feature object representing a geographic entity */
+export interface Feature {
+  /** Geometry object defining the feature's shape */
+  geometry: Geometry;
+  /**
+   * GeoJSON type identifier for Feature
+   *
+   * Possible values: "Feature"
+   */
+  type: FeatureType;
+  /** Feature properties */
+  properties?: Record<string, unknown>;
+}
+
 /** Parameters for requesting a rendered image from a collection */
 export interface ImageRequest {
   /** Cql */
@@ -791,8 +805,8 @@ export type Geometry =
 /** Base type for STAC items and collections with discriminator. */
 export type StacItemOrStacItemCollection =
   | StacItemOrStacItemCollectionParent
-  | StacItem
-  | StacItemCollection;
+  | StacItemCollection
+  | StacItem;
 /** Alias for OperationStatus */
 export type OperationStatus = string;
 /** Alias for IngestionType */
@@ -827,6 +841,8 @@ export type Resampling = string;
 export type TerrainAlgorithm = string;
 /** Alias for ColorMapNames */
 export type ColorMapNames = string;
+/** Alias for FeatureType */
+export type FeatureType = string;
 /** Alias for TilerImageFormat */
 export type TilerImageFormat = string;
 /** Alias for MosaicMetadataType */

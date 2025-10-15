@@ -608,14 +608,14 @@ export interface StacItemOutput
   extends StacItemOrStacItemCollectionOutputParent {
   /** Geometry object defining the feature's shape */
   geometry: GeometryOutput;
-  /** Bounding box coordinates for the feature */
-  bbox: number[];
   /** Unique identifier for the feature */
   id: string;
   /** GeoJSON type identifier for Feature */
   type: "Feature";
   /** ID of the STAC collection this item belongs to. */
   collection?: string;
+  /** Bounding box coordinates for the feature */
+  bbox: number[];
   /** Attributes associated with the feature */
   properties: StacItemPropertiesOutput;
   /** Assets */
@@ -976,64 +976,32 @@ export interface StacItemBoundsOutput {
   bounds: number[];
 }
 
-/** https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/itemcollection-spec.mdCollection of STAC items with statistical information */
-export interface GeoJsonStatisticsForStacItemCollectionOutput {
-  /**
-   * GeoJSON type identifier for StacItemCollection
-   *
-   * Possible values: "FeatureCollection"
-   */
-  type: StacItemCollectionTypeOutput;
-  /** Array of STAC items with statistics */
-  features: Array<GeoJsonStatisticsItemResponseOutput>;
-  /** Bounding box coordinates [west, south, east, north] */
-  bbox?: number[];
-  /** Stac Version */
-  stac_version?: string;
-  /** MSFT Created */
-  "msft:_created"?: string;
-  /** MSFT Updated */
-  "msft:_updated"?: string;
-  /** MSFT Short Description */
-  short_description?: string;
-  /** List of STAC extension URLs used by this item collection */
-  stac_extensions?: string[];
-  /** Related links for the item collection */
-  links?: Array<StacLinkOutput>;
-  /**
-   * Pagination context for the response
-   *
-   * See the [STAC Context Extension](https://github.com/radiantearth/stac-api-spec/tree/master/extensions/context#context-extension-specification)
-   */
-  context?: StacContextExtensionOutput;
-}
-
 /** STAC Item representing a spatiotemporal asset with statistical information */
-export interface GeoJsonStatisticsItemResponseOutput {
+export interface StacItemStatisticsGeoJsonOutput {
   /** Geometry object defining the feature's shape */
   geometry: GeometryOutput;
-  /** Bounding box coordinates for the feature */
-  bbox: number[];
-  /** Unique identifier for the feature */
-  id: string;
   /**
    * GeoJSON type identifier for Feature
    *
    * Possible values: "Feature"
    */
   type: FeatureTypeOutput;
+  /** Feature properties */
+  properties?: Record<string, any>;
   /** MSFT Created */
   "msft:_created"?: string;
   /** MSFT Updated */
   "msft:_updated"?: string;
   /** MSFT Short Description */
   "msft:short_description"?: string;
+  /** Unique identifier for the feature */
+  id: string;
+  /** Bounding box coordinates for the feature */
+  bbox: number[];
   /** Stac Version */
   stac_version?: string;
   /** ID of the STAC collection this item belongs to */
   collection?: string;
-  /** Properties */
-  properties: StacItemPropertiesOutput;
   /** MSFT Timestamp */
   "_msft:ts"?: string;
   /** MSFT ETag */
@@ -1249,7 +1217,7 @@ export interface SharedAccessSignatureTokenOutput {
  * Represents a link that has not been signed with a SAS token.
  * The expiry field will be null for unsigned links.
  */
-export interface SignedLinkOutput {
+export interface SharedAccessSignatureSignedLinkOutput {
   /** The expiry date of the signed link. This indicates when the link will no longer be valid. */
   "msft:expiry"?: string;
   /** The URL of the unsigned link. */
@@ -1285,8 +1253,8 @@ export type GeometryOutput =
 /** Base type for STAC items and collections with discriminator. */
 export type StacItemOrStacItemCollectionOutput =
   | StacItemOrStacItemCollectionOutputParent
-  | StacItemOutput
-  | StacItemCollectionOutput;
+  | StacItemCollectionOutput
+  | StacItemOutput;
 /** Alias for OperationStatusOutput */
 export type OperationStatusOutput = string;
 /** Alias for IngestionTypeOutput */
@@ -1307,8 +1275,6 @@ export type PartitionTypeSchemeOutput = string;
 export type StacQueryableDefinitionDataTypeOutput = string;
 /** Alias for TileMatrixCornerOfOriginOutput */
 export type TileMatrixCornerOfOriginOutput = string;
-/** Alias for StacItemCollectionTypeOutput */
-export type StacItemCollectionTypeOutput = string;
 /** Alias for FeatureTypeOutput */
 export type FeatureTypeOutput = string;
 /** Alias for BandMetadataElementOutput */

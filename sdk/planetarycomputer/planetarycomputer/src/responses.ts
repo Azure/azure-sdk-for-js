@@ -28,7 +28,7 @@ import type {
   TileMatrixSetOutput,
   StacAssetStatisticsOutput,
   StacItemBoundsOutput,
-  GeoJsonStatisticsForStacItemCollectionOutput,
+  StacItemStatisticsGeoJsonOutput,
   TilerInfoGeoJsonFeatureOutput,
   InfoOperationResponseOutput,
   TilerCoreModelsResponsesPointOutput,
@@ -40,7 +40,7 @@ import type {
   TilerStacSearchRegistrationOutput,
   TilerMosaicSearchRegistrationResponseOutput,
   SharedAccessSignatureTokenOutput,
-  SignedLinkOutput,
+  SharedAccessSignatureSignedLinkOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */
@@ -1388,21 +1388,20 @@ export interface TilerGeoJsonsCropFormatDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface TilerGeoJsonStatisticsGetAll200Response extends HttpResponse {
+export interface TilerGeoJsonStatisticsGet200Response extends HttpResponse {
   status: "200";
-  body: GeoJsonStatisticsForStacItemCollectionOutput;
+  body: StacItemStatisticsGeoJsonOutput;
 }
 
-export interface TilerGeoJsonStatisticsGetAllDefaultHeaders {
+export interface TilerGeoJsonStatisticsGetDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface TilerGeoJsonStatisticsGetAllDefaultResponse
-  extends HttpResponse {
+export interface TilerGeoJsonStatisticsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & TilerGeoJsonStatisticsGetAllDefaultHeaders;
+  headers: RawHttpHeaders & TilerGeoJsonStatisticsGetDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -1963,7 +1962,7 @@ export interface SasRevokeTokenDefaultResponse extends HttpResponse {
 /** Successful Response */
 export interface SasGetSign200Response extends HttpResponse {
   status: "200";
-  body: SignedLinkOutput;
+  body: SharedAccessSignatureSignedLinkOutput;
 }
 
 export interface SasGetSignDefaultHeaders {

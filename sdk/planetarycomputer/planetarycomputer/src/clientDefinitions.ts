@@ -66,7 +66,7 @@ import type {
   TilerBoundGetAllParameters,
   TilerGeoJsonsCropWidthByHeightFormatParameters,
   TilerGeoJsonsCropFormatParameters,
-  TilerGeoJsonStatisticsGetAllParameters,
+  TilerGeoJsonStatisticsGetParameters,
   TilerStatisticsGetAllParameters,
   TilerInfoGeoJsonOperationsGetParameters,
   TilerInfoOperationsGetParameters,
@@ -239,8 +239,8 @@ import type {
   TilerGeoJsonsCropWidthByHeightFormatDefaultResponse,
   TilerGeoJsonsCropFormat200Response,
   TilerGeoJsonsCropFormatDefaultResponse,
-  TilerGeoJsonStatisticsGetAll200Response,
-  TilerGeoJsonStatisticsGetAllDefaultResponse,
+  TilerGeoJsonStatisticsGet200Response,
+  TilerGeoJsonStatisticsGetDefaultResponse,
   TilerStatisticsGetAll200Response,
   TilerStatisticsGetAllDefaultResponse,
   TilerInfoGeoJsonOperationsGet200Response,
@@ -855,13 +855,13 @@ export interface TilerGeoJsonsCropFormat {
   >;
 }
 
-export interface TilerGeoJsonStatisticsGetAll {
-  /** Get Statistics from a geojson feature or featureCollection. */
+export interface TilerGeoJsonStatisticsGet {
+  /** Get Statistics from a geojson feature. */
   post(
-    options: TilerGeoJsonStatisticsGetAllParameters,
+    options: TilerGeoJsonStatisticsGetParameters,
   ): StreamableMethod<
-    | TilerGeoJsonStatisticsGetAll200Response
-    | TilerGeoJsonStatisticsGetAllDefaultResponse
+    | TilerGeoJsonStatisticsGet200Response
+    | TilerGeoJsonStatisticsGetDefaultResponse
   >;
   /** Merged assets statistics. */
   get(
@@ -1032,7 +1032,7 @@ export interface MosaicsAssetsForPointsGetPointAssets {
 export interface MosaicsAssetsForTileMatrixSetsGetZxyAssets {
   /** Return a list of assets which overlap a given tile */
   get(
-    options?: MosaicsAssetsForTileMatrixSetsGetZxyAssetsParameters,
+    options: MosaicsAssetsForTileMatrixSetsGetZxyAssetsParameters,
   ): StreamableMethod<
     | MosaicsAssetsForTileMatrixSetsGetZxyAssets200Response
     | MosaicsAssetsForTileMatrixSetsGetZxyAssetsDefaultResponse
@@ -1367,7 +1367,7 @@ export interface Routes {
     path: "/data/collections/{collectionId}/items/{itemId}/statistics",
     collectionId: string,
     itemId: string,
-  ): TilerGeoJsonStatisticsGetAll;
+  ): TilerGeoJsonStatisticsGet;
   /** Resource for '/data/collections/\{collectionId\}/items/\{itemId\}/info.geojson' has methods for the following verbs: get */
   (
     path: "/data/collections/{collectionId}/items/{itemId}/info.geojson",

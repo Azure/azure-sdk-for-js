@@ -20,7 +20,7 @@ import type {
   Resampling,
   TerrainAlgorithm,
   ColorMapNames,
-  StacItemCollection,
+  Feature,
   TilerImageFormat,
   ImageRequest,
   RegisterMosaic,
@@ -613,7 +613,7 @@ export type TilerBoundGetAllParameters = RequestParameters;
 
 export interface TilerGeoJsonsCropWidthByHeightFormatBodyParam {
   /** Request GeoJson body. */
-  body: StacItem;
+  body: Feature;
 }
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
@@ -706,7 +706,7 @@ export type TilerGeoJsonsCropWidthByHeightFormatParameters =
 
 export interface TilerGeoJsonsCropFormatBodyParam {
   /** Request GeoJson body. */
-  body: StacItem;
+  body: Feature;
 }
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
@@ -799,13 +799,13 @@ export type TilerGeoJsonsCropFormatParameters =
     TilerGeoJsonsCropFormatBodyParam &
     RequestParameters;
 
-export interface TilerGeoJsonStatisticsGetAllBodyParam {
+export interface TilerGeoJsonStatisticsGetBodyParam {
   /** Request GeoJson body */
-  body: StacItemCollection;
+  body: Feature;
 }
 
 /** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerGeoJsonStatisticsGetAllAssetBidxQueryParam {
+export interface TilerGeoJsonStatisticsGetAssetBidxQueryParam {
   /** Value of the parameter */
   value: string[];
   /** Should we explode the value? */
@@ -815,7 +815,7 @@ export interface TilerGeoJsonStatisticsGetAllAssetBidxQueryParam {
 }
 
 /** This is the wrapper object for the parameter `c` with explode set to false and style set to form. */
-export interface TilerGeoJsonStatisticsGetAllCQueryParam {
+export interface TilerGeoJsonStatisticsGetCQueryParam {
   /** Value of the parameter */
   value: string[];
   /** Should we explode the value? */
@@ -825,7 +825,7 @@ export interface TilerGeoJsonStatisticsGetAllCQueryParam {
 }
 
 /** This is the wrapper object for the parameter `p` with explode set to false and style set to form. */
-export interface TilerGeoJsonStatisticsGetAllPQueryParam {
+export interface TilerGeoJsonStatisticsGetPQueryParam {
   /** Value of the parameter */
   value: number[];
   /** Should we explode the value? */
@@ -835,7 +835,7 @@ export interface TilerGeoJsonStatisticsGetAllPQueryParam {
 }
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
-export interface TilerGeoJsonStatisticsGetAllAssetsQueryParam {
+export interface TilerGeoJsonStatisticsGetAssetsQueryParam {
   /** Value of the parameter */
   value: string[];
   /** Should we explode the value? */
@@ -844,13 +844,13 @@ export interface TilerGeoJsonStatisticsGetAllAssetsQueryParam {
   style: "form";
 }
 
-export interface TilerGeoJsonStatisticsGetAllQueryParamProperties {
+export interface TilerGeoJsonStatisticsGetQueryParamProperties {
   /** Asset's names. */
-  assets?: TilerGeoJsonStatisticsGetAllAssetsQueryParam;
+  assets?: TilerGeoJsonStatisticsGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
   /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerGeoJsonStatisticsGetAllAssetBidxQueryParam;
+  asset_bidx?: string[] | TilerGeoJsonStatisticsGetAssetBidxQueryParam;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -870,9 +870,9 @@ export interface TilerGeoJsonStatisticsGetAllQueryParamProperties {
   /** Return statistics for categorical dataset. */
   categorical?: boolean;
   /** List of pixel categorical values for which to report counts. */
-  c?: string[] | TilerGeoJsonStatisticsGetAllCQueryParam;
+  c?: string[] | TilerGeoJsonStatisticsGetCQueryParam;
   /** List of percentile values (default to [2, 98]). */
-  p?: number[] | TilerGeoJsonStatisticsGetAllPQueryParam;
+  p?: number[] | TilerGeoJsonStatisticsGetPQueryParam;
   /**
    * Defines the number of equal-width bins in the given range (10, by default).
    *
@@ -898,13 +898,13 @@ export interface TilerGeoJsonStatisticsGetAllQueryParamProperties {
   histogram_range?: string;
 }
 
-export interface TilerGeoJsonStatisticsGetAllQueryParam {
-  queryParameters?: TilerGeoJsonStatisticsGetAllQueryParamProperties;
+export interface TilerGeoJsonStatisticsGetQueryParam {
+  queryParameters?: TilerGeoJsonStatisticsGetQueryParamProperties;
 }
 
-export type TilerGeoJsonStatisticsGetAllParameters =
-  TilerGeoJsonStatisticsGetAllQueryParam &
-    TilerGeoJsonStatisticsGetAllBodyParam &
+export type TilerGeoJsonStatisticsGetParameters =
+  TilerGeoJsonStatisticsGetQueryParam &
+    TilerGeoJsonStatisticsGetBodyParam &
     RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
@@ -1857,10 +1857,12 @@ export interface MosaicsAssetsForTileMatrixSetsGetZxyAssetsQueryParamProperties 
    * to True in PgSTAC).
    */
   skipcovered?: boolean;
+  /** STAC Collection Identifier */
+  collection: string;
 }
 
 export interface MosaicsAssetsForTileMatrixSetsGetZxyAssetsQueryParam {
-  queryParameters?: MosaicsAssetsForTileMatrixSetsGetZxyAssetsQueryParamProperties;
+  queryParameters: MosaicsAssetsForTileMatrixSetsGetZxyAssetsQueryParamProperties;
 }
 
 export type MosaicsAssetsForTileMatrixSetsGetZxyAssetsParameters =

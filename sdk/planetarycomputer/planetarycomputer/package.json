@@ -12,14 +12,8 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts"
     },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
+    "dialects": ["esm", "commonjs"],
+    "esmDialects": ["browser", "react-native"],
     "selfLink": false,
     "project": "../../../tsconfig.src.build.json"
   },
@@ -53,12 +47,7 @@
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "!dist/**/*.d.*ts.map",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
