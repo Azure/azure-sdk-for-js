@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   TriggerResource,
@@ -93,10 +89,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getTriggersByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getTriggersByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -166,8 +159,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -221,11 +213,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
     trigger: TriggerResource,
     options?: TriggerCreateOrUpdateTriggerOptionalParams,
   ): Promise<TriggerCreateOrUpdateTriggerResponse> {
-    const poller = await this.beginCreateOrUpdateTrigger(
-      triggerName,
-      trigger,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdateTrigger(triggerName, trigger, options);
     return poller.pollUntilDone();
   }
 
@@ -238,16 +226,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerGetTriggerOptionalParams,
   ): Promise<TriggerGetTriggerResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getTrigger",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { triggerName, options },
-          getTriggerOperationSpec,
-        ) as Promise<TriggerGetTriggerResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getTrigger", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { triggerName, options },
+        getTriggerOperationSpec,
+      ) as Promise<TriggerGetTriggerResponse>;
+    });
   }
 
   /**
@@ -275,8 +259,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -362,8 +345,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -415,10 +397,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerSubscribeTriggerToEventsOptionalParams,
   ): Promise<TriggerSubscribeTriggerToEventsResponse> {
-    const poller = await this.beginSubscribeTriggerToEvents(
-      triggerName,
-      options,
-    );
+    const poller = await this.beginSubscribeTriggerToEvents(triggerName, options);
     return poller.pollUntilDone();
   }
 
@@ -476,8 +455,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -529,10 +507,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerUnsubscribeTriggerFromEventsOptionalParams,
   ): Promise<TriggerUnsubscribeTriggerFromEventsResponse> {
-    const poller = await this.beginUnsubscribeTriggerFromEvents(
-      triggerName,
-      options,
-    );
+    const poller = await this.beginUnsubscribeTriggerFromEvents(triggerName, options);
     return poller.pollUntilDone();
   }
 
@@ -561,8 +536,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -628,20 +602,15 @@ export class TriggerOperationsImpl implements TriggerOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginStopTrigger",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginStopTrigger", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -757,11 +726,7 @@ const createOrUpdateTriggerOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.trigger,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

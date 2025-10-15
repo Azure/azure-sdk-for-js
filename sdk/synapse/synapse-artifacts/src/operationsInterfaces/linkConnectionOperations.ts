@@ -67,10 +67,7 @@ export interface LinkConnectionOperations {
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  delete(
-    linkConnectionName: string,
-    options?: LinkConnectionDeleteOptionalParams,
-  ): Promise<void>;
+  delete(linkConnectionName: string, options?: LinkConnectionDeleteOptionalParams): Promise<void>;
   /**
    * Edit tables for a link connection
    * @param linkConnectionName The link connection name
@@ -88,20 +85,14 @@ export interface LinkConnectionOperations {
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  start(
-    linkConnectionName: string,
-    options?: LinkConnectionStartOptionalParams,
-  ): Promise<void>;
+  start(linkConnectionName: string, options?: LinkConnectionStartOptionalParams): Promise<void>;
   /**
    * Stop a link connection. It may take a few minutes from Stopping to stopped, monitor the status with
    * LinkConnection_GetDetailedStatus.
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  stop(
-    linkConnectionName: string,
-    options?: LinkConnectionStopOptionalParams,
-  ): Promise<void>;
+  stop(linkConnectionName: string, options?: LinkConnectionStopOptionalParams): Promise<void>;
   /**
    * Get the detailed status of a link connection
    * @param linkConnectionName The link connection name
@@ -148,18 +139,12 @@ export interface LinkConnectionOperations {
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  pause(
-    linkConnectionName: string,
-    options?: LinkConnectionPauseOptionalParams,
-  ): Promise<void>;
+  pause(linkConnectionName: string, options?: LinkConnectionPauseOptionalParams): Promise<void>;
   /**
    * Resume a link connection. It may take a few minutes from Resuming to Running, monitor the status
    * with LinkConnection_GetDetailedStatus.
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  resume(
-    linkConnectionName: string,
-    options?: LinkConnectionResumeOptionalParams,
-  ): Promise<void>;
+  resume(linkConnectionName: string, options?: LinkConnectionResumeOptionalParams): Promise<void>;
 }

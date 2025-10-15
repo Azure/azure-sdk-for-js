@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   DataFlowDebugSessionInfo,
@@ -72,10 +68,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.queryDataFlowDebugSessionsByWorkspacePagingPage(
-          options,
-          settings,
-        );
+        return this.queryDataFlowDebugSessionsByWorkspacePagingPage(options, settings);
       },
     };
   }
@@ -94,10 +87,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       yield page;
     }
     while (continuationToken) {
-      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -108,9 +98,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   private async *queryDataFlowDebugSessionsByWorkspacePagingAll(
     options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
   ): AsyncIterableIterator<DataFlowDebugSessionInfo> {
-    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(
-      options,
-    )) {
+    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -148,8 +136,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -233,16 +220,12 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugPackage,
     options?: DataFlowDebugSessionAddDataFlowOptionalParams,
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.addDataFlow",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { request, options },
-          addDataFlowOperationSpec,
-        ) as Promise<DataFlowDebugSessionAddDataFlowResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.addDataFlow", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { request, options },
+        addDataFlowOperationSpec,
+      ) as Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    });
   }
 
   /**
@@ -299,8 +282,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -408,23 +390,22 @@ const createDataFlowDebugSessionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const queryDataFlowDebugSessionsByWorkspaceOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/queryDataFlowDebugSessions",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.QueryDataFlowDebugSessionsResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const queryDataFlowDebugSessionsByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/queryDataFlowDebugSessions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueryDataFlowDebugSessionsResponse,
     },
-    queryParameters: [Parameters.apiVersion5],
-    urlParameters: [Parameters.endpoint],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const addDataFlowOperationSpec: coreClient.OperationSpec = {
   path: "/addDataFlowToDebugSession",
   httpMethod: "POST",
@@ -486,19 +467,18 @@ const executeCommandOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const queryDataFlowDebugSessionsByWorkspaceNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.QueryDataFlowDebugSessionsResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const queryDataFlowDebugSessionsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueryDataFlowDebugSessionsResponse,
     },
-    urlParameters: [Parameters.endpoint, Parameters.nextLink],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

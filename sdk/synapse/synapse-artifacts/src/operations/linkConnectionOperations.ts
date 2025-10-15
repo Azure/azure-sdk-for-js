@@ -160,16 +160,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     linkConnectionName: string,
     options?: LinkConnectionGetOptionalParams,
   ): Promise<LinkConnectionGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, options },
-          getOperationSpec,
-        ) as Promise<LinkConnectionGetResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, options },
+        getOperationSpec,
+      ) as Promise<LinkConnectionGetResponse>;
+    });
   }
 
   /**
@@ -181,16 +177,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     linkConnectionName: string,
     options?: LinkConnectionDeleteOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.delete",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, options },
-          deleteOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.delete", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, options },
+        deleteOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**
@@ -204,16 +196,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     editTablesRequest: EditTablesRequest,
     options?: LinkConnectionEditTablesOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.editTables",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, editTablesRequest, options },
-          editTablesOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.editTables", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, editTablesRequest, options },
+        editTablesOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**
@@ -226,16 +214,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     linkConnectionName: string,
     options?: LinkConnectionStartOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.start",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, options },
-          startOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.start", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, options },
+        startOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**
@@ -248,16 +232,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     linkConnectionName: string,
     options?: LinkConnectionStopOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.stop",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, options },
-          stopOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.stop", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, options },
+        stopOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**
@@ -358,16 +338,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     linkConnectionName: string,
     options?: LinkConnectionPauseOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.pause",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, options },
-          pauseOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.pause", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, options },
+        pauseOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**
@@ -380,16 +356,12 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
     linkConnectionName: string,
     options?: LinkConnectionResumeOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.resume",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { linkConnectionName, options },
-          resumeOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.resume", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { linkConnectionName, options },
+        resumeOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**

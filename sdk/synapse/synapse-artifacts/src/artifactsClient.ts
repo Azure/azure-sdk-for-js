@@ -119,8 +119,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -136,11 +135,9 @@ export class ArtifactsClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -152,9 +149,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
-    this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(
-      this,
-    );
+    this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(this);
     this.bigDataPools = new BigDataPoolsImpl(this);
     this.dataFlowOperations = new DataFlowOperationsImpl(this);
     this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
@@ -167,9 +162,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.notebookOperationResult = new NotebookOperationResultImpl(this);
     this.pipelineOperations = new PipelineOperationsImpl(this);
     this.pipelineRunOperations = new PipelineRunOperationsImpl(this);
-    this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(
-      this,
-    );
+    this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(this);
     this.sqlPools = new SqlPoolsImpl(this);
     this.sqlScriptOperations = new SqlScriptOperationsImpl(this);
     this.triggerOperations = new TriggerOperationsImpl(this);

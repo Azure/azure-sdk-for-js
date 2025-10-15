@@ -19,9 +19,7 @@ export interface IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  list(
-    options?: IntegrationRuntimesListOptionalParams,
-  ): Promise<IntegrationRuntimesListResponse>;
+  list(options?: IntegrationRuntimesListOptionalParams): Promise<IntegrationRuntimesListResponse>;
   /**
    * Get Integration Runtime
    * @param integrationRuntimeName The Integration Runtime name

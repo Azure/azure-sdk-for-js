@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   NotebookResource,
@@ -91,10 +87,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getNotebooksByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -148,10 +141,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -162,9 +152,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   private async *getNotebookSummaryByWorkSpacePagingAll(
     options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
   ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(
-      options,
-    )) {
+    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
       yield* page;
     }
   }
@@ -242,8 +230,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -297,11 +284,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     notebook: NotebookResource,
     options?: NotebookCreateOrUpdateNotebookOptionalParams,
   ): Promise<NotebookCreateOrUpdateNotebookResponse> {
-    const poller = await this.beginCreateOrUpdateNotebook(
-      notebookName,
-      notebook,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdateNotebook(notebookName, notebook, options);
     return poller.pollUntilDone();
   }
 
@@ -314,16 +297,12 @@ export class NotebookOperationsImpl implements NotebookOperations {
     notebookName: string,
     options?: NotebookGetNotebookOptionalParams,
   ): Promise<NotebookGetNotebookResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getNotebook",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { notebookName, options },
-          getNotebookOperationSpec,
-        ) as Promise<NotebookGetNotebookResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getNotebook", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { notebookName, options },
+        getNotebookOperationSpec,
+      ) as Promise<NotebookGetNotebookResponse>;
+    });
   }
 
   /**
@@ -351,8 +330,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -432,8 +410,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -484,11 +461,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
     request: ArtifactRenameRequest,
     options?: NotebookRenameNotebookOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRenameNotebook(
-      notebookName,
-      request,
-      options,
-    );
+    const poller = await this.beginRenameNotebook(notebookName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -594,11 +567,7 @@ const createOrUpdateNotebookOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.notebook,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -670,19 +639,18 @@ const getNotebooksByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getNotebookSummaryByWorkSpaceNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.NotebookListResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const getNotebookSummaryByWorkSpaceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NotebookListResponse,
     },
-    urlParameters: [Parameters.endpoint, Parameters.nextLink],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

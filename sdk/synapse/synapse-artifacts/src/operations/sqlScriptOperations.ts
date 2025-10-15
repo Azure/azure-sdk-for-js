@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   SqlScriptResource,
@@ -87,10 +83,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getSqlScriptsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -160,8 +153,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -215,11 +207,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams,
   ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
-    const poller = await this.beginCreateOrUpdateSqlScript(
-      sqlScriptName,
-      sqlScript,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdateSqlScript(sqlScriptName, sqlScript, options);
     return poller.pollUntilDone();
   }
 
@@ -269,8 +257,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -350,8 +337,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -402,11 +388,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     request: ArtifactRenameRequest,
     options?: SqlScriptRenameSqlScriptOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRenameSqlScript(
-      sqlScriptName,
-      request,
-      options,
-    );
+    const poller = await this.beginRenameSqlScript(sqlScriptName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -474,11 +456,7 @@ const createOrUpdateSqlScriptOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.sqlScript,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

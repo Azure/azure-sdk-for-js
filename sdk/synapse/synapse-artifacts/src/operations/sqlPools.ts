@@ -35,19 +35,13 @@ export class SqlPoolsImpl implements SqlPools {
    * List Sql Pools
    * @param options The options parameters.
    */
-  async list(
-    options?: SqlPoolsListOptionalParams,
-  ): Promise<SqlPoolsListResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.list",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec,
-        ) as Promise<SqlPoolsListResponse>;
-      },
-    );
+  async list(options?: SqlPoolsListOptionalParams): Promise<SqlPoolsListResponse> {
+    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        listOperationSpec,
+      ) as Promise<SqlPoolsListResponse>;
+    });
   }
 
   /**
@@ -59,16 +53,12 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsGetOptionalParams,
   ): Promise<SqlPoolsGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { sqlPoolName, options },
-          getOperationSpec,
-        ) as Promise<SqlPoolsGetResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { sqlPoolName, options },
+        getOperationSpec,
+      ) as Promise<SqlPoolsGetResponse>;
+    });
   }
 }
 // Operation Specifications

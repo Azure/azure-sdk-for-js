@@ -112,11 +112,7 @@ const rerunTriggerInstanceOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion5],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId1,
-    Parameters.triggerName,
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId1, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -130,11 +126,7 @@ const cancelTriggerInstanceOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion5],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId1,
-    Parameters.triggerName,
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId1, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer,
 };

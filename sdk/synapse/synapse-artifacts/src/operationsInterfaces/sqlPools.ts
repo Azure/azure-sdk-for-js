@@ -25,8 +25,5 @@ export interface SqlPools {
    * @param sqlPoolName The Sql Pool name
    * @param options The options parameters.
    */
-  get(
-    sqlPoolName: string,
-    options?: SqlPoolsGetOptionalParams,
-  ): Promise<SqlPoolsGetResponse>;
+  get(sqlPoolName: string, options?: SqlPoolsGetOptionalParams): Promise<SqlPoolsGetResponse>;
 }

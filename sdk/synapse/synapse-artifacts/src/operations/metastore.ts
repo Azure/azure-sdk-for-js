@@ -48,16 +48,12 @@ export class MetastoreImpl implements Metastore {
     registerBody: MetastoreRegisterObject,
     options?: MetastoreRegisterOptionalParams,
   ): Promise<MetastoreRegisterResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.register",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, registerBody, options },
-          registerOperationSpec,
-        ) as Promise<MetastoreRegisterResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.register", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { id, registerBody, options },
+        registerOperationSpec,
+      ) as Promise<MetastoreRegisterResponse>;
+    });
   }
 
   /**
@@ -92,16 +88,12 @@ export class MetastoreImpl implements Metastore {
     updateBody: MetastoreUpdateObject,
     options?: MetastoreUpdateOptionalParams,
   ): Promise<MetastoreUpdateResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.update",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, updateBody, options },
-          updateOperationSpec,
-        ) as Promise<MetastoreUpdateResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.update", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { id, updateBody, options },
+        updateOperationSpec,
+      ) as Promise<MetastoreUpdateResponse>;
+    });
   }
 
   /**
@@ -109,20 +101,13 @@ export class MetastoreImpl implements Metastore {
    * @param id
    * @param options The options parameters.
    */
-  async delete(
-    id: string,
-    options?: MetastoreDeleteOptionalParams,
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.delete",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, options },
-          deleteOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+  async delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void> {
+    return tracingClient.withSpan("ArtifactsClient.delete", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { id, options },
+        deleteOperationSpec,
+      ) as Promise<void>;
+    });
   }
 }
 // Operation Specifications
