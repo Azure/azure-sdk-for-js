@@ -11,12 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { HDInsightManagementClient } from "../hDInsightManagementClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   ClusterMonitoringRequest,
@@ -77,8 +73,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -179,8 +174,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -232,11 +226,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     options?: ExtensionsDisableMonitoringOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDisableMonitoring(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginDisableMonitoring(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -263,8 +253,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -365,8 +354,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -418,11 +406,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     options?: ExtensionsDisableAzureMonitorOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDisableAzureMonitor(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginDisableAzureMonitor(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -449,8 +433,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -551,8 +534,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -637,8 +619,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -752,8 +733,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -807,12 +787,7 @@ export class ExtensionsImpl implements Extensions {
     extensionName: string,
     options?: ExtensionsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      extensionName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, extensionName, options);
     return poller.pollUntilDone();
   }
 

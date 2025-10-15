@@ -46,11 +46,7 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
     clusterName: string,
     options?: ScriptExecutionHistoryListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<RuntimeScriptActionDetail> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -62,12 +58,7 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -81,11 +72,7 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
     let result: ScriptExecutionHistoryListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

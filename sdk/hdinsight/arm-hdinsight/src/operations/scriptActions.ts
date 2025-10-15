@@ -50,11 +50,7 @@ export class ScriptActionsImpl implements ScriptActions {
     clusterName: string,
     options?: ScriptActionsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<RuntimeScriptActionDetail> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +62,7 @@ export class ScriptActionsImpl implements ScriptActions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -85,11 +76,7 @@ export class ScriptActionsImpl implements ScriptActions {
     let result: ScriptActionsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -283,29 +270,28 @@ const getExecutionDetailOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getExecutionAsyncOperationStatusOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions/azureasyncoperations/{operationId}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.AsyncOperationResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const getExecutionAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions/azureasyncoperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.clusterName,
-      Parameters.operationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.operationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

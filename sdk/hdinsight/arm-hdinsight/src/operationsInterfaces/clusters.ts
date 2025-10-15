@@ -56,9 +56,7 @@ export interface Clusters {
    * Lists all the HDInsight clusters under the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ClustersListOptionalParams,
-  ): PagedAsyncIterableIterator<Cluster>;
+  list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
   /**
    * Creates a new HDInsight cluster with the specified parameters.
    * @param resourceGroupName The name of the resource group.
@@ -71,12 +69,7 @@ export interface Clusters {
     clusterName: string,
     parameters: ClusterCreateParametersExtended,
     options?: ClustersCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateResponse>,
-      ClustersCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ClustersCreateResponse>, ClustersCreateResponse>>;
   /**
    * Creates a new HDInsight cluster with the specified parameters.
    * @param resourceGroupName The name of the resource group.

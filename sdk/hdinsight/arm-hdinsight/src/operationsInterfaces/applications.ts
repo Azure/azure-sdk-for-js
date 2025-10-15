@@ -62,10 +62,7 @@ export interface Applications {
     parameters: Application,
     options?: ApplicationsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationsCreateResponse>,
-      ApplicationsCreateResponse
-    >
+    SimplePollerLike<OperationState<ApplicationsCreateResponse>, ApplicationsCreateResponse>
   >;
   /**
    * Creates applications for the HDInsight cluster.

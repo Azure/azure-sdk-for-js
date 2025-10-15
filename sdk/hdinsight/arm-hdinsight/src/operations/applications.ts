@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { HDInsightManagementClient } from "../hDInsightManagementClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   Application,
@@ -59,11 +55,7 @@ export class ApplicationsImpl implements Applications {
     clusterName: string,
     options?: ApplicationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Application> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +67,7 @@ export class ApplicationsImpl implements Applications {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -94,11 +81,7 @@ export class ApplicationsImpl implements Applications {
     let result: ApplicationsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -183,10 +166,7 @@ export class ApplicationsImpl implements Applications {
     parameters: Application,
     options?: ApplicationsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationsCreateResponse>,
-      ApplicationsCreateResponse
-    >
+    SimplePollerLike<OperationState<ApplicationsCreateResponse>, ApplicationsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -198,8 +178,7 @@ export class ApplicationsImpl implements Applications {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -297,8 +276,7 @@ export class ApplicationsImpl implements Applications {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -352,12 +330,7 @@ export class ApplicationsImpl implements Applications {
     applicationName: string,
     options?: ApplicationsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      applicationName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, applicationName, options);
     return poller.pollUntilDone();
   }
 
