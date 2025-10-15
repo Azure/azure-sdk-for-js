@@ -8,12 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   ApplicationsImpl,
   ClustersImpl,
@@ -27,7 +27,7 @@ import {
   ScriptExecutionHistoryImpl,
   VirtualMachinesImpl,
 } from "./operations/index.js";
-import {
+import type {
   Applications,
   Clusters,
   Configurations,
@@ -40,7 +40,7 @@ import {
   ScriptExecutionHistory,
   VirtualMachines,
 } from "./operationsInterfaces/index.js";
-import { HDInsightManagementClientOptionalParams } from "./models/index.js";
+import type { HDInsightManagementClientOptionalParams } from "./models/index.js";
 
 export class HDInsightManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -129,7 +129,7 @@ export class HDInsightManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-08-01-preview";
+    this.apiVersion = options.apiVersion || "2025-01-15-preview";
     this.applications = new ApplicationsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.configurations = new ConfigurationsImpl(this);
