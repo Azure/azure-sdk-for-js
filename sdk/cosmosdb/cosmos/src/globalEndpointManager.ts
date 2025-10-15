@@ -232,7 +232,7 @@ export class GlobalEndpointManager {
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
       if (this.enablePartitionLevelFailover) {
-      this.refreshPPAFFeatureFlag(resourceResponse.resource);
+        this.refreshPPAFFeatureFlag(resourceResponse.resource);
       }
     }
 
