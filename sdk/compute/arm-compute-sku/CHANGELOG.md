@@ -4,4 +4,4 @@
 
 ### Features Added
 
-The package of @azure/arm-compute-sku is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+This is the first stable version with the package of @azure/arm-compute-sku

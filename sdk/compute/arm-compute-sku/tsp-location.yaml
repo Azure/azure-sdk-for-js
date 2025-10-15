@@ -1,0 +1,5 @@
+directory: specification/compute/Sku.Management
+commit: 9cf5a58a75704839604d85bd50eb200d2d7d9803
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+- specification/compute/Common.Management
