@@ -4,11 +4,14 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessControlRules {
@@ -34,9 +37,7 @@ export type AccessControlRulesMode = string;
 export interface AccessControlRulesPrivilege {
     name: string;
     path: string;
-    queryParameters?: {
-        [propertyName: string]: string;
-    };
+    queryParameters?: Record<string, string>;
 }
 
 // @public
@@ -80,49 +81,42 @@ export interface ApiErrorBase {
 export type Architecture = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface CloudError {
     error?: ApiError;
 }
 
 // @public
-export interface CommunityGalleries {
-    get(location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams): Promise<CommunityGalleriesGetResponse>;
+export interface CommunityGalleriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunityGalleriesGetOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleriesOperations {
+    get: (location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams) => Promise<CommunityGallery>;
 }
-
-// @public
-export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
-    communityMetadata?: CommunityGalleryMetadata;
-    disclaimer?: string;
+    properties?: CommunityGalleryProperties;
+}
+
+// @public
+export interface CommunityGalleryIdentifier {
+    uniqueId?: string;
 }
 
 // @public
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
-    architecture?: Architecture;
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
-    disallowed?: Disallowed;
-    disclaimer?: string;
-    endOfLifeDate?: Date;
-    eula?: string;
-    features?: GalleryImageFeature[];
-    hyperVGeneration?: HyperVGeneration;
-    identifier?: CommunityGalleryImageIdentifier;
-    osState?: OperatingSystemStateTypes;
-    osType?: OperatingSystemTypes;
-    privacyStatementUri?: string;
-    purchasePlan?: ImagePurchasePlan;
-    recommended?: RecommendedMachineConfiguration;
+    properties?: CommunityGalleryImageProperties;
 }
 
 // @public
@@ -133,43 +127,45 @@ export interface CommunityGalleryImageIdentifier {
 }
 
 // @public
-export interface CommunityGalleryImageList {
-    nextLink?: string;
-    value: CommunityGalleryImage[];
+export interface CommunityGalleryImageProperties {
+    architecture?: Architecture;
+    artifactTags?: Record<string, string>;
+    disallowed?: Disallowed;
+    disclaimer?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    features?: GalleryImageFeature[];
+    hyperVGeneration?: HyperVGeneration;
+    identifier: CommunityGalleryImageIdentifier;
+    osState: OperatingSystemStateTypes;
+    osType: OperatingSystemTypes;
+    privacyStatementUri?: string;
+    purchasePlan?: ImagePurchasePlan;
+    recommended?: RecommendedMachineConfiguration;
 }
 
 // @public
-export interface CommunityGalleryImages {
-    get(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams): Promise<CommunityGalleryImagesGetResponse>;
-    list(location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImage>;
+export interface CommunityGalleryImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunityGalleryImagesGetOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunityGalleryImagesGetResponse = CommunityGalleryImage;
-
-// @public
-export interface CommunityGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImagesOperations {
+    get: (location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams) => Promise<CommunityGalleryImage>;
+    list: (location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams) => PagedAsyncIterableIterator<CommunityGalleryImage>;
 }
-
-// @public
-export type CommunityGalleryImagesListNextResponse = CommunityGalleryImageList;
-
-// @public
-export interface CommunityGalleryImagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
 
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    properties?: CommunityGalleryImageVersionProperties;
+}
+
+// @public
+export interface CommunityGalleryImageVersionProperties {
+    artifactTags?: Record<string, string>;
     disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
@@ -178,37 +174,18 @@ export interface CommunityGalleryImageVersion extends PirCommunityGalleryResourc
 }
 
 // @public
-export interface CommunityGalleryImageVersionList {
-    nextLink?: string;
-    value: CommunityGalleryImageVersion[];
+export interface CommunityGalleryImageVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunityGalleryImageVersions {
-    get(location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams): Promise<CommunityGalleryImageVersionsGetResponse>;
-    list(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
+export interface CommunityGalleryImageVersionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunityGalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface CommunityGalleryImageVersionsOperations {
+    get: (location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams) => Promise<CommunityGalleryImageVersion>;
+    list: (location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams) => PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
 }
-
-// @public
-export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
-
-// @public
-export interface CommunityGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
-
-// @public
-export interface CommunityGalleryImageVersionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
 
 // @public
 export interface CommunityGalleryInfo {
@@ -229,56 +206,45 @@ export interface CommunityGalleryMetadata {
     publisherUri?: string;
 }
 
+// @public
+export interface CommunityGalleryProperties {
+    artifactTags?: Record<string, string>;
+    communityMetadata?: CommunityGalleryMetadata;
+    disclaimer?: string;
+}
+
 // @public (undocumented)
-export class ComputeManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    communityGalleries: CommunityGalleries;
-    // (undocumented)
-    communityGalleryImages: CommunityGalleryImages;
-    // (undocumented)
-    communityGalleryImageVersions: CommunityGalleryImageVersions;
-    // (undocumented)
-    galleries: Galleries;
-    // (undocumented)
-    galleryApplications: GalleryApplications;
-    // (undocumented)
-    galleryApplicationVersions: GalleryApplicationVersions;
-    // (undocumented)
-    galleryImages: GalleryImages;
-    // (undocumented)
-    galleryImageVersions: GalleryImageVersions;
-    // (undocumented)
-    galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
-    // (undocumented)
-    galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
-    // (undocumented)
-    gallerySharingProfile: GallerySharingProfile;
-    // (undocumented)
-    sharedGalleries: SharedGalleries;
-    // (undocumented)
-    sharedGalleryImages: SharedGalleryImages;
-    // (undocumented)
-    sharedGalleryImageVersions: SharedGalleryImageVersions;
-    // (undocumented)
-    softDeletedResource: SoftDeletedResource;
-    // (undocumented)
-    subscriptionId: string;
+export class ComputeClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams);
+    readonly communityGalleries: CommunityGalleriesOperations;
+    readonly communityGalleryImages: CommunityGalleryImagesOperations;
+    readonly communityGalleryImageVersions: CommunityGalleryImageVersionsOperations;
+    readonly galleries: GalleriesOperations;
+    readonly galleryApplications: GalleryApplicationsOperations;
+    readonly galleryApplicationVersions: GalleryApplicationVersionsOperations;
+    readonly galleryImages: GalleryImagesOperations;
+    readonly galleryImageVersions: GalleryImageVersionsOperations;
+    readonly galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfilesOperations;
+    readonly galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersionsOperations;
+    readonly pipeline: Pipeline;
+    readonly sharedGalleries: SharedGalleriesOperations;
+    readonly sharedGalleryImages: SharedGalleryImagesOperations;
+    readonly sharedGalleryImageVersions: SharedGalleryImageVersionsOperations;
 }
 
 // @public
-export interface ComputeManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ComputeClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export type ConfidentialVMEncryptionType = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -322,117 +288,64 @@ export interface ExecutedValidation {
 }
 
 // @public
-export interface Galleries {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesUpdateResponse>, GalleriesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<GalleriesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, options?: GalleriesGetOptionalParams): Promise<GalleriesGetResponse>;
-    list(options?: GalleriesListOptionalParams): PagedAsyncIterableIterator<Gallery>;
-    listByResourceGroup(resourceGroupName: string, options?: GalleriesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Gallery>;
-}
-
-// @public
-export interface GalleriesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleriesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleriesCreateOrUpdateResponse = Gallery;
-
-// @public
-export interface GalleriesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleriesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleriesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleriesGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesGallerySharingProfileUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleriesGetOptionalParams extends OperationOptions {
     expand?: GalleryExpandParams;
     select?: SelectPermissions;
 }
 
 // @public
-export type GalleriesGetResponse = Gallery;
-
-// @public
-export interface GalleriesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesListByArtifactNameOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleriesListByResourceGroupNextResponse = GalleryList;
-
-// @public
-export interface GalleriesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleriesListByResourceGroupResponse = GalleryList;
-
-// @public
-export interface GalleriesListNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleriesListNextResponse = GalleryList;
-
-// @public
-export interface GalleriesListOptionalParams extends coreClient.OperationOptions {
+export interface GalleriesOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    gallerySharingProfileUpdate: (resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GalleriesGallerySharingProfileUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, options?: GalleriesGetOptionalParams) => Promise<Gallery>;
+    list: (options?: GalleriesListOptionalParams) => PagedAsyncIterableIterator<Gallery>;
+    listByArtifactName: (resourceGroupName: string, galleryName: string, artifactType: string, artifactName: string, options?: GalleriesListByArtifactNameOptionalParams) => PagedAsyncIterableIterator<GallerySoftDeletedResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: GalleriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Gallery>;
+    update: (resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type GalleriesListResponse = GalleryList;
-
-// @public
-export interface GalleriesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleriesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleriesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleriesUpdateResponse = GalleriesUpdateHeaders & Gallery;
-
-// @public
 export interface Gallery extends TrackedResource {
-    description?: string;
-    identifier?: GalleryIdentifier;
     identity?: GalleryIdentity;
-    readonly provisioningState?: GalleryProvisioningState;
-    sharingProfile?: SharingProfile;
-    readonly sharingStatus?: SharingStatus;
-    softDeletePolicy?: SoftDeletePolicy;
+    properties?: GalleryProperties;
 }
 
 // @public
 export interface GalleryApplication extends TrackedResource {
-    customActions?: GalleryApplicationCustomAction[];
-    description?: string;
-    endOfLifeDate?: Date;
-    eula?: string;
-    privacyStatementUri?: string;
-    releaseNoteUri?: string;
-    supportedOSType?: OperatingSystemTypes;
+    properties?: GalleryApplicationProperties;
 }
 
 // @public
@@ -456,119 +369,72 @@ export interface GalleryApplicationCustomActionParameter {
 export type GalleryApplicationCustomActionParameterType = "String" | "ConfigurationDataBlob" | "LogOutputBlob";
 
 // @public
-export interface GalleryApplicationList {
-    nextLink?: string;
-    value: GalleryApplication[];
-}
-
-// @public
-export interface GalleryApplications {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsCreateOrUpdateResponse>, GalleryApplicationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<GalleryApplicationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsUpdateResponse>, GalleryApplicationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<GalleryApplicationsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams): Promise<GalleryApplicationsGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryApplication>;
-}
-
-// @public
-export interface GalleryApplicationsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GalleryApplicationsCreateOrUpdateResponse = GalleryApplication;
-
-// @public
-export type GalleryApplicationScriptRebootBehavior = string;
-
-// @public
-export interface GalleryApplicationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GalleryApplicationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleryApplicationsGetResponse = GalleryApplication;
-
-// @public
-export interface GalleryApplicationsListByGalleryNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleryApplicationsListByGalleryNextResponse = GalleryApplicationList;
-
-// @public
-export interface GalleryApplicationsListByGalleryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleryApplicationsListByGalleryResponse = GalleryApplicationList;
-
-// @public
-export interface GalleryApplicationsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GalleryApplicationsUpdateResponse = GalleryApplicationsUpdateHeaders & GalleryApplication;
-
-// @public
-export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
+export interface GalleryApplicationProperties {
     customActions?: GalleryApplicationCustomAction[];
     description?: string;
     endOfLifeDate?: Date;
     eula?: string;
     privacyStatementUri?: string;
     releaseNoteUri?: string;
-    supportedOSType?: OperatingSystemTypes;
+    supportedOSType: OperatingSystemTypes;
+}
+
+// @public
+export interface GalleryApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryApplicationScriptRebootBehavior = string;
+
+// @public
+export interface GalleryApplicationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleryApplicationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GalleryApplicationsListByGalleryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GalleryApplicationsOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams) => Promise<GalleryApplication>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryApplication>;
+    update: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface GalleryApplicationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
+    properties?: GalleryApplicationProperties;
 }
 
 // @public
 export interface GalleryApplicationVersion extends TrackedResource {
+    properties?: GalleryApplicationVersionProperties;
+}
+
+// @public
+export interface GalleryApplicationVersionProperties {
     readonly provisioningState?: GalleryProvisioningState;
-    publishingProfile?: GalleryApplicationVersionPublishingProfile;
+    publishingProfile: GalleryApplicationVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryApplicationVersionSafetyProfile;
 }
 
 // @public
-export interface GalleryApplicationVersionList {
-    nextLink?: string;
-    value: GalleryApplicationVersion[];
-}
-
-// @public
 export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
-    advancedSettings?: {
-        [propertyName: string]: string;
-    };
+    advancedSettings?: Record<string, string>;
     customActions?: GalleryApplicationCustomAction[];
     enableHealthCheck?: boolean;
     // (undocumented)
@@ -578,91 +444,45 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
 }
 
 // @public
-export interface GalleryApplicationVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsCreateOrUpdateResponse>, GalleryApplicationVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<GalleryApplicationVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsUpdateResponse>, GalleryApplicationVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<GalleryApplicationVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersionsGetResponse>;
-    listByGalleryApplication(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
-}
-
-// @public
 export interface GalleryApplicationVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
 }
 
 // @public
-export interface GalleryApplicationVersionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryApplicationVersionsCreateOrUpdateResponse = GalleryApplicationVersion;
-
-// @public
-export interface GalleryApplicationVersionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleryApplicationVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationVersionsGetOptionalParams extends OperationOptions {
     expand?: ReplicationStatusTypes;
 }
 
 // @public
-export type GalleryApplicationVersionsGetResponse = GalleryApplicationVersion;
-
-// @public
-export interface GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = GalleryApplicationVersionList;
-
-// @public
-export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParams extends coreClient.OperationOptions {
+export interface GalleryApplicationVersionsOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams) => Promise<GalleryApplicationVersion>;
+    listByGalleryApplication: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams) => PagedAsyncIterableIterator<GalleryApplicationVersion>;
+    update: (resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type GalleryApplicationVersionsListByGalleryApplicationResponse = GalleryApplicationVersionList;
-
-// @public
-export interface GalleryApplicationVersionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryApplicationVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryApplicationVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersionsUpdateHeaders & GalleryApplicationVersion;
-
-// @public
 export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
-    readonly provisioningState?: GalleryProvisioningState;
-    publishingProfile?: GalleryApplicationVersionPublishingProfile;
-    readonly replicationStatus?: ReplicationStatus;
-    safetyProfile?: GalleryApplicationVersionSafetyProfile;
+    properties?: GalleryApplicationVersionProperties;
 }
 
 // @public
@@ -734,29 +554,12 @@ export interface GalleryIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
 export interface GalleryImage extends TrackedResource {
-    allowUpdateImage?: boolean;
-    architecture?: Architecture;
-    description?: string;
-    disallowed?: Disallowed;
-    endOfLifeDate?: Date;
-    eula?: string;
-    features?: GalleryImageFeature[];
-    hyperVGeneration?: HyperVGeneration;
-    identifier?: GalleryImageIdentifier;
-    osState?: OperatingSystemStateTypes;
-    osType?: OperatingSystemTypes;
-    privacyStatementUri?: string;
-    readonly provisioningState?: GalleryProvisioningState;
-    purchasePlan?: ImagePurchasePlan;
-    recommended?: RecommendedMachineConfiguration;
-    releaseNoteUri?: string;
+    properties?: GalleryImageProperties;
 }
 
 // @public
@@ -774,88 +577,7 @@ export interface GalleryImageIdentifier {
 }
 
 // @public
-export interface GalleryImageList {
-    nextLink?: string;
-    value: GalleryImage[];
-}
-
-// @public
-export interface GalleryImages {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesCreateOrUpdateResponse>, GalleryImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<GalleryImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<GalleryImagesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
-}
-
-// @public
-export interface GalleryImagesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GalleryImagesCreateOrUpdateResponse = GalleryImage;
-
-// @public
-export interface GalleryImagesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImagesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GalleryImagesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleryImagesGetResponse = GalleryImage;
-
-// @public
-export interface GalleryImagesListByGalleryNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleryImagesListByGalleryNextResponse = GalleryImageList;
-
-// @public
-export interface GalleryImagesListByGalleryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GalleryImagesListByGalleryResponse = GalleryImageList;
-
-// @public
-export interface GalleryImagesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImagesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GalleryImagesUpdateResponse = GalleryImagesUpdateHeaders & GalleryImage;
-
-// @public
-export interface GalleryImageUpdate extends UpdateResourceDefinition {
+export interface GalleryImageProperties {
     allowUpdateImage?: boolean;
     architecture?: Architecture;
     description?: string;
@@ -864,9 +586,9 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
     eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
-    identifier?: GalleryImageIdentifier;
-    osState?: OperatingSystemStateTypes;
-    osType?: OperatingSystemTypes;
+    identifier: GalleryImageIdentifier;
+    osState: OperatingSystemStateTypes;
+    osType: OperatingSystemTypes;
     privacyStatementUri?: string;
     readonly provisioningState?: GalleryProvisioningState;
     purchasePlan?: ImagePurchasePlan;
@@ -875,37 +597,61 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
 }
 
 // @public
+export interface GalleryImagesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleryImagesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleryImagesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GalleryImagesListByGalleryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GalleryImagesOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams) => Promise<GalleryImage>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryImagesListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryImage>;
+    update: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface GalleryImagesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleryImageUpdate extends UpdateResourceDefinition {
+    properties?: GalleryImageProperties;
+}
+
+// @public
 export interface GalleryImageVersion extends TrackedResource {
+    properties?: GalleryImageVersionProperties;
+}
+
+// @public
+export interface GalleryImageVersionProperties {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     restore?: boolean;
     safetyProfile?: GalleryImageVersionSafetyProfile;
     securityProfile?: ImageVersionSecurityProfile;
-    storageProfile?: GalleryImageVersionStorageProfile;
+    storageProfile: GalleryImageVersionStorageProfile;
     readonly validationsProfile?: ValidationsProfile;
 }
 
 // @public
-export interface GalleryImageVersionList {
-    nextLink?: string;
-    value: GalleryImageVersion[];
-}
-
-// @public
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
-}
-
-// @public
-export interface GalleryImageVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsCreateOrUpdateResponse>, GalleryImageVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<GalleryImageVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsUpdateResponse>, GalleryImageVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<GalleryImageVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams): Promise<GalleryImageVersionsGetResponse>;
-    listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams): PagedAsyncIterableIterator<GalleryImageVersion>;
 }
 
 // @public
@@ -916,53 +662,32 @@ export interface GalleryImageVersionSafetyProfile extends GalleryArtifactSafetyP
 }
 
 // @public
-export interface GalleryImageVersionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryImageVersionsCreateOrUpdateResponse = GalleryImageVersion;
-
-// @public
-export interface GalleryImageVersionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImageVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImageVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImageVersionsGetOptionalParams extends OperationOptions {
     expand?: ReplicationStatusTypes;
 }
 
 // @public
-export type GalleryImageVersionsGetResponse = GalleryImageVersion;
-
-// @public
-export interface GalleryImageVersionsListByGalleryImageNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImageVersionsListByGalleryImageOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVersionList;
-
-// @public
-export interface GalleryImageVersionsListByGalleryImageOptionalParams extends coreClient.OperationOptions {
+export interface GalleryImageVersionsOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams) => Promise<GalleryImageVersion>;
+    listByGalleryImage: (resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams) => PagedAsyncIterableIterator<GalleryImageVersion>;
+    update: (resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
-
-// @public
-export type GalleryImageVersionsListByGalleryImageResponse = GalleryImageVersionList;
 
 // @public
 export interface GalleryImageVersionStorageProfile {
@@ -972,19 +697,9 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 // @public
-export interface GalleryImageVersionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryImageVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryImageVersionsUpdateResponse = GalleryImageVersionsUpdateHeaders & GalleryImageVersion;
 
 // @public
 export interface GalleryImageVersionUefiSettings {
@@ -994,25 +709,12 @@ export interface GalleryImageVersionUefiSettings {
 
 // @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
-    readonly provisioningState?: GalleryProvisioningState;
-    publishingProfile?: GalleryImageVersionPublishingProfile;
-    readonly replicationStatus?: ReplicationStatus;
-    restore?: boolean;
-    safetyProfile?: GalleryImageVersionSafetyProfile;
-    securityProfile?: ImageVersionSecurityProfile;
-    storageProfile?: GalleryImageVersionStorageProfile;
-    readonly validationsProfile?: ValidationsProfile;
+    properties?: GalleryImageVersionProperties;
 }
 
 // @public
 export interface GalleryInVMAccessControlProfile extends TrackedResource {
     properties?: GalleryInVMAccessControlProfileProperties;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileList {
-    nextLink?: string;
-    value: GalleryInVMAccessControlProfile[];
 }
 
 // @public
@@ -1023,82 +725,36 @@ export interface GalleryInVMAccessControlProfileProperties extends GalleryResour
 }
 
 // @public
-export interface GalleryInVMAccessControlProfiles {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>, GalleryInVMAccessControlProfilesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesDeleteResponse>, GalleryInVMAccessControlProfilesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<GalleryInVMAccessControlProfilesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesUpdateResponse>, GalleryInVMAccessControlProfilesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams): Promise<GalleryInVMAccessControlProfilesGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesCreateOrUpdateResponse = GalleryInVMAccessControlProfile;
-
-// @public
-export interface GalleryInVMAccessControlProfilesDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfilesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesDeleteResponse = GalleryInVMAccessControlProfilesDeleteHeaders;
-
-// @public
-export interface GalleryInVMAccessControlProfilesGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfilesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesGetResponse = GalleryInVMAccessControlProfile;
-
-// @public
-export interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesListByGalleryNextResponse = GalleryInVMAccessControlProfileList;
-
-// @public
-export interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfilesOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams) => Promise<GalleryInVMAccessControlProfile>;
+    listByGallery: (resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
+    update: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesListByGalleryResponse = GalleryInVMAccessControlProfileList;
-
-// @public
-export interface GalleryInVMAccessControlProfilesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfilesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfilesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryInVMAccessControlProfilesUpdateResponse = GalleryInVMAccessControlProfilesUpdateHeaders & GalleryInVMAccessControlProfile;
 
 // @public
 export interface GalleryInVMAccessControlProfileUpdate extends UpdateResourceDefinition {
@@ -1107,20 +763,7 @@ export interface GalleryInVMAccessControlProfileUpdate extends UpdateResourceDef
 
 // @public
 export interface GalleryInVMAccessControlProfileVersion extends TrackedResource {
-    defaultAccess?: EndpointAccess;
-    excludeFromLatest?: boolean;
-    mode?: AccessControlRulesMode;
-    readonly provisioningState?: GalleryProvisioningState;
-    readonly publishedDate?: Date;
-    readonly replicationStatus?: ReplicationStatus;
-    rules?: AccessControlRules;
-    targetLocations?: TargetRegion[];
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionList {
-    nextLink?: string;
-    value: GalleryInVMAccessControlProfileVersion[];
+    properties?: GalleryInVMAccessControlProfileVersionProperties;
 }
 
 // @public
@@ -1131,104 +774,54 @@ export interface GalleryInVMAccessControlProfileVersionProperties extends Galler
 }
 
 // @public
-export interface GalleryInVMAccessControlProfileVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>, GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsDeleteResponse>, GalleryInVMAccessControlProfileVersionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsUpdateResponse>, GalleryInVMAccessControlProfileVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsGetResponse>;
-    listByGalleryInVMAccessControlProfile(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse = GalleryInVMAccessControlProfileVersion;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsDeleteResponse = GalleryInVMAccessControlProfileVersionsDeleteHeaders;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfileVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsGetResponse = GalleryInVMAccessControlProfileVersion;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse = GalleryInVMAccessControlProfileVersionList;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams extends coreClient.OperationOptions {
+export interface GalleryInVMAccessControlProfileVersionsOperations {
+    createOrUpdate: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams) => Promise<GalleryInVMAccessControlProfileVersion>;
+    listByGalleryInVMAccessControlProfile: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
+    update: (resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse = GalleryInVMAccessControlProfileVersionList;
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GalleryInVMAccessControlProfileVersionsUpdateResponse = GalleryInVMAccessControlProfileVersionsUpdateHeaders & GalleryInVMAccessControlProfileVersion;
 
 // @public
 export interface GalleryInVMAccessControlProfileVersionUpdate extends UpdateResourceDefinition {
-    defaultAccess?: EndpointAccess;
-    excludeFromLatest?: boolean;
-    mode?: AccessControlRulesMode;
-    readonly provisioningState?: GalleryProvisioningState;
-    readonly publishedDate?: Date;
-    readonly replicationStatus?: ReplicationStatus;
-    rules?: AccessControlRules;
-    targetLocations?: TargetRegion[];
-}
-
-// @public
-export interface GalleryList {
-    nextLink?: string;
-    securityProfile?: ImageVersionSecurityProfile;
-    value: Gallery[];
+    properties?: GalleryInVMAccessControlProfileVersionProperties;
 }
 
 // @public
 export interface GalleryOSDiskImage extends GalleryDiskImage {
+}
+
+// @public
+export interface GalleryProperties {
+    description?: string;
+    identifier?: GalleryIdentifier;
+    readonly provisioningState?: GalleryProvisioningState;
+    sharingProfile?: SharingProfile;
+    readonly sharingStatus?: SharingStatus;
+    softDeletePolicy?: SoftDeletePolicy;
 }
 
 // @public
@@ -1252,40 +845,18 @@ export interface GalleryResourceProfileVersionPropertiesBase {
 export type GallerySharingPermissionTypes = string;
 
 // @public
-export interface GallerySharingProfile {
-    beginUpdate(resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GallerySharingProfileUpdateResponse>, GallerySharingProfileUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<GallerySharingProfileUpdateResponse>;
-}
-
-// @public
-export interface GallerySharingProfileUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GallerySharingProfileUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GallerySharingProfileUpdateResponse = SharingUpdate;
-
-// @public
 export interface GallerySoftDeletedResource extends TrackedResource {
+    properties?: GallerySoftDeletedResourceProperties;
+}
+
+// @public
+export interface GallerySoftDeletedResourceProperties {
     resourceArmId?: string;
     softDeletedArtifactType?: SoftDeletedArtifactTypes;
     softDeletedTime?: string;
 }
 
 // @public
-export interface GallerySoftDeletedResourceList {
-    nextLink?: string;
-    value: GallerySoftDeletedResource[];
-}
-
-// @public (undocumented)
 export interface GalleryTargetExtendedLocation {
     encryption?: EncryptionImages;
     extendedLocation?: GalleryExtendedLocation;
@@ -1296,17 +867,9 @@ export interface GalleryTargetExtendedLocation {
 
 // @public
 export interface GalleryUpdate extends UpdateResourceDefinition {
-    description?: string;
-    identifier?: GalleryIdentifier;
     identity?: GalleryIdentity;
-    readonly provisioningState?: GalleryProvisioningState;
-    sharingProfile?: SharingProfile;
-    readonly sharingStatus?: SharingStatus;
-    softDeletePolicy?: SoftDeletePolicy;
+    properties?: GalleryProperties;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
@@ -1524,6 +1087,11 @@ export enum KnownValidationStatus {
 }
 
 // @public
+export enum KnownVersions {
+    V20240303 = "2024-03-03"
+}
+
+// @public
 export type OperatingSystemStateTypes = "Generalized" | "Specialized";
 
 // @public
@@ -1541,11 +1109,23 @@ export interface OSDiskImageSecurityProfile {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PirCommunityGalleryResource {
+    identifier?: CommunityGalleryIdentifier;
     readonly location?: string;
     readonly name?: string;
     readonly type?: string;
-    uniqueId?: string;
 }
 
 // @public
@@ -1556,7 +1136,7 @@ export interface PirResource {
 
 // @public
 export interface PirSharedGalleryResource extends PirResource {
-    uniqueId?: string;
+    identifier?: SharedGalleryIdentifier;
 }
 
 // @public
@@ -1628,41 +1208,36 @@ export interface ResourceRange {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type SelectPermissions = string;
 
 // @public
-export interface SharedGalleries {
-    get(location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGalleriesGetResponse>;
-    list(location: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
+export interface SharedGalleriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SharedGalleriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleriesGetResponse = SharedGallery;
-
-// @public
-export interface SharedGalleriesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleriesListNextResponse = SharedGalleryList;
-
-// @public
-export interface SharedGalleriesListOptionalParams extends coreClient.OperationOptions {
+export interface SharedGalleriesListOptionalParams extends OperationOptions {
     sharedTo?: SharedToValues;
 }
 
 // @public
-export type SharedGalleriesListResponse = SharedGalleryList;
+export interface SharedGalleriesOperations {
+    get: (location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams) => Promise<SharedGallery>;
+    list: (location: string, options?: SharedGalleriesListOptionalParams) => PagedAsyncIterableIterator<SharedGallery>;
+}
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {
-    readonly artifactTags?: {
-        [propertyName: string]: string;
-    };
+    properties?: SharedGalleryProperties;
 }
 
 // @public
@@ -1680,63 +1255,55 @@ export interface SharedGalleryDiskImage {
 export type SharedGalleryHostCaching = string;
 
 // @public
+export interface SharedGalleryIdentifier {
+    uniqueId?: string;
+}
+
+// @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
+    properties?: SharedGalleryImageProperties;
+}
+
+// @public
+export interface SharedGalleryImageProperties {
     architecture?: Architecture;
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    artifactTags?: Record<string, string>;
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
-    identifier?: GalleryImageIdentifier;
-    osState?: OperatingSystemStateTypes;
-    osType?: OperatingSystemTypes;
+    identifier: GalleryImageIdentifier;
+    osState: OperatingSystemStateTypes;
+    osType: OperatingSystemTypes;
     privacyStatementUri?: string;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
 }
 
 // @public
-export interface SharedGalleryImageList {
-    nextLink?: string;
-    value: SharedGalleryImage[];
+export interface SharedGalleryImagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SharedGalleryImages {
-    get(location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImagesGetOptionalParams): Promise<SharedGalleryImagesGetResponse>;
-    list(location: string, galleryUniqueName: string, options?: SharedGalleryImagesListOptionalParams): PagedAsyncIterableIterator<SharedGalleryImage>;
-}
-
-// @public
-export interface SharedGalleryImagesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImagesGetResponse = SharedGalleryImage;
-
-// @public
-export interface SharedGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImagesListNextResponse = SharedGalleryImageList;
-
-// @public
-export interface SharedGalleryImagesListOptionalParams extends coreClient.OperationOptions {
+export interface SharedGalleryImagesListOptionalParams extends OperationOptions {
     sharedTo?: SharedToValues;
 }
 
 // @public
-export type SharedGalleryImagesListResponse = SharedGalleryImageList;
+export interface SharedGalleryImagesOperations {
+    get: (location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImagesGetOptionalParams) => Promise<SharedGalleryImage>;
+    list: (location: string, galleryUniqueName: string, options?: SharedGalleryImagesListOptionalParams) => PagedAsyncIterableIterator<SharedGalleryImage>;
+}
 
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
-    artifactTags?: {
-        [propertyName: string]: string;
-    };
+    properties?: SharedGalleryImageVersionProperties;
+}
+
+// @public
+export interface SharedGalleryImageVersionProperties {
+    artifactTags?: Record<string, string>;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -1744,38 +1311,19 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
 }
 
 // @public
-export interface SharedGalleryImageVersionList {
-    nextLink?: string;
-    value: SharedGalleryImageVersion[];
+export interface SharedGalleryImageVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SharedGalleryImageVersions {
-    get(location: string, galleryUniqueName: string, galleryImageName: string, galleryImageVersionName: string, options?: SharedGalleryImageVersionsGetOptionalParams): Promise<SharedGalleryImageVersionsGetResponse>;
-    list(location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<SharedGalleryImageVersion>;
-}
-
-// @public
-export interface SharedGalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion;
-
-// @public
-export interface SharedGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList;
-
-// @public
-export interface SharedGalleryImageVersionsListOptionalParams extends coreClient.OperationOptions {
+export interface SharedGalleryImageVersionsListOptionalParams extends OperationOptions {
     sharedTo?: SharedToValues;
 }
 
 // @public
-export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList;
+export interface SharedGalleryImageVersionsOperations {
+    get: (location: string, galleryUniqueName: string, galleryImageName: string, galleryImageVersionName: string, options?: SharedGalleryImageVersionsGetOptionalParams) => Promise<SharedGalleryImageVersion>;
+    list: (location: string, galleryUniqueName: string, galleryImageName: string, options?: SharedGalleryImageVersionsListOptionalParams) => PagedAsyncIterableIterator<SharedGalleryImageVersion>;
+}
 
 // @public
 export interface SharedGalleryImageVersionStorageProfile {
@@ -1784,13 +1332,12 @@ export interface SharedGalleryImageVersionStorageProfile {
 }
 
 // @public
-export interface SharedGalleryList {
-    nextLink?: string;
-    value: SharedGallery[];
+export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {
 }
 
 // @public
-export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {
+export interface SharedGalleryProperties {
+    readonly artifactTags?: Record<string, string>;
 }
 
 // @public
@@ -1834,25 +1381,6 @@ export type SharingUpdateOperationTypes = string;
 export type SoftDeletedArtifactTypes = string;
 
 // @public
-export interface SoftDeletedResource {
-    listByArtifactName(resourceGroupName: string, galleryName: string, artifactType: string, artifactName: string, options?: SoftDeletedResourceListByArtifactNameOptionalParams): PagedAsyncIterableIterator<GallerySoftDeletedResource>;
-}
-
-// @public
-export interface SoftDeletedResourceListByArtifactNameNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SoftDeletedResourceListByArtifactNameNextResponse = GallerySoftDeletedResourceList;
-
-// @public
-export interface SoftDeletedResourceListByArtifactNameOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SoftDeletedResourceListByArtifactNameResponse = GallerySoftDeletedResourceList;
-
-// @public
 export interface SoftDeletePolicy {
     isSoftDeleteEnabled?: boolean;
 }
@@ -1883,9 +1411,7 @@ export interface TargetRegion {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1912,13 +1438,11 @@ export type UefiSignatureTemplateName = string;
 export interface UpdateResourceDefinition {
     readonly id?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserArtifactManage {
     install: string;
     remove: string;
@@ -1938,7 +1462,7 @@ export interface UserArtifactSource {
     mediaLink: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
