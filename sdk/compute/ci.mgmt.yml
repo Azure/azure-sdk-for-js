@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -15,6 +15,7 @@ trigger:
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
       - sdk/compute/arm-compute-rest
       - sdk/compute/arm-computerecommender
+      - sdk/compute/arm-compute-compute
 pr:
   branches:
     include:
@@ -31,6 +32,7 @@ pr:
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
       - sdk/compute/arm-compute-rest
       - sdk/compute/arm-computerecommender
+      - sdk/compute/arm-compute-compute
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -44,3 +46,5 @@ extends:
         safeName: azurerestarmcompute
       - name: azure-arm-computerecommender
         safeName: azurearmcomputerecommender
+      - name: azure-arm-compute-compute
+        safeName: azurearmcomputecompute
