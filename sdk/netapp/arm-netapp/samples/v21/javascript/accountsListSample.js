@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to List and describe all NetApp accounts in the resource group.
  *
  * @summary List and describe all NetApp accounts in the resource group.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Accounts_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Accounts_List.json
  */
 async function accountsList() {
   const subscriptionId =

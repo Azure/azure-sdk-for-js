@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to creates an alert configuration setting for the given vault.
  *
  * @summary creates an alert configuration setting for the given vault.
  * x-ms-original-file: 2024-09-01/EmailConfiguration_Create.json
  */
+
+import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createsEmailConfigurationSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";

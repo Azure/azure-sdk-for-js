@@ -71,7 +71,6 @@ If you prefer to setup your own environment instead, make sure you have these pr
 - Git
 - Any of the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules):
-
   - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
   - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).
   - Linux: Install Python and GCC/G++ (part of the `build-essential` package on Ubuntu-based distributions) using your distribution's package manager.
@@ -95,10 +94,10 @@ To build all packages:
 4. Install and link all dependencies (`pnpm install`)
 5. Build the code base (`pnpm build`)
 
-To build specific package(s), use `--filter=@azure/package-name...` pnpm command-line option:
+You rarely need to build all packages though, as it takes over one hour to finish. Instead, you can build selected packages impacted by your changes. To build specific package(s), use the `--filter=@azure/package-name...` command-line option:
 
 6. Install and link all dependencies (`pnpm install`)
-7. Build the package, for example, `pnpm build --filter=@azure/service-bus...`. Alternatively when under the package directory, `npx turbo build`
+7. Build the package, for example, `pnpm turbo build --filter=@azure/service-bus...`. Alternatively when under the package directory, `npx turbo build`
 
 ## Development Workflows
 
@@ -132,7 +131,7 @@ On the other hand, if you know your library does not work with the existing vers
 
 Run `pnpm build` from repo root directory to build any projects that have been modified since the last build.
 
-Run `pnpm build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm build --filter=@azure/communication-chat...`.  Alternatively, you can run `npx turbo build` to build current package's dependencies then the package itself.
+Run `pnpm turbo build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm turbo build --filter=@azure/communication-chat...`.  Alternatively, you can run `npx turbo build` to build current package's dependencies then the package itself.
 
 ### Testing
 
@@ -205,22 +204,37 @@ If you're having problems and want to restore your repo to a clean state without
 
 Generally speaking, the following commands are roughly equivalent:
 
-| NPM command                          | pnpm command                                  | pnpm command effect                                              |
-| ------------------------------------ | --------------------------------------------- | ---------------------------------------------------------------- |
-| `npm install`                        | `pnpm install`                                | Install dependencies for all projects in the pnpm workspace      |
-| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Add or update a dependency in the current project                |
-| `npm build`                          | `pnpm build`                                  | Build all projects in the pnpm workspace                         |
-|                                      | `pnpm build --filter=<package>...`            | Build named project and any projects it depends on               |
-|                                      | `pnpm build`                                  | Build the current project only                                   |
-|                                      | `pnpm -F {./}... build` or `npx turbo build`  | (Run inside a project) Build the project and its dependencies    |
-|                                      | `pnpm --filter=<package>... build`            | (Run inside a project) Build the project and its dependencies    |
-| `npm test`                           | `pnpm test`                                   | Run dev tests in all projects in the pnpm workspace              |
-|                                      | `pnpm test --filter=<packagename>...`         | Run dev tests in named project and any projects it depends on    |
-|                                      | `pnpm test`                                   | Run dev tests in the current project only                        |
-| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Run named script in all projects in the pnpm workspace           |
-|                                      | `pnpm <scriptname> --filter=<packagename>...` | Run named script in named project and any projects it depends on |
-|                                      | `pnpm <scriptname>`                           | Run named script in the current project only                     |
-| `npx <command>`                      | `npx <command>`                               | Run named command provided by installed dependency package       |
+| NPM command                          | pnpm command                                  | Where to run      | pnpm command effect                                              |
+|--------------------------------------|-----------------------------------------------|-------------------|------------------------------------------------------------------|
+| `npm install`                        | `pnpm install`                                | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
+| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Package directory | Add or update a dependency in the current project                |
+| `npm build`                          | `pnpm build`                                  | Repo root         | Build all projects in the pnpm workspace                         |
+|                                      | `pnpm turbo build --filter=<package>...`      | Anywhere in repo  | Build named project and any projects it depends on               |
+|                                      | `pnpm turbo build`                            | Package directory | Build the current project                                        |
+| `npm test`                           | `pnpm test`                                   | Repo root         | Run dev tests in all projects in the pnpm workspace              |
+|                                      | `pnpm test --filter=<packagename>...`         | Repo root         | Run dev tests in named project and any projects it depends on    |
+|                                      | `pnpm test`                                   | Package directory | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Repo root         | Run named script in all projects in the pnpm workspace           |
+|                                      | `pnpm <scriptname> --filter=<packagename>...` | Repo root         | Run named script in named project and any projects it depends on |
+|                                      | `pnpm <scriptname>`                           | Package directory | Run named script in the current project only                     |
+| `npx <command>`                      | `npx <command>`                               | Anywhere          | Run named command provided by installed dependency package       |
+
+Similarly other monorepo commands (`clean`, `test`, `test:node`, `format`, `lint`, etc.) also work with selections via `--filter` or `-F` option. It is supported to pass `--filter` or `-F` option multiple times.
+
+> **Note about "Where to run":**
+>
+> - **Repo root**: The top-level directory of the azure-sdk-for-js repository (where `pnpm-workspace.yaml` is located)
+> - **Package directory**: The specific package folder containing its own `package.json` file (e.g., `sdk/appconfiguration/app-configuration`)
+> - **Anywhere in repo**: Can be run from any directory within the repository
+
+**Filtering patterns:**
+
+- To select package's dependencies and itself: `--filter <package name>...`
+- To select package itself only: `--filter <package name>`
+- To select package and its dependents: `--filter ...<package name>`
+- To select package's dependencies, itself, and its dependents: `--filter ...<package name>...`
+
+For more filtering information please see [Filtering | pnpm](https://pnpm.io/filtering).
 
 ### Documentation
 
@@ -251,7 +265,7 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - add a linting npm script as follows:
   - ["lint": "eslint package.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
-You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm build --filter@azure-tools/eslint-plugin-azure-sdk...`, or indirectly as your package's dependency by `pnpm build ...` under your package directory.
+You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm turbo build --filter @azure-tools/eslint-plugin-azure-sdk...`, or indirectly as your package's dependency by `pnpm turbo build` under your package directory.
 
 If the package is internal, it should not follow the design guidelines and in turn should not be linted using the same set of rules. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
 
@@ -267,7 +281,7 @@ All libraries must follow our [repository structure](https://github.com/Azure/az
 
 The repository contains two different sets of libraries, each follows different rules for development and maintaining. The first type is generated automatically from the [swagger specifications](https://github.com/Azure/azure-rest-api-specs) and their code should not be edited by hand. Onboarding such library is just a matter of pushing its auto-generated directory to the right location in the repository.
 
-The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, ensure that the project will be picked up in the `pnpm-workspace.yaml`.  Once the library is added, run `pnpm install` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
+The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, ensure that the project will be picked up in the `pnpm-workspace.yaml`. Once the library is added, run `pnpm install` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
 In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, and `test` scripts at the appropriate times during the build. Adding hooks that perform steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 

@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageDiscoveryContext } from "../../api/storageDiscoveryContext.js";
-import { StorageDiscoveryWorkspace, StorageDiscoveryWorkspaceUpdate } from "../../models/models.js";
-import {
-  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
-  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-  StorageDiscoveryWorkspacesDeleteOptionalParams,
-  StorageDiscoveryWorkspacesUpdateOptionalParams,
-  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
-  StorageDiscoveryWorkspacesGetOptionalParams,
-} from "../../api/storageDiscoveryWorkspaces/options.js";
+import type { StorageDiscoveryContext } from "../../api/storageDiscoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,7 +10,19 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageDiscoveryWorkspaces/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
+  StorageDiscoveryWorkspacesDeleteOptionalParams,
+  StorageDiscoveryWorkspacesUpdateOptionalParams,
+  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
+  StorageDiscoveryWorkspacesGetOptionalParams,
+} from "../../api/storageDiscoveryWorkspaces/options.js";
+import type {
+  StorageDiscoveryWorkspace,
+  StorageDiscoveryWorkspaceUpdate,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StorageDiscoveryWorkspaces operations. */
 export interface StorageDiscoveryWorkspacesOperations {

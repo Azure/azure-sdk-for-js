@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { SeverityNumber } from "@opentelemetry/api-logs";
+import { Resource } from "@opentelemetry/resources";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+
 export function successfulBreezeResponse(count: number): any {
   return {
     itemsAccepted: count,
@@ -38,4 +42,24 @@ export function partialBreezeResponse(statusCodes: number[]): {
         message: "foo",
       })),
   };
+}
+
+export function createMockSdkLogRecord(
+  resource?: Resource,
+  instrumentationScope?: { name: string; version?: string },
+  initialData: any = {},
+): SdkLogRecord {
+  const { body, ...otherData } = initialData;
+  return {
+    resource: resource || { attributes: {} },
+    instrumentationScope: instrumentationScope || { name: "test", version: "1.0.0" },
+    hrTime: otherData.hrTime || [Date.now() / 1000, 0],
+    hrTimeObserved: otherData.hrTimeObserved || [Date.now() / 1000, 0],
+    severityNumber: otherData.severityNumber || SeverityNumber.INFO,
+    severityText: otherData.severityText || "INFO",
+    body: body,
+    attributes: otherData.attributes || {},
+    droppedAttributesCount: otherData.droppedAttributesCount || 0,
+    spanContext: otherData.spanContext,
+  } as SdkLogRecord;
 }

@@ -8,6 +8,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { vendoredWithOptions } from "../run/vendored";
 import { getRushJson, RushJsonProject } from "../../util/synthesizedRushJson";
+import { sortPackageJson } from "../../util/sortPackageJson";
 
 const log = createPrinter("migrate-tests");
 
@@ -42,7 +43,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
     for (const project of projects) {
       log.info(`Migrating package ${project.packageName}`);
       const projectFolder = resolve(root, project.projectFolder);
-      const success = await updatePackageJson(projectFolder, project.packageName);
+      const success = await updatePackageJson(projectFolder);
       if (!success) {
         log.error(`Failed to migrate package ${packageName}`);
         return false;
@@ -70,7 +71,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
   }
 
   log.info(`Migrating package ${packageName}`);
-  const success = await updatePackageJson(projectFolder, packageName);
+  const success = await updatePackageJson(projectFolder);
   if (!success) {
     log.error(`Failed to migrate package ${packageName}`);
     return false;
@@ -79,7 +80,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
   return true;
 });
 
-async function updatePackageJson(projectFolder: string, packageName: string): Promise<boolean> {
+async function updatePackageJson(projectFolder: string): Promise<boolean> {
   const packageJsonPath = resolve(projectFolder, "package.json");
   const packageJsonContent = await readFile(packageJsonPath, "utf-8");
   const packageJson = JSON.parse(packageJsonContent);
@@ -129,20 +130,11 @@ async function updatePackageJson(projectFolder: string, packageName: string): Pr
     delete packageJson.scripts["build:node"];
     delete packageJson.scripts["minify"];
 
-    if (
-      packageName.startsWith("@azure-tests/perf-") ||
-      packageName === "@azure/dev-tool" ||
-      packageName === "@azure-tools/vite-plugin-browser-test-map" ||
-      packageName === "@azure/eslint-plugin-azure-sdk"
-    ) {
-      packageJson.scripts["test:node:esm"] = "echo skipped";
-    }
-
     // Set the entry point for testing
     packageJson.scripts["test"] = "npm run test:node && npm run test:browser";
 
     // Clean it up
-    sortPackage(packageJson);
+    sortPackageJson(packageJson);
 
     await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
@@ -153,27 +145,6 @@ async function updatePackageJson(projectFolder: string, packageName: string): Pr
   }
 
   return true;
-}
-
-function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: string]: string } {
-  const sortedEntries = Object.entries(unsortedObj).sort((a, b) => a[0].localeCompare(b[0]));
-  return Object.fromEntries(sortedEntries);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortPackage(packageJson: any): void {
-  if (packageJson.dependencies) {
-    packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
-  }
-  if (packageJson.devDependencies) {
-    packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
-  }
-  if (packageJson.peerDependencies) {
-    packageJson.peerDependencies = sortObjectByKeys(packageJson.peerDependencies);
-  }
-  if (packageJson.scripts) {
-    packageJson.scripts = sortObjectByKeys(packageJson.scripts);
-  }
 }
 
 async function runCleanup(projectFolder: string): Promise<boolean> {

@@ -128,7 +128,7 @@ node dist/backupEnginesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID="<recoveryservicesbackup subscription id>" RECOVERYSERVICESBACKUP_RESOURCE_GROUP="<recoveryservicesbackup resource group>" node dist/backupEnginesGetSample.js
+cross-env RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID="<recoveryservicesbackup subscription id>" RECOVERYSERVICESBACKUP_RESOURCE_GROUP="<recoveryservicesbackup resource group>" node dist/backupEnginesGetSample.js
 ```
 
 ## Next Steps

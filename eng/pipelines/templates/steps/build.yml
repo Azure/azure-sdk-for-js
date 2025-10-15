@@ -43,9 +43,13 @@ steps:
 
   - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      pnpm install --no-frozen-lockfile
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
+
+  - script: |
+      pnpm install --no-frozen-lockfile
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    displayName: "Install library dependencies after setting dev version"
 
   # Update the package info file to include dev version
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
@@ -57,14 +61,27 @@ steps:
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install library dependencies"
 
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
+      - pwsh: |
+          echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:,remote:w"
+        displayName: "Set Turborepo Cache local:,remote:w"
+  - ${{ else }}:
+      - pwsh: |
+          echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:rw,remote:r"
+        displayName: "Set Turborepo Cache local:rw remote:r"
+
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
   - pwsh: |
-      npm install ./eng/tools/ci-runner
       node eng/tools/ci-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
+    env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_TOKEN: $(js-turborepo-cache-token)
+      TURBO_CACHE: $(turboCache)
     displayName: "Build libraries"
 
   - script: |

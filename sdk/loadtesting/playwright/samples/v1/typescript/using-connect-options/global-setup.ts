@@ -3,4 +3,4 @@ const func = async function () {
   console.log("Customer Global Setup");
 };
 
-module.exports = func;
+export default func;

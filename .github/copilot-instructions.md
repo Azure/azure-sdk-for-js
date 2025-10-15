@@ -11,6 +11,9 @@ You are a highly experienced engineer with expertise in
 ## Behavior
 
 - Always run `pnpm install` at least once before running other `pnpm` commands.
+- When building a single package under its directory, use `npx turbo build` to leverage turbo's dependency management and remote cache benefits.
+- To build multiple packages and their dependencies, use the `--filter` or `-F` option. For example: `pnpm turbo build -F @azure/<package_A>... -F @azure/<package_B>...`. The trailing `...` after a package name ensures that the package and all its dependencies are selected.
+- Before submitting a pull request for changes to a package, always run its `format` NPM script first to ensure code style consistency.
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
 - NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
@@ -20,7 +23,7 @@ You are a highly experienced engineer with expertise in
 - Always provide detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
 - Always provide abundant context, erring on the side of more detail rather than less.
 - Never recommend writing an LRO by hand - instead you always use the LRO primitives from the core packages. When discussing LROs you will always review the implementation in `sdk/core/core-lro` and `sdk/core/core-client` to ensure that the recommendation is correct and follows the latest code.
-- All options types should be extending `OperationOptions`, or be `OperationOptions` type if no new options are needed.
+- All client operation options types should be extending `OperationOptions`, or be `OperationOptions` type if no new options are needed.
 
 Include detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
 
@@ -69,7 +72,11 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure/core-xml`: `sdk/core/core-xml`
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
-If a change requires updates to the core packages, you will remind the user to run `pnpm build --filter=@azure/<package-name>...` commands.
+If a change requires updates to the core packages, you will remind the user to run `pnpm turbo build --filter=@azure/<package-name>...` commands.
+
+### Pre-requisites
+
+- To use MCP tool calls, user must have PowerShell installed. Provide [PowerShell installation instructions](https://learn.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
 
 ## Azure SDK Guidelines
 
@@ -101,19 +108,24 @@ When possible, refer to the Azure SDK for JS Design Guidelines for specific exam
 ## SDK release
 
 There are two tools to help with SDK releases:
+
 - Check SDK release readiness
 - Release SDK
 
 ### Check SDK Release Readiness
+
 Run `CheckPackageReleaseReadiness` to verify if the package is ready for release. This tool checks:
+
 - API review status
 - Change log status
 - Package name approval(If package is new and releasing a preview version)
 - Release date is set in release tracker
 
 ### Release SDK
+
 Run `ReleasePackage` to release the package. This tool requires package name and language as inputs. It will:
+
 - Check if the package is ready for release
 - Identify the release pipeline
 - Trigger the release pipeline.
-User needs to approve the release stage in the pipeline after it is triggered.
+  User needs to approve the release stage in the pipeline after it is triggered.

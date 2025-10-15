@@ -1,6 +1,26 @@
 # Release History
 
-### 1.12.1 ()
+### 1.14.0 (2025-09-16)
+
+### Other Changes
+
+- Update exporter version.
+
+### 1.13.1 (2025-09-10)
+
+### Bugs Fixed
+
+- Fix support for multiple metric exporters and OTLP metric exporter creation.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
+### 1.13.0 (2025-09-05)
+
+### Features Added
+
+- All instrumentations apart from bunyan and winston are now enabled by default.
 
 ### Bugs Fixed
 

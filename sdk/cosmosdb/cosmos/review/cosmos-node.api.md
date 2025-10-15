@@ -82,6 +82,7 @@ export class ChangeFeedIterator<T> {
 export interface ChangeFeedIteratorOptions {
     changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
+    excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
 }
@@ -179,6 +180,7 @@ export type ClientConfigDiagnostic = {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     pluginsConfigured: boolean;
     sDKVersion: string;
+    aadScopeOverride?: boolean;
 };
 
 // @public (undocumented)
@@ -634,6 +636,7 @@ export const Constants: {
     WriteRequestFailureCountThreshold: number;
     ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
+    EnablePerPartitionFailover: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
@@ -927,6 +930,7 @@ export class DatabaseAccount {
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
+    readonly enablePerPartitionFailover: boolean;
     // @deprecated
     get MaxMediaStorageUsageInMB(): number;
     readonly maxMediaStorageUsageInMB: number;
@@ -1037,6 +1041,7 @@ export type DiagnosticDataValue = {
         url: string;
     }>;
     partitionKeyRangeFailoverInfo: string;
+    excludedLocations: string[];
 };
 
 // @public
@@ -2379,6 +2384,7 @@ export interface SharedOptions {
     bypassIntegratedCache?: boolean;
     consistencyLevel?: string;
     disableRUPerMinuteUsage?: boolean;
+    excludedLocations?: string[];
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

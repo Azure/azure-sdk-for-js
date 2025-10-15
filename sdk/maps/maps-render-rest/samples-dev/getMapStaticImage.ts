@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary How to get the map static image with pins and paths specified.
+ */
+
 import { DefaultAzureCredential } from "@azure/identity";
 import { createWriteStream } from "node:fs";
 import MapsRender, { createPathQuery, createPinsQuery } from "@azure-rest/maps-render";
 import type { LatLon } from "@azure/maps-common";
 
-/**
- * @summary How to get the map static image with pins and paths specified.
- */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

@@ -12,7 +12,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -76,9 +76,14 @@ export enum KnownRedundancyState {
 }
 
 // @public
+export enum KnownSchedulerSkuName {
+    Consumption = "Consumption",
+    Dedicated = "Dedicated"
+}
+
+// @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview",
-    V20250401Preview = "2025-04-01-preview"
+    V20251101 = "2025-11-01"
 }
 
 // @public
@@ -163,14 +168,17 @@ export interface SchedulerPropertiesUpdate {
 // @public
 export interface SchedulerSku {
     capacity?: number;
-    name: string;
+    name: SchedulerSkuName;
     readonly redundancyState?: RedundancyState;
 }
 
 // @public
+export type SchedulerSkuName = string;
+
+// @public
 export interface SchedulerSkuUpdate {
     capacity?: number;
-    name?: string;
+    name?: SchedulerSkuName;
     readonly redundancyState?: RedundancyState;
 }
 

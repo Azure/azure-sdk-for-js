@@ -14,6 +14,8 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
+  KnowledgeAgentsImpl,
+  KnowledgeSourcesImpl,
   DataSourcesImpl,
   IndexersImpl,
   SkillsetsImpl,
@@ -22,6 +24,8 @@ import {
   AliasesImpl,
 } from "./operations/index.js";
 import {
+  KnowledgeAgents,
+  KnowledgeSources,
   DataSources,
   Indexers,
   Skillsets,
@@ -32,16 +36,18 @@ import {
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
 import {
-  ApiVersion20241101Preview,
+  ApiVersion20250801Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
+  GetIndexStatsSummaryOptionalParams,
+  GetIndexStatsSummaryResponse,
 } from "./models/index.js";
 
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20241101Preview;
+  apiVersion: ApiVersion20250801Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -51,7 +57,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20241101Preview,
+    apiVersion: ApiVersion20250801Preview,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -69,7 +75,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.2`;
+    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -87,6 +93,8 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     // Parameter assignments
     this.endpoint = endpoint;
     this.apiVersion = apiVersion;
+    this.knowledgeAgents = new KnowledgeAgentsImpl(this);
+    this.knowledgeSources = new KnowledgeSourcesImpl(this);
     this.dataSources = new DataSourcesImpl(this);
     this.indexers = new IndexersImpl(this);
     this.skillsets = new SkillsetsImpl(this);
@@ -137,6 +145,21 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     );
   }
 
+  /**
+   * Retrieves a summary of statistics for all indexes in the search service.
+   * @param options The options parameters.
+   */
+  getIndexStatsSummary(
+    options?: GetIndexStatsSummaryOptionalParams,
+  ): Promise<GetIndexStatsSummaryResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getIndexStatsSummaryOperationSpec,
+    );
+  }
+
+  knowledgeAgents: KnowledgeAgents;
+  knowledgeSources: KnowledgeSources;
   dataSources: DataSources;
   indexers: Indexers;
   skillsets: Skillsets;
@@ -153,6 +176,22 @@ const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ServiceStatistics,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getIndexStatsSummaryOperationSpec: coreClient.OperationSpec = {
+  path: "/indexstats",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListIndexStatsSummary,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

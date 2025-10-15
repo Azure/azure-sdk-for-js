@@ -102,12 +102,7 @@ export interface Backups {
     backupName: string,
     body: Backup,
     options?: BackupsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsCreateResponse>,
-      BackupsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>>;
   /**
    * Create a backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -139,12 +134,7 @@ export interface Backups {
     backupVaultName: string,
     backupName: string,
     options?: BackupsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsUpdateResponse>,
-      BackupsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<BackupsUpdateResponse>, BackupsUpdateResponse>>;
   /**
    * Patch a Backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -174,12 +164,7 @@ export interface Backups {
     backupVaultName: string,
     backupName: string,
     options?: BackupsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsDeleteResponse>,
-      BackupsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<BackupsDeleteResponse>, BackupsDeleteResponse>>;
   /**
    * Delete a Backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

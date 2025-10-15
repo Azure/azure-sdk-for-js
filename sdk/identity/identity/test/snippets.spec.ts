@@ -16,7 +16,7 @@ import {
 import { KeyClient } from "@azure/keyvault-keys";
 import { setLogLevel } from "@azure/logger";
 import dotenv from "dotenv";
-import { describe, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 describe("snippets", function () {
   it("defaultazurecredential_vscode", function () {
@@ -270,6 +270,18 @@ describe("snippets", function () {
       tokenCachePersistenceOptions: {
         enabled: true,
       },
+    });
+  });
+
+  it("defaultazurecredential_requiredEnvVars", function () {
+    // @ts-ignore
+    const credential = new DefaultAzureCredential({
+      requiredEnvVars: [
+        "AZURE_CLIENT_ID",
+        "AZURE_TENANT_ID",
+        "AZURE_CLIENT_SECRET",
+        "AZURE_TOKEN_CREDENTIALS",
+      ],
     });
   });
 });

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (2025-07-23)
+## 1.1.0-beta.2 (2025-10-08)
 Compared with version 1.0.1
 
 ### Features Added
@@ -26,16 +26,17 @@ Compared with version 1.0.1
   - Added Interface UsersGetOptionalParams
   - Added Interface UsersListByMongoClusterOptionalParams
   - Interface MongoCluster has a new optional parameter identity
+  - Interface MongoClusterManagementClientOptionalParams has a new optional parameter cloudSetting
   - Interface MongoClusterProperties has a new optional parameter authConfig
   - Interface MongoClusterProperties has a new optional parameter dataApi
   - Interface MongoClusterProperties has a new optional parameter encryption
   - Interface MongoClusterUpdate has a new optional parameter identity
   - Interface MongoClusterUpdateProperties has a new optional parameter authConfig
   - Interface MongoClusterUpdateProperties has a new optional parameter dataApi
-  - Interface StorageProperties has a new optional parameter iops
-  - Interface StorageProperties has a new optional parameter throughput
+  - Interface MongoClusterUpdateProperties has a new optional parameter encryption
   - Interface StorageProperties has a new optional parameter type
   - Added Type Alias AuthenticationMode
+  - Added Type Alias AzureSupportedClouds
   - Added Type Alias DataApiMode
   - Added Type Alias EntraPrincipalType
   - Added Type Alias IdentityProviderType
@@ -44,6 +45,7 @@ Compared with version 1.0.1
   - Added Type Alias ManagedServiceIdentityType
   - Added Type Alias StorageType
   - Added Type Alias UserRole
+  - Added Enum AzureClouds
   - Added Enum KnownAuthenticationMode
   - Added Enum KnownDataApiMode
   - Added Enum KnownEntraPrincipalType
@@ -54,14 +56,3 @@ Compared with version 1.0.1
   - Added Enum KnownUserRole
   - Added Enum KnownVersions
 
-    
-## 1.0.1 (2024-10-14)
-
-### Bugs Fixed
-- Fix missing package information issue in user agent
-
-## 1.0.0 (2024-09-26)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-mongocluster.

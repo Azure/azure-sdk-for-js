@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DurableTaskContext } from "../../api/durableTaskContext.js";
-import { Scheduler, SchedulerUpdate } from "../../models/models.js";
-import {
-  SchedulersListBySubscriptionOptionalParams,
-  SchedulersListByResourceGroupOptionalParams,
-  SchedulersDeleteOptionalParams,
-  SchedulersUpdateOptionalParams,
-  SchedulersCreateOrUpdateOptionalParams,
-  SchedulersGetOptionalParams,
-} from "../../api/schedulers/options.js";
+import type { DurableTaskContext } from "../../api/durableTaskContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,8 +10,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/schedulers/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  SchedulersListBySubscriptionOptionalParams,
+  SchedulersListByResourceGroupOptionalParams,
+  SchedulersDeleteOptionalParams,
+  SchedulersUpdateOptionalParams,
+  SchedulersCreateOrUpdateOptionalParams,
+  SchedulersGetOptionalParams,
+} from "../../api/schedulers/options.js";
+import type { Scheduler, SchedulerUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Schedulers operations. */
 export interface SchedulersOperations {

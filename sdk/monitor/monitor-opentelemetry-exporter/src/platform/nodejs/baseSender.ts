@@ -3,6 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
+import { ExceptionType } from "../../export/statsbeat/types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
@@ -21,6 +22,7 @@ import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -65,10 +67,23 @@ export abstract class BaseSender {
         disableOfflineStorage: this.disableOfflineStorage,
       });
       if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+        let exportInterval: number | undefined;
+        if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
+          const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+          const exportIntervalSeconds = parseInt(envValue, 10);
+          if (!isNaN(exportIntervalSeconds) && exportIntervalSeconds > 0) {
+            exportInterval = exportIntervalSeconds * 1000; // Convert seconds to milliseconds
+          } else {
+            diag.warn(
+              `Invalid value for APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL environment variable: '${envValue}'. Expected a positive number (seconds). Using default export interval.`,
+            );
+          }
+        }
         this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
           instrumentationKey: options.instrumentationKey,
           endpointUrl: options.endpointUrl,
           disableOfflineStorage: this.disableOfflineStorage,
+          networkCollectionInterval: exportInterval,
         });
       }
     }
@@ -172,8 +187,9 @@ export abstract class BaseSender {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
             // Count dropped items for customer SDK Stats for non-retriable status codes
+            const filteredSuccessfulEnvelopes = successfulEnvelopes.filter(Boolean);
             this.customerSDKStatsMetrics?.countDroppedItems(
-              successfulEnvelopes.filter(Boolean),
+              filteredSuccessfulEnvelopes,
               statusCode,
             );
           }
@@ -232,6 +248,7 @@ export abstract class BaseSender {
               envelopes,
               DropCode.CLIENT_EXCEPTION,
               redirectError.message,
+              ExceptionType.CLIENT_EXCEPTION,
             );
           }
           return { code: ExportResultCode.FAILED, error: redirectError };
@@ -268,6 +285,7 @@ export abstract class BaseSender {
             envelopes,
             RetryCode.CLIENT_TIMEOUT,
             "timeout_exception",
+            ExceptionType.TIMEOUT_EXCEPTION,
           );
           diag.error("Request timed out. Error message:", restError.message);
         } else if (restError.statusCode) {
@@ -283,6 +301,11 @@ export abstract class BaseSender {
       // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countException(restError);
+        this.customerSDKStatsMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_EXCEPTION,
+          restError.message,
+        );
         diag.error(
           "Envelopes could not be exported and are not retriable. Error message:",
           restError.message,

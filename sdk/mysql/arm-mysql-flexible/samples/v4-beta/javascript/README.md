@@ -93,7 +93,7 @@ node advancedThreatProtectionSettingsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env MYSQL_SUBSCRIPTION_ID="<mysql subscription id>" MYSQL_RESOURCE_GROUP="<mysql resource group>" node advancedThreatProtectionSettingsGetSample.js
+cross-env MYSQL_SUBSCRIPTION_ID="<mysql subscription id>" MYSQL_RESOURCE_GROUP="<mysql resource group>" node advancedThreatProtectionSettingsGetSample.js
 ```
 
 ## Next Steps

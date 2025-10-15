@@ -13,9 +13,5 @@
       "path": "./tsconfig.snippets.json"
     }
   ],
-  "compilerOptions": {
-    "target": "ES2023",
-    "moduleResolution": "nodenext",
-    "module": "NodeNext"
-  }
+  "files": []
 }

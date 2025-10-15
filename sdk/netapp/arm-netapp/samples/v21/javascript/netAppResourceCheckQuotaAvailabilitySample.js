@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Check if a quota is available.
  *
  * @summary Check if a quota is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/CheckQuotaAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/CheckQuotaAvailability.json
  */
 async function checkQuotaAvailability() {
   const subscriptionId =

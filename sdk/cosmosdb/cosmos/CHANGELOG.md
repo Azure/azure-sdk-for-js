@@ -1,5 +1,32 @@
 # Release History
 
+## 4.6.0 (2025-10-08)
+
+### Features Added
+
+- Excluded Locations Support: This feature adds support for excluded locations, allowing requests to avoid specified Azure regions when performing operations. By excluding certain regions at the request level, applications can control data residency, compliance, and latency, ensuring that operations are served only from preferred regions. This enhances availability and reliability by preventing requests from being routed to undesired or unavailable regions. [docs](https://devblogs.microsoft.com/cosmosdb/new-sdk-options-for-fine-grained-request-routing-to-azure-cosmos-db/)
+
+```js
+const requestOptions = { excludedLocations: ["West US"] };
+const city = { id: "1", name: "Olympia", state: "WA" };
+
+await container.items.upsert(city, requestOptions);
+
+await container.item("1").delete(requestOptions);
+```
+- [#36015](https://github.com/Azure/azure-sdk-for-js/issues/36015) AAD Authentication Scope Override: Added support for overriding AAD authentication scope via the new `aadScope` option in `CosmosClientOptions`. When no custom scope is provided, the system uses the account-specific scope for authentication and implements a fallback mechanism to `https://cosmos.azure.com/.default` in case of `AADSTS500011` errors. When a custom scope is explicitly provided via the `aadScope` option, no fallback occurs.
+
+### Bugs Fixed
+- [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
+ preventing partitionKeyMismatch error when an optional partition key value is provided in the operationInput
+- [#35967](https://github.com/Azure/azure-sdk-for-js/issues/35967) Changed the default values of `enablePartitionLevelFailover` and `enablePartitionLevelCircuitBreaker` flags to `true` in the connection policy.
+
+## 4.5.1 (2025-09-01)
+
+### Bugs Fixed
+- [#35739](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue where unavailable regions were incorrectly retained in the read and write region lists, potentially causing latency and connectivity issues. The SDK now properly removes regions that are no longer available from both readable and writable locations
+- [#35822](https://github.com/Azure/azure-sdk-for-js/issues/35822) Fixed an issue where ENOTFOUND error was incorrectly retried with defaultRetryPolicy. This error is now handled as part of EndpointDiscoveryPolicy and retried 120 times.
+
 ## 4.5.0 (2025-07-21)
 
 ### Features Added

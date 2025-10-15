@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesRuntimeClient } from "@azure/arm-containerorchestratorruntime";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get a LoadBalancer
  *
  * @summary get a LoadBalancer
  * x-ms-original-file: 2024-03-01/LoadBalancers_Get.json
  */
+
+import { KubernetesRuntimeClient } from "@azure/arm-containerorchestratorruntime";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function loadBalancersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);

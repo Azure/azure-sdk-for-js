@@ -2,14 +2,6 @@
 // Licensed under the MIT License.
 
 import { EdgeContext } from "../../api/edgeContext.js";
-import { Site, SiteUpdate } from "../../models/models.js";
-import {
-  SitesBySubscriptionDeleteOptionalParams,
-  SitesBySubscriptionUpdateOptionalParams,
-  SitesBySubscriptionCreateOrUpdateOptionalParams,
-  SitesBySubscriptionGetOptionalParams,
-  SitesBySubscriptionListOptionalParams,
-} from "../../api/sitesBySubscription/options.js";
 import {
   $delete,
   update,
@@ -17,6 +9,14 @@ import {
   get,
   list,
 } from "../../api/sitesBySubscription/operations.js";
+import {
+  SitesBySubscriptionDeleteOptionalParams,
+  SitesBySubscriptionUpdateOptionalParams,
+  SitesBySubscriptionCreateOrUpdateOptionalParams,
+  SitesBySubscriptionGetOptionalParams,
+  SitesBySubscriptionListOptionalParams,
+} from "../../api/sitesBySubscription/options.js";
+import { Site, SiteUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

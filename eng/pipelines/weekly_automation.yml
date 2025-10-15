@@ -4,6 +4,7 @@ pr: none
 jobs:
 - job: 'PnpmUpdate'
   displayName: 'Pnpm Update'
+  timeoutInMinutes: 180
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
 
@@ -22,6 +23,15 @@ jobs:
   - script: |
       pnpm update --recursive --no-save
     displayName: "Run Pnpm Update"
+
+  - script: |
+      pnpm turbo build
+    env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_TOKEN: $(js-turborepo-cache-token)
+      TURBO_CACHE: local:rw,remote:rw
+    displayName: "Build All packages"
 
   - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
     parameters:

@@ -20,7 +20,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -31,7 +32,7 @@
   "dependencies": {
     "@azure/arm-sql": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "4.11.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

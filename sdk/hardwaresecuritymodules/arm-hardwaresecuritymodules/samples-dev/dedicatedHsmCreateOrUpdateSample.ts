@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create or Update a dedicated HSM in the specified subscription.
  *
  * @summary create or Update a dedicated HSM in the specified subscription.
  * x-ms-original-file: 2025-03-31/DedicatedHsm_CreateOrUpdate.json
  */
+
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createANewOrUpdateAnExistingDedicatedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

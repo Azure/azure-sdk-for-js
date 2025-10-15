@@ -18,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Break the replication connection on the destination volume
  *
  * @summary Break the replication connection on the destination volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_BreakReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_BreakReplication.json
  */
 async function volumesBreakReplication(): Promise<void> {
   const subscriptionId =

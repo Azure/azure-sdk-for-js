@@ -7,8 +7,10 @@ import { ExportResultCode } from "@opentelemetry/core";
 import {
   RetriableRestErrorTypes,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
 } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
+import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
 
 // Mock dependencies
 vi.mock("@opentelemetry/api", () => {
@@ -741,6 +743,7 @@ describe("BaseSender", () => {
         envelopes,
         "CLIENT_EXCEPTION",
         "Circular redirect",
+        "Client exception",
       );
     });
 
@@ -748,11 +751,8 @@ describe("BaseSender", () => {
       // Disable network statsbeat to trigger CLIENT_EXCEPTION path
       (testSender as any).networkStatsbeatMetrics = null;
 
-      // Mock a non-retriable status code response (this will trigger the CLIENT_EXCEPTION path)
-      testSender.sendMock.mockResolvedValue({
-        statusCode: 400, // Non-retriable status code
-        result: "Bad Request",
-      });
+      // Mock a network error that throws an exception
+      testSender.sendMock.mockRejectedValue(new Error("Error message"));
 
       const envelopes = [
         {
@@ -771,10 +771,11 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
+        "Error message",
       );
     });
 
-    it("should not capture exception.message for NON_RETRYABLE_STATUS_CODE", async () => {
+    it("should not capture exception.message for status code errors", async () => {
       testSender.sendMock.mockResolvedValue({
         statusCode: 400,
         result: "Bad Request",
@@ -796,9 +797,9 @@ describe("BaseSender", () => {
       expect(result.code).toBe(ExportResultCode.FAILED);
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
 
-      // Verify exception.message is not passed for non-client exceptions
+      // Verify exception.message is not passed for status code errors
       const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
-      expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
+      expect(call.length).toBe(2); // envelopes array, drop code (no drop reason)
     });
 
     it("should handle successful export without calling error tracking", async () => {
@@ -824,6 +825,115 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalled();
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
       expect(mockCustomerSDKStatsMetrics.countRetryItems).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("Customer SDK Stats Export Interval Configuration", () => {
+    let originalEnvEnabled: string | undefined;
+    let originalEnvInterval: string | undefined;
+
+    beforeEach(() => {
+      // Save original environment variables
+      originalEnvEnabled = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      originalEnvInterval = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+
+      // Enable Customer SDK Stats for all tests in this section
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+
+      // Clear all mock calls from previous tests
+      vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+      // Restore original environment variables
+      if (originalEnvEnabled === undefined) {
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      } else {
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnvEnabled;
+      }
+
+      if (originalEnvInterval === undefined) {
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+      } else {
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = originalEnvInterval;
+      }
+    });
+
+    it("should use custom export interval when valid environment variable is set", () => {
+      // Set a valid export interval (30 seconds)
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = "30";
+
+      const testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Verify that CustomerSDKStatsMetrics.getInstance was called with the converted interval
+      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+        instrumentationKey: "test-key",
+        endpointUrl: "https://example.com",
+        disableOfflineStorage: false,
+        networkCollectionInterval: 30000, // 30 seconds * 1000 = 30000 milliseconds
+      });
+    });
+
+    it("should use default export interval when environment variable is not set", () => {
+      // Ensure the export interval env var is not set
+      delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+
+      const testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
+      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+        instrumentationKey: "test-key",
+        endpointUrl: "https://example.com",
+        disableOfflineStorage: false,
+        networkCollectionInterval: undefined,
+      });
+    });
+
+    it("should log warning and use default interval for non-numeric values", () => {
+      // Set an invalid export interval (non-numeric)
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = "invalid";
+
+      const testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Verify warning was logged
+      expect(diag.warn).toHaveBeenCalledWith(
+        "Invalid value for APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL environment variable: 'invalid'. Expected a positive number (seconds). Using default export interval.",
+      );
+
+      // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
+      expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
+        instrumentationKey: "test-key",
+        endpointUrl: "https://example.com",
+        disableOfflineStorage: false,
+        networkCollectionInterval: undefined,
+      });
     });
   });
 });

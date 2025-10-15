@@ -17,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Starts peering the external cluster for this migration volume
  *
  * @summary Starts peering the external cluster for this migration volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_PeerExternalCluster.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_PeerExternalCluster.json
  */
 async function volumesPeerExternalCluster(): Promise<void> {
   const subscriptionId =

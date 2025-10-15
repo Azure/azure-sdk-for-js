@@ -8,7 +8,7 @@ import type {
   PollerLike as CorePollerLike,
 } from "@azure/core-lro";
 import type { KeyVaultAdminPollOperationState } from "./models.js";
-import type { FullBackupOperation, RestoreOperation } from "../generated/src/index.js";
+import type { FullBackupOperation, RestoreOperation } from "../models/models.js";
 
 /**
  * A simple poller that can be used to poll a long running operation.

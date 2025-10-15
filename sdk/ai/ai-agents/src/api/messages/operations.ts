@@ -12,8 +12,11 @@ import {
   threadMessageDeserializer,
   _AgentsPagedResultThreadMessage,
   _agentsPagedResultThreadMessageDeserializer,
+  MessageDeletionStatus,
+  messageDeletionStatusDeserializer,
 } from "../../models/models.js";
 import {
+  MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
   MessagesListMessagesOptionalParams,
@@ -30,6 +33,56 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _$deleteSend(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: MessagesDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads/{threadId}/messages/{messageId}{?api-version}",
+    {
+      threadId: threadId,
+      messageId: messageId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MessageDeletionStatus> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return messageDeletionStatusDeserializer(result.body);
+}
+
+/** Deletes an existing message on an existing thread. */
+export async function $delete(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: MessagesDeleteOptionalParams = { requestOptions: {} },
+): Promise<MessageDeletionStatus> {
+  const result = await _$deleteSend(context, threadId, messageId, options);
+  return _$deleteDeserialize(result);
+}
 
 export function _updateMessageSend(
   context: Client,

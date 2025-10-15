@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createMongoClusterManagement,
+import type {
   MongoClusterManagementContext,
   MongoClusterManagementClientOptionalParams,
 } from "./api/index.js";
-import { UsersOperations, _getUsersOperations } from "./classic/users/index.js";
-import { ReplicasOperations, _getReplicasOperations } from "./classic/replicas/index.js";
-import {
-  PrivateLinksOperations,
-  _getPrivateLinksOperations,
-} from "./classic/privateLinks/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  FirewallRulesOperations,
-  _getFirewallRulesOperations,
-} from "./classic/firewallRules/index.js";
-import {
-  MongoClustersOperations,
-  _getMongoClustersOperations,
-} from "./classic/mongoClusters/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createMongoClusterManagement } from "./api/index.js";
+import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
+import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
+import type { MongoClustersOperations } from "./classic/mongoClusters/index.js";
+import { _getMongoClustersOperations } from "./classic/mongoClusters/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinksOperations } from "./classic/privateLinks/index.js";
+import { _getPrivateLinksOperations } from "./classic/privateLinks/index.js";
+import type { ReplicasOperations } from "./classic/replicas/index.js";
+import { _getReplicasOperations } from "./classic/replicas/index.js";
+import type { UsersOperations } from "./classic/users/index.js";
+import { _getUsersOperations } from "./classic/users/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
 

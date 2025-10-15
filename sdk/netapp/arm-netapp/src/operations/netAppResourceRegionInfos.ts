@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetAppResourceRegionInfos operations. */
-export class NetAppResourceRegionInfosImpl
-  implements NetAppResourceRegionInfos
-{
+export class NetAppResourceRegionInfosImpl implements NetAppResourceRegionInfos {
   private readonly client: NetAppManagementClient;
 
   /**
@@ -105,10 +103,7 @@ export class NetAppResourceRegionInfosImpl
     location: string,
     options?: NetAppResourceRegionInfosListOptionalParams,
   ): Promise<NetAppResourceRegionInfosListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -120,10 +115,7 @@ export class NetAppResourceRegionInfosImpl
     location: string,
     options?: NetAppResourceRegionInfosGetOptionalParams,
   ): Promise<NetAppResourceRegionInfosGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, getOperationSpec);
   }
 
   /**
@@ -137,10 +129,7 @@ export class NetAppResourceRegionInfosImpl
     nextLink: string,
     options?: NetAppResourceRegionInfosListNextOptionalParams,
   ): Promise<NetAppResourceRegionInfosListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -158,11 +147,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -178,11 +163,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

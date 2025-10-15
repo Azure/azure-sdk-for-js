@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SubvolumeInfo,
@@ -221,12 +217,7 @@ export class SubvolumesImpl implements Subvolumes {
     subvolumeName: string,
     body: SubvolumeInfo,
     options?: SubvolumesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SubvolumesCreateResponse>,
-      SubvolumesCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<SubvolumesCreateResponse>, SubvolumesCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -237,8 +228,7 @@ export class SubvolumesImpl implements Subvolumes {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -339,12 +329,7 @@ export class SubvolumesImpl implements Subvolumes {
     subvolumeName: string,
     body: SubvolumePatchRequest,
     options?: SubvolumesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SubvolumesUpdateResponse>,
-      SubvolumesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<SubvolumesUpdateResponse>, SubvolumesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -355,8 +340,7 @@ export class SubvolumesImpl implements Subvolumes {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -466,8 +450,7 @@ export class SubvolumesImpl implements Subvolumes {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -560,10 +543,7 @@ export class SubvolumesImpl implements Subvolumes {
     subvolumeName: string,
     options?: SubvolumesGetMetadataOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SubvolumesGetMetadataResponse>,
-      SubvolumesGetMetadataResponse
-    >
+    SimplePollerLike<OperationState<SubvolumesGetMetadataResponse>, SubvolumesGetMetadataResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -575,8 +555,7 @@ export class SubvolumesImpl implements Subvolumes {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
