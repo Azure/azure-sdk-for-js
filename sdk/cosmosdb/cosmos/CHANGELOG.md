@@ -1,5 +1,11 @@
 # Release History
 
+## 4.6.1 (Unreleased)
+
+### Bugs Fixed
+- Fixed MIN/MAX aggregate queries randomly returning incorrect results in multi-partition collections. Empty partitions (count:0) were incorrectly overwriting valid aggregate values with undefined, causing MIN or MAX values to be missing from query results.
+
+
 ## 4.6.0 (2025-10-08)
 
 ### Features Added

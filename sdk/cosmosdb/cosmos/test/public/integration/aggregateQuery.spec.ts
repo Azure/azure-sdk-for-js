@@ -404,4 +404,32 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
       }
     }
   });
+
+  it("should return both MIN and MAX values with empty partitions", async () => {
+    // Regression test: MIN aggregate was incorrectly overwritten to undefined
+    // when processing empty partitions (count:0) due to missing guard clause
+    const multiPartitionContainer = await getTestContainer(
+      "MIN/MAX aggregate with empty partitions",
+      undefined,
+      {
+        id: "multiPartitionMinMax",
+        partitionKey: { paths: ["/pk"] },
+      },
+      { offerThroughput: 12000 }, // Force multiple physical partitions
+    );
+
+    // Create documents distributed across partitions (some partitions will be empty)
+    await multiPartitionContainer.items.create({ id: "1", pk: "partition1", date: "2025-01-15" });
+    await multiPartitionContainer.items.create({ id: "2", pk: "partition2", date: "2025-09-25" });
+
+    const queryIterator = multiPartitionContainer.items.query(
+      "SELECT MIN(c.date) AS minDate, MAX(c.date) AS maxDate FROM c",
+      { maxItemCount: 1 },
+    );
+    const { resources } = await queryIterator.fetchAll();
+
+    assert.equal(resources.length, 1, "Should return exactly one aggregate result");
+    assert.equal(resources[0].minDate, "2025-01-15", "MIN value should not be lost");
+    assert.equal(resources[0].maxDate, "2025-09-25", "MAX value should be present");
+  });
 });
