@@ -1,14 +1,16 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.0.1 (2025-10-15)
 
 ### Features Added
+    - NFS V4 Support added
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+    - API version upgraded to 2025-07-01
 
 ## 2.1.1 (2025-08-22)
 
