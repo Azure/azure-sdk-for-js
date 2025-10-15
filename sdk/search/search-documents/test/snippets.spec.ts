@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import {
   AzureKeyCredential,
+  KnowledgeRetrievalClient,
   KnownSearchAudience,
   odata,
   SearchClient,
@@ -12,7 +14,6 @@ import {
   SearchIndexerClient,
   SelectFields,
 } from "../src/index.js";
-import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_APIKey", async () => {
@@ -372,6 +373,13 @@ describe("snippets", () => {
 
   it("ReadmeSampleSearchIndexerClient", async () => {
     const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+  });
+  it("ReadmeSampleKnowledgeRetrievalClient", async () => {
+    const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+      "<endpoint>",
+      "<agentName>",
+      new AzureKeyCredential("<apiKey>"),
+    );
   });
 
   it("SetLogLevel", () => {
