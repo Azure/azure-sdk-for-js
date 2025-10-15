@@ -717,7 +717,7 @@ describe("BaseSender", () => {
     it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
       // Wait for async initialization to complete
       await new Promise((resolve) => setTimeout(resolve, 50));
-      
+
       // Ensure the mock is still in place after async initialization
       Object.defineProperty(testSender, "customerSDKStatsMetrics", {
         value: mockCustomerSDKStatsMetrics,
