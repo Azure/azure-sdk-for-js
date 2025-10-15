@@ -1,68 +1,13 @@
 # Release History
-
-## 1.0.13-beta.2 (Unreleased)
-
-### Features Added
-- Test Release Pipeline
-
-## 1.0.13-beta.1 (2023-11-22)
+    
+## 2.0.0-beta.1 (2025-10-15)
 
 ### Features Added
-- Test Release Pipeline
 
-## 1.0.12 (2021-06-15)
+The package of @azure/template is using our next generation design principles since version 2.0.0-beta.1, which contains breaking changes.
 
-### Features Added
-- Test Release Pipeline
+To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 
-## 1.0.11 (2021-06-15)
+To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-### Features Added
-- Test Release Pipeline
-
-## 1.0.10-beta.1 (2020-11-16)
-
-### Features Added
-- Test Release Pipeline
-
-## 1.0.9-beta.13 (2020-10-13)
-
-- Test Release Pipeline
-
-## 1.0.9-beta.3 (2020-09-05)
-
-- Test Release Pipeline
-
-## 1.0.9-beta.2 (2020-09-04)
-
-- Testing release tag replacement
-
-## 1.0.9-beta.1 (2020-08-27)
-
-- Testing prerelease versioning changes
-
-## 1.0.7 (2020-04-01)
-
-## 1.0.6 (2020-03-26)
-
-- Test Release Pipeline
-
-## 1.0.5 (2020-03-25)
-
-- Test Release Pipeline
-
-## 1.0.4 (2020-03-245
-
-- Test Release Pipeline
-
-## 1.0.3 (2020-03-24)
-
-- Test Release Pipeline
-
-## 1.0.2 (2020-03-24)
-
-- Test Release Pipeline
-
-## 1.0.1 (2020-03-24)
-
-- Test Release Pipeline
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
