@@ -40,15 +40,20 @@ export class GlobalEndpointManager {
 
   public preferredLocationsCount: number;
   /**
-   * Flag to enable/disable the Per Partition Level Failover (PPAF)
+   * Flag to enable/disable the Per Partition Level Failover (PPAF). Contains the value from the Connection policy.
    * @internal
    */
-  public enablePartitionLevelFailover: boolean;
+  private enablePartitionLevelFailover: boolean;
   /**
-   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB)
+   * Cached PPAF enablement status from the last account refresh
    * @internal
    */
-  public enablePartitionLevelCircuitBreaker: boolean;
+  public lastKnownPPAFEnabled?: boolean;
+  /**
+   * Event that is raised when PPAF enablement status changes
+   * @internal
+   */
+  public onEnablePartitionLevelFailoverConfigChanged?: (isEnabled: boolean) => void;
 
   /**
    * @param options - The document client instance.
@@ -68,9 +73,7 @@ export class GlobalEndpointManager {
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
     this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
-    this.enablePartitionLevelCircuitBreaker =
-      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
-      options.connectionPolicy.enablePartitionLevelFailover;
+    this.lastKnownPPAFEnabled = options.connectionPolicy.enablePartitionLevelFailover;
   }
 
   /**
@@ -228,7 +231,10 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
-      this.refreshPPAFFeatureFlag(resourceResponse.resource.enablePerPartitionFailover);
+      console.log("first call");
+      if (this.enablePartitionLevelFailover) {
+        this.refreshPPAFFeatureFlag(resourceResponse.resource);
+      }
     }
 
     const locations = isReadRequest(operationType)
@@ -302,6 +308,10 @@ export class GlobalEndpointManager {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
+        // Check for PPAF status changes before refreshing endpoints
+        if (this.enablePartitionLevelFailover) {
+          this.refreshPPAFFeatureFlag(databaseAccount);
+        }
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
       }
@@ -456,16 +466,21 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Refreshes the enablePartitionLevelFailover and enablePartitionLevelCircuitBreaker flag
-   * based on the value from database account.
-   * @param enablePerPartitionFailover - value from database account
+   * Checks for changes in PPAF and PPCB enablement status and raises events if they have changed.
+   * This enables dynamic enablement/disablement of PPAF features based on account configuration.
+   * @internal
    */
-  private refreshPPAFFeatureFlag(enablePerPartitionFailover: boolean): void {
-    // If the enablePartitionLevelFailover is true, but PPAF is not enabled on the account,
-    // we will override it to false.
-    if (enablePerPartitionFailover === false) {
-      this.enablePartitionLevelFailover = enablePerPartitionFailover;
-      this.enablePartitionLevelCircuitBreaker = enablePerPartitionFailover;
+  private refreshPPAFFeatureFlag(databaseAccount: DatabaseAccount): void {
+    console.log("refreshPPAf database account", databaseAccount);
+    // Check for PPAF enablement changes
+    if (
+      databaseAccount.enablePerPartitionFailover !== undefined &&
+      this.lastKnownPPAFEnabled !== databaseAccount.enablePerPartitionFailover
+    ) {
+      this.lastKnownPPAFEnabled = databaseAccount.enablePerPartitionFailover;
+      this.onEnablePartitionLevelFailoverConfigChanged?.(
+        databaseAccount.enablePerPartitionFailover,
+      );
     }
   }
 }

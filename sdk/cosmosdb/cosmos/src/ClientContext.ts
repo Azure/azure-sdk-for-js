@@ -1103,9 +1103,6 @@ export class ClientContext {
    * @internal
    */
   public isPartitionLevelFailOverEnabled(): boolean {
-    return (
-      this.globalEndpointManager.enablePartitionLevelFailover ||
-      this.globalEndpointManager.enablePartitionLevelCircuitBreaker
-    );
+    return this.globalEndpointManager.lastKnownPPAFEnabled;
   }
 }
