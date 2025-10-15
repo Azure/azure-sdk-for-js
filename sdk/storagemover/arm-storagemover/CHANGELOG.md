@@ -10,7 +10,7 @@
 ### Bugs Fixed
 
 ### Other Changes
-    - API version upgraded to 2025-07-01
+- API version upgraded to 2025-07-01
 
 ## 2.1.1 (2025-08-22)
 
