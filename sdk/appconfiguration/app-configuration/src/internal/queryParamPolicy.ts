@@ -13,40 +13,22 @@ import type {
  *  - Lowercase names
  *  - Sort by lowercase name
  *  - Preserve the relative order of duplicates
- *  - Do not percent-encode values; keep original text
  */
 export function queryParamPolicy(): PipelinePolicy {
   return {
     name: "queryParamPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       try {
-        const originalUrl = request.url;
-
-        // Use URL API to decompose parts
+        const originalUrl: string = request.url;
         const url = new URL(originalUrl);
 
         if (url.search === "") {
           return next(request);
         }
 
-        const search: string = url.search.slice(1); // Remove leading '?'
-        // We don't use URLSearchParams because it doesn't distinguish ?param= and ?param.
-        const rawParams = search.split("&").filter((value) => value !== "");
-
         const params: ParamEntry[] = [];
-        for (const p of rawParams) {
-          const eq = p.indexOf("=");
-          if (eq >= 0) {
-            params.push({
-              lowercaseName: p.substring(0, eq).toLowerCase(),
-              value: p.substring(eq), // Keep the '='
-            });
-          } else {
-            params.push({
-              lowercaseName: p.toLowerCase(),
-              value: "",
-            });
-          }
+        for (const [name, value] of url.searchParams.entries()) {
+          params.push({ lowercaseName: name.toLowerCase(), value });
         }
 
         // Modern JavaScript Array.prototype.sort is stable
@@ -60,11 +42,18 @@ export function queryParamPolicy(): PipelinePolicy {
           return 0;
         });
 
-        const newSearch = params.map((p) => p.lowercaseName + p.value).join("&");
-        const newUrl = url.origin + url.pathname + "?" + newSearch + url.hash;
-        request.url = newUrl;
+        const newSearchParams = new URLSearchParams();
+        for (const p of params) {
+          newSearchParams.append(p.lowercaseName, p.value);
+        }
+
+        const newUrl = url.origin + url.pathname + "?" + newSearchParams.toString() + url.hash;
+        if (newUrl !== originalUrl) {
+          request.url = newUrl;
+        }
       } catch {
         // If anything goes wrong, fall back to sending the original request.
+        console.log("Failed to normalize query parameters.");
       }
 
       return next(request);
