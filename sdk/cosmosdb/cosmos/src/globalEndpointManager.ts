@@ -231,9 +231,8 @@ export class GlobalEndpointManager {
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
       this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
-      console.log("first call");
       if (this.enablePartitionLevelFailover) {
-        this.refreshPPAFFeatureFlag(resourceResponse.resource);
+      this.refreshPPAFFeatureFlag(resourceResponse.resource);
       }
     }
 
@@ -471,7 +470,6 @@ export class GlobalEndpointManager {
    * @internal
    */
   private refreshPPAFFeatureFlag(databaseAccount: DatabaseAccount): void {
-    console.log("refreshPPAf database account", databaseAccount);
     // Check for PPAF enablement changes
     if (
       databaseAccount.enablePerPartitionFailover !== undefined &&
