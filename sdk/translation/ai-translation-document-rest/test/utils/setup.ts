@@ -29,7 +29,9 @@ declare module "vitest" {
   export interface ProvidedContext
     extends Omit<
       MyEnvVarKeys,
-      typeof EnvVarKeys.DISABLE_LOCAL_AUTH | typeof EnvVarKeys.TEST_MODE | typeof EnvVarKeys.CONTAINERS
+      | typeof EnvVarKeys.DISABLE_LOCAL_AUTH
+      | typeof EnvVarKeys.TEST_MODE
+      | typeof EnvVarKeys.CONTAINERS
     > {
     [EnvVarKeys.TEST_MODE]: string | undefined;
     [EnvVarKeys.DISABLE_LOCAL_AUTH]: boolean;
