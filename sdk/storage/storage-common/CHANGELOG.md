@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Including all features released in 12.1.0-beta.1
+- Includes all features released in 12.1.0-beta.1
 
 ## 12.0.0 (2025-07-22)
 
