@@ -5,10 +5,6 @@
 ### Features Added
   - NFS V4 Support added
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 - API version upgraded to 2025-07-01
 
