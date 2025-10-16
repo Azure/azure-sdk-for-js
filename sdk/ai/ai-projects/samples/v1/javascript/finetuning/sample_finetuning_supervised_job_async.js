@@ -25,7 +25,6 @@ async function main() {
     apiVersion: "2025-04-01-preview",
   });
 
-  // [START finetuning_supervised_job_async_sample]
   // Upload training and validation files
   console.log("Uploading training file...");
   const trainFile = await openAiClient.files.create({
@@ -35,16 +34,11 @@ async function main() {
   console.log(`Uploaded training file with ID: ${trainFile.id}`);
 
   console.log("Uploading validation file...");
-  let validationFile = null;
-  if (fs.existsSync(validationFilePath)) {
-    validationFile = await openAiClient.files.create({
-      file: fs.createReadStream(validationFilePath),
-      purpose: "fine-tune",
-    });
-    console.log(`Uploaded validation file with ID: ${validationFile.id}`);
-  } else {
-    console.log("No validation file provided. Continuing without one.");
-  }
+  const validationFile = await openAiClient.files.create({
+    file: fs.createReadStream(validationFilePath),
+    purpose: "fine-tune",
+  });
+  console.log(`Uploaded validation file with ID: ${validationFile.id}`);
 
   // Create a supervised fine-tuning job
   const fineTuningJob = await openAiClient.fineTuning.jobs.create({
@@ -62,22 +56,18 @@ async function main() {
       },
     },
   });
-  console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob, null, 2));
+  console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
   // Get the fine-tuning job by ID
   console.log(`\nGetting fine-tuning job with ID: ${fineTuningJob.id}`);
   const retrievedJob = await openAiClient.fineTuning.jobs.retrieve(fineTuningJob.id);
-  console.log("Retrieved job:\n", JSON.stringify(retrievedJob, null, 2));
+  console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
   // List all fine-tuning jobs
   console.log("\nListing all fine-tuning jobs:");
   const jobsPage = await openAiClient.fineTuning.jobs.list();
-  if (Array.isArray(jobsPage.data)) {
-    for (const job of jobsPage.data) {
-      console.log(JSON.stringify(job, null, 2));
-    }
-  } else {
-    console.log(JSON.stringify(jobsPage, null, 2));
+  for (const job of jobsPage.data) {
+    console.log(JSON.stringify(job));
   }
 
   // Cancel the fine-tuning job
