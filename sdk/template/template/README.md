@@ -52,23 +52,23 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { WidgetManagerClient } from "@azure/template";
+import { WidgetAnalyticsClient } from "@azure/template";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new WidgetManagerClient("<endpoint>", new DefaultAzureCredential());
+const client = new WidgetAnalyticsClient("<endpoint>", new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { WidgetManagerClient } from "@azure/template";
+import { WidgetAnalyticsClient } from "@azure/template";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new WidgetManagerClient("<endpoint>", credential);
+const client = new WidgetAnalyticsClient("<endpoint>", credential);
 ```
 
 
