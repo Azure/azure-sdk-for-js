@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import { ConditionStatusMapper, translate } from "./errors.js";
+import { StatusCodeToConditionMapper, translate } from "./errors.js";
 import type {
   Connection,
   EventContext,
@@ -325,7 +325,7 @@ export function onMessageReceived(
   }
   if (!error) {
     const condition =
-      info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
+      info.errorCondition || StatusCodeToConditionMapper[info.statusCode] || "amqp:internal-error";
     error = translate({
       condition: condition,
       description: info.statusDescription,
