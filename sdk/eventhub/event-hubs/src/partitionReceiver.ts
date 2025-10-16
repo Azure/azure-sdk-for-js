@@ -464,11 +464,7 @@ function onSessionError(context: EventContext, obj: PartitionReceiver, logger: S
   }
 }
 
-async function onClose(
-  context: EventContext,
-  state: ReceiverState,
-  logger: SimpleLogger,
-): Promise<void> {
+function onClose(context: EventContext, state: ReceiverState, logger: SimpleLogger): void {
   const rheaReceiver = state.link || context.receiver;
   logger.verbose(
     `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
@@ -476,17 +472,13 @@ async function onClose(
       .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`,
   );
   if (rheaReceiver && !state.isConnecting) {
-    await rheaReceiver.close().catch((err) => {
+    rheaReceiver.close().catch((err) => {
       logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
     });
   }
 }
 
-async function onSessionClose(
-  context: EventContext,
-  state: ReceiverState,
-  logger: SimpleLogger,
-): Promise<void> {
+function onSessionClose(context: EventContext, state: ReceiverState, logger: SimpleLogger): void {
   const rheaReceiver = state.link || context.receiver;
   logger.verbose(
     `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
@@ -494,7 +486,7 @@ async function onSessionClose(
       .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`,
   );
   if (rheaReceiver && !state.isConnecting) {
-    await rheaReceiver.close().catch((err) => {
+    rheaReceiver.close().catch((err) => {
       logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
     });
   }
@@ -522,18 +514,8 @@ function createRheaOptions(
     properties: {
       [receiverIdPropertyName]: consumerId,
     },
-    onClose: (context) => {
-      // Fire-and-forget async operation with error handling
-      onClose(context, state, logger).catch((err) => {
-        logger.verbose(`Unhandled error in onClose handler: ${logObj(err)}`);
-      });
-    },
-    onSessionClose: (context) => {
-      // Fire-and-forget async operation with error handling
-      onSessionClose(context, state, logger).catch((err) => {
-        logger.verbose(`Unhandled error in onSessionClose handler: ${logObj(err)}`);
-      });
-    },
+    onClose: (context) => onClose(context, state, logger),
+    onSessionClose: (context) => onSessionClose(context, state, logger),
     onError: (context) => onError(context, obj, state.link, logger),
     onMessage: (context) => onMessage(context, obj, queue, options),
     onSessionError: (context) => onSessionError(context, obj, logger),
