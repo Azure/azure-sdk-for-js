@@ -4,4 +4,220 @@
 
 ### Features Added
 
+- Interface Disk has a new optional parameter properties
+- Interface DiskAccess has a new optional parameter properties
+- Interface DiskEncryptionSet has a new optional parameter properties
+- Interface DiskEncryptionSetUpdate has a new optional parameter properties
+- Interface DiskRestorePoint has a new optional parameter properties
+- Interface DiskUpdate has a new optional parameter properties
+- Interface PrivateEndpointConnection has a new optional parameter properties
+- Interface PrivateLinkResource has a new optional parameter properties
+- Interface Snapshot has a new optional parameter properties
+- Interface SnapshotUpdate has a new optional parameter properties
+- Added operation DiskAccessesOperations.createOrUpdate
+- Added operation DiskAccessesOperations.delete
+- Added operation DiskAccessesOperations.update
+- Added operation DiskEncryptionSetsOperations.createOrUpdate
+- Added operation DiskEncryptionSetsOperations.delete
+- Added operation DiskEncryptionSetsOperations.update
+- Added operation DisksOperations.createOrUpdate
+- Added operation DisksOperations.delete
+- Added operation DisksOperations.grantAccess
+- Added operation DisksOperations.revokeAccess
+- Added operation DisksOperations.update
+- Added operation SnapshotsOperations.createOrUpdate
+- Added operation SnapshotsOperations.delete
+- Added operation SnapshotsOperations.grantAccess
+- Added operation SnapshotsOperations.revokeAccess
+- Added operation SnapshotsOperations.update'
+- Added Interface ComputeClientOptionalParams
+- Added Interface DiskAccessProperties
+- Added Interface DiskEncryptionSetUpdateProperties
+- Added Interface DiskProperties
+- Added Interface DiskRestorePointProperties
+- Added Interface DiskRestorePointsGetOptionalParams
+- Added Interface DiskRestorePointsGrantAccessOptionalParams
+- Added Interface DiskRestorePointsListByRestorePointOptionalParams
+- Added Interface DiskRestorePointsRevokeAccessOptionalParams
+- Added Interface DiskUpdateProperties
+- Added Interface EncryptionSetProperties
+- Added Interface OkResponse
+- Added Interface PagedAsyncIterableIterator
+- Added Interface PageSettings
+- Added Interface PrivateEndpointConnectionProperties
+- Added Interface PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionOptionalParams
+- Added Interface PrivateEndpointConnectionsGetAPrivateEndpointConnectionOptionalParams
+- Added Interface PrivateEndpointConnectionsListPrivateEndpointConnectionsOptionalParams
+- Added Interface PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionOptionalParams
+- Added Interface PrivateLinkResourceProperties
+- Added Interface RestorePollerOptions
+- Added Interface SnapshotProperties
+- Added Interface SnapshotUpdateProperties
+- Added operation group DiskRestorePointsOperations
+- Added operation group PrivateEndpointConnectionsOperations
+- Added Class ComputeClient
+- Added Type Alias AzureSupportedClouds
+- Enum KnownDiskSecurityTypes has a new value ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey
+- Added Enum AzureClouds
+- Added Enum KnownVersions
+
+### Breaking Change
+
+- Removed Interface ComputeManagementClientOptionalParams
+- Removed Interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
+- Removed Interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams
+- Removed Interface DiskAccessesListPrivateEndpointConnectionsOptionalParams
+- Removed Interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
+- Removed Interface DiskAccessList
+- Removed Interface DiskEncryptionSetList
+- Removed Interface DiskList
+- Removed Interface DiskRestorePointGetOptionalParams
+- Removed Interface DiskRestorePointGrantAccessOptionalParams
+- Removed Interface DiskRestorePointList
+- Removed Interface DiskRestorePointListByRestorePointOptionalParams
+- Removed Interface DiskRestorePointOperationsOperations
+- Removed Interface DiskRestorePointRevokeAccessOptionalParams
+- Removed Interface ResourceUriList
+- Removed Interface SnapshotList
+- Interface Disk no longer has parameter availabilityPolicy
+- Interface Disk no longer has parameter burstingEnabled
+- Interface Disk no longer has parameter burstingEnabledTime
+- Interface Disk no longer has parameter completionPercent
+- Interface Disk no longer has parameter creationData
+- Interface Disk no longer has parameter dataAccessAuthMode
+- Interface Disk no longer has parameter diskAccessId
+- Interface Disk no longer has parameter diskIopsReadOnly
+- Interface Disk no longer has parameter diskIopsReadWrite
+- Interface Disk no longer has parameter diskMBpsReadOnly
+- Interface Disk no longer has parameter diskMBpsReadWrite
+- Interface Disk no longer has parameter diskSizeBytes
+- Interface Disk no longer has parameter diskSizeGB
+- Interface Disk no longer has parameter diskState
+- Interface Disk no longer has parameter encryption
+- Interface Disk no longer has parameter encryptionSettingsCollection
+- Interface Disk no longer has parameter hyperVGeneration
+- Interface Disk no longer has parameter lastOwnershipUpdateTime
+- Interface Disk no longer has parameter maxShares
+- Interface Disk no longer has parameter networkAccessPolicy
+- Interface Disk no longer has parameter optimizedForFrequentAttach
+- Interface Disk no longer has parameter osType
+- Interface Disk no longer has parameter propertyUpdatesInProgress
+- Interface Disk no longer has parameter provisioningState
+- Interface Disk no longer has parameter publicNetworkAccess
+- Interface Disk no longer has parameter purchasePlan
+- Interface Disk no longer has parameter securityProfile
+- Interface Disk no longer has parameter shareInfo
+- Interface Disk no longer has parameter supportedCapabilities
+- Interface Disk no longer has parameter supportsHibernation
+- Interface Disk no longer has parameter tier
+- Interface Disk no longer has parameter timeCreated
+- Interface Disk no longer has parameter uniqueId
+- Interface DiskAccess no longer has parameter privateEndpointConnections
+- Interface DiskAccess no longer has parameter provisioningState
+- Interface DiskAccess no longer has parameter timeCreated
+- Interface DiskEncryptionSet no longer has parameter activeKey
+- Interface DiskEncryptionSet no longer has parameter autoKeyRotationError
+- Interface DiskEncryptionSet no longer has parameter encryptionType
+- Interface DiskEncryptionSet no longer has parameter federatedClientId
+- Interface DiskEncryptionSet no longer has parameter lastKeyRotationTimestamp
+- Interface DiskEncryptionSet no longer has parameter previousKeys
+- Interface DiskEncryptionSet no longer has parameter provisioningState
+- Interface DiskEncryptionSet no longer has parameter rotationToLatestKeyVersionEnabled
+- Interface DiskEncryptionSetUpdate no longer has parameter activeKey
+- Interface DiskEncryptionSetUpdate no longer has parameter encryptionType
+- Interface DiskEncryptionSetUpdate no longer has parameter federatedClientId
+- Interface DiskEncryptionSetUpdate no longer has parameter rotationToLatestKeyVersionEnabled
+- Interface DiskRestorePoint no longer has parameter completionPercent
+- Interface DiskRestorePoint no longer has parameter diskAccessId
+- Interface DiskRestorePoint no longer has parameter encryption
+- Interface DiskRestorePoint no longer has parameter familyId
+- Interface DiskRestorePoint no longer has parameter hyperVGeneration
+- Interface DiskRestorePoint no longer has parameter logicalSectorSize
+- Interface DiskRestorePoint no longer has parameter networkAccessPolicy
+- Interface DiskRestorePoint no longer has parameter osType
+- Interface DiskRestorePoint no longer has parameter publicNetworkAccess
+- Interface DiskRestorePoint no longer has parameter purchasePlan
+- Interface DiskRestorePoint no longer has parameter replicationState
+- Interface DiskRestorePoint no longer has parameter securityProfile
+- Interface DiskRestorePoint no longer has parameter sourceResourceId
+- Interface DiskRestorePoint no longer has parameter sourceResourceLocation
+- Interface DiskRestorePoint no longer has parameter sourceUniqueId
+- Interface DiskRestorePoint no longer has parameter supportedCapabilities
+- Interface DiskRestorePoint no longer has parameter supportsHibernation
+- Interface DiskRestorePoint no longer has parameter timeCreated
+- Interface DiskUpdate no longer has parameter availabilityPolicy
+- Interface DiskUpdate no longer has parameter burstingEnabled
+- Interface DiskUpdate no longer has parameter dataAccessAuthMode
+- Interface DiskUpdate no longer has parameter diskAccessId
+- Interface DiskUpdate no longer has parameter diskIopsReadOnly
+- Interface DiskUpdate no longer has parameter diskIopsReadWrite
+- Interface DiskUpdate no longer has parameter diskMBpsReadOnly
+- Interface DiskUpdate no longer has parameter diskMBpsReadWrite
+- Interface DiskUpdate no longer has parameter diskSizeGB
+- Interface DiskUpdate no longer has parameter encryption
+- Interface DiskUpdate no longer has parameter encryptionSettingsCollection
+- Interface DiskUpdate no longer has parameter maxShares
+- Interface DiskUpdate no longer has parameter networkAccessPolicy
+- Interface DiskUpdate no longer has parameter optimizedForFrequentAttach
+- Interface DiskUpdate no longer has parameter osType
+- Interface DiskUpdate no longer has parameter propertyUpdatesInProgress
+- Interface DiskUpdate no longer has parameter publicNetworkAccess
+- Interface DiskUpdate no longer has parameter purchasePlan
+- Interface DiskUpdate no longer has parameter supportedCapabilities
+- Interface DiskUpdate no longer has parameter supportsHibernation
+- Interface DiskUpdate no longer has parameter tier
+- Interface PrivateEndpointConnection no longer has parameter privateEndpoint
+- Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
+- Interface PrivateEndpointConnection no longer has parameter provisioningState
+- Interface PrivateLinkResource no longer has parameter groupId
+- Interface PrivateLinkResource no longer has parameter requiredMembers
+- Interface PrivateLinkResource no longer has parameter requiredZoneNames
+- Interface Snapshot no longer has parameter completionPercent
+- Interface Snapshot no longer has parameter copyCompletionError
+- Interface Snapshot no longer has parameter creationData
+- Interface Snapshot no longer has parameter dataAccessAuthMode
+- Interface Snapshot no longer has parameter diskAccessId
+- Interface Snapshot no longer has parameter diskSizeBytes
+- Interface Snapshot no longer has parameter diskSizeGB
+- Removed operation DiskAccesses.beginCreateOrUpdate
+- Removed operation DiskAccesses.beginCreateOrUpdateAndWait
+- Removed operation DiskAccesses.beginDelete
+- Removed operation DiskAccesses.beginDeleteAndWait
+- Removed operation DiskAccesses.beginDeleteAPrivateEndpointConnection
+- Removed operation DiskAccesses.beginDeleteAPrivateEndpointConnectionAndWait
+- Removed operation DiskAccesses.beginUpdate
+- Removed operation DiskAccesses.beginUpdateAndWait
+- Removed operation DiskAccesses.beginUpdateAPrivateEndpointConnection
+- Removed operation DiskAccesses.beginUpdateAPrivateEndpointConnectionAndWait
+- Removed operation DiskAccesses.getAPrivateEndpointConnection
+- Removed operation DiskAccesses.listPrivateEndpointConnections
+- Removed operation DiskEncryptionSets.beginCreateOrUpdate
+- Removed operation DiskEncryptionSets.beginCreateOrUpdateAndWait
+- Removed operation DiskEncryptionSets.beginDelete
+- Removed operation DiskEncryptionSets.beginDeleteAndWait
+- Removed operation DiskEncryptionSets.beginUpdate
+- Removed operation DiskEncryptionSets.beginUpdateAndWait
+- Removed operation Disks.beginCreateOrUpdate
+- Removed operation Disks.beginCreateOrUpdateAndWait
+- Removed operation Disks.beginDelete
+- Removed operation Disks.beginDeleteAndWait
+- Removed operation Disks.beginGrantAccess
+- Removed operation Disks.beginGrantAccessAndWait
+- Removed operation Disks.beginRevokeAccess
+- Removed operation Disks.beginRevokeAccessAndWait
+- Removed operation Disks.beginUpdate
+- Removed operation Disks.beginUpdateAndWait
+- Removed operation Snapshots.beginCreateOrUpdate
+- Removed operation Snapshots.beginCreateOrUpdateAndWait
+- Removed operation Snapshots.beginDelete
+- Removed operation Snapshots.beginDeleteAndWait
+- Removed operation Snapshots.beginGrantAccess
+- Removed operation Snapshots.beginGrantAccessAndWait
+- Removed operation Snapshots.beginRevokeAccess
+- Removed operation Snapshots.beginRevokeAccessAndWait
+- Removed operation Snapshots.beginUpdate
+- Removed operation Snapshots.beginUpdateAndWait
+- Deleted Class ComputeManagementClient
+- Enum KnownDiskSecurityTypes no longer has value ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey
+
 This is the first stable version with the package of @azure/arm-compute-disk
