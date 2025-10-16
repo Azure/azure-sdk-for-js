@@ -10,9 +10,9 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -56,8 +56,12 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "@vitest/expect": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "tshy": {

@@ -52,11 +52,11 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint package.json CHANGELOG.md README.md src",
     "lint:fix": "eslint package.json CHANGELOG.md README.md src --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -67,24 +67,28 @@
   },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.8.1",
-    "@azure/core-rest-pipeline": "^1.18.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
     "@playwright/test": "^1.51.1",
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing",
-    "@azure/identity": "catalog:internal"
+    "vitest": "catalog:testing"
   },
   "peerDependencies": {
     "@playwright/test": "^1.47.0"

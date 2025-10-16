@@ -88,7 +88,7 @@ node clientGroupsGetMembersCountSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SERVICE-MAP_SUBSCRIPTION_ID="<service-map subscription id>" SERVICE-MAP_RESOURCE_GROUP="<service-map resource group>" node clientGroupsGetMembersCountSample.js
+cross-env SERVICE-MAP_SUBSCRIPTION_ID="<service-map subscription id>" SERVICE-MAP_RESOURCE_GROUP="<service-map resource group>" node clientGroupsGetMembersCountSample.js
 ```
 
 ## Next Steps
