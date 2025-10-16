@@ -23,5 +23,8 @@
   "dependencies": {
     "simple": "latest",
     "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
