@@ -42,7 +42,7 @@
     "pack": "pnpm pack 2>&1",
     "perf-test:node": "dev-tool run build-package --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
+    "test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
     "test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "update-snippets": "dev-tool run update-snippets"
   },
