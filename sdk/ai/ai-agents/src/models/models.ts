@@ -9,7 +9,7 @@ import type { FileContents } from "../static-helpers/multipartHelpers.js";
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
   /** The object type. */
-  /** The discriminator possible values: code_interpreter, file_search, function, bing_grounding, fabric_dataagent, sharepoint_grounding, azure_ai_search, openapi, bing_custom_search, connected_agent, deep_research, mcp, azure_function, browser_automation */
+  /** The discriminator possible values: code_interpreter, file_search, function, bing_grounding, fabric_dataagent, sharepoint_grounding, azure_ai_search, openapi, bing_custom_search, connected_agent, deep_research, mcp, computer_use_preview, azure_function, browser_automation */
   type: string;
 }
 
@@ -37,6 +37,7 @@ export type ToolDefinitionUnion =
   | ConnectedAgentToolDefinition
   | DeepResearchToolDefinition
   | MCPToolDefinition
+  | ComputerUseToolDefinition
   | AzureFunctionToolDefinition
   | BrowserAutomationToolDefinition
   | ToolDefinition;
@@ -78,6 +79,9 @@ export function toolDefinitionUnionSerializer(item: ToolDefinitionUnion): any {
 
     case "mcp":
       return mcpToolDefinitionSerializer(item as MCPToolDefinition);
+
+    case "computer_use_preview":
+      return computerUseToolDefinitionSerializer(item as ComputerUseToolDefinition);
 
     case "azure_function":
       return azureFunctionToolDefinitionSerializer(item as AzureFunctionToolDefinition);
@@ -127,6 +131,9 @@ export function toolDefinitionUnionDeserializer(item: any): ToolDefinitionUnion 
 
     case "mcp":
       return mcpToolDefinitionDeserializer(item as MCPToolDefinition);
+
+    case "computer_use_preview":
+      return computerUseToolDefinitionDeserializer(item as ComputerUseToolDefinition);
 
     case "azure_function":
       return azureFunctionToolDefinitionDeserializer(item as AzureFunctionToolDefinition);
@@ -363,13 +370,30 @@ export function bingGroundingSearchConfigurationArrayDeserializer(
 export interface BingGroundingSearchConfiguration {
   /** Connection id for grounding with bing search */
   connectionId: string;
-  /** The market where the results come from. */
+  /** The market where the results come from. Typically, market is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form: `<language>-<country/region>` where `<language>` is an ISO 639-1 language code (neutral culture) and `<country/region>` is an ISO 3166 country/region (specific culture) code. For example, `en-US`. The string is case insensitive. For a list of possible market values, see [Market codes](https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/market-codes). If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in Market codes, Bing uses a best fit market code based on an internal mapping that is subject to change. */
   market?: string;
-  /** The language to use for user interface strings when calling Bing API. */
+  /**
+   *   The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.
+   *   For a list of supported language codes, see [Bing supported languages](https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/market-codes#bing-supported-language-codes).
+   *   Bing loads the localized strings if this parameter contains a valid 2-letter neutral culture code (for example `fr`) or a valid 4-letter specific culture code (`fr-ca`). For example, for `fr-ca`, Bing loads the `fr` neutral culture code strings.
+   *   If the parameter is not valid (for example, `zh`) or Bing doesn’t support the language (for example, `af`, `af-na`), Bing defaults to `en` (English).
+   *   To specify the 2-letter code, set this parameter to an ISO 639-1 language code.
+   *   To specify the 4-letter code, use the form `<language>-<country/region>` where `<language>` is an ISO 639-1 language code (neutral culture) and `<country/region>` is an ISO 3166 country/region (specific culture) code. For example, use `en-US` for United States English.
+   *   Although optional, you should always specify the language. Typically, you set this parameter to the same language specified by the market value unless the user wants the user interface strings displayed in a different language.
+   */
   setLang?: string;
-  /** The number of search results to return in the bing api response */
+  /**
+   * The number of search results to return in the response. The default is 5 and the maximum value is 50. The actual number delivered may be less than requested.
+   * - It is possible for multiple pages to include some overlap in results.
+   * - This parameter affects only web page results. It's possible that AI model might not use all search results returned by Bing.
+   */
   count?: number;
-  /** Filter search results by a specific time range. Accepted values: https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters */
+  /**
+   * Filter search results by the following case-insensitive age values:
+   * - Day: Return webpages that Bing discovered within the last 24 hours.
+   * - Week: Return webpages that Bing discovered within the last 7 days.
+   * - Month: Return webpages that Bing discovered within the last 30 days. To get articles discovered by Bing during a specific timeframe, specify a date range in the form: `YYYY-MM-DD..YYYY-MM-DD`. For example, `freshness=2019-02-01..2019-05-30. To limit the results to a single date, set this parameter to a specific date. For example, freshness=2019-02-04`.
+   */
   freshness?: string;
 }
 
@@ -863,13 +887,30 @@ export interface BingCustomSearchConfiguration {
   connectionId: string;
   /** Name of the custom configuration instance given to config. */
   instanceName: string;
-  /** The market where the results come from. */
+  /** The market where the results come from. Typically, market is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form: `<language>-<country/region>` where `<language>` is an ISO 639-1 language code (neutral culture) and `<country/region>` is an ISO 3166 country/region (specific culture) code. For example, `en-US`. The string is case insensitive. For a list of possible market values, see [Market codes](https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/market-codes). If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in Market codes, Bing uses a best fit market code based on an internal mapping that is subject to change. */
   market?: string;
-  /** The language to use for user interface strings when calling Bing API. */
+  /**
+   *   The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.
+   *   For a list of supported language codes, see [Bing supported languages](https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/market-codes#bing-supported-language-codes).
+   *   Bing loads the localized strings if this parameter contains a valid 2-letter neutral culture code (for example `fr`) or a valid 4-letter specific culture code (`fr-ca`). For example, for `fr-ca`, Bing loads the `fr` neutral culture code strings.
+   *   If the parameter is not valid (for example, `zh`) or Bing doesn’t support the language (for example, `af`, `af-na`), Bing defaults to `en` (English).
+   *   To specify the 2-letter code, set this parameter to an ISO 639-1 language code.
+   *   To specify the 4-letter code, use the form `<language>-<country/region>` where `<language>` is an ISO 639-1 language code (neutral culture) and `<country/region>` is an ISO 3166 country/region (specific culture) code. For example, use `en-US` for United States English.
+   *   Although optional, you should always specify the language. Typically, you set this parameter to the same language specified by the market value unless the user wants the user interface strings displayed in a different language.
+   */
   setLang?: string;
-  /** The number of search results to return in the bing api response */
+  /**
+   * The number of search results to return in the response. The default is 5 and the maximum value is 50. The actual number delivered may be less than requested.
+   * - It is possible for multiple pages to include some overlap in results.
+   * - This parameter affects only web page results. It's possible that AI model might not use all search results returned by Bing.
+   */
   count?: number;
-  /** Filter search results by a specific time range. Accepted values: https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters */
+  /**
+   * Filter search results by the following case-insensitive age values:
+   * - Day: Return webpages that Bing discovered within the last 24 hours.
+   * - Week: Return webpages that Bing discovered within the last 7 days.
+   * - Month: Return webpages that Bing discovered within the last 30 days. To get articles discovered by Bing during a specific timeframe, specify a date range in the form: `YYYY-MM-DD..YYYY-MM-DD`. For example, `freshness=2019-02-01..2019-05-30. To limit the results to a single date, set this parameter to a specific date. For example, freshness=2019-02-04`.
+   */
   freshness?: string;
 }
 
@@ -1066,6 +1107,69 @@ export function mcpToolDefinitionDeserializer(item: any): MCPToolDefinition {
         }),
   };
 }
+
+/** The input definition information for a Computer Use tool as used to configure an agent. */
+export interface ComputerUseToolDefinition extends ToolDefinition {
+  /** The object type, which is always 'computer_use_preview'. */
+  type: "computer_use_preview";
+  /** The computer use tool parameters. */
+  computerUsePreview: ComputerUseToolParameters;
+}
+
+export function computerUseToolDefinitionSerializer(
+  item: ComputerUseToolDefinition,
+): any {
+  return {
+    type: item["type"],
+    computer_use_preview: computerUseToolParametersSerializer(
+      item["computerUsePreview"],
+    ),
+  };
+}
+
+export function computerUseToolDefinitionDeserializer(
+  item: any,
+): ComputerUseToolDefinition {
+  return {
+    type: item["type"],
+    computerUsePreview: computerUseToolParametersDeserializer(
+      item["computer_use_preview"],
+    ),
+  };
+}
+
+/** The computer use tool parameters. */
+export interface ComputerUseToolParameters {
+  /** The display width for the computer use tool. */
+  displayWidth: number;
+  /** The display height for the computer use tool. */
+  displayHeight: number;
+  /** The environment for the computer use tool. */
+  environment: ComputerUseEnvironment;
+}
+
+export function computerUseToolParametersSerializer(
+  item: ComputerUseToolParameters,
+): any {
+  return {
+    display_width: item["displayWidth"],
+    display_height: item["displayHeight"],
+    environment: item["environment"],
+  };
+}
+
+export function computerUseToolParametersDeserializer(
+  item: any,
+): ComputerUseToolParameters {
+  return {
+    displayWidth: item["display_width"],
+    displayHeight: item["display_height"],
+    environment: item["environment"],
+  };
+}
+
+/** The environment types supported by the computer use tool. */
+export type ComputerUseEnvironment = "windows" | "mac" | "linux" | "browser";
 
 /** The input definition information for a azure function tool as used to configure an agent. */
 export interface AzureFunctionToolDefinition extends ToolDefinition {
@@ -2214,7 +2318,8 @@ export type AgentsNamedToolChoiceType =
   | "bing_custom_search"
   | "connected_agent"
   | "deep_research"
-  | "mcp";
+  | "mcp"
+  | "computer_use_preview";
 
 /** The function name that will be used, if using the `function` tool */
 export interface FunctionName {
@@ -2436,7 +2541,7 @@ export function requiredToolCallUnionArrayDeserializer(
 /** An abstract representation of a tool invocation needed by the model to continue a run. */
 export interface RequiredToolCall {
   /** The object type for the required tool call. */
-  /** The discriminator possible values: function, mcp */
+  /** The discriminator possible values: function, mcp, computer_use_preview */
   type: string;
   /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
   id: string;
@@ -2453,6 +2558,7 @@ export function requiredToolCallDeserializer(item: any): RequiredToolCall {
 export type RequiredToolCallUnion =
   | RequiredFunctionToolCall
   | RequiredMcpToolCall
+  | RequiredComputerUseToolCall
   | RequiredToolCall;
 
 export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
@@ -2462,6 +2568,9 @@ export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUn
 
     case "mcp":
       return requiredMcpToolCallDeserializer(item as RequiredMcpToolCall);
+
+    case "computer_use_preview":
+      return requiredComputerUseToolCallDeserializer(item as RequiredComputerUseToolCall);
 
     default:
       return requiredToolCallDeserializer(item);
@@ -2520,6 +2629,321 @@ export function requiredMcpToolCallDeserializer(item: any): RequiredMcpToolCall 
     arguments: item["arguments"],
     name: item["name"],
     serverLabel: item["server_label"],
+  };
+}
+
+/** A representation of a requested call to a Computer Use tool, needed by the model to continue evaluation of a run. */
+export interface RequiredComputerUseToolCall extends RequiredToolCall {
+  /** The object type of the required tool call. Always 'computer_use_preview' for Computer Use tools. */
+  type: "computer_use_preview";
+  /** Detailed information about the computer use action to be executed. */
+  computerUsePreview: RequiredComputerUseToolCallDetails;
+}
+
+export function requiredComputerUseToolCallDeserializer(
+  item: any,
+): RequiredComputerUseToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    computerUsePreview: requiredComputerUseToolCallDetailsDeserializer(
+      item["computer_use_preview"],
+    ),
+  };
+}
+
+/** The detailed information for a computer use tool invocation. */
+export interface RequiredComputerUseToolCallDetails {
+  /** The action to be performed by the computer use tool. */
+  action: ComputerUseActionUnion;
+  /** Safety checks that are pending acknowledgment by the developer. */
+  pendingSafetyChecks: SafetyCheck[];
+}
+
+export function requiredComputerUseToolCallDetailsDeserializer(
+  item: any,
+): RequiredComputerUseToolCallDetails {
+  return {
+    action: computerUseActionUnionDeserializer(item["action"]),
+    pendingSafetyChecks: safetyCheckArrayDeserializer(
+      item["pending_safety_checks"],
+    ),
+  };
+}
+
+/** An abstract representation of a computer use action. */
+export interface ComputerUseAction {
+  /** The type of computer use action. */
+  /** The discriminator possible values: click, double_click, drag, keypress, move, screenshot, scroll, type, wait */
+  type: string;
+}
+
+export function computerUseActionDeserializer(item: any): ComputerUseAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ComputerUseActionUnion */
+export type ComputerUseActionUnion =
+  | ClickAction
+  | DoubleClickAction
+  | DragAction
+  | KeyPressAction
+  | MoveAction
+  | ScreenshotAction
+  | ScrollAction
+  | TypeAction
+  | WaitAction
+  | ComputerUseAction;
+
+export function computerUseActionUnionDeserializer(
+  item: any,
+): ComputerUseActionUnion {
+  switch (item.type) {
+    case "click":
+      return clickActionDeserializer(item as ClickAction);
+
+    case "double_click":
+      return doubleClickActionDeserializer(item as DoubleClickAction);
+
+    case "drag":
+      return dragActionDeserializer(item as DragAction);
+
+    case "keypress":
+      return keyPressActionDeserializer(item as KeyPressAction);
+
+    case "move":
+      return moveActionDeserializer(item as MoveAction);
+
+    case "screenshot":
+      return screenshotActionDeserializer(item as ScreenshotAction);
+
+    case "scroll":
+      return scrollActionDeserializer(item as ScrollAction);
+
+    case "type":
+      return typeActionDeserializer(item as TypeAction);
+
+    case "wait":
+      return waitActionDeserializer(item as WaitAction);
+
+    default:
+      return computerUseActionDeserializer(item);
+  }
+}
+
+/** A click action. */
+export interface ClickAction extends ComputerUseAction {
+  /** Specifies the event type. For a click action, this property is always set to click. */
+  type: "click";
+  /** The x-coordinate where the click occurred. */
+  x: number;
+  /** The y-coordinate where the click occurred. */
+  y: number;
+  /** Indicates which mouse button was pressed during the click. */
+  button: MouseButton;
+}
+
+export function clickActionDeserializer(item: any): ClickAction {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+    button: item["button"],
+  };
+}
+
+/** The mouse button types supported by click actions. */
+export type MouseButton = "left" | "right" | "wheel" | "back" | "forward";
+
+/** A double click action. */
+export interface DoubleClickAction extends ComputerUseAction {
+  /** Specifies the event type. For a double click action, this property is always set to double_click. */
+  type: "double_click";
+  /** The x-coordinate where the double click occurred. */
+  x: number;
+  /** The y-coordinate where the double click occurred. */
+  y: number;
+}
+
+export function doubleClickActionDeserializer(item: any): DoubleClickAction {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** A drag action. */
+export interface DragAction extends ComputerUseAction {
+  /** Specifies the event type. For a drag action, this property is always set to drag. */
+  type: "drag";
+  /** An array of coordinates representing the path of the drag action. */
+  path: CoordinatePoint[];
+}
+
+export function dragActionDeserializer(item: any): DragAction {
+  return {
+    type: item["type"],
+    path: coordinatePointArrayDeserializer(item["path"]),
+  };
+}
+
+export function coordinatePointArrayDeserializer(
+  result: Array<CoordinatePoint>,
+): any[] {
+  return result.map((item) => {
+    return coordinatePointDeserializer(item);
+  });
+}
+
+/** A coordinate point with x and y values. */
+export interface CoordinatePoint {
+  /** The x-coordinate. */
+  x: number;
+  /** The y-coordinate. */
+  y: number;
+}
+
+export function coordinatePointDeserializer(item: any): CoordinatePoint {
+  return {
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** A collection of keypresses the model would like to perform. */
+export interface KeyPressAction extends ComputerUseAction {
+  /** Specifies the event type. For a keypress action, this property is always set to keypress. */
+  type: "keypress";
+  /** The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key. */
+  keys: string[];
+}
+
+export function keyPressActionDeserializer(item: any): KeyPressAction {
+  return {
+    type: item["type"],
+    keys: item["keys"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** A mouse move action. */
+export interface MoveAction extends ComputerUseAction {
+  /** Specifies the event type. For a move action, this property is always set to move. */
+  type: "move";
+  /** The x-coordinate to move to. */
+  x: number;
+  /** The y-coordinate to move to. */
+  y: number;
+}
+
+export function moveActionDeserializer(item: any): MoveAction {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+  };
+}
+
+/** A screenshot action. */
+export interface ScreenshotAction extends ComputerUseAction {
+  /** Specifies the event type. For a screenshot action, this property is always set to screenshot. */
+  type: "screenshot";
+}
+
+export function screenshotActionDeserializer(item: any): ScreenshotAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A scroll action. */
+export interface ScrollAction extends ComputerUseAction {
+  /** Specifies the event type. For a scroll action, this property is always set to scroll. */
+  type: "scroll";
+  /** The x-coordinate where the scroll occurred. */
+  x: number;
+  /** The y-coordinate where the scroll occurred. */
+  y: number;
+  /** The horizontal scroll distance. */
+  scrollX: number;
+  /** The vertical scroll distance. */
+  scrollY: number;
+}
+
+export function scrollActionDeserializer(item: any): ScrollAction {
+  return {
+    type: item["type"],
+    x: item["x"],
+    y: item["y"],
+    scrollX: item["scroll_x"],
+    scrollY: item["scroll_y"],
+  };
+}
+
+/** An action to type in text. */
+export interface TypeAction extends ComputerUseAction {
+  /** Specifies the event type. For a type action, this property is always set to type. */
+  type: "type";
+  /** The text to type. */
+  text: string;
+}
+
+export function typeActionDeserializer(item: any): TypeAction {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** A wait action. */
+export interface WaitAction extends ComputerUseAction {
+  /** Specifies the event type. For a wait action, this property is always set to wait. */
+  type: "wait";
+}
+
+export function waitActionDeserializer(item: any): WaitAction {
+  return {
+    type: item["type"],
+  };
+}
+
+export function safetyCheckArraySerializer(result: Array<SafetyCheck>): any[] {
+  return result.map((item) => {
+    return safetyCheckSerializer(item);
+  });
+}
+
+export function safetyCheckArrayDeserializer(
+  result: Array<SafetyCheck>,
+): any[] {
+  return result.map((item) => {
+    return safetyCheckDeserializer(item);
+  });
+}
+
+/** Safety check that has been acknowledged by the developer. */
+export interface SafetyCheck {
+  /** The ID of the pending safety check. */
+  id: string;
+  /** The type of the pending safety check. */
+  code?: string;
+  /** Details about the pending safety check. */
+  message?: string;
+}
+
+export function safetyCheckSerializer(item: SafetyCheck): any {
+  return { id: item["id"], code: item["code"], message: item["message"] };
+}
+
+export function safetyCheckDeserializer(item: any): SafetyCheck {
+  return {
+    id: item["id"],
+    code: item["code"],
+    message: item["message"],
   };
 }
 
@@ -3085,15 +3509,102 @@ export function threadRunArrayDeserializer(result: Array<ThreadRun>): any[] {
 }
 
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
-export interface ToolOutput {
+export interface StructuredToolOutput {
+  /** The object type for the tool output. Defaults to `function_call_output` if not provided. */
+  /** The discriminator possible values: function_call_output, computer_call_output */
+  type: string;
   /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
   toolCallId?: string;
-  /** The output from the tool to be submitted. */
+}
+
+export function structuredToolOutputSerializer(
+  item: StructuredToolOutput,
+): any {
+  return { type: item["type"], tool_call_id: item["toolCallId"] };
+}
+
+/** Alias for StructuredToolOutputUnion */
+export type StructuredToolOutputUnion =
+  | ToolOutput
+  | ComputerToolOutput
+  | StructuredToolOutput;
+
+export function structuredToolOutputUnionSerializer(
+  item: StructuredToolOutputUnion,
+): any {
+  switch (item.type) {
+    case "function_call_output":
+      return toolOutputSerializer(item as ToolOutput);
+
+    case "computer_call_output":
+      return computerToolOutputSerializer(item as ComputerToolOutput);
+
+    default:
+      return structuredToolOutputSerializer(item);
+  }
+}
+
+/** The output from a function tool to be submitted. */
+export interface ToolOutput extends StructuredToolOutput {
+  /** The object type, which is always 'function_call_output'. */
+  type: "function_call_output";
+  /** The output from the function tool to be submitted. */
   output?: string;
 }
 
 export function toolOutputSerializer(item: ToolOutput): any {
-  return { tool_call_id: item["toolCallId"], output: item["output"] };
+  return {
+    type: item["type"],
+    tool_call_id: item["toolCallId"],
+    output: item["output"],
+  };
+}
+
+/** The output from a computer use tool to be submitted. */
+export interface ComputerToolOutput extends StructuredToolOutput {
+  /** The object type, which is always 'computer_call_output'. */
+  type: "computer_call_output";
+  /** The output from the computer use tool. */
+  output: ComputerScreenshot;
+  /** Safety checks that have been acknowledged by the developer. */
+  acknowledgedSafetyChecks?: SafetyCheck[];
+}
+
+export function computerToolOutputSerializer(item: ComputerToolOutput): any {
+  return {
+    type: item["type"],
+    tool_call_id: item["toolCallId"],
+    output: computerScreenshotSerializer(item["output"]),
+    acknowledged_safety_checks: !item["acknowledgedSafetyChecks"]
+      ? item["acknowledgedSafetyChecks"]
+      : safetyCheckArraySerializer(item["acknowledgedSafetyChecks"]),
+  };
+}
+
+/** The output from a computer use tool representing a screenshot. */
+export interface ComputerScreenshot {
+  /** Specifies the event type. For a computer screenshot, this property is always set to computer_screenshot. */
+  type: "computer_screenshot";
+  /** The identifier of an uploaded file that contains the screenshot. */
+  fileId?: string;
+  /** The URL of the screenshot image. */
+  imageUrl?: string;
+}
+
+export function computerScreenshotSerializer(item: ComputerScreenshot): any {
+  return {
+    type: item["type"],
+    file_id: item["fileId"],
+    image_url: item["imageUrl"],
+  };
+}
+
+export function computerScreenshotDeserializer(item: any): ComputerScreenshot {
+  return {
+    type: item["type"],
+    fileId: item["file_id"],
+    imageUrl: item["image_url"],
+  };
 }
 
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
@@ -3114,9 +3625,11 @@ export function toolApprovalSerializer(item: ToolApproval): any {
   };
 }
 
-export function toolOutputArraySerializer(result: Array<ToolOutput>): any[] {
+export function structuredToolOutputUnionArraySerializer(
+  result: Array<StructuredToolOutputUnion>,
+): any[] {
   return result.map((item) => {
-    return toolOutputSerializer(item);
+    return structuredToolOutputUnionSerializer(item);
   });
 }
 
@@ -3285,7 +3798,7 @@ export function runStepToolCallUnionArrayDeserializer(result: Array<RunStepToolC
 /** An abstract representation of a detailed tool call as recorded within a run step for an existing run. */
 export interface RunStepToolCall {
   /** The object type. */
-  /** The discriminator possible values: code_interpreter, file_search, bing_grounding, azure_ai_search, browser_automation, mcp, sharepoint_grounding, fabric_dataagent, bing_custom_search, azure_function, function, openapi, deep_research, connected_agent */
+  /** The discriminator possible values: code_interpreter, file_search, bing_grounding, azure_ai_search, browser_automation, mcp, computer_use_preview, sharepoint_grounding, fabric_dataagent, bing_custom_search, azure_function, function, openapi, deep_research, connected_agent */
   type: string;
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
@@ -3306,6 +3819,7 @@ export type RunStepToolCallUnion =
   | RunStepAzureAISearchToolCall
   | RunStepBrowserAutomationToolCall
   | RunStepMcpToolCall
+  | RunStepComputerUseToolCall
   | RunStepSharepointToolCall
   | RunStepMicrosoftFabricToolCall
   | RunStepBingCustomSearchToolCall
@@ -3335,6 +3849,9 @@ export function runStepToolCallUnionDeserializer(item: any): RunStepToolCallUnio
 
     case "mcp":
       return runStepMcpToolCallDeserializer(item as RunStepMcpToolCall);
+
+    case "computer_use_preview":
+      return runStepComputerUseToolCallDeserializer(item as RunStepComputerUseToolCall);
 
     case "sharepoint_grounding":
       return runStepSharepointToolCallDeserializer(item as RunStepSharepointToolCall);
@@ -3722,6 +4239,56 @@ export function runStepMcpToolCallDeserializer(item: any): RunStepMcpToolCall {
     name: item["name"],
     output: item["output"],
     serverLabel: item["server_label"],
+  };
+}
+
+/**
+ * A record of a call to a Computer Use tool, issued by the model in evaluation of a defined tool, that represents
+ * executed computer automation actions.
+ */
+export interface RunStepComputerUseToolCall extends RunStepToolCall {
+  /** The object type, which is always 'computer_use_preview'. */
+  type: "computer_use_preview";
+  /** The detailed information about the computer use tool call. */
+  computerUsePreview: RunStepComputerUseToolCallDetails;
+}
+
+export function runStepComputerUseToolCallDeserializer(
+  item: any,
+): RunStepComputerUseToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    computerUsePreview: runStepComputerUseToolCallDetailsDeserializer(
+      item["computer_use_preview"],
+    ),
+  };
+}
+
+/** The detailed information about a computer use tool call. */
+export interface RunStepComputerUseToolCallDetails {
+  /** The action to be performed by the computer use tool. */
+  action: ComputerUseActionUnion;
+  /** Safety checks that are pending acknowledgment by the developer. */
+  pendingSafetyChecks: SafetyCheck[];
+  /** The output from the computer use tool. */
+  output: ComputerScreenshot;
+  /** Safety checks that have been acknowledged by the developer. */
+  acknowledgedSafetyChecks?: SafetyCheck[];
+}
+
+export function runStepComputerUseToolCallDetailsDeserializer(
+  item: any,
+): RunStepComputerUseToolCallDetails {
+  return {
+    action: computerUseActionUnionDeserializer(item["action"]),
+    pendingSafetyChecks: safetyCheckArrayDeserializer(
+      item["pending_safety_checks"],
+    ),
+    output: computerScreenshotDeserializer(item["output"]),
+    acknowledgedSafetyChecks: !item["acknowledged_safety_checks"]
+      ? item["acknowledged_safety_checks"]
+      : safetyCheckArrayDeserializer(item["acknowledged_safety_checks"]),
   };
 }
 
@@ -5158,7 +5725,7 @@ export interface RunStepDeltaToolCall {
   /** The ID of the tool call, used when submitting outputs to the run. */
   id: string;
   /** The type of the tool call detail item in a streaming run step's details. */
-  /** The discriminator possible values: mcp, openapi, connected_agent, function, file_search, code_interpreter, bing_grounding, bing_custom_search, azure_function, deep_research, azure_ai_search, fabric_dataagent, sharepoint_grounding */
+  /** The discriminator possible values: mcp, openapi, connected_agent, function, file_search, code_interpreter, bing_grounding, bing_custom_search, azure_function, deep_research, azure_ai_search, computer_use_preview, fabric_dataagent, sharepoint_grounding */
   type: string;
 }
 
@@ -5183,6 +5750,7 @@ export type RunStepDeltaToolCallUnion =
   | RunStepDeltaAzureFunctionToolCall
   | RunStepDeltaDeepResearchToolCall
   | RunStepDeltaAzureAISearchToolCall
+  | RunStepDeltaComputerUseToolCall
   | RunStepDeltaMicrosoftFabricToolCall
   | RunStepDeltaSharepointToolCall
   | RunStepDeltaToolCall;
@@ -5233,6 +5801,9 @@ export function runStepDeltaToolCallUnionDeserializer(item: any): RunStepDeltaTo
       return runStepDeltaAzureAISearchToolCallDeserializer(
         item as RunStepDeltaAzureAISearchToolCall,
       );
+
+    case "computer_use_preview":
+      return runStepDeltaComputerUseToolCallDeserializer(item as RunStepDeltaComputerUseToolCall);
 
     case "fabric_dataagent":
       return runStepDeltaMicrosoftFabricToolCallDeserializer(
@@ -5599,6 +6170,60 @@ export function runStepDeltaAzureAISearchToolCallDeserializer(
     id: item["id"],
     type: item["type"],
     azureAISearch: item["azure_ai_search"],
+  };
+}
+
+/** Represents the Computer Use tool call in a streaming run step. */
+export interface RunStepDeltaComputerUseToolCall extends RunStepDeltaToolCall {
+  /** The object type, which is always "computer_use_preview". */
+  type: "computer_use_preview";
+  /** The computer use data for the tool call. */
+  computerUsePreview?: RunStepDeltaComputerUseDetails;
+}
+
+export function runStepDeltaComputerUseToolCallDeserializer(
+  item: any,
+): RunStepDeltaComputerUseToolCall {
+  return {
+    index: item["index"],
+    id: item["id"],
+    type: item["type"],
+    computerUsePreview: !item["computer_use_preview"]
+      ? item["computer_use_preview"]
+      : runStepDeltaComputerUseDetailsDeserializer(
+        item["computer_use_preview"],
+      ),
+  };
+}
+
+/** Represents the Computer Use tool call details in a streaming run step. */
+export interface RunStepDeltaComputerUseDetails {
+  /** The action to be performed by the computer use tool. */
+  action?: ComputerUseActionUnion;
+  /** Safety checks that are pending acknowledgment by the developer. */
+  pendingSafetyChecks?: SafetyCheck[];
+  /** The output from the computer use tool, null if outputs have not yet been submitted. */
+  output?: ComputerScreenshot;
+  /** Safety checks that have been acknowledged by the developer, null if outputs have not yet been submitted. */
+  acknowledgedSafetyChecks?: SafetyCheck[];
+}
+
+export function runStepDeltaComputerUseDetailsDeserializer(
+  item: any,
+): RunStepDeltaComputerUseDetails {
+  return {
+    action: !item["action"]
+      ? item["action"]
+      : computerUseActionUnionDeserializer(item["action"]),
+    pendingSafetyChecks: !item["pending_safety_checks"]
+      ? item["pending_safety_checks"]
+      : safetyCheckArrayDeserializer(item["pending_safety_checks"]),
+    output: !item["output"]
+      ? item["output"]
+      : computerScreenshotDeserializer(item["output"]),
+    acknowledgedSafetyChecks: !item["acknowledged_safety_checks"]
+      ? item["acknowledged_safety_checks"]
+      : safetyCheckArrayDeserializer(item["acknowledged_safety_checks"]),
   };
 }
 
