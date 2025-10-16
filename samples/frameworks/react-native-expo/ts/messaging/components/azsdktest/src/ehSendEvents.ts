@@ -4,14 +4,14 @@
 import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
 import { WebSocketWrapper } from "./wsWrapper";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
+const connectionString = process.env["EXPO_PUBLIC_EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EXPO_PUBLIC_EVENTHUB_NAME"] || "";
 
 async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
   console.log(JSON.stringify(ctx.error, undefined, 2));
   console.log(
-    `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
+    `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`,
   );
   for (const event of ctx.events) {
     console.log(JSON.stringify(event, undefined, 2));

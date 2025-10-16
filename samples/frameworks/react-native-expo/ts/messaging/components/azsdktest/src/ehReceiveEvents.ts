@@ -4,9 +4,9 @@
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 import { WebSocketWrapper } from "./wsWrapper";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const connectionString = process.env["EXPO_PUBLIC_EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EXPO_PUBLIC_EVENTHUB_NAME"] || "";
+const consumerGroup = process.env["EXPO_PUBLIC_CONSUMER_GROUP_NAME"] || "";
 
 export async function main() {
   console.log(`Running receiveEvents sample`);
@@ -22,7 +22,7 @@ export async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
           );
         }
       },
@@ -30,7 +30,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
-    { startPosition: earliestEventPosition }
+    { startPosition: earliestEventPosition },
   );
 
   console.log(`Receiving for 10 seconds then stopping...`);

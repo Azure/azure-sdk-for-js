@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { main as sendMessages } from "./sbSendMessages";
 import { main as sendEvents } from "./ehSendEvents";
-import { main as sbReceiveMessages } from "./sbReceiveMessages";
 import { main as ehReceiveEvents } from "./ehReceiveEvents";
+import { main as sbReceiveMessages } from "./sbReceiveMessages";
+import { main as sendMessages } from "./sbSendMessages";
 
 export async function testSDK(selectedId: string) {
   switch (selectedId) {

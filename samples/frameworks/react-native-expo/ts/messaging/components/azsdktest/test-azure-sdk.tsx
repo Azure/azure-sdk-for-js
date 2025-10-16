@@ -1,10 +1,14 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import "node-libs-react-native/globals";
-import "react-native-get-random-values";
-
+import "./src/polyfills";
 import { testSDK } from "./src/testSDK";
 
 const DATA = [
@@ -32,7 +36,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-export default function App() {
+export function TestAzureSDK() {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item }) => {
@@ -52,14 +56,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>@azure/service-bus test app</Text>
-      <Button title="Run tests!" onPress={() => testSDK(selectedId)} />
       <FlatList
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         extraData={selectedId}
       />
-      <StatusBar style="auto" />
+      <Button title="Run tests!" onPress={() => testSDK(selectedId)} />
     </View>
   );
 }
