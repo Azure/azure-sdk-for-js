@@ -4,4 +4,10 @@
 
 ### Features Added
 
+- Added Interface PagedAsyncIterableIterator
+- Added Interface PageSettings
+- Added Type Alias AzureSupportedClouds
+- Added Enum AzureClouds
+- Added Enum KnownVersions
+- 
 This is the first stable version with the package of @azure/arm-compute-sku
