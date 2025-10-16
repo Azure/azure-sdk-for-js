@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { main as sendEvents } from "./ehSendEvents";
+import { main as ehReceiveEvents } from "./ehReceiveEvents";
 import { main as sbReceiveMessages } from "./sbReceiveMessages";
 import { main as sendMessages } from "./sbSendMessages";
 
@@ -10,13 +12,13 @@ export async function testSDK(selectedId: string) {
       await sendMessages();
       break;
     case "eh-send-msgs":
-      //await sendEvents();
+      await sendEvents();
       break;
     case "sb-receive-msgs":
       await sbReceiveMessages();
       break;
     case "eh-receive-msgs":
-      //await ehReceiveEvents();
+      await ehReceiveEvents();
       break;
   }
 }
