@@ -4,11 +4,14 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessLevel = string;
@@ -48,37 +51,42 @@ export interface AvailabilityPolicy {
 export type AvailabilityPolicyDiskDelay = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface CloudError {
     error?: ApiError;
 }
 
 // @public (undocumented)
-export class ComputeManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    diskAccesses: DiskAccesses;
-    // (undocumented)
-    diskEncryptionSets: DiskEncryptionSets;
-    // (undocumented)
-    diskRestorePointOperations: DiskRestorePointOperations;
-    // (undocumented)
-    disks: Disks;
-    // (undocumented)
-    snapshots: Snapshots;
-    // (undocumented)
-    subscriptionId: string;
+export class ComputeManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
+    readonly diskAccesses: DiskAccessesOperations;
+    readonly diskEncryptionSets: DiskEncryptionSetsOperations;
+    readonly diskRestorePoints: DiskRestorePointsOperations;
+    readonly disks: DisksOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly snapshots: SnapshotsOperations;
 }
 
 // @public
-export interface ComputeManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ComputeManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CopyCompletionError {
@@ -116,11 +124,155 @@ export type DataAccessAuthMode = string;
 
 // @public
 export interface Disk extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    readonly managedBy?: string;
+    readonly managedByExtended?: string[];
+    properties?: DiskProperties;
+    sku?: DiskSku;
+    zones?: string[];
+}
+
+// @public
+export interface DiskAccess extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    // (undocumented)
+    properties?: DiskAccessProperties;
+}
+
+// @public
+export interface DiskAccessesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiskAccessesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiskAccessesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskAccessesGetPrivateLinkResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskAccessesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskAccessesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskAccessesOperations {
+    createOrUpdate: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetOptionalParams) => Promise<DiskAccess>;
+    getPrivateLinkResources: (resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourceListResult>;
+    list: (options?: DiskAccessesListOptionalParams) => PagedAsyncIterableIterator<DiskAccess>;
+    listByResourceGroup: (resourceGroupName: string, options?: DiskAccessesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiskAccess>;
+    update: (resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface DiskAccessesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiskAccessProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    readonly timeCreated?: Date;
+}
+
+// @public
+export interface DiskAccessUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export type DiskCreateOption = string;
+
+// @public
+export interface DiskEncryptionSet extends TrackedResource {
+    identity?: EncryptionSetIdentity;
+    // (undocumented)
+    properties?: EncryptionSetProperties;
+}
+
+// @public
+export type DiskEncryptionSetIdentityType = string;
+
+// @public
+export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiskEncryptionSetsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiskEncryptionSetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskEncryptionSetsListAssociatedResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskEncryptionSetsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskEncryptionSetsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiskEncryptionSetsOperations {
+    createOrUpdate: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams) => Promise<DiskEncryptionSet>;
+    list: (options?: DiskEncryptionSetsListOptionalParams) => PagedAsyncIterableIterator<DiskEncryptionSet>;
+    listAssociatedResources: (resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams) => PagedAsyncIterableIterator<string>;
+    listByResourceGroup: (resourceGroupName: string, options?: DiskEncryptionSetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiskEncryptionSet>;
+    update: (resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface DiskEncryptionSetsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DiskEncryptionSetType = string;
+
+// @public
+export interface DiskEncryptionSetUpdate {
+    identity?: EncryptionSetIdentity;
+    properties?: DiskEncryptionSetUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DiskEncryptionSetUpdateProperties {
+    activeKey?: KeyForDiskEncryptionSet;
+    encryptionType?: DiskEncryptionSetType;
+    federatedClientId?: string;
+    rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+// @public
+export interface DiskProperties {
     availabilityPolicy?: AvailabilityPolicy;
     burstingEnabled?: boolean;
     readonly burstingEnabledTime?: Date;
     completionPercent?: number;
-    creationData?: CreationData;
+    creationData: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
@@ -132,11 +284,8 @@ export interface Disk extends TrackedResource {
     readonly diskState?: DiskState;
     encryption?: Encryption;
     encryptionSettingsCollection?: EncryptionSettingsCollection;
-    extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
     readonly lastOwnershipUpdateTime?: Date;
-    readonly managedBy?: string;
-    readonly managedByExtended?: string[];
     maxShares?: number;
     networkAccessPolicy?: NetworkAccessPolicy;
     optimizedForFrequentAttach?: boolean;
@@ -147,337 +296,11 @@ export interface Disk extends TrackedResource {
     purchasePlan?: DiskPurchasePlan;
     securityProfile?: DiskSecurityProfile;
     readonly shareInfo?: ShareInfoElement[];
-    sku?: DiskSku;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
     tier?: string;
     readonly timeCreated?: Date;
     readonly uniqueId?: string;
-    zones?: string[];
-}
-
-// @public
-export interface DiskAccess extends TrackedResource {
-    extendedLocation?: ExtendedLocation;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: string;
-    readonly timeCreated?: Date;
-}
-
-// @public
-export interface DiskAccesses {
-    beginCreateOrUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskAccessesCreateOrUpdateResponse>, DiskAccessesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccess, options?: DiskAccessesCreateOrUpdateOptionalParams): Promise<DiskAccessesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesDeleteOptionalParams): Promise<void>;
-    beginDeleteAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAPrivateEndpointConnectionAndWait(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskAccessesUpdateResponse>, DiskAccessesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, diskAccessName: string, diskAccess: DiskAccessUpdate, options?: DiskAccessesUpdateOptionalParams): Promise<DiskAccessesUpdateResponse>;
-    beginUpdateAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<DiskAccessesUpdateAPrivateEndpointConnectionResponse>, DiskAccessesUpdateAPrivateEndpointConnectionResponse>>;
-    beginUpdateAPrivateEndpointConnectionAndWait(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams): Promise<DiskAccessesUpdateAPrivateEndpointConnectionResponse>;
-    get(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetOptionalParams): Promise<DiskAccessesGetResponse>;
-    getAPrivateEndpointConnection(resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse>;
-    getPrivateLinkResources(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesGetPrivateLinkResourcesOptionalParams): Promise<DiskAccessesGetPrivateLinkResourcesResponse>;
-    list(options?: DiskAccessesListOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
-    listByResourceGroup(resourceGroupName: string, options?: DiskAccessesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
-    listPrivateEndpointConnections(resourceGroupName: string, diskAccessName: string, options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface DiskAccessesCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DiskAccessesCreateOrUpdateResponse = DiskAccess;
-
-// @public
-export interface DiskAccessesDeleteAPrivateEndpointConnectionHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiskAccessesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-// @public
-export interface DiskAccessesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DiskAccessesGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
-
-// @public
-export type DiskAccessesGetResponse = DiskAccess;
-
-// @public
-export interface DiskAccessesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListByResourceGroupNextResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListByResourceGroupResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListNextResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DiskAccessesListPrivateEndpointConnectionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface DiskAccessesListPrivateEndpointConnectionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskAccessesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export type DiskAccessesListResponse = DiskAccessList;
-
-// @public
-export interface DiskAccessesUpdateAPrivateEndpointConnectionHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DiskAccessesUpdateAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-// @public
-export interface DiskAccessesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskAccessesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DiskAccessesUpdateResponse = DiskAccess;
-
-// @public
-export interface DiskAccessList {
-    nextLink?: string;
-    value: DiskAccess[];
-}
-
-// @public
-export interface DiskAccessUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type DiskCreateOption = string;
-
-// @public
-export interface DiskEncryptionSet extends TrackedResource {
-    activeKey?: KeyForDiskEncryptionSet;
-    readonly autoKeyRotationError?: ApiError;
-    encryptionType?: DiskEncryptionSetType;
-    federatedClientId?: string;
-    identity?: EncryptionSetIdentity;
-    readonly lastKeyRotationTimestamp?: Date;
-    readonly previousKeys?: KeyForDiskEncryptionSet[];
-    readonly provisioningState?: string;
-    rotationToLatestKeyVersionEnabled?: boolean;
-}
-
-// @public
-export type DiskEncryptionSetIdentityType = string;
-
-// @public
-export interface DiskEncryptionSetList {
-    nextLink?: string;
-    value: DiskEncryptionSet[];
-}
-
-// @public
-export interface DiskEncryptionSets {
-    beginCreateOrUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskEncryptionSetsCreateOrUpdateResponse>, DiskEncryptionSetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSet, options?: DiskEncryptionSetsCreateOrUpdateOptionalParams): Promise<DiskEncryptionSetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiskEncryptionSetsUpdateResponse>, DiskEncryptionSetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: DiskEncryptionSetUpdate, options?: DiskEncryptionSetsUpdateOptionalParams): Promise<DiskEncryptionSetsUpdateResponse>;
-    get(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsGetOptionalParams): Promise<DiskEncryptionSetsGetResponse>;
-    list(options?: DiskEncryptionSetsListOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
-    listAssociatedResources(resourceGroupName: string, diskEncryptionSetName: string, options?: DiskEncryptionSetsListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<string>;
-    listByResourceGroup(resourceGroupName: string, options?: DiskEncryptionSetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DiskEncryptionSet>;
-}
-
-// @public
-export interface DiskEncryptionSetsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet;
-
-// @public
-export interface DiskEncryptionSetsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsGetResponse = DiskEncryptionSet;
-
-// @public
-export interface DiskEncryptionSetsListAssociatedResourcesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListAssociatedResourcesNextResponse = ResourceUriList;
-
-// @public
-export interface DiskEncryptionSetsListAssociatedResourcesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListAssociatedResourcesResponse = ResourceUriList;
-
-// @public
-export interface DiskEncryptionSetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskEncryptionSetsListResponse = DiskEncryptionSetList;
-
-// @public
-export interface DiskEncryptionSetsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskEncryptionSetsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DiskEncryptionSetsUpdateResponse = DiskEncryptionSet;
-
-// @public
-export type DiskEncryptionSetType = string;
-
-// @public
-export interface DiskEncryptionSetUpdate {
-    activeKey?: KeyForDiskEncryptionSet;
-    encryptionType?: DiskEncryptionSetType;
-    federatedClientId?: string;
-    identity?: EncryptionSetIdentity;
-    rotationToLatestKeyVersionEnabled?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface DiskList {
-    nextLink?: string;
-    value: Disk[];
 }
 
 // @public
@@ -490,6 +313,11 @@ export interface DiskPurchasePlan {
 
 // @public
 export interface DiskRestorePoint extends ProxyResource {
+    properties?: DiskRestorePointProperties;
+}
+
+// @public
+export interface DiskRestorePointProperties {
     completionPercent?: number;
     diskAccessId?: string;
     readonly encryption?: Encryption;
@@ -511,110 +339,38 @@ export interface DiskRestorePoint extends ProxyResource {
 }
 
 // @public
-export interface DiskRestorePointGetOptionalParams extends coreClient.OperationOptions {
+export interface DiskRestorePointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiskRestorePointGetResponse = DiskRestorePoint;
-
-// @public
-export interface DiskRestorePointGrantAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskRestorePointGrantAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskRestorePointsGrantAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DiskRestorePointGrantAccessResponse = AccessUri;
-
-// @public
-export interface DiskRestorePointList {
-    nextLink?: string;
-    value: DiskRestorePoint[];
+export interface DiskRestorePointsListByRestorePointOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DiskRestorePointListByRestorePointNextOptionalParams extends coreClient.OperationOptions {
+export interface DiskRestorePointsOperations {
+    get: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointsGetOptionalParams) => Promise<DiskRestorePoint>;
+    grantAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointsGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
+    listByRestorePoint: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointsListByRestorePointOptionalParams) => PagedAsyncIterableIterator<DiskRestorePoint>;
+    revokeAccess: (resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointsRevokeAccessOptionalParams) => PollerLike<OperationState<OkResponse>, OkResponse>;
 }
 
 // @public
-export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointList;
-
-// @public
-export interface DiskRestorePointListByRestorePointOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiskRestorePointListByRestorePointResponse = DiskRestorePointList;
-
-// @public
-export interface DiskRestorePointOperations {
-    beginGrantAccess(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams): Promise<SimplePollerLike<OperationState<DiskRestorePointGrantAccessResponse>, DiskRestorePointGrantAccessResponse>>;
-    beginGrantAccessAndWait(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointGrantAccessOptionalParams): Promise<DiskRestorePointGrantAccessResponse>;
-    beginRevokeAccess(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRevokeAccessAndWait(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams): Promise<void>;
-    get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointGetOptionalParams): Promise<DiskRestorePointGetResponse>;
-    listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointListByRestorePointOptionalParams): PagedAsyncIterableIterator<DiskRestorePoint>;
-}
-
-// @public
-export interface DiskRestorePointRevokeAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DiskRestorePointRevokeAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DiskRestorePointsRevokeAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface Disks {
-    beginCreateOrUpdate(resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<DisksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams): Promise<void>;
-    beginGrantAccess(resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams): Promise<SimplePollerLike<OperationState<DisksGrantAccessResponse>, DisksGrantAccessResponse>>;
-    beginGrantAccessAndWait(resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams): Promise<DisksGrantAccessResponse>;
-    beginRevokeAccess(resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRevokeAccessAndWait(resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): Promise<DisksUpdateResponse>;
-    get(resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams): Promise<DisksGetResponse>;
-    list(options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
-    listByResourceGroup(resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Disk>;
-}
-
-// @public
-export interface DisksCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DisksCreateOrUpdateResponse = Disk;
-
-// @public
-export interface DisksDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -628,26 +384,13 @@ export interface DiskSecurityProfile {
 export type DiskSecurityTypes = string;
 
 // @public
-export interface DisksGetOptionalParams extends coreClient.OperationOptions {
+export interface DisksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisksGetResponse = Disk;
-
-// @public
-export interface DisksGrantAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksGrantAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksGrantAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DisksGrantAccessResponse = AccessUri;
 
 // @public
 export interface DiskSku {
@@ -656,42 +399,27 @@ export interface DiskSku {
 }
 
 // @public
-export interface DisksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DisksListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisksListByResourceGroupNextResponse = DiskList;
-
-// @public
-export interface DisksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DisksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisksListByResourceGroupResponse = DiskList;
-
-// @public
-export interface DisksListNextOptionalParams extends coreClient.OperationOptions {
+export interface DisksOperations {
+    createOrUpdate: (resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams) => Promise<Disk>;
+    grantAccess: (resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
+    list: (options?: DisksListOptionalParams) => PagedAsyncIterableIterator<Disk>;
+    listByResourceGroup: (resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Disk>;
+    revokeAccess: (resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams) => PollerLike<OperationState<OkResponse>, OkResponse>;
+    update: (resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type DisksListNextResponse = DiskList;
-
-// @public
-export interface DisksListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DisksListResponse = DiskList;
-
-// @public
-export interface DisksRevokeAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksRevokeAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksRevokeAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -702,22 +430,19 @@ export type DiskState = string;
 export type DiskStorageAccountTypes = string;
 
 // @public
-export interface DisksUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DisksUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DisksUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DisksUpdateResponse = Disk;
+export interface DiskUpdate {
+    properties?: DiskUpdateProperties;
+    sku?: DiskSku;
+    tags?: Record<string, string>;
+}
 
 // @public
-export interface DiskUpdate {
+export interface DiskUpdateProperties {
     availabilityPolicy?: AvailabilityPolicy;
     burstingEnabled?: boolean;
     dataAccessAuthMode?: DataAccessAuthMode;
@@ -736,12 +461,8 @@ export interface DiskUpdate {
     readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
     publicNetworkAccess?: PublicNetworkAccess;
     purchasePlan?: DiskPurchasePlan;
-    sku?: DiskSku;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
     tier?: string;
 }
 
@@ -756,9 +477,19 @@ export interface EncryptionSetIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: DiskEncryptionSetIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
+}
+
+// @public
+export interface EncryptionSetProperties {
+    activeKey?: KeyForDiskEncryptionSet;
+    readonly autoKeyRotationError?: ApiError;
+    encryptionType?: DiskEncryptionSetType;
+    federatedClientId?: string;
+    readonly lastKeyRotationTimestamp?: Date;
+    readonly previousKeys?: KeyForDiskEncryptionSet[];
+    readonly provisioningState?: string;
+    rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 // @public
@@ -788,9 +519,6 @@ export type ExtendedLocationTypes = string;
 
 // @public
 export type FileFormat = string;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GrantAccessData {
@@ -1016,10 +744,32 @@ export enum KnownSupportedSecurityOption {
 }
 
 // @public
+export enum KnownVersions {
+    V20240302 = "2024-03-02",
+    V20250102 = "2025-01-02"
+}
+
+// @public
 export type NetworkAccessPolicy = string;
 
 // @public
+export interface OkResponse {
+}
+
+// @public
 export type OperatingSystemTypes = "Windows" | "Linux";
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -1028,36 +778,66 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
-    readonly privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    nextLink?: string;
-    value: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    readonly privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
+export interface PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetAPrivateEndpointConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsListPrivateEndpointConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsOperations {
+    deleteAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    getAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetAPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
+    listPrivateEndpointConnections: (resourceGroupName: string, diskAccessName: string, options?: PrivateEndpointConnectionsListPrivateEndpointConnectionsOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    updateAPrivateEndpointConnection: (resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource {
-    readonly groupId?: string;
     readonly id?: string;
     readonly name?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
+    properties?: PrivateLinkResourceProperties;
     readonly type?: string;
 }
 
 // @public
 export interface PrivateLinkResourceListResult {
     value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -1091,21 +871,36 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceUriList {
-    nextLink?: string;
-    value: string[];
-}
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ShareInfoElement {
     readonly vmUri?: string;
 }
 
 // @public
 export interface Snapshot extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    readonly managedBy?: string;
+    properties?: SnapshotProperties;
+    sku?: SnapshotSku;
+}
+
+// @public
+export type SnapshotAccessState = string;
+
+// @public
+export interface SnapshotProperties {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionError;
-    creationData?: CreationData;
+    creationData: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     readonly diskSizeBytes?: number;
@@ -1113,18 +908,15 @@ export interface Snapshot extends TrackedResource {
     readonly diskState?: DiskState;
     encryption?: Encryption;
     encryptionSettingsCollection?: EncryptionSettingsCollection;
-    extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
     incremental?: boolean;
     readonly incrementalSnapshotFamilyId?: string;
-    readonly managedBy?: string;
     networkAccessPolicy?: NetworkAccessPolicy;
     osType?: OperatingSystemTypes;
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     purchasePlan?: DiskPurchasePlan;
     securityProfile?: DiskSecurityProfile;
-    sku?: SnapshotSku;
     readonly snapshotAccessState?: SnapshotAccessState;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
@@ -1133,79 +925,23 @@ export interface Snapshot extends TrackedResource {
 }
 
 // @public
-export type SnapshotAccessState = string;
-
-// @public
-export interface SnapshotList {
-    nextLink?: string;
-    value: Snapshot[];
-}
-
-// @public
-export interface Snapshots {
-    beginCreateOrUpdate(resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsCreateOrUpdateResponse>, SnapshotsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): Promise<SnapshotsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): Promise<void>;
-    beginGrantAccess(resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsGrantAccessResponse>, SnapshotsGrantAccessResponse>>;
-    beginGrantAccessAndWait(resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): Promise<SnapshotsGrantAccessResponse>;
-    beginRevokeAccess(resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRevokeAccessAndWait(resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsUpdateResponse>, SnapshotsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): Promise<SnapshotsUpdateResponse>;
-    get(resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<SnapshotsGetResponse>;
-    list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-    listByResourceGroup(resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-}
-
-// @public
-export interface SnapshotsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SnapshotsCreateOrUpdateResponse = Snapshot;
-
-// @public
-export interface SnapshotsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotsGetResponse = Snapshot;
-
-// @public
-export interface SnapshotsGrantAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsGrantAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsGrantAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type SnapshotsGrantAccessResponse = AccessUri;
 
 // @public
 export interface SnapshotSku {
@@ -1214,42 +950,27 @@ export interface SnapshotSku {
 }
 
 // @public
-export interface SnapshotsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotsListByResourceGroupNextResponse = SnapshotList;
-
-// @public
-export interface SnapshotsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotsListByResourceGroupResponse = SnapshotList;
-
-// @public
-export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotsOperations {
+    createOrUpdate: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) => Promise<Snapshot>;
+    grantAccess: (resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams) => PollerLike<OperationState<AccessUri>, AccessUri>;
+    list: (options?: SnapshotsListOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listByResourceGroup: (resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    revokeAccess: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => PollerLike<OperationState<OkResponse>, OkResponse>;
+    update: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type SnapshotsListNextResponse = SnapshotList;
-
-// @public
-export interface SnapshotsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SnapshotsListResponse = SnapshotList;
-
-// @public
-export interface SnapshotsRevokeAccessHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsRevokeAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsRevokeAccessOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1257,22 +978,19 @@ export interface SnapshotsRevokeAccessOptionalParams extends coreClient.Operatio
 export type SnapshotStorageAccountTypes = string;
 
 // @public
-export interface SnapshotsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SnapshotsUpdateResponse = Snapshot;
+export interface SnapshotUpdate {
+    properties?: SnapshotUpdateProperties;
+    sku?: SnapshotSku;
+    tags?: Record<string, string>;
+}
 
 // @public
-export interface SnapshotUpdate {
+export interface SnapshotUpdateProperties {
     dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskSizeGB?: number;
@@ -1281,13 +999,9 @@ export interface SnapshotUpdate {
     networkAccessPolicy?: NetworkAccessPolicy;
     osType?: OperatingSystemTypes;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: SnapshotSku;
     readonly snapshotAccessState?: SnapshotAccessState;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -1319,12 +1033,10 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
