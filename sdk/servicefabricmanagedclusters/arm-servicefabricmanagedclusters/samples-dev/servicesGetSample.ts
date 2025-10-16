@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get a Service Fabric service resource created or in the process of being created in the Service Fabric managed application resource.
  *
  * @summary get a Service Fabric service resource created or in the process of being created in the Service Fabric managed application resource.
- * x-ms-original-file: 2025-03-01-preview/ServiceGetOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ServiceGetOperation_example.json
  */
-
-import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function getAService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

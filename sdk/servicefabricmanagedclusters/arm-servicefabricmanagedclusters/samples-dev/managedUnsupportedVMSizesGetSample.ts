@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get unsupported vm size for Service Fabric Managed Clusters.
  *
  * @summary get unsupported vm size for Service Fabric Managed Clusters.
- * x-ms-original-file: 2025-03-01-preview/managedUnsupportedVMSizesGet_example.json
+ * x-ms-original-file: 2025-06-01-preview/managedUnsupportedVMSizesGet_example.json
  */
-
-import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function getUnsupportedVmSizes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
