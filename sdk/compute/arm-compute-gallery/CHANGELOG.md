@@ -4,4 +4,290 @@
 
 ### Features Added
 
+- Interface CommunityGallery has a new optional parameter properties
+- Interface CommunityGallery has a new optional parameter identifier
+- Interface CommunityGalleryImage has a new optional parameter properties
+- Interface CommunityGalleryImageVersion has a new optional parameter properties
+- Interface CommunityGalleryImageVersion has a new optional parameter identifier
+- Interface Gallery has a new optional parameter properties
+- Interface GalleryApplication has a new optional parameter properties
+- Interface GalleryApplicationUpdate has a new optional parameter properties
+- Interface GalleryApplicationVersion has a new optional parameter properties
+- Interface GalleryApplicationVersionUpdate has a new optional parameter properties
+- Interface GalleryImage has a new optional parameter properties
+- Interface GalleryImageUpdate has a new optional parameter properties
+- Interface GalleryImageVersion has a new optional parameter properties
+- Interface GalleryImageVersionUpdate has a new optional parameter properties
+- Interface GalleryInVMAccessControlProfileVersion has a new optional parameter properties
+- Interface GalleryInVMAccessControlProfileVersionUpdate has a new optional parameter properties
+- Interface GallerySoftDeletedResource has a new optional parameter properties
+- Interface GalleryUpdate has a new optional parameter properties
+- Interface PirCommunityGalleryResource has a new optional parameter identifier
+- Interface PirSharedGalleryResource has a new optional parameter identifier
+- Interface SharedGallery has a new optional parameter properties
+- Interface SharedGallery has a new optional parameter identifier
+- Interface SharedGalleryImage has a new optional parameter properties
+- Interface SharedGalleryImageVersion has a new optional parameter properties
+- Interface SharedGalleryImageVersion has a new optional parameter identifier- 
+- Added operation GalleriesOperations.createOrUpdate
+- Added operation GalleriesOperations.delete
+- Added operation GalleriesOperations.gallerySharingProfileUpdate
+- Added operation GalleriesOperations.listByArtifactName
+- Added operation GalleriesOperations.update
+- Added operation GalleryApplicationsOperations.createOrUpdate
+- Added operation GalleryApplicationsOperations.delete
+- Added operation GalleryApplicationsOperations.update
+- Added operation GalleryApplicationVersionsOperations.createOrUpdate
+- Added operation GalleryApplicationVersionsOperations.delete
+- Added operation GalleryApplicationVersionsOperations.update
+- Added operation GalleryImagesOperations.createOrUpdate
+- Added operation GalleryImagesOperations.delete
+- Added operation GalleryImagesOperations.update
+- Added operation GalleryImageVersionsOperations.createOrUpdate
+- Added operation GalleryImageVersionsOperations.delete
+- Added operation GalleryImageVersionsOperations.update
+- Added operation GalleryInVMAccessControlProfilesOperations.createOrUpdate
+- Added operation GalleryInVMAccessControlProfilesOperations.delete
+- Added operation GalleryInVMAccessControlProfilesOperations.update
+- Added operation GalleryInVMAccessControlProfileVersionsOperations.createOrUpdate
+- Added operation GalleryInVMAccessControlProfileVersionsOperations.delete
+- Added operation GalleryInVMAccessControlProfileVersionsOperations.update
+- Added Interface CommunityGalleryIdentifier
+- Added Interface CommunityGalleryImageProperties
+- Added Interface CommunityGalleryImageVersionProperties
+- Added Interface CommunityGalleryProperties
+- Added Interface GalleriesGallerySharingProfileUpdateOptionalParams
+- Added Interface GalleriesListByArtifactNameOptionalParams
+- Added Interface GalleryApplicationProperties
+- Added Interface GalleryApplicationVersionProperties
+- Added Interface GalleryImageProperties
+- Added Interface GalleryImageVersionProperties
+- Added Interface GalleryProperties
+- Added Interface GallerySoftDeletedResourceProperties
+- Added Interface PagedAsyncIterableIterator
+- Added Interface PageSettings
+- Added Interface RestorePollerOptions
+- Added Interface SharedGalleryIdentifier
+- Added Interface SharedGalleryImageProperties
+- Added Interface SharedGalleryImageVersionProperties
+- Added Interface SharedGalleryProperties
+- Added Type Alias AzureSupportedClouds
+- Added Enum AzureClouds 
+- Added Enum KnownVersions
+
+### Breaking Change
+
+- Interface CommunityGallery no longer has parameter artifactTags
+- Interface CommunityGallery no longer has parameter communityMetadata
+- Interface CommunityGallery no longer has parameter disclaimer
+- Interface CommunityGallery no longer has parameter uniqueId
+- Interface CommunityGalleryImage no longer has parameter architecture
+- Interface CommunityGalleryImage no longer has parameter artifactTags
+- Interface CommunityGalleryImage no longer has parameter disallowed
+- Interface CommunityGalleryImage no longer has parameter disclaimer
+- Interface CommunityGalleryImage no longer has parameter endOfLifeDate
+- Interface CommunityGalleryImage no longer has parameter eula
+- Interface CommunityGalleryImage no longer has parameter features
+- Interface CommunityGalleryImage no longer has parameter hyperVGeneration
+- Interface CommunityGalleryImage no longer has parameter osState
+- Interface CommunityGalleryImage no longer has parameter osType
+- Interface CommunityGalleryImage no longer has parameter privacyStatementUri
+- Interface CommunityGalleryImage no longer has parameter purchasePlan
+- Interface CommunityGalleryImage no longer has parameter recommended
+- Interface CommunityGalleryImage no longer has parameter uniqueId
+- Interface CommunityGalleryImageVersion no longer has parameter artifactTags
+- Interface CommunityGalleryImageVersion no longer has parameter disclaimer
+- Interface CommunityGalleryImageVersion no longer has parameter endOfLifeDate
+- Interface CommunityGalleryImageVersion no longer has parameter excludeFromLatest
+- Interface CommunityGalleryImageVersion no longer has parameter publishedDate
+- Interface CommunityGalleryImageVersion no longer has parameter storageProfile
+- Interface CommunityGalleryImageVersion no longer has parameter uniqueId
+- Interface Gallery no longer has parameter description
+- Interface Gallery no longer has parameter identifier
+- Interface Gallery no longer has parameter provisioningState
+- Interface Gallery no longer has parameter sharingProfile
+- Interface Gallery no longer has parameter sharingStatus
+- Interface Gallery no longer has parameter softDeletePolicy
+- Interface GalleryApplication no longer has parameter customActions
+- Interface GalleryApplication no longer has parameter description
+- Interface GalleryApplication no longer has parameter endOfLifeDate
+- Interface GalleryApplication no longer has parameter eula
+- Interface GalleryApplication no longer has parameter privacyStatementUri
+- Interface GalleryApplication no longer has parameter releaseNoteUri
+- Interface GalleryApplication no longer has parameter supportedOSType
+- Interface GalleryApplicationUpdate no longer has parameter customActions
+- Interface GalleryApplicationUpdate no longer has parameter description
+- Interface GalleryApplicationUpdate no longer has parameter endOfLifeDate
+- Interface GalleryApplicationUpdate no longer has parameter eula
+- Interface GalleryApplicationUpdate no longer has parameter privacyStatementUri
+- Interface GalleryApplicationUpdate no longer has parameter releaseNoteUri
+- Interface GalleryApplicationUpdate no longer has parameter supportedOSType
+- Interface GalleryApplicationVersion no longer has parameter provisioningState
+- Interface GalleryApplicationVersion no longer has parameter publishingProfile
+- Interface GalleryApplicationVersion no longer has parameter replicationStatus
+- Interface GalleryApplicationVersion no longer has parameter safetyProfile
+- Interface GalleryApplicationVersionUpdate no longer has parameter provisioningState
+- Interface GalleryApplicationVersionUpdate no longer has parameter publishingProfile
+- Interface GalleryApplicationVersionUpdate no longer has parameter replicationStatus
+- Interface GalleryApplicationVersionUpdate no longer has parameter safetyProfile
+- Interface GalleryImage no longer has parameter allowUpdateImage
+- Interface GalleryImage no longer has parameter architecture
+- Interface GalleryImage no longer has parameter description
+- Interface GalleryImage no longer has parameter disallowed
+- Interface GalleryImage no longer has parameter endOfLifeDate
+- Interface GalleryImage no longer has parameter eula
+- Interface GalleryImage no longer has parameter features
+- Interface GalleryImage no longer has parameter hyperVGeneration
+- Interface GalleryImage no longer has parameter identifier
+- Interface GalleryImage no longer has parameter osState
+- Interface GalleryImage no longer has parameter osType
+- Interface GalleryImage no longer has parameter privacyStatementUri
+- Interface GalleryImage no longer has parameter provisioningState
+- Interface GalleryImage no longer has parameter purchasePlan
+- Interface GalleryImage no longer has parameter recommended
+- Interface GalleryImage no longer has parameter releaseNoteUri
+- Interface GalleryImageUpdate no longer has parameter allowUpdateImage
+- Interface GalleryImageUpdate no longer has parameter architecture
+- Interface GalleryImageUpdate no longer has parameter description
+- Interface GalleryImageUpdate no longer has parameter disallowed
+- Interface GalleryImageUpdate no longer has parameter endOfLifeDate
+- Interface GalleryImageUpdate no longer has parameter eula
+- Interface GalleryImageUpdate no longer has parameter features
+- Interface GalleryImageUpdate no longer has parameter hyperVGeneration
+- Interface GalleryImageUpdate no longer has parameter identifier
+- Interface GalleryImageUpdate no longer has parameter osState
+- Interface GalleryImageUpdate no longer has parameter osType
+- Interface GalleryImageUpdate no longer has parameter privacyStatementUri
+- Interface GalleryImageUpdate no longer has parameter provisioningState
+- Interface GalleryImageUpdate no longer has parameter purchasePlan
+- Interface GalleryImageUpdate no longer has parameter recommended
+- Interface GalleryImageUpdate no longer has parameter releaseNoteUri
+- Interface GalleryImageVersion no longer has parameter provisioningState
+- Interface GalleryImageVersion no longer has parameter publishingProfile
+- Interface GalleryImageVersion no longer has parameter replicationStatus
+- Interface GalleryImageVersion no longer has parameter restore
+- Interface GalleryImageVersion no longer has parameter safetyProfile
+- Interface GalleryImageVersion no longer has parameter securityProfile
+- Interface GalleryImageVersion no longer has parameter storageProfile
+- Interface GalleryImageVersion no longer has parameter validationsProfile
+- Interface GalleryImageVersionUpdate no longer has parameter provisioningState
+- Interface GalleryImageVersionUpdate no longer has parameter publishingProfile
+- Interface GalleryImageVersionUpdate no longer has parameter replicationStatus
+- Interface GalleryImageVersionUpdate no longer has parameter restore
+- Interface GalleryImageVersionUpdate no longer has parameter safetyProfile
+- Interface GalleryImageVersionUpdate no longer has parameter securityProfile
+- Interface GalleryImageVersionUpdate no longer has parameter storageProfile
+- Interface GalleryImageVersionUpdate no longer has parameter validationsProfile
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter defaultAccess
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter excludeFromLatest
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter mode
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter provisioningState
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter publishedDate
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter replicationStatus
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter rules
+- Interface GalleryInVMAccessControlProfileVersion no longer has parameter targetLocations
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter defaultAccess
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter excludeFromLatest
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter mode
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter provisioningState
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter publishedDate
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter replicationStatus
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter rules
+- Interface GalleryInVMAccessControlProfileVersionUpdate no longer has parameter targetLocations
+- Interface GallerySoftDeletedResource no longer has parameter resourceArmId
+- Interface GallerySoftDeletedResource no longer has parameter softDeletedArtifactType
+- Interface GallerySoftDeletedResource no longer has parameter softDeletedTime
+- Interface GalleryUpdate no longer has parameter description
+- Interface GalleryUpdate no longer has parameter identifier
+- Interface GalleryUpdate no longer has parameter provisioningState
+- Interface GalleryUpdate no longer has parameter sharingProfile
+- Interface GalleryUpdate no longer has parameter sharingStatus
+- Interface GalleryUpdate no longer has parameter softDeletePolicy
+- Interface PirCommunityGalleryResource no longer has parameter uniqueId
+- Interface PirSharedGalleryResource no longer has parameter uniqueId
+- Interface SharedGallery no longer has parameter artifactTags
+- Interface SharedGallery no longer has parameter uniqueId
+- Interface SharedGalleryImage no longer has parameter architecture
+- Interface SharedGalleryImage no longer has parameter artifactTags
+- Interface SharedGalleryImage no longer has parameter disallowed
+- Interface SharedGalleryImage no longer has parameter endOfLifeDate
+- Interface SharedGalleryImage no longer has parameter eula
+- Interface SharedGalleryImage no longer has parameter features
+- Interface SharedGalleryImage no longer has parameter hyperVGeneration
+- Interface SharedGalleryImage no longer has parameter osState
+- Interface SharedGalleryImage no longer has parameter osType
+- Interface SharedGalleryImage no longer has parameter privacyStatementUri
+- Interface SharedGalleryImage no longer has parameter purchasePlan
+- Interface SharedGalleryImage no longer has parameter recommended
+- Interface SharedGalleryImage no longer has parameter uniqueId
+- Interface SharedGalleryImageVersion no longer has parameter artifactTags
+- Interface SharedGalleryImageVersion no longer has parameter endOfLifeDate
+- Interface SharedGalleryImageVersion no longer has parameter excludeFromLatest
+- Interface SharedGalleryImageVersion no longer has parameter publishedDate
+- Interface SharedGalleryImageVersion no longer has parameter storageProfile
+- Interface SharedGalleryImageVersion no longer has parameter uniqueId
+- Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to CommunityGalleryIdentifier
+- Type of parameter identifier of interface SharedGalleryImage is changed from GalleryImageIdentifier to SharedGalleryIdentifier
+- Removed Interface CommunityGalleryImageList
+- Removed Interface CommunityGalleryImageVersionList
+- Removed Interface GalleryApplicationList
+- Removed Interface GalleryApplicationVersionList
+- Removed Interface GalleryImageList
+- Removed Interface GalleryImageVersionList
+- Removed Interface GalleryInVMAccessControlProfileList
+- Removed Interface GalleryInVMAccessControlProfileVersionList
+- Removed Interface GalleryList
+- Removed Interface GallerySharingProfileOperations
+- Removed Interface GallerySharingProfileUpdateOptionalParams
+- Removed Interface GallerySoftDeletedResourceList
+- Removed Interface SharedGalleryImageList
+- Removed Interface SharedGalleryImageVersionList
+- Removed Interface SharedGalleryList
+- Removed Interface SoftDeletedResourceOperations
+- Removed Interface SoftDeletedResourceListByArtifactNameOptionalParams
+- Operation CommunityGalleryImages.get has a new signature
+- Operation SharedGalleryImages.get has a new signature
+- Removed operation Galleries.beginCreateOrUpdate
+- Removed operation Galleries.beginCreateOrUpdateAndWait
+- Removed operation Galleries.beginDelete
+- Removed operation Galleries.beginDeleteAndWait
+- Removed operation Galleries.beginUpdate
+- Removed operation Galleries.beginUpdateAndWait
+- Removed operation GalleryApplications.beginCreateOrUpdate
+- Removed operation GalleryApplications.beginCreateOrUpdateAndWait
+- Removed operation GalleryApplications.beginDelete
+- Removed operation GalleryApplications.beginDeleteAndWait
+- Removed operation GalleryApplications.beginUpdate
+- Removed operation GalleryApplications.beginUpdateAndWait
+- Removed operation GalleryApplicationVersions.beginCreateOrUpdate
+- Removed operation GalleryApplicationVersions.beginCreateOrUpdateAndWait
+- Removed operation GalleryApplicationVersions.beginDelete
+- Removed operation GalleryApplicationVersions.beginDeleteAndWait
+- Removed operation GalleryApplicationVersions.beginUpdate
+- Removed operation GalleryApplicationVersions.beginUpdateAndWait
+- Removed operation GalleryImages.beginCreateOrUpdate
+- Removed operation GalleryImages.beginCreateOrUpdateAndWait
+- Removed operation GalleryImages.beginDelete
+- Removed operation GalleryImages.beginDeleteAndWait
+- Removed operation GalleryImages.beginUpdate
+- Removed operation GalleryImages.beginUpdateAndWait
+- Removed operation GalleryImageVersions.beginCreateOrUpdate
+- Removed operation GalleryImageVersions.beginCreateOrUpdateAndWait
+- Removed operation GalleryImageVersions.beginDelete
+- Removed operation GalleryImageVersions.beginDeleteAndWait
+- Removed operation GalleryImageVersions.beginUpdate
+- Removed operation GalleryImageVersions.beginUpdateAndWait
+- Removed operation GalleryInVMAccessControlProfiles.beginCreateOrUpdate
+- Removed operation GalleryInVMAccessControlProfiles.beginCreateOrUpdateAndWait
+- Removed operation GalleryInVMAccessControlProfiles.beginDelete
+- Removed operation GalleryInVMAccessControlProfiles.beginDeleteAndWait
+- Removed operation GalleryInVMAccessControlProfiles.beginUpdate
+- Removed operation GalleryInVMAccessControlProfiles.beginUpdateAndWait
+- Removed operation GalleryInVMAccessControlProfileVersions.beginCreateOrUpdate
+- Removed operation GalleryInVMAccessControlProfileVersions.beginCreateOrUpdateAndWait
+- Removed operation GalleryInVMAccessControlProfileVersions.beginDelete
+- Removed operation GalleryInVMAccessControlProfileVersions.beginDeleteAndWait
+- Removed operation GalleryInVMAccessControlProfileVersions.beginUpdate
+- Removed operation GalleryInVMAccessControlProfileVersions.beginUpdateAndWait
+  
 This is the first stable version with the package of @azure/arm-compute-gallery
