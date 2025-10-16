@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all Service Fabric cluster resources created or in the process of being created in the subscription.
  *
  * @summary gets all Service Fabric cluster resources created or in the process of being created in the subscription.
- * x-ms-original-file: 2025-03-01-preview/ManagedClusterListBySubscriptionOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedClusterListBySubscriptionOperation_example.json
  */
 async function listManagedClusters() {
   const credential = new DefaultAzureCredential();
