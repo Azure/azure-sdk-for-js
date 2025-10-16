@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listPrivateEndpointConnections,
   deleteAPrivateEndpointConnection,
@@ -50,7 +50,7 @@ export interface PrivateEndpointConnectionsOperations {
   ) => Promise<PrivateEndpointConnection>;
 }
 
-function _getPrivateEndpointConnections(context: ComputeContext) {
+function _getPrivateEndpointConnections(context: ComputeManagementContext) {
   return {
     listPrivateEndpointConnections: (
       resourceGroupName: string,
@@ -102,7 +102,7 @@ function _getPrivateEndpointConnections(context: ComputeContext) {
 }
 
 export function _getPrivateEndpointConnectionsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): PrivateEndpointConnectionsOperations {
   return {
     ..._getPrivateEndpointConnections(context),

@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function deleteAPrivateEndpointConnection(context: ComputeContext, resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteAPrivateEndpointConnection(context: ComputeManagementContext, resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function getAPrivateEndpointConnection(context: ComputeContext, resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetAPrivateEndpointConnectionOptionalParams): Promise<PrivateEndpointConnection>;
+export function getAPrivateEndpointConnection(context: ComputeManagementContext, resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetAPrivateEndpointConnectionOptionalParams): Promise<PrivateEndpointConnection>;
 
 // @public
-export function listPrivateEndpointConnections(context: ComputeContext, resourceGroupName: string, diskAccessName: string, options?: PrivateEndpointConnectionsListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+export function listPrivateEndpointConnections(context: ComputeManagementContext, resourceGroupName: string, diskAccessName: string, options?: PrivateEndpointConnectionsListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 
 // @public
 export interface PrivateEndpointConnectionsDeleteAPrivateEndpointConnectionOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionOptio
 }
 
 // @public
-export function updateAPrivateEndpointConnection(context: ComputeContext, resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionOptionalParams): PollerLike<OperationState<void>, void>;
+export function updateAPrivateEndpointConnection(context: ComputeManagementContext, resourceGroupName: string, diskAccessName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateAPrivateEndpointConnectionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-disk");
+const { ComputeManagementClient } = require("@azure/arm-compute-disk");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot1", {
     location: "West US",
     properties: {
@@ -36,7 +36,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
 async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot1", {
     location: "West US",
     properties: {
@@ -57,7 +57,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {
@@ -80,7 +80,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function createASnapshotFromAnElasticSanVolumeSnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot", {
     location: "West US",
     properties: {
@@ -102,7 +102,7 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot() {
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {
@@ -124,7 +124,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {
@@ -146,7 +146,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function createASnapshotWhichCanBeInstantlyAccessable() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {

@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, diskName: string, options?: DisksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, diskName: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DisksCreateOrUpdateOptionalParams extends OperationOptions {
@@ -53,22 +53,22 @@ export interface DisksUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams): Promise<Disk>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams): Promise<Disk>;
 
 // @public
-export function grantAccess(context: ComputeContext, resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
+export function grantAccess(context: ComputeManagementContext, resourceGroupName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
 
 // @public
-export function list(context: ComputeContext, options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
+export function list(context: ComputeManagementContext, options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Disk>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Disk>;
 
 // @public
-export function revokeAccess(context: ComputeContext, resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function revokeAccess(context: ComputeManagementContext, resourceGroupName: string, diskName: string, options?: DisksRevokeAccessOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

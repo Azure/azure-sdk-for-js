@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-disk");
+const { ComputeManagementClient } = require("@azure/arm-compute-disk");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getASasOnAManagedDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.grantAccess("myResourceGroup", "myDisk", {
     access: "Read",
     durationInSeconds: 300,
@@ -31,7 +31,7 @@ async function getASasOnAManagedDisk() {
 async function getSasOnManagedDiskAndVMGuestState() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.grantAccess("myResourceGroup", "myDisk", {
     access: "Read",
     durationInSeconds: 300,
@@ -49,7 +49,7 @@ async function getSasOnManagedDiskAndVMGuestState() {
 async function getSasOnManagedDiskVMGuestStateAndVMMetadataForConfidentialVM() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.grantAccess("myResourceGroup", "myDisk", {
     access: "Read",
     durationInSeconds: 300,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeClient } from "./computeClient.js";
+import type { ComputeManagementClient } from "./computeManagementClient.js";
 import {
   _revokeAccessDeserialize,
   _grantAccessDeserialize,
@@ -60,7 +60,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: ComputeClient,
+  client: ComputeManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

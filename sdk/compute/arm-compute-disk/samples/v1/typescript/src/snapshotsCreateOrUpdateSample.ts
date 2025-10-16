@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot1", {
     location: "West US",
     properties: {
@@ -36,7 +36,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
 async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot1", {
     location: "West US",
     properties: {
@@ -57,7 +57,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {
@@ -80,7 +80,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function createASnapshotFromAnElasticSanVolumeSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot", {
     location: "West US",
     properties: {
@@ -102,7 +102,7 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot(): Promise<void> {
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {
@@ -124,7 +124,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {
@@ -146,7 +146,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 async function createASnapshotWhichCanBeInstantlyAccessable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.createOrUpdate("myResourceGroup", "mySnapshot2", {
     location: "West US",
     properties: {

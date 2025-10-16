@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-disk");
+const { ComputeManagementClient } = require("@azure/arm-compute-disk");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function updateASnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.update("myResourceGroup", "mySnapshot", {
     properties: { diskSizeGB: 20 },
     tags: { department: "Development", project: "UpdateSnapshots" },
@@ -29,7 +29,7 @@ async function updateASnapshot() {
 async function updateASnapshotWithAcceleratedNetworking() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.snapshots.update("myResourceGroup", "mySnapshot", {
     properties: {
       diskSizeGB: 20,

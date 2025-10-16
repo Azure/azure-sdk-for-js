@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.diskEncryptionSets.update("myResourceGroup", "myDiskEncryptionSet", {
     properties: {
       activeKey: {
@@ -37,7 +37,7 @@ async function updateADiskEncryptionSet(): Promise<void> {
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.diskEncryptionSets.update("myResourceGroup", "myDiskEncryptionSet", {
     identity: { type: "SystemAssigned" },
     properties: {
@@ -59,7 +59,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.diskEncryptionSets.update("myResourceGroup", "myDiskEncryptionSet", {
     identity: { type: "SystemAssigned" },
     properties: {

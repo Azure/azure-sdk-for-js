@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-disk");
+const { ComputeManagementClient } = require("@azure/arm-compute-disk");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createOrUpdateABurstingEnabledManagedDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { diskSizeGB: 1024, burstingEnabled: true },
   });
@@ -28,7 +28,7 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
 async function updateAManagedDiskToAddAcceleratedNetworking() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { supportedCapabilities: { acceleratedNetwork: false } },
   });
@@ -43,7 +43,7 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
 async function updateAManagedDiskWithDiskControllerTypes() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { supportedCapabilities: { diskControllerTypes: "SCSI" } },
   });
@@ -58,7 +58,7 @@ async function updateAManagedDiskWithDiskControllerTypes() {
 async function updateAManagedDiskToAddPurchasePlan() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: {
       purchasePlan: {
@@ -80,7 +80,7 @@ async function updateAManagedDiskToAddPurchasePlan() {
 async function updateAManagedDiskToAddSupportsHibernation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { supportsHibernation: true },
   });
@@ -95,7 +95,7 @@ async function updateAManagedDiskToAddSupportsHibernation() {
 async function updateAManagedDiskToChangeTier() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { tier: "P30" },
   });
@@ -110,7 +110,7 @@ async function updateAManagedDiskToChangeTier() {
 async function updateAManagedDiskToDisableBursting() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { burstingEnabled: false },
   });
@@ -125,7 +125,7 @@ async function updateAManagedDiskToDisableBursting() {
 async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { optimizedForFrequentAttach: false },
   });
@@ -140,7 +140,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
 async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { networkAccessPolicy: "AllowAll" },
   });
@@ -155,7 +155,7 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
 async function updateAManagedDiskToAddArchitecture() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.update("myResourceGroup", "myDisk", {
     properties: { supportedCapabilities: { architecture: "Arm64" } },
   });

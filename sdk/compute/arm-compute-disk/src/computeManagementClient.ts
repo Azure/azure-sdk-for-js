@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext, ComputeClientOptionalParams } from "./api/index.js";
-import { createCompute } from "./api/index.js";
+import type {
+  ComputeManagementContext,
+  ComputeManagementClientOptionalParams,
+} from "./api/index.js";
+import { createComputeManagement } from "./api/index.js";
 import type { DiskAccessesOperations } from "./classic/diskAccesses/index.js";
 import { _getDiskAccessesOperations } from "./classic/diskAccesses/index.js";
 import type { DiskEncryptionSetsOperations } from "./classic/diskEncryptionSets/index.js";
@@ -18,10 +21,10 @@ import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ComputeClientOptionalParams } from "./api/computeContext.js";
+export { ComputeManagementClientOptionalParams } from "./api/computeManagementContext.js";
 
-export class ComputeClient {
-  private _client: ComputeContext;
+export class ComputeManagementClient {
+  private _client: ComputeManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -29,13 +32,13 @@ export class ComputeClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: ComputeClientOptionalParams = {},
+    options: ComputeManagementClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createCompute(credential, subscriptionId, {
+    this._client = createComputeManagement(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

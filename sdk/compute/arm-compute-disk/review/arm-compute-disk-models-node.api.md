@@ -435,7 +435,7 @@ export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
     ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
-    ConfidentialVMVMGuestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 

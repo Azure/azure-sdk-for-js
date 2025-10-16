@@ -10,25 +10,25 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<Snapshot>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<Snapshot>;
 
 // @public
-export function grantAccess(context: ComputeContext, resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
+export function grantAccess(context: ComputeManagementContext, resourceGroupName: string, snapshotName: string, grantAccessData: GrantAccessData, options?: SnapshotsGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
 
 // @public
-export function list(context: ComputeContext, options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
+export function list(context: ComputeManagementContext, options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
 
 // @public
-export function revokeAccess(context: ComputeContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function revokeAccess(context: ComputeManagementContext, resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
 export interface SnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -68,7 +68,7 @@ export interface SnapshotsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

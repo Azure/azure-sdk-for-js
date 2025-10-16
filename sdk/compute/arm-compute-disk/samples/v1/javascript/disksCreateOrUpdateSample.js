@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-disk");
+const { ComputeManagementClient } = require("@azure/arm-compute-disk");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createAManagedDiskWithAvailabilityPolicy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -33,7 +33,7 @@ async function createAManagedDiskWithAvailabilityPolicy() {
 async function createAManagedDiskByCopyingASnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -55,7 +55,7 @@ async function createAManagedDiskByCopyingASnapshot() {
 async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -78,7 +78,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
 async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -99,7 +99,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
 async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -128,7 +128,7 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
 async function createAnEmptyManagedDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
@@ -144,7 +144,7 @@ async function createAnEmptyManagedDisk() {
 async function createAManagedDiskFromAPlatformImage() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -168,7 +168,7 @@ async function createAManagedDiskFromAPlatformImage() {
 async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -193,7 +193,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
 async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -218,7 +218,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
 async function createAManagedDiskFromAnAzureComputeGalleryImage() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -242,7 +242,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage() {
 async function createAManagedDiskFromElasticSanVolumeSnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -264,7 +264,7 @@ async function createAManagedDiskFromElasticSanVolumeSnapshot() {
 async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk2", {
     location: "West US",
     properties: {
@@ -286,7 +286,7 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
 async function createAManagedDiskFromImportSecureCreateOption() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -314,7 +314,7 @@ async function createAManagedDiskFromImportSecureCreateOption() {
 async function createAManagedDiskFromImportSecureCreateOptionWithMetadataURIForConfidentialVM() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -343,7 +343,7 @@ async function createAManagedDiskFromImportSecureCreateOptionWithMetadataURIForC
 async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -366,7 +366,7 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
 async function createAnEmptyManagedDiskInExtendedLocation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     extendedLocation: { type: "EdgeZone", name: "{edge-zone-id}" },
@@ -383,7 +383,7 @@ async function createAnEmptyManagedDiskInExtendedLocation() {
 async function createAManagedDiskWithPerformancePlus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -401,7 +401,7 @@ async function createAManagedDiskWithPerformancePlus() {
 async function createAManagedUploadDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -419,7 +419,7 @@ async function createAManagedUploadDisk() {
 async function createAManagedDiskWithDataAccessAuthMode() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -439,7 +439,7 @@ async function createAManagedDiskWithDataAccessAuthMode() {
 async function createAManagedDiskAndAssociateWithDiskAccessResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -461,7 +461,7 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource() {
 async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -484,7 +484,7 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
 async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     sku: { name: "UltraSSD_LRS" },
@@ -504,7 +504,7 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
 async function createAManagedDiskWithOptimizedForFrequentAttach() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     properties: {
@@ -524,7 +524,7 @@ async function createAManagedDiskWithOptimizedForFrequentAttach() {
 async function createAManagedDiskWithPremiumV2AccountType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myPremiumV2Disk", {
     location: "West US",
     sku: { name: "PremiumV2_LRS" },
@@ -546,7 +546,7 @@ async function createAManagedDiskWithPremiumV2AccountType() {
 async function createAManagedDiskWithSsdZrsAccountType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "West US",
     sku: { name: "Premium_ZRS" },
@@ -563,7 +563,7 @@ async function createAManagedDiskWithSsdZrsAccountType() {
 async function createAManagedDiskWithSecurityProfile() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myDisk", {
     location: "North Central US",
     properties: {
@@ -588,7 +588,7 @@ async function createAManagedDiskWithSecurityProfile() {
 async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.disks.createOrUpdate("myResourceGroup", "myUltraReadOnlyDisk", {
     location: "West US",
     sku: { name: "UltraSSD_LRS" },

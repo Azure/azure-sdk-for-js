@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   revokeAccess,
   grantAccess,
@@ -87,7 +87,7 @@ export interface SnapshotsOperations {
   ) => Promise<Snapshot>;
 }
 
-function _getSnapshots(context: ComputeContext) {
+function _getSnapshots(context: ComputeManagementContext) {
   return {
     revokeAccess: (
       resourceGroupName: string,
@@ -127,7 +127,7 @@ function _getSnapshots(context: ComputeContext) {
   };
 }
 
-export function _getSnapshotsOperations(context: ComputeContext): SnapshotsOperations {
+export function _getSnapshotsOperations(context: ComputeManagementContext): SnapshotsOperations {
   return {
     ..._getSnapshots(context),
   };

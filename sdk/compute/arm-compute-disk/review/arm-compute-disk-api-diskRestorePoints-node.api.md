@@ -28,16 +28,16 @@ export interface DiskRestorePointsRevokeAccessOptionalParams extends OperationOp
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointsGetOptionalParams): Promise<DiskRestorePoint>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointsGetOptionalParams): Promise<DiskRestorePoint>;
 
 // @public
-export function grantAccess(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointsGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
+export function grantAccess(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, grantAccessData: GrantAccessData, options?: DiskRestorePointsGrantAccessOptionalParams): PollerLike<OperationState<AccessUri>, AccessUri>;
 
 // @public
-export function listByRestorePoint(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointsListByRestorePointOptionalParams): PagedAsyncIterableIterator<DiskRestorePoint>;
+export function listByRestorePoint(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointsListByRestorePointOptionalParams): PagedAsyncIterableIterator<DiskRestorePoint>;
 
 // @public
-export function revokeAccess(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointsRevokeAccessOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function revokeAccess(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointsRevokeAccessOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // (No @packageDocumentation comment for this package)
 

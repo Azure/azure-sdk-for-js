@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-disk";
+import { ComputeManagementClient } from "@azure/arm-compute-disk";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.diskEncryptionSets.createOrUpdate("myResourceGroup", "myDiskEncryptionSet", {
     location: "West US",
     identity: { type: "SystemAssigned" },
@@ -38,7 +38,7 @@ async function createADiskEncryptionSet(): Promise<void> {
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.diskEncryptionSets.createOrUpdate("myResourceGroup", "myDiskEncryptionSet", {
     location: "West US",
     identity: { type: "SystemAssigned" },
@@ -60,7 +60,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription():
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.diskEncryptionSets.createOrUpdate("myResourceGroup", "myDiskEncryptionSet", {
     location: "West US",
     identity: {
