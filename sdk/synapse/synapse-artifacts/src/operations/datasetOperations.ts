@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   DatasetResource,
@@ -87,10 +83,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getDatasetsByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getDatasetsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -160,8 +153,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -215,11 +207,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     dataset: DatasetResource,
     options?: DatasetCreateOrUpdateDatasetOptionalParams,
   ): Promise<DatasetCreateOrUpdateDatasetResponse> {
-    const poller = await this.beginCreateOrUpdateDataset(
-      datasetName,
-      dataset,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdateDataset(datasetName, dataset, options);
     return poller.pollUntilDone();
   }
 
@@ -232,16 +220,12 @@ export class DatasetOperationsImpl implements DatasetOperations {
     datasetName: string,
     options?: DatasetGetDatasetOptionalParams,
   ): Promise<DatasetGetDatasetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getDataset",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { datasetName, options },
-          getDatasetOperationSpec,
-        ) as Promise<DatasetGetDatasetResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getDataset", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { datasetName, options },
+        getDatasetOperationSpec,
+      ) as Promise<DatasetGetDatasetResponse>;
+    });
   }
 
   /**
@@ -269,8 +253,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -350,8 +333,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -469,11 +451,7 @@ const createOrUpdateDatasetOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

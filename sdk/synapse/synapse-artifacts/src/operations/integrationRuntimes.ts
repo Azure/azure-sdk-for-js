@@ -38,16 +38,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   async list(
     options?: IntegrationRuntimesListOptionalParams,
   ): Promise<IntegrationRuntimesListResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.list",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec,
-        ) as Promise<IntegrationRuntimesListResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        listOperationSpec,
+      ) as Promise<IntegrationRuntimesListResponse>;
+    });
   }
 
   /**
@@ -59,16 +55,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesGetOptionalParams,
   ): Promise<IntegrationRuntimesGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { integrationRuntimeName, options },
-          getOperationSpec,
-        ) as Promise<IntegrationRuntimesGetResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { integrationRuntimeName, options },
+        getOperationSpec,
+      ) as Promise<IntegrationRuntimesGetResponse>;
+    });
   }
 }
 // Operation Specifications

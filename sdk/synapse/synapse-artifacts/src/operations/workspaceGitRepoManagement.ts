@@ -19,9 +19,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing WorkspaceGitRepoManagement operations. */
-export class WorkspaceGitRepoManagementImpl
-  implements WorkspaceGitRepoManagement
-{
+export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClient;
 
   /**
@@ -67,11 +65,7 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.clientRequestId,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
   mediaType: "json",
   serializer,
 };

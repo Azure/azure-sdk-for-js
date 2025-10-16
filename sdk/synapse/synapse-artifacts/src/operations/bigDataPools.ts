@@ -35,19 +35,13 @@ export class BigDataPoolsImpl implements BigDataPools {
    * List Big Data Pools
    * @param options The options parameters.
    */
-  async list(
-    options?: BigDataPoolsListOptionalParams,
-  ): Promise<BigDataPoolsListResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.list",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec,
-        ) as Promise<BigDataPoolsListResponse>;
-      },
-    );
+  async list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse> {
+    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        listOperationSpec,
+      ) as Promise<BigDataPoolsListResponse>;
+    });
   }
 
   /**
@@ -59,16 +53,12 @@ export class BigDataPoolsImpl implements BigDataPools {
     bigDataPoolName: string,
     options?: BigDataPoolsGetOptionalParams,
   ): Promise<BigDataPoolsGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { bigDataPoolName, options },
-          getOperationSpec,
-        ) as Promise<BigDataPoolsGetResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { bigDataPoolName, options },
+        getOperationSpec,
+      ) as Promise<BigDataPoolsGetResponse>;
+    });
   }
 }
 // Operation Specifications

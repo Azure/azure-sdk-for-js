@@ -35,16 +35,12 @@ export class NotebookOperationResultImpl implements NotebookOperationResult {
     operationId: string,
     options?: NotebookOperationResultGetOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { operationId, options },
-          getOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { operationId, options },
+        getOperationSpec,
+      ) as Promise<void>;
+    });
   }
 }
 // Operation Specifications

@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   PipelineResource,
@@ -89,10 +85,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getPipelinesByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getPipelinesByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -162,8 +155,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -217,11 +209,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams,
   ): Promise<PipelineCreateOrUpdatePipelineResponse> {
-    const poller = await this.beginCreateOrUpdatePipeline(
-      pipelineName,
-      pipeline,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdatePipeline(pipelineName, pipeline, options);
     return poller.pollUntilDone();
   }
 
@@ -234,16 +222,12 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams,
   ): Promise<PipelineGetPipelineResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getPipeline",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { pipelineName, options },
-          getPipelineOperationSpec,
-        ) as Promise<PipelineGetPipelineResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getPipeline", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { pipelineName, options },
+        getPipelineOperationSpec,
+      ) as Promise<PipelineGetPipelineResponse>;
+    });
   }
 
   /**
@@ -271,8 +255,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -352,8 +335,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -404,11 +386,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
     request: ArtifactRenameRequest,
     options?: PipelineRenamePipelineOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRenamePipeline(
-      pipelineName,
-      request,
-      options,
-    );
+    const poller = await this.beginRenamePipeline(pipelineName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -497,11 +475,7 @@ const createOrUpdatePipelineOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.pipeline,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

@@ -61,7 +61,7 @@ import * as utils from "./serviceUtils.js";
 import { createSpan } from "./tracing.js";
 
 /**
- * Client options used to configure Cognitive Search API requests.
+ * Client options used to configure AI Search API requests.
  */
 export interface SearchClientOptions extends ExtendedCommonClientOptions {
   /**
@@ -203,6 +203,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       this.serviceVersion,
       internalClientPipelineOptions,
     );
+
     this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
@@ -252,10 +253,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   }
 
   /**
-   * Based on a partial searchText from the user, return a list
-   * of potential completion strings based on a specified suggester.
+   * Based on a partial searchText from the user, return a list of potential completion strings
+   * based on a specified suggester.
    * @param searchText - The search text on which to base autocomplete results.
-   * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
+   * @param suggesterName - The name of the suggester as specified in the suggesters collection
+   * that's part of the index definition.
    * @param options - Options to the autocomplete operation.
    * @example
    * ```ts snippet:ReadmeSampleAutocomplete
@@ -532,10 +534,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   }
 
   /**
-   * Returns a short list of suggestions based on the searchText
-   * and specified suggester.
-   * @param searchText - The search text to use to suggest documents. Must be at least 1 character, and no more than 100 characters.
-   * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
+   * Returns a short list of suggestions based on the searchText and specified suggester.
+   * @param searchText - The search text to use to suggest documents. Must be at least 1 character,
+   * and no more than 100 characters.
+   * @param suggesterName - The name of the suggester as specified in the suggesters collection
+   * that's part of the index definition.
    * @param options - Options for the suggest operation
    * @example
    * ```ts snippet:ReadmeSampleSuggest
@@ -709,7 +712,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   /**
    * Update a set of documents in the index.
-   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   *
+   * For more details about how merging works, see
+   * https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    * @param options - Additional options.
    */
@@ -737,7 +742,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   /**
    * Update a set of documents in the index or upload them if they don't exist.
-   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   *
+   * For more details about how merging works, see
+   * https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    * @param options - Additional options.
    */

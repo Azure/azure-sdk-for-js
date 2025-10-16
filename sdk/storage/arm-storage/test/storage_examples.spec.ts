@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { StorageManagementClient } from "../src/storageManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -43,11 +39,15 @@ describe("Storage test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    resourceGroup = "myjstest";
+    client = new StorageManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    resourceGroup = "SSS3PT_myjstest";
     storageAccountName = "storageaccountzzzxxx2";
     containerName = "mycontainerxxx";
   });
@@ -57,35 +57,45 @@ describe("Storage test", () => {
   });
 
   it("storageAccounts create test", async () => {
-    const res = await client.storageAccounts.beginCreateAndWait(resourceGroup, storageAccountName, {
-      sku: {
-        name: "Standard_GRS",
-      },
-      kind: "StorageV2",
-      location: "westeurope",
-      encryption: {
-        services: {
-          file: {
-            keyType: "Account",
-            enabled: true,
-          },
-          blob: {
-            keyType: "Account",
-            enabled: true,
-          },
+    const res = await client.storageAccounts.beginCreateAndWait(
+      resourceGroup,
+      storageAccountName,
+      {
+        sku: {
+          name: "Standard_GRS",
         },
-        keySource: "Microsoft.Storage",
+        kind: "StorageV2",
+        location: "westeurope",
+        encryption: {
+          services: {
+            file: {
+              keyType: "Account",
+              enabled: true,
+            },
+            blob: {
+              keyType: "Account",
+              enabled: true,
+            },
+          },
+          keySource: "Microsoft.Storage",
+        },
+        tags: {
+          key1: "value1",
+          key2: "value2",
+        },
       },
-      tags: {
-        key1: "value1",
-        key2: "value2",
-      }
-    }, testPollingOptions)
-    assert.equal(res.name, storageAccountName)
+      testPollingOptions,
+    );
+    assert.equal(res.name, storageAccountName);
   });
 
   it("blobContainers create test", async () => {
-    const res = await client.blobContainers.create(resourceGroup, storageAccountName, containerName, {});
+    const res = await client.blobContainers.create(
+      resourceGroup,
+      storageAccountName,
+      containerName,
+      {},
+    );
     assert.equal(res.name, containerName);
   });
 
@@ -116,12 +126,19 @@ describe("Storage test", () => {
   });
 
   it("storageAccounts update test", async () => {
-    const res = await client.storageAccounts.update(resourceGroup, storageAccountName, { tags: { tag1: "value1" } });
+    const res = await client.storageAccounts.update(resourceGroup, storageAccountName, {
+      tags: { tag1: "value1" },
+    });
     assert.equal(res.type, "Microsoft.Storage/storageAccounts");
   });
 
   it("blobContainers update test", async () => {
-    const res = await client.blobContainers.update(resourceGroup, storageAccountName, containerName, {});
+    const res = await client.blobContainers.update(
+      resourceGroup,
+      storageAccountName,
+      containerName,
+      {},
+    );
     assert.equal(res.type, "Microsoft.Storage/storageAccounts/blobServices/containers");
   });
 

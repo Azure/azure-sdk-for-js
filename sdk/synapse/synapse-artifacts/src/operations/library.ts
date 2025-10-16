@@ -15,12 +15,8 @@ import type * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   LibraryResource,
@@ -55,9 +51,7 @@ export class LibraryImpl implements Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  public list(
-    options?: LibraryListOptionalParams,
-  ): PagedAsyncIterableIterator<LibraryResource> {
+  public list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -109,19 +103,13 @@ export class LibraryImpl implements Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: LibraryListOptionalParams,
-  ): Promise<LibraryListOperationResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._list",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec,
-        ) as Promise<LibraryListOperationResponse>;
-      },
-    );
+  private async _list(options?: LibraryListOptionalParams): Promise<LibraryListOperationResponse> {
+    return tracingClient.withSpan("ArtifactsClient._list", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        listOperationSpec,
+      ) as Promise<LibraryListOperationResponse>;
+    });
   }
 
   /**
@@ -138,20 +126,15 @@ export class LibraryImpl implements Library {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginFlush",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginFlush", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -240,20 +223,15 @@ export class LibraryImpl implements Library {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginDelete",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginDelete", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -313,20 +291,13 @@ export class LibraryImpl implements Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  async get(
-    libraryName: string,
-    options?: LibraryGetOptionalParams,
-  ): Promise<LibraryGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { libraryName, options },
-          getOperationSpec,
-        ) as Promise<LibraryGetResponse>;
-      },
-    );
+  async get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { libraryName, options },
+        getOperationSpec,
+      ) as Promise<LibraryGetResponse>;
+    });
   }
 
   /**
@@ -343,20 +314,15 @@ export class LibraryImpl implements Library {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginCreate",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginCreate", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -423,16 +389,12 @@ export class LibraryImpl implements Library {
     content: coreRestPipeline.RequestBodyType,
     options?: LibraryAppendOptionalParams,
   ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.append",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { libraryName, content, options },
-          appendOperationSpec,
-        ) as Promise<void>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.append", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { libraryName, content, options },
+        appendOperationSpec,
+      ) as Promise<void>;
+    });
   }
 
   /**
@@ -444,16 +406,12 @@ export class LibraryImpl implements Library {
     nextLink: string,
     options?: LibraryListNextOptionalParams,
   ): Promise<LibraryListNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._listNext",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { nextLink, options },
-          listNextOperationSpec,
-        ) as Promise<LibraryListNextResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient._listNext", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { nextLink, options },
+        listNextOperationSpec,
+      ) as Promise<LibraryListNextResponse>;
+    });
   }
 }
 // Operation Specifications

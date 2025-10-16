@@ -12,10 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  WorkspaceGetOptionalParams,
-  WorkspaceGetResponse,
-} from "../models/index.js";
+import type { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models/index.js";
 
 /** Class containing WorkspaceOperations operations. */
 export class WorkspaceOperationsImpl implements WorkspaceOperations {
@@ -33,19 +30,13 @@ export class WorkspaceOperationsImpl implements WorkspaceOperations {
    * Get Workspace
    * @param options The options parameters.
    */
-  async get(
-    options?: WorkspaceGetOptionalParams,
-  ): Promise<WorkspaceGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          getOperationSpec,
-        ) as Promise<WorkspaceGetResponse>;
-      },
-    );
+  async get(options?: WorkspaceGetOptionalParams): Promise<WorkspaceGetResponse> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        getOperationSpec,
+      ) as Promise<WorkspaceGetResponse>;
+    });
   }
 }
 // Operation Specifications

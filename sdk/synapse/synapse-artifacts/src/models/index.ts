@@ -8,10 +8,7 @@
 
 import type * as coreClient from "@azure/core-client";
 
-export type SecretBaseUnion =
-  | SecretBase
-  | SecureString
-  | AzureKeyVaultSecretReference;
+export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
   | IntegrationRuntime
@@ -3096,12 +3093,7 @@ export interface DatasetSchemaDataElement {
 /** The format definition of a storage. */
 export interface DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "TextFormat"
-    | "JsonFormat"
-    | "AvroFormat"
-    | "OrcFormat"
-    | "ParquetFormat";
+  type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Serializer. Type: string (or Expression with resultType string). */
@@ -4276,8 +4268,7 @@ export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
 }
 
 /** Integration runtime debug resource. */
-export interface IntegrationRuntimeDebugResource
-  extends SubResourceDebugResource {
+export interface IntegrationRuntimeDebugResource extends SubResourceDebugResource {
   /** Integration runtime properties. */
   properties: IntegrationRuntimeUnion;
 }
@@ -8746,8 +8737,7 @@ export interface AzureSqlMILinkedServiceTypeProperties
 }
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
-export interface WebAnonymousAuthentication
-  extends WebLinkedServiceTypeProperties {
+export interface WebAnonymousAuthentication extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous";
 }
@@ -8763,8 +8753,7 @@ export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
 }
 
 /** A WebLinkedService that uses client certificate based authentication to communicate with an HTTP endpoint. This scheme follows mutual authentication; the server must also provide valid credentials to the client. */
-export interface WebClientCertificateAuthentication
-  extends WebLinkedServiceTypeProperties {
+export interface WebClientCertificateAuthentication extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "ClientCertificate";
   /** Base64-encoded contents of a PFX file. */
@@ -10389,16 +10378,13 @@ export interface TabularTranslator extends CopyTranslator {
 /** Trigger referenced dependency. */
 export interface TriggerDependencyReference extends DependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "TriggerDependencyReference"
-    | "TumblingWindowTriggerDependencyReference";
+  type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference";
   /** Referenced trigger. */
   referenceTrigger: TriggerReference;
 }
 
 /** Self referenced tumbling window trigger dependency. */
-export interface SelfDependencyTumblingWindowTriggerReference
-  extends DependencyReference {
+export interface SelfDependencyTumblingWindowTriggerReference extends DependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfDependencyTumblingWindowTriggerReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
@@ -10408,8 +10394,7 @@ export interface SelfDependencyTumblingWindowTriggerReference
 }
 
 /** The key authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeKeyAuthorization
-  extends LinkedIntegrationRuntimeType {
+export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "Key";
   /** The key used for authorization. */
@@ -10417,8 +10402,7 @@ export interface LinkedIntegrationRuntimeKeyAuthorization
 }
 
 /** The role based access control (RBAC) authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeRbacAuthorization
-  extends LinkedIntegrationRuntimeType {
+export interface LinkedIntegrationRuntimeRbacAuthorization extends LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
@@ -11933,8 +11917,7 @@ export interface ServiceNowV2Source extends TabularSource {
 }
 
 /** Referenced tumbling window trigger dependency. */
-export interface TumblingWindowTriggerDependencyReference
-  extends TriggerDependencyReference {
+export interface TumblingWindowTriggerDependencyReference extends TriggerDependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TumblingWindowTriggerDependencyReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
@@ -15018,88 +15001,73 @@ export type DayOfWeek =
   | "Saturday";
 
 /** Optional parameters. */
-export interface LinkConnectionListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionListByWorkspaceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
 export type LinkConnectionListByWorkspaceResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
-export interface LinkConnectionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type LinkConnectionCreateOrUpdateResponse = LinkConnectionResource;
 
 /** Optional parameters. */
-export interface LinkConnectionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LinkConnectionGetResponse = LinkConnectionResource;
 
 /** Optional parameters. */
-export interface LinkConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionEditTablesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionEditTablesOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionStartOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionStartOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionStopOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionStopOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LinkConnectionGetDetailedStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetailedStatus operation. */
-export type LinkConnectionGetDetailedStatusResponse =
-  LinkConnectionDetailedStatus;
+export type LinkConnectionGetDetailedStatusResponse = LinkConnectionDetailedStatus;
 
 /** Optional parameters. */
-export interface LinkConnectionListLinkTablesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionListLinkTablesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkTables operation. */
 export type LinkConnectionListLinkTablesResponse = LinkTableListResponse;
 
 /** Optional parameters. */
-export interface LinkConnectionQueryTableStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionQueryTableStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryTableStatus operation. */
-export type LinkConnectionQueryTableStatusResponse =
-  LinkConnectionQueryTableStatus;
+export type LinkConnectionQueryTableStatusResponse = LinkConnectionQueryTableStatus;
 
 /** Optional parameters. */
 export interface LinkConnectionUpdateLandingZoneCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionPauseOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionPauseOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionResumeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkConnectionResumeOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LinkConnectionListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type LinkConnectionListByWorkspaceNextResponse =
-  LinkConnectionListResponse;
+export type LinkConnectionListByWorkspaceNextResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
-export interface RunNotebookCreateRunOptionalParams
-  extends coreClient.OperationOptions {
+export interface RunNotebookCreateRunOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15107,47 +15075,40 @@ export interface RunNotebookCreateRunOptionalParams
 }
 
 /** Contains response data for the createRun operation. */
-export type RunNotebookCreateRunResponse = RunNotebookCreateRunHeaders &
-  RunNotebookResponse;
+export type RunNotebookCreateRunResponse = RunNotebookCreateRunHeaders & RunNotebookResponse;
 
 /** Optional parameters. */
-export interface RunNotebookGetStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunNotebookGetStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
 export type RunNotebookGetStatusResponse = RunNotebookResponse;
 
 /** Optional parameters. */
-export interface RunNotebookCancelRunOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunNotebookCancelRunOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelRun operation. */
 export type RunNotebookCancelRunResponse = RunNotebookResponse;
 
 /** Optional parameters. */
-export interface RunNotebookGetSnapshotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunNotebookGetSnapshotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSnapshot operation. */
 export type RunNotebookGetSnapshotResponse = RunNotebookSnapshotResponse;
 
 /** Optional parameters. */
-export interface KqlScriptsGetAllOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KqlScriptsGetAllOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAll operation. */
 export type KqlScriptsGetAllResponse = KqlScriptsResourceCollectionResponse;
 
 /** Optional parameters. */
-export interface KqlScriptsGetAllNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KqlScriptsGetAllNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAllNext operation. */
 export type KqlScriptsGetAllNextResponse = KqlScriptsResourceCollectionResponse;
 
 /** Optional parameters. */
-export interface KqlScriptCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface KqlScriptCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15158,15 +15119,13 @@ export interface KqlScriptCreateOrUpdateOptionalParams
 export type KqlScriptCreateOrUpdateResponse = KqlScriptResource;
 
 /** Optional parameters. */
-export interface KqlScriptGetByNameOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KqlScriptGetByNameOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByName operation. */
 export type KqlScriptGetByNameResponse = KqlScriptResource;
 
 /** Optional parameters. */
-export interface KqlScriptDeleteByNameOptionalParams
-  extends coreClient.OperationOptions {
+export interface KqlScriptDeleteByNameOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15174,8 +15133,7 @@ export interface KqlScriptDeleteByNameOptionalParams
 }
 
 /** Optional parameters. */
-export interface KqlScriptRenameOptionalParams
-  extends coreClient.OperationOptions {
+export interface KqlScriptRenameOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15183,30 +15141,25 @@ export interface KqlScriptRenameOptionalParams
 }
 
 /** Optional parameters. */
-export interface MetastoreRegisterOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetastoreRegisterOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the register operation. */
 export type MetastoreRegisterResponse = MetastoreRegistrationResponse;
 
 /** Optional parameters. */
-export interface MetastoreGetDatabaseOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetastoreGetDatabaseOperationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseOperations operation. */
-export type MetastoreGetDatabaseOperationsResponse =
-  MetastoreRequestSuccessResponse;
+export type MetastoreGetDatabaseOperationsResponse = MetastoreRequestSuccessResponse;
 
 /** Optional parameters. */
-export interface MetastoreUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetastoreUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type MetastoreUpdateResponse = MetastoreUpdationResponse;
 
 /** Optional parameters. */
-export interface MetastoreDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetastoreDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
@@ -15228,8 +15181,7 @@ export interface SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParam
 }
 
 /** Contains response data for the createOrUpdateSparkConfiguration operation. */
-export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse =
-  SparkConfigurationResource;
+export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse = SparkConfigurationResource;
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationOptionalParams
@@ -15239,8 +15191,7 @@ export interface SparkConfigurationGetSparkConfigurationOptionalParams
 }
 
 /** Contains response data for the getSparkConfiguration operation. */
-export type SparkConfigurationGetSparkConfigurationResponse =
-  SparkConfigurationResource;
+export type SparkConfigurationGetSparkConfigurationResponse = SparkConfigurationResource;
 
 /** Optional parameters. */
 export interface SparkConfigurationDeleteSparkConfigurationOptionalParams
@@ -15269,22 +15220,19 @@ export type SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse =
   SparkConfigurationListResponse;
 
 /** Optional parameters. */
-export interface BigDataPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BigDataPoolsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult;
 
 /** Optional parameters. */
-export interface BigDataPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BigDataPoolsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
 
 /** Optional parameters. */
-export interface DataFlowCreateOrUpdateDataFlowOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15297,8 +15245,7 @@ export interface DataFlowCreateOrUpdateDataFlowOptionalParams
 export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowGetDataFlowOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowGetDataFlowOptionalParams extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15307,8 +15254,7 @@ export interface DataFlowGetDataFlowOptionalParams
 export type DataFlowGetDataFlowResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowDeleteDataFlowOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowDeleteDataFlowOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15316,8 +15262,7 @@ export interface DataFlowDeleteDataFlowOptionalParams
 }
 
 /** Optional parameters. */
-export interface DataFlowRenameDataFlowOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowRenameDataFlowOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15364,8 +15309,7 @@ export interface DataFlowDebugSessionAddDataFlowOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addDataFlow operation. */
-export type DataFlowDebugSessionAddDataFlowResponse =
-  AddDataFlowToDebugSessionResponse;
+export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams
@@ -15381,8 +15325,7 @@ export interface DataFlowDebugSessionExecuteCommandOptionalParams
 }
 
 /** Contains response data for the executeCommand operation. */
-export type DataFlowDebugSessionExecuteCommandResponse =
-  DataFlowDebugCommandResponse;
+export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams
@@ -15393,15 +15336,13 @@ export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextRespons
   QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
-export interface DatasetGetDatasetsByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatasetGetDatasetsByWorkspaceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatasetsByWorkspace operation. */
 export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse;
 
 /** Optional parameters. */
-export interface DatasetCreateOrUpdateDatasetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15414,8 +15355,7 @@ export interface DatasetCreateOrUpdateDatasetOptionalParams
 export type DatasetCreateOrUpdateDatasetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface DatasetGetDatasetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatasetGetDatasetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the dataset entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15424,8 +15364,7 @@ export interface DatasetGetDatasetOptionalParams
 export type DatasetGetDatasetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface DatasetDeleteDatasetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatasetDeleteDatasetOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15433,8 +15372,7 @@ export interface DatasetDeleteDatasetOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatasetRenameDatasetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatasetRenameDatasetOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15456,33 +15394,28 @@ export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
 }
 
 /** Contains response data for the getGitHubAccessToken operation. */
-export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse =
-  GitHubAccessTokenResponse;
+export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type IntegrationRuntimesListResponse = IntegrationRuntimeListResponse;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
 
 /** Optional parameters. */
-export interface LibraryListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LibraryListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type LibraryListOperationResponse = LibraryListResponse;
 
 /** Optional parameters. */
-export interface LibraryFlushOptionalParams
-  extends coreClient.OperationOptions {
+export interface LibraryFlushOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15490,15 +15423,13 @@ export interface LibraryFlushOptionalParams
 }
 
 /** Optional parameters. */
-export interface LibraryGetOperationResultOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LibraryGetOperationResultOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationResult operation. */
 export type LibraryGetOperationResultResponse = LibraryResource;
 
 /** Optional parameters. */
-export interface LibraryDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface LibraryDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15512,8 +15443,7 @@ export interface LibraryGetOptionalParams extends coreClient.OperationOptions {}
 export type LibraryGetResponse = LibraryResource;
 
 /** Optional parameters. */
-export interface LibraryCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface LibraryCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15521,15 +15451,13 @@ export interface LibraryCreateOptionalParams
 }
 
 /** Optional parameters. */
-export interface LibraryAppendOptionalParams
-  extends coreClient.OperationOptions {
+export interface LibraryAppendOptionalParams extends coreClient.OperationOptions {
   /** Set this header to a byte offset at which the block is expected to be appended. The request succeeds only if the current offset matches this value. Otherwise, the request fails with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed) */
   blobConditionAppendPosition?: number;
 }
 
 /** Optional parameters. */
-export interface LibraryListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LibraryListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type LibraryListNextResponse = LibraryListResponse;
@@ -15539,8 +15467,7 @@ export interface LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedServicesByWorkspace operation. */
-export type LinkedServiceGetLinkedServicesByWorkspaceResponse =
-  LinkedServiceListResponse;
+export type LinkedServiceGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse;
 
 /** Optional parameters. */
 export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
@@ -15554,12 +15481,10 @@ export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
 }
 
 /** Contains response data for the createOrUpdateLinkedService operation. */
-export type LinkedServiceCreateOrUpdateLinkedServiceResponse =
-  LinkedServiceResource;
+export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceResource;
 
 /** Optional parameters. */
-export interface LinkedServiceGetLinkedServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface LinkedServiceGetLinkedServiceOptionalParams extends coreClient.OperationOptions {
   /** ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15590,8 +15515,7 @@ export interface LinkedServiceGetLinkedServicesByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedServicesByWorkspaceNext operation. */
-export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse =
-  LinkedServiceListResponse;
+export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse;
 
 /** Optional parameters. */
 export interface NotebookGetNotebooksByWorkspaceOptionalParams
@@ -15605,12 +15529,10 @@ export interface NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNotebookSummaryByWorkSpace operation. */
-export type NotebookGetNotebookSummaryByWorkSpaceResponse =
-  NotebookListResponse;
+export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse;
 
 /** Optional parameters. */
-export interface NotebookCreateOrUpdateNotebookOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Note book entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15623,8 +15545,7 @@ export interface NotebookCreateOrUpdateNotebookOptionalParams
 export type NotebookCreateOrUpdateNotebookResponse = NotebookResource;
 
 /** Optional parameters. */
-export interface NotebookGetNotebookOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotebookGetNotebookOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15633,8 +15554,7 @@ export interface NotebookGetNotebookOptionalParams
 export type NotebookGetNotebookResponse = NotebookResource;
 
 /** Optional parameters. */
-export interface NotebookDeleteNotebookOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotebookDeleteNotebookOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15642,8 +15562,7 @@ export interface NotebookDeleteNotebookOptionalParams
 }
 
 /** Optional parameters. */
-export interface NotebookRenameNotebookOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotebookRenameNotebookOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15662,12 +15581,10 @@ export interface NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNotebookSummaryByWorkSpaceNext operation. */
-export type NotebookGetNotebookSummaryByWorkSpaceNextResponse =
-  NotebookListResponse;
+export type NotebookGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse;
 
 /** Optional parameters. */
-export interface NotebookOperationResultGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotebookOperationResultGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PipelineGetPipelinesByWorkspaceOptionalParams
@@ -15677,8 +15594,7 @@ export interface PipelineGetPipelinesByWorkspaceOptionalParams
 export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse;
 
 /** Optional parameters. */
-export interface PipelineCreateOrUpdatePipelineOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreClient.OperationOptions {
   /** ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15691,8 +15607,7 @@ export interface PipelineCreateOrUpdatePipelineOptionalParams
 export type PipelineCreateOrUpdatePipelineResponse = PipelineResource;
 
 /** Optional parameters. */
-export interface PipelineGetPipelineOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineGetPipelineOptionalParams extends coreClient.OperationOptions {
   /** ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15701,8 +15616,7 @@ export interface PipelineGetPipelineOptionalParams
 export type PipelineGetPipelineResponse = PipelineResource;
 
 /** Optional parameters. */
-export interface PipelineDeletePipelineOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineDeletePipelineOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15710,8 +15624,7 @@ export interface PipelineDeletePipelineOptionalParams
 }
 
 /** Optional parameters. */
-export interface PipelineRenamePipelineOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineRenamePipelineOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15719,8 +15632,7 @@ export interface PipelineRenamePipelineOptionalParams
 }
 
 /** Optional parameters. */
-export interface PipelineCreatePipelineRunOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineCreatePipelineRunOptionalParams extends coreClient.OperationOptions {
   /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
   parameters?: { [propertyName: string]: any };
   /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
@@ -15746,26 +15658,22 @@ export interface PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryPipelineRunsByWorkspace operation. */
-export type PipelineRunQueryPipelineRunsByWorkspaceResponse =
-  PipelineRunsQueryResponse;
+export type PipelineRunQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse;
 
 /** Optional parameters. */
-export interface PipelineRunGetPipelineRunOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelineRunGetPipelineRunOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPipelineRun operation. */
 export type PipelineRunGetPipelineRunResponse = PipelineRun;
 
 /** Optional parameters. */
-export interface PipelineRunQueryActivityRunsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelineRunQueryActivityRunsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryActivityRuns operation. */
 export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse;
 
 /** Optional parameters. */
-export interface PipelineRunCancelPipelineRunOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineRunCancelPipelineRunOptionalParams extends coreClient.OperationOptions {
   /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
   isRecursive?: boolean;
 }
@@ -15790,8 +15698,7 @@ export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParam
 }
 
 /** Contains response data for the createOrUpdateSparkJobDefinition operation. */
-export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse =
-  SparkJobDefinitionResource;
+export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
@@ -15801,8 +15708,7 @@ export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
 }
 
 /** Contains response data for the getSparkJobDefinition operation. */
-export type SparkJobDefinitionGetSparkJobDefinitionResponse =
-  SparkJobDefinitionResource;
+export type SparkJobDefinitionGetSparkJobDefinitionResponse = SparkJobDefinitionResource;
 
 /** Optional parameters. */
 export interface SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
@@ -15855,15 +15761,13 @@ export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse =
   SparkJobDefinitionsListResponse;
 
 /** Optional parameters. */
-export interface SqlPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SqlPoolsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SqlPoolsListResponse = SqlPoolInfoListResult;
 
 /** Optional parameters. */
-export interface SqlPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SqlPoolsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SqlPoolsGetResponse = SqlPool;
@@ -15890,8 +15794,7 @@ export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams
 export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource;
 
 /** Optional parameters. */
-export interface SqlScriptGetSqlScriptOptionalParams
-  extends coreClient.OperationOptions {
+export interface SqlScriptGetSqlScriptOptionalParams extends coreClient.OperationOptions {
   /** ETag of the sql compute entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15900,8 +15803,7 @@ export interface SqlScriptGetSqlScriptOptionalParams
 export type SqlScriptGetSqlScriptResponse = SqlScriptResource;
 
 /** Optional parameters. */
-export interface SqlScriptDeleteSqlScriptOptionalParams
-  extends coreClient.OperationOptions {
+export interface SqlScriptDeleteSqlScriptOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15909,8 +15811,7 @@ export interface SqlScriptDeleteSqlScriptOptionalParams
 }
 
 /** Optional parameters. */
-export interface SqlScriptRenameSqlScriptOptionalParams
-  extends coreClient.OperationOptions {
+export interface SqlScriptRenameSqlScriptOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15922,19 +15823,16 @@ export interface SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlScriptsByWorkspaceNext operation. */
-export type SqlScriptGetSqlScriptsByWorkspaceNextResponse =
-  SqlScriptsListResponse;
+export type SqlScriptGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse;
 
 /** Optional parameters. */
-export interface TriggerGetTriggersByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggerGetTriggersByWorkspaceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTriggersByWorkspace operation. */
 export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse;
 
 /** Optional parameters. */
-export interface TriggerCreateOrUpdateTriggerOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreClient.OperationOptions {
   /** ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -15947,8 +15845,7 @@ export interface TriggerCreateOrUpdateTriggerOptionalParams
 export type TriggerCreateOrUpdateTriggerResponse = TriggerResource;
 
 /** Optional parameters. */
-export interface TriggerGetTriggerOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggerGetTriggerOptionalParams extends coreClient.OperationOptions {
   /** ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15957,8 +15854,7 @@ export interface TriggerGetTriggerOptionalParams
 export type TriggerGetTriggerResponse = TriggerResource;
 
 /** Optional parameters. */
-export interface TriggerDeleteTriggerOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggerDeleteTriggerOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15966,8 +15862,7 @@ export interface TriggerDeleteTriggerOptionalParams
 }
 
 /** Optional parameters. */
-export interface TriggerSubscribeTriggerToEventsOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggerSubscribeTriggerToEventsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15975,16 +15870,14 @@ export interface TriggerSubscribeTriggerToEventsOptionalParams
 }
 
 /** Contains response data for the subscribeTriggerToEvents operation. */
-export type TriggerSubscribeTriggerToEventsResponse =
-  TriggerSubscriptionOperationStatus;
+export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerGetEventSubscriptionStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventSubscriptionStatus operation. */
-export type TriggerGetEventSubscriptionStatusResponse =
-  TriggerSubscriptionOperationStatus;
+export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
@@ -15996,12 +15889,10 @@ export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
 }
 
 /** Contains response data for the unsubscribeTriggerFromEvents operation. */
-export type TriggerUnsubscribeTriggerFromEventsResponse =
-  TriggerSubscriptionOperationStatus;
+export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
-export interface TriggerStartTriggerOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggerStartTriggerOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -16009,8 +15900,7 @@ export interface TriggerStartTriggerOptionalParams
 }
 
 /** Optional parameters. */
-export interface TriggerStopTriggerOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggerStopTriggerOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -16025,8 +15915,7 @@ export interface TriggerGetTriggersByWorkspaceNextOptionalParams
 export type TriggerGetTriggersByWorkspaceNextResponse = TriggerListResponse;
 
 /** Optional parameters. */
-export interface TriggerRunRerunTriggerInstanceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggerRunRerunTriggerInstanceOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TriggerRunCancelTriggerInstanceOptionalParams
@@ -16037,19 +15926,16 @@ export interface TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryTriggerRunsByWorkspace operation. */
-export type TriggerRunQueryTriggerRunsByWorkspaceResponse =
-  TriggerRunsQueryResponse;
+export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse;
 
 /** Optional parameters. */
-export interface WorkspaceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceGetResponse = Workspace;
 
 /** Optional parameters. */
-export interface ArtifactsClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ArtifactsClientOptionalParams extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

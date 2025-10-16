@@ -96,16 +96,12 @@ export class KqlScriptsImpl implements KqlScripts {
   private async _getAll(
     options?: KqlScriptsGetAllOptionalParams,
   ): Promise<KqlScriptsGetAllResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getAll",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          getAllOperationSpec,
-        ) as Promise<KqlScriptsGetAllResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient._getAll", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        getAllOperationSpec,
+      ) as Promise<KqlScriptsGetAllResponse>;
+    });
   }
 
   /**
@@ -117,16 +113,12 @@ export class KqlScriptsImpl implements KqlScripts {
     nextLink: string,
     options?: KqlScriptsGetAllNextOptionalParams,
   ): Promise<KqlScriptsGetAllNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getAllNext",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { nextLink, options },
-          getAllNextOperationSpec,
-        ) as Promise<KqlScriptsGetAllNextResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient._getAllNext", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { nextLink, options },
+        getAllNextOperationSpec,
+      ) as Promise<KqlScriptsGetAllNextResponse>;
+    });
   }
 }
 // Operation Specifications

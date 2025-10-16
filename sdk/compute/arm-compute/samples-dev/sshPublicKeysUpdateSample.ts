@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a new SSH public key resource.
- *
- * @summary Updates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MaximumSet_Gen.json
- */
-
 import {
   SshPublicKeyUpdateResource,
   ComputeManagementClient,
@@ -15,6 +8,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Updates a new SSH public key resource.
+ *
+ * @summary Updates a new SSH public key resource.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MaximumSet_Gen.json
+ */
 async function sshPublicKeyUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -39,7 +38,7 @@ async function sshPublicKeyUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Updates a new SSH public key resource.
  *
  * @summary Updates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/examples/sshPublicKeyExamples/SshPublicKey_Update_MinimumSet_Gen.json
  */
 async function sshPublicKeyUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

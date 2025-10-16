@@ -29,9 +29,7 @@ export interface Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  list(
-    options?: LibraryListOptionalParams,
-  ): PagedAsyncIterableIterator<LibraryResource>;
+  list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource>;
   /**
    * Flush Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
@@ -48,10 +46,7 @@ export interface Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  beginFlushAndWait(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams,
-  ): Promise<void>;
+  beginFlushAndWait(libraryName: string, options?: LibraryFlushOptionalParams): Promise<void>;
   /**
    * Get Operation result for Library
    * @param operationId operation id for which status is requested
@@ -77,20 +72,14 @@ export interface Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  beginDeleteAndWait(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams,
-  ): Promise<void>;
+  beginDeleteAndWait(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<void>;
   /**
    * Get Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
    * @param options The options parameters.
    */
-  get(
-    libraryName: string,
-    options?: LibraryGetOptionalParams,
-  ): Promise<LibraryGetResponse>;
+  get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse>;
   /**
    * Creates a library with the library name.
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
@@ -107,10 +96,7 @@ export interface Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  beginCreateAndWait(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams,
-  ): Promise<void>;
+  beginCreateAndWait(libraryName: string, options?: LibraryCreateOptionalParams): Promise<void>;
   /**
    * Append the content to the library resource created using the create operation. The maximum content
    * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks

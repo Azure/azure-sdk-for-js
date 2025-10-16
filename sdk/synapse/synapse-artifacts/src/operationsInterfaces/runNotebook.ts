@@ -33,10 +33,7 @@ export interface RunNotebook {
     runNotebookRequest: RunNotebookRequest,
     options?: RunNotebookCreateRunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RunNotebookCreateRunResponse>,
-      RunNotebookCreateRunResponse
-    >
+    SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>
   >;
   /**
    * Run notebook

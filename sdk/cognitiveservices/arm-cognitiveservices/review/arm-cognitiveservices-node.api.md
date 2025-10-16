@@ -209,7 +209,8 @@ export interface AccountProperties {
     locations?: MultiRegionSettings;
     migrationToken?: string;
     networkAcls?: NetworkRuleSet;
-    networkInjections?: NetworkInjections;
+    // (undocumented)
+    networkInjections?: NetworkInjection[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -1960,7 +1961,7 @@ export interface MultiRegionSettings {
 }
 
 // @public
-export interface NetworkInjections {
+export interface NetworkInjection {
     scenario?: ScenarioType;
     subnetArmId?: string;
     useMicrosoftManagedNetwork?: boolean;

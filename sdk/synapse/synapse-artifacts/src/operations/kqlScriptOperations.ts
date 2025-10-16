@@ -12,12 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   KqlScriptResource,
@@ -77,8 +73,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -132,11 +127,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     kqlScript: KqlScriptResource,
     options?: KqlScriptCreateOrUpdateOptionalParams,
   ): Promise<KqlScriptCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      kqlScriptName,
-      kqlScript,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(kqlScriptName, kqlScript, options);
     return poller.pollUntilDone();
   }
 
@@ -149,16 +140,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     kqlScriptName: string,
     options?: KqlScriptGetByNameOptionalParams,
   ): Promise<KqlScriptGetByNameResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getByName",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { kqlScriptName, options },
-          getByNameOperationSpec,
-        ) as Promise<KqlScriptGetByNameResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getByName", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { kqlScriptName, options },
+        getByNameOperationSpec,
+      ) as Promise<KqlScriptGetByNameResponse>;
+    });
   }
 
   /**
@@ -186,8 +173,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -255,20 +241,15 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginRename",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        },
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginRename", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -319,11 +300,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     renameRequest: ArtifactRenameRequest,
     options?: KqlScriptRenameOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRename(
-      kqlScriptName,
-      renameRequest,
-      options,
-    );
+    const poller = await this.beginRename(kqlScriptName, renameRequest, options);
     return poller.pollUntilDone();
   }
 }

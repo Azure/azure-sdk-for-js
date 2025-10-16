@@ -14,12 +14,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   SparkConfigurationResource,
@@ -38,9 +34,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SparkConfigurationOperations operations. */
-export class SparkConfigurationOperationsImpl
-  implements SparkConfigurationOperations
-{
+export class SparkConfigurationOperationsImpl implements SparkConfigurationOperations {
   private readonly client: ArtifactsClient;
 
   /**
@@ -70,10 +64,7 @@ export class SparkConfigurationOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getSparkConfigurationsByWorkspacePagingPage(
-          options,
-          settings,
-        );
+        return this.getSparkConfigurationsByWorkspacePagingPage(options, settings);
       },
     };
   }
@@ -92,10 +83,7 @@ export class SparkConfigurationOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._getSparkConfigurationsByWorkspaceNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getSparkConfigurationsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -106,9 +94,7 @@ export class SparkConfigurationOperationsImpl
   private async *getSparkConfigurationsByWorkspacePagingAll(
     options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams,
   ): AsyncIterableIterator<SparkConfigurationResource> {
-    for await (const page of this.getSparkConfigurationsByWorkspacePagingPage(
-      options,
-    )) {
+    for await (const page of this.getSparkConfigurationsByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -167,8 +153,7 @@ export class SparkConfigurationOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -276,8 +261,7 @@ export class SparkConfigurationOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -326,10 +310,7 @@ export class SparkConfigurationOperationsImpl
     sparkConfigurationName: string,
     options?: SparkConfigurationDeleteSparkConfigurationOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDeleteSparkConfiguration(
-      sparkConfigurationName,
-      options,
-    );
+    const poller = await this.beginDeleteSparkConfiguration(sparkConfigurationName, options);
     return poller.pollUntilDone();
   }
 
@@ -360,8 +341,7 @@ export class SparkConfigurationOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -445,55 +425,49 @@ export class SparkConfigurationOperationsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getSparkConfigurationsByWorkspaceOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/sparkconfigurations",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SparkConfigurationListResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const getSparkConfigurationsByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SparkConfigurationListResponse,
     },
-    queryParameters: [Parameters.apiVersion4],
-    urlParameters: [Parameters.endpoint],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const createOrUpdateSparkConfigurationOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/sparkconfigurations/{sparkConfigurationName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SparkConfigurationResource,
-      },
-      201: {
-        bodyMapper: Mappers.SparkConfigurationResource,
-      },
-      202: {
-        bodyMapper: Mappers.SparkConfigurationResource,
-      },
-      204: {
-        bodyMapper: Mappers.SparkConfigurationResource,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    requestBody: Parameters.sparkConfiguration,
-    queryParameters: [Parameters.apiVersion4],
-    urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
-    headerParameters: [
-      Parameters.accept,
-      Parameters.contentType,
-      Parameters.ifMatch,
-    ],
-    mediaType: "json",
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateSparkConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/sparkconfigurations/{sparkConfigurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SparkConfigurationResource,
+    },
+    201: {
+      bodyMapper: Mappers.SparkConfigurationResource,
+    },
+    202: {
+      bodyMapper: Mappers.SparkConfigurationResource,
+    },
+    204: {
+      bodyMapper: Mappers.SparkConfigurationResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.sparkConfiguration,
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  mediaType: "json",
+  serializer,
+};
 const getSparkConfigurationOperationSpec: coreClient.OperationSpec = {
   path: "/sparkconfigurations/{sparkConfigurationName}",
   httpMethod: "GET",
@@ -547,19 +521,18 @@ const renameSparkConfigurationOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getSparkConfigurationsByWorkspaceNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SparkConfigurationListResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const getSparkConfigurationsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SparkConfigurationListResponse,
     },
-    urlParameters: [Parameters.endpoint, Parameters.nextLink],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

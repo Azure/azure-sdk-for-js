@@ -12,12 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   RunNotebookRequest,
@@ -55,32 +51,24 @@ export class RunNotebookImpl implements RunNotebook {
     runNotebookRequest: RunNotebookRequest,
     options?: RunNotebookCreateRunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RunNotebookCreateRunResponse>,
-      RunNotebookCreateRunResponse
-    >
+    SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ): Promise<RunNotebookCreateRunResponse> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginCreateRun",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(
-            args,
-            spec,
-          ) as Promise<RunNotebookCreateRunResponse>;
-        },
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginCreateRun", options ?? {}, async () => {
+        return this.client.sendOperationRequest(
+          args,
+          spec,
+        ) as Promise<RunNotebookCreateRunResponse>;
+      });
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -135,11 +123,7 @@ export class RunNotebookImpl implements RunNotebook {
     runNotebookRequest: RunNotebookRequest,
     options?: RunNotebookCreateRunOptionalParams,
   ): Promise<RunNotebookCreateRunResponse> {
-    const poller = await this.beginCreateRun(
-      runId,
-      runNotebookRequest,
-      options,
-    );
+    const poller = await this.beginCreateRun(runId, runNotebookRequest, options);
     return poller.pollUntilDone();
   }
 
@@ -153,16 +137,12 @@ export class RunNotebookImpl implements RunNotebook {
     runId: string,
     options?: RunNotebookGetStatusOptionalParams,
   ): Promise<RunNotebookGetStatusResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getStatus",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { runId, options },
-          getStatusOperationSpec,
-        ) as Promise<RunNotebookGetStatusResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getStatus", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { runId, options },
+        getStatusOperationSpec,
+      ) as Promise<RunNotebookGetStatusResponse>;
+    });
   }
 
   /**
@@ -175,16 +155,12 @@ export class RunNotebookImpl implements RunNotebook {
     runId: string,
     options?: RunNotebookCancelRunOptionalParams,
   ): Promise<RunNotebookCancelRunResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.cancelRun",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { runId, options },
-          cancelRunOperationSpec,
-        ) as Promise<RunNotebookCancelRunResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.cancelRun", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { runId, options },
+        cancelRunOperationSpec,
+      ) as Promise<RunNotebookCancelRunResponse>;
+    });
   }
 
   /**
@@ -197,16 +173,12 @@ export class RunNotebookImpl implements RunNotebook {
     runId: string,
     options?: RunNotebookGetSnapshotOptionalParams,
   ): Promise<RunNotebookGetSnapshotResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getSnapshot",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { runId, options },
-          getSnapshotOperationSpec,
-        ) as Promise<RunNotebookGetSnapshotResponse>;
-      },
-    );
+    return tracingClient.withSpan("ArtifactsClient.getSnapshot", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { runId, options },
+        getSnapshotOperationSpec,
+      ) as Promise<RunNotebookGetSnapshotResponse>;
+    });
   }
 }
 // Operation Specifications

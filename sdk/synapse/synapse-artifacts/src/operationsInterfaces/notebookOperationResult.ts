@@ -15,8 +15,5 @@ export interface NotebookOperationResult {
    * @param operationId Operation ID.
    * @param options The options parameters.
    */
-  get(
-    operationId: string,
-    options?: NotebookOperationResultGetOptionalParams,
-  ): Promise<void>;
+  get(operationId: string, options?: NotebookOperationResultGetOptionalParams): Promise<void>;
 }
