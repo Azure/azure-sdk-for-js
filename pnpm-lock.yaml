@@ -28731,7 +28731,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.1.0
+        specifier: ^12.1.1
         version: link:../storage-common
       events:
         specifier: ^3.0.0
@@ -29047,10 +29047,10 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-blob':
-        specifier: ^12.29.0
+        specifier: ^12.29.1
         version: link:../storage-blob
       '@azure/storage-common':
-        specifier: ^12.1.0
+        specifier: ^12.1.1
         version: link:../storage-common
       events:
         specifier: ^3.3.0
@@ -29193,7 +29193,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.1.0
+        specifier: ^12.1.1
         version: link:../storage-common
       events:
         specifier: ^3.0.0
@@ -29400,7 +29400,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.1.0
+        specifier: ^12.1.1
         version: link:../storage-common
       tslib:
         specifier: ^2.8.1
@@ -40786,7 +40786,7 @@ snapshots:
       magicast: 0.3.5
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
