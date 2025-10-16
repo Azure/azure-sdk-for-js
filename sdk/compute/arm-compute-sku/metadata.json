@@ -1,0 +1,27 @@
+{
+  "apiVersion": "2021-07-01",
+  "emitterVersion": "0.45.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Compute",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-compute-sku!ResourceSkusResult:interface": "Microsoft.Compute.ResourceSkusResult",
+      "@azure/arm-compute-sku!ResourceSku:interface": "Microsoft.Compute.ResourceSku",
+      "@azure/arm-compute-sku!ResourceSkuCapacity:interface": "Microsoft.Compute.ResourceSkuCapacity",
+      "@azure/arm-compute-sku!ResourceSkuLocationInfo:interface": "Microsoft.Compute.ResourceSkuLocationInfo",
+      "@azure/arm-compute-sku!ResourceSkuZoneDetails:interface": "Microsoft.Compute.ResourceSkuZoneDetails",
+      "@azure/arm-compute-sku!ResourceSkuCapabilities:interface": "Microsoft.Compute.ResourceSkuCapabilities",
+      "@azure/arm-compute-sku!ResourceSkuCosts:interface": "Microsoft.Compute.ResourceSkuCosts",
+      "@azure/arm-compute-sku!ResourceSkuRestrictions:interface": "Microsoft.Compute.ResourceSkuRestrictions",
+      "@azure/arm-compute-sku!ResourceSkuRestrictionInfo:interface": "Microsoft.Compute.ResourceSkuRestrictionInfo",
+      "@azure/arm-compute-sku!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-compute-sku!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-compute-sku!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-compute-sku!KnownResourceSkuCapacityScaleType:enum": "Microsoft.Compute.ResourceSkuCapacityScaleType",
+      "@azure/arm-compute-sku!KnownExtendedLocationType:enum": "Microsoft.Compute.ExtendedLocationType",
+      "@azure/arm-compute-sku!KnownResourceSkuRestrictionsType:enum": "Microsoft.Compute.ResourceSkuRestrictionsType",
+      "@azure/arm-compute-sku!KnownResourceSkuRestrictionsReasonCode:enum": "Microsoft.Compute.ResourceSkuRestrictionsReasonCode",
+      "@azure/arm-compute-sku!KnownVersions:enum": "Microsoft.Compute.Versions",
+      "@azure/arm-compute-sku!ResourceSkusOperations#list:member": "Microsoft.Compute.ResourceSkus.list"
+    }
+  }
+}

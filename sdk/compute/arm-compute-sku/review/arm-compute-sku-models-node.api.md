@@ -4,39 +4,6 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
-
-// @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
-}
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public (undocumented)
-export class ComputeManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
-    readonly pipeline: Pipeline;
-    readonly resourceSkus: ResourceSkusOperations;
-}
-
-// @public
-export interface ComputeManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
 // @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
@@ -68,18 +35,6 @@ export enum KnownExtendedLocationType {
 // @public
 export enum KnownVersions {
     V20210701 = "2021-07-01"
-}
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
 }
 
 // @public
@@ -151,17 +106,6 @@ export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubs
 
 // @public
 export type ResourceSkuRestrictionsType = "Location" | "Zone";
-
-// @public
-export interface ResourceSkusListOptionalParams extends OperationOptions {
-    filter?: string;
-    includeExtendedLocations?: string;
-}
-
-// @public
-export interface ResourceSkusOperations {
-    list: (options?: ResourceSkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
-}
 
 // @public
 export interface ResourceSkuZoneDetails {
