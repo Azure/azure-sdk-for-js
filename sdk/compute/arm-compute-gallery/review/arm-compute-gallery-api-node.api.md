@@ -9,19 +9,19 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface ComputeClientOptionalParams extends ClientOptions {
+export interface ComputeManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface ComputeContext extends Client {
+export interface ComputeManagementContext extends Client {
     apiVersion: string;
     subscriptionId: string;
 }
 
 // @public
-export function createCompute(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams): ComputeContext;
+export function createComputeManagement(credential: TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams): ComputeManagementContext;
 
 // (No @packageDocumentation comment for this package)
 

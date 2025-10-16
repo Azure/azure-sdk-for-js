@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-gallery");
+const { ComputeManagementClient } = require("@azure/arm-compute-gallery");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function addSharingIdToTheSharingProfileOfAGallery() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.gallerySharingProfileUpdate("myResourceGroup", "myGalleryName", {
     operationType: "Add",
     groups: [
@@ -35,7 +35,7 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
 async function shareAGalleryToCommunity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.gallerySharingProfileUpdate("myResourceGroup", "myGalleryName", {
     operationType: "EnableCommunity",
   });
@@ -50,7 +50,7 @@ async function shareAGalleryToCommunity() {
 async function resetSharingProfileOfAGallery() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.gallerySharingProfileUpdate("myResourceGroup", "myGalleryName", {
     operationType: "Reset",
   });

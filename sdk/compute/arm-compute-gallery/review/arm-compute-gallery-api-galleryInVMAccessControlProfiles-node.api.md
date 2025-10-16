@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -39,13 +39,13 @@ export interface GalleryInVMAccessControlProfilesUpdateOptionalParams extends Op
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams): Promise<GalleryInVMAccessControlProfile>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams): Promise<GalleryInVMAccessControlProfile>;
 
 // @public
-export function listByGallery(context: ComputeContext, resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
+export function listByGallery(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-gallery";
+import { ComputeManagementClient } from "@azure/arm-compute-gallery";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listGalleriesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.galleries.listByResourceGroup("myResourceGroup")) {
     resArray.push(item);

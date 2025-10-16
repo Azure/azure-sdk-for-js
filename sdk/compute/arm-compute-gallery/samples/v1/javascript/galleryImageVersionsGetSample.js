@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-gallery");
+const { ComputeManagementClient } = require("@azure/arm-compute-gallery");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getAGalleryImageVersion() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleryImageVersions.get(
     "myResourceGroup",
     "myGalleryName",
@@ -32,7 +32,7 @@ async function getAGalleryImageVersion() {
 async function getAGalleryImageVersionWithReplicationStatus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleryImageVersions.get(
     "myResourceGroup",
     "myGalleryName",
@@ -52,7 +52,7 @@ async function getAGalleryImageVersionWithReplicationStatus() {
 async function getAGalleryImageVersionWithSnapshotsAsASource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleryImageVersions.get(
     "myResourceGroup",
     "myGalleryName",
@@ -71,7 +71,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
 async function getAGalleryImageVersionWithValidationProfile() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleryImageVersions.get(
     "myResourceGroup",
     "myGalleryName",
@@ -91,7 +91,7 @@ async function getAGalleryImageVersionWithValidationProfile() {
 async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleryImageVersions.get(
     "myResourceGroup",
     "myGalleryName",
@@ -111,7 +111,7 @@ async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(
 async function getAGalleryImageVersionWithVhdAsASource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleryImageVersions.get(
     "myResourceGroup",
     "myGalleryName",

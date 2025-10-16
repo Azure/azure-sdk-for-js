@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-gallery");
+const { ComputeManagementClient } = require("@azure/arm-compute-gallery");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createACommunityGallery() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.createOrUpdate("myResourceGroup", "myGalleryName", {
     location: "West US",
     properties: {
@@ -40,7 +40,7 @@ async function createACommunityGallery() {
 async function createOrUpdateASimpleGallery() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.createOrUpdate("myResourceGroup", "myGalleryName", {
     location: "West US",
     properties: { description: "This is the gallery description." },
@@ -56,7 +56,7 @@ async function createOrUpdateASimpleGallery() {
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.createOrUpdate("myResourceGroup", "myGalleryName", {
     location: "West US",
     properties: {
@@ -75,7 +75,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
 async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.createOrUpdate("myResourceGroup", "myGalleryName", {
     location: "West US",
     identity: {
@@ -98,7 +98,7 @@ async function createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedMana
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleries.createOrUpdate("myResourceGroup", "myGalleryName", {
     location: "West US",
     properties: {

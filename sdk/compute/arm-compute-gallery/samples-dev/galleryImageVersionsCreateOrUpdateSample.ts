@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-gallery";
+import { ComputeManagementClient } from "@azure/arm-compute-gallery";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -96,7 +96,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
 async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -182,7 +182,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas()
 async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -266,7 +266,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImag
 async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -349,7 +349,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
 async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -391,7 +391,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
 async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -476,7 +476,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
 async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -559,7 +559,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -635,7 +635,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(): Prom
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",
@@ -721,7 +721,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCust
 async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.createOrUpdate(
     "myResourceGroup",
     "myGalleryName",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-gallery");
+const { ComputeManagementClient } = require("@azure/arm-compute-gallery");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function updateAGalleryInVMAccessControlProfileVersion() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryInVMAccessControlProfileVersions.update(
     "myResourceGroup",
     "myGalleryName",

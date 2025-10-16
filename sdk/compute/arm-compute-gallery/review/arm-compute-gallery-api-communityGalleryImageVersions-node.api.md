@@ -16,10 +16,10 @@ export interface CommunityGalleryImageVersionsListOptionalParams extends Operati
 }
 
 // @public
-export function get(context: ComputeContext, location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams): Promise<CommunityGalleryImageVersion>;
+export function get(context: ComputeManagementContext, location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams): Promise<CommunityGalleryImageVersion>;
 
 // @public
-export function list(context: ComputeContext, location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
+export function list(context: ComputeManagementContext, location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
 
 // (No @packageDocumentation comment for this package)
 

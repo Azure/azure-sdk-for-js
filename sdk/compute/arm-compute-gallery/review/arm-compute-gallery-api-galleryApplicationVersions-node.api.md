@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -40,13 +40,13 @@ export interface GalleryApplicationVersionsUpdateOptionalParams extends Operatio
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersion>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersion>;
 
 // @public
-export function listByGalleryApplication(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
+export function listByGalleryApplication(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

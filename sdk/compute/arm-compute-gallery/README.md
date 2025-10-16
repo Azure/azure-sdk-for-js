@@ -1,6 +1,6 @@
-# Azure Compute client library for JavaScript
+# Azure ComputeManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Compute client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ComputeManagement client.
 
 Compute Client
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-compute-gallery` package
 
-Install the Azure Compute client library for JavaScript with `npm`:
+Install the Azure ComputeManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-compute-gallery
 ```
 
-### Create and authenticate a `ComputeClient`
+### Create and authenticate a `ComputeManagementClient`
 
-To create a client object to access the Azure Compute API, you will need the `endpoint` of your Azure Compute resource and a `credential`. The Azure Compute client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure Compute resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure ComputeManagement API, you will need the `endpoint` of your Azure ComputeManagement resource and a `credential`. The Azure ComputeManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure ComputeManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,32 +45,32 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure Compute** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure ComputeManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { ComputeClient } from "@azure/arm-compute-gallery";
+import { ComputeManagementClient } from "@azure/arm-compute-gallery";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ComputeClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ComputeManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { ComputeClient } from "@azure/arm-compute-gallery";
+import { ComputeManagementClient } from "@azure/arm-compute-gallery";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ComputeClient(credential, subscriptionId);
+const client = new ComputeManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### ComputeClient
+### ComputeManagementClient
 
-`ComputeClient` is the primary interface for developers using the Azure Compute client library. Explore the methods on this client object to understand the different features of the Azure Compute service that you can access.
+`ComputeManagementClient` is the primary interface for developers using the Azure ComputeManagement client library. Explore the methods on this client object to understand the different features of the Azure ComputeManagement service that you can access.
 
 ## Troubleshooting
 

@@ -12,7 +12,7 @@ export interface CommunityGalleriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: ComputeContext, location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams): Promise<CommunityGallery>;
+export function get(context: ComputeManagementContext, location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams): Promise<CommunityGallery>;
 
 // (No @packageDocumentation comment for this package)
 

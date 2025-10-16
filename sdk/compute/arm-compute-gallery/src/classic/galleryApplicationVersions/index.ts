@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByGalleryApplication,
   $delete,
@@ -73,7 +73,7 @@ export interface GalleryApplicationVersionsOperations {
   ) => Promise<GalleryApplicationVersion>;
 }
 
-function _getGalleryApplicationVersions(context: ComputeContext) {
+function _getGalleryApplicationVersions(context: ComputeManagementContext) {
   return {
     listByGalleryApplication: (
       resourceGroupName: string,
@@ -156,7 +156,7 @@ function _getGalleryApplicationVersions(context: ComputeContext) {
 }
 
 export function _getGalleryApplicationVersionsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): GalleryApplicationVersionsOperations {
   return {
     ..._getGalleryApplicationVersions(context),

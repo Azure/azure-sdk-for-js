@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-gallery";
+import { ComputeManagementClient } from "@azure/arm-compute-gallery";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.update(
     "myResourceGroup",
     "myGalleryName",
@@ -50,7 +50,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<v
 async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.update(
     "myResourceGroup",
     "myGalleryName",
@@ -69,7 +69,7 @@ async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
 async function updateASimpleGalleryImageVersionWithoutSourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.galleryImageVersions.update(
     "myResourceGroup",
     "myGalleryName",

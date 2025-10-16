@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface GalleryApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -39,13 +39,13 @@ export interface GalleryApplicationsUpdateOptionalParams extends OperationOption
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams): Promise<GalleryApplication>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams): Promise<GalleryApplication>;
 
 // @public
-export function listByGallery(context: ComputeContext, resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryApplication>;
+export function listByGallery(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryApplication>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   gallerySharingProfileUpdate,
   listByArtifactName,
@@ -88,7 +88,7 @@ export interface GalleriesOperations {
   ) => Promise<Gallery>;
 }
 
-function _getGalleries(context: ComputeContext) {
+function _getGalleries(context: ComputeManagementContext) {
   return {
     gallerySharingProfileUpdate: (
       resourceGroupName: string,
@@ -139,7 +139,7 @@ function _getGalleries(context: ComputeContext) {
   };
 }
 
-export function _getGalleriesOperations(context: ComputeContext): GalleriesOperations {
+export function _getGalleriesOperations(context: ComputeManagementContext): GalleriesOperations {
   return {
     ..._getGalleries(context),
   };

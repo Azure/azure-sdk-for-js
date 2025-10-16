@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-gallery";
+import { ComputeManagementClient } from "@azure/arm-compute-gallery";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getACommunityGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.get("myResourceGroup", "myGalleryName");
   console.log(result);
 }
@@ -27,7 +27,7 @@ async function getACommunityGallery(): Promise<void> {
 async function getAGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.get("myResourceGroup", "myGalleryName");
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function getAGallery(): Promise<void> {
 async function getAGalleryWithExpandSharingProfileGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.get("myResourceGroup", "myGalleryName", {
     expand: "SharingProfile/Groups",
   });
@@ -57,7 +57,7 @@ async function getAGalleryWithExpandSharingProfileGroups(): Promise<void> {
 async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.get("myResourceGroup", "myGalleryName");
   console.log(result);
 }
@@ -71,7 +71,7 @@ async function getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities(): 
 async function getAGalleryWithSelectPermissions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.get("myResourceGroup", "myGalleryName", {
     select: "Permissions",
   });

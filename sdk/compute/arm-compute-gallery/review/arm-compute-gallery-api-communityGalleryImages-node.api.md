@@ -16,10 +16,10 @@ export interface CommunityGalleryImagesListOptionalParams extends OperationOptio
 }
 
 // @public
-export function get(context: ComputeContext, location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams): Promise<CommunityGalleryImage>;
+export function get(context: ComputeManagementContext, location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams): Promise<CommunityGalleryImage>;
 
 // @public
-export function list(context: ComputeContext, location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImage>;
+export function list(context: ComputeManagementContext, location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImage>;
 
 // (No @packageDocumentation comment for this package)
 

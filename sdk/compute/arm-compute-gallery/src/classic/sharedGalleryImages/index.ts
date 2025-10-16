@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list, get } from "../../api/sharedGalleryImages/operations.js";
 import type {
   SharedGalleryImagesListOptionalParams,
@@ -27,7 +27,7 @@ export interface SharedGalleryImagesOperations {
   ) => Promise<SharedGalleryImage>;
 }
 
-function _getSharedGalleryImages(context: ComputeContext) {
+function _getSharedGalleryImages(context: ComputeManagementContext) {
   return {
     list: (
       location: string,
@@ -44,7 +44,7 @@ function _getSharedGalleryImages(context: ComputeContext) {
 }
 
 export function _getSharedGalleryImagesOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): SharedGalleryImagesOperations {
   return {
     ..._getSharedGalleryImages(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByGallery,
   $delete,
@@ -68,7 +68,7 @@ export interface GalleryInVMAccessControlProfilesOperations {
   ) => Promise<GalleryInVMAccessControlProfile>;
 }
 
-function _getGalleryInVMAccessControlProfiles(context: ComputeContext) {
+function _getGalleryInVMAccessControlProfiles(context: ComputeManagementContext) {
   return {
     listByGallery: (
       resourceGroupName: string,
@@ -121,7 +121,7 @@ function _getGalleryInVMAccessControlProfiles(context: ComputeContext) {
 }
 
 export function _getGalleryInVMAccessControlProfilesOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): GalleryInVMAccessControlProfilesOperations {
   return {
     ..._getGalleryInVMAccessControlProfiles(context),

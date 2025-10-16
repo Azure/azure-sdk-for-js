@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { get } from "../../api/communityGalleries/operations.js";
 import type { CommunityGalleriesGetOptionalParams } from "../../api/communityGalleries/options.js";
 import type { CommunityGallery } from "../../models/models.js";
@@ -16,7 +16,7 @@ export interface CommunityGalleriesOperations {
   ) => Promise<CommunityGallery>;
 }
 
-function _getCommunityGalleries(context: ComputeContext) {
+function _getCommunityGalleries(context: ComputeManagementContext) {
   return {
     get: (
       location: string,
@@ -27,7 +27,7 @@ function _getCommunityGalleries(context: ComputeContext) {
 }
 
 export function _getCommunityGalleriesOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): CommunityGalleriesOperations {
   return {
     ..._getCommunityGalleries(context),

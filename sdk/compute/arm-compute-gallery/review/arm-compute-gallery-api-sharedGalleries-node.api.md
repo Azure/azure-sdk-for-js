@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ComputeContext, location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGallery>;
+export function get(context: ComputeManagementContext, location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGallery>;
 
 // @public
-export function list(context: ComputeContext, location: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
+export function list(context: ComputeManagementContext, location: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
 
 // @public
 export interface SharedGalleriesGetOptionalParams extends OperationOptions {
