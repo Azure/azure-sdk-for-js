@@ -7,7 +7,6 @@ import path from "node:path";
 import { createPrinter } from "./printer";
 import { SampleConfiguration } from "./samples/configuration";
 import { pathToFileURL } from "node:url";
-import { pathExists } from "./fsHelpers";
 
 const { debug } = createPrinter("resolve-project");
 
@@ -203,7 +202,7 @@ export async function resolveProject(
  * @returns an absolute path to the root of the monorepo
  */
 export async function resolveRoot(start: string = process.cwd()): Promise<string> {
-  if (await pathExists(path.join(start, "pnpm-workspace.yaml"))) {
+  if (existsSync(path.join(start, "pnpm-workspace.yaml"))) {
     return start;
   } else {
     const nextPath = path.resolve(start, "..");

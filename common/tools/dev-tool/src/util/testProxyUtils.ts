@@ -15,7 +15,7 @@ import {
   symlink,
   unlink,
 } from "node:fs/promises";
-import { createWriteStream } from "node:fs";
+import { createWriteStream, existsSync } from "node:fs";
 import path from "node:path";
 import { extract } from "tar";
 import * as unzipper from "unzipper";
@@ -25,7 +25,6 @@ import { pipeline } from "node:stream/promises";
 import { delay } from "./checkWithTimeout";
 import process from "node:process";
 import os from "node:os";
-import { pathExists } from "./fsHelpers";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = getTestProxyDownloadLocation();
@@ -221,7 +220,7 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
-  if (await pathExists("assets.json")) {
+  if (existsSync("assets.json")) {
     await linkRecordingsDirectory();
   }
 }
@@ -258,7 +257,7 @@ export async function linkRecordingsDirectory() {
 
   const symlinkLocation = path.join(project.path, "_recordings");
 
-  if (await pathExists(symlinkLocation)) {
+  if (existsSync(symlinkLocation)) {
     const stat = await lstat(symlinkLocation);
     if (stat.isSymbolicLink()) {
       await unlink(symlinkLocation);
@@ -357,7 +356,7 @@ async function getTargetVersion() {
   try {
     let contentInVersionFile: string;
     const overrideFile = `${path.join(await resolveRoot(), "eng/target_proxy_version.txt")}`;
-    const overrideExists = await pathExists(overrideFile);
+    const overrideExists = existsSync(overrideFile);
 
     if (overrideExists) {
       contentInVersionFile = await readFile(overrideFile, "utf-8");

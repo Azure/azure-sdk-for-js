@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { cp, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createPrinter } from "./printer";
 import * as git from "./git";
-import { pathExists } from "./fsHelpers";
 
 const { debug, warn } = createPrinter("fileTree");
 
@@ -42,7 +42,7 @@ export function safeClean(
   const { actionIfDirty } = options ?? {};
   return async (basePath) => {
     // If the path exists, then we will check it for a git diff before deleting it.
-    if (await pathExists(basePath)) {
+    if (existsSync(basePath)) {
       debug(basePath, "exists, checking it for safety.");
 
       const hasDiff = await git.hasDiff(basePath);

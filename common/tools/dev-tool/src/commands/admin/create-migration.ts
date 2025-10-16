@@ -8,7 +8,7 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import migrationTemplate, { MigrationTemplate } from "../../templates/migration";
 import { createPrinter } from "../../util/printer";
 import { mkdir, writeFile } from "node:fs/promises";
-import { pathExists } from "../../util/fsHelpers";
+import { existsSync } from "node:fs";
 import { format } from "../../util/prettier";
 
 const log = createPrinter("create-migration");
@@ -83,7 +83,7 @@ export default leafCommand(commandInfo, async (options) => {
       );
     }
 
-    if (await pathExists(migrationFile)) {
+    if (existsSync(migrationFile)) {
       failed = true;
       log.error(`Migration '${id}' already exists.`);
     }
