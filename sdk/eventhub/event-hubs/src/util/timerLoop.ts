@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { logger } from "../logger.js";
+
 /**
  * A timer loop is a loop over multiple instances of a promise every specific
  * time interval. It is different from `setInterval` in that it waits until the
@@ -37,12 +39,12 @@ export function createTimerLoop(
       token = setTimeout(() => {
         // Fire-and-forget background task with error handling
         createTask()
-          .catch(() => {
-            /** eats up any unhandled error */
+          .catch((err) => {
+            logger.verbose("Error in timer loop task: %O", err);
           })
           .finally(loop.start)
-          .catch(() => {
-            /** eats up any error from finally */
+          .catch((err) => {
+            logger.verbose("Error in timer loop finally block: %O", err);
           });
       }, timeoutInMs);
       loop.isRunning = true;
