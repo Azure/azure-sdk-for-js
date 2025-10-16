@@ -1,8 +1,15 @@
 import { BlobItem, ContainerClient } from "@azure/storage-blob";
 import React from "react";
-import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import "./shims";
+import "./src/shims";
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -10,13 +17,17 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-export default function App() {
+export function TestStorageBlob() {
   const containerClient = new ContainerClient(
-    process.env.BLOB_CONTAINER_SAS_URL || "container-sas-url"
+    process.env.EXPO_PUBLIC_BLOB_CONTAINER_SAS_URL || "container-sas-url"
   );
-  const [image, setImage] = React.useState({ uri: "https://reactjs.org/logo-og.png" });
+  const [image, setImage] = React.useState({
+    uri: "https://reactjs.org/logo-og.png",
+  });
   const [blobItems, setBlobItems] = React.useState<BlobItem[]>([]);
-  const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
+  const [selectedId, setSelectedId] = React.useState<string | undefined>(
+    undefined
+  );
 
   loadBlobItems(containerClient, setBlobItems);
 
@@ -39,9 +50,9 @@ export default function App() {
     const resp = await containerClient.getBlobClient(name).download();
     const blob = await resp.blobBody;
     if (blob) {
-      var reader = new FileReader();
+      let reader = new FileReader();
       const dataUrl = await new Promise((res) => {
-        reader.onload = function() {
+        reader.onload = function () {
           res(reader.result);
         };
         reader.readAsDataURL(blob);
@@ -54,7 +65,11 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.title}>Pick your favorite</Text>
       <View style={styles.container}>
-        <ImageBackground source={image} resizeMode="stretch" style={styles.image}>
+        <ImageBackground
+          source={image}
+          resizeMode="stretch"
+          style={styles.image}
+        >
           <FlatList
             data={blobItems}
             renderItem={renderItem}
@@ -70,23 +85,27 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
   image: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   item: {
     padding: 20,
     marginVertical: 8,
-    marginHorizontal: 16
+    marginHorizontal: 16,
   },
   title: {
-    fontSize: 32
-  }
+    fontSize: 32,
+  },
 });
 
-async function loadBlobItems(containerClient: ContainerClient, setter: (items: BlobItem[]) => {}) {
+async function loadBlobItems(
+  containerClient: ContainerClient,
+  setter: (items: BlobItem[]) => {}
+) {
+  console.log("Loading blob items from ...", containerClient.url);
   const results = [];
   for await (const blobItem of containerClient.listBlobsFlat()) {
     if (blobItem.name.endsWith(".jpg") || blobItem.name.endsWith(".png")) {
