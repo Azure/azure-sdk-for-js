@@ -35,7 +35,7 @@
     "breakingChangeLabel": "CI-BreakingChange-JavaScript",
     "breakingChangesLabel": "BreakingChange-JavaScript-Sdk",
     "buildScript": {
-      "path": "./eng/scripts/build-sdk.ps1"
+      "path": "./eng/scripts/build-sdk-script.ps1"
     }
   }
 }
