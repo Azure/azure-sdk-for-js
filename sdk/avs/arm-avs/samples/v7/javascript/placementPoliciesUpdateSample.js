@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a PlacementPolicy
  *
  * @summary update a PlacementPolicy
- * x-ms-original-file: 2024-09-01/PlacementPolicies_Update.json
+ * x-ms-original-file: 2025-09-01/PlacementPolicies_Update.json
  */
 async function placementPoliciesUpdate() {
   const credential = new DefaultAzureCredential();

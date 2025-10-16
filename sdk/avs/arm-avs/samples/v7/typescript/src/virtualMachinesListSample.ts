@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list VirtualMachine resources by Cluster
  *
  * @summary list VirtualMachine resources by Cluster
- * x-ms-original-file: 2024-09-01/VirtualMachines_List.json
+ * x-ms-original-file: 2025-09-01/VirtualMachines_List.json
  */
 async function virtualMachinesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

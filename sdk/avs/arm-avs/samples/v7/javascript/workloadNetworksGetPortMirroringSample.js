@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a WorkloadNetworkPortMirroring
  *
  * @summary get a WorkloadNetworkPortMirroring
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_GetPortMirroring.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_GetPortMirroring.json
  */
 async function workloadNetworksGetPortMirroring() {
   const credential = new DefaultAzureCredential();

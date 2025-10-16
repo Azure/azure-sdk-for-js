@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a WorkloadNetworkPortMirroring
  *
  * @summary update a WorkloadNetworkPortMirroring
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_UpdatePortMirroring.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_UpdatePortMirroring.json
  */
 async function workloadNetworksUpdatePortMirroring(): Promise<void> {
   const credential = new DefaultAzureCredential();

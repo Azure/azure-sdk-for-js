@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a ExpressRouteAuthorization
  *
  * @summary delete a ExpressRouteAuthorization
- * x-ms-original-file: 2024-09-01/Authorizations_Delete.json
+ * x-ms-original-file: 2025-09-01/Authorizations_Delete.json
  */
 async function authorizationsDelete() {
   const credential = new DefaultAzureCredential();

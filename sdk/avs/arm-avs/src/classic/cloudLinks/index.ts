@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { CloudLink } from "../../models/models.js";
-import {
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { $delete, createOrUpdate, get, list } from "../../api/cloudLinks/operations.js";
+import type {
   CloudLinksDeleteOptionalParams,
   CloudLinksCreateOrUpdateOptionalParams,
   CloudLinksGetOptionalParams,
   CloudLinksListOptionalParams,
 } from "../../api/cloudLinks/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/cloudLinks/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CloudLink } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudLinks operations. */
 export interface CloudLinksOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a WorkloadNetworkPublicIP
  *
  * @summary get a WorkloadNetworkPublicIP
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_GetPublicIP.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_GetPublicIP.json
  */
 async function workloadNetworksGetPublicIP(): Promise<void> {
   const credential = new DefaultAzureCredential();

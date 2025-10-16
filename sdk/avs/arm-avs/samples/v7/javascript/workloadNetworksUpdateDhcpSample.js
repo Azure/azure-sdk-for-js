@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a WorkloadNetworkDhcp
  *
  * @summary update a WorkloadNetworkDhcp
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_UpdateDhcp.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_UpdateDhcp.json
  */
 async function workloadNetworksUpdateDhcp() {
   const credential = new DefaultAzureCredential();

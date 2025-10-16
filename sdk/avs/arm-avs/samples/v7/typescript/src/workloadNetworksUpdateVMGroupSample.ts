@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a WorkloadNetworkVMGroup
  *
  * @summary update a WorkloadNetworkVMGroup
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_UpdateVMGroup.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_UpdateVMGroup.json
  */
 async function workloadNetworksUpdateVMGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

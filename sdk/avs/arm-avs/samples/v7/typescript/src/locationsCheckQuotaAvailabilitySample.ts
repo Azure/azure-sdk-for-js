@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to return quota for subscription by region
  *
  * @summary return quota for subscription by region
- * x-ms-original-file: 2024-09-01/Locations_CheckQuotaAvailability.json
+ * x-ms-original-file: 2025-09-01/Locations_CheckQuotaAvailability.json
  */
 async function locationsCheckQuotaAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
