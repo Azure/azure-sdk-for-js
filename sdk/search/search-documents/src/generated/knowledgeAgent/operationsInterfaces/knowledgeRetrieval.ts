@@ -7,7 +7,7 @@
  */
 
 import {
-  KnowledgeAgentRetrievalRequest,
+  KnowledgeBaseRetrievalRequest,
   KnowledgeRetrievalRetrieveOptionalParams,
   KnowledgeRetrievalRetrieveResponse,
 } from "../models/index.js";
@@ -15,12 +15,12 @@ import {
 /** Interface representing a KnowledgeRetrieval. */
 export interface KnowledgeRetrieval {
   /**
-   * KnowledgeAgent retrieves relevant data from backing stores.
+   * KnowledgeBase retrieves relevant data from backing stores.
    * @param retrievalRequest The retrieval request to process.
    * @param options The options parameters.
    */
   retrieve(
-    retrievalRequest: KnowledgeAgentRetrievalRequest,
+    retrievalRequest: KnowledgeBaseRetrievalRequest,
     options?: KnowledgeRetrievalRetrieveOptionalParams,
   ): Promise<KnowledgeRetrievalRetrieveResponse>;
 }

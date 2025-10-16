@@ -12,7 +12,7 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SearchClient } from "../searchClient.js";
 import {
-  KnowledgeAgentRetrievalRequest,
+  KnowledgeBaseRetrievalRequest,
   KnowledgeRetrievalRetrieveOptionalParams,
   KnowledgeRetrievalRetrieveResponse,
 } from "../models/index.js";
@@ -30,12 +30,12 @@ export class KnowledgeRetrievalImpl implements KnowledgeRetrieval {
   }
 
   /**
-   * KnowledgeAgent retrieves relevant data from backing stores.
+   * KnowledgeBase retrieves relevant data from backing stores.
    * @param retrievalRequest The retrieval request to process.
    * @param options The options parameters.
    */
   retrieve(
-    retrievalRequest: KnowledgeAgentRetrievalRequest,
+    retrievalRequest: KnowledgeBaseRetrievalRequest,
     options?: KnowledgeRetrievalRetrieveOptionalParams,
   ): Promise<KnowledgeRetrievalRetrieveResponse> {
     return this.client.sendOperationRequest(
@@ -52,7 +52,10 @@ const retrieveOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.KnowledgeAgentRetrievalResponse,
+      bodyMapper: Mappers.KnowledgeBaseRetrievalResponse,
+    },
+    206: {
+      bodyMapper: Mappers.KnowledgeBaseRetrievalResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -60,7 +63,7 @@ const retrieveOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.retrievalRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.agentName],
+  urlParameters: [Parameters.endpoint, Parameters.knowledgeBaseName],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,

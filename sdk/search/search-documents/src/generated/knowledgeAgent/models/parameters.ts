@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { KnowledgeAgentRetrievalRequest as KnowledgeAgentRetrievalRequestMapper } from "../models/mappers.js";
+import { KnowledgeBaseRetrievalRequest as KnowledgeBaseRetrievalRequestMapper } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -27,7 +27,7 @@ export const contentType: OperationParameter = {
 
 export const retrievalRequest: OperationParameter = {
   parameterPath: "retrievalRequest",
-  mapper: KnowledgeAgentRetrievalRequestMapper,
+  mapper: KnowledgeBaseRetrievalRequestMapper,
 };
 
 export const accept: OperationParameter = {
@@ -54,10 +54,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const agentName: OperationURLParameter = {
-  parameterPath: "agentName",
+export const knowledgeBaseName: OperationURLParameter = {
+  parameterPath: "knowledgeBaseName",
   mapper: {
-    serializedName: "agentName",
+    serializedName: "knowledgeBaseName",
     required: true,
     type: {
       name: "String",

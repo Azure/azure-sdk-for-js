@@ -9,83 +9,197 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
-export type KnowledgeAgentMessageContentUnion =
-  | KnowledgeAgentMessageContent
-  | KnowledgeAgentMessageTextContent
-  | KnowledgeAgentMessageImageContent;
+export type KnowledgeBaseMessageContentUnion =
+  | KnowledgeBaseMessageContent
+  | KnowledgeBaseMessageTextContent
+  | KnowledgeBaseMessageImageContent;
+export type KnowledgeRetrievalIntentUnion =
+  | KnowledgeRetrievalIntent
+  | KnowledgeRetrievalSemanticIntent;
+export type KnowledgeRetrievalReasoningEffortUnion =
+  | KnowledgeRetrievalReasoningEffort
+  | KnowledgeRetrievalMinimalReasoningEffort
+  | KnowledgeRetrievalLowReasoningEffort
+  | KnowledgeRetrievalMediumReasoningEffort;
 export type KnowledgeSourceParamsUnion =
   | KnowledgeSourceParams
-  | SearchIndexKnowledgeSourceParams;
-export type KnowledgeAgentActivityRecordUnion =
-  | KnowledgeAgentActivityRecord
-  | KnowledgeAgentRetrievalActivityRecordUnion
-  | KnowledgeAgentModelQueryPlanningActivityRecord
-  | KnowledgeAgentModelAnswerSynthesisActivityRecord
-  | KnowledgeAgentSemanticRerankerActivityRecord;
-export type KnowledgeAgentReferenceUnion =
-  | KnowledgeAgentReference
-  | KnowledgeAgentSearchIndexReference
-  | KnowledgeAgentAzureBlobReference;
-export type KnowledgeAgentRetrievalActivityRecordUnion =
-  | KnowledgeAgentRetrievalActivityRecord
-  | KnowledgeAgentSearchIndexActivityRecord
-  | KnowledgeAgentAzureBlobActivityRecord;
+  | SearchIndexKnowledgeSourceParams
+  | AzureBlobKnowledgeSourceParams
+  | IndexedSharePointKnowledgeSourceParams
+  | IndexedOneLakeKnowledgeSourceParams
+  | WebKnowledgeSourceParams
+  | RemoteSharePointKnowledgeSourceParams;
+export type KnowledgeBaseActivityRecordUnion =
+  | KnowledgeBaseActivityRecord
+  | KnowledgeBaseRetrievalActivityRecordUnion
+  | KnowledgeBaseModelQueryPlanningActivityRecord
+  | KnowledgeBaseModelAnswerSynthesisActivityRecord
+  | KnowledgeBaseAgenticReasoningActivityRecord;
+export type KnowledgeBaseReferenceUnion =
+  | KnowledgeBaseReference
+  | KnowledgeBaseSearchIndexReference
+  | KnowledgeBaseAzureBlobReference
+  | KnowledgeBaseIndexedSharePointReference
+  | KnowledgeBaseIndexedOneLakeReference
+  | KnowledgeBaseWebReference
+  | KnowledgeBaseRemoteSharePointReference;
+export type KnowledgeBaseRetrievalActivityRecordUnion =
+  | KnowledgeBaseRetrievalActivityRecord
+  | KnowledgeBaseSearchIndexActivityRecord
+  | KnowledgeBaseAzureBlobActivityRecord
+  | KnowledgeBaseIndexedSharePointActivityRecord
+  | KnowledgeBaseIndexedOneLakeActivityRecord
+  | KnowledgeBaseWebActivityRecord
+  | KnowledgeBaseRemoteSharePointActivityRecord;
 
 /** The input contract for the retrieval request. */
-export interface KnowledgeAgentRetrievalRequest {
-  messages: KnowledgeAgentMessage[];
+export interface KnowledgeBaseRetrievalRequest {
+  /** A list of chat message style input. */
+  messages?: KnowledgeBaseMessage[];
+  /** A list of intended queries to execute without model query planning. */
+  intents?: KnowledgeRetrievalIntentUnion[];
+  /** The maximum runtime in seconds. */
+  maxRuntimeInSeconds?: number;
+  /** Limits the maximum size of the content in the output. */
+  maxOutputSize?: number;
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+  /** Indicates retrieval results should include activity information. */
+  includeActivity?: boolean;
+  /** The output configuration for this retrieval. */
+  outputMode?: KnowledgeRetrievalOutputMode;
+  /** A list of runtime parameters for the knowledge sources. */
   knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
 }
 
 /** The natural language message style object. */
-export interface KnowledgeAgentMessage {
+export interface KnowledgeBaseMessage {
   /** The role of the tool response. */
   role?: string;
-  content: KnowledgeAgentMessageContentUnion[];
+  content: KnowledgeBaseMessageContentUnion[];
 }
 
 /** Specifies the type of the message content. */
-export interface KnowledgeAgentMessageContent {
+export interface KnowledgeBaseMessageContent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "text" | "image";
 }
 
+/** An intended query to execute without model query planning. */
+export interface KnowledgeRetrievalIntent {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "semantic";
+}
+
+export interface KnowledgeRetrievalReasoningEffort {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "minimal" | "low" | "medium";
+}
+
 export interface KnowledgeSourceParams {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "searchIndex";
+  kind:
+    | "searchIndex"
+    | "azureBlob"
+    | "indexedSharePoint"
+    | "indexedOneLake"
+    | "web"
+    | "remoteSharePoint";
   /** The name of the index the params apply to. */
   knowledgeSourceName: string;
+  /** Indicates whether references should be included for data retrieved from this source. */
+  includeReferences?: boolean;
+  /** Indicates whether references should include the structured data obtained during retrieval in their payload. */
+  includeReferenceSourceData?: boolean;
+  /** Indicates that this knowledge source should bypass source selection and always be queried at retrieval time. */
+  alwaysQuerySource?: boolean;
+  /** The reranker threshold all retrieved documents must meet to be included in the response. */
+  rerankerThreshold?: number;
 }
 
 /** The output contract for the retrieval response. */
-export interface KnowledgeAgentRetrievalResponse {
-  response?: KnowledgeAgentMessage[];
+export interface KnowledgeBaseRetrievalResponse {
+  response?: KnowledgeBaseMessage[];
   /** The activity records for tracking progress and billing implications. */
-  activity?: KnowledgeAgentActivityRecordUnion[];
+  activity?: KnowledgeBaseActivityRecordUnion[];
   /** The references for the retrieval data used in the response. */
-  references?: KnowledgeAgentReferenceUnion[];
+  references?: KnowledgeBaseReferenceUnion[];
 }
 
 /** Base type for activity records. */
-export interface KnowledgeAgentActivityRecord {
+export interface KnowledgeBaseActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
-    | "KnowledgeAgentRetrievalActivityRecord"
+    | "KnowledgeBaseRetrievalActivityRecord"
     | "searchIndex"
     | "azureBlob"
+    | "indexedSharePoint"
+    | "indexedOneLake"
+    | "web"
+    | "remoteSharePoint"
     | "modelQueryPlanning"
     | "modelAnswerSynthesis"
-    | "semanticReranker";
+    | "agenticReasoning";
   /** The ID of the activity record. */
   id: number;
   /** The elapsed time in milliseconds for the retrieval activity. */
   elapsedMs?: number;
+  /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
+  error?: KnowledgeBaseErrorDetail;
+}
+
+/** The error details. */
+export interface KnowledgeBaseErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: KnowledgeBaseErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: KnowledgeBaseErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface KnowledgeBaseErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Base type for references. */
-export interface KnowledgeAgentReference {
+export interface KnowledgeBaseReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "searchIndex" | "azureBlob";
+  type:
+    | "searchIndex"
+    | "azureBlob"
+    | "indexedSharePoint"
+    | "indexedOneLake"
+    | "web"
+    | "remoteSharePoint";
   /** The ID of the reference. */
   id: string;
   /** The source activity ID for the reference. */
@@ -145,13 +259,13 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-export interface KnowledgeAgentMessageImageContentImage {
+export interface KnowledgeBaseMessageImageContentImage {
   /** The url of the image. */
   url: string;
 }
 
 /** Represents the arguments the search index retrieval activity was run with. */
-export interface KnowledgeAgentSearchIndexActivityArguments {
+export interface KnowledgeBaseSearchIndexActivityArguments {
   /** The search string used to query the search index. */
   search?: string;
   /** The filter string. */
@@ -159,25 +273,104 @@ export interface KnowledgeAgentSearchIndexActivityArguments {
 }
 
 /** Represents the arguments the azure blob retrieval activity was run with. */
-export interface KnowledgeAgentAzureBlobActivityArguments {
+export interface KnowledgeBaseAzureBlobActivityArguments {
   /** The search string used to query blob contents. */
   search?: string;
 }
 
+/** Represents the arguments the indexed SharePoint retrieval activity was run with. */
+export interface KnowledgeBaseIndexedSharePointActivityArguments {
+  /** The search string used to query indexed SharePoint contents. */
+  search?: string;
+}
+
+/** Represents the arguments the indexed OneLake retrieval activity was run with. */
+export interface KnowledgeBaseIndexedOneLakeActivityArguments {
+  /** The search string used to query indexed OneLake contents. */
+  search?: string;
+}
+
+/** Represents the arguments the web retrieval activity was run with. */
+export interface KnowledgeBaseWebActivityArguments {
+  /** The search string used to query the web. */
+  search?: string;
+  /** The language for the retrieval activity. */
+  language?: string;
+  /** The market for the retrieval activity. */
+  market?: string;
+  /** The number of web results returned. */
+  count?: number;
+  /** The freshness for the retrieval activity. */
+  freshness?: string;
+}
+
+/** Represents the arguments the remote SharePoint retrieval activity was run with. */
+export interface KnowledgeBaseRemoteSharePointActivityArguments {
+  /** The search string used to query the remote SharePoint knowledge source. */
+  search?: string;
+  /** The filter expression add-on for the retrieval activity. */
+  filterExpressionAddOn?: string;
+}
+
+/** Information about the sensitivity label applied to a SharePoint document. */
+export interface SharePointSensitivityLabelInfo {
+  /** The display name for the sensitivity label. */
+  displayName?: string;
+  /** The ID of the sensitivity label. */
+  sensitivityLabelId?: string;
+  /** The tooltip that should be displayed for the label in a UI. */
+  tooltip?: string;
+  /** The priority in which the sensitivity label is applied. */
+  priority?: number;
+  /** The color that the UI should display for the label, if configured. */
+  color?: string;
+  /** Indicates whether the sensitivity label enforces encryption. */
+  isEncrypted?: boolean;
+}
+
 /** Text message type. */
-export interface KnowledgeAgentMessageTextContent
-  extends KnowledgeAgentMessageContent {
+export interface KnowledgeBaseMessageTextContent
+  extends KnowledgeBaseMessageContent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "text";
   text: string;
 }
 
 /** Text message type. */
-export interface KnowledgeAgentMessageImageContent
-  extends KnowledgeAgentMessageContent {
+export interface KnowledgeBaseMessageImageContent
+  extends KnowledgeBaseMessageContent {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "image";
-  image: KnowledgeAgentMessageImageContentImage;
+  image: KnowledgeBaseMessageImageContentImage;
+}
+
+export interface KnowledgeRetrievalSemanticIntent
+  extends KnowledgeRetrievalIntent {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "semantic";
+  /** The semantic query to execute */
+  search: string;
+}
+
+/** Run knowledge retrieval with minimal reasoning effort. */
+export interface KnowledgeRetrievalMinimalReasoningEffort
+  extends KnowledgeRetrievalReasoningEffort {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "minimal";
+}
+
+/** Run knowledge retrieval with low reasoning effort. */
+export interface KnowledgeRetrievalLowReasoningEffort
+  extends KnowledgeRetrievalReasoningEffort {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "low";
+}
+
+/** Run knowledge retrieval with medium reasoning effort. */
+export interface KnowledgeRetrievalMediumReasoningEffort
+  extends KnowledgeRetrievalReasoningEffort {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "medium";
 }
 
 /** Specifies runtime parameters for a search index knowledge source */
@@ -189,11 +382,61 @@ export interface SearchIndexKnowledgeSourceParams
   filterAddOn?: string;
 }
 
-/** Represents a retrieval activity record. */
-export interface KnowledgeAgentRetrievalActivityRecord
-  extends KnowledgeAgentActivityRecord {
+/** Specifies runtime parameters for a azure blob knowledge source */
+export interface AzureBlobKnowledgeSourceParams extends KnowledgeSourceParams {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "KnowledgeAgentRetrievalActivityRecord" | "searchIndex" | "azureBlob";
+  kind: "azureBlob";
+}
+
+/** Specifies runtime parameters for a indexed SharePoint knowledge source */
+export interface IndexedSharePointKnowledgeSourceParams
+  extends KnowledgeSourceParams {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "indexedSharePoint";
+}
+
+/** Specifies runtime parameters for a indexed OneLake knowledge source */
+export interface IndexedOneLakeKnowledgeSourceParams
+  extends KnowledgeSourceParams {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "indexedOneLake";
+}
+
+/** Specifies runtime parameters for a web knowledge source */
+export interface WebKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "web";
+  /** The language of the web results. */
+  language?: string;
+  /** The market of the web results. */
+  market?: string;
+  /** The number of web results to return. */
+  count?: number;
+  /** The freshness of web results. */
+  freshness?: string;
+}
+
+/** Specifies runtime parameters for a remote SharePoint knowledge source */
+export interface RemoteSharePointKnowledgeSourceParams
+  extends KnowledgeSourceParams {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "remoteSharePoint";
+  /** A filter condition applied to the SharePoint data source. It must be specified in the Keyword Query Language syntax. It will be combined as a conjunction with the filter expression specified in the knowledge source definition. */
+  filterExpressionAddOn?: string;
+}
+
+/** Represents a retrieval activity record. */
+export interface KnowledgeBaseRetrievalActivityRecord
+  extends KnowledgeBaseActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "KnowledgeBaseRetrievalActivityRecord"
+    | "searchIndex"
+    | "azureBlob"
+    | "indexedSharePoint"
+    | "indexedOneLake"
+    | "web"
+    | "remoteSharePoint";
   /** The knowledge source for the retrieval activity. */
   knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
@@ -203,8 +446,8 @@ export interface KnowledgeAgentRetrievalActivityRecord
 }
 
 /** Represents an LLM query planning activity record. */
-export interface KnowledgeAgentModelQueryPlanningActivityRecord
-  extends KnowledgeAgentActivityRecord {
+export interface KnowledgeBaseModelQueryPlanningActivityRecord
+  extends KnowledgeBaseActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "modelQueryPlanning";
   /** The number of input tokens for the LLM query planning activity. */
@@ -214,8 +457,8 @@ export interface KnowledgeAgentModelQueryPlanningActivityRecord
 }
 
 /** Represents an LLM answer synthesis activity record. */
-export interface KnowledgeAgentModelAnswerSynthesisActivityRecord
-  extends KnowledgeAgentActivityRecord {
+export interface KnowledgeBaseModelAnswerSynthesisActivityRecord
+  extends KnowledgeBaseActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "modelAnswerSynthesis";
   /** The number of input tokens for the LLM answer synthesis activity. */
@@ -224,18 +467,19 @@ export interface KnowledgeAgentModelAnswerSynthesisActivityRecord
   outputTokens?: number;
 }
 
-/** Represents a semantic ranker activity record. */
-export interface KnowledgeAgentSemanticRerankerActivityRecord
-  extends KnowledgeAgentActivityRecord {
+/** Represents an agentic reasoning activity record. */
+export interface KnowledgeBaseAgenticReasoningActivityRecord
+  extends KnowledgeBaseActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "semanticReranker";
-  /** The number of input tokens for the semantic ranker activity. */
-  inputTokens?: number;
+  type: "agenticReasoning";
+  /** The number of input tokens for agentic reasoning. */
+  reasoningTokens?: number;
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 /** Represents an Azure Search document reference. */
-export interface KnowledgeAgentSearchIndexReference
-  extends KnowledgeAgentReference {
+export interface KnowledgeBaseSearchIndexReference
+  extends KnowledgeBaseReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "searchIndex";
   /** The document key for the reference. */
@@ -243,49 +487,124 @@ export interface KnowledgeAgentSearchIndexReference
 }
 
 /** Represents an Azure Blob Storage document reference. */
-export interface KnowledgeAgentAzureBlobReference
-  extends KnowledgeAgentReference {
+export interface KnowledgeBaseAzureBlobReference
+  extends KnowledgeBaseReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "azureBlob";
   /** The blob URL for the reference. */
   blobUrl?: string;
 }
 
+/** Represents an Azure Blob Storage document reference. */
+export interface KnowledgeBaseIndexedSharePointReference
+  extends KnowledgeBaseReference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "indexedSharePoint";
+  /** The document URL for the reference. */
+  docUrl?: string;
+}
+
+/** Represents an Azure Blob Storage document reference. */
+export interface KnowledgeBaseIndexedOneLakeReference
+  extends KnowledgeBaseReference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "indexedOneLake";
+  /** The document URL for the reference. */
+  docUrl?: string;
+}
+
+/** Represents a web document reference. */
+export interface KnowledgeBaseWebReference extends KnowledgeBaseReference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "web";
+  /** The url the reference data originated from. */
+  url?: string;
+  /** The title of the web document. */
+  title?: string;
+}
+
+/** Represents a remote SharePoint document reference. */
+export interface KnowledgeBaseRemoteSharePointReference
+  extends KnowledgeBaseReference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "remoteSharePoint";
+  /** The url the reference data originated from. */
+  webUrl?: string;
+  /** Information about the sensitivity label applied to a SharePoint document. */
+  searchSensitivityLabelInfo?: SharePointSensitivityLabelInfo;
+}
+
 /** Represents a search index retrieval activity record. */
-export interface KnowledgeAgentSearchIndexActivityRecord
-  extends KnowledgeAgentRetrievalActivityRecord {
+export interface KnowledgeBaseSearchIndexActivityRecord
+  extends KnowledgeBaseRetrievalActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "searchIndex";
   /** The search index arguments for the retrieval activity. */
-  searchIndexArguments?: KnowledgeAgentSearchIndexActivityArguments;
+  searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
 }
 
 /** Represents a azure blob retrieval activity record. */
-export interface KnowledgeAgentAzureBlobActivityRecord
-  extends KnowledgeAgentRetrievalActivityRecord {
+export interface KnowledgeBaseAzureBlobActivityRecord
+  extends KnowledgeBaseRetrievalActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "azureBlob";
   /** The azure blob arguments for the retrieval activity. */
-  azureBlobArguments?: KnowledgeAgentAzureBlobActivityArguments;
+  azureBlobArguments?: KnowledgeBaseAzureBlobActivityArguments;
 }
 
-/** Known values of {@link ApiVersion20250801Preview} that the service accepts. */
-export enum KnownApiVersion20250801Preview {
-  /** Api Version '2025-08-01-preview' */
-  TwoThousandTwentyFive0801Preview = "2025-08-01-preview",
+/** Represents a indexed SharePoint retrieval activity record. */
+export interface KnowledgeBaseIndexedSharePointActivityRecord
+  extends KnowledgeBaseRetrievalActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "indexedSharePoint";
+  /** The indexed SharePoint arguments for the retrieval activity. */
+  indexedSharePointArguments?: KnowledgeBaseIndexedSharePointActivityArguments;
+}
+
+/** Represents a indexed OneLake retrieval activity record. */
+export interface KnowledgeBaseIndexedOneLakeActivityRecord
+  extends KnowledgeBaseRetrievalActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "indexedOneLake";
+  /** The indexed OneLake arguments for the retrieval activity. */
+  indexedOneLakeArguments?: KnowledgeBaseIndexedOneLakeActivityArguments;
+}
+
+/** Represents a web retrieval activity record. */
+export interface KnowledgeBaseWebActivityRecord
+  extends KnowledgeBaseRetrievalActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "web";
+  /** The web arguments for the retrieval activity. */
+  webArguments?: KnowledgeBaseWebActivityArguments;
+}
+
+/** Represents a remote SharePoint retrieval activity record. */
+export interface KnowledgeBaseRemoteSharePointActivityRecord
+  extends KnowledgeBaseRetrievalActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "remoteSharePoint";
+  /** The remote SharePoint arguments for the retrieval activity. */
+  remoteSharePointArguments?: KnowledgeBaseRemoteSharePointActivityArguments;
+}
+
+/** Known values of {@link ApiVersion20251101Preview} that the service accepts. */
+export enum KnownApiVersion20251101Preview {
+  /** Api Version '2025-11-01-preview' */
+  TwoThousandTwentyFive1101Preview = "2025-11-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20250801Preview. \
- * {@link KnownApiVersion20250801Preview} can be used interchangeably with ApiVersion20250801Preview,
+ * Defines values for ApiVersion20251101Preview. \
+ * {@link KnownApiVersion20251101Preview} can be used interchangeably with ApiVersion20251101Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2025-08-01-preview**: Api Version '2025-08-01-preview'
+ * **2025-11-01-preview**: Api Version '2025-11-01-preview'
  */
-export type ApiVersion20250801Preview = string;
+export type ApiVersion20251101Preview = string;
 
-/** Known values of {@link KnowledgeAgentMessageContentType} that the service accepts. */
-export enum KnownKnowledgeAgentMessageContentType {
+/** Known values of {@link KnowledgeBaseMessageContentType} that the service accepts. */
+export enum KnownKnowledgeBaseMessageContentType {
   /** Text message content kind. */
   Text = "text",
   /** Image message content kind. */
@@ -293,21 +612,83 @@ export enum KnownKnowledgeAgentMessageContentType {
 }
 
 /**
- * Defines values for KnowledgeAgentMessageContentType. \
- * {@link KnownKnowledgeAgentMessageContentType} can be used interchangeably with KnowledgeAgentMessageContentType,
+ * Defines values for KnowledgeBaseMessageContentType. \
+ * {@link KnownKnowledgeBaseMessageContentType} can be used interchangeably with KnowledgeBaseMessageContentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **text**: Text message content kind. \
  * **image**: Image message content kind.
  */
-export type KnowledgeAgentMessageContentType = string;
+export type KnowledgeBaseMessageContentType = string;
+
+/** Known values of {@link KnowledgeRetrievalIntentType} that the service accepts. */
+export enum KnownKnowledgeRetrievalIntentType {
+  /** A natural language semantic query intent. */
+  Semantic = "semantic",
+}
+
+/**
+ * Defines values for KnowledgeRetrievalIntentType. \
+ * {@link KnownKnowledgeRetrievalIntentType} can be used interchangeably with KnowledgeRetrievalIntentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **semantic**: A natural language semantic query intent.
+ */
+export type KnowledgeRetrievalIntentType = string;
+
+/** Known values of {@link KnowledgeRetrievalReasoningEffortKind} that the service accepts. */
+export enum KnownKnowledgeRetrievalReasoningEffortKind {
+  /** Does not perform any source selections, any query planning, or any iterative search. */
+  Minimal = "minimal",
+  /** Use low reasoning during retrieval. */
+  Low = "low",
+  /** Use a moderate amount of reasoning during retrieval. */
+  Medium = "medium",
+}
+
+/**
+ * Defines values for KnowledgeRetrievalReasoningEffortKind. \
+ * {@link KnownKnowledgeRetrievalReasoningEffortKind} can be used interchangeably with KnowledgeRetrievalReasoningEffortKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **minimal**: Does not perform any source selections, any query planning, or any iterative search. \
+ * **low**: Use low reasoning during retrieval. \
+ * **medium**: Use a moderate amount of reasoning during retrieval.
+ */
+export type KnowledgeRetrievalReasoningEffortKind = string;
+
+/** Known values of {@link KnowledgeRetrievalOutputMode} that the service accepts. */
+export enum KnownKnowledgeRetrievalOutputMode {
+  /** Return data from the knowledge sources directly without generative alteration. */
+  ExtractiveData = "extractiveData",
+  /** Synthesize an answer for the response payload. */
+  AnswerSynthesis = "answerSynthesis",
+}
+
+/**
+ * Defines values for KnowledgeRetrievalOutputMode. \
+ * {@link KnownKnowledgeRetrievalOutputMode} can be used interchangeably with KnowledgeRetrievalOutputMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **extractiveData**: Return data from the knowledge sources directly without generative alteration. \
+ * **answerSynthesis**: Synthesize an answer for the response payload.
+ */
+export type KnowledgeRetrievalOutputMode = string;
 
 /** Known values of {@link KnowledgeSourceKind} that the service accepts. */
 export enum KnownKnowledgeSourceKind {
-  /** A knowledge source that reads data from a Search Index. */
+  /** A knowledge source that retrieves data from a Search Index. */
   SearchIndex = "searchIndex",
-  /** A knowledge source that read and ingest data from Azure Blob Storage to a Search Index. */
+  /** A knowledge source that retrieves and ingests data from Azure Blob Storage to a Search Index. */
   AzureBlob = "azureBlob",
+  /** A knowledge source that retrieves data from the web. */
+  Web = "web",
+  /** A knowledge source that retrieves data from a remote SharePoint endpoint. */
+  RemoteSharePoint = "remoteSharePoint",
+  /** A knowledge source that retrieves and ingests data from SharePoint to a Search Index. */
+  IndexedSharePoint = "indexedSharePoint",
+  /** A knowledge source that retrieves and ingests data from OneLake to a Search Index. */
+  IndexedOneLake = "indexedOneLake",
 }
 
 /**
@@ -315,8 +696,12 @@ export enum KnownKnowledgeSourceKind {
  * {@link KnownKnowledgeSourceKind} can be used interchangeably with KnowledgeSourceKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **searchIndex**: A knowledge source that reads data from a Search Index. \
- * **azureBlob**: A knowledge source that read and ingest data from Azure Blob Storage to a Search Index.
+ * **searchIndex**: A knowledge source that retrieves data from a Search Index. \
+ * **azureBlob**: A knowledge source that retrieves and ingests data from Azure Blob Storage to a Search Index. \
+ * **web**: A knowledge source that retrieves data from the web. \
+ * **remoteSharePoint**: A knowledge source that retrieves data from a remote SharePoint endpoint. \
+ * **indexedSharePoint**: A knowledge source that retrieves and ingests data from SharePoint to a Search Index. \
+ * **indexedOneLake**: A knowledge source that retrieves and ingests data from OneLake to a Search Index.
  */
 export type KnowledgeSourceKind = string;
 
@@ -328,8 +713,7 @@ export interface KnowledgeRetrievalRetrieveOptionalParams
 }
 
 /** Contains response data for the retrieve operation. */
-export type KnowledgeRetrievalRetrieveResponse =
-  KnowledgeAgentRetrievalResponse;
+export type KnowledgeRetrievalRetrieveResponse = KnowledgeBaseRetrievalResponse;
 
 /** Optional parameters. */
 export interface SearchClientOptionalParams

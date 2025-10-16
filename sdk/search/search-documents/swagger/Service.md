@@ -10,12 +10,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/429fd8c039c5b08541df2389f8c58d1090e01127/specification/search/data-plane/Azure.Search/preview/2025-08-01-preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b5b0642013ac03bbf86f553b5ed50828152c928e/specification/search/data-plane/Azure.Search/preview/2025-11-01-preview/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.46"
 core-http-compat-mode: true
-package-version: 12.2.0-beta.3
+package-version: 12.3.0-beta.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true

@@ -15,34 +15,34 @@ import {
 import { KnowledgeRetrievalImpl } from "./operations/index.js";
 import { KnowledgeRetrieval } from "./operationsInterfaces/index.js";
 import {
-  ApiVersion20250801Preview,
+  ApiVersion20251101Preview,
   SearchClientOptionalParams,
 } from "./models/index.js";
 
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  agentName: string;
-  apiVersion: ApiVersion20250801Preview;
+  knowledgeBaseName: string;
+  apiVersion: ApiVersion20251101Preview;
 
   /**
    * Initializes a new instance of the SearchClient class.
    * @param endpoint The endpoint URL of the search service.
-   * @param agentName The name of the agent.
+   * @param knowledgeBaseName The name of the knowledge base.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
     endpoint: string,
-    agentName: string,
-    apiVersion: ApiVersion20250801Preview,
+    knowledgeBaseName: string,
+    apiVersion: ApiVersion20251101Preview,
     options?: SearchClientOptionalParams,
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
-    if (agentName === undefined) {
-      throw new Error("'agentName' cannot be null");
+    if (knowledgeBaseName === undefined) {
+      throw new Error("'knowledgeBaseName' cannot be null");
     }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
@@ -56,7 +56,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.3`;
+    const packageDetails = `azsdk-js-search-documents/12.3.0-beta.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -71,12 +71,12 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       endpoint:
         options.endpoint ??
         options.baseUri ??
-        "{endpoint}/agents('{agentName}')",
+        "{endpoint}/knowledgebases('{knowledgeBaseName}')",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
-    this.agentName = agentName;
+    this.knowledgeBaseName = knowledgeBaseName;
     this.apiVersion = apiVersion;
     this.knowledgeRetrieval = new KnowledgeRetrievalImpl(this);
     this.addCustomApiVersionPolicy(apiVersion);

@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/knowledgeAgent
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/429fd8c039c5b08541df2389f8c58d1090e01127/specification/search/data-plane/Azure.Search/preview/2025-08-01-preview/knowledgeagent.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/refs/heads/yangylu/2025-11-01-preview/specification/search/data-plane/Azure.Search/preview/2025-11-01-preview/knowledgebase.json
 add-credentials: false
 title: SearchClient
 use-extension:
   "@autorest/typescript": "6.0.39"
 core-http-compat-mode: true
-package-version: 12.2.0-beta.3
+package-version: 12.3.0-beta.0
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -55,4 +55,3 @@ directive:
       }
       $.parameters = newParameters;
 ```
-

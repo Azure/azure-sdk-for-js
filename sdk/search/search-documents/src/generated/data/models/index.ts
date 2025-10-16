@@ -133,10 +133,30 @@ export interface FacetResult {
    */
   readonly count?: number;
   /**
+   * The resulting total avg for the facet when a avg metric is requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly avg?: number;
+  /**
+   * The resulting total min for the facet when a min metric is requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly min?: number;
+  /**
+   * The resulting total max for the facet when a max metric is requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly max?: number;
+  /**
    * The resulting total sum for the facet when a sum metric is requested.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sum?: number;
+  /**
+   * The resulting total cardinality for the facet when a cardinality metric is requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cardinality?: number;
   /**
    * The nested facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not contain any nested facets.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -309,7 +329,7 @@ export interface SearchResult {
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly _documentDebugInfo?: DocumentDebugInfo;
+  readonly _documentDebugInfo?: _documentDebugInfo;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
@@ -329,7 +349,7 @@ export interface QueryCaptionResult {
 }
 
 /** Contains debugging information that can be used to further explore your search results. */
-export interface DocumentDebugInfo {
+export interface _documentDebugInfo {
   /**
    * Contains debugging information specific to semantic ranking requests.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -810,20 +830,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20250801Preview} that the service accepts. */
-export enum KnownApiVersion20250801Preview {
-  /** Api Version '2025-08-01-preview' */
-  TwoThousandTwentyFive0801Preview = "2025-08-01-preview",
+/** Known values of {@link ApiVersion20251101Preview} that the service accepts. */
+export enum KnownApiVersion20251101Preview {
+  /** Api Version '2025-11-01-preview' */
+  TwoThousandTwentyFive1101Preview = "2025-11-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20250801Preview. \
- * {@link KnownApiVersion20250801Preview} can be used interchangeably with ApiVersion20250801Preview,
+ * Defines values for ApiVersion20251101Preview. \
+ * {@link KnownApiVersion20251101Preview} can be used interchangeably with ApiVersion20251101Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2025-08-01-preview**: Api Version '2025-08-01-preview'
+ * **2025-11-01-preview**: Api Version '2025-11-01-preview'
  */
-export type ApiVersion20250801Preview = string;
+export type ApiVersion20251101Preview = string;
 
 /** Known values of {@link SemanticErrorMode} that the service accepts. */
 export enum KnownSemanticErrorMode {
@@ -1178,7 +1198,7 @@ export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
   Vector = "vector",
   /** Vector query where a text value that needs to be vectorized is provided. */
-  Text = "text",
+  $DO_NOT_NORMALIZE$_text = "text",
   /** Vector query where an url that represents an image value that needs to be vectorized is provided. */
   ImageUrl = "imageUrl",
   /** Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided. */
@@ -1358,6 +1378,8 @@ export interface DocumentsSearchGetOptionalParams
   searchText?: string;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
   xMsQuerySourceAuthorization?: string;
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
 }
 
 /** Contains response data for the searchGet operation. */
@@ -1368,6 +1390,8 @@ export interface DocumentsSearchPostOptionalParams
   extends coreClient.OperationOptions {
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
   xMsQuerySourceAuthorization?: string;
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
 }
 
 /** Contains response data for the searchPost operation. */
@@ -1378,6 +1402,8 @@ export interface DocumentsGetOptionalParams
   extends coreClient.OperationOptions {
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
   xMsQuerySourceAuthorization?: string;
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
   selectedFields?: string[];
 }
