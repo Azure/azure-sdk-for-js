@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -50,6 +50,11 @@ export interface ApplicationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ApplicationsUpdateUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
 
 // @public
@@ -69,6 +74,9 @@ export function startRollback(context: ServiceFabricManagedClustersManagementCon
 
 // @public
 export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationResource>;
+
+// @public
+export function updateUpgrade(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeUpdateApplicationUpgradeParameters, options?: ApplicationsUpdateUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

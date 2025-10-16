@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create or update a Service Fabric managed service resource with the specified name.
  *
  * @summary create or update a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ServicePutOperation_example_max.json
+ * x-ms-original-file: 2025-06-01-preview/ServicePutOperation_example_max.json
  */
-
-import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function putAServiceWithMaximumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -64,7 +63,7 @@ async function putAServiceWithMaximumParameters(): Promise<void> {
  * This sample demonstrates how to create or update a Service Fabric managed service resource with the specified name.
  *
  * @summary create or update a Service Fabric managed service resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ServicePutOperation_example_min.json
+ * x-ms-original-file: 2025-06-01-preview/ServicePutOperation_example_min.json
  */
 async function putAServiceWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
