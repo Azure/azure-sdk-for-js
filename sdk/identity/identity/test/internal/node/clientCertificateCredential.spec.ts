@@ -9,8 +9,8 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
 import { ClientCertificateCredential } from "@azure/identity";
-import { parseCertificate } from "$internal/credentials/clientCertificateCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { parseCertificate } from "@azure/identity/util/certificatesUtils.js";
 
 const ASSET_PATH = "assets";
 

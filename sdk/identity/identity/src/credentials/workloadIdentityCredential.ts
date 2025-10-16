@@ -116,6 +116,14 @@ export function parseAndValidateCustomTokenProxy(endpoint: string): string {
     );
   }
 
+  // Validate percent-encoding: check for invalid sequences like %zz
+  const invalidPercentEncoding = /%[^0-9A-Fa-f]|%[0-9A-Fa-f][^0-9A-Fa-f]|%[0-9A-Fa-f]?$/;
+  if (invalidPercentEncoding.test(endpoint)) {
+    throw new CredentialUnavailableError(
+      `${credentialName}: is unavailable. ${ErrorMessages.FAILED_TO_PARSE_TOKEN_PROXY(tokenProxy.toString(), "unparseable URL")}`,
+    );
+  }
+
   if (!tokenProxy.pathname || tokenProxy.pathname === "") {
     // if the path is empty, set it to "/" to avoid stripping the path from req.URL
     tokenProxy.pathname = "/";
@@ -271,7 +279,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
         newUrl.search = requestUrl.search;
         newUrl.hash = requestUrl.hash;
 
-        // Update the existing request instead of creating a new one
         request.url = newUrl.toString();
         request.tlsSettings = tlsSettings;
 
