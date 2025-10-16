@@ -5,8 +5,9 @@ import { ServiceBusClient } from "@azure/service-bus";
 import { WebSocketWrapper } from "./wsWrapper";
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+const connectionString =
+  process.env.EXPO_PUBLIC_SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.EXPO_PUBLIC_QUEUE_NAME || "<queue name>";
 
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString, {
