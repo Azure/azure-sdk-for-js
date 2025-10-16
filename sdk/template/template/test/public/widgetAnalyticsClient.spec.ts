@@ -7,7 +7,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { WidgetAnalyticsClient } from "../../src/widgetAnalyticsClient.js";
 
-describe("WidgetManagerClient", () => {
+describe("WidgetAnalyticsClient", () => {
   let recorder: Recorder;
   let client: WidgetAnalyticsClient;
 
