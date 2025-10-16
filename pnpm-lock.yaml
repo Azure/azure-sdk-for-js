@@ -13811,7 +13811,7 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: ^1.9.2
+        specifier: ^1.9.3
         version: link:../../core/core-client
       '@azure/core-lro':
         specifier: ^2.5.4
@@ -13820,60 +13820,51 @@ importers:
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.2
+        specifier: ^1.19.1
         version: link:../../core/core-rest-pipeline
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: workspace:^
+        specifier: ^2.0.0
         version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: workspace:^
+        specifier: ^4.1.0
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
+        specifier: ^1.0.0
+        version: 1.0.0(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
       '@azure/dev-tool':
-        specifier: workspace:^
+        specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
-        specifier: catalog:internal
-        version: 4.11.1
+        specifier: ^4.9.0
+        version: link:../../identity/identity
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
       '@types/node':
-        specifier: 'catalog:'
+        specifier: ^20.0.0
         version: 20.19.17
       '@vitest/browser':
-        specifier: catalog:testing
-        version: 3.2.4(msw@2.7.3(@types/node@20.19.17)(typescript@5.9.3))(playwright@1.55.1)(vite@7.1.7(@types/node@20.19.17)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
+        specifier: ^3.0.9
+        version: 3.2.4(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(playwright@1.55.1)(vite@7.1.7(@types/node@20.19.17)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
       '@vitest/coverage-istanbul':
-        specifier: catalog:testing
+        specifier: ^3.0.9
         version: 3.2.4(vitest@3.2.4)
-      cross-env:
-        specifier: 'catalog:'
-        version: 7.0.3
       dotenv:
-        specifier: catalog:testing
+        specifier: ^16.0.0
         version: 16.6.1
       playwright:
-        specifier: catalog:testing
+        specifier: ^1.52.0
         version: 1.55.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.0.1
-      tshy:
-        specifier: 'catalog:'
-        version: 3.0.2
       typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
-        specifier: catalog:testing
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        specifier: ^3.0.9
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/hdinsight/arm-hdinsightcontainers:
     dependencies:
