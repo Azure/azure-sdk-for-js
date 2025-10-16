@@ -5,7 +5,7 @@ import { Recorder, RecorderStartOptions, VitestTestContext } from "@azure-tools/
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
-  WIDGET_MANAGER_ENDPOINT: "https://WidgetAnalytics.contoso.azure.net/",
+  WIDGET_ANALYTICS_ENDPOINT: "https://widgetAnalytics.contoso.azure.net/",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {

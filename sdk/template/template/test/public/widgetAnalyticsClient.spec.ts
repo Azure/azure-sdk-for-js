@@ -14,7 +14,7 @@ describe("WidgetAnalyticsClient", () => {
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     client = new WidgetAnalyticsClient(
-      process.env.WIDGET_MANAGER_ENDPOINT!,
+      process.env.WIDGET_ANALYTICS_ENDPOINT!,
       createTestCredential(),
       recorder.configureClientOptions({}),
     );
