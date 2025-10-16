@@ -34,15 +34,14 @@ export function createTimerLoop(
   const loop = {
     start: () => {
       clearTimeout(token);
-      token = setTimeout(
-        () =>
-          createTask()
-            .catch(() => {
-              /** eats up any unhandled error */
-            })
-            .finally(loop.start),
-        timeoutInMs,
-      );
+      token = setTimeout(() => {
+        // Fire-and-forget background task with error handling
+        createTask()
+          .catch(() => {
+            /** eats up any unhandled error */
+          })
+          .finally(loop.start);
+      }, timeoutInMs);
       loop.isRunning = true;
     },
     stop: () => {
