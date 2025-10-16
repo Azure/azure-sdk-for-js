@@ -1,4 +1,54 @@
 # Release History
+
+## 19.0.0 (2025-09-22)
+
+### Features Added
+  - Added Interface DualStackEndpointPreference
+  - Added Interface EncryptionInTransit
+  - Added Interface NfsSetting
+  - Added Interface Placement
+  - Added Interface SkuInformationLocationInfoItem
+  - Added Interface SmbOAuthSettings
+  - Added Interface StorageAccountIpv6Endpoints
+  - Interface AzureFilesIdentityBasedAuthentication has a new optional parameter smbOAuthSettings
+  - Interface Endpoints has a new optional parameter ipv6Endpoints
+  - Interface NetworkRuleSet has a new optional parameter ipv6Rules
+  - Interface ProtocolSettings has a new optional parameter nfs
+  - Interface SkuInformation has a new optional parameter locationInfo
+  - Interface SmbSetting has a new optional parameter encryptionInTransit
+  - Interface StorageAccount has a new optional parameter dualStackEndpointPreference
+  - Interface StorageAccount has a new optional parameter placement
+  - Interface StorageAccount has a new optional parameter zones
+  - Interface StorageAccountCreateParameters has a new optional parameter dualStackEndpointPreference
+  - Interface StorageAccountCreateParameters has a new optional parameter placement
+  - Interface StorageAccountCreateParameters has a new optional parameter zones
+  - Interface StorageAccountUpdateParameters has a new optional parameter dualStackEndpointPreference
+  - Interface StorageAccountUpdateParameters has a new optional parameter placement
+  - Interface StorageAccountUpdateParameters has a new optional parameter zones
+  - Interface StorageTaskAssignmentsCreateHeaders has a new optional parameter azureAsyncOperation
+  - Interface StorageTaskAssignmentsDeleteHeaders has a new optional parameter azureAsyncOperation
+  - Interface StorageTaskAssignmentsListOptionalParams has a new optional parameter top
+  - Interface StorageTaskAssignmentsUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Added Type Alias ZonePlacementPolicy
+  - Added Enum KnownTriggerType
+  - Added Enum KnownZonePlacementPolicy
+
+### Breaking Changes
+  - Operation StorageAccounts.beginCreate has a new signature
+  - Operation StorageAccounts.beginCreateAndWait has a new signature
+  - Operation StorageAccounts.getProperties has a new signature
+  - Operation StorageAccounts.update has a new signature
+  - Operation StorageTaskAssignments.beginCreate has a new signature
+  - Operation StorageTaskAssignments.beginCreateAndWait has a new signature
+  - Operation StorageTaskAssignments.beginUpdate has a new signature
+  - Operation StorageTaskAssignments.beginUpdateAndWait has a new signature
+  - Operation StorageTaskAssignments.get has a new signature
+  - Operation StorageTaskAssignments.list has a new signature
+  - Interface StorageTaskAssignmentsListOptionalParams no longer has parameter maxpagesize
+  - Parameter domainGuid of interface ActiveDirectoryProperties is now optional
+  - Parameter domainName of interface ActiveDirectoryProperties is now optional
+  - Type alias "TriggerType" has been changed
+
     
 ## 18.6.0 (2025-07-16)
     

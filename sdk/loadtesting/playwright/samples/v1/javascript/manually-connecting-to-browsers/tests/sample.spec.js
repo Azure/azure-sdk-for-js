@@ -1,8 +1,7 @@
-const playwright = require("@playwright/test");
-const { getConnectOptions, ServiceOS } = require("@azure/playwright");
-const { AzureCliCredential } = require("@azure/identity");
+import { test, expect } from "@playwright/test";
+import { getConnectOptions, ServiceOS } from "@azure/playwright";
+import { AzureCliCredential } from "@azure/identity";
 
-const { test, expect } = playwright;
 
 test("has title", async ({ browserName }) => {
   const { wsEndpoint, options } = await getConnectOptions();

@@ -266,10 +266,6 @@
       "path": "sdk/web-pubsub/web-pubsub-express"
     },
     {
-      "name": "mixed-reality-remote-rendering",
-      "path": "sdk/remoterendering/mixed-reality-remote-rendering"
-    },
-    {
       "path": "sdk/test-utils/test-utils"
     },
     {
@@ -286,8 +282,12 @@
     }
   ],
   "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.detectIndentation": false,
     "editor.formatOnSave": true,
+    "[markdown]": {
+      "editor.formatOnSave": false
+    },
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "files.insertFinalNewline": true,

@@ -49,6 +49,19 @@ import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager
  *   },
  * });
  * ```
+ * @example Instantiate a client with AAD authentication and custom scope
+ * ```ts snippet:CosmosClientWithAADScope
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const aadCredentials = new DefaultAzureCredential();
+ * const client = new CosmosClient({
+ *   endpoint,
+ *   aadCredentials,
+ *   aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
+ * });
+ * ```
  */
 export class CosmosClient {
   /**
@@ -133,6 +146,12 @@ export class CosmosClient {
       optionsOrConnectionString.connectionPolicy,
     );
 
+    // If endpoint discovery is disabled, automatically disable partition level features
+    if (!optionsOrConnectionString.connectionPolicy.enableEndpointDiscovery) {
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover = false;
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker = false;
+    }
+
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
@@ -161,11 +180,6 @@ export class CosmosClient {
       optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
       optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
     ) {
-      if (!optionsOrConnectionString.connectionPolicy.enableEndpointDiscovery) {
-        throw new Error(
-          "enableEndpointDiscovery must be set to true to use partition level failover or circuit breaker.",
-        );
-      }
       this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
         optionsOrConnectionString,
         globalEndpointManager,
@@ -213,6 +227,7 @@ export class CosmosClient {
       diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
       pluginsConfigured: optionsOrConnectionString.plugins !== undefined,
       sDKVersion: Constants.SDKVersion,
+      aadScopeOverride: optionsOrConnectionString.aadScope !== undefined,
     };
   }
 

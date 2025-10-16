@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.35 (2025-09-16)
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
 ## 1.0.0-beta.34 (2025-09-05)
 
 ### Features Added

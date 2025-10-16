@@ -1,10 +1,1 @@
-{
-  "extends": "../../../tsconfig.browser.base.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure/arm-storage": ["./dist/browser/index.d.ts"],
-      "@azure/arm-storage/*": ["./dist/browser/*"],
-      "$internal/*": ["./dist/browser/*"]
-    }
-  }
-}
+{ "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"] }

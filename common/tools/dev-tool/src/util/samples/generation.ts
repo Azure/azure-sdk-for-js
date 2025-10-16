@@ -255,13 +255,14 @@ export async function makeSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+              // In TypeScript samples, we include TypeScript, `cross-env`, and `rimraf`, because they're used
               // in the package scripts as well as @types/node.
               devDependencies: {
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
-                typescript: devToolPackageJson.dependencies.typescript,
+                "cross-env": "latest",
                 rimraf: "latest",
+                typescript: devToolPackageJson.dependencies.typescript,
               },
             }
           : {}),

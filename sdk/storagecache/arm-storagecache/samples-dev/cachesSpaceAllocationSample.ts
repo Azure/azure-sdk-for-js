@@ -1,25 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  StorageTargetSpaceAllocation,
+  CachesSpaceAllocationOptionalParams,
+  StorageCacheManagementClient,
+} from "@azure/arm-storagecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Update cache space allocation.
  *
  * @summary Update cache space allocation.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/SpaceAllocation_Post.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/SpaceAllocation_Post.json
  */
-
-import type {
-  StorageTargetSpaceAllocation,
-  CachesSpaceAllocationOptionalParams,
-} from "@azure/arm-storagecache";
-import { StorageCacheManagementClient } from "@azure/arm-storagecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function spaceAllocationPost(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const spaceAllocation: StorageTargetSpaceAllocation[] = [
     { name: "st1", allocationPercentage: 25 },

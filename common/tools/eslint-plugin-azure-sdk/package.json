@@ -110,11 +110,12 @@
     "@typescript-eslint/utils": "~8.43.0",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "tshy": "^3.0.0",
+    "tshy": "catalog:",
     "vitest": "catalog:testing"
   },
   "tshy": {

@@ -237,7 +237,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   ): Promise<void> {
     const checkAborted = (): void => {
       if (abortSignal?.aborted) {
-        this._link?.close();
+        this._link?.close().catch((closeErr) => {
+          this._logger.logError(
+            closeErr,
+            `${this._logPrefix} Error occurred while closing link during abort check`,
+          );
+        });
         throw new AbortError(StandardAbortMessage);
       }
     };

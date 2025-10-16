@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.1 (2025-10-15)
+
+### Other Changes
+
+- Update dependency package `openai` version to `6.1.0`
+
 ## 1.0.0 (2025-08-06)
 
 Initial stable release of the AI projects client library.

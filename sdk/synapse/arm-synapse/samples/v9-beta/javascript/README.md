@@ -264,7 +264,7 @@ node azureAdOnlyAuthenticationsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SYNAPSE_SUBSCRIPTION_ID="<synapse subscription id>" SYNAPSE_RESOURCE_GROUP="<synapse resource group>" node azureAdOnlyAuthenticationsCreateSample.js
+cross-env SYNAPSE_SUBSCRIPTION_ID="<synapse subscription id>" SYNAPSE_RESOURCE_GROUP="<synapse resource group>" node azureAdOnlyAuthenticationsCreateSample.js
 ```
 
 ## Next Steps

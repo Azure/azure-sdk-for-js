@@ -210,6 +210,7 @@ export const Constants = {
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
+  EnablePerPartitionFailover: "enablePerPartitionFailoverBehavior",
 
   // Background refresh time
   DefaultUnavailableLocationExpirationTimeMS: 5 * 60 * 1000,
@@ -223,7 +224,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.5.1",
+  SDKVersion: "4.6.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -304,6 +305,10 @@ export const Constants = {
 
   RequestTimeoutForReadsInMs: 2000, // 2 seconds
 };
+
+export const AAD_DEFAULT_SCOPE = "https://cosmos.azure.com/.default";
+export const AAD_AUTH_PREFIX = "type=aad&ver=1.0&sig=";
+export const AAD_RESOURCE_NOT_FOUND_ERROR = "AADSTS500011";
 
 /**
  * @hidden

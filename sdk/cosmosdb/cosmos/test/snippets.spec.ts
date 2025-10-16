@@ -33,7 +33,7 @@ import {
   StoredProcedureDefinition,
   ItemDefinition,
 } from "@azure/cosmos";
-import { ClientSecretCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
@@ -514,6 +514,27 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleWithExcludedLocations", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const city = { id: "1", name: "Olympia", state: "WA" };
+    await container.items.upsert(city, { excludedLocations: ["Test Region"] });
+    // @ts-preserve-whitespace
+    const iterator = container.items.getChangeFeedIterator({
+      excludedLocations: ["Test Region"],
+      maxItemCount: 1,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+    });
+    // @ts-preserve-whitespace
+    const response = await iterator.readNext();
+  });
+
   it("CosmosClientCreate", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -531,6 +552,16 @@ describe("snippets", () => {
       connectionPolicy: {
         requestTimeout: 10000,
       },
+    });
+  });
+
+  it("CosmosClientWithAADScope", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const aadCredentials = new DefaultAzureCredential();
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials,
+      aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
     });
   });
 
