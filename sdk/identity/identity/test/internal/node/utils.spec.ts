@@ -6,6 +6,8 @@ import {
   validatePemCertificates,
 } from "$internal/util/certificatesUtils.js";
 import { describe, it, assert, afterEach } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
 
 describe("Identity utilities (Node.js only)", function () {
   describe("validateMultiTenantRequest (Node.js only)", function () {
@@ -22,9 +24,6 @@ describe("Identity utilities (Node.js only)", function () {
   });
 
   describe("Certificate utilities", () => {
-    const path = require("path");
-    const fs = require("fs");
-
     const testPemPath = path.join(__dirname, "../../../assets/test.pem");
     const validPemCertificate = fs.readFileSync(testPemPath, "utf8");
 
