@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: ComputeContext, options?: ResourceSkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+export function list(context: ComputeManagementContext, options?: ResourceSkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
 
 // @public
 export interface ResourceSkusListOptionalParams extends OperationOptions {

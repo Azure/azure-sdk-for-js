@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext as Client } from "../index.js";
+import type { ComputeManagementContext as Client } from "../index.js";
 import type { _ResourceSkusResult, ResourceSku } from "../../models/models.js";
 import { _resourceSkusResultDeserializer, errorResponseDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";

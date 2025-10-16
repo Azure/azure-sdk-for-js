@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-sku";
+import { ComputeManagementClient } from "@azure/arm-compute-sku";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listsAllAvailableResourceSKUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.resourceSkus.list()) {
     resArray.push(item);
@@ -31,7 +31,7 @@ async function listsAllAvailableResourceSKUs(): Promise<void> {
 async function listsAllAvailableResourceSKUsForTheSpecifiedRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.resourceSkus.list({
     filter: "location eq 'westus'",
@@ -51,7 +51,7 @@ async function listsAllAvailableResourceSKUsForTheSpecifiedRegion(): Promise<voi
 async function listsAllAvailableResourceSKUsWithExtendedLocationInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.resourceSkus.list({
     includeExtendedLocations: "true",

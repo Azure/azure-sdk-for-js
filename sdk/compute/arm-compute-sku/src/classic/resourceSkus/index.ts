@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/resourceSkus/operations.js";
 import type { ResourceSkusListOptionalParams } from "../../api/resourceSkus/options.js";
 import type { ResourceSku } from "../../models/models.js";
@@ -13,13 +13,15 @@ export interface ResourceSkusOperations {
   list: (options?: ResourceSkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
-function _getResourceSkus(context: ComputeContext) {
+function _getResourceSkus(context: ComputeManagementContext) {
   return {
     list: (options?: ResourceSkusListOptionalParams) => list(context, options),
   };
 }
 
-export function _getResourceSkusOperations(context: ComputeContext): ResourceSkusOperations {
+export function _getResourceSkusOperations(
+  context: ComputeManagementContext,
+): ResourceSkusOperations {
   return {
     ..._getResourceSkus(context),
   };

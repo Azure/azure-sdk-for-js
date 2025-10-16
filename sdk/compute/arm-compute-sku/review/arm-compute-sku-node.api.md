@@ -20,14 +20,14 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public (undocumented)
-export class ComputeClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams);
+export class ComputeManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
     readonly pipeline: Pipeline;
     readonly resourceSkus: ResourceSkusOperations;
 }
 
 // @public
-export interface ComputeClientOptionalParams extends ClientOptions {
+export interface ComputeManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }

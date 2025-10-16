@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ComputeClient } from "./computeClient.js";
+export { ComputeManagementClient } from "./computeManagementClient.js";
 export {
   ResourceSku,
   ResourceSkuCapacity,
@@ -28,7 +28,7 @@ export {
   ErrorAdditionalInfo,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeClientOptionalParams } from "./api/index.js";
+export { ComputeManagementClientOptionalParams } from "./api/index.js";
 export { ResourceSkusListOptionalParams } from "./api/resourceSkus/index.js";
 export { ResourceSkusOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
