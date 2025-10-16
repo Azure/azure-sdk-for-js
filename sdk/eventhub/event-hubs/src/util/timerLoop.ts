@@ -40,7 +40,10 @@ export function createTimerLoop(
           .catch(() => {
             /** eats up any unhandled error */
           })
-          .finally(loop.start);
+          .finally(loop.start)
+          .catch(() => {
+            /** eats up any error from finally */
+          });
       }, timeoutInMs);
       loop.isRunning = true;
     },
