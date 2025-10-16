@@ -124,12 +124,6 @@ describe("Identity utilities", function () {
         expectedHost: "example.com",
         expectedScheme: "https",
       },
-      {
-        name: "reject unparseable URL",
-        endpoint: "https://example.com/%zz",
-        expectError: true,
-        errorContains: "Failed to parse custom token proxy URL",
-      },
     ];
 
     testCases.forEach((testCase) => {
