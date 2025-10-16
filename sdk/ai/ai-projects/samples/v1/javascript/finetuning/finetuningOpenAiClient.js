@@ -4,6 +4,12 @@
 /**
  * This sample demonstrates how to upload a training file and create a fine-tuning job using the OpenAI client with Azure OpenAI.
  * @summary Fine-tune a GPT model on Azure OpenAI.
+ * Prerequisites:
+ *   - Set the following environment variables:
+ *       OPENAI_API_KEY: Your Azure OpenAI API key
+ *       AZURE_OPENAI_ENDPOINT: Your Azure OpenAI endpoint (e.g., https://<resource>.openai.azure.com)
+ *   - Place your training file at: finetuning/training.jsonl
+ *   - The specified api-version ("2025-04-01-preview") is a preview version and may change.
  */
 
 const OpenAI = require("openai");
@@ -13,7 +19,7 @@ require("dotenv/config");
 // Configure the OpenAI client for Azure OpenAI
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseURL: `${process.env.AZURE_OPENAPI_ENDPOINT}/openai`, // e.g., https://<resource>.openai.azure.com/openai
+  baseURL: `${process.env.AZURE_OPENAI_ENDPOINT}/openai`, // e.g., https://<resource>.openai.azure.com/openai
   defaultQuery: { "api-version": "2025-04-01-preview" }, // Required for Azure
   defaultHeaders: { "api-key": process.env.OPENAI_API_KEY },
 });
@@ -24,7 +30,11 @@ async function main() {
     const files = await client.files.list();
     if (files.data.length > 90) {
       console.log(`⚠️ File count is ${files.data.length}. Cleaning up oldest files...`);
-      for (const f of files.data.slice(0, 10)) {
+      // Sort files by creation timestamp (ascending)
+      const sortedFiles = files.data.sort(
+        (a, b) => new Date(a.created_at) - new Date(b.created_at),
+      );
+      for (const f of sortedFiles.slice(0, 10)) {
         try {
           await client.files.delete(f.id);
           console.log(`🗑 Deleted old file: ${f.id}`);
@@ -48,6 +58,9 @@ async function main() {
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5s
       const updatedFile = await client.files.retrieve(file.id);
       fileStatus = updatedFile.status;
+      if (fileStatus === "error" || fileStatus === "failed") {
+        throw new Error(`❌ File processing failed with status: ${fileStatus}`);
+      }
     }
     console.log(`✅ File processed and ready for fine-tuning.`);
 
