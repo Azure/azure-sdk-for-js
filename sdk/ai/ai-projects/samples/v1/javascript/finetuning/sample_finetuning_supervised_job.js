@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use the asynchronous fine_tuning.jobs methods to create, get, list, and cancel fine-tuning jobs.
+ * This sample demonstrates how to use the fine_tuning.jobs methods to create, get, list, and cancel fine-tuning jobs.
  * @summary Given an AIProjectClient, this sample shows how to upload training/validation files and manage supervised fine-tuning jobs.
  */
-``;
 
 const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
