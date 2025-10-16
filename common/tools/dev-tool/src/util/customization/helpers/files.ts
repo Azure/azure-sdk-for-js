@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import * as fs from "fs-extra";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
 
 export async function getNewCustomFiles(originalDir: string, customDir: string): Promise<string[]> {
@@ -17,7 +17,7 @@ export async function getNewCustomFiles(originalDir: string, customDir: string):
 }
 
 export async function getFiles(dir: string): Promise<string[]> {
-  const dirents = await fs.readdir(dir, { withFileTypes: true });
+  const dirents = await readdir(dir, { withFileTypes: true });
   const files = await Promise.all(
     dirents.map((dirent) => {
       const res = path.resolve(dir, dirent.name);

@@ -9,7 +9,7 @@ import { makeCommandInfo } from "../../framework/command";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs/promises";
-import { pathExists } from "fs-extra";
+import { existsSync } from "node:fs";
 import type { Dirent } from "node:fs";
 
 const log = createPrinter("apply-customization");
@@ -52,7 +52,7 @@ async function ensureParentDirectory(filePath: string): Promise<void> {
 }
 
 async function listFiles(root: string): Promise<string[]> {
-  if (!(await pathExists(root))) {
+  if (!existsSync(root)) {
     return [];
   }
 
@@ -106,12 +106,12 @@ export default leafCommand(commandInfo, async (options) => {
   const generatedDirectory = path.join(info.path, options.sourceDirectory);
   const customizedDirectory = path.join(info.path, options.targetDirectory);
 
-  if (!(await pathExists(generatedDirectory))) {
+  if (!existsSync(generatedDirectory)) {
     log(`❌ Could not find source directory ${generatedDirectory}`);
     return false;
   }
 
-  if (!(await pathExists(customizedDirectory))) {
+  if (!existsSync(customizedDirectory)) {
     log(`❌ Could not find target directory ${customizedDirectory}`);
     return false;
   }
@@ -221,8 +221,8 @@ export default leafCommand(commandInfo, async (options) => {
       const previousCustomizedFile = joinRelative(previousCustomizedRoot, normalized);
       const stagedResultFile = joinRelative(newMergedRoot, normalized);
 
-      const hadPreviousGenerated = await pathExists(previousGeneratedFile);
-      const hasNewGenerated = await pathExists(stagedResultFile); // present in newly generated baseline
+      const hadPreviousGenerated = existsSync(previousGeneratedFile);
+      const hasNewGenerated = existsSync(stagedResultFile); // present in newly generated baseline
       const isSkipped = skipPatterns.has(normalized);
 
       if (isSkipped) {

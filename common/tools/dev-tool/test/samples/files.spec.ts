@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import fs from "fs-extra";
+import { cp, mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { makeSamplesFactory } from "../../src/util/samples/generation";
@@ -30,12 +30,14 @@ describe("File content tests", { timeout: 50000 }, async function () {
     }
   }
 
-  const dirs = (await fs.readdir(INPUT_PATH)).map((name) => path.join(INPUT_PATH, name));
+  const dirs = (await readdir(INPUT_PATH)).map((name) => path.join(INPUT_PATH, name));
 
   // For whatever reason, calling `stat` asynchronously makes mocha hang up the test context, so we intentionally use
   // `statSync` throughout this file.
-  const areDirectories = dirs.map((dir) => fs.statSync(dir));
-  const inputDirectories = dirs.filter((_, idx) => areDirectories[idx].isDirectory());
+  const areDirectories = await Promise.all(
+    dirs.map(async (dir) => (await stat(dir)).isDirectory()),
+  );
+  const inputDirectories = dirs.filter((_, idx) => areDirectories[idx]);
 
   const ownPackageJson = await import("../../package.json");
 
@@ -43,7 +45,7 @@ describe("File content tests", { timeout: 50000 }, async function () {
     const name = path.basename(dir);
 
     it(name, { timeout: 50000 }, async function () {
-      const tempOutputDir = await fs.mkdtemp(path.join(os.tmpdir(), "devToolTest"));
+      const tempOutputDir = await mkdtemp(path.join(os.tmpdir(), "devToolTest"));
 
       const version = name.includes("@") ? name.split("@")[1] : "1.0.0";
 
@@ -77,14 +79,14 @@ describe("File content tests", { timeout: 50000 }, async function () {
 
         await writeSamples(tempOutputDir);
 
-        const actualPath = path.join(tempOutputDir, (await fs.readdir(tempOutputDir))[0]);
+        const actualPath = path.join(tempOutputDir, (await readdir(tempOutputDir))[0]);
         const expectationPath = path.join(EXPECT_PATH, name);
 
         if (shouldWriteExpectations) {
-          await fs.remove(expectationPath);
-          await fs.copy(actualPath, expectationPath);
+          await rm(expectationPath, { recursive: true, force: true });
+          await cp(actualPath, expectationPath, { recursive: true });
         } else {
-          assert.ok(fs.statSync(expectationPath));
+          assert.ok(await stat(expectationPath));
 
           for await (const file of findMatchingFiles(expectationPath, () => true)) {
             const relativePath = path.relative(expectationPath, file);
@@ -92,9 +94,9 @@ describe("File content tests", { timeout: 50000 }, async function () {
             const actualFileName = path.join(actualPath, relativePath);
             const expectedFileName = path.join(expectationPath, relativePath);
 
-            assert.ok(fs.statSync(actualFileName));
-            const actual = await fs.readFile(actualFileName);
-            const expected = await fs.readFile(expectedFileName);
+            assert.ok(await stat(actualFileName));
+            const actual = await readFile(actualFileName);
+            const expected = await readFile(expectedFileName);
 
             assert.equal(actual.toString("utf8"), expected.toString("utf8"));
           }
@@ -104,14 +106,13 @@ describe("File content tests", { timeout: 50000 }, async function () {
             const relativePath = path.relative(actualPath, file);
 
             assert.ok(
-              fs.statSync(path.join(expectationPath, relativePath)),
+              await stat(path.join(expectationPath, relativePath)),
               `Extra file ${relativePath} was generated, but no expectation exists for it.`,
             );
           }
         }
       } finally {
-        await fs.emptyDir(tempOutputDir);
-        await fs.rmdir(tempOutputDir);
+        await rm(tempOutputDir, { recursive: true, force: true });
       }
     });
   }
