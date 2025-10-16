@@ -7,14 +7,14 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { WidgetAnalyticsClient } from "../../src/widgetAnalyticsClient.js";
 
-describe("WidgetManagerClient", () => {
+describe("WidgetAnalyticsClient", () => {
   let recorder: Recorder;
   let client: WidgetAnalyticsClient;
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     client = new WidgetAnalyticsClient(
-      process.env.WIDGET_MANAGER_ENDPOINT!,
+      process.env.WIDGET_ANALYTICS_ENDPOINT!,
       createTestCredential(),
       recorder.configureClientOptions({}),
     );
