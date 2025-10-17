@@ -1,21 +1,40 @@
 # Release History
 
-## 6.3.2 (Unreleased)
+## 7.0.0-beta.1 (2025-10-17)
+Compared with version 6.3.0
 
 ### Features Added
+  - Added Interface DeviceRegistry
+  - Added Interface EncryptionPropertiesDescription
+  - Added Interface IotHubPropertiesDeviceStreams
+  - Added Interface IotHubResourceCreateOrUpdateHeaders
+  - Added Interface IotHubResourceUpdateHeaders
+  - Added Interface KeyVaultKeyProperties
+  - Added Interface PrivateEndpointConnectionsUpdateHeaders
+  - Added Interface RootCertificateProperties
+  - Interface CertificateProperties has a new optional parameter policyResourceId
+  - Interface CertificatePropertiesWithNonce has a new optional parameter policyResourceId
+  - Interface IotHubProperties has a new optional parameter deviceRegistry
+  - Interface IotHubProperties has a new optional parameter deviceStreams
+  - Interface IotHubProperties has a new optional parameter encryption
+  - Interface IotHubProperties has a new optional parameter ipVersion
+  - Interface IotHubProperties has a new optional parameter rootCertificate
+  - Added Type Alias IpVersion
+  - Added Enum KnownIpVersion
+  - Enum KnownIotHubSku has a new value GEN2
+  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
+  - Enum KnownRoutingSource has a new value MqttBrokerMessages
 
 ### Breaking Changes
+  - Operation IotHubResource.beginCreateOrUpdate has a new signature
+  - Operation IotHubResource.beginCreateOrUpdateAndWait has a new signature
+  - Operation IotHubResource.beginDeleteAndWait has a new signature
+  - Operation IotHubResource.beginUpdateAndWait has a new signature
+  - Operation IotHubResource.get has a new signature
+  - Type alias "IotHubResourceUpdateResponse" has been changed
+  - Type alias "IotHubSkuTier" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
-## 6.3.1 (2025-08-21)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 6.3.0 (2023-09-15)
     
 ### Features Added
@@ -65,4 +84,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
