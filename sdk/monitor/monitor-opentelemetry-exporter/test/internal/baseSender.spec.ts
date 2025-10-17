@@ -106,7 +106,7 @@ vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
   return {
     CustomerSDKStatsMetrics: {
       getInstance: vi.fn().mockImplementation(() => {
-        return mockCustomerSDKStatsMetrics;
+        return Promise.resolve(mockCustomerSDKStatsMetrics);
       }),
       shutdown: vi.fn(),
     },
@@ -715,6 +715,15 @@ describe("BaseSender", () => {
     });
 
     it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
+      // Wait for async initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      // Ensure the mock is still in place after async initialization
+      Object.defineProperty(testSender, "customerSDKStatsMetrics", {
+        value: mockCustomerSDKStatsMetrics,
+        writable: true,
+      });
+
       // Set up a scenario that triggers circular redirect
       (testSender as any).redirectCount = 10; // Force circular redirect
 
@@ -859,7 +868,7 @@ describe("BaseSender", () => {
       }
     });
 
-    it("should use custom export interval when valid environment variable is set", () => {
+    it("should use custom export interval when valid environment variable is set", async () => {
       // Set a valid export interval (30 seconds)
       process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = "30";
 
@@ -874,6 +883,9 @@ describe("BaseSender", () => {
       // Verify sender was created successfully
       expect(testSender).toBeDefined();
 
+      // Wait for async initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
       // Verify that CustomerSDKStatsMetrics.getInstance was called with the converted interval
       expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
         instrumentationKey: "test-key",
@@ -883,7 +895,7 @@ describe("BaseSender", () => {
       });
     });
 
-    it("should use default export interval when environment variable is not set", () => {
+    it("should use default export interval when environment variable is not set", async () => {
       // Ensure the export interval env var is not set
       delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
 
@@ -898,6 +910,9 @@ describe("BaseSender", () => {
       // Verify sender was created successfully
       expect(testSender).toBeDefined();
 
+      // Wait for async initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
       // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
       expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({
         instrumentationKey: "test-key",
@@ -907,7 +922,7 @@ describe("BaseSender", () => {
       });
     });
 
-    it("should log warning and use default interval for non-numeric values", () => {
+    it("should log warning and use default interval for non-numeric values", async () => {
       // Set an invalid export interval (non-numeric)
       process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL] = "invalid";
 
@@ -926,6 +941,9 @@ describe("BaseSender", () => {
       expect(diag.warn).toHaveBeenCalledWith(
         "Invalid value for APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL environment variable: 'invalid'. Expected a positive number (seconds). Using default export interval.",
       );
+
+      // Wait for async initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       // Verify that CustomerSDKStatsMetrics.getInstance was called without networkCollectionInterval
       expect(CustomerSDKStatsMetrics.getInstance).toHaveBeenCalledWith({

@@ -5,9 +5,9 @@ import type { BatchObservableResult, Meter, ObservableGauge } from "@opentelemet
 import { diag } from "@opentelemetry/api";
 import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
+import type { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
 import {
   CustomerSDKStats,
@@ -19,7 +19,6 @@ import {
 } from "./types.js";
 import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
-import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { BreezePerformanceCounterNames } from "../../types.js";
 import type { MetricsData, RemoteDependencyData, RequestData } from "../../generated/index.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
@@ -55,13 +54,9 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
   // Customer SDK Stats properties
   private customerProperties: CustomerSDKStatsProperties;
 
-  private constructor(options: StatsbeatOptions) {
+  private constructor(options: StatsbeatOptions, exporter: AzureMonitorStatsbeatExporter) {
     super();
-    const exporterConfig: AzureMonitorExporterOptions = {
-      connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
-    };
-
-    this.customerSDKStatsExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
+    this.customerSDKStatsExporter = exporter;
     // Exports Customer SDK Stats every 15 minutes
     const customerMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.customerSDKStatsExporter,
@@ -109,11 +104,17 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
   /**
    * Get singleton instance of CustomerSDKStatsMetrics
    * @param options - Configuration options for customer SDK Stats metrics
-   * @returns The singleton instance
+   * @returns Promise of the singleton instance
    */
-  public static getInstance(options: StatsbeatOptions): CustomerSDKStatsMetrics {
+  public static async getInstance(options: StatsbeatOptions): Promise<CustomerSDKStatsMetrics> {
     if (!CustomerSDKStatsMetrics._instance) {
-      CustomerSDKStatsMetrics._instance = new CustomerSDKStatsMetrics(options);
+      // Use dynamic import to break circular dependency
+      const { AzureMonitorStatsbeatExporter } = await import("./statsbeatExporter.js");
+      const customerStatsExporterConfig = {
+        connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
+      };
+      const exporter = new AzureMonitorStatsbeatExporter(customerStatsExporterConfig);
+      CustomerSDKStatsMetrics._instance = new CustomerSDKStatsMetrics(options, exporter);
     }
     return CustomerSDKStatsMetrics._instance;
   }
