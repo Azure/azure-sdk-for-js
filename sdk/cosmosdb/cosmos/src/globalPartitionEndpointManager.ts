@@ -41,7 +41,7 @@ export class GlobalPartitionEndpointManager {
     >();
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    if (this.globalEndpointManager.lastKnownPPAFEnabled) {
+    if (this.globalEndpointManager.lastKnownPPCBEnabled) {
       this.initiateCircuitBreakerFailbackLoop();
     }
   }
@@ -316,7 +316,7 @@ export class GlobalPartitionEndpointManager {
   private isRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
   ): boolean {
-    const enablePartitionLevelCircuitBreaker = this.isPartitionLevelAutomaticFailoverEnabled();
+    const enablePartitionLevelCircuitBreaker = this.isPartitionLevelCircuitBreakerEnabled();
     if (!enablePartitionLevelCircuitBreaker) {
       return false;
     }
@@ -419,9 +419,15 @@ export class GlobalPartitionEndpointManager {
   public changeCircuitBreakerFailbackLoop(isEnabled: boolean): void {
     // Start or stop the circuit breaker failback loop based on PPAF/PPCB status
     if (isEnabled) {
-      this.initiateCircuitBreakerFailbackLoop();
+      // Only start if not already running to prevent duplicate timers
+      if (!this.circuitBreakerFailbackBackgroundRefresher) {
+        this.initiateCircuitBreakerFailbackLoop();
+      }
     } else {
-      this.dispose();
+      // Only dispose if currently running
+      if (this.circuitBreakerFailbackBackgroundRefresher) {
+        this.dispose();
+      }
     }
   }
   /**
@@ -430,5 +436,12 @@ export class GlobalPartitionEndpointManager {
    */
   public isPartitionLevelAutomaticFailoverEnabled(): boolean {
     return this.globalEndpointManager.lastKnownPPAFEnabled;
+  }
+  /**
+   * Gets a value indicating whether per-partition automatic failover is currently enabled.
+   * @internal
+   */
+  public isPartitionLevelCircuitBreakerEnabled(): boolean {
+    return this.globalEndpointManager.lastKnownPPCBEnabled;
   }
 }

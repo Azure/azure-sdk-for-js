@@ -41,9 +41,8 @@ export interface ConnectionPolicy {
   enablePartitionLevelFailover?: boolean;
 
   /**
-   * Flag to enable/disable Per Partition Level Circuit Breaker (PPCB). Defaults to true.
-   * Note: Dynamic enablement requires `enableEndpointDiscovery` and
-   * `enableBackgroundEndpointRefreshing` to be `true`. If endpoint discovery
+   * Flag to enable/disable Per Partition Level Circuit Breaker (PPCB). Defaults to false.
+   * Note: Requires `enableEndpointDiscovery` to be `true`. If endpoint discovery
    * is disabled, this setting has no effect.
    */
   enablePartitionLevelCircuitBreaker?: boolean;
@@ -66,5 +65,5 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   endpointRefreshRateInMs: 300000,
   enableBackgroundEndpointRefreshing: true,
   enablePartitionLevelFailover: true,
-  enablePartitionLevelCircuitBreaker: true,
+  enablePartitionLevelCircuitBreaker: false,
 });

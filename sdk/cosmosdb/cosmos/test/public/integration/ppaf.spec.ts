@@ -184,7 +184,7 @@ const SuccessResponse = {
 };
 
 describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
-  it("should detect and adapt to service-side PPAF enablement changes (initially off, then on)", async () => {
+  it("should detect and adapt to service-side PPAF enablement changes (initially off, then on). PPCB = false", async () => {
     let requestIndex = 0;
     let ppafEventTriggered = false;
     let receivedPPAFStatus: boolean | undefined;
@@ -222,8 +222,6 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
     const globalEndpointManager = (client as any).clientContext.globalEndpointManager;
     const globalPartitionEndpointManager = (client as any).clientContext
       .globalPartitionEndpointManager;
-
-    // Set up event listeners
     const sdkHandler = globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged;
 
     if (globalEndpointManager) {
@@ -240,28 +238,22 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
       );
     };
 
-    // Initially PPAF should be enabled
-    assert.isTrue(
+    assert.isFalse(
       getTimerState(),
-      "Initially circuitBreakerFailbackBackgroundRefresher should be running",
+      "Initially circuitBreakerFailbackBackgroundRefresher should be stopped",
     );
-    assert.isTrue(
-      globalPartitionEndpointManager.isPartitionLevelAutomaticFailoverEnabled(),
-      "Default value is true",
-    );
-
     // Wait for background refresh to occur
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    assert.isTrue(ppafEventTriggered, "PPAF config change event should be triggered");
-    assert.isFalse(receivedPPAFStatus!, "PPAF should be disabled by service");
+    assert.isFalse(ppafEventTriggered, "PPAF config change event should not be triggered");
     assert.isFalse(
       globalPartitionEndpointManager.isPartitionLevelAutomaticFailoverEnabled(),
       "First databaseAccount call should disable the PPAF",
     );
-    assert.isFalse(getTimerState(), "circuitBreakerFailbackBackgroundRefresher should be stopped");
-
-    ppafEventTriggered = false; // Reset for next check
+    assert.isFalse(
+      getTimerState(),
+      "circuitBreakerFailbackBackgroundRefresher should be still be stopped",
+    );
 
     // Wait for background refresh to occur
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -280,7 +272,7 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
     client.dispose();
   });
 
-  it("should detect and adapt to service side PPAF changes (Initially on, then off)", async () => {
+  it("should detect and adapt to service side PPAF changes (Initially on, then off). PPCB = false", async () => {
     let requestIndex = 0;
     let ppafEventTriggered = false;
     let receivedPPAFStatus: boolean | undefined;
@@ -319,7 +311,6 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
     const globalPartitionEndpointManager = (client as any).clientContext
       .globalPartitionEndpointManager;
 
-    // Set up event listeners
     const sdkHandler = globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged;
 
     if (globalEndpointManager) {
@@ -338,24 +329,23 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
     };
 
     // Initially should be enabled
-    assert.isTrue(
+    assert.isFalse(
       getTimerState(),
-      "Initially circuitBreakerFailbackBackgroundRefresher should be running",
-    );
-    assert.isTrue(
-      globalPartitionEndpointManager.isPartitionLevelAutomaticFailoverEnabled(),
-      "Default value of PPAF is true",
+      "Initially circuitBreakerFailbackBackgroundRefresher should not be running",
     );
 
     // Wait for background refresh to occur
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    assert.isFalse(ppafEventTriggered, "PPAF config change event should not be triggered");
+    assert.isTrue(ppafEventTriggered, "PPAF config change event should be triggered");
     assert.isTrue(
       globalPartitionEndpointManager.isPartitionLevelAutomaticFailoverEnabled(),
-      "PPAF should remain enabled",
+      "PPAF should become enabled",
     );
-    assert.isTrue(getTimerState(), "circuitBreakerFailbackBackgroundRefresher should keep running");
+    assert.isTrue(
+      getTimerState(),
+      "circuitBreakerFailbackBackgroundRefresher should now be running",
+    );
 
     // Wait for background refresh to occur
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -367,6 +357,311 @@ describe("Dynamic PPAF Enablement", { timeout: 30000 }, () => {
       "databaseAccount call should disable the flag",
     );
     assert.isFalse(getTimerState(), "circuitBreakerFailbackBackgroundRefresher should be stopped");
+    client.dispose();
+  });
+
+  it("should start circuit breaker when PPCB=true and PPAF=false", async () => {
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelCircuitBreaker: true, // PPCB enabled
+        enablePartitionLevelFailover: false, // PPAF disabled
+      },
+    };
+
+    const client = new CosmosClient({
+      ...options,
+    } as any);
+    const globalPartitionEndpointManager = (client as any).clientContext
+      .globalPartitionEndpointManager;
+
+    const getTimerState = () => {
+      return (
+        (globalPartitionEndpointManager as any).circuitBreakerFailbackBackgroundRefresher !==
+        undefined
+      );
+    };
+    assert.isTrue(getTimerState(), "Circuit breaker timer should be running when PPCB=true");
+
+    client.dispose();
+  });
+
+  it("should stop circuit breaker when PPCB=false and PPAF changes from true to false", async () => {
+    let requestIndex = 0;
+    let circuitBreakerEventTriggered = false;
+    let receivedCircuitBreakerStatus: boolean | undefined;
+
+    const responses = [
+      databaseAccountResponse, // Initial - PPAF enabled
+      databaseResponseWithPPAFDisabled, // Second call - PPAF disabled
+    ];
+
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async () => {
+          const response = responses[requestIndex] || responses[responses.length - 1];
+          requestIndex++;
+          return response;
+        },
+      },
+    ];
+
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelCircuitBreaker: false, // PPCB disabled
+        enablePartitionLevelFailover: true, // PPAF enabled initially
+        endpointRefreshRateInMs: 1000,
+      },
+    };
+
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    // Access internal components for testing
+    const globalEndpointManager = (client as any).clientContext.globalEndpointManager;
+    const globalPartitionEndpointManager = (client as any).clientContext
+      .globalPartitionEndpointManager;
+
+    // Set up circuit breaker event listener
+    const originalHandler = globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged;
+    globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged = (isEnabled: boolean) => {
+      originalHandler?.(isEnabled);
+      circuitBreakerEventTriggered = true;
+      receivedCircuitBreakerStatus = isEnabled;
+    };
+
+    const getTimerState = () => {
+      return (
+        (globalPartitionEndpointManager as any).circuitBreakerFailbackBackgroundRefresher !==
+        undefined
+      );
+    };
+
+    // Initial call - should start circuit breaker (PPAF=true)
+    await client.getReadEndpoint();
+    assert.isTrue(circuitBreakerEventTriggered, "Circuit breaker should start when PPAF=true");
+    assert.isTrue(receivedCircuitBreakerStatus!, "Circuit breaker should be enabled");
+    assert.isTrue(getTimerState(), "Timer should be running");
+
+    // Reset for next check
+    circuitBreakerEventTriggered = false;
+
+    // Wait for background refresh to change PPAF to false
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    assert.isTrue(circuitBreakerEventTriggered, "Circuit breaker event should be triggered");
+    assert.isFalse(
+      receivedCircuitBreakerStatus!,
+      "Circuit breaker should be disabled when PPAF=false",
+    );
+    assert.isFalse(getTimerState(), "Timer should be stopped when PPAF=false");
+
+    client.dispose();
+  });
+
+  it("should keep circuit breaker running when PPCB=true regardless of PPAF changes", async () => {
+    let requestIndex = 0;
+    let circuitBreakerEventCount = 0;
+
+    const responses = [
+      databaseAccountResponse, // Initial - PPAF enabled
+      databaseResponseWithPPAFDisabled, // PPAF disabled
+      databaseAccountResponse, // PPAF enabled again
+    ];
+
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async () => {
+          const response = responses[requestIndex] || responses[responses.length - 1];
+          requestIndex++;
+          return response;
+        },
+      },
+    ];
+
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelCircuitBreaker: true, // PPCB enabled
+        enablePartitionLevelFailover: true, // PPAF enabled initially
+        endpointRefreshRateInMs: 1000,
+      },
+    };
+
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    // Access internal components for testing
+    const globalEndpointManager = (client as any).clientContext.globalEndpointManager;
+    const globalPartitionEndpointManager = (client as any).clientContext
+      .globalPartitionEndpointManager;
+
+    // Set up circuit breaker event listener
+    const originalHandler = globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged;
+    globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged = (isEnabled: boolean) => {
+      originalHandler?.(isEnabled);
+      circuitBreakerEventCount++;
+    };
+
+    const getTimerState = () => {
+      return (
+        (globalPartitionEndpointManager as any).circuitBreakerFailbackBackgroundRefresher !==
+        undefined
+      );
+    };
+
+    // Initial call - should start circuit breaker
+    await client.getReadEndpoint();
+    assert.isTrue(getTimerState(), "Timer should be running");
+
+    // Wait for PPAF change to false
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Circuit breaker should still be running (no new events because PPCB=true overrides PPAF)
+    assert.equal(
+      circuitBreakerEventCount,
+      0,
+      "No additional circuit breaker events when PPCB=true",
+    );
+    assert.isTrue(getTimerState(), "Timer should keep running when PPCB=true");
+
+    // Wait for PPAF change back to true
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Still no change because PPCB=true
+    assert.equal(circuitBreakerEventCount, 0, "Still no additional events when PPCB=true");
+    assert.isTrue(getTimerState(), "Timer should still be running");
+
+    client.dispose();
+  });
+
+  it("should not trigger duplicate events when state doesn't change", async () => {
+    let circuitBreakerEventCount = 0;
+
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async () => {
+          return databaseAccountResponse; // Always return PPAF enabled
+        },
+      },
+    ];
+
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelCircuitBreaker: false, // PPCB disabled
+        enablePartitionLevelFailover: true, // PPAF enabled
+        endpointRefreshRateInMs: 500,
+      },
+    };
+
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    // Access internal components for testing
+    const globalEndpointManager = (client as any).clientContext.globalEndpointManager;
+
+    // Set up circuit breaker event listener
+    const originalHandler = globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged;
+    globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged = (isEnabled: boolean) => {
+      originalHandler?.(isEnabled);
+      circuitBreakerEventCount++;
+    };
+
+    // Multiple calls should only trigger one event
+    await client.getReadEndpoint();
+    await client.getWriteEndpoint();
+
+    // Wait for potential background refreshes
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    assert.equal(
+      circuitBreakerEventCount,
+      1,
+      "Should only trigger one event when state doesn't change",
+    );
+
+    client.dispose();
+  });
+
+  it("should handle both PPCB and PPAF disabled scenario", async () => {
+    let circuitBreakerEventTriggered = false;
+
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async () => {
+          return databaseResponseWithPPAFDisabled; // PPAF disabled from service
+        },
+      },
+    ];
+
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        enablePartitionLevelCircuitBreaker: false, // PPCB disabled
+        enablePartitionLevelFailover: false, // PPAF disabled
+      },
+    };
+
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    // Access internal components for testing
+    const globalEndpointManager = (client as any).clientContext.globalEndpointManager;
+    const globalPartitionEndpointManager = (client as any).clientContext
+      .globalPartitionEndpointManager;
+
+    // Set up circuit breaker event listener
+    const originalHandler = globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged;
+    globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged = (isEnabled: boolean) => {
+      originalHandler?.(isEnabled);
+      circuitBreakerEventTriggered = true;
+    };
+
+    const getTimerState = () => {
+      if (!globalPartitionEndpointManager) {
+        return false; // No manager means no timer
+      }
+      return (
+        (globalPartitionEndpointManager as any).circuitBreakerFailbackBackgroundRefresher !==
+        undefined
+      );
+    };
+
+    // Trigger endpoint resolution
+    await client.getReadEndpoint();
+
+    // When both PPCB and PPAF are disabled, the circuit breaker logic should not be activated at all
+    assert.isFalse(
+      circuitBreakerEventTriggered,
+      "Circuit breaker logic should not be activated when both features are disabled",
+    );
+    assert.isFalse(getTimerState(), "Timer should not be running when both features are disabled");
+
+    // Verify that globalPartitionEndpointManager is not created when both features are disabled
+    assert.isUndefined(
+      globalPartitionEndpointManager,
+      "GlobalPartitionEndpointManager should not be created when both features are disabled",
+    );
+
     client.dispose();
   });
 });
