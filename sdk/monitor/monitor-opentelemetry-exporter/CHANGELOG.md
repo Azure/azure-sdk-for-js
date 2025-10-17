@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.36 ()
+
+### Features Added
+
+- Added the initial OneSettings configuration manager.
+
 ## 1.0.0-beta.35 (2025-09-16)
 
 ### Other Changes
