@@ -954,21 +954,21 @@ export function convertKnowledgeBaseToPublic(knowledgeBase: GeneratedKnowledgeBa
 
   return {
     ...knowledgeBase,
-    models: knowledgeBase?.models?.map((model) => convertKnowledgeBaseModelToPublic(model)),
+    models: knowledgeBase.models?.map((model) => convertKnowledgeBaseModelToPublic(model)) || [],
     encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey),
   };
 }
 
-export function convertKnowledgeAgentToGenerated(
-  knowledgeAgent: KnowledgeAgent | undefined,
-): GeneratedKnowledgeAgent | undefined {
-  if (!knowledgeAgent) {
-    return knowledgeAgent;
+export function convertKnowledgeBaseToGenerated(
+  knowledgeBase: KnowledgeBase | undefined,
+): GeneratedKnowledgeBase | undefined {
+  if (!knowledgeBase) {
+    return knowledgeBase;
   }
 
   return {
-    ...knowledgeAgent,
-    encryptionKey: convertEncryptionKeyToGenerated(knowledgeAgent.encryptionKey),
+    ...knowledgeBase,
+    encryptionKey: convertEncryptionKeyToGenerated(knowledgeBase.encryptionKey),
   };
 }
 
@@ -1021,16 +1021,14 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
     identity: convertSearchIndexerDataIdentityToPublic(identity),
     chatCompletionModel: !chatCompletionModel
       ? chatCompletionModel
-      : convertKnowledgeAgentModelToPublic(chatCompletionModel),
+      : convertKnowledgeBaseModelToPublic(chatCompletionModel),
   };
 }
 
-function convertKnowledgeAgentModelToPublic(
-  model: GeneratedKnowledgeAgentModel,
-): KnowledgeAgentModel {
+function convertKnowledgeBaseModelToPublic(model: GeneratedKnowledgeBaseModel): KnowledgeBaseModel {
   switch (model.kind) {
     case "azureOpenAI": {
-      const { azureOpenAIParameters, ...rest } = model as GeneratedKnowledgeAgentAzureOpenAIModel;
+      const { azureOpenAIParameters, ...rest } = model as GeneratedKnowledgeBaseAzureOpenAIModel;
       return {
         ...rest,
         azureOpenAIParameters: convertAzureOpenAIParametersToPublic(azureOpenAIParameters),
