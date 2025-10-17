@@ -4,4 +4,822 @@
 
 ### Features Added
 
+- Interface AvailabilitySet has a new optional parameter properties
+- Interface AvailabilitySetUpdate has a new optional parameter properties
+- Interface CapacityReservation has a new optional parameter properties
+- Interface CapacityReservationGroup has a new optional parameter properties
+- Interface CapacityReservationGroupUpdate has a new optional parameter properties
+- Interface CapacityReservationUpdate has a new optional parameter properties
+- Interface DedicatedHost has a new optional parameter properties
+- Interface DedicatedHostGroup has a new optional parameter properties
+- Interface DedicatedHostGroupUpdate has a new optional parameter properties
+- Interface DedicatedHostUpdate has a new optional parameter properties
+- Interface Image has a new optional parameter properties
+- Interface ImageUpdate has a new optional parameter properties
+- Interface NetworkInterfaceReference has a new optional parameter properties
+- Interface ProximityPlacementGroup has a new optional parameter properties
+- Interface RestorePoint has a new optional parameter properties
+- Interface RestorePointCollection has a new optional parameter properties
+- Interface RestorePointCollectionUpdate has a new optional parameter properties
+- Interface RollingUpgradeStatusInfo has a new optional parameter properties
+- Interface SshPublicKeyResource has a new optional parameter properties
+- Interface SshPublicKeyUpdateResource has a new optional parameter properties
+- Interface VirtualMachine has a new optional parameter properties
+- Interface VirtualMachineExtension has a new optional parameter properties
+- Interface VirtualMachineExtensionImage has a new optional parameter properties
+- Interface VirtualMachineExtensionUpdate has a new optional parameter properties
+- Interface VirtualMachineImage has a new optional parameter properties
+- Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter properties
+- Interface VirtualMachineNetworkInterfaceIPConfiguration has a new optional parameter properties
+- Interface VirtualMachinePublicIPAddressConfiguration has a new optional parameter properties
+- Interface VirtualMachineRunCommand has a new optional parameter properties
+- Interface VirtualMachineRunCommandUpdate has a new optional parameter properties
+- Interface VirtualMachineScaleSet has a new optional parameter properties
+- Interface VirtualMachineScaleSetExtension has a new optional parameter properties
+- Interface VirtualMachineScaleSetExtensionUpdate has a new optional parameter properties
+- Interface VirtualMachineScaleSetIPConfiguration has a new optional parameter properties
+- Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter properties
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration has a new optional parameter properties
+- Interface VirtualMachineScaleSetUpdate has a new optional parameter properties
+- Interface VirtualMachineScaleSetUpdateIPConfiguration has a new optional parameter properties
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter properties
+- Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter properties
+- Interface VirtualMachineScaleSetVM has a new optional parameter properties
+- Interface VirtualMachineScaleSetVMExtension has a new optional parameter properties
+- Interface VirtualMachineScaleSetVMExtensionUpdate has a new optional parameter properties
+- Interface VirtualMachineUpdate has a new optional parameter properties
+- Added operation AvailabilitySetsOperations.convertToVirtualMachineScaleSet
+- Added operation CapacityReservationsOperations.createOrUpdate
+- Added operation CapacityReservationsOperations.delete
+- Added operation CapacityReservationsOperations.update
+- Added operation DedicatedHostsOperations.createOrUpdate
+- Added operation DedicatedHostsOperations.delete
+- Added operation DedicatedHostsOperations.redeploy
+- Added operation DedicatedHostsOperations.restart
+- Added operation DedicatedHostsOperations.update
+- Added operation ImagesOperations.createOrUpdate
+- Added operation ImagesOperations.delete
+- Added operation ImagesOperations.update
+- Added operation RestorePointCollectionsOperations.delete
+- Added operation RestorePointsOperations.create
+- Added operation RestorePointsOperations.delete
+- Added operation VirtualMachineExtensionsOperations.createOrUpdate
+- Added operation VirtualMachineExtensionsOperations.delete
+- Added operation VirtualMachineExtensionsOperations.update
+- Added operation VirtualMachineRunCommandsOperations.createOrUpdate
+- Added operation VirtualMachineRunCommandsOperations.delete
+- Added operation VirtualMachineRunCommandsOperations.update
+- Added operation VirtualMachinesOperations.assessPatches
+- Added operation VirtualMachinesOperations.attachDetachDataDisks
+- Added operation VirtualMachinesOperations.capture
+- Added operation VirtualMachinesOperations.convertToManagedDisks
+- Added operation VirtualMachinesOperations.createOrUpdate
+- Added operation VirtualMachinesOperations.deallocate
+- Added operation VirtualMachinesOperations.delete
+- Added operation VirtualMachinesOperations.installPatches
+- Added operation VirtualMachinesOperations.migrateToVMScaleSet
+- Added operation VirtualMachinesOperations.performMaintenance
+- Added operation VirtualMachinesOperations.powerOff
+- Added operation VirtualMachinesOperations.reapply
+- Added operation VirtualMachinesOperations.redeploy
+- Added operation VirtualMachinesOperations.reimage
+- Added operation VirtualMachinesOperations.restart
+- Added operation VirtualMachinesOperations.runCommand
+- Added operation VirtualMachinesOperations.start
+- Added operation VirtualMachinesOperations.update
+- Added operation VirtualMachineScaleSetExtensionsOperations.createOrUpdate
+- Added operation VirtualMachineScaleSetExtensionsOperations.delete
+- Added operation VirtualMachineScaleSetExtensionsOperations.update
+- Added operation VirtualMachineScaleSetsOperations.approveRollingUpgrade
+- Added operation VirtualMachineScaleSetsOperations.cancel
+- Added operation VirtualMachineScaleSetsOperations.createOrUpdate
+- Added operation VirtualMachineScaleSetsOperations.deallocate
+- Added operation VirtualMachineScaleSetsOperations.delete
+- Added operation VirtualMachineScaleSetsOperations.deleteInstances
+- Added operation VirtualMachineScaleSetsOperations.getOSUpgradeHistory
+- Added operation VirtualMachineScaleSetsOperations.performMaintenance
+- Added operation VirtualMachineScaleSetsOperations.powerOff
+- Added operation VirtualMachineScaleSetsOperations.reapply
+- Added operation VirtualMachineScaleSetsOperations.redeploy
+- Added operation VirtualMachineScaleSetsOperations.reimage
+- Added operation VirtualMachineScaleSetsOperations.reimageAll
+- Added operation VirtualMachineScaleSetsOperations.restart
+- Added operation VirtualMachineScaleSetsOperations.scaleOut
+- Added operation VirtualMachineScaleSetsOperations.setOrchestrationServiceState
+- Added operation VirtualMachineScaleSetsOperations.start
+- Added operation VirtualMachineScaleSetsOperations.startExtensionUpgrade
+- Added operation VirtualMachineScaleSetsOperations.startOSUpgrade
+- Added operation VirtualMachineScaleSetsOperations.update
+- Added operation VirtualMachineScaleSetsOperations.updateInstances
+- Added operation VirtualMachineScaleSetVMExtensionsOperations.createOrUpdate
+- Added operation VirtualMachineScaleSetVMExtensionsOperations.delete
+- Added operation VirtualMachineScaleSetVMExtensionsOperations.update
+- Added operation VirtualMachineScaleSetVMRunCommandsOperations.createOrUpdate
+- Added operation VirtualMachineScaleSetVMRunCommandsOperations.delete
+- Added operation VirtualMachineScaleSetVMRunCommandsOperations.update
+- Added Interface AvailabilitySetProperties
+- Added Interface CapacityReservationGroupProperties
+- Added Interface CapacityReservationProperties
+- Added Interface DedicatedHostGroupProperties
+- Added Interface DedicatedHostProperties
+- Added Interface ImageProperties
+- Added Interface LogAnalyticsOperationGroupExportRequestRateByIntervalOptionalParams
+- Added Interface LogAnalyticsOperationGroupExportThrottledRequestsOptionalParams
+- Added Interface NetworkInterfaceReferenceProperties
+- Added Interface OkResponse
+- Added Interface PagedAsyncIterableIterator
+- Added Interface PageSettings
+- Added Interface ProximityPlacementGroupProperties
+- Added Interface RestorePointCollectionProperties
+- Added Interface RestorePointProperties
+- Added Interface RestorePollerOptions
+- Added Interface RollingUpgradeStatusInfoProperties
+- Added Interface RollingUpgradeStatusInfosGetLatestOptionalParams
+- Added Interface SshPublicKeyResourceProperties
+- Added Interface SshPublicKeyResourcesCreateOptionalParams
+- Added Interface SshPublicKeyResourcesDeleteOptionalParams
+- Added Interface SshPublicKeyResourcesGenerateKeyPairOptionalParams
+- Added Interface SshPublicKeyResourcesGetOptionalParams
+- Added Interface SshPublicKeyResourcesListByResourceGroupOptionalParams
+- Added Interface SshPublicKeyResourcesListBySubscriptionOptionalParams
+- Added Interface SshPublicKeyResourcesUpdateOptionalParams
+- Added Interface UsageOperationGroupListOptionalParams
+- Added Interface VirtualMachineExtensionImageProperties
+- Added Interface VirtualMachineExtensionProperties
+- Added Interface VirtualMachineExtensionUpdateProperties
+- Added Interface VirtualMachineImageProperties
+- Added Interface VirtualMachineImagesEdgeZoneOperationGroupGetOptionalParams
+- Added Interface VirtualMachineImagesEdgeZoneOperationGroupListOffersOptionalParams
+- Added Interface VirtualMachineImagesEdgeZoneOperationGroupListOptionalParams
+- Added Interface VirtualMachineImagesEdgeZoneOperationGroupListPublishersOptionalParams
+- Added Interface VirtualMachineImagesEdgeZoneOperationGroupListSkusOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupGetOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupListByEdgeZoneOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupListOffersOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupListOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupListPublishersOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupListSkusOptionalParams
+- Added Interface VirtualMachineImagesOperationGroupListWithPropertiesOptionalParams
+- Added Interface VirtualMachineNetworkInterfaceConfigurationProperties
+- Added Interface VirtualMachineNetworkInterfaceIPConfigurationProperties
+- Added Interface VirtualMachineProperties
+- Added Interface VirtualMachinePublicIPAddressConfigurationProperties
+- Added Interface VirtualMachineRunCommandProperties
+- Added Interface VirtualMachineRunCommandsOperationGroupGetOptionalParams
+- Added Interface VirtualMachineRunCommandsOperationGroupListOptionalParams
+- Added Interface VirtualMachineScaleSetExtensionProperties
+- Added Interface VirtualMachineScaleSetIPConfigurationProperties
+- Added Interface VirtualMachineScaleSetNetworkConfigurationProperties
+- Added Interface VirtualMachineScaleSetProperties
+- Added Interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties
+- Added Interface VirtualMachineScaleSetsCancelOptionalParams
+- Added Interface VirtualMachineScaleSetsOperationGroupListByLocationOptionalParams
+- Added Interface VirtualMachineScaleSetsStartExtensionUpgradeOptionalParams
+- Added Interface VirtualMachineScaleSetsStartOSUpgradeOptionalParams
+- Added Interface VirtualMachineScaleSetUpdateIPConfigurationProperties
+- Added Interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties
+- Added Interface VirtualMachineScaleSetUpdateProperties
+- Added Interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
+- Added Interface VirtualMachineScaleSetVMProperties
+- Added Interface VirtualMachineScaleSetVMSApproveRollingUpgradeOptionalParams
+- Added Interface VirtualMachineScaleSetVMSAttachDetachDataDisksOptionalParams
+- Added Interface VirtualMachineScaleSetVMSDeallocateOptionalParams
+- Added Interface VirtualMachineScaleSetVMSDeleteOptionalParams
+- Added Interface VirtualMachineScaleSetVMSGetInstanceViewOptionalParams
+- Added Interface VirtualMachineScaleSetVMSGetOptionalParams
+- Added Interface VirtualMachineScaleSetVMSListOptionalParams
+- Added Interface VirtualMachineScaleSetVMSPerformMaintenanceOptionalParams
+- Added Interface VirtualMachineScaleSetVMSPowerOffOptionalParams
+- Added Interface VirtualMachineScaleSetVMSRedeployOptionalParams
+- Added Interface VirtualMachineScaleSetVMSReimageAllOptionalParams
+- Added Interface VirtualMachineScaleSetVMSReimageOptionalParams
+- Added Interface VirtualMachineScaleSetVMSRestartOptionalParams
+- Added Interface VirtualMachineScaleSetVMSRetrieveBootDiagnosticsDataOptionalParams
+- Added Interface VirtualMachineScaleSetVMSRunCommandOptionalParams
+- Added Interface VirtualMachineScaleSetVMSSimulateEvictionOptionalParams
+- Added Interface VirtualMachineScaleSetVMSStartOptionalParams
+- Added Interface VirtualMachineScaleSetVMSUpdateOptionalParams
+- Added Interface VirtualMachineSizesOperationGroupListOptionalParams
+- Added Interface VirtualMachinesOperationGroupListByLocationOptionalParams
+- Added operation group LogAnalyticsOperationGroupOperations
+- Added operation group RollingUpgradeStatusInfosOperations
+- Added operation group SshPublicKeyResourcesOperations
+- Added operation group UsageOperationGroupOperations
+- Added operation group VirtualMachineImagesEdgeZoneOperationGroupOperations
+- Added operation group VirtualMachineImagesOperationGroupOperations
+- Added operation group VirtualMachineRunCommandsOperationGroupOperations
+- Added operation group VirtualMachineScaleSetsOperationGroupOperations
+- Added operation group VirtualMachineScaleSetVMSOperations
+- Added operation group VirtualMachineSizesOperationGroupOperations
+- Added operation group VirtualMachinesOperationGroupOperations
+- Added Type Alias AzureSupportedClouds
+- Added Type Alias ComponentNames
+- Added Type Alias PassNames
+- Added Enum AzureClouds
+- Added Enum KnownVersions
+
+### Breaking Change
+
+- Removed operation AvailabilitySets.beginConvertToVirtualMachineScaleSet
+- Removed operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait
+- Removed operation CapacityReservations.beginCreateOrUpdate
+- Removed operation CapacityReservations.beginCreateOrUpdateAndWait
+- Removed operation CapacityReservations.beginDelete
+- Removed operation CapacityReservations.beginDeleteAndWait
+- Removed operation CapacityReservations.beginUpdate
+- Removed operation CapacityReservations.beginUpdateAndWait
+- Removed operation DedicatedHosts.beginCreateOrUpdate
+- Removed operation DedicatedHosts.beginCreateOrUpdateAndWait
+- Removed operation DedicatedHosts.beginDelete
+- Removed operation DedicatedHosts.beginDeleteAndWait
+- Removed operation DedicatedHosts.beginRedeploy
+- Removed operation DedicatedHosts.beginRedeployAndWait
+- Removed operation DedicatedHosts.beginRestart
+- Removed operation DedicatedHosts.beginRestartAndWait
+- Removed operation DedicatedHosts.beginUpdate
+- Removed operation DedicatedHosts.beginUpdateAndWait
+- Removed operation Images.beginCreateOrUpdate
+- Removed operation Images.beginCreateOrUpdateAndWait
+- Removed operation Images.beginDelete
+- Removed operation Images.beginDeleteAndWait
+- Removed operation Images.beginUpdate
+- Removed operation Images.beginUpdateAndWait
+- Removed operation RestorePointCollections.beginDelete
+- Removed operation RestorePointCollections.beginDeleteAndWait
+- Removed operation RestorePoints.beginCreate
+- Removed operation RestorePoints.beginCreateAndWait
+- Removed operation RestorePoints.beginDelete
+- Removed operation RestorePoints.beginDeleteAndWait
+- Removed operation VirtualMachineExtensions.beginCreateOrUpdate
+- Removed operation VirtualMachineExtensions.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachineExtensions.beginDelete
+- Removed operation VirtualMachineExtensions.beginDeleteAndWait
+- Removed operation VirtualMachineExtensions.beginUpdate
+- Removed operation VirtualMachineExtensions.beginUpdateAndWait
+- Removed operation VirtualMachineRunCommands.beginCreateOrUpdate
+- Removed operation VirtualMachineRunCommands.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachineRunCommands.beginDelete
+- Removed operation VirtualMachineRunCommands.beginDeleteAndWait
+- Removed operation VirtualMachineRunCommands.beginUpdate
+- Removed operation VirtualMachineRunCommands.beginUpdateAndWait
+- Removed operation VirtualMachineRunCommands.get
+- Removed operation VirtualMachineRunCommands.list
+- Removed operation VirtualMachines.beginAssessPatches
+- Removed operation VirtualMachines.beginAssessPatchesAndWait
+- Removed operation VirtualMachines.beginAttachDetachDataDisks
+- Removed operation VirtualMachines.beginAttachDetachDataDisksAndWait
+- Removed operation VirtualMachines.beginCapture
+- Removed operation VirtualMachines.beginCaptureAndWait
+- Removed operation VirtualMachines.beginConvertToManagedDisks
+- Removed operation VirtualMachines.beginConvertToManagedDisksAndWait
+- Removed operation VirtualMachines.beginCreateOrUpdate
+- Removed operation VirtualMachines.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachines.beginDeallocate
+- Removed operation VirtualMachines.beginDeallocateAndWait
+- Removed operation VirtualMachines.beginDelete
+- Removed operation VirtualMachines.beginDeleteAndWait
+- Removed operation VirtualMachines.beginInstallPatches
+- Removed operation VirtualMachines.beginInstallPatchesAndWait
+- Removed operation VirtualMachines.beginMigrateToVMScaleSet
+- Removed operation VirtualMachines.beginMigrateToVMScaleSetAndWait
+- Removed operation VirtualMachines.beginPerformMaintenance
+- Removed operation VirtualMachines.beginPerformMaintenanceAndWait
+- Removed operation VirtualMachines.beginPowerOff
+- Removed operation VirtualMachines.beginPowerOffAndWait
+- Removed operation VirtualMachines.beginReapply
+- Removed operation VirtualMachines.beginReapplyAndWait
+- Removed operation VirtualMachines.beginRedeploy
+- Removed operation VirtualMachines.beginRedeployAndWait
+- Removed operation VirtualMachines.beginReimage
+- Removed operation VirtualMachines.beginReimageAndWait
+- Removed operation VirtualMachines.beginRestart
+- Removed operation VirtualMachines.beginRestartAndWait
+- Removed operation VirtualMachines.beginRunCommand
+- Removed operation VirtualMachines.beginRunCommandAndWait
+- Removed operation VirtualMachines.beginStart
+- Removed operation VirtualMachines.beginStartAndWait
+- Removed operation VirtualMachines.beginUpdate
+- Removed operation VirtualMachines.beginUpdateAndWait
+- Removed operation VirtualMachines.listByLocation
+- Removed operation VirtualMachineScaleSetExtensions.beginCreateOrUpdate
+- Removed operation VirtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachineScaleSetExtensions.beginDelete
+- Removed operation VirtualMachineScaleSetExtensions.beginDeleteAndWait
+- Removed operation VirtualMachineScaleSetExtensions.beginUpdate
+- Removed operation VirtualMachineScaleSetExtensions.beginUpdateAndWait
+- Removed operation VirtualMachineScaleSets.beginApproveRollingUpgrade
+- Removed operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
+- Removed operation VirtualMachineScaleSets.beginCreateOrUpdate
+- Removed operation VirtualMachineScaleSets.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachineScaleSets.beginDeallocate
+- Removed operation VirtualMachineScaleSets.beginDeallocateAndWait
+- Removed operation VirtualMachineScaleSets.beginDelete
+- Removed operation VirtualMachineScaleSets.beginDeleteAndWait
+- Removed operation VirtualMachineScaleSets.beginDeleteInstances
+- Removed operation VirtualMachineScaleSets.beginDeleteInstancesAndWait
+- Removed operation VirtualMachineScaleSets.beginPerformMaintenance
+- Removed operation VirtualMachineScaleSets.beginPerformMaintenanceAndWait
+- Removed operation VirtualMachineScaleSets.beginPowerOff
+- Removed operation VirtualMachineScaleSets.beginPowerOffAndWait
+- Removed operation VirtualMachineScaleSets.beginReapply
+- Removed operation VirtualMachineScaleSets.beginReapplyAndWait
+- Removed operation VirtualMachineScaleSets.beginRedeploy
+- Removed operation VirtualMachineScaleSets.beginRedeployAndWait
+- Removed operation VirtualMachineScaleSets.beginReimage
+- Removed operation VirtualMachineScaleSets.beginReimageAll
+- Removed operation VirtualMachineScaleSets.beginReimageAllAndWait
+- Removed operation VirtualMachineScaleSets.beginReimageAndWait
+- Removed operation VirtualMachineScaleSets.beginRestart
+- Removed operation VirtualMachineScaleSets.beginRestartAndWait
+- Removed operation VirtualMachineScaleSets.beginScaleOut
+- Removed operation VirtualMachineScaleSets.beginScaleOutAndWait
+- Removed operation VirtualMachineScaleSets.beginSetOrchestrationServiceState
+- Removed operation VirtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait
+- Removed operation VirtualMachineScaleSets.beginStart
+- Removed operation VirtualMachineScaleSets.beginStartAndWait
+- Removed operation VirtualMachineScaleSets.beginUpdate
+- Removed operation VirtualMachineScaleSets.beginUpdateAndWait
+- Removed operation VirtualMachineScaleSets.beginUpdateInstances
+- Removed operation VirtualMachineScaleSets.beginUpdateInstancesAndWait
+- Removed operation VirtualMachineScaleSets.listByLocation
+- Removed operation VirtualMachineScaleSets.listOSUpgradeHistory
+- Removed operation VirtualMachineScaleSetVMExtensions.beginCreateOrUpdate
+- Removed operation VirtualMachineScaleSetVMExtensions.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachineScaleSetVMExtensions.beginDelete
+- Removed operation VirtualMachineScaleSetVMExtensions.beginDeleteAndWait
+- Removed operation VirtualMachineScaleSetVMExtensions.beginUpdate
+- Removed operation VirtualMachineScaleSetVMExtensions.beginUpdateAndWait
+- Removed operation VirtualMachineScaleSetVMRunCommands.beginCreateOrUpdate
+- Removed operation VirtualMachineScaleSetVMRunCommands.beginCreateOrUpdateAndWait
+- Removed operation VirtualMachineScaleSetVMRunCommands.beginDelete
+- Removed operation VirtualMachineScaleSetVMRunCommands.beginDeleteAndWait
+- Removed operation VirtualMachineScaleSetVMRunCommands.beginUpdate
+- Removed operation VirtualMachineScaleSetVMRunCommands.beginUpdateAndWait
+- Interface AvailabilitySet no longer has parameter platformFaultDomainCount
+- Interface AvailabilitySet no longer has parameter platformUpdateDomainCount
+- Interface AvailabilitySet no longer has parameter proximityPlacementGroup
+- Interface AvailabilitySet no longer has parameter scheduledEventsPolicy
+- Interface AvailabilitySet no longer has parameter statuses
+- Interface AvailabilitySet no longer has parameter virtualMachines
+- Interface AvailabilitySet no longer has parameter virtualMachineScaleSetMigrationInfo
+- Interface AvailabilitySetUpdate no longer has parameter platformFaultDomainCount
+- Interface AvailabilitySetUpdate no longer has parameter platformUpdateDomainCount
+- Interface AvailabilitySetUpdate no longer has parameter proximityPlacementGroup
+- Interface AvailabilitySetUpdate no longer has parameter scheduledEventsPolicy
+- Interface AvailabilitySetUpdate no longer has parameter statuses
+- Interface AvailabilitySetUpdate no longer has parameter virtualMachines
+- Interface AvailabilitySetUpdate no longer has parameter virtualMachineScaleSetMigrationInfo
+- Interface CapacityReservation no longer has parameter instanceView
+- Interface CapacityReservation no longer has parameter platformFaultDomainCount
+- Interface CapacityReservation no longer has parameter provisioningState
+- Interface CapacityReservation no longer has parameter provisioningTime
+- Interface CapacityReservation no longer has parameter reservationId
+- Interface CapacityReservation no longer has parameter scheduleProfile
+- Interface CapacityReservation no longer has parameter timeCreated
+- Interface CapacityReservation no longer has parameter virtualMachinesAssociated
+- Interface CapacityReservationGroup no longer has parameter capacityReservations
+- Interface CapacityReservationGroup no longer has parameter instanceView
+- Interface CapacityReservationGroup no longer has parameter reservationType
+- Interface CapacityReservationGroup no longer has parameter sharingProfile
+- Interface CapacityReservationGroup no longer has parameter virtualMachinesAssociated
+- Interface CapacityReservationGroupUpdate no longer has parameter capacityReservations
+- Interface CapacityReservationGroupUpdate no longer has parameter instanceView
+- Interface CapacityReservationGroupUpdate no longer has parameter reservationType
+- Interface CapacityReservationGroupUpdate no longer has parameter sharingProfile
+- Interface CapacityReservationGroupUpdate no longer has parameter virtualMachinesAssociated
+- Interface CapacityReservationUpdate no longer has parameter instanceView
+- Interface CapacityReservationUpdate no longer has parameter platformFaultDomainCount
+- Interface CapacityReservationUpdate no longer has parameter provisioningState
+- Interface CapacityReservationUpdate no longer has parameter provisioningTime
+- Interface CapacityReservationUpdate no longer has parameter reservationId
+- Interface CapacityReservationUpdate no longer has parameter scheduleProfile
+- Interface CapacityReservationUpdate no longer has parameter timeCreated
+- Interface CapacityReservationUpdate no longer has parameter virtualMachinesAssociated
+- Interface DedicatedHost no longer has parameter autoReplaceOnFailure
+- Interface DedicatedHost no longer has parameter hostId
+- Interface DedicatedHost no longer has parameter instanceView
+- Interface DedicatedHost no longer has parameter licenseType
+- Interface DedicatedHost no longer has parameter platformFaultDomain
+- Interface DedicatedHost no longer has parameter provisioningState
+- Interface DedicatedHost no longer has parameter provisioningTime
+- Interface DedicatedHost no longer has parameter timeCreated
+- Interface DedicatedHost no longer has parameter virtualMachines
+- Interface DedicatedHostGroup no longer has parameter additionalCapabilities
+- Interface DedicatedHostGroup no longer has parameter hosts
+- Interface DedicatedHostGroup no longer has parameter instanceView
+- Interface DedicatedHostGroup no longer has parameter platformFaultDomainCount
+- Interface DedicatedHostGroup no longer has parameter supportAutomaticPlacement
+- Interface DedicatedHostGroupUpdate no longer has parameter additionalCapabilities
+- Interface DedicatedHostGroupUpdate no longer has parameter hosts
+- Interface DedicatedHostGroupUpdate no longer has parameter instanceView
+- Interface DedicatedHostGroupUpdate no longer has parameter platformFaultDomainCount
+- Interface DedicatedHostGroupUpdate no longer has parameter supportAutomaticPlacement
+- Interface DedicatedHostUpdate no longer has parameter autoReplaceOnFailure
+- Interface DedicatedHostUpdate no longer has parameter hostId
+- Interface DedicatedHostUpdate no longer has parameter instanceView
+- Interface DedicatedHostUpdate no longer has parameter licenseType
+- Interface DedicatedHostUpdate no longer has parameter platformFaultDomain
+- Interface DedicatedHostUpdate no longer has parameter provisioningState
+- Interface DedicatedHostUpdate no longer has parameter provisioningTime
+- Interface DedicatedHostUpdate no longer has parameter timeCreated
+- Interface DedicatedHostUpdate no longer has parameter virtualMachines
+- Interface Image no longer has parameter hyperVGeneration
+- Interface Image no longer has parameter provisioningState
+- Interface Image no longer has parameter sourceVirtualMachine
+- Interface Image no longer has parameter storageProfile
+- Interface ImageUpdate no longer has parameter hyperVGeneration
+- Interface ImageUpdate no longer has parameter provisioningState
+- Interface ImageUpdate no longer has parameter sourceVirtualMachine
+- Interface ImageUpdate no longer has parameter storageProfile
+- Interface NetworkInterfaceReference no longer has parameter deleteOption
+- Interface NetworkInterfaceReference no longer has parameter primary
+- Interface ProximityPlacementGroup no longer has parameter availabilitySets
+- Interface ProximityPlacementGroup no longer has parameter colocationStatus
+- Interface ProximityPlacementGroup no longer has parameter intent
+- Interface ProximityPlacementGroup no longer has parameter proximityPlacementGroupType
+- Interface ProximityPlacementGroup no longer has parameter virtualMachines
+- Interface ProximityPlacementGroup no longer has parameter virtualMachineScaleSets
+- Interface RestorePoint no longer has parameter consistencyMode
+- Interface RestorePoint no longer has parameter excludeDisks
+- Interface RestorePoint no longer has parameter instanceView
+- Interface RestorePoint no longer has parameter provisioningState
+- Interface RestorePoint no longer has parameter sourceMetadata
+- Interface RestorePoint no longer has parameter sourceRestorePoint
+- Interface RestorePoint no longer has parameter timeCreated
+- Interface RestorePointCollection no longer has parameter provisioningState
+- Interface RestorePointCollection no longer has parameter restorePointCollectionId
+- Interface RestorePointCollection no longer has parameter restorePoints
+- Interface RestorePointCollection no longer has parameter source
+- Interface RestorePointCollectionUpdate no longer has parameter provisioningState
+- Interface RestorePointCollectionUpdate no longer has parameter restorePointCollectionId
+- Interface RestorePointCollectionUpdate no longer has parameter restorePoints
+- Interface RestorePointCollectionUpdate no longer has parameter source
+- Interface RollingUpgradeStatusInfo no longer has parameter error
+- Interface RollingUpgradeStatusInfo no longer has parameter policy
+- Interface RollingUpgradeStatusInfo no longer has parameter progress
+- Interface RollingUpgradeStatusInfo no longer has parameter runningStatus
+- Interface SshPublicKeyResource no longer has parameter publicKey
+- Interface SshPublicKeyUpdateResource no longer has parameter publicKey
+- Interface VirtualMachine no longer has parameter additionalCapabilities
+- Interface VirtualMachine no longer has parameter applicationProfile
+- Interface VirtualMachine no longer has parameter availabilitySet
+- Interface VirtualMachine no longer has parameter billingProfile
+- Interface VirtualMachine no longer has parameter capacityReservation
+- Interface VirtualMachine no longer has parameter diagnosticsProfile
+- Interface VirtualMachine no longer has parameter evictionPolicy
+- Interface VirtualMachine no longer has parameter extensionsTimeBudget
+- Interface VirtualMachine no longer has parameter hardwareProfile
+- Interface VirtualMachine no longer has parameter host
+- Interface VirtualMachine no longer has parameter hostGroup
+- Interface VirtualMachine no longer has parameter instanceView
+- Interface VirtualMachine no longer has parameter licenseType
+- Interface VirtualMachine no longer has parameter networkProfile
+- Interface VirtualMachine no longer has parameter osProfile
+- Interface VirtualMachine no longer has parameter platformFaultDomain
+- Interface VirtualMachine no longer has parameter priority
+- Interface VirtualMachine no longer has parameter provisioningState
+- Interface VirtualMachine no longer has parameter proximityPlacementGroup
+- Interface VirtualMachine no longer has parameter scheduledEventsPolicy
+- Interface VirtualMachine no longer has parameter scheduledEventsProfile
+- Interface VirtualMachine no longer has parameter securityProfile
+- Interface VirtualMachine no longer has parameter storageProfile
+- Interface VirtualMachine no longer has parameter timeCreated
+- Interface VirtualMachine no longer has parameter userData
+- Interface VirtualMachine no longer has parameter virtualMachineScaleSet
+- Interface VirtualMachine no longer has parameter vmId
+- Interface VirtualMachineExtension no longer has parameter autoUpgradeMinorVersion
+- Interface VirtualMachineExtension no longer has parameter enableAutomaticUpgrade
+- Interface VirtualMachineExtension no longer has parameter forceUpdateTag
+- Interface VirtualMachineExtension no longer has parameter instanceView
+- Interface VirtualMachineExtension no longer has parameter protectedSettings
+- Interface VirtualMachineExtension no longer has parameter protectedSettingsFromKeyVault
+- Interface VirtualMachineExtension no longer has parameter provisionAfterExtensions
+- Interface VirtualMachineExtension no longer has parameter provisioningState
+- Interface VirtualMachineExtension no longer has parameter publisher
+- Interface VirtualMachineExtension no longer has parameter settings
+- Interface VirtualMachineExtension no longer has parameter suppressFailures
+- Interface VirtualMachineExtension no longer has parameter typeHandlerVersion
+- Interface VirtualMachineExtension no longer has parameter typePropertiesType
+- Interface VirtualMachineExtensionImage no longer has parameter computeRole
+- Interface VirtualMachineExtensionImage no longer has parameter handlerSchema
+- Interface VirtualMachineExtensionImage no longer has parameter operatingSystem
+- Interface VirtualMachineExtensionImage no longer has parameter supportsMultipleExtensions
+- Interface VirtualMachineExtensionImage no longer has parameter vmScaleSetEnabled
+- Interface VirtualMachineExtensionUpdate no longer has parameter autoUpgradeMinorVersion
+- Interface VirtualMachineExtensionUpdate no longer has parameter enableAutomaticUpgrade
+- Interface VirtualMachineExtensionUpdate no longer has parameter forceUpdateTag
+- Interface VirtualMachineExtensionUpdate no longer has parameter protectedSettings
+- Interface VirtualMachineExtensionUpdate no longer has parameter protectedSettingsFromKeyVault
+- Interface VirtualMachineExtensionUpdate no longer has parameter publisher
+- Interface VirtualMachineExtensionUpdate no longer has parameter settings
+- Interface VirtualMachineExtensionUpdate no longer has parameter suppressFailures
+- Interface VirtualMachineExtensionUpdate no longer has parameter type
+- Interface VirtualMachineExtensionUpdate no longer has parameter typeHandlerVersion
+- Interface VirtualMachineImage no longer has parameter architecture
+- Interface VirtualMachineImage no longer has parameter automaticOSUpgradeProperties
+- Interface VirtualMachineImage no longer has parameter dataDiskImages
+- Interface VirtualMachineImage no longer has parameter disallowed
+- Interface VirtualMachineImage no longer has parameter features
+- Interface VirtualMachineImage no longer has parameter hyperVGeneration
+- Interface VirtualMachineImage no longer has parameter imageDeprecationStatus
+- Interface VirtualMachineImage no longer has parameter osDiskImage
+- Interface VirtualMachineImage no longer has parameter plan
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliaryMode
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliarySku
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter deleteOption
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter disableTcpStateTracking
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter dnsSettings
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter dscpConfiguration
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter enableAcceleratedNetworking
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter enableFpga
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter enableIPForwarding
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter ipConfigurations
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter networkSecurityGroup
+- Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter primary
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter applicationGatewayBackendAddressPools
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter applicationSecurityGroups
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter loadBalancerBackendAddressPools
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter primary
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter privateIPAddressVersion
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter publicIPAddressConfiguration
+- Interface VirtualMachineNetworkInterfaceIPConfiguration no longer has parameter subnet
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter deleteOption
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter dnsSettings
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter idleTimeoutInMinutes
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter ipTags
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter publicIPAddressVersion
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter publicIPAllocationMethod
+- Interface VirtualMachinePublicIPAddressConfiguration no longer has parameter publicIPPrefix
+- Interface VirtualMachineRunCommand no longer has parameter asyncExecution
+- Interface VirtualMachineRunCommand no longer has parameter errorBlobManagedIdentity
+- Interface VirtualMachineRunCommand no longer has parameter errorBlobUri
+- Interface VirtualMachineRunCommand no longer has parameter instanceView
+- Interface VirtualMachineRunCommand no longer has parameter outputBlobManagedIdentity
+- Interface VirtualMachineRunCommand no longer has parameter outputBlobUri
+- Interface VirtualMachineRunCommand no longer has parameter parameters
+- Interface VirtualMachineRunCommand no longer has parameter protectedParameters
+- Interface VirtualMachineRunCommand no longer has parameter provisioningState
+- Interface VirtualMachineRunCommand no longer has parameter runAsPassword
+- Interface VirtualMachineRunCommand no longer has parameter runAsUser
+- Interface VirtualMachineRunCommand no longer has parameter source
+- Interface VirtualMachineRunCommand no longer has parameter timeoutInSeconds
+- Interface VirtualMachineRunCommand no longer has parameter treatFailureAsDeploymentFailure
+- Interface VirtualMachineRunCommandUpdate no longer has parameter asyncExecution
+- Interface VirtualMachineRunCommandUpdate no longer has parameter errorBlobManagedIdentity
+- Interface VirtualMachineRunCommandUpdate no longer has parameter errorBlobUri
+- Interface VirtualMachineRunCommandUpdate no longer has parameter instanceView
+- Interface VirtualMachineRunCommandUpdate no longer has parameter outputBlobManagedIdentity
+- Interface VirtualMachineRunCommandUpdate no longer has parameter outputBlobUri
+- Interface VirtualMachineRunCommandUpdate no longer has parameter parameters
+- Interface VirtualMachineRunCommandUpdate no longer has parameter protectedParameters
+- Interface VirtualMachineRunCommandUpdate no longer has parameter provisioningState
+- Interface VirtualMachineRunCommandUpdate no longer has parameter runAsPassword
+- Interface VirtualMachineRunCommandUpdate no longer has parameter runAsUser
+- Interface VirtualMachineRunCommandUpdate no longer has parameter source
+- Interface VirtualMachineRunCommandUpdate no longer has parameter timeoutInSeconds
+- Interface VirtualMachineRunCommandUpdate no longer has parameter treatFailureAsDeploymentFailure
+- Interface VirtualMachineScaleSet no longer has parameter additionalCapabilities
+- Interface VirtualMachineScaleSet no longer has parameter automaticRepairsPolicy
+- Interface VirtualMachineScaleSet no longer has parameter constrainedMaximumCapacity
+- Interface VirtualMachineScaleSet no longer has parameter doNotRunExtensionsOnOverprovisionedVMs
+- Interface VirtualMachineScaleSet no longer has parameter highSpeedInterconnectPlacement
+- Interface VirtualMachineScaleSet no longer has parameter hostGroup
+- Interface VirtualMachineScaleSet no longer has parameter orchestrationMode
+- Interface VirtualMachineScaleSet no longer has parameter overprovision
+- Interface VirtualMachineScaleSet no longer has parameter platformFaultDomainCount
+- Interface VirtualMachineScaleSet no longer has parameter priorityMixPolicy
+- Interface VirtualMachineScaleSet no longer has parameter provisioningState
+- Interface VirtualMachineScaleSet no longer has parameter proximityPlacementGroup
+- Interface VirtualMachineScaleSet no longer has parameter resiliencyPolicy
+- Interface VirtualMachineScaleSet no longer has parameter scaleInPolicy
+- Interface VirtualMachineScaleSet no longer has parameter scheduledEventsPolicy
+- Interface VirtualMachineScaleSet no longer has parameter singlePlacementGroup
+- Interface VirtualMachineScaleSet no longer has parameter skuProfile
+- Interface VirtualMachineScaleSet no longer has parameter spotRestorePolicy
+- Interface VirtualMachineScaleSet no longer has parameter timeCreated
+- Interface VirtualMachineScaleSet no longer has parameter uniqueId
+- Interface VirtualMachineScaleSet no longer has parameter upgradePolicy
+- Interface VirtualMachineScaleSet no longer has parameter virtualMachineProfile
+- Interface VirtualMachineScaleSet no longer has parameter zonalPlatformFaultDomainAlignMode
+- Interface VirtualMachineScaleSet no longer has parameter zoneBalance
+- Interface VirtualMachineScaleSetExtension no longer has parameter autoUpgradeMinorVersion
+- Interface VirtualMachineScaleSetExtension no longer has parameter enableAutomaticUpgrade
+- Interface VirtualMachineScaleSetExtension no longer has parameter forceUpdateTag
+- Interface VirtualMachineScaleSetExtension no longer has parameter protectedSettings
+- Interface VirtualMachineScaleSetExtension no longer has parameter protectedSettingsFromKeyVault
+- Interface VirtualMachineScaleSetExtension no longer has parameter provisionAfterExtensions
+- Interface VirtualMachineScaleSetExtension no longer has parameter provisioningState
+- Interface VirtualMachineScaleSetExtension no longer has parameter publisher
+- Interface VirtualMachineScaleSetExtension no longer has parameter settings
+- Interface VirtualMachineScaleSetExtension no longer has parameter suppressFailures
+- Interface VirtualMachineScaleSetExtension no longer has parameter typeHandlerVersion
+- Interface VirtualMachineScaleSetExtension no longer has parameter typePropertiesType
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter autoUpgradeMinorVersion
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter enableAutomaticUpgrade
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter forceUpdateTag
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter protectedSettings
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter protectedSettingsFromKeyVault
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter provisionAfterExtensions
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter provisioningState
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter publisher
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter settings
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter suppressFailures
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter typeHandlerVersion
+- Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter typePropertiesType
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter applicationGatewayBackendAddressPools
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter applicationSecurityGroups
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter loadBalancerBackendAddressPools
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter loadBalancerInboundNatPools
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter primary
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter privateIPAddressVersion
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter publicIPAddressConfiguration
+- Interface VirtualMachineScaleSetIPConfiguration no longer has parameter subnet
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliaryMode
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliarySku
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter deleteOption
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter disableTcpStateTracking
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter dnsSettings
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter enableAcceleratedNetworking
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter enableFpga
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter enableIPForwarding
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter ipConfigurations
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter networkSecurityGroup
+- Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter primary
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration no longer has parameter deleteOption
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration no longer has parameter dnsSettings
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration no longer has parameter idleTimeoutInMinutes
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration no longer has parameter ipTags
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration no longer has parameter publicIPAddressVersion
+- Interface VirtualMachineScaleSetPublicIPAddressConfiguration no longer has parameter publicIPPrefix
+- Interface VirtualMachineScaleSetUpdate no longer has parameter additionalCapabilities
+- Interface VirtualMachineScaleSetUpdate no longer has parameter automaticRepairsPolicy
+- Interface VirtualMachineScaleSetUpdate no longer has parameter doNotRunExtensionsOnOverprovisionedVMs
+- Interface VirtualMachineScaleSetUpdate no longer has parameter overprovision
+- Interface VirtualMachineScaleSetUpdate no longer has parameter priorityMixPolicy
+- Interface VirtualMachineScaleSetUpdate no longer has parameter proximityPlacementGroup
+- Interface VirtualMachineScaleSetUpdate no longer has parameter resiliencyPolicy
+- Interface VirtualMachineScaleSetUpdate no longer has parameter scaleInPolicy
+- Interface VirtualMachineScaleSetUpdate no longer has parameter singlePlacementGroup
+- Interface VirtualMachineScaleSetUpdate no longer has parameter skuProfile
+- Interface VirtualMachineScaleSetUpdate no longer has parameter spotRestorePolicy
+- Interface VirtualMachineScaleSetUpdate no longer has parameter upgradePolicy
+- Interface VirtualMachineScaleSetUpdate no longer has parameter virtualMachineProfile
+- Interface VirtualMachineScaleSetUpdate no longer has parameter zonalPlatformFaultDomainAlignMode
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter applicationGatewayBackendAddressPools
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter applicationSecurityGroups
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter loadBalancerBackendAddressPools
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter loadBalancerInboundNatPools
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter primary
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter privateIPAddressVersion
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter publicIPAddressConfiguration
+- Interface VirtualMachineScaleSetUpdateIPConfiguration no longer has parameter subnet
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliaryMode
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliarySku
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter deleteOption
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter disableTcpStateTracking
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter dnsSettings
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter enableAcceleratedNetworking
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter enableFpga
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter enableIPForwarding
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter ipConfigurations
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter networkSecurityGroup
+- Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter primary
+- Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration no longer has parameter deleteOption
+- Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration no longer has parameter dnsSettings
+- Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration no longer has parameter idleTimeoutInMinutes
+- Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration no longer has parameter publicIPPrefix
+- Interface VirtualMachineScaleSetVM no longer has parameter additionalCapabilities
+- Interface VirtualMachineScaleSetVM no longer has parameter availabilitySet
+- Interface VirtualMachineScaleSetVM no longer has parameter diagnosticsProfile
+- Interface VirtualMachineScaleSetVM no longer has parameter hardwareProfile
+- Interface VirtualMachineScaleSetVM no longer has parameter instanceView
+- Interface VirtualMachineScaleSetVM no longer has parameter latestModelApplied
+- Interface VirtualMachineScaleSetVM no longer has parameter licenseType
+- Interface VirtualMachineScaleSetVM no longer has parameter modelDefinitionApplied
+- Interface VirtualMachineScaleSetVM no longer has parameter networkProfile
+- Interface VirtualMachineScaleSetVM no longer has parameter networkProfileConfiguration
+- Interface VirtualMachineScaleSetVM no longer has parameter osProfile
+- Interface VirtualMachineScaleSetVM no longer has parameter protectionPolicy
+- Interface VirtualMachineScaleSetVM no longer has parameter provisioningState
+- Interface VirtualMachineScaleSetVM no longer has parameter resilientVMDeletionStatus
+- Interface VirtualMachineScaleSetVM no longer has parameter securityProfile
+- Interface VirtualMachineScaleSetVM no longer has parameter storageProfile
+- Interface VirtualMachineScaleSetVM no longer has parameter timeCreated
+- Interface VirtualMachineScaleSetVM no longer has parameter userData
+- Interface VirtualMachineScaleSetVM no longer has parameter vmId
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter autoUpgradeMinorVersion
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter enableAutomaticUpgrade
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter forceUpdateTag
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter instanceView
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter protectedSettings
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter protectedSettingsFromKeyVault
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter provisionAfterExtensions
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter provisioningState
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter publisher
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter settings
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter suppressFailures
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter typeHandlerVersion
+- Interface VirtualMachineScaleSetVMExtension no longer has parameter typePropertiesType
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter autoUpgradeMinorVersion
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter enableAutomaticUpgrade
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter forceUpdateTag
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter protectedSettings
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter protectedSettingsFromKeyVault
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter publisher
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter settings
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter suppressFailures
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter typeHandlerVersion
+- Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter typePropertiesType
+- Interface VirtualMachineUpdate no longer has parameter additionalCapabilities
+- Interface VirtualMachineUpdate no longer has parameter applicationProfile
+- Interface VirtualMachineUpdate no longer has parameter availabilitySet
+- Interface VirtualMachineUpdate no longer has parameter billingProfile
+- Interface VirtualMachineUpdate no longer has parameter capacityReservation
+- Interface VirtualMachineUpdate no longer has parameter diagnosticsProfile
+- Interface VirtualMachineUpdate no longer has parameter evictionPolicy
+- Interface VirtualMachineUpdate no longer has parameter extensionsTimeBudget
+- Interface VirtualMachineUpdate no longer has parameter hardwareProfile
+- Interface VirtualMachineUpdate no longer has parameter host
+- Interface VirtualMachineUpdate no longer has parameter hostGroup
+- Interface VirtualMachineUpdate no longer has parameter instanceView
+- Interface VirtualMachineUpdate no longer has parameter licenseType
+- Interface VirtualMachineUpdate no longer has parameter networkProfile
+- Interface VirtualMachineUpdate no longer has parameter osProfile
+- Interface VirtualMachineUpdate no longer has parameter platformFaultDomain
+- Interface VirtualMachineUpdate no longer has parameter priority
+- Interface VirtualMachineUpdate no longer has parameter provisioningState
+- Interface VirtualMachineUpdate no longer has parameter proximityPlacementGroup
+- Interface VirtualMachineUpdate no longer has parameter scheduledEventsPolicy
+- Interface VirtualMachineUpdate no longer has parameter scheduledEventsProfile
+- Interface VirtualMachineUpdate no longer has parameter securityProfile
+- Interface VirtualMachineUpdate no longer has parameter storageProfile
+- Interface VirtualMachineUpdate no longer has parameter timeCreated
+- Interface VirtualMachineUpdate no longer has parameter userData
+- Interface VirtualMachineUpdate no longer has parameter virtualMachineScaleSet
+- Interface VirtualMachineUpdate no longer has parameter vmId
+- Removed Interface LogAnalyticsOperations
+- Removed Interface LogAnalyticsExportRequestRateByIntervalOptionalParams
+- Removed Interface LogAnalyticsExportThrottledRequestsOptionalParams
+- Removed Interface LogAnalyticsOutput
+- Removed Interface ResourceWithOptionalLocation
+- Removed Interface SshPublicKeysOperations
+- Removed Interface SshPublicKeysCreateOptionalParams
+- Removed Interface SshPublicKeysDeleteOptionalParams
+- Removed Interface SshPublicKeysGenerateKeyPairOptionalParams
+- Removed Interface SshPublicKeysGetOptionalParams
+- Removed Interface SshPublicKeysListByResourceGroupOptionalParams
+- Removed Interface SshPublicKeysListBySubscriptionOptionalParams
+- Removed Interface SshPublicKeysUpdateOptionalParams
+- Removed Interface UsageListOptionalParams
+- Removed Interface UsageOperationsOperations
+- Removed Interface VirtualMachineImagesOperations
+- Removed Interface VirtualMachineImagesEdgeZoneOperations
+- Removed Interface VirtualMachineImagesEdgeZoneGetOptionalParams
+- Removed Interface VirtualMachineImagesEdgeZoneListOffersOptionalParams
+- Removed Interface VirtualMachineImagesEdgeZoneListOptionalParams
+- Removed Interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams
+- Removed Interface VirtualMachineImagesEdgeZoneListSkusOptionalParams
+- Removed Interface VirtualMachineImagesGetOptionalParams
+- Removed Interface VirtualMachineImagesListByEdgeZoneOptionalParams
+- Removed Interface VirtualMachineImagesListOffersOptionalParams
+- Removed Interface VirtualMachineImagesListOptionalParams
+- Removed Interface VirtualMachineImagesListPublishersOptionalParams
+- Removed Interface VirtualMachineImagesListSkusOptionalParams
+- Removed Interface VirtualMachineImagesListWithPropertiesOptionalParams
+- Removed Interface VirtualMachineRunCommandsGetOptionalParams
+- Removed Interface VirtualMachineRunCommandsListOptionalParams
+- Removed Interface VirtualMachineScaleSetListOSUpgradeHistory
+- Removed Interface VirtualMachineScaleSetRollingUpgradesOperations
+- Removed Interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
+- Removed Interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams
+- Removed Interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams
+- Removed Interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams
+- Removed Interface VirtualMachineScaleSetsListByLocationOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsOperations
+- Removed Interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsDeallocateOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsDeleteOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsGetInstanceViewOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsGetOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsListOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsPowerOffOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsRedeployOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsReimageAllOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsReimageOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsRestartOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsRunCommandOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsStartOptionalParams
+- Removed Interface VirtualMachineScaleSetVMsUpdateOptionalParams
+- Removed Interface VirtualMachineSizesOperations
+- Removed Interface VirtualMachineSizesListOptionalParams
+- Removed Interface VirtualMachinesListByLocationOptionalParams
+- Operation VirtualMachineExtensions.list has a new signature
+- Operation VirtualMachineScaleSetVMExtensions.list has a new signature
+- Removed Type Alias AvailabilitySetSkuTypes
+- Removed Enum KnownAvailabilitySetSkuTypes
+
 This is the first stable version with the package of @azure/arm-compute-compute
