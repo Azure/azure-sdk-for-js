@@ -32,6 +32,9 @@
     "@azure/cosmos": "latest",
     "dotenv": "latest",
     "@azure/core-util": "^1.11.0",
-    "@azure/identity": "^4.8.0"
+    "@azure/identity": "^4.11.1"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
