@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete project capabilityHost.
  *
  * @summary Delete project capabilityHost.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectCapabilityHost/delete.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectCapabilityHost/delete.json
  */
 async function deleteProjectCapabilityHost() {
   const subscriptionId =

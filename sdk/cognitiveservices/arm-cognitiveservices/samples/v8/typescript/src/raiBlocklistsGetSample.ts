@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified custom blocklist associated with the Azure OpenAI account.
  *
  * @summary Gets the specified custom blocklist associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetRaiBlocklist.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/GetRaiBlocklist.json
  */
 async function getRaiBlocklist(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes the specified deployment associated with the Cognitive Services account.
  *
  * @summary Deletes the specified deployment associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteDeployment.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/DeleteDeployment.json
  */
 async function deleteDeployment() {
   const subscriptionId =

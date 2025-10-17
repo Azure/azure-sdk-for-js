@@ -29,5 +29,8 @@
     "@azure/arm-cognitiveservices": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.9.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
