@@ -1984,18 +1984,8 @@ export function userArrayDeserializer(result: Array<User>): any[] {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-03-01-preview. */
-  V20240301Preview = "2024-03-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-06-01-preview. */
-  V20240601Preview = "2024-06-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2024-07-01. */
   V20240701 = "2024-07-01",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-10-01-preview. */
-  V20241001Preview = "2024-10-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-04-01-preview. */
-  V20250401Preview = "2025-04-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
-  V20250701Preview = "2025-07-01-preview",
-  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-08-01-preview. */
-  V20250801Preview = "2025-08-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-09-01. */
+  V20250901 = "2025-09-01",
 }
