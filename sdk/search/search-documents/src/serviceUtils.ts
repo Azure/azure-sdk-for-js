@@ -26,9 +26,9 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
-  KnowledgeAgent as GeneratedKnowledgeAgent,
-  KnowledgeAgentAzureOpenAIModel as GeneratedKnowledgeAgentAzureOpenAIModel,
-  KnowledgeAgentModelUnion as GeneratedKnowledgeAgentModel,
+  KnowledgeBase as GeneratedKnowledgeBase,
+  KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
+  KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
   KnowledgeSourceUnion as GeneratedKnowledgeSource,
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
@@ -65,7 +65,7 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
-import type { KnowledgeAgent } from "./knowledgeBaseModels.js";
+import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
   AIServicesVisionVectorizer,
@@ -87,7 +87,7 @@ import type {
   IndexingParameters,
   IndexingParametersConfiguration,
   KeyAuthAzureMachineLearningVectorizerParameters,
-  KnowledgeAgentModel,
+  KnowledgeBaseModel,
   KnowledgeSource,
   LexicalAnalyzer,
   LexicalTokenizer,
@@ -947,17 +947,15 @@ export function convertSearchIndexerCacheToPublic(
   };
 }
 
-export function convertKnowledgeAgentToPublic(
-  knowledgeAgent: GeneratedKnowledgeAgent | undefined,
-): KnowledgeAgent | undefined {
-  if (!knowledgeAgent) {
-    return knowledgeAgent;
+export function convertKnowledgeBaseToPublic(knowledgeBase: GeneratedKnowledgeBase): KnowledgeBase {
+  if (!knowledgeBase) {
+    return knowledgeBase;
   }
 
   return {
-    ...knowledgeAgent,
-    models: knowledgeAgent.models.map((model) => convertKnowledgeAgentModelToPublic(model)),
-    encryptionKey: convertEncryptionKeyToPublic(knowledgeAgent.encryptionKey),
+    ...knowledgeBase,
+    models: knowledgeBase?.models?.map((model) => convertKnowledgeBaseModelToPublic(model)),
+    encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey),
   };
 }
 
