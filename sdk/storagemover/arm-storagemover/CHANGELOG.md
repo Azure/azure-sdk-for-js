@@ -8,12 +8,6 @@
 ### Other Changes
 - API version upgraded to 2025-07-01
 
-## 2.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
 ## 3.0.0 (2025-09-04)
 
 ### Features Added
@@ -168,6 +162,11 @@
   - Type alias "EndpointBasePropertiesUnion" has been changed
   - Type alias "EndpointBaseUpdatePropertiesUnion" has been changed
 
+## 2.1.1 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
     
 ## 2.1.0 (2024-06-13)
     
