@@ -32,6 +32,8 @@ const config = mergeConfig(
   }),
 );
 
+delete config.test.fakeTimers;
+
 const unitTests = [
   "dist-test/browser/test/internal/impl/awaitableQueue.spec.js",
   "dist-test/browser/test/internal/impl/partitionGate.spec.js",
