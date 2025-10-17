@@ -6,32 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { LogicApps } from "../operationsInterfaces/index.js";
+import type { LogicApps } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
   WorkflowEnvelope,
   LogicAppsListWorkflowsNextOptionalParams,
   LogicAppsListWorkflowsOptionalParams,
   LogicAppsListWorkflowsResponse,
   LogicAppsGetOptionalParams,
   LogicAppsGetResponse,
-  LogicApp,
   LogicAppsCreateOrUpdateOptionalParams,
   LogicAppsCreateOrUpdateResponse,
   LogicAppsDeleteOptionalParams,
   LogicAppsGetWorkflowOptionalParams,
   LogicAppsGetWorkflowResponse,
-  LogicAppsDeployWorkflowArtifactsOptionalParams,
   LogicAppsListWorkflowsConnectionsOptionalParams,
   LogicAppsListWorkflowsConnectionsResponse,
-  LogicAppsProxyMethod,
-  LogicAppsInvokeOptionalParams,
-  LogicAppsInvokeResponse,
   LogicAppsListWorkflowsNextResponse,
 } from "../models/index.js";
 
@@ -52,7 +47,7 @@ export class LogicAppsImpl implements LogicApps {
    * List the workflows for a logic app.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param options The options parameters.
    */
   public listWorkflows(
@@ -105,7 +100,7 @@ export class LogicAppsImpl implements LogicApps {
         logicAppName,
         options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -119,7 +114,7 @@ export class LogicAppsImpl implements LogicApps {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -145,7 +140,7 @@ export class LogicAppsImpl implements LogicApps {
    * Gets a logic app extension resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param options The options parameters.
    */
   get(
@@ -164,19 +159,17 @@ export class LogicAppsImpl implements LogicApps {
    * Create or update a Logic App extension resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
-   * @param resource Logic app resource properties.
+   * @param logicAppName Name of the Logic App.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     containerAppName: string,
     logicAppName: string,
-    resource: LogicApp,
     options?: LogicAppsCreateOrUpdateOptionalParams,
   ): Promise<LogicAppsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, logicAppName, resource, options },
+      { resourceGroupName, containerAppName, logicAppName, options },
       createOrUpdateOperationSpec,
     );
   }
@@ -185,7 +178,7 @@ export class LogicAppsImpl implements LogicApps {
    * Deletes a Logic App extension resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param options The options parameters.
    */
   delete(
@@ -204,7 +197,7 @@ export class LogicAppsImpl implements LogicApps {
    * List the workflows for a logic app.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param options The options parameters.
    */
   private _listWorkflows(
@@ -223,7 +216,7 @@ export class LogicAppsImpl implements LogicApps {
    * Get workflow information by its name
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param workflowName Workflow name.
    * @param options The options parameters.
    */
@@ -247,29 +240,10 @@ export class LogicAppsImpl implements LogicApps {
   }
 
   /**
-   * Creates or updates the artifacts for the logic app
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
-   * @param options The options parameters.
-   */
-  deployWorkflowArtifacts(
-    resourceGroupName: string,
-    containerAppName: string,
-    logicAppName: string,
-    options?: LogicAppsDeployWorkflowArtifactsOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, logicAppName, options },
-      deployWorkflowArtifactsOperationSpec,
-    );
-  }
-
-  /**
    * Gets logic app's connections.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param options The options parameters.
    */
   listWorkflowsConnections(
@@ -285,40 +259,10 @@ export class LogicAppsImpl implements LogicApps {
   }
 
   /**
-   * Proxies a the API call to the logic app backed by the container app.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the LogicApp App, the extension resource.
-   * @param xMsLogicAppsProxyPath The proxy path for the API call
-   * @param xMsLogicAppsProxyMethod The proxy method for the API call
-   * @param options The options parameters.
-   */
-  invoke(
-    resourceGroupName: string,
-    containerAppName: string,
-    logicAppName: string,
-    xMsLogicAppsProxyPath: string,
-    xMsLogicAppsProxyMethod: LogicAppsProxyMethod,
-    options?: LogicAppsInvokeOptionalParams,
-  ): Promise<LogicAppsInvokeResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        containerAppName,
-        logicAppName,
-        xMsLogicAppsProxyPath,
-        xMsLogicAppsProxyMethod,
-        options,
-      },
-      invokeOperationSpec,
-    );
-  }
-
-  /**
    * ListWorkflowsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param logicAppName Name of the Logic App, the extension resource.
+   * @param logicAppName Name of the Logic App.
    * @param nextLink The nextLink from the previous successful call to the ListWorkflows method.
    * @param options The options parameters.
    */
@@ -383,7 +327,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName1,
     Parameters.logicAppName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -453,28 +397,6 @@ const getWorkflowOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const deployWorkflowArtifactsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/providers/Microsoft.App/logicApps/{logicAppName}/deployWorkflowArtifacts",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
-  },
-  requestBody: Parameters.workflowArtifacts,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName1,
-    Parameters.logicAppName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
 const listWorkflowsConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/providers/Microsoft.App/logicApps/{logicAppName}/listWorkflowsConnections",
   httpMethod: "POST",
@@ -495,34 +417,6 @@ const listWorkflowsConnectionsOperationSpec: coreClient.OperationSpec = {
     Parameters.logicAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const invokeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/providers/Microsoft.App/logicApps/{logicAppName}/invoke",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } },
-      },
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName1,
-    Parameters.logicAppName,
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.xMsLogicAppsProxyPath,
-    Parameters.xMsLogicAppsProxyMethod,
-  ],
   serializer,
 };
 const listWorkflowsNextOperationSpec: coreClient.OperationSpec = {

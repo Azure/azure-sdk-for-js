@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { AvailableWorkloadProfiles } from "../operationsInterfaces/index.js";
+import type { AvailableWorkloadProfiles } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
   AvailableWorkloadProfile,
   AvailableWorkloadProfilesGetNextOptionalParams,
   AvailableWorkloadProfilesGetOptionalParams,
@@ -69,7 +69,7 @@ export class AvailableWorkloadProfilesImpl implements AvailableWorkloadProfiles 
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._get(location, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -77,7 +77,7 @@ export class AvailableWorkloadProfilesImpl implements AvailableWorkloadProfiles 
     while (continuationToken) {
       result = await this._getNext(location, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }

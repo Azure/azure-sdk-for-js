@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ConnectedEnvironmentsDaprComponents } from "../operationsInterfaces/index.js";
+import type { ConnectedEnvironmentsDaprComponents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
-  ConnectedEnvironmentDaprComponent,
+import type {
+  DaprComponent,
   ConnectedEnvironmentsDaprComponentsListNextOptionalParams,
   ConnectedEnvironmentsDaprComponentsListOptionalParams,
   ConnectedEnvironmentsDaprComponentsListResponse,
@@ -56,7 +57,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
-  ): PagedAsyncIterableIterator<ConnectedEnvironmentDaprComponent> {
+  ): PagedAsyncIterableIterator<DaprComponent> {
     const iter = this.listPagingAll(resourceGroupName, connectedEnvironmentName, options);
     return {
       next() {
@@ -79,12 +80,12 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ConnectedEnvironmentDaprComponent[]> {
+  ): AsyncIterableIterator<DaprComponent[]> {
     let result: ConnectedEnvironmentsDaprComponentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, connectedEnvironmentName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -97,7 +98,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -107,7 +108,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
-  ): AsyncIterableIterator<ConnectedEnvironmentDaprComponent> {
+  ): AsyncIterableIterator<DaprComponent> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       connectedEnvironmentName,
@@ -165,7 +166,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
+    daprComponentEnvelope: DaprComponent,
     options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -245,7 +246,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
+    daprComponentEnvelope: DaprComponent,
     options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -403,7 +404,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponentsCollection,
+      bodyMapper: Mappers.DaprComponentsCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -424,7 +425,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+      bodyMapper: Mappers.DaprComponent,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -446,16 +447,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+      bodyMapper: Mappers.DaprComponent,
     },
     201: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+      bodyMapper: Mappers.DaprComponent,
     },
     202: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+      bodyMapper: Mappers.DaprComponent,
     },
     204: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+      bodyMapper: Mappers.DaprComponent,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -470,7 +471,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.componentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -532,7 +533,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedEnvironmentDaprComponentsCollection,
+      bodyMapper: Mappers.DaprComponentsCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,

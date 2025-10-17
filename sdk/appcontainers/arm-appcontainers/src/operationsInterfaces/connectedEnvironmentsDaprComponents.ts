@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
-  ConnectedEnvironmentDaprComponent,
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
+  DaprComponent,
   ConnectedEnvironmentsDaprComponentsListOptionalParams,
   ConnectedEnvironmentsDaprComponentsGetOptionalParams,
   ConnectedEnvironmentsDaprComponentsGetResponse,
@@ -34,7 +34,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
-  ): PagedAsyncIterableIterator<ConnectedEnvironmentDaprComponent>;
+  ): PagedAsyncIterableIterator<DaprComponent>;
   /**
    * Get a dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -60,7 +60,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
+    daprComponentEnvelope: DaprComponent,
     options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -80,7 +80,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
+    daprComponentEnvelope: DaprComponent,
     options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>;
   /**

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   ConnectedEnvironment,
   ConnectedEnvironmentsListBySubscriptionOptionalParams,
   ConnectedEnvironmentsListByResourceGroupOptionalParams,
@@ -17,6 +17,7 @@ import {
   ConnectedEnvironmentsCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsCreateOrUpdateResponse,
   ConnectedEnvironmentsDeleteOptionalParams,
+  ConnectedEnvironmentPatchResource,
   ConnectedEnvironmentsUpdateOptionalParams,
   ConnectedEnvironmentsUpdateResponse,
   CheckNameAvailabilityRequest,
@@ -111,11 +112,13 @@ export interface ConnectedEnvironments {
    * Patches a Managed Environment. Only patching of tags is supported currently
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param environmentEnvelope Configuration details of the connectedEnvironment.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironmentPatchResource,
     options?: ConnectedEnvironmentsUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsUpdateResponse>;
   /**
