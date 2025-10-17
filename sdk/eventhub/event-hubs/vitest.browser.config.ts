@@ -26,20 +26,21 @@ const config = mergeConfig(
       hookTimeout: 6000000,
       fileParallelism: false,
       globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
-      //      setupFiles: ["./test/utils/logging.ts"],
     },
   }),
 );
 
-delete config.test.fakeTimers;
+const unitTests = [
+  "dist-test/browser/test/internal/impl/awaitableQueue.spec.js",
+  "dist-test/browser/test/internal/impl/partitionGate.spec.js",
+  "dist-test/browser/test/internal/amqp.spec.js",
+  "dist-test/browser/test/internal/error.spec.js",
+  "dist-test/browser/test/internal/eventdata.spec.js",
+];
 
 if (process.env.TEST_MODE !== "live") {
-  config.test.include = [
-    "dist-test/browser/test/internal/impl/*.spec.js",
-    "dist-test/browser/test/internal/amqp.spec.js",
-    "dist-test/browser/test/internal/error.spec.js",
-    "dist-test/browser/test/internal/eventdata.spec.js",
-  ];
+  // only run a couple of unit tests for browser if it's not live mode
+  config.test.include = unitTests;
 }
 
 export default config;
