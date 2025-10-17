@@ -32,6 +32,7 @@ export interface FeatureFlagValue {
    */
   conditions: {
     clientFilters: { name: string; parameters?: Record<string, unknown> }[];
+    requirementType?: "All" | "Any";
   };
   /**
    * Description of the feature.
@@ -72,6 +73,7 @@ export const FeatureFlagHelper = {
       description: featureFlag.value.description,
       conditions: {
         client_filters: featureFlag.value.conditions.clientFilters,
+        requirement_type: featureFlag.value.conditions.requirementType ?? "Any",
       },
       display_name: featureFlag.value.displayName,
     };
@@ -117,6 +119,10 @@ export function parseFeatureFlag(
     key,
     contentType: featureFlagContentType,
   };
+
+  if (jsonFeatureFlagValue.conditions.requirement_type) {
+    featureflag.value.conditions.requirementType = jsonFeatureFlagValue.conditions.requirement_type;
+  }
   return featureflag;
 }
 
