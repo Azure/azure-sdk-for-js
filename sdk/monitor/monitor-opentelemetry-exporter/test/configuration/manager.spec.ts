@@ -6,7 +6,7 @@ import { diag } from "@opentelemetry/api";
 import type { OneSettingsResponse } from "../../src/configuration/utils.js";
 import {
   ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS,
-  ONE_SETTINGS_JAVASCRIPT_KEY,
+  ONE_SETTINGS_NODE_KEY,
 } from "../../src/Declarations/Constants.js";
 
 vi.mock("../../src/configuration/worker.js", async () => {
@@ -90,14 +90,14 @@ describe("ConfigurationManager", () => {
 
     const manager = ConfigurationManager.getInstance();
     const interval = await manager.getConfigurationAndRefreshInterval({
-      namespaces: ONE_SETTINGS_JAVASCRIPT_KEY,
+      namespaces: ONE_SETTINGS_NODE_KEY,
     });
 
     expect(interval).toBe(1200);
     expect(manager.getCache()).toMatchObject({ feature: "enabled" });
     expect(makeRequestMock).toHaveBeenCalledWith(
       expect.any(String),
-      expect.objectContaining({ namespaces: ONE_SETTINGS_JAVASCRIPT_KEY }),
+      expect.objectContaining({ namespaces: ONE_SETTINGS_NODE_KEY }),
       expect.any(Object),
     );
 
@@ -126,8 +126,8 @@ describe("ConfigurationManager", () => {
       .mockResolvedValueOnce(responseSequence[1]);
 
     const manager = ConfigurationManager.getInstance();
-    await manager.getConfigurationAndRefreshInterval({ namespaces: ONE_SETTINGS_JAVASCRIPT_KEY });
-    await manager.getConfigurationAndRefreshInterval({ namespaces: ONE_SETTINGS_JAVASCRIPT_KEY });
+    await manager.getConfigurationAndRefreshInterval({ namespaces: ONE_SETTINGS_NODE_KEY });
+    await manager.getConfigurationAndRefreshInterval({ namespaces: ONE_SETTINGS_NODE_KEY });
 
     expect(warnSpy).toHaveBeenCalledWith(
       "Latest CHANGE_VERSION is less than the current stored version, no configurations updated.",

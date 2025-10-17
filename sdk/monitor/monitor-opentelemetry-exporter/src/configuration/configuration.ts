@@ -4,7 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import {
   ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS,
-  ONE_SETTINGS_JAVASCRIPT_KEY,
+  ONE_SETTINGS_NODE_KEY,
   ONE_SETTINGS_CHANGE_URL,
 } from "../Declarations/Constants.js";
 import { ConfigurationWorker } from "./worker.js";
@@ -80,7 +80,7 @@ export class ConfigurationManager {
   private initializeWorker(): void {
     // Worker repeatedly calls back into the manager to keep settings up to date.
     const refresh = async (): Promise<number> => {
-      const targeting: QueryParameters = { namespaces: ONE_SETTINGS_JAVASCRIPT_KEY };
+      const targeting: QueryParameters = { namespaces: ONE_SETTINGS_NODE_KEY };
       return this.getConfigurationAndRefreshInterval(targeting);
     };
 
@@ -124,6 +124,6 @@ export class ConfigurationManager {
  * Helper for callers that only need the refresh-interval update.
  */
 export async function updateConfigurationAndGetRefreshInterval(): Promise<number> {
-  const targeting: QueryParameters = { namespaces: ONE_SETTINGS_JAVASCRIPT_KEY };
+  const targeting: QueryParameters = { namespaces: ONE_SETTINGS_NODE_KEY };
   return ConfigurationManager.getInstance().getConfigurationAndRefreshInterval(targeting);
 }

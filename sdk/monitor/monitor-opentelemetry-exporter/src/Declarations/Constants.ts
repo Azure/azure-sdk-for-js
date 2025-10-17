@@ -144,10 +144,10 @@ export const ONE_SETTINGS_CHANGE_URL = `${ONE_SETTINGS_CNAME}${ONE_SETTINGS_CHAN
  */
 export const ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS = 3600; // 60 minutes
 /**
- * OneSettings namespace for JavaScript exporters.
+ * OneSettings namespace for Node exporters.
  * @internal
  */
-export const ONE_SETTINGS_JAVASCRIPT_KEY = "node.js";
+export const ONE_SETTINGS_NODE_KEY = "node.js";
 
 /**
  * Enables the preview version of customer-facing SDK Stats.
