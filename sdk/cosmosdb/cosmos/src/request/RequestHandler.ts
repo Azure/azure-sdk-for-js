@@ -62,7 +62,8 @@ async function httpRequest(
   // set a shorter timeout to allow for quicker failover in case of partition unavailability.
   // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
   if (
-    requestContext.globalPartitionEndpointManager?.isPartitionLevelAutomaticFailoverEnabled() &&
+    (requestContext.globalPartitionEndpointManager?.isPartitionLevelAutomaticFailoverEnabled() ||
+      requestContext.globalPartitionEndpointManager?.isPartitionLevelCircuitBreakerEnabled()) &&
     requestContext.partitionKeyRangeId &&
     requestContext.resourceType === ResourceType.item &&
     isReadRequest(requestContext.operationType)
