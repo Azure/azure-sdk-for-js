@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes Reachability Analysis Run.
- *
- * @summary Deletes Reachability Analysis Run.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ReachabilityAnalysisRunDelete.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Deletes Reachability Analysis Run.
+ *
+ * @summary Deletes Reachability Analysis Run.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ReachabilityAnalysisRunDelete.json
+ */
 async function reachabilityAnalysisRunDelete(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

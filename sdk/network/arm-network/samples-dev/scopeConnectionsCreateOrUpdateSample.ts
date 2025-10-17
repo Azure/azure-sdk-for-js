@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates scope connection from Network Manager
- *
- * @summary Creates or updates scope connection from Network Manager
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerScopeConnectionPut.json
- */
-
 import type { ScopeConnection} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates scope connection from Network Manager
+ *
+ * @summary Creates or updates scope connection from Network Manager
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerScopeConnectionPut.json
+ */
 async function createOrUpdateNetworkManagerScopeConnection(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
- *
- * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreate.json
- */
-
 import type { VirtualNetwork} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+ *
+ * @summary Creates or updates a virtual network in the specified resource group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreate.json
+ */
 async function createVirtualNetwork(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -36,7 +35,7 @@ async function createVirtualNetwork(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateWithBgpCommunities.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateWithBgpCommunities.json
  */
 async function createVirtualNetworkWithBgpCommunities(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -62,7 +61,7 @@ async function createVirtualNetworkWithBgpCommunities(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
  */
 async function createVirtualNetworkWithDelegatedSubnets(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -98,7 +97,7 @@ async function createVirtualNetworkWithDelegatedSubnets(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateWithEncryption.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateWithEncryption.json
  */
 async function createVirtualNetworkWithEncryption(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -124,7 +123,7 @@ async function createVirtualNetworkWithEncryption(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateWithIpamPool.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateWithIpamPool.json
  */
 async function createVirtualNetworkWithIpamPool(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -166,7 +165,7 @@ async function createVirtualNetworkWithIpamPool(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateServiceEndpoints.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateServiceEndpoints.json
  */
 async function createVirtualNetworkWithServiceEndpoints(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -197,7 +196,7 @@ async function createVirtualNetworkWithServiceEndpoints(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
  */
 async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -233,7 +232,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateSubnet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateSubnet.json
  */
 async function createVirtualNetworkWithSubnet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -258,7 +257,7 @@ async function createVirtualNetworkWithSubnet(): Promise<void> {
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
  */
 async function createVirtualNetworkWithSubnetContainingAddressPrefixes(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

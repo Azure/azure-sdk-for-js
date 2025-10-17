@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List network usages for a subscription.
- *
- * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/UsageList.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List network usages for a subscription.
+ *
+ * @summary List network usages for a subscription.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/UsageList.json
+ */
 async function listUsages(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
@@ -28,7 +27,7 @@ async function listUsages(): Promise<void> {
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/UsageListSpacedLocation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/UsageListSpacedLocation.json
  */
 async function listUsagesSpacedLocation(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

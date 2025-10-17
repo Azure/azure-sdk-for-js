@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
- *
- * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PublicIpPrefixGet.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
+ *
+ * @summary Gets the specified public IP prefix in a specified resource group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixGet.json
+ */
 async function getPublicIPPrefix(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -29,7 +28,7 @@ async function getPublicIPPrefix(): Promise<void> {
  * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
  *
  * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PublicIpPrefixGetStandardV2Sku.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/PublicIpPrefixGetStandardV2Sku.json
  */
 async function getPublicIPPrefixWithStandardV2Sku(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

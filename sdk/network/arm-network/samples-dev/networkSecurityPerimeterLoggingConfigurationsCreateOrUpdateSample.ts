@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates NSP logging configuration.
- *
- * @summary Creates or updates NSP logging configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NspLoggingConfigurationPut.json
- */
-
 import type {
   NspLoggingConfiguration} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates NSP logging configuration.
+ *
+ * @summary Creates or updates NSP logging configuration.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NspLoggingConfigurationPut.json
+ */
 async function nspLoggingConfigurationPut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

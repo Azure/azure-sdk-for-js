@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
- *
- * @summary Starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayStartPacketCaptureFilterData.json
- */
-
 import type {
   VpnPacketCaptureStartParameters,
   VirtualNetworkGatewaysStartPacketCaptureOptionalParams} from "@azure/arm-network";
@@ -17,6 +10,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
+ *
+ * @summary Starts packet capture on virtual network gateway in the specified resource group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayStartPacketCaptureFilterData.json
+ */
 async function startPacketCaptureOnVirtualNetworkGatewayWithFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -43,7 +42,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithFilter(): Promise<vo
  * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

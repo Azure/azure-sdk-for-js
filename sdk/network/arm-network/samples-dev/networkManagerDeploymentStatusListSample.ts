@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Post to List of Network Manager Deployment Status.
- *
- * @summary Post to List of Network Manager Deployment Status.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerDeploymentStatusList.json
- */
-
 import type {
   NetworkManagerDeploymentStatusParameter} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Post to List of Network Manager Deployment Status.
+ *
+ * @summary Post to List of Network Manager Deployment Status.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerDeploymentStatusList.json
+ */
 async function networkManagerDeploymentStatusList(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

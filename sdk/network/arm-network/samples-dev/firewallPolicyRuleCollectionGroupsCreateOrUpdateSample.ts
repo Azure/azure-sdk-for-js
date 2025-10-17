@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- *
- * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
- */
-
 import type {
   FirewallPolicyRuleCollectionGroup} from "@azure/arm-network";
 import {
@@ -16,6 +9,12 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+ *
+ * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
+ */
 async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -61,7 +60,7 @@ async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyRuleCollectionGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -105,7 +104,7 @@ async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -152,7 +151,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<vo
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const subscriptionId =
@@ -197,7 +196,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promi
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert(): Promise<void> {
   const subscriptionId =

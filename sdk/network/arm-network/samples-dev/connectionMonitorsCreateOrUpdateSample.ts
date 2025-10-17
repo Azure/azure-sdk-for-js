@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update a connection monitor.
- *
- * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkWatcherConnectionMonitorCreate.json
- */
-
 import type { ConnectionMonitor} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update a connection monitor.
+ *
+ * @summary Create or update a connection monitor.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorCreate.json
+ */
 async function createConnectionMonitorV1(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -60,7 +59,7 @@ async function createConnectionMonitorV1(): Promise<void> {
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkWatcherConnectionMonitorV2Create.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorV2Create.json
  */
 async function createConnectionMonitorV2(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -120,7 +119,7 @@ async function createConnectionMonitorV2(): Promise<void> {
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
  */
 async function createConnectionMonitorWithArcNetwork(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

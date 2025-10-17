@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all network manager connections created by this management group.
- *
- * @summary List all network manager connections created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerConnectionManagementGroupList.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to List all network manager connections created by this management group.
+ *
+ * @summary List all network manager connections created by this management group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerConnectionManagementGroupList.json
+ */
 async function listManagementGroupNetworkManagerConnection(): Promise<void> {
   const managementGroupId = "managementGroupA";
   const credential = new DefaultAzureCredential();
