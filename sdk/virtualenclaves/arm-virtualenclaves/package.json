@@ -1,0 +1,349 @@
+{
+  "name": "@azure/arm-virtualenclaves",
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for MissionClient.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/approval": "./src/api/approval/index.ts",
+      "./api/communityEndpoints": "./src/api/communityEndpoints/index.ts",
+      "./api/enclaveEndpoints": "./src/api/enclaveEndpoints/index.ts",
+      "./api/enclaveConnection": "./src/api/enclaveConnection/index.ts",
+      "./api/transitHub": "./src/api/transitHub/index.ts",
+      "./api/community": "./src/api/community/index.ts",
+      "./api/virtualEnclave": "./src/api/virtualEnclave/index.ts",
+      "./api/workload": "./src/api/workload/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
+      "./models": "./src/models/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
+  },
+  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/virtualenclaves/arm-virtualenclaves/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/missionContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:*",
+    "@azure-tools/test-recorder": "workspace:*",
+    "@azure-tools/test-utils-vitest": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-virtualenclaves",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-virtualenclaves?view=azure-node-preview"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/approval": {
+      "browser": {
+        "types": "./dist/browser/api/approval/index.d.ts",
+        "default": "./dist/browser/api/approval/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/approval/index.d.ts",
+        "default": "./dist/react-native/api/approval/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/approval/index.d.ts",
+        "default": "./dist/esm/api/approval/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/approval/index.d.ts",
+        "default": "./dist/commonjs/api/approval/index.js"
+      }
+    },
+    "./api/communityEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/communityEndpoints/index.d.ts",
+        "default": "./dist/browser/api/communityEndpoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/communityEndpoints/index.d.ts",
+        "default": "./dist/react-native/api/communityEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/communityEndpoints/index.d.ts",
+        "default": "./dist/esm/api/communityEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/communityEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/communityEndpoints/index.js"
+      }
+    },
+    "./api/enclaveEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/enclaveEndpoints/index.d.ts",
+        "default": "./dist/browser/api/enclaveEndpoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/enclaveEndpoints/index.d.ts",
+        "default": "./dist/react-native/api/enclaveEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/enclaveEndpoints/index.d.ts",
+        "default": "./dist/esm/api/enclaveEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/enclaveEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/enclaveEndpoints/index.js"
+      }
+    },
+    "./api/enclaveConnection": {
+      "browser": {
+        "types": "./dist/browser/api/enclaveConnection/index.d.ts",
+        "default": "./dist/browser/api/enclaveConnection/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/enclaveConnection/index.d.ts",
+        "default": "./dist/react-native/api/enclaveConnection/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/enclaveConnection/index.d.ts",
+        "default": "./dist/esm/api/enclaveConnection/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/enclaveConnection/index.d.ts",
+        "default": "./dist/commonjs/api/enclaveConnection/index.js"
+      }
+    },
+    "./api/transitHub": {
+      "browser": {
+        "types": "./dist/browser/api/transitHub/index.d.ts",
+        "default": "./dist/browser/api/transitHub/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/transitHub/index.d.ts",
+        "default": "./dist/react-native/api/transitHub/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/transitHub/index.d.ts",
+        "default": "./dist/esm/api/transitHub/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/transitHub/index.d.ts",
+        "default": "./dist/commonjs/api/transitHub/index.js"
+      }
+    },
+    "./api/community": {
+      "browser": {
+        "types": "./dist/browser/api/community/index.d.ts",
+        "default": "./dist/browser/api/community/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/community/index.d.ts",
+        "default": "./dist/react-native/api/community/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/community/index.d.ts",
+        "default": "./dist/esm/api/community/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/community/index.d.ts",
+        "default": "./dist/commonjs/api/community/index.js"
+      }
+    },
+    "./api/virtualEnclave": {
+      "browser": {
+        "types": "./dist/browser/api/virtualEnclave/index.d.ts",
+        "default": "./dist/browser/api/virtualEnclave/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualEnclave/index.d.ts",
+        "default": "./dist/react-native/api/virtualEnclave/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualEnclave/index.d.ts",
+        "default": "./dist/esm/api/virtualEnclave/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualEnclave/index.d.ts",
+        "default": "./dist/commonjs/api/virtualEnclave/index.js"
+      }
+    },
+    "./api/workload": {
+      "browser": {
+        "types": "./dist/browser/api/workload/index.d.ts",
+        "default": "./dist/browser/api/workload/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workload/index.d.ts",
+        "default": "./dist/react-native/api/workload/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workload/index.d.ts",
+        "default": "./dist/esm/api/workload/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workload/index.d.ts",
+        "default": "./dist/commonjs/api/workload/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
+}
