@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
@@ -134,8 +134,12 @@ export interface IotHubProperties {
   cloudToDevice?: CloudToDeviceProperties;
   /** IoT hub comments. */
   comments?: string;
+  /** The device streams properties of iothub. */
+  deviceStreams?: IotHubPropertiesDeviceStreams;
   /** The capabilities and features enabled for the IoT hub. */
   features?: Capabilities;
+  /** The encryption properties for the IoT hub. */
+  encryption?: EncryptionPropertiesDescription;
   /**
    * Primary and secondary location for iot hub
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -143,6 +147,12 @@ export interface IotHubProperties {
   readonly locations?: IotHubLocationDescription[];
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
   enableDataResidency?: boolean;
+  /** This property store root certificate related information */
+  rootCertificate?: RootCertificateProperties;
+  /** This property specifies the IP Version the hub is currently utilizing. */
+  ipVersion?: IpVersion;
+  /** Represents properties related to the Azure Device Registry (ADR). */
+  deviceRegistry?: DeviceRegistry;
 }
 
 /** The properties of an IoT hub shared access policy. */
@@ -264,7 +274,7 @@ export interface RoutingProperties {
   endpoints?: RoutingEndpoints;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
   routes?: RouteProperties[];
-  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not present in the template, the fallback route is disabled by default. */
+  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
   fallbackRoute?: FallbackRouteProperties;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
   enrichments?: EnrichmentProperties[];
@@ -501,12 +511,53 @@ export interface FeedbackProperties {
   maxDeliveryCount?: number;
 }
 
+/** The device streams properties of iothub. */
+export interface IotHubPropertiesDeviceStreams {
+  /** List of Device Streams Endpoints. */
+  streamingEndpoints?: string[];
+}
+
+/** The encryption properties for the IoT hub. */
+export interface EncryptionPropertiesDescription {
+  /** The source of the key. */
+  keySource?: string;
+  /** The properties of the KeyVault key. */
+  keyVaultProperties?: KeyVaultKeyProperties[];
+}
+
+/** The properties of the KeyVault key. */
+export interface KeyVaultKeyProperties {
+  /** The identifier of the key. */
+  keyIdentifier?: string;
+  /** Managed identity properties of KeyVault Key. */
+  identity?: ManagedIdentity;
+}
+
 /** Public representation of one of the locations where a resource is provisioned. */
 export interface IotHubLocationDescription {
   /** The name of the Azure region */
   location?: string;
   /** The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT hub can failover to. */
   role?: IotHubReplicaRoleType;
+}
+
+/** This property store root certificate related information */
+export interface RootCertificateProperties {
+  /** This property when set to true, hub will use G2 cert; while it's set to false, hub uses Baltimore Cert. */
+  enableRootCertificateV2?: boolean;
+  /**
+   * the last update time to root certificate flag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimeUtc?: Date;
+}
+
+/** Represents properties related to the Azure Device Registry (ADR). */
+export interface DeviceRegistry {
+  /** The identifier of the Azure Device Registry namespace associated with the GEN2 SKU hub. */
+  namespaceResourceId?: string;
+  /** The identity used to manage the ADR namespace from the data plane. */
+  identityResourceId?: string;
 }
 
 /** Information about the SKU of the IoT hub. */
@@ -533,7 +584,7 @@ export interface ArmIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type?: ResourceIdentityType;
   /** Dictionary of <ArmUserIdentity> */
   userAssignedIdentities?: { [propertyName: string]: ArmUserIdentity };
@@ -1091,6 +1142,8 @@ export interface CertificateProperties {
   readonly updated?: Date;
   /** The certificate content */
   certificate?: string;
+  /** The reference to policy stored in Azure Device Registry (ADR). */
+  policyResourceId?: string;
 }
 
 /** The X509 Certificate. */
@@ -1161,6 +1214,8 @@ export interface CertificatePropertiesWithNonce {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly certificate?: string;
+  /** The reference to policy stored in Azure Device Registry (ADR). */
+  policyResourceId?: string;
 }
 
 /** The JSON-serialized leaf certificate */
@@ -1237,6 +1292,18 @@ export interface IotHubDescription extends Resource {
   readonly systemData?: SystemData;
 }
 
+/** Defines headers for IotHubResource_createOrUpdate operation. */
+export interface IotHubResourceCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for IotHubResource_update operation. */
+export interface IotHubResourceUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for IotHubResource_delete operation. */
 export interface IotHubResourceDeleteHeaders {
   /** URL to query for status of the operation. */
@@ -1251,6 +1318,12 @@ export interface IotHubManualFailoverHeaders {
   location?: string;
 }
 
+/** Defines headers for PrivateEndpointConnections_update operation. */
+export interface PrivateEndpointConnectionsUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for PrivateEndpointConnections_delete operation. */
 export interface PrivateEndpointConnectionsDeleteHeaders {
   /** URL to query for status of the operation. */
@@ -1263,7 +1336,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1281,7 +1354,7 @@ export enum KnownDefaultAction {
   /** Deny */
   Deny = "Deny",
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -1297,7 +1370,7 @@ export type DefaultAction = string;
 /** Known values of {@link NetworkRuleIPAction} that the service accepts. */
 export enum KnownNetworkRuleIPAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -1318,7 +1391,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1338,7 +1411,7 @@ export enum KnownAuthenticationType {
   /** KeyBased */
   KeyBased = "keyBased",
   /** IdentityBased */
-  IdentityBased = "identityBased"
+  IdentityBased = "identityBased",
 }
 
 /**
@@ -1358,7 +1431,7 @@ export enum KnownRoutingStorageContainerPropertiesEncoding {
   /** AvroDeflate */
   AvroDeflate = "AvroDeflate",
   /** Json */
-  Json = "JSON"
+  Json = "JSON",
 }
 
 /**
@@ -1384,8 +1457,12 @@ export enum KnownRoutingSource {
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
   /** DeviceJobLifecycleEvents */
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
+  /** DigitalTwinChangeEvents */
+  DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
   /** DeviceConnectionStateEvents */
-  DeviceConnectionStateEvents = "DeviceConnectionStateEvents"
+  DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
+  /** MqttBrokerMessages */
+  MqttBrokerMessages = "MqttBrokerMessages",
 }
 
 /**
@@ -1398,7 +1475,9 @@ export enum KnownRoutingSource {
  * **TwinChangeEvents** \
  * **DeviceLifecycleEvents** \
  * **DeviceJobLifecycleEvents** \
- * **DeviceConnectionStateEvents**
+ * **DigitalTwinChangeEvents** \
+ * **DeviceConnectionStateEvents** \
+ * **MqttBrokerMessages**
  */
 export type RoutingSource = string;
 
@@ -1407,7 +1486,7 @@ export enum KnownCapabilities {
   /** None */
   None = "None",
   /** DeviceManagement */
-  DeviceManagement = "DeviceManagement"
+  DeviceManagement = "DeviceManagement",
 }
 
 /**
@@ -1425,7 +1504,7 @@ export enum KnownIotHubReplicaRoleType {
   /** Primary */
   Primary = "primary",
   /** Secondary */
-  Secondary = "secondary"
+  Secondary = "secondary",
 }
 
 /**
@@ -1437,6 +1516,27 @@ export enum KnownIotHubReplicaRoleType {
  * **secondary**
  */
 export type IotHubReplicaRoleType = string;
+
+/** Known values of {@link IpVersion} that the service accepts. */
+export enum KnownIpVersion {
+  /** Ipv4 */
+  Ipv4 = "ipv4",
+  /** Ipv6 */
+  Ipv6 = "ipv6",
+  /** Ipv4Ipv6 */
+  Ipv4Ipv6 = "ipv4ipv6",
+}
+
+/**
+ * Defines values for IpVersion. \
+ * {@link KnownIpVersion} can be used interchangeably with IpVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ipv4** \
+ * **ipv6** \
+ * **ipv4ipv6**
+ */
+export type IpVersion = string;
 
 /** Known values of {@link IotHubSku} that the service accepts. */
 export enum KnownIotHubSku {
@@ -1453,7 +1553,9 @@ export enum KnownIotHubSku {
   /** B2 */
   B2 = "B2",
   /** B3 */
-  B3 = "B3"
+  B3 = "B3",
+  /** GEN2 */
+  GEN2 = "GEN2",
 }
 
 /**
@@ -1467,7 +1569,8 @@ export enum KnownIotHubSku {
  * **S3** \
  * **B1** \
  * **B2** \
- * **B3**
+ * **B3** \
+ * **GEN2**
  */
 export type IotHubSku = string;
 
@@ -1480,7 +1583,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1516,7 +1619,7 @@ export enum KnownJobType {
   /** FactoryResetDevice */
   FactoryResetDevice = "factoryResetDevice",
   /** FirmwareUpdate */
-  FirmwareUpdate = "firmwareUpdate"
+  FirmwareUpdate = "firmwareUpdate",
 }
 
 /**
@@ -1548,7 +1651,7 @@ export enum KnownEndpointHealthStatus {
   /** Unhealthy */
   Unhealthy = "unhealthy",
   /** Dead */
-  Dead = "dead"
+  Dead = "dead",
 }
 
 /**
@@ -1571,7 +1674,7 @@ export enum KnownTestResultStatus {
   /** False */
   False = "false",
   /** True */
-  True = "true"
+  True = "true",
 }
 
 /**
@@ -1590,7 +1693,7 @@ export enum KnownRouteErrorSeverity {
   /** Error */
   Error = "error",
   /** Warning */
-  Warning = "warning"
+  Warning = "warning",
 }
 
 /**
@@ -1622,7 +1725,7 @@ export type AccessRights =
 /** Defines values for IpFilterActionType. */
 export type IpFilterActionType = "Accept" | "Reject";
 /** Defines values for IotHubSkuTier. */
-export type IotHubSkuTier = "Free" | "Standard" | "Basic";
+export type IotHubSkuTier = "Free" | "Standard" | "Basic" | "Generation2";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
@@ -1687,7 +1790,8 @@ export interface IotHubResourceUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type IotHubResourceUpdateResponse = IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders &
+  IotHubDescription;
 
 /** Optional parameters. */
 export interface IotHubResourceDeleteOptionalParams
@@ -1706,14 +1810,16 @@ export interface IotHubResourceListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type IotHubResourceListBySubscriptionResponse = IotHubDescriptionListResult;
+export type IotHubResourceListBySubscriptionResponse =
+  IotHubDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type IotHubResourceListByResourceGroupResponse = IotHubDescriptionListResult;
+export type IotHubResourceListByResourceGroupResponse =
+  IotHubDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetStatsOptionalParams
@@ -1734,21 +1840,24 @@ export interface IotHubResourceListEventHubConsumerGroupsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEventHubConsumerGroups operation. */
-export type IotHubResourceListEventHubConsumerGroupsResponse = EventHubConsumerGroupsListResult;
+export type IotHubResourceListEventHubConsumerGroupsResponse =
+  EventHubConsumerGroupsListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetEventHubConsumerGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventHubConsumerGroup operation. */
-export type IotHubResourceGetEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
+export type IotHubResourceGetEventHubConsumerGroupResponse =
+  EventHubConsumerGroupInfo;
 
 /** Optional parameters. */
 export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createEventHubConsumerGroup operation. */
-export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
+export type IotHubResourceCreateEventHubConsumerGroupResponse =
+  EventHubConsumerGroupInfo;
 
 /** Optional parameters. */
 export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams
@@ -1773,21 +1882,24 @@ export interface IotHubResourceGetQuotaMetricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQuotaMetrics operation. */
-export type IotHubResourceGetQuotaMetricsResponse = IotHubQuotaMetricInfoListResult;
+export type IotHubResourceGetQuotaMetricsResponse =
+  IotHubQuotaMetricInfoListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetEndpointHealthOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEndpointHealth operation. */
-export type IotHubResourceGetEndpointHealthResponse = EndpointHealthDataListResult;
+export type IotHubResourceGetEndpointHealthResponse =
+  EndpointHealthDataListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type IotHubResourceCheckNameAvailabilityResponse = IotHubNameAvailabilityInfo;
+export type IotHubResourceCheckNameAvailabilityResponse =
+  IotHubNameAvailabilityInfo;
 
 /** Optional parameters. */
 export interface IotHubResourceTestAllRoutesOptionalParams
@@ -1808,14 +1920,16 @@ export interface IotHubResourceListKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type IotHubResourceListKeysResponse = SharedAccessSignatureAuthorizationRuleListResult;
+export type IotHubResourceListKeysResponse =
+  SharedAccessSignatureAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetKeysForKeyNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getKeysForKeyName operation. */
-export type IotHubResourceGetKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRule;
+export type IotHubResourceGetKeysForKeyNameResponse =
+  SharedAccessSignatureAuthorizationRule;
 
 /** Optional parameters. */
 export interface IotHubResourceExportDevicesOptionalParams
@@ -1836,28 +1950,32 @@ export interface IotHubResourceListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IotHubResourceListBySubscriptionNextResponse = IotHubDescriptionListResult;
+export type IotHubResourceListBySubscriptionNextResponse =
+  IotHubDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IotHubResourceListByResourceGroupNextResponse = IotHubDescriptionListResult;
+export type IotHubResourceListByResourceGroupNextResponse =
+  IotHubDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetValidSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getValidSkusNext operation. */
-export type IotHubResourceGetValidSkusNextResponse = IotHubSkuDescriptionListResult;
+export type IotHubResourceGetValidSkusNextResponse =
+  IotHubSkuDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListEventHubConsumerGroupsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEventHubConsumerGroupsNext operation. */
-export type IotHubResourceListEventHubConsumerGroupsNextResponse = EventHubConsumerGroupsListResult;
+export type IotHubResourceListEventHubConsumerGroupsNextResponse =
+  EventHubConsumerGroupsListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListJobsNextOptionalParams
@@ -1871,28 +1989,32 @@ export interface IotHubResourceGetQuotaMetricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQuotaMetricsNext operation. */
-export type IotHubResourceGetQuotaMetricsNextResponse = IotHubQuotaMetricInfoListResult;
+export type IotHubResourceGetQuotaMetricsNextResponse =
+  IotHubQuotaMetricInfoListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetEndpointHealthNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEndpointHealthNext operation. */
-export type IotHubResourceGetEndpointHealthNextResponse = EndpointHealthDataListResult;
+export type IotHubResourceGetEndpointHealthNextResponse =
+  EndpointHealthDataListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListKeysNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysNext operation. */
-export type IotHubResourceListKeysNextResponse = SharedAccessSignatureAuthorizationRuleListResult;
+export type IotHubResourceListKeysNextResponse =
+  SharedAccessSignatureAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSubscriptionQuota operation. */
-export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
+export type ResourceProviderCommonGetSubscriptionQuotaResponse =
+  UserSubscriptionQuotaListResult;
 
 /** Optional parameters. */
 export interface CertificatesListByIotHubOptionalParams
@@ -1927,7 +2049,8 @@ export interface CertificatesGenerateVerificationCodeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateVerificationCode operation. */
-export type CertificatesGenerateVerificationCodeResponse = CertificateWithNonceDescription;
+export type CertificatesGenerateVerificationCodeResponse =
+  CertificateWithNonceDescription;
 
 /** Optional parameters. */
 export interface CertificatesVerifyOptionalParams
@@ -1964,7 +2087,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnection[];
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1983,7 +2107,8 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1995,7 +2120,8 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface IotHubClientOptionalParams
