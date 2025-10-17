@@ -35,10 +35,7 @@ export class ResourceProviderCommonImpl implements ResourceProviderCommon {
   getSubscriptionQuota(
     options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
   ): Promise<ResourceProviderCommonGetSubscriptionQuotaResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getSubscriptionQuotaOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getSubscriptionQuotaOperationSpec);
   }
 }
 // Operation Specifications

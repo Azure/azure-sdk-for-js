@@ -245,11 +245,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.certificateName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -316,11 +312,7 @@ const verifyOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.certificateName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

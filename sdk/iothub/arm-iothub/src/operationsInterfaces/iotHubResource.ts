@@ -211,10 +211,7 @@ export interface IotHubResource {
     iotHubTags: TagsResource,
     options?: IotHubResourceUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotHubResourceUpdateResponse>,
-      IotHubResourceUpdateResponse
-    >
+    SimplePollerLike<OperationState<IotHubResourceUpdateResponse>, IotHubResourceUpdateResponse>
   >;
   /**
    * Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
@@ -240,10 +237,7 @@ export interface IotHubResource {
     resourceName: string,
     options?: IotHubResourceDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotHubResourceDeleteResponse>,
-      IotHubResourceDeleteResponse
-    >
+    SimplePollerLike<OperationState<IotHubResourceDeleteResponse>, IotHubResourceDeleteResponse>
   >;
   /**
    * Delete an IoT hub.

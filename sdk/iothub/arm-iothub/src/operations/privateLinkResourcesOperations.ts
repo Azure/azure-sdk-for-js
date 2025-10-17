@@ -19,9 +19,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing PrivateLinkResourcesOperations operations. */
-export class PrivateLinkResourcesOperationsImpl
-  implements PrivateLinkResourcesOperations
-{
+export class PrivateLinkResourcesOperationsImpl implements PrivateLinkResourcesOperations {
   private readonly client: IotHubClient;
 
   /**

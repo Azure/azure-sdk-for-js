@@ -1735,40 +1735,30 @@ export type ResourceIdentityType =
 /** Defines values for IotHubScaleType. */
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
 /** Defines values for JobStatus. */
-export type JobStatus =
-  | "unknown"
-  | "enqueued"
-  | "running"
-  | "completed"
-  | "failed"
-  | "cancelled";
+export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "failed" | "cancelled";
 /** Defines values for IotHubNameUnavailabilityReason. */
 export type IotHubNameUnavailabilityReason = "Invalid" | "AlreadyExists";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface IotHubResourceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type IotHubResourceGetResponse = IotHubDescription;
 
 /** Optional parameters. */
-export interface IotHubResourceCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface IotHubResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the IoT Hub. Do not specify for creating a brand new IoT Hub. Required to update an existing IoT Hub. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1781,8 +1771,7 @@ export interface IotHubResourceCreateOrUpdateOptionalParams
 export type IotHubResourceCreateOrUpdateResponse = IotHubDescription;
 
 /** Optional parameters. */
-export interface IotHubResourceUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface IotHubResourceUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1790,12 +1779,10 @@ export interface IotHubResourceUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders &
-  IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders & IotHubDescription;
 
 /** Optional parameters. */
-export interface IotHubResourceDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface IotHubResourceDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1810,27 +1797,23 @@ export interface IotHubResourceListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type IotHubResourceListBySubscriptionResponse =
-  IotHubDescriptionListResult;
+export type IotHubResourceListBySubscriptionResponse = IotHubDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type IotHubResourceListByResourceGroupResponse =
-  IotHubDescriptionListResult;
+export type IotHubResourceListByResourceGroupResponse = IotHubDescriptionListResult;
 
 /** Optional parameters. */
-export interface IotHubResourceGetStatsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceGetStatsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStats operation. */
 export type IotHubResourceGetStatsResponse = RegistryStatistics;
 
 /** Optional parameters. */
-export interface IotHubResourceGetValidSkusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceGetValidSkusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getValidSkus operation. */
 export type IotHubResourceGetValidSkusResponse = IotHubSkuDescriptionListResult;
@@ -1840,107 +1823,91 @@ export interface IotHubResourceListEventHubConsumerGroupsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEventHubConsumerGroups operation. */
-export type IotHubResourceListEventHubConsumerGroupsResponse =
-  EventHubConsumerGroupsListResult;
+export type IotHubResourceListEventHubConsumerGroupsResponse = EventHubConsumerGroupsListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetEventHubConsumerGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventHubConsumerGroup operation. */
-export type IotHubResourceGetEventHubConsumerGroupResponse =
-  EventHubConsumerGroupInfo;
+export type IotHubResourceGetEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
 
 /** Optional parameters. */
 export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createEventHubConsumerGroup operation. */
-export type IotHubResourceCreateEventHubConsumerGroupResponse =
-  EventHubConsumerGroupInfo;
+export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
 
 /** Optional parameters. */
 export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IotHubResourceListJobsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceListJobsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listJobs operation. */
 export type IotHubResourceListJobsResponse = JobResponseListResult;
 
 /** Optional parameters. */
-export interface IotHubResourceGetJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceGetJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getJob operation. */
 export type IotHubResourceGetJobResponse = JobResponse;
 
 /** Optional parameters. */
-export interface IotHubResourceGetQuotaMetricsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceGetQuotaMetricsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQuotaMetrics operation. */
-export type IotHubResourceGetQuotaMetricsResponse =
-  IotHubQuotaMetricInfoListResult;
+export type IotHubResourceGetQuotaMetricsResponse = IotHubQuotaMetricInfoListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetEndpointHealthOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEndpointHealth operation. */
-export type IotHubResourceGetEndpointHealthResponse =
-  EndpointHealthDataListResult;
+export type IotHubResourceGetEndpointHealthResponse = EndpointHealthDataListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type IotHubResourceCheckNameAvailabilityResponse =
-  IotHubNameAvailabilityInfo;
+export type IotHubResourceCheckNameAvailabilityResponse = IotHubNameAvailabilityInfo;
 
 /** Optional parameters. */
-export interface IotHubResourceTestAllRoutesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceTestAllRoutesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the testAllRoutes operation. */
 export type IotHubResourceTestAllRoutesResponse = TestAllRoutesResult;
 
 /** Optional parameters. */
-export interface IotHubResourceTestRouteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceTestRouteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the testRoute operation. */
 export type IotHubResourceTestRouteResponse = TestRouteResult;
 
 /** Optional parameters. */
-export interface IotHubResourceListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type IotHubResourceListKeysResponse =
-  SharedAccessSignatureAuthorizationRuleListResult;
+export type IotHubResourceListKeysResponse = SharedAccessSignatureAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetKeysForKeyNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getKeysForKeyName operation. */
-export type IotHubResourceGetKeysForKeyNameResponse =
-  SharedAccessSignatureAuthorizationRule;
+export type IotHubResourceGetKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRule;
 
 /** Optional parameters. */
-export interface IotHubResourceExportDevicesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceExportDevicesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportDevices operation. */
 export type IotHubResourceExportDevicesResponse = JobResponse;
 
 /** Optional parameters. */
-export interface IotHubResourceImportDevicesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceImportDevicesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the importDevices operation. */
 export type IotHubResourceImportDevicesResponse = JobResponse;
@@ -1950,36 +1917,30 @@ export interface IotHubResourceListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IotHubResourceListBySubscriptionNextResponse =
-  IotHubDescriptionListResult;
+export type IotHubResourceListBySubscriptionNextResponse = IotHubDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IotHubResourceListByResourceGroupNextResponse =
-  IotHubDescriptionListResult;
+export type IotHubResourceListByResourceGroupNextResponse = IotHubDescriptionListResult;
 
 /** Optional parameters. */
-export interface IotHubResourceGetValidSkusNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceGetValidSkusNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getValidSkusNext operation. */
-export type IotHubResourceGetValidSkusNextResponse =
-  IotHubSkuDescriptionListResult;
+export type IotHubResourceGetValidSkusNextResponse = IotHubSkuDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceListEventHubConsumerGroupsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEventHubConsumerGroupsNext operation. */
-export type IotHubResourceListEventHubConsumerGroupsNextResponse =
-  EventHubConsumerGroupsListResult;
+export type IotHubResourceListEventHubConsumerGroupsNextResponse = EventHubConsumerGroupsListResult;
 
 /** Optional parameters. */
-export interface IotHubResourceListJobsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceListJobsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listJobsNext operation. */
 export type IotHubResourceListJobsNextResponse = JobResponseListResult;
@@ -1989,50 +1950,42 @@ export interface IotHubResourceGetQuotaMetricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQuotaMetricsNext operation. */
-export type IotHubResourceGetQuotaMetricsNextResponse =
-  IotHubQuotaMetricInfoListResult;
+export type IotHubResourceGetQuotaMetricsNextResponse = IotHubQuotaMetricInfoListResult;
 
 /** Optional parameters. */
 export interface IotHubResourceGetEndpointHealthNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEndpointHealthNext operation. */
-export type IotHubResourceGetEndpointHealthNextResponse =
-  EndpointHealthDataListResult;
+export type IotHubResourceGetEndpointHealthNextResponse = EndpointHealthDataListResult;
 
 /** Optional parameters. */
-export interface IotHubResourceListKeysNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IotHubResourceListKeysNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysNext operation. */
-export type IotHubResourceListKeysNextResponse =
-  SharedAccessSignatureAuthorizationRuleListResult;
+export type IotHubResourceListKeysNextResponse = SharedAccessSignatureAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSubscriptionQuota operation. */
-export type ResourceProviderCommonGetSubscriptionQuotaResponse =
-  UserSubscriptionQuotaListResult;
+export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
 
 /** Optional parameters. */
-export interface CertificatesListByIotHubOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListByIotHubOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByIotHub operation. */
 export type CertificatesListByIotHubResponse = CertificateListDescription;
 
 /** Optional parameters. */
-export interface CertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificatesGetResponse = CertificateDescription;
 
 /** Optional parameters. */
-export interface CertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
   ifMatch?: string;
 }
@@ -2041,27 +1994,23 @@ export interface CertificatesCreateOrUpdateOptionalParams
 export type CertificatesCreateOrUpdateResponse = CertificateDescription;
 
 /** Optional parameters. */
-export interface CertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CertificatesGenerateVerificationCodeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateVerificationCode operation. */
-export type CertificatesGenerateVerificationCodeResponse =
-  CertificateWithNonceDescription;
+export type CertificatesGenerateVerificationCodeResponse = CertificateWithNonceDescription;
 
 /** Optional parameters. */
-export interface CertificatesVerifyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesVerifyOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the verify operation. */
 export type CertificatesVerifyResponse = CertificateDescription;
 
 /** Optional parameters. */
-export interface IotHubManualFailoverOptionalParams
-  extends coreClient.OperationOptions {
+export interface IotHubManualFailoverOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2069,30 +2018,25 @@ export interface IotHubManualFailoverOptionalParams
 }
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResources;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = GroupIdInformation;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnection[];
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -2107,8 +2051,7 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -2120,12 +2063,10 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface IotHubClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface IotHubClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
