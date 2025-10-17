@@ -208,6 +208,53 @@ async function run() {
   });
   console.log("Container with full text search policy created");
 
+  logStep("Delete all items for a specific partition key");
+
+  // Create a container with partition key on 'state' for the deleteAllItemsForPartitionKey demo
+  const { container: containerForDeletion } = await database.containers.createIfNotExists({
+    id: "ContainerForDeletion",
+    partitionKey: { paths: ["/state"] },
+  });
+
+  // Create some sample items with different partition key values
+  const cities = [
+    { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+    { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+    { id: "3", name: "Seattle", state: "WA", isCapitol: false },
+    { id: "4", name: "Springfield", state: "IL", isCapitol: true },
+    { id: "5", name: "Chicago", state: "IL", isCapitol: false },
+  ];
+
+  console.log("Creating sample cities...");
+  for (const city of cities) {
+    await containerForDeletion.items.create(city);
+  }
+
+  // Query to verify items before deletion
+  const beforeDeletionQuery = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'WA'";
+  const { resources: waItemsBefore } = await containerForDeletion.items
+    .query(beforeDeletionQuery)
+    .fetchAll();
+  console.log(`Items in WA before deletion: ${waItemsBefore.length}`);
+
+  // Delete all items for partition key 'WA'
+  await containerForDeletion.deleteAllItemsForPartitionKey("WA");
+  console.log("Deleted all items for partition key 'WA'");
+
+  // Query to verify items after deletion
+  const { resources: waItemsAfter } = await containerForDeletion.items
+    .query(beforeDeletionQuery)
+    .fetchAll();
+  console.log(`Items in WA after deletion: ${waItemsAfter.length}`);
+
+  // Verify IL items are still present
+  const ilQuery = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'IL'";
+  const { resources: ilItems } = await containerForDeletion.items.query(ilQuery).fetchAll();
+  console.log(`Items in IL (should remain): ${ilItems.length}`);
+
+  // Clean up the container
+  await containerForDeletion.delete();
+
   await finish();
 }
 
