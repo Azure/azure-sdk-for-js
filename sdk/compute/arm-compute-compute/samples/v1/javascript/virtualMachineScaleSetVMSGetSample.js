@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-compute");
+const { ComputeManagementClient } = require("@azure/arm-compute-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getVMScaleSetVMWithResiliencyView() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMS.get("myResourceGroup", "{vmss-name}", "1");
   console.log(result);
 }
@@ -27,7 +27,7 @@ async function getVMScaleSetVMWithResiliencyView() {
 async function getVMScaleSetVMWithUserData() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMS.get("myResourceGroup", "{vmss-name}", "0");
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function getVMScaleSetVMWithUserData() {
 async function getVMScaleSetVMWithVMSizeProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMS.get("myResourceGroup", "{vmss-name}", "0");
   console.log(result);
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   runCommand,
   start,
@@ -192,7 +192,7 @@ export interface VirtualMachineScaleSetVMSOperations {
   ) => Promise<VirtualMachineScaleSetVM>;
 }
 
-function _getVirtualMachineScaleSetVMS(context: ComputeContext) {
+function _getVirtualMachineScaleSetVMS(context: ComputeManagementContext) {
   return {
     runCommand: (
       resourceGroupName: string,
@@ -317,7 +317,7 @@ function _getVirtualMachineScaleSetVMS(context: ComputeContext) {
 }
 
 export function _getVirtualMachineScaleSetVMSOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMSOperations {
   return {
     ..._getVirtualMachineScaleSetVMS(context),

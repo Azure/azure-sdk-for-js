@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   list,
   $delete,
@@ -73,7 +73,7 @@ export interface VirtualMachineScaleSetVMExtensionsOperations {
   ) => Promise<VirtualMachineScaleSetVMExtension>;
 }
 
-function _getVirtualMachineScaleSetVMExtensions(context: ComputeContext) {
+function _getVirtualMachineScaleSetVMExtensions(context: ComputeManagementContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -133,7 +133,7 @@ function _getVirtualMachineScaleSetVMExtensions(context: ComputeContext) {
 }
 
 export function _getVirtualMachineScaleSetVMExtensionsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMExtensionsOperations {
   return {
     ..._getVirtualMachineScaleSetVMExtensions(context),

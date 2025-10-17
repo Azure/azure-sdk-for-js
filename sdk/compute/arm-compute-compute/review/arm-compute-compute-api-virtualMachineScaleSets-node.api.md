@@ -10,88 +10,88 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function approveRollingUpgrade(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
+export function approveRollingUpgrade(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function cancel(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsCancelOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function cancel(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsCancelOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function convertToSinglePlacementGroup(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetConvertToSinglePlacementGroupInput, options?: VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams): Promise<void>;
+export function convertToSinglePlacementGroup(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetConvertToSinglePlacementGroupInput, options?: VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deallocate(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function deallocate(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function deleteInstances(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function deleteInstances(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function forceRecoveryServiceFabricPlatformUpdateDomainWalk(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams): Promise<RecoveryWalkResponse>;
+export function forceRecoveryServiceFabricPlatformUpdateDomainWalk(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams): Promise<RecoveryWalkResponse>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOptionalParams): Promise<VirtualMachineScaleSet>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOptionalParams): Promise<VirtualMachineScaleSet>;
 
 // @public
-export function getInstanceView(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetInstanceView>;
+export function getInstanceView(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetInstanceView>;
 
 // @public
-export function getOSUpgradeHistory(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams): PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
+export function getOSUpgradeHistory(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams): PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
 
 // @public
-export function list(context: ComputeContext, resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+export function list(context: ComputeManagementContext, resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
 
 // @public
-export function listAll(context: ComputeContext, options?: VirtualMachineScaleSetsListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+export function listAll(context: ComputeManagementContext, options?: VirtualMachineScaleSetsListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
 
 // @public
-export function listSkus(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
+export function listSkus(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
 
 // @public
-export function performMaintenance(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function performMaintenance(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function powerOff(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function powerOff(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function reapply(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function reapply(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReapplyOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function redeploy(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function redeploy(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRedeployOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function reimage(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function reimage(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function reimageAll(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function reimageAll(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsReimageAllOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function restart(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function restart(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsRestartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function scaleOut(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function scaleOut(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, parameters: VMScaleSetScaleOutInput, options?: VirtualMachineScaleSetsScaleOutOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function setOrchestrationServiceState(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function setOrchestrationServiceState(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, parameters: OrchestrationServiceStateInput, options?: VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function start(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function start(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function startExtensionUpgrade(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartExtensionUpgradeOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function startExtensionUpgrade(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartExtensionUpgradeOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function startOSUpgrade(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOSUpgradeOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function startOSUpgrade(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsStartOSUpgradeOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSetUpdate, options?: VirtualMachineScaleSetsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function updateInstances(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function updateInstances(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsUpdateInstancesOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
 export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams extends OperationOptions {

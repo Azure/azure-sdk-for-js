@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ComputeContext, location: string, publisherName: string, typeParam: string, version: string, options?: VirtualMachineExtensionImagesGetOptionalParams): Promise<VirtualMachineExtensionImage>;
+export function get(context: ComputeManagementContext, location: string, publisherName: string, typeParam: string, version: string, options?: VirtualMachineExtensionImagesGetOptionalParams): Promise<VirtualMachineExtensionImage>;
 
 // @public
-export function listTypes(context: ComputeContext, location: string, publisherName: string, options?: VirtualMachineExtensionImagesListTypesOptionalParams): Promise<VirtualMachineExtensionImage[]>;
+export function listTypes(context: ComputeManagementContext, location: string, publisherName: string, options?: VirtualMachineExtensionImagesListTypesOptionalParams): Promise<VirtualMachineExtensionImage[]>;
 
 // @public
-export function listVersions(context: ComputeContext, location: string, publisherName: string, typeParam: string, options?: VirtualMachineExtensionImagesListVersionsOptionalParams): Promise<VirtualMachineExtensionImage[]>;
+export function listVersions(context: ComputeManagementContext, location: string, publisherName: string, typeParam: string, options?: VirtualMachineExtensionImagesListVersionsOptionalParams): Promise<VirtualMachineExtensionImage[]>;
 
 // @public
 export interface VirtualMachineExtensionImagesGetOptionalParams extends OperationOptions {

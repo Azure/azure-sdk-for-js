@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollection, options?: RestorePointCollectionsCreateOrUpdateOptionalParams): Promise<RestorePointCollection>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollection, options?: RestorePointCollectionsCreateOrUpdateOptionalParams): Promise<RestorePointCollection>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsGetOptionalParams): Promise<RestorePointCollection>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, options?: RestorePointCollectionsGetOptionalParams): Promise<RestorePointCollection>;
 
 // @public
-export function list(context: ComputeContext, resourceGroupName: string, options?: RestorePointCollectionsListOptionalParams): PagedAsyncIterableIterator<RestorePointCollection>;
+export function list(context: ComputeManagementContext, resourceGroupName: string, options?: RestorePointCollectionsListOptionalParams): PagedAsyncIterableIterator<RestorePointCollection>;
 
 // @public
-export function listAll(context: ComputeContext, options?: RestorePointCollectionsListAllOptionalParams): PagedAsyncIterableIterator<RestorePointCollection>;
+export function listAll(context: ComputeManagementContext, options?: RestorePointCollectionsListAllOptionalParams): PagedAsyncIterableIterator<RestorePointCollection>;
 
 // @public
 export interface RestorePointCollectionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -51,7 +51,7 @@ export interface RestorePointCollectionsUpdateOptionalParams extends OperationOp
 }
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollectionUpdate, options?: RestorePointCollectionsUpdateOptionalParams): Promise<RestorePointCollection>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, restorePointCollectionName: string, parameters: RestorePointCollectionUpdate, options?: RestorePointCollectionsUpdateOptionalParams): Promise<RestorePointCollection>;
 
 // (No @packageDocumentation comment for this package)
 

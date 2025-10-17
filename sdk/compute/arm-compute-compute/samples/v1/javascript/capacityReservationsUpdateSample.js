@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-compute");
+const { ComputeManagementClient } = require("@azure/arm-compute-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function capacityReservationUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.capacityReservations.update("rgcompute", "aaaaaaaaaa", "aaaaaaaaaaaaaaaaaaa", {
     properties: {
       instanceView: {
@@ -43,7 +43,7 @@ async function capacityReservationUpdateMaximumSetGen() {
 async function capacityReservationUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.capacityReservations.update("rgcompute", "aaaaaaaaaaaaaaaaaaaaaaaaaa", "aaa", {});
 }
 

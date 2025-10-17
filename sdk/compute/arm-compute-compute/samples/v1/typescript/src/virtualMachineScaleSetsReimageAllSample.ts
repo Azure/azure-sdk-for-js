@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function virtualMachineScaleSetReimageAllMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.reimageAll("rgcompute", "aaaaaaaaaaaa", {
     vmInstanceIDs: { instanceIds: ["aaaaaaaaaaaaaaaaa"] },
   });
@@ -29,7 +29,7 @@ async function virtualMachineScaleSetReimageAllMaximumSetGen(): Promise<void> {
 async function virtualMachineScaleSetReimageAllMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.reimageAll(
     "rgcompute",
     "aaaaaaaaaaaaaaaaaaaaaa",

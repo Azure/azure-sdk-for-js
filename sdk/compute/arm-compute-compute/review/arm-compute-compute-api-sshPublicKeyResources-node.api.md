@@ -8,22 +8,22 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeyResourcesDeleteOptionalParams): Promise<void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeyResourcesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function create(context: ComputeContext, resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyResource, options?: SshPublicKeyResourcesCreateOptionalParams): Promise<SshPublicKeyResource>;
+export function create(context: ComputeManagementContext, resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyResource, options?: SshPublicKeyResourcesCreateOptionalParams): Promise<SshPublicKeyResource>;
 
 // @public
-export function generateKeyPair(context: ComputeContext, resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeyResourcesGenerateKeyPairOptionalParams): Promise<SshPublicKeyGenerateKeyPairResult>;
+export function generateKeyPair(context: ComputeManagementContext, resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeyResourcesGenerateKeyPairOptionalParams): Promise<SshPublicKeyGenerateKeyPairResult>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeyResourcesGetOptionalParams): Promise<SshPublicKeyResource>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeyResourcesGetOptionalParams): Promise<SshPublicKeyResource>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: SshPublicKeyResourcesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: SshPublicKeyResourcesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
 
 // @public
-export function listBySubscription(context: ComputeContext, options?: SshPublicKeyResourcesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
+export function listBySubscription(context: ComputeManagementContext, options?: SshPublicKeyResourcesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
 
 // @public
 export interface SshPublicKeyResourcesCreateOptionalParams extends OperationOptions {
@@ -55,7 +55,7 @@ export interface SshPublicKeyResourcesUpdateOptionalParams extends OperationOpti
 }
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyUpdateResource, options?: SshPublicKeyResourcesUpdateOptionalParams): Promise<SshPublicKeyResource>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyUpdateResource, options?: SshPublicKeyResourcesUpdateOptionalParams): Promise<SshPublicKeyResource>;
 
 // (No @packageDocumentation comment for this package)
 

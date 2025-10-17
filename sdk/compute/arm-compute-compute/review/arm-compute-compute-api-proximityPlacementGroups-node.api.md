@@ -8,19 +8,19 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsDeleteOptionalParams): Promise<void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroup, options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams): Promise<ProximityPlacementGroup>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroup, options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams): Promise<ProximityPlacementGroup>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsGetOptionalParams): Promise<ProximityPlacementGroup>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsGetOptionalParams): Promise<ProximityPlacementGroup>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: ProximityPlacementGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: ProximityPlacementGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
 
 // @public
-export function listBySubscription(context: ComputeContext, options?: ProximityPlacementGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
+export function listBySubscription(context: ComputeManagementContext, options?: ProximityPlacementGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
 
 // @public
 export interface ProximityPlacementGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -48,7 +48,7 @@ export interface ProximityPlacementGroupsUpdateOptionalParams extends OperationO
 }
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroupUpdate, options?: ProximityPlacementGroupsUpdateOptionalParams): Promise<ProximityPlacementGroup>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroupUpdate, options?: ProximityPlacementGroupsUpdateOptionalParams): Promise<ProximityPlacementGroup>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZoneOperationGroup.listSkus(
     "aaaaaaaaaaaa",
     "aaaaa",
@@ -32,7 +32,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen(): Promise<void
 async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesEdgeZoneOperationGroup.listSkus(
     "aaaaaaaaaaaaaaaaaaaa",
     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",

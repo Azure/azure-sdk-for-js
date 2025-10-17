@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-compute");
+const { ComputeManagementClient } = require("@azure/arm-compute-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createAVirtualMachineImageFromABlob() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -38,7 +38,7 @@ async function createAVirtualMachineImageFromABlob() {
 async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -65,7 +65,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
 async function createAVirtualMachineImageFromAManagedDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -92,7 +92,7 @@ async function createAVirtualMachineImageFromAManagedDisk() {
 async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -121,7 +121,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
 async function createAVirtualMachineImageFromASnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -148,7 +148,7 @@ async function createAVirtualMachineImageFromASnapshot() {
 async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -177,7 +177,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
 async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -197,7 +197,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
 async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -228,7 +228,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
 async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {
@@ -263,7 +263,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
 async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.images.createOrUpdate("myResourceGroup", "myImage", {
     location: "West US",
     properties: {

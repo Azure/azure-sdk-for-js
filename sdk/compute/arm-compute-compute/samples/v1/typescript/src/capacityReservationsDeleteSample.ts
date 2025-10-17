@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function capacityReservationDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.capacityReservations.delete(
     "rgcompute",
     "aaaaaaaaaaa",
@@ -30,7 +30,7 @@ async function capacityReservationDeleteMaximumSetGen(): Promise<void> {
 async function capacityReservationDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.capacityReservations.delete("rgcompute", "aaa", "aaaaaa");
 }
 

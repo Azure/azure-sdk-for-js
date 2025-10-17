@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function virtualMachineExtensionGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensions.get(
     "rgcompute",
     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -32,7 +32,7 @@ async function virtualMachineExtensionGetMaximumSetGen(): Promise<void> {
 async function virtualMachineExtensionGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensions.get("rgcompute", "myVM", "myVMExtension");
   console.log(result);
 }

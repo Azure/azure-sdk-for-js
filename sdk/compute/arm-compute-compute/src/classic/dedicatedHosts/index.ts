@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   restart,
   redeploy,
@@ -92,7 +92,7 @@ export interface DedicatedHostsOperations {
   ) => Promise<DedicatedHost>;
 }
 
-function _getDedicatedHosts(context: ComputeContext) {
+function _getDedicatedHosts(context: ComputeManagementContext) {
   return {
     restart: (
       resourceGroupName: string,
@@ -146,7 +146,9 @@ function _getDedicatedHosts(context: ComputeContext) {
   };
 }
 
-export function _getDedicatedHostsOperations(context: ComputeContext): DedicatedHostsOperations {
+export function _getDedicatedHostsOperations(
+  context: ComputeManagementContext,
+): DedicatedHostsOperations {
   return {
     ..._getDedicatedHosts(context),
   };

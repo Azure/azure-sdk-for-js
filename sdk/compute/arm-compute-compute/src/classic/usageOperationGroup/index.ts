@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/usageOperationGroup/operations.js";
 import type { UsageOperationGroupListOptionalParams } from "../../api/usageOperationGroup/options.js";
 import type { Usage } from "../../models/models.js";
@@ -16,7 +16,7 @@ export interface UsageOperationGroupOperations {
   ) => PagedAsyncIterableIterator<Usage>;
 }
 
-function _getUsageOperationGroup(context: ComputeContext) {
+function _getUsageOperationGroup(context: ComputeManagementContext) {
   return {
     list: (location: string, options?: UsageOperationGroupListOptionalParams) =>
       list(context, location, options),
@@ -24,7 +24,7 @@ function _getUsageOperationGroup(context: ComputeContext) {
 }
 
 export function _getUsageOperationGroupOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): UsageOperationGroupOperations {
   return {
     ..._getUsageOperationGroup(context),

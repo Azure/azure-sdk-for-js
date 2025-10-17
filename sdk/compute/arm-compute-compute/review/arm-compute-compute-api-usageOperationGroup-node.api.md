@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: ComputeContext, location: string, options?: UsageOperationGroupListOptionalParams): PagedAsyncIterableIterator<Usage>;
+export function list(context: ComputeManagementContext, location: string, options?: UsageOperationGroupListOptionalParams): PagedAsyncIterableIterator<Usage>;
 
 // @public
 export interface UsageOperationGroupListOptionalParams extends OperationOptions {

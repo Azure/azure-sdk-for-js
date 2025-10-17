@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<Image>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<Image>;
 
 // @public
 export interface ImagesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -47,13 +47,13 @@ export interface ImagesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function list(context: ComputeContext, options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
+export function list(context: ComputeManagementContext, options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

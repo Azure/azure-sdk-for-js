@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-compute");
+const { ComputeManagementClient } = require("@azure/arm-compute-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function virtualMachineScaleSetVMDeallocateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMS.deallocate(
     "rgcompute",
     "aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -31,7 +31,7 @@ async function virtualMachineScaleSetVMDeallocateMaximumSetGen() {
 async function virtualMachineScaleSetVMDeallocateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSetVMS.deallocate(
     "rgcompute",
     "aaaaaaaaaaaaaaaaaaaaaaaa",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listVersions,
   listTypes,
@@ -39,7 +39,7 @@ export interface VirtualMachineExtensionImagesOperations {
   ) => Promise<VirtualMachineExtensionImage>;
 }
 
-function _getVirtualMachineExtensionImages(context: ComputeContext) {
+function _getVirtualMachineExtensionImages(context: ComputeManagementContext) {
   return {
     listVersions: (
       location: string,
@@ -63,7 +63,7 @@ function _getVirtualMachineExtensionImages(context: ComputeContext) {
 }
 
 export function _getVirtualMachineExtensionImagesOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineExtensionImagesOperations {
   return {
     ..._getVirtualMachineExtensionImages(context),

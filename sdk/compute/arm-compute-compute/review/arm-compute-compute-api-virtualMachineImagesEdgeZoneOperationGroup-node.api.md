@@ -8,19 +8,19 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ComputeContext, location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesEdgeZoneOperationGroupGetOptionalParams): Promise<VirtualMachineImage>;
+export function get(context: ComputeManagementContext, location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesEdgeZoneOperationGroupGetOptionalParams): Promise<VirtualMachineImage>;
 
 // @public
-export function list(context: ComputeContext, location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListOptionalParams): Promise<VirtualMachineImageResource[]>;
+export function list(context: ComputeManagementContext, location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListOptionalParams): Promise<VirtualMachineImageResource[]>;
 
 // @public
-export function listOffers(context: ComputeContext, location: string, edgeZone: string, publisherName: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListOffersOptionalParams): Promise<VirtualMachineImageResource[]>;
+export function listOffers(context: ComputeManagementContext, location: string, edgeZone: string, publisherName: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListOffersOptionalParams): Promise<VirtualMachineImageResource[]>;
 
 // @public
-export function listPublishers(context: ComputeContext, location: string, edgeZone: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListPublishersOptionalParams): Promise<VirtualMachineImageResource[]>;
+export function listPublishers(context: ComputeManagementContext, location: string, edgeZone: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListPublishersOptionalParams): Promise<VirtualMachineImageResource[]>;
 
 // @public
-export function listSkus(context: ComputeContext, location: string, edgeZone: string, publisherName: string, offer: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListSkusOptionalParams): Promise<VirtualMachineImageResource[]>;
+export function listSkus(context: ComputeManagementContext, location: string, edgeZone: string, publisherName: string, offer: string, options?: VirtualMachineImagesEdgeZoneOperationGroupListSkusOptionalParams): Promise<VirtualMachineImageResource[]>;
 
 // @public
 export interface VirtualMachineImagesEdgeZoneOperationGroupGetOptionalParams extends OperationOptions {

@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ComputeContext, location: string, commandId: string, options?: VirtualMachineRunCommandsOperationGroupGetOptionalParams): Promise<RunCommandDocument>;
+export function get(context: ComputeManagementContext, location: string, commandId: string, options?: VirtualMachineRunCommandsOperationGroupGetOptionalParams): Promise<RunCommandDocument>;
 
 // @public
-export function list(context: ComputeContext, location: string, options?: VirtualMachineRunCommandsOperationGroupListOptionalParams): PagedAsyncIterableIterator<RunCommandDocumentBase>;
+export function list(context: ComputeManagementContext, location: string, options?: VirtualMachineRunCommandsOperationGroupListOptionalParams): PagedAsyncIterableIterator<RunCommandDocumentBase>;
 
 // @public
 export interface VirtualMachineRunCommandsOperationGroupGetOptionalParams extends OperationOptions {

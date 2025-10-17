@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function exportRequestRateByInterval(context: ComputeContext, location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsOperationGroupExportRequestRateByIntervalOptionalParams): PollerLike<OperationState<void>, void>;
+export function exportRequestRateByInterval(context: ComputeManagementContext, location: string, parameters: RequestRateByIntervalInput, options?: LogAnalyticsOperationGroupExportRequestRateByIntervalOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function exportThrottledRequests(context: ComputeContext, location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsOperationGroupExportThrottledRequestsOptionalParams): PollerLike<OperationState<void>, void>;
+export function exportThrottledRequests(context: ComputeManagementContext, location: string, parameters: ThrottledRequestsInput, options?: LogAnalyticsOperationGroupExportThrottledRequestsOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface LogAnalyticsOperationGroupExportRequestRateByIntervalOptionalParams extends OperationOptions {

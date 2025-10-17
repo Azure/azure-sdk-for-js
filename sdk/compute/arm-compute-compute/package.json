@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-compute-compute",
   "version": "1.0.0",
-  "description": "A generated SDK for ComputeClient.",
+  "description": "A generated SDK for ComputeManagementClient.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -83,7 +83,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/computeContext.ts",
+        "path": "src/api/computeManagementContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

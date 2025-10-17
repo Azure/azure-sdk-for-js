@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function virtualMachineScaleSetVMListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.virtualMachineScaleSetVMS.list(
     "rgcompute",
@@ -39,7 +39,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen(): Promise<void> {
 async function virtualMachineScaleSetVMListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.virtualMachineScaleSetVMS.list("rgcompute", "aaaaaaaaaaaaaa")) {
     resArray.push(item);
@@ -57,7 +57,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen(): Promise<void> {
 async function listVmssVMsWithResilientVMDeletionStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.virtualMachineScaleSetVMS.list("resourceGroupname", "vmssName")) {
     resArray.push(item);

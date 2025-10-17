@@ -10,7 +10,7 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
 
 // @public
 export interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams extends OperationOptions {
@@ -60,34 +60,34 @@ export interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOption
 }
 
 // @public
-export function cancelMigrationToVirtualMachineScaleSet(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
+export function cancelMigrationToVirtualMachineScaleSet(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
 
 // @public
-export function convertToVirtualMachineScaleSet(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): PollerLike<OperationState<void>, void>;
+export function convertToVirtualMachineScaleSet(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<AvailabilitySet>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<AvailabilitySet>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySet>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySet>;
 
 // @public
-export function list(context: ComputeContext, resourceGroupName: string, options?: AvailabilitySetsListOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
+export function list(context: ComputeManagementContext, resourceGroupName: string, options?: AvailabilitySetsListOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
 
 // @public
-export function listAvailableSizes(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
+export function listAvailableSizes(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
 
 // @public
-export function listBySubscription(context: ComputeContext, options?: AvailabilitySetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
+export function listBySubscription(context: ComputeManagementContext, options?: AvailabilitySetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
 
 // @public
-export function startMigrationToVirtualMachineScaleSet(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
+export function startMigrationToVirtualMachineScaleSet(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySet>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySet>;
 
 // @public
-export function validateMigrationToVirtualMachineScaleSet(context: ComputeContext, resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
+export function validateMigrationToVirtualMachineScaleSet(context: ComputeManagementContext, resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
 
 // (No @packageDocumentation comment for this package)
 

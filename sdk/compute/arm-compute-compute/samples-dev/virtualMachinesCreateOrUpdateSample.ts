@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createACustomImageVmFromAnUnmanagedGeneralizedOsImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
     location: "westus",
     properties: {
@@ -58,7 +58,7 @@ async function createACustomImageVmFromAnUnmanagedGeneralizedOsImage(): Promise<
 async function createAVMFromACommunityGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -101,7 +101,7 @@ async function createAVMFromACommunityGalleryImage(): Promise<void> {
 async function createAVmFromACustomImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -143,7 +143,7 @@ async function createAVmFromACustomImage(): Promise<void> {
 async function createAVmFromAGeneralizedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -185,7 +185,7 @@ async function createAVmFromAGeneralizedSharedImage(): Promise<void> {
 async function createAVMFromASharedGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -228,7 +228,7 @@ async function createAVMFromASharedGalleryImage(): Promise<void> {
 async function createAVmFromASpecializedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -265,7 +265,7 @@ async function createAVmFromASpecializedSharedImage(): Promise<void> {
 async function createAVmInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -314,7 +314,7 @@ async function createAVmInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
 async function createAVmInAnAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -362,7 +362,7 @@ async function createAVmInAnAvailabilitySet(): Promise<void> {
 async function createALinuxVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -418,7 +418,7 @@ async function createALinuxVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
 async function createALinuxVmWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -467,7 +467,7 @@ async function createALinuxVmWithAPatchSettingAssessmentModeOfImageDefault(): Pr
 async function createALinuxVmWithAPatchSettingPatchModeOfImageDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -516,7 +516,7 @@ async function createALinuxVmWithAPatchSettingPatchModeOfImageDefault(): Promise
 async function createALinuxVmWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -568,7 +568,7 @@ async function createALinuxVmWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
 async function createAPlatformImageVmWithUnmanagedOsAndDataDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
     location: "westus",
     properties: {
@@ -633,7 +633,7 @@ async function createAPlatformImageVmWithUnmanagedOsAndDataDisks(): Promise<void
 async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -690,7 +690,7 @@ async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAn
 async function createAWindowsVmWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -740,7 +740,7 @@ async function createAWindowsVmWithAPatchSettingAssessmentModeOfImageDefault(): 
 async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -790,7 +790,7 @@ async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByOS(): Prom
 async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -843,7 +843,7 @@ async function createAWindowsVmWithAPatchSettingPatchModeOfAutomaticByPlatformAn
 async function createAWindowsVmWithAPatchSettingPatchModeOfManual(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -893,7 +893,7 @@ async function createAWindowsVmWithAPatchSettingPatchModeOfManual(): Promise<voi
 async function createAWindowsVmWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -946,7 +946,7 @@ async function createAWindowsVmWithPatchSettingsPatchModeAndAssessmentModeSetToA
 async function createAVmWithEphemeralOsDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -997,7 +997,7 @@ async function createAVmWithEphemeralOsDisk(): Promise<void> {
 async function createAVmWithEphemeralOsDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -1048,7 +1048,7 @@ async function createAVmWithEphemeralOsDiskProvisioningInCacheDiskUsingPlacement
 async function createAVmWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -1099,7 +1099,7 @@ async function createAVmWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlacementP
 async function createAVmWithEphemeralOsDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -1150,7 +1150,7 @@ async function createAVmWithEphemeralOsDiskProvisioningInResourceDiskUsingPlacem
 async function createAVmWithAMarketplaceImagePlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -1200,7 +1200,7 @@ async function createAVmWithAMarketplaceImagePlan(): Promise<void> {
 async function createAVmWithApplicationProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1263,7 +1263,7 @@ async function createAVmWithApplicationProfile(): Promise<void> {
 async function createAVmWithBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1314,7 +1314,7 @@ async function createAVmWithBootDiagnostics(): Promise<void> {
 async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -1369,7 +1369,7 @@ async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
 async function createAVmWithDataDisksUsingCopyAndRestoreOptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1440,7 +1440,7 @@ async function createAVmWithDataDisksUsingCopyAndRestoreOptions(): Promise<void>
 async function createAVMWithDiskControllerType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1504,7 +1504,7 @@ async function createAVMWithDiskControllerType(): Promise<void> {
 async function createAVmWithDiskEncryptionSetResourceIdInTheOsDiskAndDataDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1578,7 +1578,7 @@ async function createAVmWithDiskEncryptionSetResourceIdInTheOsDiskAndDataDisk():
 async function createAVmWithEmptyDataDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1627,7 +1627,7 @@ async function createAVmWithEmptyDataDisks(): Promise<void> {
 async function createAVmWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     plan: {
@@ -1678,7 +1678,7 @@ async function createAVmWithHostEncryptionUsingEncryptionAtHostProperty(): Promi
 async function createAVMWithEncryptionIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     identity: {
@@ -1736,7 +1736,7 @@ async function createAVMWithEncryptionIdentity(): Promise<void> {
 async function createAVmWithAnExtensionsTimeBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1788,7 +1788,7 @@ async function createAVmWithAnExtensionsTimeBudget(): Promise<void> {
 async function createAVMWithHibernationEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
     location: "eastus2euap",
     properties: {
@@ -1840,7 +1840,7 @@ async function createAVMWithHibernationEnabled(): Promise<void> {
 async function createAVmWithManagedBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1886,7 +1886,7 @@ async function createAVmWithManagedBootDiagnostics(): Promise<void> {
 async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -1953,7 +1953,7 @@ async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
 async function createAVMWithNetworkInterfaceConfigurationWithPublicIpAddressDnsSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2022,7 +2022,7 @@ async function createAVMWithNetworkInterfaceConfigurationWithPublicIpAddressDnsS
 async function createAVmWithPasswordAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2067,7 +2067,7 @@ async function createAVmWithPasswordAuthentication(): Promise<void> {
 async function createAVMWithAutomaticZonePlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus2",
     plan: {
@@ -2118,7 +2118,7 @@ async function createAVMWithAutomaticZonePlacement(): Promise<void> {
 async function createAVmWithPremiumStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2163,7 +2163,7 @@ async function createAVmWithPremiumStorage(): Promise<void> {
 async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2215,7 +2215,7 @@ async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> 
 async function createAVmWithScheduledEventsProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2284,7 +2284,7 @@ async function createAVmWithScheduledEventsProfile(): Promise<void> {
 async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2336,7 +2336,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys():
 async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2393,7 +2393,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys():
 async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTPMSecurityEncryptionType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2445,7 +2445,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTPMSecurit
 async function createAVmWithSshAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2501,7 +2501,7 @@ async function createAVmWithSshAuthentication(): Promise<void> {
 async function createAVMWithUefiSettingsOfSecureBootAndVTPM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {
@@ -2550,7 +2550,7 @@ async function createAVMWithUefiSettingsOfSecureBootAndVTPM(): Promise<void> {
 async function createAVMWithUserData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "{vm-name}", {
     location: "westus",
     properties: {
@@ -2602,7 +2602,7 @@ async function createAVMWithUserData(): Promise<void> {
 async function createAVMWithVMSizeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachines.createOrUpdate("myResourceGroup", "myVM", {
     location: "westus",
     properties: {

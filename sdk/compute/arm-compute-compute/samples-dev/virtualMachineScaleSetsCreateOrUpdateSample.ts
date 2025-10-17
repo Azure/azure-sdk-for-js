@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createAScaleSetWithEphemeralOsDisksUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DS1_v2" },
     properties: {
@@ -80,7 +80,7 @@ async function createAScaleSetWithEphemeralOsDisksUsingPlacementProperty(): Prom
 async function createAScaleSetWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DS1_v2" },
     properties: {
@@ -147,7 +147,7 @@ async function createAScaleSetWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlac
 async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOsImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -205,7 +205,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOsImage(): Pr
 async function createAScaleSetFromACustomImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -263,7 +263,7 @@ async function createAScaleSetFromACustomImage(): Promise<void> {
 async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -321,7 +321,7 @@ async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
 async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -374,7 +374,7 @@ async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
 async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -455,7 +455,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
 async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -534,7 +534,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
 async function createAScaleSetWithNetworkInterfacesWithPublicIpAddressDnsSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -629,7 +629,7 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIpAddressDnsSetting
 async function createAPlatformImageScaleSetWithUnmanagedOsDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -697,7 +697,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOsDisks(): Promise<void>
 async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     properties: {
@@ -763,7 +763,7 @@ async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
 async function createAScaleSetWithApplicationProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -842,7 +842,7 @@ async function createAScaleSetWithApplicationProfile(): Promise<void> {
 async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -915,7 +915,7 @@ async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
 async function createAScaleSetWithAutomaticZoneRebalancingEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -983,7 +983,7 @@ async function createAScaleSetWithAutomaticZoneRebalancingEnabled(): Promise<voi
 async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1049,7 +1049,7 @@ async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
 async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1124,7 +1124,7 @@ async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
 async function createAScaleSetWithBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1191,7 +1191,7 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
 async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DS1_v2" },
     location: "westus",
@@ -1257,7 +1257,7 @@ async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
 async function createAScaleSetWithEphemeralOsDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DS1_v2" },
     properties: {
@@ -1324,7 +1324,7 @@ async function createAScaleSetWithEphemeralOsDisks(): Promise<void> {
 async function createAScaleSetWithDiskControllerType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1401,7 +1401,7 @@ async function createAScaleSetWithDiskControllerType(): Promise<void> {
 async function createAScaleSetWithDiskEncryptionSetResourceInOsDiskAndDataDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DS1_v2" },
     properties: {
@@ -1478,7 +1478,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOsDiskAndDataDisk()
 async function createAScaleSetWithEmptyDataDisksOnEachVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D2_v2" },
     location: "westus",
@@ -1544,7 +1544,7 @@ async function createAScaleSetWithEmptyDataDisksOnEachVm(): Promise<void> {
 async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DS1_v2" },
     properties: {
@@ -1611,7 +1611,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty():
 async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1693,7 +1693,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
 async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1775,7 +1775,7 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
 async function createAVirtualMachineScaleSetWithHighSpeedInterconnectPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 2, name: "Standard_D1_v2" },
     location: "westus",
@@ -1846,7 +1846,7 @@ async function createAVirtualMachineScaleSetWithHighSpeedInterconnectPlacement()
 async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1908,7 +1908,7 @@ async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
 async function createAScaleSetWithMaxInstancePercentPerZonePolicyEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -1974,7 +1974,7 @@ async function createAScaleSetWithMaxInstancePercentPerZonePolicyEnabled(): Prom
 async function createAZonesAutoScaleSetWithMaxZoneCount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2037,7 +2037,7 @@ async function createAZonesAutoScaleSetWithMaxZoneCount(): Promise<void> {
 async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2104,7 +2104,7 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void>
 async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2165,7 +2165,7 @@ async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
 async function createAScaleSetWithPlacementPolicyAuto(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2227,7 +2227,7 @@ async function createAScaleSetWithPlacementPolicyAuto(): Promise<void> {
 async function createAScaleSetWithPremiumStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2288,7 +2288,7 @@ async function createAScaleSetWithPremiumStorage(): Promise<void> {
 async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 2, name: "Standard_A8m_v2" },
     location: "westus",
@@ -2362,7 +2362,7 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
 async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2450,7 +2450,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
 async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D2s_v3" },
     properties: {
@@ -2524,7 +2524,7 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
 async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2586,7 +2586,7 @@ async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
 async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2648,7 +2648,7 @@ async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
 async function createAScaleSetWithScaleInPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -2714,7 +2714,7 @@ async function createAScaleSetWithScaleInPolicy(): Promise<void> {
 async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_A1" },
     location: "eastus2euap",
@@ -2781,7 +2781,7 @@ async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
 async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DC2as_v5" },
     properties: {
@@ -2849,7 +2849,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> 
 async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTPMSecurityEncryptionType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_DC2es_v5" },
     properties: {
@@ -2917,7 +2917,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTPM
 async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_A1" },
     location: "eastus2euap",
@@ -2984,7 +2984,7 @@ async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
 async function createAScaleSetWithSkuProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { capacity: 10, name: "Mix" },
     location: "westus",
@@ -3060,7 +3060,7 @@ async function createAScaleSetWithSkuProfile(): Promise<void> {
 async function createAScaleSetWithSkuProfileAndPrioritizedAllocationStrategy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { capacity: 10, name: "Mix" },
     location: "westus",
@@ -3136,7 +3136,7 @@ async function createAScaleSetWithSkuProfileAndPrioritizedAllocationStrategy(): 
 async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 2, name: "Standard_A8m_v2" },
     location: "westus",
@@ -3201,7 +3201,7 @@ async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
 async function createAScaleSetWithSshAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -3273,7 +3273,7 @@ async function createAScaleSetWithSshAuthentication(): Promise<void> {
 async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -3340,7 +3340,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<voi
 async function createAScaleSetWithUefiSettingsOfSecureBootAndVTPM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D2s_v3" },
     properties: {
@@ -3405,7 +3405,7 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTPM(): Promise<voi
 async function createAScaleSetWithUserData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -3467,7 +3467,7 @@ async function createAScaleSetWithUserData(): Promise<void> {
 async function createAScaleSetWithVmSizeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",
@@ -3532,7 +3532,7 @@ async function createAScaleSetWithVmSizeProperties(): Promise<void> {
 async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 2, name: "Standard_A1_v2" },
     location: "centralus",
@@ -3599,7 +3599,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
 async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.virtualMachineScaleSets.createOrUpdate("myResourceGroup", "{vmss-name}", {
     sku: { tier: "Standard", capacity: 3, name: "Standard_D1_v2" },
     location: "westus",

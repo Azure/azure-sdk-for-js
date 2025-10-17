@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-compute");
+const { ComputeManagementClient } = require("@azure/arm-compute-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesOperationGroup.listByEdgeZone(
     "WestUS",
     "microsoftlosangeles1",
@@ -30,7 +30,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImagesOperationGroup.listByEdgeZone(
     "WestUS",
     "microsoftlosangeles1",

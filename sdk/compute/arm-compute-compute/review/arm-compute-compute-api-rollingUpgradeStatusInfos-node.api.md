@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function getLatest(context: ComputeContext, resourceGroupName: string, vmScaleSetName: string, options?: RollingUpgradeStatusInfosGetLatestOptionalParams): Promise<RollingUpgradeStatusInfo>;
+export function getLatest(context: ComputeManagementContext, resourceGroupName: string, vmScaleSetName: string, options?: RollingUpgradeStatusInfosGetLatestOptionalParams): Promise<RollingUpgradeStatusInfo>;
 
 // @public
 export interface RollingUpgradeStatusInfosGetLatestOptionalParams extends OperationOptions {

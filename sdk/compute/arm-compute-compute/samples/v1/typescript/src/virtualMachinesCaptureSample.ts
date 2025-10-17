@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.capture("rgcompute", "aaaaaaaaaaaaaaaaaaaa", {
     vhdPrefix: "aaaaaaaaa",
     destinationContainerName: "aaaaaaa",
@@ -31,7 +31,7 @@ async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
 async function virtualMachineCaptureMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.capture("rgcompute", "aaaaaaaaaaaaa", {
     vhdPrefix: "aaaaaaaaa",
     destinationContainerName: "aaaaaaa",

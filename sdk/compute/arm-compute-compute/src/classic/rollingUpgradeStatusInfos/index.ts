@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { getLatest } from "../../api/rollingUpgradeStatusInfos/operations.js";
 import type { RollingUpgradeStatusInfosGetLatestOptionalParams } from "../../api/rollingUpgradeStatusInfos/options.js";
 import type { RollingUpgradeStatusInfo } from "../../models/models.js";
@@ -16,7 +16,7 @@ export interface RollingUpgradeStatusInfosOperations {
   ) => Promise<RollingUpgradeStatusInfo>;
 }
 
-function _getRollingUpgradeStatusInfos(context: ComputeContext) {
+function _getRollingUpgradeStatusInfos(context: ComputeManagementContext) {
   return {
     getLatest: (
       resourceGroupName: string,
@@ -27,7 +27,7 @@ function _getRollingUpgradeStatusInfos(context: ComputeContext) {
 }
 
 export function _getRollingUpgradeStatusInfosOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): RollingUpgradeStatusInfosOperations {
   return {
     ..._getRollingUpgradeStatusInfos(context),

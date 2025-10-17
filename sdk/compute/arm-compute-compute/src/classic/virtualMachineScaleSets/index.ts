@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   scaleOut,
   cancel,
@@ -260,7 +260,7 @@ export interface VirtualMachineScaleSetsOperations {
   ) => Promise<VirtualMachineScaleSet>;
 }
 
-function _getVirtualMachineScaleSets(context: ComputeContext) {
+function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
   return {
     scaleOut: (
       resourceGroupName: string,
@@ -422,7 +422,7 @@ function _getVirtualMachineScaleSets(context: ComputeContext) {
 }
 
 export function _getVirtualMachineScaleSetsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineScaleSetsOperations {
   return {
     ..._getVirtualMachineScaleSets(context),

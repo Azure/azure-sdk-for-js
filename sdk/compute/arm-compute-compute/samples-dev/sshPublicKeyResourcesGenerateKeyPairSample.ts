@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function generateAnSSHKeyPair(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeyResources.generateKeyPair(
     "myResourceGroup",
     "mySshPublicKeyName",
@@ -30,7 +30,7 @@ async function generateAnSSHKeyPair(): Promise<void> {
 async function generateAnSSHKeyPairWithEd25519Encryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeyResources.generateKeyPair(
     "myResourceGroup",
     "mySshPublicKeyName",
@@ -48,7 +48,7 @@ async function generateAnSSHKeyPairWithEd25519Encryption(): Promise<void> {
 async function generateAnSSHKeyPairWithRSAEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeyResources.generateKeyPair(
     "myResourceGroup",
     "mySshPublicKeyName",

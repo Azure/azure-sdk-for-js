@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -65,7 +65,7 @@ export interface DedicatedHostGroupsOperations {
   ) => Promise<DedicatedHostGroup>;
 }
 
-function _getDedicatedHostGroups(context: ComputeContext) {
+function _getDedicatedHostGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: DedicatedHostGroupsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -99,7 +99,7 @@ function _getDedicatedHostGroups(context: ComputeContext) {
 }
 
 export function _getDedicatedHostGroupsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): DedicatedHostGroupsOperations {
   return {
     ..._getDedicatedHostGroups(context),

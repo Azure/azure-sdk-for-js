@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams): Promise<void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams): Promise<void>;
 
 // @public
 export interface CapacityReservationGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -39,19 +39,19 @@ export interface CapacityReservationGroupsUpdateOptionalParams extends Operation
 }
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams): Promise<CapacityReservationGroup>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams): Promise<CapacityReservationGroup>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams): Promise<CapacityReservationGroup>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams): Promise<CapacityReservationGroup>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
 
 // @public
-export function listBySubscription(context: ComputeContext, options?: CapacityReservationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
+export function listBySubscription(context: ComputeManagementContext, options?: CapacityReservationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams): Promise<CapacityReservationGroup>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams): Promise<CapacityReservationGroup>;
 
 // (No @packageDocumentation comment for this package)
 

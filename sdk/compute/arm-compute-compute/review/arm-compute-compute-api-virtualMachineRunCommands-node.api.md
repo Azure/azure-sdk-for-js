@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommand, options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function getByVirtualMachine(context: ComputeContext, resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams): Promise<VirtualMachineRunCommand>;
+export function getByVirtualMachine(context: ComputeManagementContext, resourceGroupName: string, vmName: string, runCommandName: string, options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams): Promise<VirtualMachineRunCommand>;
 
 // @public
-export function listByVirtualMachine(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
+export function listByVirtualMachine(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, vmName: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineRunCommandsUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface VirtualMachineRunCommandsCreateOrUpdateOptionalParams extends OperationOptions {

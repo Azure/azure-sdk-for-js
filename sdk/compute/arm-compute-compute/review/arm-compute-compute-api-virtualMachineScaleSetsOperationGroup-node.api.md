@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function listByLocation(context: ComputeContext, location: string, options?: VirtualMachineScaleSetsOperationGroupListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+export function listByLocation(context: ComputeManagementContext, location: string, options?: VirtualMachineScaleSetsOperationGroupListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
 
 // @public
 export interface VirtualMachineScaleSetsOperationGroupListByLocationOptionalParams extends OperationOptions {

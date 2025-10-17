@@ -1,5 +1,5 @@
 directory: specification/compute/Compute.Management
-commit: 0c3609a61d30e24c3fd57779f829a24667838d83
+commit: 187aa25bfca5b0de5248168ad5249065b3770dcb
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
 - specification/compute/Common.Management

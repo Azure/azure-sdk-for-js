@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/operations/operations.js";
 import type { OperationsListOptionalParams } from "../../api/operations/options.js";
 import type { Operation } from "../../models/models.js";
@@ -13,13 +13,13 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: ComputeContext) {
+function _getOperations(context: ComputeManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(context: ComputeContext): OperationsOperations {
+export function _getOperationsOperations(context: ComputeManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

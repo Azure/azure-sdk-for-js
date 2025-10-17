@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext as Client } from "../index.js";
+import type { ComputeManagementContext as Client } from "../index.js";
 import type {
   DedicatedHostGroup,
   DedicatedHostGroupUpdate,

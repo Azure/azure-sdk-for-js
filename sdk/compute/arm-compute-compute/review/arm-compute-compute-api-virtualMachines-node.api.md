@@ -10,82 +10,82 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function assessPatches(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): PollerLike<OperationState<VirtualMachineAssessPatchesResult>, VirtualMachineAssessPatchesResult>;
+export function assessPatches(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): PollerLike<OperationState<VirtualMachineAssessPatchesResult>, VirtualMachineAssessPatchesResult>;
 
 // @public
-export function attachDetachDataDisks(context: ComputeContext, resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): PollerLike<OperationState<StorageProfile>, StorageProfile>;
+export function attachDetachDataDisks(context: ComputeManagementContext, resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): PollerLike<OperationState<StorageProfile>, StorageProfile>;
 
 // @public
-export function capture(context: ComputeContext, resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult>;
+export function capture(context: ComputeManagementContext, resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): PollerLike<OperationState<VirtualMachineCaptureResult>, VirtualMachineCaptureResult>;
 
 // @public
-export function convertToManagedDisks(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function convertToManagedDisks(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, vmName: string, parameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deallocate(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function deallocate(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function generalize(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesGeneralizeOptionalParams): Promise<void>;
+export function generalize(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesGeneralizeOptionalParams): Promise<void>;
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachine>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachine>;
 
 // @public
-export function installPatches(context: ComputeContext, resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): PollerLike<OperationState<VirtualMachineInstallPatchesResult>, VirtualMachineInstallPatchesResult>;
+export function installPatches(context: ComputeManagementContext, resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): PollerLike<OperationState<VirtualMachineInstallPatchesResult>, VirtualMachineInstallPatchesResult>;
 
 // @public
-export function instanceView(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesInstanceViewOptionalParams): Promise<VirtualMachineInstanceView>;
+export function instanceView(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesInstanceViewOptionalParams): Promise<VirtualMachineInstanceView>;
 
 // @public
-export function list(context: ComputeContext, resourceGroupName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
+export function list(context: ComputeManagementContext, resourceGroupName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
 
 // @public
-export function listAll(context: ComputeContext, options?: VirtualMachinesListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
+export function listAll(context: ComputeManagementContext, options?: VirtualMachinesListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
 
 // @public
-export function listAvailableSizes(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
+export function listAvailableSizes(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
 
 // @public
-export function migrateToVMScaleSet(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): PollerLike<OperationState<void>, void>;
+export function migrateToVMScaleSet(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function performMaintenance(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function performMaintenance(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function powerOff(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function powerOff(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function reapply(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function reapply(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesReapplyOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function redeploy(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function redeploy(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesRedeployOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function reimage(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function reimage(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesReimageOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function restart(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function restart(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesRestartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function retrieveBootDiagnosticsData(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams): Promise<RetrieveBootDiagnosticsDataResult>;
+export function retrieveBootDiagnosticsData(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams): Promise<RetrieveBootDiagnosticsDataResult>;
 
 // @public
-export function runCommand(context: ComputeContext, resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams): PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
+export function runCommand(context: ComputeManagementContext, resourceGroupName: string, vmName: string, parameters: RunCommandInput, options?: VirtualMachinesRunCommandOptionalParams): PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 
 // @public
-export function simulateEviction(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesSimulateEvictionOptionalParams): Promise<void>;
+export function simulateEviction(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesSimulateEvictionOptionalParams): Promise<void>;
 
 // @public
-export function start(context: ComputeContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function start(context: ComputeManagementContext, resourceGroupName: string, vmName: string, options?: VirtualMachinesStartOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, vmName: string, parameters: VirtualMachineUpdate, options?: VirtualMachinesUpdateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface VirtualMachinesAssessPatchesOptionalParams extends OperationOptions {

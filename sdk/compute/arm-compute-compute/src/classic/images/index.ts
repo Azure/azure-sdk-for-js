@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -64,7 +64,7 @@ export interface ImagesOperations {
   ) => Promise<Image>;
 }
 
-function _getImages(context: ComputeContext) {
+function _getImages(context: ComputeManagementContext) {
   return {
     list: (options?: ImagesListOptionalParams) => list(context, options),
     listByResourceGroup: (
@@ -90,7 +90,7 @@ function _getImages(context: ComputeContext) {
   };
 }
 
-export function _getImagesOperations(context: ComputeContext): ImagesOperations {
+export function _getImagesOperations(context: ComputeManagementContext): ImagesOperations {
   return {
     ..._getImages(context),
   };

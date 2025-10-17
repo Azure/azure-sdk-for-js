@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function virtualMachineRunCommand(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.runCommand("crptestar98131", "vm3036", {
     commandId: "RunPowerShellScript",
   });

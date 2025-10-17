@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   migrateToVMScaleSet,
   runCommand,
@@ -252,7 +252,7 @@ export interface VirtualMachinesOperations {
   ) => Promise<VirtualMachine>;
 }
 
-function _getVirtualMachines(context: ComputeContext) {
+function _getVirtualMachines(context: ComputeManagementContext) {
   return {
     migrateToVMScaleSet: (
       resourceGroupName: string,
@@ -383,7 +383,9 @@ function _getVirtualMachines(context: ComputeContext) {
   };
 }
 
-export function _getVirtualMachinesOperations(context: ComputeContext): VirtualMachinesOperations {
+export function _getVirtualMachinesOperations(
+  context: ComputeManagementContext,
+): VirtualMachinesOperations {
   return {
     ..._getVirtualMachines(context),
   };

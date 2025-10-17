@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -68,7 +68,7 @@ export interface CapacityReservationGroupsOperations {
   ) => Promise<CapacityReservationGroup>;
 }
 
-function _getCapacityReservationGroups(context: ComputeContext) {
+function _getCapacityReservationGroups(context: ComputeManagementContext) {
   return {
     listBySubscription: (options?: CapacityReservationGroupsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -103,7 +103,7 @@ function _getCapacityReservationGroups(context: ComputeContext) {
 }
 
 export function _getCapacityReservationGroupsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): CapacityReservationGroupsOperations {
   return {
     ..._getCapacityReservationGroups(context),

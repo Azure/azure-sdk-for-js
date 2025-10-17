@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { listByLocation } from "../../api/virtualMachinesOperationGroup/operations.js";
 import type { VirtualMachinesOperationGroupListByLocationOptionalParams } from "../../api/virtualMachinesOperationGroup/options.js";
 import type { VirtualMachine } from "../../models/models.js";
@@ -16,7 +16,7 @@ export interface VirtualMachinesOperationGroupOperations {
   ) => PagedAsyncIterableIterator<VirtualMachine>;
 }
 
-function _getVirtualMachinesOperationGroup(context: ComputeContext) {
+function _getVirtualMachinesOperationGroup(context: ComputeManagementContext) {
   return {
     listByLocation: (
       location: string,
@@ -26,7 +26,7 @@ function _getVirtualMachinesOperationGroup(context: ComputeContext) {
 }
 
 export function _getVirtualMachinesOperationGroupOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachinesOperationGroupOperations {
   return {
     ..._getVirtualMachinesOperationGroup(context),

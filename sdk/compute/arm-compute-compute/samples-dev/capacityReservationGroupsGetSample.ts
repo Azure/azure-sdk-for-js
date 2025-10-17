@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getABlockCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.get(
     "myResourceGroup",
     "blockCapacityReservationGroup",
@@ -31,7 +31,7 @@ async function getABlockCapacityReservationGroup(): Promise<void> {
 async function getACapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.get(
     "myResourceGroup",
     "myCapacityReservationGroup",
@@ -49,7 +49,7 @@ async function getACapacityReservationGroup(): Promise<void> {
 async function getATargetedCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscriptionId}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.get(
     "myResourceGroup",
     "targetedCapacityReservationGroup",

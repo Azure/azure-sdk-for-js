@@ -842,8 +842,8 @@ export enum KnownModes {
 
 // @public
 export enum KnownNetworkApiVersion {
-    _20201101 = "2020-11-01",
-    _20221101 = "2022-11-01"
+    TwoThousandTwenty1101 = "2020-11-01",
+    TwoThousandTwentyTwo1101 = "2022-11-01"
 }
 
 // @public

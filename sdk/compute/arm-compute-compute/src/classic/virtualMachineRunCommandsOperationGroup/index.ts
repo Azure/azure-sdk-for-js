@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { get, list } from "../../api/virtualMachineRunCommandsOperationGroup/operations.js";
 import type {
   VirtualMachineRunCommandsOperationGroupGetOptionalParams,
@@ -25,7 +25,7 @@ export interface VirtualMachineRunCommandsOperationGroupOperations {
   ) => PagedAsyncIterableIterator<RunCommandDocumentBase>;
 }
 
-function _getVirtualMachineRunCommandsOperationGroup(context: ComputeContext) {
+function _getVirtualMachineRunCommandsOperationGroup(context: ComputeManagementContext) {
   return {
     get: (
       location: string,
@@ -38,7 +38,7 @@ function _getVirtualMachineRunCommandsOperationGroup(context: ComputeContext) {
 }
 
 export function _getVirtualMachineRunCommandsOperationGroupOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineRunCommandsOperationGroupOperations {
   return {
     ..._getVirtualMachineRunCommandsOperationGroup(context),

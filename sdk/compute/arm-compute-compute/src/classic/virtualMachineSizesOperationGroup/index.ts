@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/virtualMachineSizesOperationGroup/operations.js";
 import type { VirtualMachineSizesOperationGroupListOptionalParams } from "../../api/virtualMachineSizesOperationGroup/options.js";
 import type { VirtualMachineSize } from "../../models/models.js";
@@ -16,7 +16,7 @@ export interface VirtualMachineSizesOperationGroupOperations {
   ) => PagedAsyncIterableIterator<VirtualMachineSize>;
 }
 
-function _getVirtualMachineSizesOperationGroup(context: ComputeContext) {
+function _getVirtualMachineSizesOperationGroup(context: ComputeManagementContext) {
   return {
     list: (location: string, options?: VirtualMachineSizesOperationGroupListOptionalParams) =>
       list(context, location, options),
@@ -24,7 +24,7 @@ function _getVirtualMachineSizesOperationGroup(context: ComputeContext) {
 }
 
 export function _getVirtualMachineSizesOperationGroupOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineSizesOperationGroupOperations {
   return {
     ..._getVirtualMachineSizesOperationGroup(context),

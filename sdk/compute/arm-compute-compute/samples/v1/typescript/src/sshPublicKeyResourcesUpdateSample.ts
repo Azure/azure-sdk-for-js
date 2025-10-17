@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeClient } from "@azure/arm-compute-compute";
+import { ComputeManagementClient } from "@azure/arm-compute-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function sshPublicKeyUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeyResources.update("rgcompute", "aaaaaaaaaaaa", {
     properties: { publicKey: "{ssh-rsa public key}" },
     tags: { key2854: "a" },
@@ -30,7 +30,7 @@ async function sshPublicKeyUpdateMaximumSetGen(): Promise<void> {
 async function sshPublicKeyUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeyResources.update("rgcompute", "aaaaaaaaaaa", {});
   console.log(result);
 }

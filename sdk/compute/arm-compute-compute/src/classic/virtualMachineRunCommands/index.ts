@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByVirtualMachine,
   $delete,
@@ -68,7 +68,7 @@ export interface VirtualMachineRunCommandsOperations {
   ) => Promise<VirtualMachineRunCommand>;
 }
 
-function _getVirtualMachineRunCommands(context: ComputeContext) {
+function _getVirtualMachineRunCommands(context: ComputeManagementContext) {
   return {
     listByVirtualMachine: (
       resourceGroupName: string,
@@ -105,7 +105,7 @@ function _getVirtualMachineRunCommands(context: ComputeContext) {
 }
 
 export function _getVirtualMachineRunCommandsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineRunCommandsOperations {
   return {
     ..._getVirtualMachineRunCommands(context),

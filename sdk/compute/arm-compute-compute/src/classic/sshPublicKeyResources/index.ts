@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   generateKeyPair,
   listBySubscription,
@@ -77,7 +77,7 @@ export interface SshPublicKeyResourcesOperations {
   ) => Promise<SshPublicKeyResource>;
 }
 
-function _getSshPublicKeyResources(context: ComputeContext) {
+function _getSshPublicKeyResources(context: ComputeManagementContext) {
   return {
     generateKeyPair: (
       resourceGroupName: string,
@@ -116,7 +116,7 @@ function _getSshPublicKeyResources(context: ComputeContext) {
 }
 
 export function _getSshPublicKeyResourcesOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): SshPublicKeyResourcesOperations {
   return {
     ..._getSshPublicKeyResources(context),

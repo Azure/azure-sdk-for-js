@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext as Client } from "../index.js";
+import type { ComputeManagementContext as Client } from "../index.js";
 import type { _OperationListResult, Operation } from "../../models/models.js";
 import { _operationListResultDeserializer, cloudErrorDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";

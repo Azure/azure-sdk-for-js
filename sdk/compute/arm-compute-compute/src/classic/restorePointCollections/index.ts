@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listAll,
   list,
@@ -66,7 +66,7 @@ export interface RestorePointCollectionsOperations {
   ) => Promise<RestorePointCollection>;
 }
 
-function _getRestorePointCollections(context: ComputeContext) {
+function _getRestorePointCollections(context: ComputeManagementContext) {
   return {
     listAll: (options?: RestorePointCollectionsListAllOptionalParams) => listAll(context, options),
     list: (resourceGroupName: string, options?: RestorePointCollectionsListOptionalParams) =>
@@ -98,7 +98,7 @@ function _getRestorePointCollections(context: ComputeContext) {
 }
 
 export function _getRestorePointCollectionsOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): RestorePointCollectionsOperations {
   return {
     ..._getRestorePointCollections(context),

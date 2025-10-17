@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: ComputeContext, resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsDeleteOptionalParams): Promise<void>;
+export function $delete(context: ComputeManagementContext, resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: ComputeContext, resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroup, options?: DedicatedHostGroupsCreateOrUpdateOptionalParams): Promise<DedicatedHostGroup>;
+export function createOrUpdate(context: ComputeManagementContext, resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroup, options?: DedicatedHostGroupsCreateOrUpdateOptionalParams): Promise<DedicatedHostGroup>;
 
 // @public
 export interface DedicatedHostGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -39,16 +39,16 @@ export interface DedicatedHostGroupsUpdateOptionalParams extends OperationOption
 }
 
 // @public
-export function get(context: ComputeContext, resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsGetOptionalParams): Promise<DedicatedHostGroup>;
+export function get(context: ComputeManagementContext, resourceGroupName: string, hostGroupName: string, options?: DedicatedHostGroupsGetOptionalParams): Promise<DedicatedHostGroup>;
 
 // @public
-export function listByResourceGroup(context: ComputeContext, resourceGroupName: string, options?: DedicatedHostGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHostGroup>;
+export function listByResourceGroup(context: ComputeManagementContext, resourceGroupName: string, options?: DedicatedHostGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHostGroup>;
 
 // @public
-export function listBySubscription(context: ComputeContext, options?: DedicatedHostGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DedicatedHostGroup>;
+export function listBySubscription(context: ComputeManagementContext, options?: DedicatedHostGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DedicatedHostGroup>;
 
 // @public
-export function update(context: ComputeContext, resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroupUpdate, options?: DedicatedHostGroupsUpdateOptionalParams): Promise<DedicatedHostGroup>;
+export function update(context: ComputeManagementContext, resourceGroupName: string, hostGroupName: string, parameters: DedicatedHostGroupUpdate, options?: DedicatedHostGroupsUpdateOptionalParams): Promise<DedicatedHostGroup>;
 
 // (No @packageDocumentation comment for this package)
 

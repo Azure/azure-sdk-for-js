@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ComputeClient } = require("@azure/arm-compute-compute");
+const { ComputeManagementClient } = require("@azure/arm-compute-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function dedicatedHostUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.dedicatedHosts.update("rgcompute", "aaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaa", {
     properties: {
       platformFaultDomain: 1,
@@ -47,7 +47,7 @@ async function dedicatedHostUpdateMaximumSetGen() {
 async function dedicatedHostUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.dedicatedHosts.update("rgcompute", "aa", "aaaaaaaaaaaaaaaaaaaaaaaaaa", {});
 }
 
@@ -60,7 +60,7 @@ async function dedicatedHostUpdateMinimumSetGen() {
 async function dedicatedHostUpdateResize() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "{subscription-id}";
-  const client = new ComputeClient(credential, subscriptionId);
+  const client = new ComputeManagementClient(credential, subscriptionId);
   await client.dedicatedHosts.update("rgcompute", "aaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaa", {
     sku: { name: "DSv3-Type1" },
   });

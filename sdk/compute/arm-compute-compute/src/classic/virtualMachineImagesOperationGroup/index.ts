@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeContext } from "../../api/computeContext.js";
+import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   get,
   listWithProperties,
@@ -79,7 +79,7 @@ export interface VirtualMachineImagesOperationGroupOperations {
   ) => Promise<VmImagesInEdgeZoneListResult>;
 }
 
-function _getVirtualMachineImagesOperationGroup(context: ComputeContext) {
+function _getVirtualMachineImagesOperationGroup(context: ComputeManagementContext) {
   return {
     get: (
       location: string,
@@ -128,7 +128,7 @@ function _getVirtualMachineImagesOperationGroup(context: ComputeContext) {
 }
 
 export function _getVirtualMachineImagesOperationGroupOperations(
-  context: ComputeContext,
+  context: ComputeManagementContext,
 ): VirtualMachineImagesOperationGroupOperations {
   return {
     ..._getVirtualMachineImagesOperationGroup(context),
