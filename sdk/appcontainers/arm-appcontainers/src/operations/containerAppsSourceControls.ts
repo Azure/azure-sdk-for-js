@@ -6,16 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ContainerAppsSourceControls } from "../operationsInterfaces/index.js";
+import type { ContainerAppsSourceControls } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
 import {
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   SourceControl,
   ContainerAppsSourceControlsListByContainerAppNextOptionalParams,
   ContainerAppsSourceControlsListByContainerAppOptionalParams,
@@ -30,7 +35,9 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContainerAppsSourceControls operations. */
-export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceControls {
+export class ContainerAppsSourceControlsImpl
+  implements ContainerAppsSourceControls
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -52,7 +59,11 @@ export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceContr
     containerAppName: string,
     options?: ContainerAppsSourceControlsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<SourceControl> {
-    const iter = this.listByContainerAppPagingAll(resourceGroupName, containerAppName, options);
+    const iter = this.listByContainerAppPagingAll(
+      resourceGroupName,
+      containerAppName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -83,8 +94,12 @@ export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceContr
     let result: ContainerAppsSourceControlsListByContainerAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByContainerApp(resourceGroupName, containerAppName, options);
-      let page = result.value || [];
+      result = await this._listByContainerApp(
+        resourceGroupName,
+        containerAppName,
+        options,
+      );
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -97,7 +112,7 @@ export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceContr
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -183,7 +198,8 @@ export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceContr
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -280,7 +296,8 @@ export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceContr
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -436,7 +453,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.sourceControlName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.xMsGithubAuxiliary],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -452,11 +469,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.ignoreWorkflowDeletionFailure,
-    Parameters.deleteWorkflow,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -464,7 +477,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.sourceControlName,
   ],
-  headerParameters: [Parameters.accept, Parameters.xMsGithubAuxiliary],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
@@ -482,8 +495,8 @@ const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.containerAppName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BillingMetersGetOptionalParams, BillingMetersGetResponse } from "../models/index.js";
+import type {
+  BillingMetersGetOptionalParams,
+  BillingMetersGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a BillingMeters. */
 export interface BillingMeters {

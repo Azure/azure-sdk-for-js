@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConnectedEnvironmentsStorages } from "../operationsInterfaces/index.js";
+import type { ConnectedEnvironmentsStorages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
 import {
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   ConnectedEnvironmentsStoragesListOptionalParams,
   ConnectedEnvironmentsStoragesListResponse,
   ConnectedEnvironmentsStoragesGetOptionalParams,
@@ -26,7 +31,9 @@ import {
 } from "../models/index.js";
 
 /** Class containing ConnectedEnvironmentsStorages operations. */
-export class ConnectedEnvironmentsStoragesImpl implements ConnectedEnvironmentsStorages {
+export class ConnectedEnvironmentsStoragesImpl
+  implements ConnectedEnvironmentsStorages
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -103,7 +110,8 @@ export class ConnectedEnvironmentsStoragesImpl implements ConnectedEnvironmentsS
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -206,7 +214,8 @@ export class ConnectedEnvironmentsStoragesImpl implements ConnectedEnvironmentsS
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -352,7 +361,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.storageName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

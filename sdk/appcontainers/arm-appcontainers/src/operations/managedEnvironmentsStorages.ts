@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedEnvironmentsStorages } from "../operationsInterfaces/index.js";
+import type { ManagedEnvironmentsStorages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
   ManagedEnvironmentsStoragesListOptionalParams,
   ManagedEnvironmentsStoragesListResponse,
   ManagedEnvironmentsStoragesGetOptionalParams,
@@ -23,7 +23,9 @@ import {
 } from "../models/index.js";
 
 /** Class containing ManagedEnvironmentsStorages operations. */
-export class ManagedEnvironmentsStoragesImpl implements ManagedEnvironmentsStorages {
+export class ManagedEnvironmentsStoragesImpl
+  implements ManagedEnvironmentsStorages
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -185,7 +187,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.storageName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

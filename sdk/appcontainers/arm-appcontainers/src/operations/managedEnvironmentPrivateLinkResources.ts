@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ManagedEnvironmentPrivateLinkResources } from "../operationsInterfaces/index.js";
+import type { ManagedEnvironmentPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
   PrivateLinkResource,
   ManagedEnvironmentPrivateLinkResourcesListNextOptionalParams,
   ManagedEnvironmentPrivateLinkResourcesListOptionalParams,
@@ -47,7 +47,11 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
     environmentName: string,
     options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      environmentName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -59,7 +63,12 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          environmentName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -74,15 +83,20 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        environmentName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -93,7 +107,11 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
     environmentName: string,
     options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      environmentName,
+      options,
+    )) {
       yield* page;
     }
   }

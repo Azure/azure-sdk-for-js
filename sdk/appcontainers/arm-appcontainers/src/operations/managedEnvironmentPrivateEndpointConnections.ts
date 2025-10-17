@@ -6,16 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ManagedEnvironmentPrivateEndpointConnections } from "../operationsInterfaces/index.js";
+import type { ManagedEnvironmentPrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
 import {
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   PrivateEndpointConnection,
   ManagedEnvironmentPrivateEndpointConnectionsListNextOptionalParams,
   ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams,
@@ -55,7 +60,11 @@ export class ManagedEnvironmentPrivateEndpointConnectionsImpl
     environmentName: string,
     options?: ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      environmentName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -67,7 +76,12 @@ export class ManagedEnvironmentPrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          environmentName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -82,15 +96,20 @@ export class ManagedEnvironmentPrivateEndpointConnectionsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        environmentName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -101,7 +120,11 @@ export class ManagedEnvironmentPrivateEndpointConnectionsImpl
     environmentName: string,
     options?: ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      environmentName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -179,7 +202,8 @@ export class ManagedEnvironmentPrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -283,7 +307,8 @@ export class ManagedEnvironmentPrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -448,7 +473,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.environmentName1,
     Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -457,16 +482,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
+      headersMapper:
+        Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
+      headersMapper:
+        Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
+      headersMapper:
+        Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
+      headersMapper:
+        Mappers.ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

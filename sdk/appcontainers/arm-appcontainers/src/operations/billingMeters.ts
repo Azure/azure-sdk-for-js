@@ -6,12 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BillingMeters } from "../operationsInterfaces/index.js";
+import type { BillingMeters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { BillingMetersGetOptionalParams, BillingMetersGetResponse } from "../models/index.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  BillingMetersGetOptionalParams,
+  BillingMetersGetResponse,
+} from "../models/index.js";
 
 /** Class containing BillingMeters operations. */
 export class BillingMetersImpl implements BillingMeters {
@@ -34,7 +37,10 @@ export class BillingMetersImpl implements BillingMeters {
     location: string,
     options?: BillingMetersGetOptionalParams,
   ): Promise<BillingMetersGetResponse> {
-    return this.client.sendOperationRequest({ location, options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { location, options },
+      getOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -52,7 +58,11 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

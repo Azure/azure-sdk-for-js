@@ -6,14 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { HttpRouteConfigOperations } from "../operationsInterfaces/index.js";
+import type { HttpRouteConfigOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
 import {
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   HttpRouteConfig,
   HttpRouteConfigListNextOptionalParams,
   HttpRouteConfigListOptionalParams,
@@ -25,12 +32,15 @@ import {
   HttpRouteConfigUpdateOptionalParams,
   HttpRouteConfigUpdateResponse,
   HttpRouteConfigDeleteOptionalParams,
+  HttpRouteConfigDeleteResponse,
   HttpRouteConfigListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HttpRouteConfigOperations operations. */
-export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations {
+export class HttpRouteConfigOperationsImpl
+  implements HttpRouteConfigOperations
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -42,7 +52,7 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
   }
 
   /**
-   * Get the Managed Http Routes in a given managed environment.
+   * List the Http Route Configs in a given managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
@@ -52,7 +62,11 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
     environmentName: string,
     options?: HttpRouteConfigListOptionalParams,
   ): PagedAsyncIterableIterator<HttpRouteConfig> {
-    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      environmentName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -64,7 +78,12 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          environmentName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -79,15 +98,20 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        environmentName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -98,13 +122,17 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
     environmentName: string,
     options?: HttpRouteConfigListOptionalParams,
   ): AsyncIterableIterator<HttpRouteConfig> {
-    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      environmentName,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
-   * Get the specified Managed Http Route Config.
+   * Get the specified Http Route Config.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param httpRouteName Name of the Http Route Config Resource.
@@ -142,7 +170,7 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
   }
 
   /**
-   * Patches an http route config resource. Only patching of tags is supported
+   * Patches a Http Route Config resource. Only patching of tags is supported
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param httpRouteName Name of the Http Route Config Resource.
@@ -169,26 +197,101 @@ export class HttpRouteConfigOperationsImpl implements HttpRouteConfigOperations 
   }
 
   /**
-   * Deletes the specified Managed Http Route.
+   * Deletes the specified Http Route Config.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param httpRouteName Name of the Http Route Config Resource.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     environmentName: string,
     httpRouteName: string,
     options?: HttpRouteConfigDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, httpRouteName, options },
-      deleteOperationSpec,
-    );
+  ): Promise<
+    SimplePollerLike<
+      OperationState<HttpRouteConfigDeleteResponse>,
+      HttpRouteConfigDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<HttpRouteConfigDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, environmentName, httpRouteName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      HttpRouteConfigDeleteResponse,
+      OperationState<HttpRouteConfigDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Get the Managed Http Routes in a given managed environment.
+   * Deletes the specified Http Route Config.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param httpRouteName Name of the Http Route Config Resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    environmentName: string,
+    httpRouteName: string,
+    options?: HttpRouteConfigDeleteOptionalParams,
+  ): Promise<HttpRouteConfigDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      environmentName,
+      httpRouteName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List the Http Route Configs in a given managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
@@ -271,7 +374,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.environmentName1,
     Parameters.httpRouteName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -295,7 +398,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.environmentName,
     Parameters.httpRouteName1,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -303,10 +406,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/httpRouteConfigs/{httpRouteName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.HttpRouteConfigDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.HttpRouteConfigDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.HttpRouteConfigDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.HttpRouteConfigDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

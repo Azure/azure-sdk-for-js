@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ContainerAppsRevisionReplicas } from "../operationsInterfaces/index.js";
+import type { ContainerAppsRevisionReplicas } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
   ContainerAppsRevisionReplicasGetReplicaOptionalParams,
   ContainerAppsRevisionReplicasGetReplicaResponse,
   ContainerAppsRevisionReplicasListReplicasOptionalParams,
@@ -19,7 +19,9 @@ import {
 } from "../models/index.js";
 
 /** Class containing ContainerAppsRevisionReplicas operations. */
-export class ContainerAppsRevisionReplicasImpl implements ContainerAppsRevisionReplicas {
+export class ContainerAppsRevisionReplicasImpl
+  implements ContainerAppsRevisionReplicas
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**

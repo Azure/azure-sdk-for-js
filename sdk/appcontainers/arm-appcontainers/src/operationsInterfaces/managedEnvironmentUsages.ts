@@ -6,8 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Usage, ManagedEnvironmentUsagesListOptionalParams } from "../models/index.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
+  Usage,
+  ManagedEnvironmentUsagesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedEnvironmentUsages. */

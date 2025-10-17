@@ -6,16 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ContainerAppsSessionPools } from "../operationsInterfaces/index.js";
+import type { ContainerAppsSessionPools } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
 import {
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   SessionPool,
   ContainerAppsSessionPoolsListBySubscriptionNextOptionalParams,
   ContainerAppsSessionPoolsListBySubscriptionOptionalParams,
@@ -38,7 +43,9 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContainerAppsSessionPools operations. */
-export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools {
+export class ContainerAppsSessionPoolsImpl
+  implements ContainerAppsSessionPools
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -81,7 +88,7 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -89,7 +96,7 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -124,7 +131,11 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -138,15 +149,19 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -156,7 +171,10 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
     resourceGroupName: string,
     options?: ContainerAppsSessionPoolsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SessionPool> {
-    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -168,7 +186,10 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
   private _listBySubscription(
     options?: ContainerAppsSessionPoolsListBySubscriptionOptionalParams,
   ): Promise<ContainerAppsSessionPoolsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
   /**
@@ -231,7 +252,8 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -330,7 +352,8 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -427,7 +450,8 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -482,7 +506,11 @@ export class ContainerAppsSessionPoolsImpl implements ContainerAppsSessionPools 
     sessionPoolName: string,
     options?: ContainerAppsSessionPoolsDeleteOptionalParams,
   ): Promise<ContainerAppsSessionPoolsDeleteResponse> {
-    const poller = await this.beginDelete(resourceGroupName, sessionPoolName, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      sessionPoolName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -549,7 +577,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -602,7 +634,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sessionPoolName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -634,7 +666,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sessionPoolName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -679,7 +711,11 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -6,16 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ConnectedEnvironmentsCertificates } from "../operationsInterfaces/index.js";
+import type { ConnectedEnvironmentsCertificates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
 import {
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   Certificate,
   ConnectedEnvironmentsCertificatesListNextOptionalParams,
   ConnectedEnvironmentsCertificatesListOptionalParams,
@@ -34,7 +39,9 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedEnvironmentsCertificates operations. */
-export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironmentsCertificates {
+export class ConnectedEnvironmentsCertificatesImpl
+  implements ConnectedEnvironmentsCertificates
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -56,7 +63,11 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<Certificate> {
-    const iter = this.listPagingAll(resourceGroupName, connectedEnvironmentName, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      connectedEnvironmentName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -68,7 +79,12 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, connectedEnvironmentName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          connectedEnvironmentName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -82,8 +98,12 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
     let result: ConnectedEnvironmentsCertificatesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, connectedEnvironmentName, options);
-      let page = result.value || [];
+      result = await this._list(
+        resourceGroupName,
+        connectedEnvironmentName,
+        options,
+      );
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -96,7 +116,7 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -180,7 +200,8 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -279,7 +300,8 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -380,7 +402,8 @@ export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironme
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -485,7 +508,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CertificateCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -506,7 +529,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Certificate,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -549,7 +572,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.certificateName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -613,7 +636,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.certificateName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -625,7 +648,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CertificateCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   Diagnostics,
   JobsListDetectorsOptionalParams,
   Job,
@@ -33,10 +33,6 @@ import {
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
   JobsListSecretsResponse,
-  JobsResumeOptionalParams,
-  JobsResumeResponse,
-  JobsSuspendOptionalParams,
-  JobsSuspendResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -119,7 +115,10 @@ export interface Jobs {
     jobEnvelope: Job,
     options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<JobsCreateOrUpdateResponse>, JobsCreateOrUpdateResponse>
+    SimplePollerLike<
+      OperationState<JobsCreateOrUpdateResponse>,
+      JobsCreateOrUpdateResponse
+    >
   >;
   /**
    * Create or Update a Container Apps Job.
@@ -168,7 +167,9 @@ export interface Jobs {
     jobName: string,
     jobEnvelope: JobPatchProperties,
     options?: JobsUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
+  ): Promise<
+    SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
+  >;
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -192,7 +193,9 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     options?: JobsStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
+  ): Promise<
+    SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
+  >;
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -268,48 +271,4 @@ export interface Jobs {
     jobName: string,
     options?: JobsListSecretsOptionalParams,
   ): Promise<JobsListSecretsResponse>;
-  /**
-   * Resumes a suspended job
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Job.
-   * @param options The options parameters.
-   */
-  beginResume(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsResumeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<JobsResumeResponse>, JobsResumeResponse>>;
-  /**
-   * Resumes a suspended job
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Job.
-   * @param options The options parameters.
-   */
-  beginResumeAndWait(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsResumeOptionalParams,
-  ): Promise<JobsResumeResponse>;
-  /**
-   * Suspends a job
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Job.
-   * @param options The options parameters.
-   */
-  beginSuspend(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsSuspendOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<JobsSuspendResponse>, JobsSuspendResponse>>;
-  /**
-   * Suspends a job
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Job.
-   * @param options The options parameters.
-   */
-  beginSuspendAndWait(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsSuspendOptionalParams,
-  ): Promise<JobsSuspendResponse>;
 }

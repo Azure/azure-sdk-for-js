@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   JavaComponent,
   JavaComponentsListOptionalParams,
   JavaComponentsGetOptionalParams,
@@ -98,7 +98,10 @@ export interface JavaComponents {
     javaComponentEnvelope: JavaComponent,
     options?: JavaComponentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<JavaComponentsUpdateResponse>, JavaComponentsUpdateResponse>
+    SimplePollerLike<
+      OperationState<JavaComponentsUpdateResponse>,
+      JavaComponentsUpdateResponse
+    >
   >;
   /**
    * Patches a Java Component using JSON Merge Patch
@@ -128,7 +131,10 @@ export interface JavaComponents {
     name: string,
     options?: JavaComponentsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<JavaComponentsDeleteResponse>, JavaComponentsDeleteResponse>
+    SimplePollerLike<
+      OperationState<JavaComponentsDeleteResponse>,
+      JavaComponentsDeleteResponse
+    >
   >;
   /**
    * Delete a Java Component.

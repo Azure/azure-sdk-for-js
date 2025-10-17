@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   ContainerApp,
   ContainerAppsListBySubscriptionOptionalParams,
   ContainerAppsListByResourceGroupOptionalParams,
@@ -127,7 +127,10 @@ export interface ContainerApps {
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>
+    SimplePollerLike<
+      OperationState<ContainerAppsUpdateResponse>,
+      ContainerAppsUpdateResponse
+    >
   >;
   /**
    * Patches a Container App using JSON Merge Patch
@@ -186,7 +189,10 @@ export interface ContainerApps {
     containerAppName: string,
     options?: ContainerAppsStartOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<ContainerAppsStartResponse>, ContainerAppsStartResponse>
+    SimplePollerLike<
+      OperationState<ContainerAppsStartResponse>,
+      ContainerAppsStartResponse
+    >
   >;
   /**
    * Start a container app
@@ -210,7 +216,10 @@ export interface ContainerApps {
     containerAppName: string,
     options?: ContainerAppsStopOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<ContainerAppsStopResponse>, ContainerAppsStopResponse>
+    SimplePollerLike<
+      OperationState<ContainerAppsStopResponse>,
+      ContainerAppsStopResponse
+    >
   >;
   /**
    * Stop a container app

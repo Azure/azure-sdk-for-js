@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DaprComponents } from "../operationsInterfaces/index.js";
+import type { DaprComponents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
+import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import type {
   DaprComponent,
   DaprComponentsListNextOptionalParams,
   DaprComponentsListOptionalParams,
@@ -52,7 +52,11 @@ export class DaprComponentsImpl implements DaprComponents {
     environmentName: string,
     options?: DaprComponentsListOptionalParams,
   ): PagedAsyncIterableIterator<DaprComponent> {
-    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      environmentName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -64,7 +68,12 @@ export class DaprComponentsImpl implements DaprComponents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          environmentName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -79,15 +88,20 @@ export class DaprComponentsImpl implements DaprComponents {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        environmentName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -98,7 +112,11 @@ export class DaprComponentsImpl implements DaprComponents {
     environmentName: string,
     options?: DaprComponentsListOptionalParams,
   ): AsyncIterableIterator<DaprComponent> {
-    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      environmentName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -280,7 +298,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.daprComponentEnvelope1,
+  requestBody: Parameters.daprComponentEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -289,7 +307,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.componentName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
