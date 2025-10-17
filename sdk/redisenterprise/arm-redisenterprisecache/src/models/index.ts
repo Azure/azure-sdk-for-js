@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
@@ -177,6 +177,46 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
+/** Properties of Redis Enterprise clusters, as opposed to general resource properties like location, tags */
+export interface ClusterProperties {
+  /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
+  highAvailability?: HighAvailability;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
+  minimumTlsVersion?: TlsVersion;
+  /** Encryption-at-rest configuration for the cluster. */
+  encryption?: ClusterPropertiesEncryption;
+  /**
+   * DNS name of the cluster endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * Current provisioning status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Explains the current redundancy strategy of the cluster, which affects the expected SLA.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redundancyMode?: RedundancyMode;
+  /**
+   * Current resource status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /**
+   * Version of redis the cluster supports, e.g. '6'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /**
+   * List of private endpoint connections associated with the specified Redis Enterprise cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
 /** Encryption-at-rest configuration for the cluster. */
 export interface ClusterPropertiesEncryption {
   /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
@@ -281,6 +321,8 @@ export interface ClusterUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** The response of a list-all operation. */
@@ -303,6 +345,43 @@ export interface DatabaseList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Properties of Redis Enterprise databases, as opposed to general resource properties like location, tags */
+export interface DatabaseProperties {
+  /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
+  clientProtocol?: Protocol;
+  /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
+  port?: number;
+  /**
+   * Current provisioning status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current resource status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
+  clusteringPolicy?: ClusteringPolicy;
+  /** Redis eviction policy - default is VolatileLRU */
+  evictionPolicy?: EvictionPolicy;
+  /** Persistence settings */
+  persistence?: Persistence;
+  /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
+  modules?: Module[];
+  /** Optional set of properties to configure geo replication for this database. */
+  geoReplication?: DatabasePropertiesGeoReplication;
+  /**
+   * Version of Redis the database is running on, e.g. '6.0'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
+  deferUpgrade?: DeferUpgradeSetting;
+  /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
+  accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
 /** Persistence-related configuration for the Redis Enterprise database */
@@ -568,6 +647,18 @@ export interface FlushParameters {
   ids?: string[];
 }
 
+/** Properties of Redis Enterprise clusters for create operations */
+export interface ClusterCreateProperties extends ClusterProperties {
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess: PublicNetworkAccess | null;
+}
+
+/** Properties of Redis Enterprise clusters for update operations */
+export interface ClusterUpdateProperties extends ClusterProperties {
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
@@ -607,6 +698,12 @@ export interface PrivateLinkResource extends Resource {
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
 }
+
+/** Properties for creating Redis Enterprise databases */
+export interface DatabaseCreateProperties extends DatabaseProperties {}
+
+/** Properties for updating Redis Enterprise databases */
+export interface DatabaseUpdateProperties extends DatabaseProperties {}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends ResourceAutoGenerated {}
@@ -660,6 +757,8 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Describes the access policy assignment of Redis Enterprise database */
@@ -1070,6 +1169,24 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned, UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
 
 /** Known values of {@link HighAvailability} that the service accepts. */
 export enum KnownHighAvailability {
@@ -1485,29 +1602,25 @@ export type CreatedByType = string;
 export type AccessKeyType = "Primary" | "Secondary";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OperationsStatusGetResponse = OperationStatus;
 
 /** Optional parameters. */
-export interface RedisEnterpriseCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RedisEnterpriseCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1518,8 +1631,7 @@ export interface RedisEnterpriseCreateOptionalParams
 export type RedisEnterpriseCreateResponse = Cluster;
 
 /** Optional parameters. */
-export interface RedisEnterpriseUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RedisEnterpriseUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1530,8 +1642,7 @@ export interface RedisEnterpriseUpdateOptionalParams
 export type RedisEnterpriseUpdateResponse = Cluster;
 
 /** Optional parameters. */
-export interface RedisEnterpriseDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RedisEnterpriseDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1539,8 +1650,7 @@ export interface RedisEnterpriseDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface RedisEnterpriseGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisEnterpriseGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RedisEnterpriseGetResponse = Cluster;
@@ -1553,8 +1663,7 @@ export interface RedisEnterpriseListByResourceGroupOptionalParams
 export type RedisEnterpriseListByResourceGroupResponse = ClusterList;
 
 /** Optional parameters. */
-export interface RedisEnterpriseListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisEnterpriseListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RedisEnterpriseListResponse = ClusterList;
@@ -1574,22 +1683,19 @@ export interface RedisEnterpriseListByResourceGroupNextOptionalParams
 export type RedisEnterpriseListByResourceGroupNextResponse = ClusterList;
 
 /** Optional parameters. */
-export interface RedisEnterpriseListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisEnterpriseListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RedisEnterpriseListNextResponse = ClusterList;
 
 /** Optional parameters. */
-export interface DatabasesListByClusterOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByClusterOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
 export type DatabasesListByClusterResponse = DatabaseList;
 
 /** Optional parameters. */
-export interface DatabasesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1600,8 +1706,7 @@ export interface DatabasesCreateOptionalParams
 export type DatabasesCreateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1612,15 +1717,13 @@ export interface DatabasesUpdateOptionalParams
 export type DatabasesUpdateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DatabasesGetResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1628,15 +1731,13 @@ export interface DatabasesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type DatabasesListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface DatabasesRegenerateKeyOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1647,8 +1748,7 @@ export interface DatabasesRegenerateKeyOptionalParams
 export type DatabasesRegenerateKeyResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface DatabasesImportOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesImportOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1656,8 +1756,7 @@ export interface DatabasesImportOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesExportOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesExportOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1665,8 +1764,7 @@ export interface DatabasesExportOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesForceUnlinkOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesForceUnlinkOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1687,8 +1785,7 @@ export type DatabasesForceLinkToReplicationGroupResponse =
   DatabasesForceLinkToReplicationGroupHeaders;
 
 /** Optional parameters. */
-export interface DatabasesFlushOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesFlushOptionalParams extends coreClient.OperationOptions {
   /** Information identifying the databases to be flushed */
   parameters?: FlushParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1698,8 +1795,7 @@ export interface DatabasesFlushOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesUpgradeDBRedisVersionOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesUpgradeDBRedisVersionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1707,12 +1803,10 @@ export interface DatabasesUpgradeDBRedisVersionOptionalParams
 }
 
 /** Contains response data for the upgradeDBRedisVersion operation. */
-export type DatabasesUpgradeDBRedisVersionResponse =
-  DatabasesUpgradeDBRedisVersionHeaders;
+export type DatabasesUpgradeDBRedisVersionResponse = DatabasesUpgradeDBRedisVersionHeaders;
 
 /** Optional parameters. */
-export interface DatabasesListByClusterNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByClusterNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
 export type DatabasesListByClusterNextResponse = DatabaseList;
@@ -1730,15 +1824,13 @@ export interface AccessPolicyAssignmentCreateUpdateOptionalParams
 export type AccessPolicyAssignmentCreateUpdateResponse = AccessPolicyAssignment;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccessPolicyAssignmentGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccessPolicyAssignmentGetResponse = AccessPolicyAssignment;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccessPolicyAssignmentDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1746,41 +1838,34 @@ export interface AccessPolicyAssignmentDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type AccessPolicyAssignmentDeleteResponse =
-  AccessPolicyAssignmentDeleteHeaders;
+export type AccessPolicyAssignmentDeleteResponse = AccessPolicyAssignmentDeleteHeaders;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccessPolicyAssignmentListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AccessPolicyAssignmentListResponse = AccessPolicyAssignmentList;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccessPolicyAssignmentListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AccessPolicyAssignmentListNextResponse = AccessPolicyAssignmentList;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsPutOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsPutOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1804,8 +1889,7 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateLinkResourcesListByClusterResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams

@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateLinkResources } from "../operationsInterfaces/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
-import {
+import type { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
+import type {
   PrivateLinkResource,
   PrivateLinkResourcesListByClusterOptionalParams,
   PrivateLinkResourcesListByClusterResponse,
@@ -44,11 +44,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     clusterName: string,
     options?: PrivateLinkResourcesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -60,12 +56,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }

@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { AccessPolicyAssignmentOperations } from "../operationsInterfaces/index.js";
+import type { AccessPolicyAssignmentOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   AccessPolicyAssignment,
   AccessPolicyAssignmentListNextOptionalParams,
   AccessPolicyAssignmentListOptionalParams,
@@ -35,9 +32,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccessPolicyAssignmentOperations operations. */
-export class AccessPolicyAssignmentOperationsImpl
-  implements AccessPolicyAssignmentOperations
-{
+export class AccessPolicyAssignmentOperationsImpl implements AccessPolicyAssignmentOperations {
   private readonly client: RedisEnterpriseManagementClient;
 
   /**
@@ -63,12 +58,7 @@ export class AccessPolicyAssignmentOperationsImpl
     databaseName: string,
     options?: AccessPolicyAssignmentListOptionalParams,
   ): PagedAsyncIterableIterator<AccessPolicyAssignment> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, clusterName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -80,13 +70,7 @@ export class AccessPolicyAssignmentOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          databaseName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, databaseName, options, settings);
       },
     };
   }
@@ -101,13 +85,8 @@ export class AccessPolicyAssignmentOperationsImpl
     let result: AccessPolicyAssignmentListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        clusterName,
-        databaseName,
-        options,
-      );
-      let page = result.value || [];
+      result = await this._list(resourceGroupName, clusterName, databaseName, options);
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -121,7 +100,7 @@ export class AccessPolicyAssignmentOperationsImpl
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -178,8 +157,7 @@ export class AccessPolicyAssignmentOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -324,8 +302,7 @@ export class AccessPolicyAssignmentOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

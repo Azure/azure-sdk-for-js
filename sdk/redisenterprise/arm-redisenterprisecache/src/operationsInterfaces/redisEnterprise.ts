@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   Cluster,
   RedisEnterpriseListByResourceGroupOptionalParams,
   RedisEnterpriseListOptionalParams,
@@ -40,9 +40,7 @@ export interface RedisEnterprise {
    * Lists all Redis Enterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: RedisEnterpriseListOptionalParams,
-  ): PagedAsyncIterableIterator<Cluster>;
+  list(options?: RedisEnterpriseListOptionalParams): PagedAsyncIterableIterator<Cluster>;
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -58,10 +56,7 @@ export interface RedisEnterprise {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RedisEnterpriseCreateResponse>,
-      RedisEnterpriseCreateResponse
-    >
+    SimplePollerLike<OperationState<RedisEnterpriseCreateResponse>, RedisEnterpriseCreateResponse>
   >;
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
@@ -93,10 +88,7 @@ export interface RedisEnterprise {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RedisEnterpriseUpdateResponse>,
-      RedisEnterpriseUpdateResponse
-    >
+    SimplePollerLike<OperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>
   >;
   /**
    * Updates an existing Redis Enterprise cluster
