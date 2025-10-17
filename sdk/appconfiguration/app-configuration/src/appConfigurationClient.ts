@@ -85,6 +85,7 @@ import {
 import { AppConfiguration } from "./generated/src/appConfiguration.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
+import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
@@ -225,7 +226,8 @@ export class AppConfigurationClient {
     configurationSetting:
       | AddConfigurationSettingParam
       | AddConfigurationSettingParam<FeatureFlagValue>
-      | AddConfigurationSettingParam<SecretReferenceValue>,
+      | AddConfigurationSettingParam<SecretReferenceValue>
+      | AddConfigurationSettingParam<SnapshotReferenceValue>,
     options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
     return tracingClient.withSpan(
@@ -655,7 +657,8 @@ export class AppConfigurationClient {
     configurationSetting:
       | SetConfigurationSettingParam
       | SetConfigurationSettingParam<FeatureFlagValue>
-      | SetConfigurationSettingParam<SecretReferenceValue>,
+      | SetConfigurationSettingParam<SecretReferenceValue>
+      | SetConfigurationSettingParam<SnapshotReferenceValue>,
     options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan(
