@@ -82,6 +82,8 @@ export default async function ({ provide }: GlobalSetupContext) {
       provide(key, assertEnvironmentVariable(key));
     }
     return () => {};
+  } else if (process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() === "playback") {
+    return () => {};
   }
   provide(EnvVarKeys.TEST_MODE, "mock");
   provide(EnvVarKeys.EVENTHUB_NAME, MOCKS.EVENTHUB_NAME);

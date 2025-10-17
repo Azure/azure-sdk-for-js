@@ -5,8 +5,13 @@ import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.js";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
-export default mergeConfig(
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const config = mergeConfig(
   viteConfig,
   defineConfig({
     optimizeDeps: {
@@ -20,8 +25,21 @@ export default mergeConfig(
       testTimeout: 6000000,
       hookTimeout: 6000000,
       fileParallelism: false,
-      globalSetup: ["./test/utils/setup.ts"],
-      setupFiles: ["./test/utils/logging.ts"],
+      globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
+      //      setupFiles: ["./test/utils/logging.ts"],
     },
-  })
+  }),
 );
+
+delete config.test.fakeTimers;
+
+if (process.env.TEST_MODE !== "live") {
+  config.test.include = [
+    "dist-test/browser/test/internal/impl/*.spec.js",
+    "dist-test/browser/test/internal/amqp.spec.js",
+    "dist-test/browser/test/internal/error.spec.js",
+    "dist-test/browser/test/internal/eventdata.spec.js",
+  ];
+}
+
+export default config;
