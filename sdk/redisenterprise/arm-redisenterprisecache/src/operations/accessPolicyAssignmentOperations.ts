@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   AccessPolicyAssignment,
@@ -36,9 +32,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccessPolicyAssignmentOperations operations. */
-export class AccessPolicyAssignmentOperationsImpl
-  implements AccessPolicyAssignmentOperations
-{
+export class AccessPolicyAssignmentOperationsImpl implements AccessPolicyAssignmentOperations {
   private readonly client: RedisEnterpriseManagementClient;
 
   /**
@@ -64,12 +58,7 @@ export class AccessPolicyAssignmentOperationsImpl
     databaseName: string,
     options?: AccessPolicyAssignmentListOptionalParams,
   ): PagedAsyncIterableIterator<AccessPolicyAssignment> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, clusterName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -81,13 +70,7 @@ export class AccessPolicyAssignmentOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          databaseName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, databaseName, options, settings);
       },
     };
   }
@@ -102,12 +85,7 @@ export class AccessPolicyAssignmentOperationsImpl
     let result: AccessPolicyAssignmentListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        clusterName,
-        databaseName,
-        options,
-      );
+      result = await this._list(resourceGroupName, clusterName, databaseName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -179,8 +157,7 @@ export class AccessPolicyAssignmentOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -325,8 +302,7 @@ export class AccessPolicyAssignmentOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

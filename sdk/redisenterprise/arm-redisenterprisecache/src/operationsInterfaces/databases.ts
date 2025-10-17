@@ -70,12 +70,7 @@ export interface Databases {
     databaseName: string,
     parameters: Database,
     options?: DatabasesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesCreateResponse>,
-      DatabasesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
   /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -109,12 +104,7 @@ export interface Databases {
     databaseName: string,
     parameters: DatabaseUpdate,
     options?: DatabasesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesUpdateResponse>,
-      DatabasesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -209,10 +199,7 @@ export interface Databases {
     parameters: RegenerateKeyParameters,
     options?: DatabasesRegenerateKeyOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesRegenerateKeyResponse>,
-      DatabasesRegenerateKeyResponse
-    >
+    SimplePollerLike<OperationState<DatabasesRegenerateKeyResponse>, DatabasesRegenerateKeyResponse>
   >;
   /**
    * Regenerates the Redis Enterprise database's access keys.

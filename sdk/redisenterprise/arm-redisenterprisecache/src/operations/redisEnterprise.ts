@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   Cluster,
@@ -76,11 +72,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -100,11 +92,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,10 +104,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     resourceGroupName: string,
     options?: RedisEnterpriseListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Cluster> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -128,9 +113,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
    * Lists all Redis Enterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: RedisEnterpriseListOptionalParams,
-  ): PagedAsyncIterableIterator<Cluster> {
+  public list(options?: RedisEnterpriseListOptionalParams): PagedAsyncIterableIterator<Cluster> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -193,10 +176,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RedisEnterpriseCreateResponse>,
-      RedisEnterpriseCreateResponse
-    >
+    SimplePollerLike<OperationState<RedisEnterpriseCreateResponse>, RedisEnterpriseCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -208,8 +188,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -268,12 +247,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<RedisEnterpriseCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      clusterName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, clusterName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -292,10 +266,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RedisEnterpriseUpdateResponse>,
-      RedisEnterpriseUpdateResponse
-    >
+    SimplePollerLike<OperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -307,8 +278,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -367,12 +337,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<RedisEnterpriseUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      clusterName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, clusterName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -399,8 +364,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -454,11 +418,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     clusterName: string,
     options?: RedisEnterpriseDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -500,9 +460,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
    * Lists all Redis Enterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RedisEnterpriseListOptionalParams,
-  ): Promise<RedisEnterpriseListResponse> {
+  private _list(options?: RedisEnterpriseListOptionalParams): Promise<RedisEnterpriseListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -551,10 +509,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
     nextLink: string,
     options?: RedisEnterpriseListNextOptionalParams,
   ): Promise<RedisEnterpriseListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -679,11 +634,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -755,11 +706,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

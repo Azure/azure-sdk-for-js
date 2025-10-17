@@ -1602,29 +1602,25 @@ export type CreatedByType = string;
 export type AccessKeyType = "Primary" | "Secondary";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OperationsStatusGetResponse = OperationStatus;
 
 /** Optional parameters. */
-export interface RedisEnterpriseCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RedisEnterpriseCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1635,8 +1631,7 @@ export interface RedisEnterpriseCreateOptionalParams
 export type RedisEnterpriseCreateResponse = Cluster;
 
 /** Optional parameters. */
-export interface RedisEnterpriseUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RedisEnterpriseUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1647,8 +1642,7 @@ export interface RedisEnterpriseUpdateOptionalParams
 export type RedisEnterpriseUpdateResponse = Cluster;
 
 /** Optional parameters. */
-export interface RedisEnterpriseDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RedisEnterpriseDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1656,8 +1650,7 @@ export interface RedisEnterpriseDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface RedisEnterpriseGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisEnterpriseGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RedisEnterpriseGetResponse = Cluster;
@@ -1670,8 +1663,7 @@ export interface RedisEnterpriseListByResourceGroupOptionalParams
 export type RedisEnterpriseListByResourceGroupResponse = ClusterList;
 
 /** Optional parameters. */
-export interface RedisEnterpriseListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisEnterpriseListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RedisEnterpriseListResponse = ClusterList;
@@ -1691,22 +1683,19 @@ export interface RedisEnterpriseListByResourceGroupNextOptionalParams
 export type RedisEnterpriseListByResourceGroupNextResponse = ClusterList;
 
 /** Optional parameters. */
-export interface RedisEnterpriseListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisEnterpriseListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RedisEnterpriseListNextResponse = ClusterList;
 
 /** Optional parameters. */
-export interface DatabasesListByClusterOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByClusterOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
 export type DatabasesListByClusterResponse = DatabaseList;
 
 /** Optional parameters. */
-export interface DatabasesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1717,8 +1706,7 @@ export interface DatabasesCreateOptionalParams
 export type DatabasesCreateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1729,15 +1717,13 @@ export interface DatabasesUpdateOptionalParams
 export type DatabasesUpdateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DatabasesGetResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1745,15 +1731,13 @@ export interface DatabasesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type DatabasesListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface DatabasesRegenerateKeyOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1764,8 +1748,7 @@ export interface DatabasesRegenerateKeyOptionalParams
 export type DatabasesRegenerateKeyResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface DatabasesImportOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesImportOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1773,8 +1756,7 @@ export interface DatabasesImportOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesExportOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesExportOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1782,8 +1764,7 @@ export interface DatabasesExportOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesForceUnlinkOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesForceUnlinkOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1804,8 +1785,7 @@ export type DatabasesForceLinkToReplicationGroupResponse =
   DatabasesForceLinkToReplicationGroupHeaders;
 
 /** Optional parameters. */
-export interface DatabasesFlushOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesFlushOptionalParams extends coreClient.OperationOptions {
   /** Information identifying the databases to be flushed */
   parameters?: FlushParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1815,8 +1795,7 @@ export interface DatabasesFlushOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesUpgradeDBRedisVersionOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesUpgradeDBRedisVersionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1824,12 +1803,10 @@ export interface DatabasesUpgradeDBRedisVersionOptionalParams
 }
 
 /** Contains response data for the upgradeDBRedisVersion operation. */
-export type DatabasesUpgradeDBRedisVersionResponse =
-  DatabasesUpgradeDBRedisVersionHeaders;
+export type DatabasesUpgradeDBRedisVersionResponse = DatabasesUpgradeDBRedisVersionHeaders;
 
 /** Optional parameters. */
-export interface DatabasesListByClusterNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByClusterNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
 export type DatabasesListByClusterNextResponse = DatabaseList;
@@ -1847,15 +1824,13 @@ export interface AccessPolicyAssignmentCreateUpdateOptionalParams
 export type AccessPolicyAssignmentCreateUpdateResponse = AccessPolicyAssignment;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccessPolicyAssignmentGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccessPolicyAssignmentGetResponse = AccessPolicyAssignment;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccessPolicyAssignmentDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1863,41 +1838,34 @@ export interface AccessPolicyAssignmentDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type AccessPolicyAssignmentDeleteResponse =
-  AccessPolicyAssignmentDeleteHeaders;
+export type AccessPolicyAssignmentDeleteResponse = AccessPolicyAssignmentDeleteHeaders;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccessPolicyAssignmentListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AccessPolicyAssignmentListResponse = AccessPolicyAssignmentList;
 
 /** Optional parameters. */
-export interface AccessPolicyAssignmentListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccessPolicyAssignmentListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AccessPolicyAssignmentListNextResponse = AccessPolicyAssignmentList;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsPutOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsPutOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1921,8 +1889,7 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateLinkResourcesListByClusterResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams

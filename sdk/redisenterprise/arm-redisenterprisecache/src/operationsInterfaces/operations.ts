@@ -16,7 +16,5 @@ export interface Operations {
    * Lists all of the available REST API operations of the Microsoft.Cache provider.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
