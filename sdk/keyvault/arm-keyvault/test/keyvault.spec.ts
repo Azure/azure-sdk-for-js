@@ -51,7 +51,7 @@ describe("Keyvault test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     vaultName = "myvaultzzzz" + "231019";
   });
 
@@ -69,7 +69,7 @@ describe("Keyvault test", () => {
 
   // skip other cases as create operation needs TenantId.
   it.skip("vaults create test", async () => {
-    const res = await client.vaults.beginCreateOrUpdateAndWait(
+    const res = await client.vaults.createOrUpdate(
       resourceGroup,
       vaultName,
       {
