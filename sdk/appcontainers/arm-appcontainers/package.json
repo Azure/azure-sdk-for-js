@@ -100,6 +100,14 @@
     ],
     "selfLink": false
   },
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview"
+  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers",
   "exports": {
     "./package.json": "./package.json",
