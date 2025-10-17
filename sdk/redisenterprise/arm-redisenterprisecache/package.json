@@ -16,7 +16,7 @@
     "@azure/core-rest-pipeline": "^1.19.1",
     "tslib": "^2.8.1"
   },
-    "//sampleConfiguration": {
+  "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
       "azure"
