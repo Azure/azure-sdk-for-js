@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-storagemover",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A generated SDK for StorageMoverClient.",
   "engines": {
     "node": ">=20.0.0"
