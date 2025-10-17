@@ -1,5 +1,19 @@
 # Release History
 
+## 23.0.0 (2025-10-17)
+
+### Features Added
+  - Interface AdvancedNetworkingSecurity has a new optional parameter advancedNetworkPolicies
+  - Interface AgentPoolSecurityProfile has a new optional parameter sshAccess
+  - Added Type Alias AdvancedNetworkPolicies
+  - Added Type Alias AgentPoolSSHAccess
+  - Added Enum KnownAdvancedNetworkPolicies
+  - Added Enum KnownAgentPoolSSHAccess
+
+### Breaking Changes
+  - Removed Interface CloudError
+  - Removed Interface CloudErrorBody
+
 ## 23.0.0-beta.4 (2025-09-25)
 Compared with version 22.3.0
 
