@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the admin credentials for the private cloud
  *
  * @summary list the admin credentials for the private cloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_ListAdminCredentials.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_ListAdminCredentials.json
  */
 async function privateCloudsListAdminCredentials() {
   const credential = new DefaultAzureCredential();

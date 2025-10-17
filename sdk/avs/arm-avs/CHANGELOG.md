@@ -1,4 +1,92 @@
 # Release History
+
+## 7.1.0 (2025-10-16)
+
+### Features Added
+  - Added operation group LicensesOperations
+  - Added operation group MaintenancesOperations
+  - Added operation group ServiceComponentsOperations
+  - Added operation PrivateCloudsOperations.getVcfLicense
+  - Added Interface AvailableWindowForMaintenanceWhileRescheduleOperation
+  - Added Interface AvailableWindowForMaintenanceWhileScheduleOperation
+  - Added Interface BlockedDatesConstraintTimeRange
+  - Added Interface BlockedWhileRescheduleOperation
+  - Added Interface BlockedWhileScheduleOperation
+  - Added Interface ImpactedMaintenanceResource
+  - Added Interface ImpactedMaintenanceResourceError
+  - Added Interface Label
+  - Added Interface License
+  - Added Interface LicenseProperties
+  - Added Interface LicensesCreateOrUpdateOptionalParams
+  - Added Interface LicensesDeleteOptionalParams
+  - Added Interface LicensesGetOptionalParams
+  - Added Interface LicensesGetPropertiesOptionalParams
+  - Added Interface LicensesListOptionalParams
+  - Added Interface Maintenance
+  - Added Interface MaintenanceFailedCheck
+  - Added Interface MaintenanceManagementOperation
+  - Added Interface MaintenanceProperties
+  - Added Interface MaintenanceReadiness
+  - Added Interface MaintenanceReadinessRefreshOperation
+  - Added Interface MaintenanceReschedule
+  - Added Interface MaintenanceSchedule
+  - Added Interface MaintenancesGetOptionalParams
+  - Added Interface MaintenancesInitiateChecksOptionalParams
+  - Added Interface MaintenancesListOptionalParams
+  - Added Interface MaintenancesRescheduleOptionalParams
+  - Added Interface MaintenancesScheduleOptionalParams
+  - Added Interface MaintenanceState
+  - Added Interface PrivateCloudsGetVcfLicenseOptionalParams
+  - Added Interface RescheduleOperation
+  - Added Interface RescheduleOperationConstraint
+  - Added Interface ScheduleOperation
+  - Added Interface ScheduleOperationConstraint
+  - Added Interface SchedulingWindow
+  - Added Interface ServiceComponentsCheckAvailabilityOptionalParams
+  - Added Interface Vcf5License
+  - Added Interface VcfLicense
+  - Added Interface VmwareFirewallLicenseProperties
+  - Interface AzureVMwareSolutionAPIOptionalParams has a new optional parameter cloudSetting
+  - Interface PrivateCloudProperties has a new optional parameter vcfLicense
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BlockedDatesConstraintCategory
+  - Added Type Alias LicenseKind
+  - Added Type Alias LicenseName
+  - Added Type Alias LicensePropertiesUnion
+  - Added Type Alias LicenseProvisioningState
+  - Added Type Alias MaintenanceCheckType
+  - Added Type Alias MaintenanceManagementOperationKind
+  - Added Type Alias MaintenanceManagementOperationUnion
+  - Added Type Alias MaintenanceProvisioningState
+  - Added Type Alias MaintenanceReadinessRefreshOperationStatus
+  - Added Type Alias MaintenanceReadinessStatus
+  - Added Type Alias MaintenanceStateName
+  - Added Type Alias MaintenanceStatusFilter
+  - Added Type Alias MaintenanceType
+  - Added Type Alias RescheduleOperationConstraintKind
+  - Added Type Alias RescheduleOperationConstraintUnion
+  - Added Type Alias ScheduleOperationConstraintKind
+  - Added Type Alias ScheduleOperationConstraintUnion
+  - Added Type Alias VcfLicenseKind
+  - Added Type Alias VcfLicenseUnion
+  - Added Enum AzureClouds
+  - Added Enum KnownBlockedDatesConstraintCategory
+  - Added Enum KnownLicenseKind
+  - Added Enum KnownLicenseName
+  - Added Enum KnownLicenseProvisioningState
+  - Added Enum KnownMaintenanceCheckType
+  - Added Enum KnownMaintenanceManagementOperationKind
+  - Added Enum KnownMaintenanceProvisioningState
+  - Added Enum KnownMaintenanceReadinessRefreshOperationStatus
+  - Added Enum KnownMaintenanceReadinessStatus
+  - Added Enum KnownMaintenanceStateName
+  - Added Enum KnownMaintenanceStatusFilter
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownRescheduleOperationConstraintKind
+  - Added Enum KnownScheduleOperationConstraintKind
+  - Added Enum KnownVcfLicenseKind
+  - Enum KnownVersions has a new value V20250901
+
     
 ## 7.0.0 (2025-06-05)
     

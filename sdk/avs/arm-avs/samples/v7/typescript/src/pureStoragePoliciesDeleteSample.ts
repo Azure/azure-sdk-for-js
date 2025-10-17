@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a PureStoragePolicy
  *
  * @summary delete a PureStoragePolicy
- * x-ms-original-file: 2024-09-01/PureStoragePolicies_Delete.json
+ * x-ms-original-file: 2025-09-01/PureStoragePolicies_Delete.json
  */
 async function pureStoragePoliciesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -3,9 +3,13 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
+/** Azure VMware Solution API */
 export interface AzureVMwareSolutionAPIContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
@@ -19,16 +23,20 @@ export interface AzureVMwareSolutionAPIOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
+  /** Specifies the Azure cloud environment for the client. */
+  cloudSetting?: AzureSupportedClouds;
 }
 
+/** Azure VMware Solution API */
 export function createAzureVMwareSolutionAPI(
   credential: TokenCredential,
   subscriptionId: string,
   options: AzureVMwareSolutionAPIOptionalParams = {},
 ): AzureVMwareSolutionAPIContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-avs/7.0.0`;
+  const userAgentInfo = `azsdk-js-arm-avs/7.1.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -42,7 +50,7 @@ export function createAzureVMwareSolutionAPI(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-09-01";
+  const apiVersion = options.apiVersion ?? "2025-09-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
