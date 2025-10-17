@@ -26,6 +26,8 @@ const config = mergeConfig(
       hookTimeout: 6000000,
       fileParallelism: false,
       globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
+      setupFiles: ["./test/utils/logging.ts"],
+      env: process.env,
     },
   }),
 );
@@ -40,6 +42,7 @@ const unitTests = [
 
 if (process.env.TEST_MODE !== "live") {
   // only run a couple of unit tests for browser if it's not live mode
+  config.test.env["TestType"] = "browser";
   config.test.include = unitTests;
 }
 

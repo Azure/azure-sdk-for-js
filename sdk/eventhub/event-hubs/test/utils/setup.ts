@@ -82,11 +82,8 @@ export default async function ({ provide }: GlobalSetupContext) {
       provide(key, assertEnvironmentVariable(key));
     }
     return () => {};
-  } else if (
-    process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() === "playback" ||
-    process.env["TestType"] === "browser"
-  ) {
-    // only running some unit tests under playback TEST_MODE so don't need to do anything here
+  } else if (process.env["TestType"] === "browser") {
+    // only running some unit tests under browsers so don't need to do anything here
     return () => {};
   }
   provide(EnvVarKeys.TEST_MODE, "mock");
