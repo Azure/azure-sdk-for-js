@@ -10,11 +10,11 @@ import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type {
-  KnowledgeAgentRetrievalRequest,
-  KnowledgeAgentRetrievalResponse,
+  KnowledgeBaseRetrievalRequest,
+  KnowledgeBaseRetrievalResponse,
 } from "./generated/knowledgeAgent/index.js";
 import { SearchClient as GeneratedClient } from "./generated/knowledgeAgent/searchClient.js";
-import type { RetrieveKnowledgeOptions } from "./knowledgeAgentModels.js";
+import type { RetrieveKnowledgeOptions } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -144,9 +144,9 @@ export class KnowledgeRetrievalClient {
   }
 
   public async retrieveKnowledge(
-    retrievalRequest: KnowledgeAgentRetrievalRequest,
+    retrievalRequest: KnowledgeBaseRetrievalRequest,
     options?: RetrieveKnowledgeOptions,
-  ): Promise<KnowledgeAgentRetrievalResponse> {
+  ): Promise<KnowledgeBaseRetrievalResponse> {
     const { span, updatedOptions } = createSpan(
       "KnowledgeRetrievalClient-retrieveKnowledge",
       options,

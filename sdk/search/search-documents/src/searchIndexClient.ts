@@ -11,7 +11,7 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type { AnalyzeResult, IndexStatisticsSummary } from "./generated/service/models/index.js";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
-import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
+import type { KnowledgeAgent } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
 import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
 import { logger } from "./logger.js";

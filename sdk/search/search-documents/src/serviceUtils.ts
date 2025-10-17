@@ -65,7 +65,7 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
-import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
+import type { KnowledgeAgent } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
   AIServicesVisionVectorizer,

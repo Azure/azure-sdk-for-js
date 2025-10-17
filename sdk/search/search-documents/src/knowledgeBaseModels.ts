@@ -3,11 +3,11 @@
 
 import type { OperationOptions } from "@azure/core-client";
 import type {
-  KnowledgeAgentOutputConfiguration,
-  KnowledgeAgentRequestLimits,
+  KnowledgeRetrievalOutputMode,
+  KnowledgeRetrievalReasoningEffortUnion,
   KnowledgeSourceReference,
 } from "./generated/service/index.js";
-import type { KnowledgeAgentModel, SearchResourceEncryptionKey } from "./serviceModels.js";
+import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
 export interface RetrieveKnowledgeOptions extends OperationOptions {
   /**
@@ -17,25 +17,27 @@ export interface RetrieveKnowledgeOptions extends OperationOptions {
   xMsQuerySourceAuthorization?: string;
 }
 
-export interface KnowledgeAgent {
+export interface KnowledgeBase {
   /**
-   * The name of the knowledge agent.
+   * The name of the knowledge base.
    */
   name: string;
   /**
    * Contains configuration options on how to connect to AI models.
    */
-  models: KnowledgeAgentModel[];
+  models: KnowledgeBaseModel[];
   knowledgeSources: KnowledgeSourceReference[];
-  outputConfiguration?: KnowledgeAgentOutputConfiguration;
-  /**
-   * Guardrails to limit how much resources are utilized for a single agent retrieval request.
-   */
-  requestLimits?: KnowledgeAgentRequestLimits;
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
   /**
    * Instructions considered by the knowledge agent when developing query plan.
    */
   retrievalInstructions?: string;
+  /**
+   * Instructions considered by the knowledge agent when generating answers.
+   */
+  answerInstructions?: string;
+  outputMode?: KnowledgeRetrievalOutputMode;
+
   /**
    * The ETag of the agent.
    */

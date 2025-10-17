@@ -49,7 +49,7 @@ import type {
   IndexStatisticsSummary,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
-  KnowledgeAgentModel as BaseKnowledgeAgentModel,
+  KnowledgeBaseModel as BaseKnowledgeBaseModel,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
@@ -137,8 +137,9 @@ import type {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
+  KnowledgeBaseAzureOpenAIModel,
 } from "./generated/service/models/index.js";
-import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
+import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**
  * Options for a list skillsets operation.
@@ -1241,14 +1242,10 @@ export type IndexStatisticsSummaryIterator = PagedAsyncIterableIterator<
  * An iterator for listing the knowledge agents that exist in the Search service. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server per iteration.
  */
-export type KnowledgeAgentIterator = PagedAsyncIterableIterator<
-  KnowledgeAgent,
-  KnowledgeAgent[],
-  {}
->;
+export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
 
 /**
- * An iterator for listing the knowledge dSources that exist in the Search service. Will make requests
+ * An iterator for listing the knowledge sources that exist in the Search service. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server per iteration.
  */
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<
@@ -3236,7 +3233,7 @@ export interface AzureBlobKnowledgeSourceParameters {
   /**
    * Optional chat completion model for image verbalization or context extraction.
    */
-  chatCompletionModel?: KnowledgeAgentModel;
+  chatCompletionModel?: KnowledgeBaseModel;
   /**
    * Optional schedule for data ingestion.
    */
@@ -3252,12 +3249,7 @@ export interface AzureBlobKnowledgeSourceParameters {
   disableImageVerbalization?: boolean;
 }
 
-export type KnowledgeAgentModel = KnowledgeAgentAzureOpenAIModel;
-
-export interface KnowledgeAgentAzureOpenAIModel extends BaseKnowledgeAgentModel {
-  azureOpenAIParameters: AzureOpenAIParameters;
-  kind: "azureOpenAI";
-}
+export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 /**
  * Contains configuration options specific to the compression method used during indexing or querying.
@@ -3266,21 +3258,21 @@ export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuan
 
 export interface GetIndexStatsSummaryOptions extends OperationOptions {}
 
-export interface CreateOrUpdateKnowledgeAgentOptions extends OperationOptions {
+export interface CreateOrUpdateKnowledgeBaseOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
-export interface DeleteKnowledgeAgentOptions extends OperationOptions {
+export interface DeleteKnowledgeBaseOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
-export interface GetKnowledgeAgentOptions extends OperationOptions {}
-export interface ListKnowledgeAgentsOptions extends OperationOptions {}
-export interface CreateKnowledgeAgentOptions extends OperationOptions {}
+export interface GetKnowledgeBaseOptions extends OperationOptions {}
+export interface ListKnowledgeBasesOptions extends OperationOptions {}
+export interface CreateKnowledgeBaseOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeSourceOptions extends OperationOptions {
   /**
