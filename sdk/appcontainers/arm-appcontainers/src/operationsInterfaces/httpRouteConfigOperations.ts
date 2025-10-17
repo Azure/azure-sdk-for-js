@@ -89,10 +89,7 @@ export interface HttpRouteConfigOperations {
     httpRouteName: string,
     options?: HttpRouteConfigDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<HttpRouteConfigDeleteResponse>,
-      HttpRouteConfigDeleteResponse
-    >
+    SimplePollerLike<OperationState<HttpRouteConfigDeleteResponse>, HttpRouteConfigDeleteResponse>
   >;
   /**
    * Deletes the specified Http Route Config.

@@ -38,9 +38,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available RP operations.
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationDetail> {
+  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDetail> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -92,9 +90,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available RP operations.
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

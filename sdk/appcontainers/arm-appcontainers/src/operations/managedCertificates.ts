@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   ManagedCertificate,
@@ -60,11 +56,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     environmentName: string,
     options?: ManagedCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCertificate> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
       },
     };
   }
@@ -102,12 +89,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        environmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -120,11 +102,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
     environmentName: string,
     options?: ManagedCertificatesListOptionalParams,
   ): AsyncIterableIterator<ManagedCertificate> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      environmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
       yield* page;
     }
   }
@@ -176,8 +154,7 @@ export class ManagedCertificatesImpl implements ManagedCertificates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

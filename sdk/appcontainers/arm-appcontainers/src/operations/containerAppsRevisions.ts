@@ -50,11 +50,7 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     containerAppName: string,
     options?: ContainerAppsRevisionsListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<Revision> {
-    const iter = this.listRevisionsPagingAll(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const iter = this.listRevisionsPagingAll(resourceGroupName, containerAppName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +62,7 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listRevisionsPagingPage(
-          resourceGroupName,
-          containerAppName,
-          options,
-          settings,
-        );
+        return this.listRevisionsPagingPage(resourceGroupName, containerAppName, options, settings);
       },
     };
   }
@@ -85,11 +76,7 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     let result: ContainerAppsRevisionsListRevisionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listRevisions(
-        resourceGroupName,
-        containerAppName,
-        options,
-      );
+      result = await this._listRevisions(resourceGroupName, containerAppName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

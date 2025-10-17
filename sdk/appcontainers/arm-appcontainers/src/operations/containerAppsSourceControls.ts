@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   SourceControl,
@@ -35,9 +31,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContainerAppsSourceControls operations. */
-export class ContainerAppsSourceControlsImpl
-  implements ContainerAppsSourceControls
-{
+export class ContainerAppsSourceControlsImpl implements ContainerAppsSourceControls {
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -59,11 +53,7 @@ export class ContainerAppsSourceControlsImpl
     containerAppName: string,
     options?: ContainerAppsSourceControlsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<SourceControl> {
-    const iter = this.listByContainerAppPagingAll(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const iter = this.listByContainerAppPagingAll(resourceGroupName, containerAppName, options);
     return {
       next() {
         return iter.next();
@@ -94,11 +84,7 @@ export class ContainerAppsSourceControlsImpl
     let result: ContainerAppsSourceControlsListByContainerAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByContainerApp(
-        resourceGroupName,
-        containerAppName,
-        options,
-      );
+      result = await this._listByContainerApp(resourceGroupName, containerAppName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -198,8 +184,7 @@ export class ContainerAppsSourceControlsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -296,8 +281,7 @@ export class ContainerAppsSourceControlsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   Certificate,
@@ -39,9 +35,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedEnvironmentsCertificates operations. */
-export class ConnectedEnvironmentsCertificatesImpl
-  implements ConnectedEnvironmentsCertificates
-{
+export class ConnectedEnvironmentsCertificatesImpl implements ConnectedEnvironmentsCertificates {
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -63,11 +57,7 @@ export class ConnectedEnvironmentsCertificatesImpl
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<Certificate> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      connectedEnvironmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, connectedEnvironmentName, options);
     return {
       next() {
         return iter.next();
@@ -79,12 +69,7 @@ export class ConnectedEnvironmentsCertificatesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          connectedEnvironmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, connectedEnvironmentName, options, settings);
       },
     };
   }
@@ -98,11 +83,7 @@ export class ConnectedEnvironmentsCertificatesImpl
     let result: ConnectedEnvironmentsCertificatesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        connectedEnvironmentName,
-        options,
-      );
+      result = await this._list(resourceGroupName, connectedEnvironmentName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -200,8 +181,7 @@ export class ConnectedEnvironmentsCertificatesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -300,8 +280,7 @@ export class ConnectedEnvironmentsCertificatesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -402,8 +381,7 @@ export class ConnectedEnvironmentsCertificatesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

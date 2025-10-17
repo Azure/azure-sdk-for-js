@@ -4419,9 +4419,7 @@ export type UnauthenticatedClientActionV2 =
   | "Return401"
   | "Return403";
 /** Defines values for CookieExpirationConvention. */
-export type CookieExpirationConvention =
-  | "FixedTime"
-  | "IdentityProviderDerived";
+export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 /** Defines values for ForwardProxyConvention. */
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 /** Defines values for DnsVerificationTestResult. */
@@ -4436,23 +4434,17 @@ export type WeekDay =
   | "Saturday"
   | "Sunday";
 /** Defines values for WorkflowHealthState. */
-export type WorkflowHealthState =
-  | "NotSpecified"
-  | "Healthy"
-  | "Unhealthy"
-  | "Unknown";
+export type WorkflowHealthState = "NotSpecified" | "Healthy" | "Unhealthy" | "Unknown";
 
 /** Optional parameters. */
 export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerApp operation. */
-export type ContainerAppsAuthConfigsListByContainerAppResponse =
-  AuthConfigCollection;
+export type ContainerAppsAuthConfigsListByContainerAppResponse = AuthConfigCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsAuthConfigsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsAuthConfigsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ContainerAppsAuthConfigsGetResponse = AuthConfig;
@@ -4465,36 +4457,30 @@ export interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
 export type ContainerAppsAuthConfigsCreateOrUpdateResponse = AuthConfig;
 
 /** Optional parameters. */
-export interface ContainerAppsAuthConfigsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsAuthConfigsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ContainerAppsAuthConfigsListByContainerAppNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerAppNext operation. */
-export type ContainerAppsAuthConfigsListByContainerAppNextResponse =
-  AuthConfigCollection;
+export type ContainerAppsAuthConfigsListByContainerAppNextResponse = AuthConfigCollection;
 
 /** Optional parameters. */
-export interface AvailableWorkloadProfilesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AvailableWorkloadProfilesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AvailableWorkloadProfilesGetResponse =
-  AvailableWorkloadProfilesCollection;
+export type AvailableWorkloadProfilesGetResponse = AvailableWorkloadProfilesCollection;
 
 /** Optional parameters. */
 export interface AvailableWorkloadProfilesGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type AvailableWorkloadProfilesGetNextResponse =
-  AvailableWorkloadProfilesCollection;
+export type AvailableWorkloadProfilesGetNextResponse = AvailableWorkloadProfilesCollection;
 
 /** Optional parameters. */
-export interface BillingMetersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingMetersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingMetersGetResponse = BillingMeterCollection;
@@ -4504,20 +4490,17 @@ export interface ConnectedEnvironmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ConnectedEnvironmentsListBySubscriptionResponse =
-  ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListBySubscriptionResponse = ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ConnectedEnvironmentsListByResourceGroupResponse =
-  ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListByResourceGroupResponse = ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
-export interface ConnectedEnvironmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectedEnvironmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConnectedEnvironmentsGetResponse = ConnectedEnvironment;
@@ -4535,8 +4518,7 @@ export interface ConnectedEnvironmentsCreateOrUpdateOptionalParams
 export type ConnectedEnvironmentsCreateOrUpdateResponse = ConnectedEnvironment;
 
 /** Optional parameters. */
-export interface ConnectedEnvironmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4544,8 +4526,7 @@ export interface ConnectedEnvironmentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ConnectedEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectedEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ConnectedEnvironmentsUpdateResponse = ConnectedEnvironment;
@@ -4555,32 +4536,28 @@ export interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ConnectedEnvironmentsCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResponse;
+export type ConnectedEnvironmentsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ConnectedEnvironmentsListBySubscriptionNextResponse =
-  ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListBySubscriptionNextResponse = ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ConnectedEnvironmentsListByResourceGroupNextResponse =
-  ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListByResourceGroupNextResponse = ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCertificatesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConnectedEnvironmentsCertificatesListResponse =
-  CertificateCollection;
+export type ConnectedEnvironmentsCertificatesListResponse = CertificateCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCertificatesGetOptionalParams
@@ -4601,8 +4578,7 @@ export interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponse =
-  Certificate;
+export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponse = Certificate;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCertificatesDeleteOptionalParams
@@ -4634,16 +4610,14 @@ export interface ConnectedEnvironmentsCertificatesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ConnectedEnvironmentsCertificatesListNextResponse =
-  CertificateCollection;
+export type ConnectedEnvironmentsCertificatesListNextResponse = CertificateCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConnectedEnvironmentsDaprComponentsListResponse =
-  DaprComponentsCollection;
+export type ConnectedEnvironmentsDaprComponentsListResponse = DaprComponentsCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsGetOptionalParams
@@ -4662,8 +4636,7 @@ export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse =
-  DaprComponent;
+export type ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse = DaprComponent;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
@@ -4683,32 +4656,28 @@ export interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type ConnectedEnvironmentsDaprComponentsListSecretsResponse =
-  DaprSecretsCollection;
+export type ConnectedEnvironmentsDaprComponentsListSecretsResponse = DaprSecretsCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ConnectedEnvironmentsDaprComponentsListNextResponse =
-  DaprComponentsCollection;
+export type ConnectedEnvironmentsDaprComponentsListNextResponse = DaprComponentsCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConnectedEnvironmentsStoragesListResponse =
-  ConnectedEnvironmentStoragesCollection;
+export type ConnectedEnvironmentsStoragesListResponse = ConnectedEnvironmentStoragesCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ConnectedEnvironmentsStoragesGetResponse =
-  ConnectedEnvironmentStorage;
+export type ConnectedEnvironmentsStoragesGetResponse = ConnectedEnvironmentStorage;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
@@ -4720,8 +4689,7 @@ export interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectedEnvironmentsStoragesCreateOrUpdateResponse =
-  ConnectedEnvironmentStorage;
+export type ConnectedEnvironmentsStoragesCreateOrUpdateResponse = ConnectedEnvironmentStorage;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesDeleteOptionalParams
@@ -4751,15 +4719,13 @@ export interface ContainerAppsListByResourceGroupOptionalParams
 export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ContainerAppsGetResponse = ContainerApp;
 
 /** Optional parameters. */
-export interface ContainerAppsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4770,8 +4736,7 @@ export interface ContainerAppsCreateOrUpdateOptionalParams
 export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
 
 /** Optional parameters. */
-export interface ContainerAppsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4779,8 +4744,7 @@ export interface ContainerAppsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ContainerAppsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4798,26 +4762,22 @@ export interface ContainerAppsListCustomHostNameAnalysisOptionalParams
 }
 
 /** Contains response data for the listCustomHostNameAnalysis operation. */
-export type ContainerAppsListCustomHostNameAnalysisResponse =
-  CustomHostnameAnalysisResult;
+export type ContainerAppsListCustomHostNameAnalysisResponse = CustomHostnameAnalysisResult;
 
 /** Optional parameters. */
-export interface ContainerAppsListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
 export type ContainerAppsListSecretsResponse = SecretsCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsGetAuthTokenOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsGetAuthTokenOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthToken operation. */
 export type ContainerAppsGetAuthTokenResponse = ContainerAppAuthToken;
 
 /** Optional parameters. */
-export interface ContainerAppsStartOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsStartOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4828,8 +4788,7 @@ export interface ContainerAppsStartOptionalParams
 export type ContainerAppsStartResponse = ContainerApp;
 
 /** Optional parameters. */
-export interface ContainerAppsStopOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsStopOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4844,16 +4803,14 @@ export interface ContainerAppsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ContainerAppsListBySubscriptionNextResponse =
-  ContainerAppCollection;
+export type ContainerAppsListBySubscriptionNextResponse = ContainerAppCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerAppsListByResourceGroupNextResponse =
-  ContainerAppCollection;
+export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsRevisionsListRevisionsOptionalParams
@@ -4889,8 +4846,7 @@ export interface ContainerAppsRevisionsListRevisionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRevisionsNext operation. */
-export type ContainerAppsRevisionsListRevisionsNextResponse =
-  RevisionCollection;
+export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsRevisionReplicasGetReplicaOptionalParams
@@ -4904,16 +4860,14 @@ export interface ContainerAppsRevisionReplicasListReplicasOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listReplicas operation. */
-export type ContainerAppsRevisionReplicasListReplicasResponse =
-  ReplicaCollection;
+export type ContainerAppsRevisionReplicasListReplicasResponse = ReplicaCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsDiagnosticsListDetectorsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectors operation. */
-export type ContainerAppsDiagnosticsListDetectorsResponse =
-  DiagnosticsCollection;
+export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsDiagnosticsGetDetectorOptionalParams
@@ -4951,24 +4905,21 @@ export interface ContainerAppsDiagnosticsListDetectorsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectorsNext operation. */
-export type ContainerAppsDiagnosticsListDetectorsNextResponse =
-  DiagnosticsCollection;
+export type ContainerAppsDiagnosticsListDetectorsNextResponse = DiagnosticsCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRevisionsNext operation. */
-export type ContainerAppsDiagnosticsListRevisionsNextResponse =
-  RevisionCollection;
+export type ContainerAppsDiagnosticsListRevisionsNextResponse = RevisionCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectors operation. */
-export type ManagedEnvironmentDiagnosticsListDetectorsResponse =
-  DiagnosticsCollection;
+export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
@@ -4985,36 +4936,31 @@ export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams
 export type ManagedEnvironmentsDiagnosticsGetRootResponse = ManagedEnvironment;
 
 /** Optional parameters. */
-export interface JobsListDetectorsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListDetectorsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectors operation. */
 export type JobsListDetectorsResponse = DiagnosticsCollection;
 
 /** Optional parameters. */
-export interface JobsGetDetectorOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsGetDetectorOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetector operation. */
 export type JobsGetDetectorResponse = Diagnostics;
 
 /** Optional parameters. */
-export interface JobsProxyGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsProxyGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the proxyGet operation. */
 export type JobsProxyGetResponse = Job;
 
 /** Optional parameters. */
-export interface JobsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type JobsListBySubscriptionResponse = JobsCollection;
 
 /** Optional parameters. */
-export interface JobsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type JobsListByResourceGroupResponse = JobsCollection;
@@ -5026,8 +4972,7 @@ export interface JobsGetOptionalParams extends coreClient.OperationOptions {}
 export type JobsGetResponse = Job;
 
 /** Optional parameters. */
-export interface JobsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5070,8 +5015,7 @@ export interface JobsStartOptionalParams extends coreClient.OperationOptions {
 export type JobsStartResponse = JobExecutionBase;
 
 /** Optional parameters. */
-export interface JobsStopExecutionOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobsStopExecutionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5079,8 +5023,7 @@ export interface JobsStopExecutionOptionalParams
 }
 
 /** Optional parameters. */
-export interface JobsStopMultipleExecutionsOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobsStopMultipleExecutionsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5091,64 +5034,55 @@ export interface JobsStopMultipleExecutionsOptionalParams
 export type JobsStopMultipleExecutionsResponse = ContainerAppJobExecutions;
 
 /** Optional parameters. */
-export interface JobsListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
 export type JobsListSecretsResponse = JobSecretsCollection;
 
 /** Optional parameters. */
-export interface JobsListDetectorsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListDetectorsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectorsNext operation. */
 export type JobsListDetectorsNextResponse = DiagnosticsCollection;
 
 /** Optional parameters. */
-export interface JobsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type JobsListBySubscriptionNextResponse = JobsCollection;
 
 /** Optional parameters. */
-export interface JobsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type JobsListByResourceGroupNextResponse = JobsCollection;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = AvailableOperations;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = AvailableOperations;
 
 /** Optional parameters. */
-export interface JavaComponentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JavaComponentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type JavaComponentsListResponse = JavaComponentsCollection;
 
 /** Optional parameters. */
-export interface JavaComponentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JavaComponentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type JavaComponentsGetResponse = JavaComponent;
 
 /** Optional parameters. */
-export interface JavaComponentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface JavaComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5159,8 +5093,7 @@ export interface JavaComponentsCreateOrUpdateOptionalParams
 export type JavaComponentsCreateOrUpdateResponse = JavaComponent;
 
 /** Optional parameters. */
-export interface JavaComponentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface JavaComponentsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5171,8 +5104,7 @@ export interface JavaComponentsUpdateOptionalParams
 export type JavaComponentsUpdateResponse = JavaComponent;
 
 /** Optional parameters. */
-export interface JavaComponentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface JavaComponentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5183,15 +5115,13 @@ export interface JavaComponentsDeleteOptionalParams
 export type JavaComponentsDeleteResponse = JavaComponentsDeleteHeaders;
 
 /** Optional parameters. */
-export interface JavaComponentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JavaComponentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JavaComponentsListNextResponse = JavaComponentsCollection;
 
 /** Optional parameters. */
-export interface JobsExecutionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobsExecutionsListOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
 }
@@ -5200,22 +5130,19 @@ export interface JobsExecutionsListOptionalParams
 export type JobsExecutionsListResponse = ContainerAppJobExecutions;
 
 /** Optional parameters. */
-export interface JobsExecutionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobsExecutionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsExecutionsListNextResponse = ContainerAppJobExecutions;
 
 /** Optional parameters. */
-export interface JobExecutionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobExecutionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the jobExecution operation. */
 export type JobExecutionResponse = JobExecution;
 
 /** Optional parameters. */
-export interface GetCustomDomainVerificationIdOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetCustomDomainVerificationIdOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCustomDomainVerificationId operation. */
 export type GetCustomDomainVerificationIdResponse = {
@@ -5228,20 +5155,17 @@ export interface ManagedEnvironmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ManagedEnvironmentsListBySubscriptionResponse =
-  ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListBySubscriptionResponse = ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ManagedEnvironmentsListByResourceGroupResponse =
-  ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListByResourceGroupResponse = ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
-export interface ManagedEnvironmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedEnvironmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedEnvironmentsGetResponse = ManagedEnvironment;
@@ -5259,8 +5183,7 @@ export interface ManagedEnvironmentsCreateOrUpdateOptionalParams
 export type ManagedEnvironmentsCreateOrUpdateResponse = ManagedEnvironment;
 
 /** Optional parameters. */
-export interface ManagedEnvironmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5268,8 +5191,7 @@ export interface ManagedEnvironmentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ManagedEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5291,24 +5213,21 @@ export interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkloadProfileStates operation. */
-export type ManagedEnvironmentsListWorkloadProfileStatesResponse =
-  WorkloadProfileStatesCollection;
+export type ManagedEnvironmentsListWorkloadProfileStatesResponse = WorkloadProfileStatesCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ManagedEnvironmentsListBySubscriptionNextResponse =
-  ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListBySubscriptionNextResponse = ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedEnvironmentsListByResourceGroupNextResponse =
-  ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListByResourceGroupNextResponse = ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams
@@ -5319,22 +5238,19 @@ export type ManagedEnvironmentsListWorkloadProfileStatesNextResponse =
   WorkloadProfileStatesCollection;
 
 /** Optional parameters. */
-export interface CertificatesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CertificatesListResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface CertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificatesGetResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Certificate to be created or updated */
   certificateEnvelope?: Certificate;
 }
@@ -5343,26 +5259,22 @@ export interface CertificatesCreateOrUpdateOptionalParams
 export type CertificatesCreateOrUpdateResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificatesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type CertificatesUpdateResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CertificatesListNextResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface ManagedCertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedCertificatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedCertificatesGetResponse = ManagedCertificate;
@@ -5382,26 +5294,22 @@ export interface ManagedCertificatesCreateOrUpdateOptionalParams
 export type ManagedCertificatesCreateOrUpdateResponse = ManagedCertificate;
 
 /** Optional parameters. */
-export interface ManagedCertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedCertificatesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagedCertificatesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedCertificatesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ManagedCertificatesUpdateResponse = ManagedCertificate;
 
 /** Optional parameters. */
-export interface ManagedCertificatesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedCertificatesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ManagedCertificatesListResponse = ManagedCertificateCollection;
 
 /** Optional parameters. */
-export interface ManagedCertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedCertificatesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ManagedCertificatesListNextResponse = ManagedCertificateCollection;
@@ -5411,8 +5319,7 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NamespacesCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResponse;
+export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams
@@ -5427,8 +5334,7 @@ export interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ManagedEnvironmentPrivateEndpointConnectionsGetResponse =
-  PrivateEndpointConnection;
+export type ManagedEnvironmentPrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams
@@ -5469,66 +5375,56 @@ export interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedEnvironmentPrivateLinkResourcesListResponse =
-  PrivateLinkResourceListResult;
+export type ManagedEnvironmentPrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentPrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ManagedEnvironmentPrivateLinkResourcesListNextResponse =
-  PrivateLinkResourceListResult;
+export type ManagedEnvironmentPrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface DaprComponentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DaprComponentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DaprComponentsListResponse = DaprComponentsCollection;
 
 /** Optional parameters. */
-export interface DaprComponentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DaprComponentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DaprComponentsGetResponse = DaprComponent;
 
 /** Optional parameters. */
-export interface DaprComponentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DaprComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type DaprComponentsCreateOrUpdateResponse = DaprComponent;
 
 /** Optional parameters. */
-export interface DaprComponentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DaprComponentsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DaprComponentsListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DaprComponentsListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
 export type DaprComponentsListSecretsResponse = DaprSecretsCollection;
 
 /** Optional parameters. */
-export interface DaprComponentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DaprComponentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DaprComponentsListNextResponse = DaprComponentsCollection;
 
 /** Optional parameters. */
-export interface HttpRouteConfigGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HttpRouteConfigGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HttpRouteConfigGetResponse = HttpRouteConfig;
 
 /** Optional parameters. */
-export interface HttpRouteConfigCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface HttpRouteConfigCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Http Route Config to be created or updated */
   httpRouteConfigEnvelope?: HttpRouteConfig;
 }
@@ -5537,15 +5433,13 @@ export interface HttpRouteConfigCreateOrUpdateOptionalParams
 export type HttpRouteConfigCreateOrUpdateResponse = HttpRouteConfig;
 
 /** Optional parameters. */
-export interface HttpRouteConfigUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HttpRouteConfigUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type HttpRouteConfigUpdateResponse = HttpRouteConfig;
 
 /** Optional parameters. */
-export interface HttpRouteConfigDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface HttpRouteConfigDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5556,66 +5450,56 @@ export interface HttpRouteConfigDeleteOptionalParams
 export type HttpRouteConfigDeleteResponse = HttpRouteConfigDeleteHeaders;
 
 /** Optional parameters. */
-export interface HttpRouteConfigListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HttpRouteConfigListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type HttpRouteConfigListResponse = HttpRouteConfigCollection;
 
 /** Optional parameters. */
-export interface HttpRouteConfigListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HttpRouteConfigListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type HttpRouteConfigListNextResponse = HttpRouteConfigCollection;
 
 /** Optional parameters. */
-export interface MaintenanceConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MaintenanceConfigurationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MaintenanceConfigurationsListResponse =
-  MaintenanceConfigurationCollection;
+export type MaintenanceConfigurationsListResponse = MaintenanceConfigurationCollection;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type MaintenanceConfigurationsCreateOrUpdateResponse =
-  MaintenanceConfigurationResource;
+export type MaintenanceConfigurationsCreateOrUpdateResponse = MaintenanceConfigurationResource;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface MaintenanceConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MaintenanceConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MaintenanceConfigurationsGetResponse =
-  MaintenanceConfigurationResource;
+export type MaintenanceConfigurationsGetResponse = MaintenanceConfigurationResource;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type MaintenanceConfigurationsListNextResponse =
-  MaintenanceConfigurationCollection;
+export type MaintenanceConfigurationsListNextResponse = MaintenanceConfigurationCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsStoragesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedEnvironmentsStoragesListResponse =
-  ManagedEnvironmentStoragesCollection;
+export type ManagedEnvironmentsStoragesListResponse = ManagedEnvironmentStoragesCollection;
 
 /** Optional parameters. */
-export interface ManagedEnvironmentsStoragesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedEnvironmentsStoragesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedEnvironmentsStoragesGetResponse = ManagedEnvironmentStorage;
@@ -5625,8 +5509,7 @@ export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedEnvironmentsStoragesCreateOrUpdateResponse =
-  ManagedEnvironmentStorage;
+export type ManagedEnvironmentsStoragesCreateOrUpdateResponse = ManagedEnvironmentStorage;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsStoragesDeleteOptionalParams
@@ -5637,20 +5520,17 @@ export interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ContainerAppsSessionPoolsListBySubscriptionResponse =
-  SessionPoolCollection;
+export type ContainerAppsSessionPoolsListBySubscriptionResponse = SessionPoolCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ContainerAppsSessionPoolsListByResourceGroupResponse =
-  SessionPoolCollection;
+export type ContainerAppsSessionPoolsListByResourceGroupResponse = SessionPoolCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsSessionPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsSessionPoolsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ContainerAppsSessionPoolsGetResponse = SessionPool;
@@ -5668,8 +5548,7 @@ export interface ContainerAppsSessionPoolsCreateOrUpdateOptionalParams
 export type ContainerAppsSessionPoolsCreateOrUpdateResponse = SessionPool;
 
 /** Optional parameters. */
-export interface ContainerAppsSessionPoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsSessionPoolsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5680,8 +5559,7 @@ export interface ContainerAppsSessionPoolsUpdateOptionalParams
 export type ContainerAppsSessionPoolsUpdateResponse = SessionPool;
 
 /** Optional parameters. */
-export interface ContainerAppsSessionPoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerAppsSessionPoolsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5689,36 +5567,31 @@ export interface ContainerAppsSessionPoolsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ContainerAppsSessionPoolsDeleteResponse =
-  ContainerAppsSessionPoolsDeleteHeaders;
+export type ContainerAppsSessionPoolsDeleteResponse = ContainerAppsSessionPoolsDeleteHeaders;
 
 /** Optional parameters. */
 export interface ContainerAppsSessionPoolsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ContainerAppsSessionPoolsListBySubscriptionNextResponse =
-  SessionPoolCollection;
+export type ContainerAppsSessionPoolsListBySubscriptionNextResponse = SessionPoolCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsSessionPoolsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerAppsSessionPoolsListByResourceGroupNextResponse =
-  SessionPoolCollection;
+export type ContainerAppsSessionPoolsListByResourceGroupNextResponse = SessionPoolCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsSourceControlsListByContainerAppOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerApp operation. */
-export type ContainerAppsSourceControlsListByContainerAppResponse =
-  SourceControlCollection;
+export type ContainerAppsSourceControlsListByContainerAppResponse = SourceControlCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsSourceControlsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerAppsSourceControlsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ContainerAppsSourceControlsGetResponse = SourceControl;
@@ -5749,8 +5622,7 @@ export interface ContainerAppsSourceControlsListByContainerAppNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerAppNext operation. */
-export type ContainerAppsSourceControlsListByContainerAppNextResponse =
-  SourceControlCollection;
+export type ContainerAppsSourceControlsListByContainerAppNextResponse = SourceControlCollection;
 
 /** Optional parameters. */
 export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
@@ -5759,15 +5631,13 @@ export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
 export type UsagesListResponse = ListUsagesResult;
 
 /** Optional parameters. */
-export interface UsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
-export interface ManagedEnvironmentUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedEnvironmentUsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ManagedEnvironmentUsagesListResponse = ListUsagesResult;
@@ -5780,15 +5650,13 @@ export interface ManagedEnvironmentUsagesListNextOptionalParams
 export type ManagedEnvironmentUsagesListNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
-export interface LogicAppsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogicAppsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LogicAppsGetResponse = LogicApp;
 
 /** Optional parameters. */
-export interface LogicAppsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface LogicAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Logic app resource properties. */
   resource?: LogicApp;
 }
@@ -5797,19 +5665,16 @@ export interface LogicAppsCreateOrUpdateOptionalParams
 export type LogicAppsCreateOrUpdateResponse = LogicApp;
 
 /** Optional parameters. */
-export interface LogicAppsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogicAppsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LogicAppsListWorkflowsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogicAppsListWorkflowsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkflows operation. */
 export type LogicAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
-export interface LogicAppsGetWorkflowOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogicAppsGetWorkflowOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWorkflow operation. */
 export type LogicAppsGetWorkflowResponse = WorkflowEnvelope;
@@ -5822,15 +5687,13 @@ export interface LogicAppsListWorkflowsConnectionsOptionalParams
 export type LogicAppsListWorkflowsConnectionsResponse = WorkflowEnvelope;
 
 /** Optional parameters. */
-export interface LogicAppsListWorkflowsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogicAppsListWorkflowsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkflowsNext operation. */
 export type LogicAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsAPIClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ContainerAppsAPIClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

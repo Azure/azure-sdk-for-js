@@ -47,11 +47,7 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
     environmentName: string,
     options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
       },
     };
   }
@@ -89,12 +80,7 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        environmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +93,7 @@ export class ManagedEnvironmentPrivateLinkResourcesImpl
     environmentName: string,
     options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      environmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
       yield* page;
     }
   }

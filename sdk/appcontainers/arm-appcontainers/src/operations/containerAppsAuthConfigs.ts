@@ -50,11 +50,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     containerAppName: string,
     options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<AuthConfig> {
-    const iter = this.listByContainerAppPagingAll(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const iter = this.listByContainerAppPagingAll(resourceGroupName, containerAppName, options);
     return {
       next() {
         return iter.next();
@@ -85,11 +81,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     let result: ContainerAppsAuthConfigsListByContainerAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByContainerApp(
-        resourceGroupName,
-        containerAppName,
-        options,
-      );
+      result = await this._listByContainerApp(resourceGroupName, containerAppName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

@@ -98,10 +98,7 @@ export interface JavaComponents {
     javaComponentEnvelope: JavaComponent,
     options?: JavaComponentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JavaComponentsUpdateResponse>,
-      JavaComponentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<JavaComponentsUpdateResponse>, JavaComponentsUpdateResponse>
   >;
   /**
    * Patches a Java Component using JSON Merge Patch
@@ -131,10 +128,7 @@ export interface JavaComponents {
     name: string,
     options?: JavaComponentsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JavaComponentsDeleteResponse>,
-      JavaComponentsDeleteResponse
-    >
+    SimplePollerLike<OperationState<JavaComponentsDeleteResponse>, JavaComponentsDeleteResponse>
   >;
   /**
    * Delete a Java Component.

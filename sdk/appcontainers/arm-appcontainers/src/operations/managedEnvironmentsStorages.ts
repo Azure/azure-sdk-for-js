@@ -23,9 +23,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing ManagedEnvironmentsStorages operations. */
-export class ManagedEnvironmentsStoragesImpl
-  implements ManagedEnvironmentsStorages
-{
+export class ManagedEnvironmentsStoragesImpl implements ManagedEnvironmentsStorages {
   private readonly client: ContainerAppsAPIClient;
 
   /**

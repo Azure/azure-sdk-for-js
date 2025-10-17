@@ -17,9 +17,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing ManagedEnvironmentsDiagnostics operations. */
-export class ManagedEnvironmentsDiagnosticsImpl
-  implements ManagedEnvironmentsDiagnostics
-{
+export class ManagedEnvironmentsDiagnosticsImpl implements ManagedEnvironmentsDiagnostics {
   private readonly client: ContainerAppsAPIClient;
 
   /**

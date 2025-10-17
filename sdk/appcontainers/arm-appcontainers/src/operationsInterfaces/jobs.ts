@@ -115,10 +115,7 @@ export interface Jobs {
     jobEnvelope: Job,
     options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JobsCreateOrUpdateResponse>,
-      JobsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<JobsCreateOrUpdateResponse>, JobsCreateOrUpdateResponse>
   >;
   /**
    * Create or Update a Container Apps Job.
@@ -167,9 +164,7 @@ export interface Jobs {
     jobName: string,
     jobEnvelope: JobPatchProperties,
     options?: JobsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -193,9 +188,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     options?: JobsStartOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

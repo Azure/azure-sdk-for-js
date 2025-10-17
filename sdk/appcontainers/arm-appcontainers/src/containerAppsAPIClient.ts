@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import type * as coreAuth from "@azure/core-auth";
 import {
   ContainerAppsAuthConfigsImpl,
@@ -136,8 +132,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -147,8 +142,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -164,11 +158,9 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -183,24 +175,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
-    this.connectedEnvironmentsCertificates =
-      new ConnectedEnvironmentsCertificatesImpl(this);
-    this.connectedEnvironmentsDaprComponents =
-      new ConnectedEnvironmentsDaprComponentsImpl(this);
-    this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(
-      this,
-    );
+    this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(this);
+    this.connectedEnvironmentsDaprComponents = new ConnectedEnvironmentsDaprComponentsImpl(this);
+    this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(this);
     this.containerApps = new ContainerAppsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
-    this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
-      this,
-    );
+    this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(this);
     this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
-    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
-      this,
-    );
-    this.managedEnvironmentsDiagnostics =
-      new ManagedEnvironmentsDiagnosticsImpl(this);
+    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(this);
+    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(this);
     this.jobs = new JobsImpl(this);
     this.operations = new OperationsImpl(this);
     this.javaComponents = new JavaComponentsImpl(this);
@@ -211,18 +194,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.namespaces = new NamespacesImpl(this);
     this.managedEnvironmentPrivateEndpointConnections =
       new ManagedEnvironmentPrivateEndpointConnectionsImpl(this);
-    this.managedEnvironmentPrivateLinkResources =
-      new ManagedEnvironmentPrivateLinkResourcesImpl(this);
+    this.managedEnvironmentPrivateLinkResources = new ManagedEnvironmentPrivateLinkResourcesImpl(
+      this,
+    );
     this.daprComponents = new DaprComponentsImpl(this);
     this.httpRouteConfigOperations = new HttpRouteConfigOperationsImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
-    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
-      this,
-    );
+    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(this);
     this.containerAppsSessionPools = new ContainerAppsSessionPoolsImpl(this);
-    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
-      this,
-    );
+    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(this);
     this.usages = new UsagesImpl(this);
     this.managedEnvironmentUsages = new ManagedEnvironmentUsagesImpl(this);
     this.logicApps = new LogicAppsImpl(this);
@@ -236,10 +216,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -283,10 +260,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   getCustomDomainVerificationId(
     options?: GetCustomDomainVerificationIdOptionalParams,
   ): Promise<GetCustomDomainVerificationIdResponse> {
-    return this.sendOperationRequest(
-      { options },
-      getCustomDomainVerificationIdOperationSpec,
-    );
+    return this.sendOperationRequest({ options }, getCustomDomainVerificationIdOperationSpec);
   }
 
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
