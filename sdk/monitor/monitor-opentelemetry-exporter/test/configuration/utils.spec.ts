@@ -90,7 +90,7 @@ describe("makeOneSettingsRequest", () => {
       { namespaces: "javascript" },
       { "If-None-Match": "etag" },
       httpClient,
-  warnLogger,
+      warnLogger,
     );
 
     expect(sendRequest).toHaveBeenCalledTimes(1);
@@ -115,7 +115,7 @@ describe("makeOneSettingsRequest", () => {
       undefined,
       undefined,
       httpClient,
-  warnLogger,
+      warnLogger,
     );
     expect(result.refreshInterval).toBe(ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS);
     expect(warnSpy).not.toHaveBeenCalled();
@@ -131,7 +131,7 @@ describe("makeOneSettingsRequest", () => {
       undefined,
       undefined,
       httpClient,
-  warnLogger,
+      warnLogger,
     );
     expect(result.etag).toBeUndefined();
     expect(result.settings).toEqual({});
@@ -167,7 +167,7 @@ describe("parseOneSettingsResponse", () => {
       }),
     });
 
-  const result = parseOneSettingsResponse(response, warnLogger);
+    const result = parseOneSettingsResponse(response, warnLogger);
     expect(result.etag).toBe("etag");
     expect(result.refreshInterval).toBe(2400);
     expect(result.settings.feature).toBe("on");
@@ -182,7 +182,7 @@ describe("parseOneSettingsResponse", () => {
       bodyAsText: JSON.stringify({ settings: {} }),
     });
 
-  const result = parseOneSettingsResponse(response, warnLogger);
+    const result = parseOneSettingsResponse(response, warnLogger);
     expect(result.refreshInterval).toBe(ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS);
     expect(warnSpy).toHaveBeenCalledWith("Invalid refresh interval format: invalid");
   });
@@ -197,7 +197,7 @@ describe("parseOneSettingsResponse", () => {
       }),
     });
 
-  parseOneSettingsResponse(response, warnLogger);
+    parseOneSettingsResponse(response, warnLogger);
     expect(warnSpy).toHaveBeenCalledWith(
       "Failed to parse OneSettings change version: not-a-number",
     );
@@ -205,13 +205,13 @@ describe("parseOneSettingsResponse", () => {
 
   it("should warn when response content cannot be decoded", () => {
     const response = createResponse({ status: 200, bodyAsText: "not-json" });
-  parseOneSettingsResponse(response, warnLogger);
+    parseOneSettingsResponse(response, warnLogger);
     expect(warnSpy).toHaveBeenCalledTimes(1);
   });
 
   it("should warn for error status codes", () => {
     const response = createResponse({ status: 404, bodyAsText: "missing" });
-  parseOneSettingsResponse(response, warnLogger);
+    parseOneSettingsResponse(response, warnLogger);
     expect(warnSpy).toHaveBeenCalledWith("OneSettings configuration not found: missing");
   });
 });

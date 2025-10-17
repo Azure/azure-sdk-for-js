@@ -48,7 +48,10 @@ vi.mock("../../src/configuration/utils.js", async () => {
   };
 });
 
-import { ConfigurationManager, updateConfigurationAndGetRefreshInterval } from "../../src/configuration/configuration.js";
+import {
+  ConfigurationManager,
+  updateConfigurationAndGetRefreshInterval,
+} from "../../src/configuration/configuration.js";
 import { makeOneSettingsRequest } from "../../src/configuration/utils.js";
 
 describe("ConfigurationManager", () => {
@@ -118,9 +121,9 @@ describe("ConfigurationManager", () => {
         statusCode: 200,
       },
     ];
-    makeRequestMock.mockResolvedValueOnce(responseSequence[0]).mockResolvedValueOnce(
-      responseSequence[1],
-    );
+    makeRequestMock
+      .mockResolvedValueOnce(responseSequence[0])
+      .mockResolvedValueOnce(responseSequence[1]);
 
     const manager = ConfigurationManager.getInstance();
     await manager.getConfigurationAndRefreshInterval({ namespaces: ONE_SETTINGS_JAVASCRIPT_KEY });

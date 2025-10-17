@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  HttpClient,
-  PipelineResponse,
-} from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
@@ -75,7 +72,13 @@ export async function makeOneSettingsRequest(
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logWarn(`Failed to fetch configuration from OneSettings: ${message}`);
-    return new OneSettingsResponse(undefined, ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS, {}, undefined, 0);
+    return new OneSettingsResponse(
+      undefined,
+      ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS,
+      {},
+      undefined,
+      0,
+    );
   }
 }
 
@@ -133,9 +136,7 @@ export function parseOneSettingsResponse(
               if (!Number.isNaN(parsedVersion)) {
                 version = parsedVersion;
               } else {
-                logWarn(
-                  `Failed to parse OneSettings change version: ${String(changeVersion)}`,
-                );
+                logWarn(`Failed to parse OneSettings change version: ${String(changeVersion)}`);
               }
             }
           }
@@ -146,15 +147,11 @@ export function parseOneSettingsResponse(
       }
       break;
     case 400:
-      logWarn(
-        `Bad request to OneSettings: ${response.bodyAsText ?? "OneSettings returned 400"}`,
-      );
+      logWarn(`Bad request to OneSettings: ${response.bodyAsText ?? "OneSettings returned 400"}`);
       break;
     case 404:
       logWarn(
-        `OneSettings configuration not found: ${
-          response.bodyAsText ?? "OneSettings returned 404"
-        }`,
+        `OneSettings configuration not found: ${response.bodyAsText ?? "OneSettings returned 404"}`,
       );
       break;
     case 414:
@@ -171,9 +168,7 @@ export function parseOneSettingsResponse(
       break;
     default:
       logWarn(
-        `Unexpected OneSettings response status ${response.status}: ${
-          response.bodyAsText ?? ""
-        }`,
+        `Unexpected OneSettings response status ${response.status}: ${response.bodyAsText ?? ""}`,
       );
       break;
   }

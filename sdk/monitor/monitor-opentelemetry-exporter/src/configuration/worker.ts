@@ -79,11 +79,14 @@ export class ConfigurationWorker {
   private delay(seconds: number): Promise<void> {
     return new Promise((resolve) => {
       this.delayResolve = resolve;
-      this.delayTimer = setTimeout(() => {
-        this.delayTimer = undefined;
-        this.delayResolve = undefined;
-        resolve();
-      }, Math.max(0, seconds) * 1000);
+      this.delayTimer = setTimeout(
+        () => {
+          this.delayTimer = undefined;
+          this.delayResolve = undefined;
+          resolve();
+        },
+        Math.max(0, seconds) * 1000,
+      );
     });
   }
 }
