@@ -50,6 +50,7 @@ import type {
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
+  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
@@ -111,6 +112,8 @@ import type {
   SearchIndexerSkill as BaseSearchIndexerSkill,
   SearchIndexKnowledgeSourceParameters,
   SearchIndexPermissionFilterOption,
+  WebKnowledgeSourceParameters,
+  RemoteSharePointKnowledgeSourceParameters,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
@@ -137,7 +140,10 @@ import type {
   VectorSearchProfile,
   VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
-  KnowledgeBaseAzureOpenAIModel,
+  KnowledgeSourceIngestionPermissionOption,
+  KnowledgeSourceContentExtractionMode,
+  AIServices,
+  IndexedSharePointContainerName,
 } from "./generated/service/models/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
@@ -3150,7 +3156,11 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
 export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
-  | AzureBlobKnowledgeSource;
+  | AzureBlobKnowledgeSource
+  | IndexedSharePointKnowledgeSource
+  | IndexedOneLakeKnowledgeSource
+  | WebKnowledgeSource
+  | RemoteSharePointKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3159,7 +3169,13 @@ export interface BaseKnowledgeSource {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  kind: "searchIndex" | "azureBlob";
+  kind:
+    | "searchIndex"
+    | "azureBlob"
+    | "indexedSharePoint"
+    | "indexedOneLake"
+    | "web"
+    | "remoteSharePoint";
   /**
    * The name of the knowledge source.
    */
@@ -3211,10 +3227,6 @@ export interface AzureBlobKnowledgeSource extends BaseKnowledgeSource {
  */
 export interface AzureBlobKnowledgeSourceParameters {
   /**
-   * An explicit identity to use for this knowledge source.
-   */
-  identity?: SearchIndexerDataIdentity;
-  /**
    * Key-based connection string or the ResourceId format if using a managed identity.
    */
   connectionString: string;
@@ -3227,29 +3239,143 @@ export interface AzureBlobKnowledgeSourceParameters {
    */
   folderPath?: string;
   /**
-   * Optional vectorizer configuration for vectorizing content.
+   * Resources created by the knowledge source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  embeddingModel?: VectorSearchVectorizer;
+  readonly createdResources?: { [propertyName: string]: string };
+  /** Consolidates all general ingestion settings. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+}
+
+/**
+ * Configuration for SharePoint knowledge source.
+ */
+export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
   /**
-   * Optional chat completion model for image verbalization or context extraction.
+   * Polymorphic discriminator, which specifies the different types this object can be
    */
-  chatCompletionModel?: KnowledgeBaseModel;
+  kind: "indexedSharePoint";
   /**
-   * Optional schedule for data ingestion.
+   * The parameters for the SharePoint knowledge source.
    */
-  ingestionSchedule?: IndexingSchedule;
+  indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
+}
+
+/** Parameters for SharePoint knowledge source. */
+export interface IndexedSharePointKnowledgeSourceParameters {
+  /** SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id] */
+  connectionString: string;
+  /** Specifies which SharePoint libraries to access. */
+  containerName: IndexedSharePointContainerName;
+  /** Optional query to filter SharePoint content. */
+  query?: string;
+  /** Consolidates all general ingestion settings. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
   /**
    * Resources created by the knowledge source.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdResources?: { [propertyName: string]: string };
+}
+
+/**
+ * Configuration for OneLake knowledge source.
+ */
+export interface IndexedOneLakeKnowledgeSource extends BaseKnowledgeSource {
   /**
-   * Indicates whether image verbalization should be disabled.
+   * Polymorphic discriminator, which specifies the different types this object can be
    */
+  kind: "indexedOneLake";
+  /**
+   * The parameters for the OneLake knowledge source.
+   */
+  indexedOneLakeParameters: IndexedOneLakeKnowledgeSourceParameters;
+}
+
+/** Parameters for OneLake knowledge source. */
+export interface IndexedOneLakeKnowledgeSourceParameters {
+  /** OneLake workspace ID. */
+  fabricWorkspaceId: string;
+  /** Specifies which OneLake lakehouse to access. */
+  lakehouseId: string;
+  /** Optional OneLakehouse folder or shortcut to filter OneLake content. */
+  targetPath?: string;
+  /** Consolidates all general ingestion settings. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /**
+   * Resources created by the knowledge source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdResources?: { [propertyName: string]: string };
+}
+
+/**
+ * Knowledge Source targeting web results.
+ */
+export interface WebKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "web";
+  /**
+   * The parameters for the web knowledge source.
+   */
+  webParameters?: WebKnowledgeSourceParameters;
+}
+
+/**
+ * Configuration for remote SharePoint knowledge source.
+ */
+export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "remoteSharePoint";
+  /**
+   * The parameters for the knowledge source.
+   */
+  remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
+}
+
+/** Consolidates all general ingestion settings for knowledge sources. */
+export interface KnowledgeSourceIngestionParameters {
+  /** An explicit identity to use for this knowledge source. */
+  identity?: SearchIndexerDataIdentity;
+  /** Optional vectorizer configuration for vectorizing content. */
+  embeddingModel?: KnowledgeSourceVectorizer;
+  /** Optional chat completion model for image verbalization or context extraction. */
+  chatCompletionModel?: KnowledgeBaseModel;
+  /** Indicates whether image verbalization should be disabled. Default is false. */
   disableImageVerbalization?: boolean;
+  /** Optional schedule for data ingestion. */
+  ingestionSchedule?: IndexingSchedule;
+  /** Optional list of permission types to ingest together with document content. If specified, it will set the indexer permission options for the data source. */
+  ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
+  /** Optional content extraction mode. Default is 'minimal'. */
+  contentExtractionMode?: KnowledgeSourceContentExtractionMode;
+  /** Optional AI Services configuration for content processing. */
+  aiServices?: AIServices;
 }
 
 export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
+
+/** Specifies the Azure OpenAI resource used to do query planning. */
+export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "azureOpenAI";
+  /** Contains the parameters specific to Azure OpenAI model endpoint. */
+  azureOpenAIParameters: AzureOpenAIParameters;
+}
+
+export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
+
+/** Specifies the Azure OpenAI resource used to vectorize a query string. */
+export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "azureOpenAI";
+  /** Contains the parameters specific to Azure OpenAI embedding vectorization. */
+  azureOpenAIParameters?: AzureOpenAIParameters;
+}
 
 /**
  * Contains configuration options specific to the compression method used during indexing or querying.

@@ -13,6 +13,7 @@ import type {
   AMLVectorizer as GeneratedAMLVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters as GeneratedAzureBlobKnowledgeSourceParameters,
+  KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters,
   AzureOpenAIParameters as GeneratedAzureOpenAIParameters,
   AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
   BM25Similarity,
@@ -26,6 +27,8 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
+  IndexedOneLakeKnowledgeSource as GeneratedIndexedOneLakeKnowledgeSource,
+  IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
   KnowledgeBase as GeneratedKnowledgeBase,
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
@@ -35,6 +38,8 @@ import type {
   LuceneStandardAnalyzer,
   PatternAnalyzer as GeneratedPatternAnalyzer,
   PatternTokenizer,
+  KnowledgeSourceVectorizer as GeneratedKnowledgeSourceVectorizer,
+  RemoteSharePointKnowledgeSource as GeneratedRemoteSharePointKnowledgeSource,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   SearchIndexer as GeneratedSearchIndexer,
@@ -58,6 +63,7 @@ import type {
   VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
   WebApiVectorizer as GeneratedWebApiVectorizer,
+  WebKnowledgeSource as GeneratedWebKnowledgeSource,
 } from "./generated/service/models/index.js";
 import type {
   SearchResult,
@@ -89,6 +95,8 @@ import type {
   KeyAuthAzureMachineLearningVectorizerParameters,
   KnowledgeBaseModel,
   KnowledgeSource,
+  KnowledgeSourceIngestionParameters,
+  KnowledgeSourceVectorizer,
   LexicalAnalyzer,
   LexicalTokenizer,
   NoAuthAzureMachineLearningVectorizerParameters,
@@ -147,6 +155,7 @@ const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.AmlSkill": true,
   "#Microsoft.Skills.Vision.VectorizeSkill": true,
   "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill": true,
+  "#Microsoft.Skills.Util.ContentUnderstandingSkill": true,
 };
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -546,13 +555,13 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       const { aIServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
       const parameters = generatedParameters
         ? {
-            ...generatedParameters,
-            modelVersion: generatedParameters.modelVersion ?? undefined,
-            resourceUri: generatedParameters.resourceUri,
-            authIdentity: convertSearchIndexerDataIdentityToPublic(
-              generatedParameters.authIdentity,
-            ),
-          }
+          ...generatedParameters,
+          modelVersion: generatedParameters.modelVersion ?? undefined,
+          resourceUri: generatedParameters.resourceUri,
+          authIdentity: convertSearchIndexerDataIdentityToPublic(
+            generatedParameters.authIdentity,
+          ),
+        }
         : undefined;
       const vectorizer: AIServicesVisionVectorizer = {
         ...generatedVisionVectorizer,
@@ -571,6 +580,39 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
           ),
       };
 
+      return vectorizer;
+    },
+  };
+  const defaultDeserializer = (): any => {
+    logger.warning(`Unsupported vectorizer kind: ${(generatedVectorizer as any).kind}`);
+    return generatedVectorizer as any;
+  };
+
+  return (knownVectorizerDeserializers[generatedVectorizer.kind] ?? defaultDeserializer)();
+}
+
+export function generatedKnowledgeSourceVectorizerToPublicVectorizer(): undefined;
+export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
+  generatedVectorizer: GeneratedKnowledgeSourceVectorizer,
+): KnowledgeSourceVectorizer;
+export function generatedKnowledgeSourceVectorizerToPublicVectorizer(
+  generatedVectorizer?: GeneratedKnowledgeSourceVectorizer,
+): KnowledgeSourceVectorizer | undefined {
+  if (!generatedVectorizer) {
+    return generatedVectorizer;
+  }
+
+  const knownVectorizerDeserializers: Record<
+    KnowledgeSourceVectorizer["kind"],
+    () => KnowledgeSourceVectorizer
+  > = {
+    azureOpenAI: () => {
+      const { parameters } = generatedVectorizer as GeneratedAzureOpenAIVectorizer;
+      const authIdentity = convertSearchIndexerDataIdentityToPublic(parameters?.authIdentity);
+      const vectorizer: AzureOpenAIVectorizer = {
+        ...(generatedVectorizer as GeneratedAzureOpenAIVectorizer),
+        parameters: { ...parameters, authIdentity },
+      };
       return vectorizer;
     },
   };
@@ -993,6 +1035,39 @@ export function convertKnowledgeSourceToPublic(
         azureBlobParameters: convertAzureBlobKnowledgeSourceParametersToPublic(azureBlobParameters),
       };
     }
+    case "indexedSharePoint": {
+      const { encryptionKey, indexedSharePointParameters } = knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        indexedSharePointParameters: {
+          ...indexedSharePointParameters,
+          ingestionParameters: convertKnowledgeIngestionParametersToPublic(indexedSharePointParameters.ingestionParameters),
+        }
+      };
+    }
+    case "indexedOneLake": {
+      const { encryptionKey, indexedOneLakeParameters } = knowledgeSource as GeneratedIndexedOneLakeKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        indexedOneLakeParameters: {
+          ...indexedOneLakeParameters,
+          ingestionParameters: convertKnowledgeIngestionParametersToPublic(indexedOneLakeParameters.ingestionParameters),
+        }
+      };
+    }
+    case "remoteSharePoint": {
+      const { encryptionKey } = knowledgeSource as GeneratedRemoteSharePointKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+      };
+    }
+    case "web": {
+      const { encryptionKey } = knowledgeSource as GeneratedWebKnowledgeSource;
+      return { ...knowledgeSource, encryptionKey: convertEncryptionKeyToPublic(encryptionKey) };
+    }
   }
 }
 
@@ -1006,23 +1081,46 @@ export function convertKnowledgeSourceToGenerated(
   return { ...knowledgeSource, encryptionKey: convertEncryptionKeyToGenerated(encryptionKey) };
 }
 
+function convertKnowledgeIngestionParametersToPublic(
+  params: GeneratedKnowledgeSourceIngestionParameters | undefined,
+): KnowledgeSourceIngestionParameters | undefined {
+  if (!params) {
+    return params;
+  }
+  const { embeddingModel, chatCompletionModel, identity, ...rest } = params;
+  return {
+    ...rest,
+    embeddingModel: !embeddingModel
+      ? embeddingModel
+      : generatedKnowledgeSourceVectorizerToPublicVectorizer(embeddingModel),
+    identity: convertSearchIndexerDataIdentityToPublic(identity),
+    chatCompletionModel: !chatCompletionModel
+      ? chatCompletionModel
+      : convertKnowledgeBaseModelToPublic(chatCompletionModel),
+  } as KnowledgeSourceIngestionParameters;
+}
+
 function convertAzureBlobKnowledgeSourceParametersToPublic(
   params: GeneratedAzureBlobKnowledgeSourceParameters | undefined,
 ): AzureBlobKnowledgeSourceParameters | undefined {
   if (!params) {
     return params;
   }
-  const { embeddingModel, identity, chatCompletionModel, ...rest } = params;
+  const { ingestionParameters, ...rest } = params;
+  if (!ingestionParameters) {
+    return { ...rest };
+  }
+  const { embeddingModel, chatCompletionModel, identity } = ingestionParameters;
   return {
     ...rest,
     embeddingModel: !embeddingModel
       ? embeddingModel
-      : generatedVectorSearchVectorizerToPublicVectorizer(embeddingModel),
+      : generatedKnowledgeSourceVectorizerToPublicVectorizer(embeddingModel),
     identity: convertSearchIndexerDataIdentityToPublic(identity),
     chatCompletionModel: !chatCompletionModel
       ? chatCompletionModel
       : convertKnowledgeBaseModelToPublic(chatCompletionModel),
-  };
+  } as AzureBlobKnowledgeSourceParameters;
 }
 
 function convertKnowledgeBaseModelToPublic(model: GeneratedKnowledgeBaseModel): KnowledgeBaseModel {
