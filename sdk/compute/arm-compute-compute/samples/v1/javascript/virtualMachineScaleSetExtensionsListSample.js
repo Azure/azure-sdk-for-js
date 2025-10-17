@@ -1,0 +1,54 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeClient } = require("@azure/arm-compute-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets a list of all extensions in a VM scale set.
+ *
+ * @summary gets a list of all extensions in a VM scale set.
+ * x-ms-original-file: 2025-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MaximumSet_Gen.json
+ */
+async function virtualMachineScaleSetExtensionListMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.virtualMachineScaleSetExtensions.list(
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaa",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to gets a list of all extensions in a VM scale set.
+ *
+ * @summary gets a list of all extensions in a VM scale set.
+ * x-ms-original-file: 2025-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MinimumSet_Gen.json
+ */
+async function virtualMachineScaleSetExtensionListMinimumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.virtualMachineScaleSetExtensions.list(
+    "rgcompute",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await virtualMachineScaleSetExtensionListMaximumSetGen();
+  await virtualMachineScaleSetExtensionListMinimumSetGen();
+}
+
+main().catch(console.error);

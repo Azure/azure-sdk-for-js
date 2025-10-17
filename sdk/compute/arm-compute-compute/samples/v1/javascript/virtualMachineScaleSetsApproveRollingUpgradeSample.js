@@ -1,0 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeClient } = require("@azure/arm-compute-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+ *
+ * @summary approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+ * x-ms-original-file: 2025-04-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
+ */
+async function virtualMachineScaleSetApproveRollingUpgrade() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  await client.virtualMachineScaleSets.approveRollingUpgrade(
+    "rgcompute",
+    "vmssToApproveRollingUpgradeOn",
+    { vmInstanceIDs: { instanceIds: ["0", "1", "2"] } },
+  );
+}
+
+async function main() {
+  await virtualMachineScaleSetApproveRollingUpgrade();
+}
+
+main().catch(console.error);

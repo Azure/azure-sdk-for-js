@@ -1,0 +1,38 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeClient } = require("@azure/arm-compute-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to delete an SSH public key.
+ *
+ * @summary delete an SSH public key.
+ * x-ms-original-file: 2025-04-01/sshPublicKeyExamples/SshPublicKey_Delete_MaximumSet_Gen.json
+ */
+async function sshPublicKeyDeleteMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  await client.sshPublicKeyResources.delete("rgcompute", "aaaaaaaaaa");
+}
+
+/**
+ * This sample demonstrates how to delete an SSH public key.
+ *
+ * @summary delete an SSH public key.
+ * x-ms-original-file: 2025-04-01/sshPublicKeyExamples/SshPublicKey_Delete_MinimumSet_Gen.json
+ */
+async function sshPublicKeyDeleteMinimumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  await client.sshPublicKeyResources.delete("rgcompute", "aaaaaaaaaaaaaaaaaaa");
+}
+
+async function main() {
+  await sshPublicKeyDeleteMaximumSetGen();
+  await sshPublicKeyDeleteMinimumSetGen();
+}
+
+main().catch(console.error);

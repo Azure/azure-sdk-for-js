@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ComputeClient } from "@azure/arm-compute-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
+ *
+ * @summary gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
+ * x-ms-original-file: 2025-04-01/imageExamples/Image_ListBySubscription.json
+ */
+async function listAllVirtualMachineImagesInASubscription(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.images.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listAllVirtualMachineImagesInASubscription();
+}
+
+main().catch(console.error);

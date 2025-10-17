@@ -1,0 +1,48 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeClient } = require("@azure/arm-compute-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets a list of virtual machine image offers for the specified location, edge zone and publisher.
+ *
+ * @summary gets a list of virtual machine image offers for the specified location, edge zone and publisher.
+ * x-ms-original-file: 2025-04-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
+ */
+async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineImagesEdgeZoneOperationGroup.listOffers(
+    "aaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaa",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a list of virtual machine image offers for the specified location, edge zone and publisher.
+ *
+ * @summary gets a list of virtual machine image offers for the specified location, edge zone and publisher.
+ * x-ms-original-file: 2025-04-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
+ */
+async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.virtualMachineImagesEdgeZoneOperationGroup.listOffers(
+    "aaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  );
+  console.log(result);
+}
+
+async function main() {
+  await virtualMachineImagesEdgeZoneListOffersMaximumSetGen();
+  await virtualMachineImagesEdgeZoneListOffersMinimumSetGen();
+}
+
+main().catch(console.error);
