@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationsStatus } from "../operationsInterfaces/index.js";
+import type { OperationsStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
-import {
+import type { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
+import type {
   OperationsStatusGetOptionalParams,
   OperationsStatusGetResponse,
 } from "../models/index.js";

@@ -6,11 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { AbortSignalLike } from "@azure/abort-controller";
-import { LongRunningOperation, LroResponse } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { LongRunningOperation, LroResponse } from "@azure/core-lro";
 
 export function createLroSpec<T>(inputs: {
   sendOperationFn: (args: any, spec: any) => Promise<LroResponse<T>>;

@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateLinkResources } from "../operationsInterfaces/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
-import {
+import type { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
+import type {
   PrivateLinkResource,
   PrivateLinkResourcesListByClusterOptionalParams,
   PrivateLinkResourcesListByClusterResponse,

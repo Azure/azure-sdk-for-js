@@ -8,12 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   OperationsStatusImpl,
@@ -23,7 +23,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
 } from "./operations/index.js";
-import {
+import type {
   Operations,
   OperationsStatus,
   RedisEnterprise,
@@ -32,7 +32,7 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
 } from "./operationsInterfaces/index.js";
-import { RedisEnterpriseManagementClientOptionalParams } from "./models/index.js";
+import type { RedisEnterpriseManagementClientOptionalParams } from "./models/index.js";
 
 export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -66,7 +66,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-redisenterprisecache/4.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-redisenterprisecache/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -120,7 +120,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-05-01-preview";
+    this.apiVersion = options.apiVersion || "2025-07-01";
     this.operations = new OperationsImpl(this);
     this.operationsStatus = new OperationsStatusImpl(this);
     this.redisEnterprise = new RedisEnterpriseImpl(this);

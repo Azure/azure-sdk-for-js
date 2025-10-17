@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
@@ -344,6 +344,82 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
   },
 };
 
+export const ClusterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterProperties",
+    modelProperties: {
+      highAvailability: {
+        serializedName: "highAvailability",
+        type: {
+          name: "String",
+        },
+      },
+      minimumTlsVersion: {
+        serializedName: "minimumTlsVersion",
+        type: {
+          name: "String",
+        },
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "ClusterPropertiesEncryption",
+        },
+      },
+      hostName: {
+        serializedName: "hostName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      redundancyMode: {
+        serializedName: "redundancyMode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceState: {
+        serializedName: "resourceState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      redisVersion: {
+        serializedName: "redisVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      privateEndpointConnections: {
+        serializedName: "privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const ClusterPropertiesEncryption: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -573,6 +649,13 @@ export const ClusterUpdate: coreClient.CompositeMapper = {
           },
         },
       },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -625,6 +708,98 @@ export const DatabaseList: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseProperties",
+    modelProperties: {
+      clientProtocol: {
+        serializedName: "clientProtocol",
+        type: {
+          name: "String",
+        },
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceState: {
+        serializedName: "resourceState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      clusteringPolicy: {
+        serializedName: "clusteringPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      evictionPolicy: {
+        serializedName: "evictionPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      persistence: {
+        serializedName: "persistence",
+        type: {
+          name: "Composite",
+          className: "Persistence",
+        },
+      },
+      modules: {
+        serializedName: "modules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Module",
+            },
+          },
+        },
+      },
+      geoReplication: {
+        serializedName: "geoReplication",
+        type: {
+          name: "Composite",
+          className: "DatabasePropertiesGeoReplication",
+        },
+      },
+      redisVersion: {
+        serializedName: "redisVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      deferUpgrade: {
+        serializedName: "deferUpgrade",
+        type: {
+          name: "String",
+        },
+      },
+      accessKeysAuthentication: {
+        serializedName: "accessKeysAuthentication",
         type: {
           name: "String",
         },
@@ -1281,6 +1456,41 @@ export const FlushParameters: coreClient.CompositeMapper = {
   },
 };
 
+export const ClusterCreateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterCreateProperties",
+    modelProperties: {
+      ...ClusterProperties.type.modelProperties,
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        required: true,
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpdateProperties",
+    modelProperties: {
+      ...ClusterProperties.type.modelProperties,
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1382,6 +1592,26 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
           },
         },
       },
+    },
+  },
+};
+
+export const DatabaseCreateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseCreateProperties",
+    modelProperties: {
+      ...DatabaseProperties.type.modelProperties,
+    },
+  },
+};
+
+export const DatabaseUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseUpdateProperties",
+    modelProperties: {
+      ...DatabaseProperties.type.modelProperties,
     },
   },
 };
@@ -1499,6 +1729,13 @@ export const Cluster: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection",
             },
           },
+        },
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        nullable: true,
+        type: {
+          name: "String",
         },
       },
     },

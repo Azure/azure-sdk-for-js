@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
@@ -177,6 +177,46 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
+/** Properties of Redis Enterprise clusters, as opposed to general resource properties like location, tags */
+export interface ClusterProperties {
+  /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
+  highAvailability?: HighAvailability;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
+  minimumTlsVersion?: TlsVersion;
+  /** Encryption-at-rest configuration for the cluster. */
+  encryption?: ClusterPropertiesEncryption;
+  /**
+   * DNS name of the cluster endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * Current provisioning status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Explains the current redundancy strategy of the cluster, which affects the expected SLA.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redundancyMode?: RedundancyMode;
+  /**
+   * Current resource status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /**
+   * Version of redis the cluster supports, e.g. '6'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /**
+   * List of private endpoint connections associated with the specified Redis Enterprise cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
 /** Encryption-at-rest configuration for the cluster. */
 export interface ClusterPropertiesEncryption {
   /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
@@ -281,6 +321,8 @@ export interface ClusterUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** The response of a list-all operation. */
@@ -303,6 +345,43 @@ export interface DatabaseList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Properties of Redis Enterprise databases, as opposed to general resource properties like location, tags */
+export interface DatabaseProperties {
+  /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
+  clientProtocol?: Protocol;
+  /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
+  port?: number;
+  /**
+   * Current provisioning status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current resource status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
+  clusteringPolicy?: ClusteringPolicy;
+  /** Redis eviction policy - default is VolatileLRU */
+  evictionPolicy?: EvictionPolicy;
+  /** Persistence settings */
+  persistence?: Persistence;
+  /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
+  modules?: Module[];
+  /** Optional set of properties to configure geo replication for this database. */
+  geoReplication?: DatabasePropertiesGeoReplication;
+  /**
+   * Version of Redis the database is running on, e.g. '6.0'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
+  deferUpgrade?: DeferUpgradeSetting;
+  /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
+  accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
 /** Persistence-related configuration for the Redis Enterprise database */
@@ -568,6 +647,18 @@ export interface FlushParameters {
   ids?: string[];
 }
 
+/** Properties of Redis Enterprise clusters for create operations */
+export interface ClusterCreateProperties extends ClusterProperties {
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess: PublicNetworkAccess | null;
+}
+
+/** Properties of Redis Enterprise clusters for update operations */
+export interface ClusterUpdateProperties extends ClusterProperties {
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
@@ -607,6 +698,12 @@ export interface PrivateLinkResource extends Resource {
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
 }
+
+/** Properties for creating Redis Enterprise databases */
+export interface DatabaseCreateProperties extends DatabaseProperties {}
+
+/** Properties for updating Redis Enterprise databases */
+export interface DatabaseUpdateProperties extends DatabaseProperties {}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends ResourceAutoGenerated {}
@@ -660,6 +757,8 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Describes the access policy assignment of Redis Enterprise database */
@@ -1070,6 +1169,24 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned, UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
 
 /** Known values of {@link HighAvailability} that the service accepts. */
 export enum KnownHighAvailability {

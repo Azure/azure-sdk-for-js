@@ -1,8 +1,9 @@
 {
-  "commit": "510cf810420ef20a5bb665ce7cb4cfcf6b182014",
-  "readme": "specification/redisenterprise/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\redisenterprise\\resource-manager\\readme.md --use=@autorest/typescript@6.0.38 --generate-sample=true",
+  "commit": "7f025604791df2ace50fc3a65dc6f2ac13ad7e56",
+  "readme": "specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/readme.md",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/readme.md --tag=package-2025-07-01 --use=@autorest/typescript@6.0.45",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.26",
-  "use": "@autorest/typescript@6.0.38"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.14.9",
+  "tag": "package-2025-07-01",
+  "use": "@autorest/typescript@6.0.45"
 }
