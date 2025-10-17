@@ -109,6 +109,47 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 
 /**
+ * OneSettings change version key.
+ * @internal
+ */
+export const ONE_SETTINGS_CHANGE_VERSION_KEY = "CHANGE_VERSION";
+/**
+ * OneSettings service CNAME.
+ * @internal
+ */
+export const ONE_SETTINGS_CNAME = "https://settings.sdk.monitor.azure.com";
+/**
+ * OneSettings configuration route.
+ * @internal
+ */
+export const ONE_SETTINGS_CONFIG_PATH = "/AzMonSDKDynamicConfiguration";
+/**
+ * OneSettings change route.
+ * @internal
+ */
+export const ONE_SETTINGS_CHANGE_PATH = "/AzMonSDKDynamicConfigurationChanges";
+/**
+ * OneSettings configuration endpoint.
+ * @internal
+ */
+export const ONE_SETTINGS_CONFIG_URL = `${ONE_SETTINGS_CNAME}${ONE_SETTINGS_CONFIG_PATH}`;
+/**
+ * OneSettings change endpoint.
+ * @internal
+ */
+export const ONE_SETTINGS_CHANGE_URL = `${ONE_SETTINGS_CNAME}${ONE_SETTINGS_CHANGE_PATH}`;
+/**
+ * OneSettings default refresh interval in seconds.
+ * @internal
+ */
+export const ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_SECONDS = 3600; // 60 minutes
+/**
+ * OneSettings namespace for JavaScript exporters.
+ * @internal
+ */
+export const ONE_SETTINGS_JAVASCRIPT_KEY = "node.js";
+
+/**
  * Enables the preview version of customer-facing SDK Stats.
  * @internal
  */
