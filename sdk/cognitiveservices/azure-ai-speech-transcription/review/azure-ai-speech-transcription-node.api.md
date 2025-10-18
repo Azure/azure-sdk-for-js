@@ -4,11 +4,11 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ChannelCombinedPhrases {

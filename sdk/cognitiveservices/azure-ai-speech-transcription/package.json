@@ -84,11 +84,16 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
     "eslint": "catalog:",
+    "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",

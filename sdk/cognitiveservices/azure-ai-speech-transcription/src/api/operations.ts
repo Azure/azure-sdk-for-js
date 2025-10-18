@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TranscriptionContext as Client } from "./index.js";
-import {
+import type { TranscriptionContext as Client } from "./index.js";
+import type {
   TranscribeRequestContent,
+  TranscriptionResult} from "../models/models.js";
+import {
   transcribeRequestContentSerializer,
-  TranscriptionResult,
   transcriptionResultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import { TranscribeOptionalParams } from "./options.js";
-import {
+import type { TranscribeOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

@@ -11,12 +11,15 @@ export type FileContents =
   | Uint8Array
   | Blob;
 
+/**
+ * Creates a file part descriptor for multipart form data
+ */
 export function createFilePartDescriptor(
   partName: string,
-  fileInput: any,
+  fileInput: FileContents | { contents: FileContents; contentType?: string; filename?: string },
   defaultContentType?: string,
-): any {
-  if (fileInput.contents) {
+): Record<string, any> {
+  if (typeof fileInput === "object" && fileInput !== null && "contents" in fileInput) {
     return {
       name: partName,
       body: fileInput.contents,

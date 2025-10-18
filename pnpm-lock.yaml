@@ -4309,12 +4309,24 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.17
+      '@vitest/browser':
+        specifier: catalog:testing
+        version: 3.2.4(msw@2.7.3(@types/node@20.19.17)(typescript@5.9.3))(playwright@1.55.1)(vite@7.1.7(@types/node@20.19.17)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 3.2.4(vitest@3.2.4)
       cross-env:
         specifier: 'catalog:'
         version: 7.0.3
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.36.0
+      playwright:
+        specifier: catalog:testing
+        version: 1.55.1
       prettier:
         specifier: 'catalog:'
         version: 3.6.2
@@ -4327,6 +4339,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/commerce/arm-commerce:
     dependencies:
@@ -40905,7 +40920,7 @@ snapshots:
       magicast: 0.3.5
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 

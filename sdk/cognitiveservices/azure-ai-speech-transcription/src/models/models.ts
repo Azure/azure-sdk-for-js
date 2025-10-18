@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import type { FileContents} from "../static-helpers/multipartHelpers.js";
+import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 
 /** Request model for transcription operation. */
 export interface TranscribeRequestContent {
@@ -147,7 +148,8 @@ export interface TranscriptionResult {
   phrases: TranscribedPhrase[];
 }
 
-export function transcriptionResultDeserializer(item: any): TranscriptionResult {
+/** Deserializer for TranscriptionResult */
+export function transcriptionResultDeserializer(item: Record<string, any>): TranscriptionResult {
   return {
     durationMilliseconds: item["durationMilliseconds"],
     combinedPhrases: channelCombinedPhrasesArrayDeserializer(item["combinedPhrases"]),
@@ -171,7 +173,8 @@ export interface ChannelCombinedPhrases {
   text: string;
 }
 
-export function channelCombinedPhrasesDeserializer(item: any): ChannelCombinedPhrases {
+/** Deserializer for ChannelCombinedPhrases */
+export function channelCombinedPhrasesDeserializer(item: Record<string, any>): ChannelCombinedPhrases {
   return {
     channel: item["channel"],
     text: item["text"],
@@ -204,7 +207,8 @@ export interface TranscribedPhrase {
   confidence: number;
 }
 
-export function transcribedPhraseDeserializer(item: any): TranscribedPhrase {
+/** Deserializer for TranscribedPhrase */
+export function transcribedPhraseDeserializer(item: Record<string, any>): TranscribedPhrase {
   return {
     channel: item["channel"],
     speaker: item["speaker"],
@@ -233,7 +237,8 @@ export interface TranscribedWord {
   durationMilliseconds: number;
 }
 
-export function transcribedWordDeserializer(item: any): TranscribedWord {
+/** Deserializer for TranscribedWord */
+export function transcribedWordDeserializer(item: Record<string, any>): TranscribedWord {
   return {
     text: item["text"],
     offsetMilliseconds: item["offsetMilliseconds"],

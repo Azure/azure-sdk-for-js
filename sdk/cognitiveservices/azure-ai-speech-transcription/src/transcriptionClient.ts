@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createTranscription,
+import type {
   TranscriptionContext,
-  TranscriptionClientOptionalParams,
+  TranscriptionClientOptionalParams} from "./api/index.js";
+import {
+  createTranscription
 } from "./api/index.js";
 import { transcribe } from "./api/operations.js";
-import { TranscribeOptionalParams } from "./api/options.js";
-import { TranscribeRequestContent, TranscriptionResult } from "./models/models.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TranscribeOptionalParams } from "./api/options.js";
+import type { TranscribeRequestContent, TranscriptionResult } from "./models/models.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { TranscriptionClientOptionalParams } from "./api/transcriptionContext.js";
 

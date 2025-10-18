@@ -3,8 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownServiceApiVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions} from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface TranscriptionContext extends Client {
   /** The API version to use for this operation. */
