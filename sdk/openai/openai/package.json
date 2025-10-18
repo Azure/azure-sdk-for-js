@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "2.1.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "A companion library to openai for Azure OpenAI.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -128,7 +128,7 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "openai": "^5.10.1",
+    "openai": "^6.1.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
