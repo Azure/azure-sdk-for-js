@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileContents} from "../static-helpers/multipartHelpers.js";
+import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 
 /** Request model for transcription operation. */
@@ -174,7 +174,9 @@ export interface ChannelCombinedPhrases {
 }
 
 /** Deserializer for ChannelCombinedPhrases */
-export function channelCombinedPhrasesDeserializer(item: Record<string, any>): ChannelCombinedPhrases {
+export function channelCombinedPhrasesDeserializer(
+  item: Record<string, any>,
+): ChannelCombinedPhrases {
   return {
     channel: item["channel"],
     text: item["text"],

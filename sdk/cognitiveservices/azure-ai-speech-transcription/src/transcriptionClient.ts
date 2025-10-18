@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  TranscriptionContext,
-  TranscriptionClientOptionalParams} from "./api/index.js";
-import {
-  createTranscription
-} from "./api/index.js";
+import type { TranscriptionContext, TranscriptionClientOptionalParams } from "./api/index.js";
+import { createTranscription } from "./api/index.js";
 import { transcribe } from "./api/operations.js";
 import type { TranscribeOptionalParams } from "./api/options.js";
 import type { TranscribeRequestContent, TranscriptionResult } from "./models/models.js";
