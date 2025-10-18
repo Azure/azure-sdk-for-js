@@ -519,6 +519,26 @@ export interface ConditionalSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export interface ContentUnderstandingSkill extends BaseSearchIndexerSkill {
+    chunkingProperties?: ContentUnderstandingSkillChunkingProperties;
+    extractionOptions?: ContentUnderstandingSkillExtractionOptions[];
+    odatatype: "#Microsoft.Skills.Util.ContentUnderstandingSkill";
+}
+
+// @public
+export interface ContentUnderstandingSkillChunkingProperties {
+    maximumLength?: number;
+    overlapLength?: number;
+    unit?: ContentUnderstandingSkillChunkingUnit;
+}
+
+// @public
+export type ContentUnderstandingSkillChunkingUnit = string;
+
+// @public
+export type ContentUnderstandingSkillExtractionOptions = string;
+
+// @public
 export interface CorsOptions {
     allowedOrigins: string[];
     maxAgeInSeconds?: number;
@@ -1450,9 +1470,9 @@ export interface KnowledgeBaseSearchIndexReference extends BaseKnowledgeBaseRefe
 
 // @public
 export class KnowledgeRetrievalClient {
-    constructor(endpoint: string, agentName: string, credential: KeyCredential | TokenCredential, options?: KnowledgeRetrievalClientOptions);
-    readonly agentName: string;
+    constructor(endpoint: string, knowledgeBaseName: string, credential: KeyCredential | TokenCredential, options?: KnowledgeRetrievalClientOptions);
     readonly endpoint: string;
+    readonly knowledgeBaseName: string;
     readonly pipeline: Pipeline;
     // (undocumented)
     retrieveKnowledge(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveKnowledgeOptions): Promise<KnowledgeBaseRetrievalResponse>;
@@ -2634,9 +2654,9 @@ export enum KnownVectorFilterMode {
 
 // @public
 export enum KnownVectorQueryKind {
-    $DO_NOT_NORMALIZE$_text = "text",
     ImageBinary = "imageBinary",
     ImageUrl = "imageUrl",
+    Text = "text",
     Vector = "vector"
 }
 
@@ -3243,7 +3263,7 @@ export class SearchIndexClient {
     createKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateAlias(alias: SearchIndexAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexAlias>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
-    createOrUpdateKnowledgeBase(agentName: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
+    createOrUpdateKnowledgeBase(knowledgeBaseName: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // (undocumented)
     createOrUpdateKnowledgeSource(sourceName: string, knowledgeSource: KnowledgeSource, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
@@ -3252,8 +3272,8 @@ export class SearchIndexClient {
     deleteAlias(alias: SearchIndexAlias, options?: DeleteAliasOptions): Promise<void>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
     deleteIndex(index: SearchIndex, options?: DeleteIndexOptions): Promise<void>;
-    deleteKnowledgeBase(agentName: string, options?: DeleteKnowledgeBaseOptions): Promise<void>;
-    deleteKnowledgeBase(agent: KnowledgeBase, options?: DeleteKnowledgeBaseOptions): Promise<void>;
+    deleteKnowledgeBase(knowledgeBaseName: string, options?: DeleteKnowledgeBaseOptions): Promise<void>;
+    deleteKnowledgeBase(knowledgeBase: KnowledgeBase, options?: DeleteKnowledgeBaseOptions): Promise<void>;
     deleteKnowledgeSource(sourceName: string, options?: DeleteKnowledgeSourceOptions): Promise<void>;
     deleteKnowledgeSource(source: KnowledgeSource, options?: DeleteKnowledgeSourceOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
@@ -3262,8 +3282,8 @@ export class SearchIndexClient {
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
     getIndexStatsSummary(options?: GetIndexStatsSummaryOptions): IndexStatisticsSummaryIterator;
-    getKnowledgeBase(agentName: string, options?: GetKnowledgeBaseOptions): Promise<KnowledgeBase>;
-    getKnowledgeRetrievalClient(agentName: string, options?: KnowledgeRetrievalClientOptions): KnowledgeRetrievalClient;
+    getKnowledgeBase(knowledgeBaseName: string, options?: GetKnowledgeBaseOptions): Promise<KnowledgeBase>;
+    getKnowledgeRetrievalClient(knowledgeBaseName: string, options?: KnowledgeRetrievalClientOptions): KnowledgeRetrievalClient;
     getKnowledgeSource(sourceName: string, options?: GetKnowledgeSourceOptions): Promise<KnowledgeSource>;
     getSearchClient<TModel extends object>(indexName: string, options?: SearchClientOptions): SearchClient<TModel>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
@@ -3477,7 +3497,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = AzureMachineLearningSkill | AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | DocumentIntelligenceLayoutSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | VisionVectorizeSkill | WebApiSkills;
+export type SearchIndexerSkill = AzureMachineLearningSkill | AzureOpenAIEmbeddingSkill | ConditionalSkill | CustomEntityLookupSkill | DocumentExtractionSkill | DocumentIntelligenceLayoutSkill | ContentUnderstandingSkill | EntityLinkingSkill | EntityRecognitionSkill | EntityRecognitionSkillV3 | ImageAnalysisSkill | KeyPhraseExtractionSkill | LanguageDetectionSkill | MergeSkill | OcrSkill | PIIDetectionSkill | SentimentSkill | SentimentSkillV3 | ShaperSkill | SplitSkill | TextTranslationSkill | VisionVectorizeSkill | WebApiSkills;
 
 // @public
 export interface SearchIndexerSkillset {

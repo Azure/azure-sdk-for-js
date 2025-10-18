@@ -911,13 +911,13 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new agent or updates an agent if it already exists.
-   * @param agentName - name of the agent to create or update.
-   * @param KnowledgeBase - definition of the agent to create or update.
+   * Creates a new knowledge base or updates a knowledge base if it already exists.
+   * @param knowledgeBaseName - name of the knowledge base to create or update.
+   * @param knowledgeBase - definition of the knowledge base to create or update.
    * @param options - options parameters.
    */
   public async createOrUpdateKnowledgeBase(
-    agentName: string,
+    knowledgeBaseName: string,
     knowledgeBase: KnowledgeBase,
     options?: CreateOrUpdateKnowledgeBaseOptions,
   ): Promise<KnowledgeBase> {
@@ -929,7 +929,7 @@ export class SearchIndexClient {
       const etag = updatedOptions.onlyIfUnchanged ? knowledgeBase.etag : undefined;
 
       const result = await this.client.knowledgeBases.createOrUpdate(
-        agentName,
+        knowledgeBaseName,
         utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
         {
           ...updatedOptions,
@@ -949,17 +949,17 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves an agent definition.
-   * @param agentName - name of the agent to retrieve.
+   * Retrieves a knowledge base definition.
+   * @param knowledgeBaseName - name of the knowledge base to retrieve.
    * @param options - options parameters.
    */
   public async getKnowledgeBase(
-    agentName: string,
+    knowledgeBaseName: string,
     options?: GetKnowledgeBaseOptions,
   ): Promise<KnowledgeBase> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeBase", options);
     try {
-      const result = await this.client.knowledgeBases.get(agentName, updatedOptions);
+      const result = await this.client.knowledgeBases.get(knowledgeBaseName, updatedOptions);
       return utils.convertKnowledgeBaseToPublic(result)!;
     } catch (e: any) {
       span.setStatus({
@@ -1023,34 +1023,34 @@ export class SearchIndexClient {
   }
 
   /**
-   * Deletes an existing agent.
-   * @param agentName - name of the agent to delete.
+   * Deletes an existing knowledge base.
+   * @param knowledgeBaseName - name of the knowledge base to delete.
    * @param options - options parameters.
    */
   public async deleteKnowledgeBase(
-    agentName: string,
+    knowledgeBaseName: string,
     options?: DeleteKnowledgeBaseOptions,
   ): Promise<void>;
   /**
-   * Deletes an existing agent.
-   * @param agent - the agent to delete.
+   * Deletes an existing knowledge base.
+   * @param knowledgeBase - the knowledge base to delete.
    * @param options - options parameters.
    */
   public async deleteKnowledgeBase(
-    agent: KnowledgeBase,
+    knowledgeBase: KnowledgeBase,
     options?: DeleteKnowledgeBaseOptions,
   ): Promise<void>;
   public async deleteKnowledgeBase(
-    agent: string | KnowledgeBase,
+    knowledgeBase: string | KnowledgeBase,
     options?: DeleteKnowledgeBaseOptions,
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteKnowledgeBase", options);
     try {
-      const agentName = typeof agent === "string" ? agent : agent.name;
+      const knowledgeBaseName = typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
       const etag =
-        typeof agent !== "string" && updatedOptions.onlyIfUnchanged ? agent.etag : undefined;
+        typeof knowledgeBase !== "string" && updatedOptions.onlyIfUnchanged ? knowledgeBase.etag : undefined;
 
-      const result = await this.client.knowledgeBases.delete(agentName, {
+      const result = await this.client.knowledgeBases.delete(knowledgeBaseName, {
         ...updatedOptions,
         ifMatch: etag,
       });
@@ -1267,16 +1267,16 @@ export class SearchIndexClient {
 
   /**
    * Retrieves the KnowledgeRetrievalClient corresponding to this SearchIndexClient
-   * @param agentName - Name of the agent
+   * @param knowledgeBaseName - Name of the knowledge base
    * @param options - KnowledgeRetrievalClient Options
    */
   public getKnowledgeRetrievalClient(
-    agentName: string,
+    knowledgeBaseName: string,
     options?: GetKnowledgeRetrievalClientOptions,
   ): KnowledgeRetrievalClient {
     return new KnowledgeRetrievalClient(
       this.endpoint,
-      agentName,
+      knowledgeBaseName,
       this.credential,
       options || this.options,
     );

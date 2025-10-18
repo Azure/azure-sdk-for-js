@@ -1139,7 +1139,7 @@ function convertKnowledgeBaseModelToPublic(model: GeneratedKnowledgeBaseModel): 
       };
     }
     default: {
-      logger.warning("Unknown knowledge agent model kind");
+      logger.warning("Unknown knowledge base model kind");
       return model as any;
     }
   }

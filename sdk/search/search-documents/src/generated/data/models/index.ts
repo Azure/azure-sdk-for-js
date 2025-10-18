@@ -329,7 +329,7 @@ export interface SearchResult {
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly _documentDebugInfo?: _documentDebugInfo;
+  readonly _documentDebugInfo?: DocumentDebugInfo;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
@@ -349,7 +349,7 @@ export interface QueryCaptionResult {
 }
 
 /** Contains debugging information that can be used to further explore your search results. */
-export interface _documentDebugInfo {
+export interface DocumentDebugInfo {
   /**
    * Contains debugging information specific to semantic ranking requests.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1198,7 +1198,7 @@ export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
   Vector = "vector",
   /** Vector query where a text value that needs to be vectorized is provided. */
-  $DO_NOT_NORMALIZE$_text = "text",
+  Text = "text",
   /** Vector query where an url that represents an image value that needs to be vectorized is provided. */
   ImageUrl = "imageUrl",
   /** Vector query where a base 64 encoded binary of an image that needs to be vectorized is provided. */

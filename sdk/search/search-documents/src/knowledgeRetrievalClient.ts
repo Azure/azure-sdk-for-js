@@ -40,7 +40,7 @@ export interface KnowledgeRetrievalClientOptions extends ExtendedCommonClientOpt
 }
 
 /**
- * Class used to perform operations against a knowledge agent.
+ * Class used to perform operations against a knowledge base.
  */
 export class KnowledgeRetrievalClient {
   /// Maintenance note: when updating supported API versions,
@@ -57,9 +57,9 @@ export class KnowledgeRetrievalClient {
   public readonly endpoint: string;
 
   /**
-   * The name of the knowledge agent
+   * The name of the knowledge base
    */
-  public readonly agentName: string;
+  public readonly knowledgeBaseName: string;
 
   /**
    * @hidden
@@ -81,24 +81,24 @@ export class KnowledgeRetrievalClient {
    *
    * const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
    *   "<endpoint>",
-   *   "<agentName>",
+   *   "<knowledgeBaseName>",
    *   new AzureKeyCredential("<apiKey>"),
    * );
    * ```
    
    * @param endpoint - The endpoint of the search service
-   * @param agentName - The name of the knowledge agent
+   * @param knowledgeBaseName - The name of the knowledge base
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Search client.
    */
   constructor(
     endpoint: string,
-    agentName: string,
+    knowledgeBaseName: string,
     credential: KeyCredential | TokenCredential,
     options: KnowledgeRetrievalClientOptions = {},
   ) {
     this.endpoint = endpoint;
-    this.agentName = agentName;
+    this.knowledgeBaseName = knowledgeBaseName;
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
@@ -121,7 +121,7 @@ export class KnowledgeRetrievalClient {
 
     this.client = new GeneratedClient(
       this.endpoint,
-      this.agentName,
+      this.knowledgeBaseName,
       this.serviceVersion,
       internalClientPipelineOptions,
     );

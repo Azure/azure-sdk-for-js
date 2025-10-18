@@ -27,6 +27,7 @@ import type {
   CommonGramTokenFilter,
   CommonModelParameters,
   ConditionalSkill,
+  ContentUnderstandingSkill,
   CorsOptions,
   CustomEntity,
   CustomNormalizer,
@@ -724,6 +725,7 @@ export type SearchIndexerSkill =
   | CustomEntityLookupSkill
   | DocumentExtractionSkill
   | DocumentIntelligenceLayoutSkill
+  | ContentUnderstandingSkill
   | EntityLinkingSkill
   | EntityRecognitionSkill
   | EntityRecognitionSkillV3
@@ -1245,7 +1247,7 @@ export type IndexStatisticsSummaryIterator = PagedAsyncIterableIterator<
 >;
 
 /**
- * An iterator for listing the knowledge agents that exist in the Search service. Will make requests
+ * An iterator for listing the knowledge bases that exist in the Search service. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server per iteration.
  */
 export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
@@ -3185,11 +3187,11 @@ export interface BaseKnowledgeSource {
    */
   description?: string;
   /**
-   * The ETag of the agent.
+   * The ETag of the knowledge base.
    */
   etag?: string;
   /**
-   * A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your agent definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your agent definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your agent definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019.
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your knowledge base definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your knowledge base definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your knowledge base definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
 }
