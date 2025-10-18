@@ -72,7 +72,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let TEST_AGENT_NAME: string;
     let azureOpenAIParameters: AzureOpenAIParameters;
     let knowledgeBase: KnowledgeBase;
-    let knowledgeSource : KnowledgeSource;
+    let knowledgeSource: KnowledgeSource;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
@@ -95,7 +95,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         searchIndexParameters: {
           searchIndexName: TEST_INDEX_NAME,
         },
-      }
+      };
       knowledgeBase = {
         name: "knowledge-base",
         models: [{ kind: "azureOpenAI", azureOpenAIParameters }],

@@ -51,7 +51,7 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       searchIndexParameters: {
         searchIndexName: TEST_INDEX_NAME,
       },
-    })
+    });
 
     await indexClient.createKnowledgeBase({
       name: TEST_AGENT_NAME,
