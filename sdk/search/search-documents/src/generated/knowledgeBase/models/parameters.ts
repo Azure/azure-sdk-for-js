@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { KnowledgeBaseRetrievalRequest as KnowledgeBaseRetrievalRequestMapper } from "../models/mappers.js";
+import { KnowledgeBaseRetrievalRequest as KnowledgeBaseRetrievalRequestMapper } from "./mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

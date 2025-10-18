@@ -7,7 +7,8 @@ import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AzureOpenAIParameters,
   AzureOpenAIVectorizer,
-  KnowledgeAgent,
+  KnowledgeBase,
+  KnowledgeSource,
   SearchIndex,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
@@ -70,7 +71,8 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let TEST_INDEX_NAME: string;
     let TEST_AGENT_NAME: string;
     let azureOpenAIParameters: AzureOpenAIParameters;
-    let knowledgeAgent: KnowledgeAgent;
+    let knowledgeBase: KnowledgeBase;
+    let knowledgeSource : KnowledgeSource;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
@@ -87,10 +89,17 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         TEST_INDEX_NAME,
         TEST_AGENT_NAME,
       ));
-      knowledgeAgent = {
-        name: "knowledge-agent",
+      knowledgeSource = {
+        kind: "searchIndex",
+        name: "searchIndex-ks",
+        searchIndexParameters: {
+          searchIndexName: TEST_INDEX_NAME,
+        },
+      }
+      knowledgeBase = {
+        name: "knowledge-base",
         models: [{ kind: "azureOpenAI", azureOpenAIParameters }],
-        targetIndexes: [{ indexName: TEST_INDEX_NAME }],
+        knowledgeSources: [knowledgeSource],
       };
 
       await createSynonymMaps(indexClient);
@@ -100,7 +109,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
 
     afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+      await indexClient.deleteKnowledgeBase(knowledgeBase.name);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
       await recorder?.stop();
@@ -298,38 +307,38 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
-    describe("#knowledgeAgent", async () => {
+    describe("#knowledgeBase", async () => {
       beforeEach(async () => {
-        await indexClient.createKnowledgeAgent(knowledgeAgent);
+        await indexClient.createKnowledgeBase(knowledgeBase);
       });
       afterEach(async () => {
-        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+        await indexClient.deleteKnowledgeBase(knowledgeBase.name);
       });
 
-      it("creates knowledge agents", async () => {
-        const test = await indexClient.getKnowledgeAgent(knowledgeAgent.name);
-        assert.deepEqual(test.name, knowledgeAgent.name);
+      it("creates knowledge bases", async () => {
+        const test = await indexClient.getKnowledgeBase(knowledgeBase.name);
+        assert.deepEqual(test.name, knowledgeBase.name);
       });
-      it("updates knowledge agents", async () => {
-        const test = await indexClient.createOrUpdateKnowledgeAgent(
-          knowledgeAgent.name,
-          knowledgeAgent,
+      it("updates knowledge bases", async () => {
+        const test = await indexClient.createOrUpdateKnowledgeBase(
+          knowledgeBase.name,
+          knowledgeBase,
         );
 
-        assert.deepEqual(test.name, knowledgeAgent.name);
+        assert.deepEqual(test.name, knowledgeBase.name);
       });
-      it("lists knowledge agents", async () => {
+      it("lists knowledge bases", async () => {
         const test = [];
-        for await (const ka of indexClient.listKnowledgeAgents()) {
-          test.push(ka.name);
+        for await (const kb of indexClient.listKnowledgeBases()) {
+          test.push(kb.name);
         }
-        assert.deepEqual(test, [knowledgeAgent.name]);
+        assert.deepEqual(test, [knowledgeBase.name]);
       });
-      it("deletes knowledge agents", async () => {
-        await indexClient.deleteKnowledgeAgent(knowledgeAgent.name);
+      it("deletes knowledge bases", async () => {
+        await indexClient.deleteKnowledgeBase(knowledgeBase.name);
         const test = [];
-        for await (const ka of indexClient.listKnowledgeAgents()) {
-          test.push(ka.name);
+        for await (const kb of indexClient.listKnowledgeBases()) {
+          test.push(kb.name);
         }
         assert.deepEqual(test, []);
       });

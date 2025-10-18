@@ -6,6 +6,13 @@ import type {
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
 } from "./generated/data/models/index.js";
 import type {
+  CustomAnalyzer as BaseCustomAnalyzer,
+  SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
+  BM25Similarity,
+  ClassicSimilarity,
+  CognitiveServicesAccountUnion,
+  DataChangeDetectionPolicyUnion,
+  DataDeletionDetectionPolicyUnion,
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
   AIServicesVisionVectorizer as GeneratedAIServicesVisionVectorizer,
@@ -13,19 +20,11 @@ import type {
   AMLVectorizer as GeneratedAMLVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters as GeneratedAzureBlobKnowledgeSourceParameters,
-  KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters,
   AzureOpenAIParameters as GeneratedAzureOpenAIParameters,
   AzureOpenAIVectorizer as GeneratedAzureOpenAIVectorizer,
-  BM25Similarity,
-  ClassicSimilarity,
   CognitiveServicesAccountKey as GeneratedCognitiveServicesAccountKey,
-  CognitiveServicesAccountUnion,
-  CustomAnalyzer as BaseCustomAnalyzer,
-  DataChangeDetectionPolicyUnion,
-  DataDeletionDetectionPolicyUnion,
   DefaultCognitiveServicesAccount as GeneratedDefaultCognitiveServicesAccount,
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
-  HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
   IndexedOneLakeKnowledgeSource as GeneratedIndexedOneLakeKnowledgeSource,
   IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
@@ -33,37 +32,38 @@ import type {
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
   KnowledgeSourceUnion as GeneratedKnowledgeSource,
-  LexicalAnalyzerUnion,
-  LexicalTokenizerUnion,
-  LuceneStandardAnalyzer,
-  PatternAnalyzer as GeneratedPatternAnalyzer,
-  PatternTokenizer,
+  KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters,
   KnowledgeSourceVectorizer as GeneratedKnowledgeSourceVectorizer,
+  PatternAnalyzer as GeneratedPatternAnalyzer,
   RemoteSharePointKnowledgeSource as GeneratedRemoteSharePointKnowledgeSource,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   SearchIndexer as GeneratedSearchIndexer,
   SearchIndexerCache as GeneratedSearchIndexerCache,
-  SearchIndexerDataIdentityUnion,
-  SearchIndexerDataNoneIdentity,
   SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
-  SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
   SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
-  SearchIndexerSkillUnion,
   SearchIndexKnowledgeSource as GeneratedSearchIndexKnowledgeSource,
   SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
-  SimilarityUnion,
-  SoftDeleteColumnDeletionDetectionPolicy,
-  SqlIntegratedChangeTrackingPolicy,
-  StopAnalyzer,
   SynonymMap as GeneratedSynonymMap,
-  TokenFilterUnion,
   VectorSearch as GeneratedVectorSearch,
   VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
   WebApiVectorizer as GeneratedWebApiVectorizer,
   WebKnowledgeSource as GeneratedWebKnowledgeSource,
+  HighWaterMarkChangeDetectionPolicy,
+  LexicalAnalyzerUnion,
+  LexicalTokenizerUnion,
+  LuceneStandardAnalyzer,
+  PatternTokenizer,
+  SearchIndexerDataIdentityUnion,
+  SearchIndexerDataNoneIdentity,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerSkillUnion,
+  SimilarityUnion,
+  SoftDeleteColumnDeletionDetectionPolicy,
+  SqlIntegratedChangeTrackingPolicy,
+  StopAnalyzer,
+  TokenFilterUnion,
 } from "./generated/service/models/index.js";
 import type {
   SearchResult,
@@ -129,7 +129,7 @@ import type {
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 
-export const defaultServiceVersion = "2025-08-01-Preview";
+export const defaultServiceVersion = "2025-11-01-Preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -555,13 +555,13 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       const { aIServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
       const parameters = generatedParameters
         ? {
-          ...generatedParameters,
-          modelVersion: generatedParameters.modelVersion ?? undefined,
-          resourceUri: generatedParameters.resourceUri,
-          authIdentity: convertSearchIndexerDataIdentityToPublic(
-            generatedParameters.authIdentity,
-          ),
-        }
+            ...generatedParameters,
+            modelVersion: generatedParameters.modelVersion ?? undefined,
+            resourceUri: generatedParameters.resourceUri,
+            authIdentity: convertSearchIndexerDataIdentityToPublic(
+              generatedParameters.authIdentity,
+            ),
+          }
         : undefined;
       const vectorizer: AIServicesVisionVectorizer = {
         ...generatedVisionVectorizer,
@@ -1036,25 +1036,31 @@ export function convertKnowledgeSourceToPublic(
       };
     }
     case "indexedSharePoint": {
-      const { encryptionKey, indexedSharePointParameters } = knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
+      const { encryptionKey, indexedSharePointParameters } =
+        knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
       return {
         ...knowledgeSource,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
         indexedSharePointParameters: {
           ...indexedSharePointParameters,
-          ingestionParameters: convertKnowledgeIngestionParametersToPublic(indexedSharePointParameters.ingestionParameters),
-        }
+          ingestionParameters: convertKnowledgeIngestionParametersToPublic(
+            indexedSharePointParameters.ingestionParameters,
+          ),
+        },
       };
     }
     case "indexedOneLake": {
-      const { encryptionKey, indexedOneLakeParameters } = knowledgeSource as GeneratedIndexedOneLakeKnowledgeSource;
+      const { encryptionKey, indexedOneLakeParameters } =
+        knowledgeSource as GeneratedIndexedOneLakeKnowledgeSource;
       return {
         ...knowledgeSource,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
         indexedOneLakeParameters: {
           ...indexedOneLakeParameters,
-          ingestionParameters: convertKnowledgeIngestionParametersToPublic(indexedOneLakeParameters.ingestionParameters),
-        }
+          ingestionParameters: convertKnowledgeIngestionParametersToPublic(
+            indexedOneLakeParameters.ingestionParameters,
+          ),
+        },
       };
     }
     case "remoteSharePoint": {

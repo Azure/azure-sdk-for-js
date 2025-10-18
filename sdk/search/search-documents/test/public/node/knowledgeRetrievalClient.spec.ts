@@ -45,7 +45,15 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
     ));
     await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
 
-    await indexClient.createKnowledgeAgent({
+    await indexClient.createKnowledgeSource({
+      kind: "searchIndex",
+      name: "searchIndex-ks",
+      searchIndexParameters: {
+        searchIndexName: TEST_INDEX_NAME,
+      },
+    })
+
+    await indexClient.createKnowledgeBase({
       name: TEST_AGENT_NAME,
       models: [
         {
@@ -53,7 +61,7 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
           azureOpenAIParameters: { ...azureOpenAIParameters, modelName: "gpt-4o" },
         },
       ],
-      targetIndexes: [{ indexName: TEST_INDEX_NAME }],
+      knowledgeSources: [{ name: "searchIndex-ks" }],
     });
 
     await delay(WAIT_TIME);
@@ -61,7 +69,7 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteKnowledgeAgent(TEST_AGENT_NAME);
+    await indexClient.deleteKnowledgeBase(TEST_AGENT_NAME);
     await indexClient.deleteIndex(TEST_INDEX_NAME);
     await delay(WAIT_TIME);
     await recorder?.stop();
