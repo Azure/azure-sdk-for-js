@@ -5,7 +5,6 @@ const { Platform } = require("react-native"); // eslint-disable-line @typescript
 
 /**
  * Returns information about the platform this function is being run on.
- * @hidden
  * @internal
  */
 export function getRuntimeInfo(): string {
