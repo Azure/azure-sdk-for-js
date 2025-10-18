@@ -218,8 +218,36 @@ export const FacetResult: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      avg: {
+        serializedName: "avg",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      min: {
+        serializedName: "min",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      max: {
+        serializedName: "max",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
       sum: {
         serializedName: "sum",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      cardinality: {
+        serializedName: "cardinality",
         readOnly: true,
         type: {
           name: "Number",

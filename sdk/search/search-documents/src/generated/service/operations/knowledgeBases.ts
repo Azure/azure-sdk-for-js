@@ -6,30 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { KnowledgeAgents } from "../operationsInterfaces/index.js";
+import { KnowledgeBases } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SearchServiceClient } from "../searchServiceClient.js";
 import {
-  KnowledgeAgent,
-  KnowledgeAgentsCreateOrUpdateOptionalParams,
-  KnowledgeAgentsCreateOrUpdateResponse,
-  KnowledgeAgentsDeleteOptionalParams,
-  KnowledgeAgentsGetOptionalParams,
-  KnowledgeAgentsGetResponse,
-  KnowledgeAgentsListOptionalParams,
-  KnowledgeAgentsListResponse,
-  KnowledgeAgentsCreateOptionalParams,
-  KnowledgeAgentsCreateResponse,
+  KnowledgeBase,
+  KnowledgeBasesCreateOrUpdateOptionalParams,
+  KnowledgeBasesCreateOrUpdateResponse,
+  KnowledgeBasesDeleteOptionalParams,
+  KnowledgeBasesGetOptionalParams,
+  KnowledgeBasesGetResponse,
+  KnowledgeBasesListOptionalParams,
+  KnowledgeBasesListResponse,
+  KnowledgeBasesCreateOptionalParams,
+  KnowledgeBasesCreateResponse,
 } from "../models/index.js";
 
-/** Class containing KnowledgeAgents operations. */
-export class KnowledgeAgentsImpl implements KnowledgeAgents {
+/** Class containing KnowledgeBases operations. */
+export class KnowledgeBasesImpl implements KnowledgeBases {
   private readonly client: SearchServiceClient;
 
   /**
-   * Initialize a new instance of the class KnowledgeAgents class.
+   * Initialize a new instance of the class KnowledgeBases class.
    * @param client Reference to the service client
    */
   constructor(client: SearchServiceClient) {
@@ -37,73 +37,73 @@ export class KnowledgeAgentsImpl implements KnowledgeAgents {
   }
 
   /**
-   * Creates a new agent or updates an agent if it already exists.
-   * @param agentName The name of the agent to create or update.
-   * @param knowledgeAgent The definition of the agent to create or update.
+   * Creates a new knowledge base or updates an knowledge base if it already exists.
+   * @param knowledgeBaseName The name of the knowledge base to create or update.
+   * @param knowledgeBase The definition of the knowledge base to create or update.
    * @param options The options parameters.
    */
   createOrUpdate(
-    agentName: string,
-    knowledgeAgent: KnowledgeAgent,
-    options?: KnowledgeAgentsCreateOrUpdateOptionalParams,
-  ): Promise<KnowledgeAgentsCreateOrUpdateResponse> {
+    knowledgeBaseName: string,
+    knowledgeBase: KnowledgeBase,
+    options?: KnowledgeBasesCreateOrUpdateOptionalParams,
+  ): Promise<KnowledgeBasesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { agentName, knowledgeAgent, options },
+      { knowledgeBaseName, knowledgeBase, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Deletes an existing agent.
-   * @param agentName The name of the agent to delete.
+   * Deletes an existing knowledge base.
+   * @param knowledgeBaseName The name of the knowledge base to delete.
    * @param options The options parameters.
    */
   delete(
-    agentName: string,
-    options?: KnowledgeAgentsDeleteOptionalParams,
+    knowledgeBaseName: string,
+    options?: KnowledgeBasesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { agentName, options },
+      { knowledgeBaseName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieves an agent definition.
-   * @param agentName The name of the agent to retrieve.
+   * Retrieves an knowledge base definition.
+   * @param knowledgeBaseName The name of the knowledge base to retrieve.
    * @param options The options parameters.
    */
   get(
-    agentName: string,
-    options?: KnowledgeAgentsGetOptionalParams,
-  ): Promise<KnowledgeAgentsGetResponse> {
+    knowledgeBaseName: string,
+    options?: KnowledgeBasesGetOptionalParams,
+  ): Promise<KnowledgeBasesGetResponse> {
     return this.client.sendOperationRequest(
-      { agentName, options },
+      { knowledgeBaseName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Lists all agents available for a search service.
+   * Lists all knowledge bases available for a search service.
    * @param options The options parameters.
    */
   list(
-    options?: KnowledgeAgentsListOptionalParams,
-  ): Promise<KnowledgeAgentsListResponse> {
+    options?: KnowledgeBasesListOptionalParams,
+  ): Promise<KnowledgeBasesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Creates a new agent.
-   * @param knowledgeAgent The definition of the agent to create.
+   * Creates a new knowledge base.
+   * @param knowledgeBase The definition of the knowledge base to create.
    * @param options The options parameters.
    */
   create(
-    knowledgeAgent: KnowledgeAgent,
-    options?: KnowledgeAgentsCreateOptionalParams,
-  ): Promise<KnowledgeAgentsCreateResponse> {
+    knowledgeBase: KnowledgeBase,
+    options?: KnowledgeBasesCreateOptionalParams,
+  ): Promise<KnowledgeBasesCreateResponse> {
     return this.client.sendOperationRequest(
-      { knowledgeAgent, options },
+      { knowledgeBase, options },
       createOperationSpec,
     );
   }
@@ -112,22 +112,22 @@ export class KnowledgeAgentsImpl implements KnowledgeAgents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/agents('{agentName}')",
+  path: "/knowledgebases('{knowledgeBaseName}')",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.KnowledgeAgent,
+      bodyMapper: Mappers.KnowledgeBase,
     },
     201: {
-      bodyMapper: Mappers.KnowledgeAgent,
+      bodyMapper: Mappers.KnowledgeBase,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.knowledgeAgent,
+  requestBody: Parameters.knowledgeBase,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.agentName],
+  urlParameters: [Parameters.endpoint, Parameters.knowledgeBaseName],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
@@ -139,7 +139,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/agents('{agentName}')",
+  path: "/knowledgebases('{knowledgeBaseName}')",
   httpMethod: "DELETE",
   responses: {
     204: {},
@@ -149,7 +149,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.agentName],
+  urlParameters: [Parameters.endpoint, Parameters.knowledgeBaseName],
   headerParameters: [
     Parameters.accept,
     Parameters.ifMatch,
@@ -158,27 +158,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/agents('{agentName}')",
+  path: "/knowledgebases('{knowledgeBaseName}')",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KnowledgeAgent,
+      bodyMapper: Mappers.KnowledgeBase,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.agentName],
+  urlParameters: [Parameters.endpoint, Parameters.knowledgeBaseName],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/agents",
+  path: "/knowledgebases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListKnowledgeAgentsResult,
+      bodyMapper: Mappers.ListKnowledgeBasesResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -190,17 +190,17 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/agents",
+  path: "/knowledgebases",
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.KnowledgeAgent,
+      bodyMapper: Mappers.KnowledgeBase,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.knowledgeAgent,
+  requestBody: Parameters.knowledgeBase,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
