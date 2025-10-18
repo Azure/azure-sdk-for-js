@@ -4,90 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-catalogs:
-  arm:
-    '@azure/arm-cognitiveservices':
-      specifier: 7.6.0
-      version: 7.6.0
-    '@azure/arm-storage':
-      specifier: 18.5.0
-      version: 18.5.0
-    '@azure/arm-webpubsub':
-      specifier: 1.2.0
-      version: 1.2.0
-  default:
-    '@types/node':
-      specifier: ^20.19.0
-      version: 20.19.21
-    autorest:
-      specifier: latest
-      version: 3.7.2
-    cross-env:
-      specifier: ^7.0.3
-      version: 7.0.3
-    eslint:
-      specifier: ^9.33.0
-      version: 9.37.0
-    prettier:
-      specifier: ^3.6.2
-      version: 3.6.2
-    rimraf:
-      specifier: ^6.0.1
-      version: 6.0.1
-    tshy:
-      specifier: ^3.0.0
-      version: 3.0.3
-    tslib:
-      specifier: ^2.8.1
-      version: 2.8.1
-    tsx:
-      specifier: ^4.20.4
-      version: 4.20.6
-    typescript:
-      specifier: ~5.9.3
-      version: 5.9.3
-  internal:
-    '@azure/identity':
-      specifier: 4.11.1
-      version: 4.11.1
-  testing:
-    '@rollup/plugin-inject':
-      specifier: ^5.0.5
-      version: 5.0.5
-    '@types/chai-as-promised':
-      specifier: ^8.0.2
-      version: 8.0.2
-    '@vitest/browser':
-      specifier: ^3.2.3
-      version: 3.2.4
-    '@vitest/coverage-istanbul':
-      specifier: ^3.2.3
-      version: 3.2.4
-    '@vitest/expect':
-      specifier: ^3.2.3
-      version: 3.2.4
-    chai:
-      specifier: ^6.2.0
-      version: 6.2.0
-    chai-as-promised:
-      specifier: ^8.0.1
-      version: 8.0.2
-    chai-exclude:
-      specifier: ^3.0.0
-      version: 3.0.1
-    dotenv:
-      specifier: ^16.0.0
-      version: 16.6.1
-    nock:
-      specifier: ^13.5.4
-      version: 13.5.6
-    playwright:
-      specifier: ^1.50.1
-      version: 1.56.0
-    vitest:
-      specifier: ^3.2.3
-      version: 3.2.4
-
 importers:
 
   .:
@@ -4309,30 +4225,46 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.21
-      '@vitest/browser':
-        specifier: catalog:testing
-        version: 3.2.4(msw@2.7.3(@types/node@20.19.21)(typescript@5.9.3))(playwright@1.56.0)(vite@7.1.9(@types/node@20.19.21)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 3.2.4(vitest@3.2.4)
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
+      cross-env:
+        specifier: 'catalog:'
+        version: 7.0.3
       eslint:
         specifier: 'catalog:'
         version: 9.37.0
-      playwright:
-        specifier: catalog:testing
-        version: 1.56.0
       prettier:
         specifier: 'catalog:'
         version: 3.6.2
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.0.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
-      vitest:
-        specifier: catalog:testing
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.21)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.21)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+
+  sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/typescript:
+    dependencies:
+      '@azure/azure-ai-speech-transcription':
+        specifier: file:..\..\..\azure-azure-ai-speech-transcription-1.0.0-beta.1.tgz
+        version: file:sdk/cognitiveservices/azure-ai-speech-transcription/azure-azure-ai-speech-transcription-1.0.0-beta.1.tgz
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../../../../core/core-auth
+      dotenv:
+        specifier: latest
+        version: 17.2.3
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.21
+      rimraf:
+        specifier: latest
+        version: 6.0.1
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   sdk/commerce/arm-commerce:
     dependencies:
@@ -33264,6 +33196,11 @@ packages:
     resolution: {integrity: sha512-FZMMUv6EFy5GTURJShQxMyZ/oH6qoD8uclv280qrR1d/NSXsgfOs6mnQ4pbG2iZJaG1hzM5dwwl/QTVEphpwvA==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/azure-ai-speech-transcription@file:sdk/cognitiveservices/azure-ai-speech-transcription/azure-azure-ai-speech-transcription-1.0.0-beta.1.tgz':
+    resolution: {integrity: sha512-stjqKxjSHy2+PQ4nMNzlrJ7RzYWTNE10cassekk3jjuLH2KE+4DVdyFZ8IijuiTKr4v1zdiwQi7vzsJLrq0vXw==, tarball: file:sdk/cognitiveservices/azure-ai-speech-transcription/azure-azure-ai-speech-transcription-1.0.0-beta.1.tgz}
+    version: 1.0.0-beta.1
+    engines: {node: '>=20.0.0'}
+
   '@azure/communication-common@2.4.0':
     resolution: {integrity: sha512-wwn4AoOgTgoA9OZkO34SKBpQg7/kfcABnzbaYEbc+9bCkBtwwjgMEk6xM+XLEE/uuODZ8q8jidUoNcZHQyP5AQ==}
     engines: {node: '>=18.0.0'}
@@ -35796,6 +35733,10 @@ packages:
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
+  dotenv@17.2.3:
+    resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -38522,6 +38463,17 @@ snapshots:
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.22.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/azure-ai-speech-transcription@file:sdk/cognitiveservices/azure-ai-speech-transcription/azure-azure-ai-speech-transcription-1.0.0-beta.1.tgz':
+    dependencies:
+      '@azure-rest/core-client': 2.5.1
+      '@azure/core-auth': 1.10.1
+      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -41590,6 +41542,8 @@ snapshots:
     optional: true
 
   dotenv@16.6.1: {}
+
+  dotenv@17.2.3: {}
 
   dunder-proto@1.0.1:
     dependencies:

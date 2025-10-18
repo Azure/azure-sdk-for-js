@@ -4,10 +4,11 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
+import { ClientOptions } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ChannelCombinedPhrases {
@@ -75,7 +76,7 @@ export interface TranscribeRequestContent {
 
 // @public (undocumented)
 export class TranscriptionClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: TranscriptionClientOptionalParams);
+    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptionalParams);
     readonly pipeline: Pipeline;
     transcribe(body: TranscribeRequestContent, options?: TranscribeOptionalParams): Promise<TranscriptionResult>;
 }
@@ -93,9 +94,9 @@ export interface TranscriptionDiarizationOptions {
 
 // @public
 export interface TranscriptionOptions {
+    activeChannels?: number[];
     audioUrl?: string;
-    channels?: number[];
-    diarization?: TranscriptionDiarizationOptions;
+    diarizationOptions?: TranscriptionDiarizationOptions;
     enhancedMode?: EnhancedModeProperties;
     locales?: string[];
     models?: Record<string, string>;

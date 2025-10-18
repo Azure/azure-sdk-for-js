@@ -5,6 +5,11 @@ import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-
 import { Recorder } from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
+  ENDPOINT: "https://fake-speech-resource.cognitiveservices.azure.com/",
+  API_KEY: "fake_api_key",
+  AZURE_CLIENT_ID: "fake_client_id",
+  AZURE_CLIENT_SECRET: "fake_client_secret",
+  AZURE_TENANT_ID: "fake_tenant_id",
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
 

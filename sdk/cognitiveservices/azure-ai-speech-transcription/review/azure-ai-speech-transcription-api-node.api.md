@@ -4,13 +4,14 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export function createTranscription(endpoint: string, credential: KeyCredential, options?: TranscriptionClientOptionalParams): TranscriptionContext;
+export function createTranscription(endpointParam: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptionalParams): TranscriptionContext;
 
 // @public
 export function transcribe(context: TranscriptionContext, body: TranscribeRequestContent, options?: TranscribeOptionalParams): Promise<TranscriptionResult>;

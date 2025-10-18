@@ -15,6 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                           | **Description**                                               |
 | ------------------------------------------------------- | ------------------------------------------------------------- |
 | [basicTranscription.ts][basictranscription]             | transcribe an audio file with automatic language detection    |
+| [enhancedMode.ts][enhancedmode]                         | use enhanced mode for translation and advanced processing     |
 | [transcriptionFromUrl.ts][transcriptionfromurl]         | transcribe audio from a URL with automatic language detection |
 | [speakerDiarization.ts][speakerdiarization]             | identify and separate different speakers in audio             |
 | [phraseList.ts][phraselist]                             | use phrase lists to improve transcription accuracy            |
@@ -73,6 +74,7 @@ npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" AU
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [basictranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/typescript/src/basicTranscription.ts
+[enhancedmode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/typescript/src/enhancedMode.ts
 [transcriptionfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/typescript/src/transcriptionFromUrl.ts
 [speakerdiarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/typescript/src/speakerDiarization.ts
 [phraselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitiveservices/azure-ai-speech-transcription/samples/v1/typescript/src/phraseList.ts

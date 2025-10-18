@@ -11,18 +11,4 @@ export default azsdkEslint.config([
       "tsdoc/syntax": "warn",
     },
   },
-  {
-    files: ["samples-dev/**/*.ts"],
-    rules: {
-      "tsdoc/syntax": "off",
-    },
-  },
-  {
-    files: ["src/models/**/*.ts", "src/static-helpers/**/*.ts"],
-    rules: {
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "n/no-unsupported-features/node-builtins": "off",
-      "no-param-reassign": "off",
-    },
-  },
 ]);

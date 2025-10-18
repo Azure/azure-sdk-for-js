@@ -1,7 +1,7 @@
 {
   "name": "@azure/azure-ai-speech-transcription",
   "version": "1.0.0-beta.1",
-  "description": "A generated SDK for TranscriptionClient.",
+  "description": "Azure AI Speech Transcription client library for JavaScript with dual authentication support (API Key and Azure AD).",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -34,7 +34,16 @@
     "cloud",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "speech",
+    "transcription",
+    "ai",
+    "cognitive-services",
+    "speech-to-text",
+    "audio",
+    "authentication",
+    "api-key",
+    "azure-ad"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -58,16 +67,6 @@
       }
     ]
   },
-  "//sampleConfiguration": {
-    "productName": "Azure AI Speech Transcription",
-    "productSlugs": [
-      "azure",
-      "azure-cognitive-services"
-    ],
-    "requiredResources": {
-      "Azure AI Speech resource": "https://learn.microsoft.com/azure/ai-services/speech-service/overview"
-    }
-  },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
     "@azure-rest/core-client": "^2.3.1",
@@ -81,17 +80,15 @@
     "@azure-tools/test-recorder": "workspace:*",
     "@azure-tools/test-utils-vitest": "workspace:*",
     "@azure/dev-tool": "workspace:*",
+    "tshy": "catalog:",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
-    "@vitest/browser": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
@@ -104,7 +101,6 @@
     "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate:client": "echo skipped",
-    "post-generation": "pwsh -ExecutionPolicy Bypass -File ./scripts/post-generation.ps1",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",

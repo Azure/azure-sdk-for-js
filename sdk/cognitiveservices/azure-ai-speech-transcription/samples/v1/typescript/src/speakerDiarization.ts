@@ -22,11 +22,11 @@ export async function main(): Promise<void> {
 
   const endpoint = process.env.ENDPOINT || "<endpoint>";
   const apiKey = process.env.API_KEY || "<api-key>";
-  
+
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
 
   const audioFilePath = process.env.AUDIO_FILE_PATH || "path/to/audio.wav";
-  
+
   if (!fs.existsSync(audioFilePath)) {
     console.error(`Audio file not found: ${audioFilePath}`);
     console.log("Please set the AUDIO_FILE_PATH environment variable to a valid audio file.");
@@ -40,7 +40,7 @@ export async function main(): Promise<void> {
     audio: audioFile,
     options: {
       locales: ["en-US"],
-      diarization: {
+      diarizationOptions: {
         enabled: true,
         maxSpeakers: 4, // Hint for maximum number of speakers
       },
@@ -69,7 +69,9 @@ export async function main(): Promise<void> {
   console.log("\n\nDetailed Phrases with Timing:");
   for (const phrase of result.phrases) {
     const speaker = phrase.speaker !== undefined ? ` (Speaker ${phrase.speaker})` : "";
-    console.log(`[${phrase.offsetMilliseconds}ms - ${phrase.offsetMilliseconds + phrase.durationMilliseconds}ms]${speaker}: ${phrase.text}`);
+    console.log(
+      `[${phrase.offsetMilliseconds}ms - ${phrase.offsetMilliseconds + phrase.durationMilliseconds}ms]${speaker}: ${phrase.text}`,
+    );
   }
 }
 

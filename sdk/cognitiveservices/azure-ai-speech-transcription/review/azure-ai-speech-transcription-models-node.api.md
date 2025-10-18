@@ -69,9 +69,9 @@ export interface TranscriptionDiarizationOptions {
 
 // @public
 export interface TranscriptionOptions {
+    activeChannels?: number[];
     audioUrl?: string;
-    channels?: number[];
-    diarization?: TranscriptionDiarizationOptions;
+    diarizationOptions?: TranscriptionDiarizationOptions;
     enhancedMode?: EnhancedModeProperties;
     locales?: string[];
     models?: Record<string, string>;

@@ -3,9 +3,8 @@
 
 import { logger } from "../logger.js";
 import { KnownServiceApiVersions } from "../models/models.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { KeyCredential } from "@azure/core-auth";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface TranscriptionContext extends Client {
   /** The API version to use for this operation. */
@@ -21,11 +20,11 @@ export interface TranscriptionClientOptionalParams extends ClientOptions {
 }
 
 export function createTranscription(
-  endpoint: string,
-  credential: KeyCredential,
+  endpointParam: string,
+  credential: KeyCredential | TokenCredential,
   options: TranscriptionClientOptionalParams = {},
 ): TranscriptionContext {
-  const endpointUrl = options.endpoint ?? `${endpoint}/speechtotext`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}/speechtotext`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-azure-ai-speech-transcription/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -36,6 +35,7 @@ export function createTranscription(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };

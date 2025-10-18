@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TranscriptionContext, TranscriptionClientOptionalParams } from "./api/index.js";
-import { createTranscription } from "./api/index.js";
+import {
+  createTranscription,
+  TranscriptionContext,
+  TranscriptionClientOptionalParams,
+} from "./api/index.js";
 import { transcribe } from "./api/operations.js";
-import type { TranscribeOptionalParams } from "./api/options.js";
-import type { TranscribeRequestContent, TranscriptionResult } from "./models/models.js";
-import type { KeyCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { TranscribeOptionalParams } from "./api/options.js";
+import { TranscribeRequestContent, TranscriptionResult } from "./models/models.js";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { TranscriptionClientOptionalParams } from "./api/transcriptionContext.js";
 
@@ -17,15 +20,15 @@ export class TranscriptionClient {
   public readonly pipeline: Pipeline;
 
   constructor(
-    endpoint: string,
-    credential: KeyCredential,
+    endpointParam: string,
+    credential: KeyCredential | TokenCredential,
     options: TranscriptionClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createTranscription(endpoint, credential, {
+    this._client = createTranscription(endpointParam, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

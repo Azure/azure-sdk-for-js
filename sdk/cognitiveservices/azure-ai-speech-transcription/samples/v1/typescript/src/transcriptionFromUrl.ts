@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
 
   const endpoint = process.env.ENDPOINT || "<endpoint>";
   const apiKey = process.env.API_KEY || "<api-key>";
-  
+
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
 
   // URL to an audio file (must be publicly accessible)

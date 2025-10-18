@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileContents } from "../static-helpers/multipartHelpers.js";
-import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 
 /** Request model for transcription operation. */
 export interface TranscribeRequestContent {
@@ -41,9 +40,9 @@ export interface TranscriptionOptions {
   /** Mode of profanity filtering. */
   profanityFilterMode?: ProfanityFilterMode;
   /** Mode of diarization. */
-  diarization?: TranscriptionDiarizationOptions;
+  diarizationOptions?: TranscriptionDiarizationOptions;
   /** The 0-based indices of the channels to be transcribed separately. If not specified, multiple channels are merged and transcribed jointly. Only up to two channels are supported. */
-  channels?: number[];
+  activeChannels?: number[];
   /** Enhanced mode properties. */
   enhancedMode?: EnhancedModeProperties;
   /** Phrase list properties. */
@@ -60,12 +59,12 @@ export function transcriptionOptionsSerializer(item: TranscriptionOptions): any 
         }),
     models: item["models"],
     profanityFilterMode: item["profanityFilterMode"],
-    diarization: !item["diarization"]
-      ? item["diarization"]
-      : transcriptionDiarizationOptionsSerializer(item["diarization"]),
-    channels: !item["channels"]
-      ? item["channels"]
-      : item["channels"].map((p: any) => {
+    diarization: !item["diarizationOptions"]
+      ? item["diarizationOptions"]
+      : transcriptionDiarizationOptionsSerializer(item["diarizationOptions"]),
+    channels: !item["activeChannels"]
+      ? item["activeChannels"]
+      : item["activeChannels"].map((p: any) => {
           return p;
         }),
     enhancedMode: !item["enhancedMode"]
@@ -80,7 +79,7 @@ export function transcriptionOptionsSerializer(item: TranscriptionOptions): any 
 /** Mode of profanity filtering. */
 export type ProfanityFilterMode = "None" | "Removed" | "Tags" | "Masked";
 
-/** The Speaker Identification settings. Diarization settings must be specified to enable speaker identification. */
+/** The Speaker Diarization settings. Diarization settings must be specified to enable speaker diarization. */
 export interface TranscriptionDiarizationOptions {
   /** Gets or sets a value indicating whether speaker diarization is enabled. */
   enabled?: boolean;

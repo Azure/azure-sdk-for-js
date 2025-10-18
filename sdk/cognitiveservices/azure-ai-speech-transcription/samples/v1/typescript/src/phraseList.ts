@@ -21,11 +21,11 @@ export async function main(): Promise<void> {
 
   const endpoint = process.env.ENDPOINT || "<endpoint>";
   const apiKey = process.env.API_KEY || "<api-key>";
-  
+
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
 
   const audioFilePath = process.env.AUDIO_FILE_PATH || "path/to/audio.wav";
-  
+
   if (!fs.existsSync(audioFilePath)) {
     console.error(`Audio file not found: ${audioFilePath}`);
     console.log("Please set the AUDIO_FILE_PATH environment variable to a valid audio file.");
