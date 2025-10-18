@@ -39,7 +39,7 @@ You can find the endpoint for your Azure Transcription resource in the [Azure Po
 
 The simplest way to authenticate is by using an API key. You can find your API key in the [Azure Portal][azure_portal] under your Speech resource.
 
-```typescript
+```typescript snippet:ApiKeyAuthentication
 import { TranscriptionClient } from "@azure/azure-ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -62,7 +62,7 @@ For more information about how to create an Azure AD Application check out [this
 
 **Using Node.js and Node-like environments:** Use the `DefaultAzureCredential` class to authenticate the client.
 
-```typescript
+```typescript snippet:AzureADAuthentication
 import { TranscriptionClient } from "@azure/azure-ai-speech-transcription";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -71,14 +71,14 @@ const client = new TranscriptionClient("<endpoint>", new DefaultAzureCredential(
 
 **For browser environments:** Use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
-```typescript
+```typescript snippet:BrowserAuthentication
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { TranscriptionClient } from "@azure/azure-ai-speech-transcription";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new TranscriptionClient("<endpoint>", credential);
 ```
 
@@ -86,29 +86,24 @@ const client = new TranscriptionClient("<endpoint>", credential);
 
 Here's a simple example showing how to transcribe an audio file:
 
-```typescript
+```typescript snippet:TranscribeAudio
 import { TranscriptionClient } from "@azure/azure-ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
-import * as fs from "fs";
 
 async function main() {
   // Using API Key authentication
   const client = new TranscriptionClient(
-    "https://your-resource.cognitiveservices.azure.com/", 
-    new AzureKeyCredential("your-api-key")
+    "https://your-resource.cognitiveservices.azure.com/",
+    new AzureKeyCredential("your-api-key"),
   );
-
   // Read audio file
   const audioFile = fs.readFileSync("path/to/audio.wav");
-
   // Transcribe the audio
   const result = await client.transcribe({
     audio: audioFile,
   });
-
   console.log("Transcription:", result.combinedPhrases[0].text);
 }
-
 main().catch(console.error);
 ```
 
@@ -128,7 +123,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts 
+```ts snippet:EnableLogging
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

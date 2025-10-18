@@ -3,35 +3,53 @@
 
 import { TranscriptionClient } from "../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import * as fs from "fs";
 
 describe("snippets", () => {
-  it("ReadmeSampleCreateClient_ApiKey", async () => {
-    const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-    const apiKey = process.env.API_KEY ?? "<api-key>";
-    const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
+  it("ApiKeyAuthentication", async () => {
+    // @ts-ignore
+    const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
   });
 
-  it("ReadmeSampleBasicTranscription", async () => {
-    const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-    const apiKey = process.env.API_KEY ?? "<api-key>";
-    const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
+  it("AzureADAuthentication", async () => {
+    // @ts-ignore
+    const client = new TranscriptionClient("<endpoint>", new DefaultAzureCredential());
+  });
 
-    const audioFilePath = process.env.AUDIO_FILE_PATH ?? "path/to/audio.wav";
-    // For testing purposes, we'll create a mock audio file buffer
-    // In real usage, you would read an actual audio file
-    const audioFile = fs.existsSync(audioFilePath)
-      ? fs.readFileSync(audioFilePath)
-      : Buffer.from([]);
+  it("BrowserAuthentication", async () => {
+    const credential = new InteractiveBrowserCredential({
+      tenantId: "<YOUR_TENANT_ID>",
+      clientId: "<YOUR_CLIENT_ID>",
+    });
+    // @ts-ignore
+    const client = new TranscriptionClient("<endpoint>", credential);
+  });
+
+  it("TranscribeAudio", async () => {
+    async function main() {
+      // Using API Key authentication
+      const client = new TranscriptionClient(
+        "https://your-resource.cognitiveservices.azure.com/",
+        new AzureKeyCredential("your-api-key"),
+      );
+
+      // Read audio file
+      const audioFile = fs.readFileSync("path/to/audio.wav");
+
+      // Transcribe the audio
+      // @ts-ignore
+      const result = await client.transcribe({
+        audio: audioFile,
+      });
+
+      console.log("Transcription:", result.combinedPhrases[0].text);
+    }
 
     // @ts-ignore
-    const result = await client.transcribe({
-      audio: audioFile,
-    });
-
-    console.log("Transcription:", result.combinedPhrases[0]?.text);
+    main().catch(console.error);
   });
 
   it("ReadmeSampleTranscriptionWithLocale", async () => {
@@ -148,7 +166,7 @@ describe("snippets", () => {
     console.log("Transcription:", result.combinedPhrases[0]?.text);
   });
 
-  it("SetLogLevel", async () => {
+  it("EnableLogging", async () => {
     setLogLevel("info");
   });
 });
