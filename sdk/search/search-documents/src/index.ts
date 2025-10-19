@@ -207,6 +207,7 @@ export {
   KnownSplitSkillUnit,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
+  KnowledgeSourceStatus,
   KnownVectorEncodingFormat,
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,

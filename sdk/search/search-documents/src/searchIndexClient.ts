@@ -9,7 +9,7 @@ import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult, IndexStatisticsSummary } from "./generated/service/models/index.js";
+import type { AnalyzeResult, IndexStatisticsSummary, KnowledgeSourceStatus } from "./generated/service/models/index.js";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
@@ -44,6 +44,7 @@ import type {
   GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
+  GetKnowledgeSourceStatusOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
@@ -1246,6 +1247,31 @@ export class SearchIndexClient {
   }
 
   /**
+   * Returns the current status and synchronization history of a knowledge source.
+   * @param sourceName - The name of the knowledge source for which to retrieve status.
+   * @param options - The options parameters.
+   */
+  public async getKnowledgeSourceStatus(
+    sourceName: string,
+    options?: GetKnowledgeSourceStatusOptions,
+  ): Promise<KnowledgeSourceStatus> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeSourceStatus", options);
+    try {
+      const result = await this.client.knowledgeSources.getStatus(sourceName, updatedOptions);
+      return result;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  
+
+  /**
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
@@ -1281,4 +1307,6 @@ export class SearchIndexClient {
       options || this.options,
     );
   }
+
+
 }

@@ -102,6 +102,10 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         knowledgeSources: [knowledgeSource],
       };
 
+      await indexClient.getKnowledgeSourceStatus(knowledgeSource.name).catch(() => {
+        // ignore errors in case the knowledge source is not yet created
+      });
+
       await createSynonymMaps(indexClient);
       await createSimpleIndex(indexClient, TEST_INDEX_NAME);
       await delay(WAIT_TIME);

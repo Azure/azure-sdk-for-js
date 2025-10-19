@@ -1536,6 +1536,19 @@ export interface KnowledgeSourceReference {
 }
 
 // @public
+export interface KnowledgeSourceStatus {
+    // Warning: (ae-forgotten-export) The symbol "SynchronizationState" needs to be exported by the entry point index.d.ts
+    currentSynchronizationState?: SynchronizationState;
+    // Warning: (ae-forgotten-export) The symbol "CompletedSynchronizationState" needs to be exported by the entry point index.d.ts
+    lastSynchronizationState?: CompletedSynchronizationState;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceStatistics" needs to be exported by the entry point index.d.ts
+    statistics?: KnowledgeSourceStatistics;
+    synchronizationInterval?: string;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceSynchronizationStatus" needs to be exported by the entry point index.d.ts
+    synchronizationStatus: KnowledgeSourceSynchronizationStatus;
+}
+
+// @public
 export enum KnownAIFoundryModelCatalogName {
     CohereEmbedV3English = "Cohere-embed-v3-english",
     CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
@@ -3285,6 +3298,8 @@ export class SearchIndexClient {
     getKnowledgeBase(knowledgeBaseName: string, options?: GetKnowledgeBaseOptions): Promise<KnowledgeBase>;
     getKnowledgeRetrievalClient(knowledgeBaseName: string, options?: KnowledgeRetrievalClientOptions): KnowledgeRetrievalClient;
     getKnowledgeSource(sourceName: string, options?: GetKnowledgeSourceOptions): Promise<KnowledgeSource>;
+    // Warning: (ae-forgotten-export) The symbol "GetKnowledgeSourceStatusOptions" needs to be exported by the entry point index.d.ts
+    getKnowledgeSourceStatus(sourceName: string, options?: GetKnowledgeSourceStatusOptions): Promise<KnowledgeSourceStatus>;
     getSearchClient<TModel extends object>(indexName: string, options?: SearchClientOptions): SearchClient<TModel>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
