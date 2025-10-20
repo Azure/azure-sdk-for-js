@@ -16,7 +16,11 @@ export async function generateKey(secret: string, stringToSign: string): Promise
     ["sign"],
   );
 
-  const signature = await globalThis.crypto.subtle.sign("HMAC", key, convertToUint8Array(stringToSign));
+  const signature = await globalThis.crypto.subtle.sign(
+    "HMAC",
+    key,
+    convertToUint8Array(stringToSign),
+  );
   const base64encodedString = encodeByteArray(new Uint8Array(signature));
   const result = encodeURIComponent(base64encodedString);
   return result;
