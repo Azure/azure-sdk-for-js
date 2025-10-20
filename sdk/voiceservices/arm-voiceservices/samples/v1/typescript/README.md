@@ -61,7 +61,7 @@ node dist/communicationsGatewaysCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env VOICESERVICES_SUBSCRIPTION_ID="<voiceservices subscription id>" VOICESERVICES_RESOURCE_GROUP="<voiceservices resource group>" node dist/communicationsGatewaysCreateOrUpdateSample.js
+cross-env VOICESERVICES_SUBSCRIPTION_ID="<voiceservices subscription id>" VOICESERVICES_RESOURCE_GROUP="<voiceservices resource group>" node dist/communicationsGatewaysCreateOrUpdateSample.js
 ```
 
 ## Next Steps
