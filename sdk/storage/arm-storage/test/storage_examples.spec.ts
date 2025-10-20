@@ -16,6 +16,7 @@ const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
+
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   removeCentralSanitizers: [
