@@ -17,10 +17,6 @@ import * as crypto from "crypto";
 
 global.Buffer = Buffer;
 
-// eslint-disable-next-line import/first
-import { polyfillWebCrypto } from "expo-standard-web-crypto";
-polyfillWebCrypto();
-
 if (typeof process.nextTick == "undefined") {
   process.nextTick = setImmediate;
 }
