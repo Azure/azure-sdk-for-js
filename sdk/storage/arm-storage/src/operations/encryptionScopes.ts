@@ -64,7 +64,12 @@ export class EncryptionScopesImpl implements EncryptionScopes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, accountName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -85,7 +90,12 @@ export class EncryptionScopesImpl implements EncryptionScopes {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -98,7 +108,11 @@ export class EncryptionScopesImpl implements EncryptionScopes {
     accountName: string,
     options?: EncryptionScopesListOptionalParams,
   ): AsyncIterableIterator<EncryptionScope> {
-    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
       yield* page;
     }
   }

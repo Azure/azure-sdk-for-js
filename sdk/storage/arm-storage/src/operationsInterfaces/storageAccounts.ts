@@ -55,7 +55,9 @@ export interface StorageAccounts {
    * returned; use the ListKeys operation for this.
    * @param options The options parameters.
    */
-  list(options?: StorageAccountsListOptionalParams): PagedAsyncIterableIterator<StorageAccount>;
+  list(
+    options?: StorageAccountsListOptionalParams,
+  ): PagedAsyncIterableIterator<StorageAccount>;
   /**
    * Lists all the storage accounts available under the given resource group. Note that storage keys are
    * not returned; use the ListKeys operation for this.
@@ -97,7 +99,10 @@ export interface StorageAccounts {
     parameters: StorageAccountCreateParameters,
     options?: StorageAccountsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<StorageAccountsCreateResponse>, StorageAccountsCreateResponse>
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateResponse>,
+      StorageAccountsCreateResponse
+    >
   >;
   /**
    * Asynchronously creates a new storage account with the specified parameters. If an account is already

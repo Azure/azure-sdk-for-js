@@ -99,7 +99,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-01-01",
+    defaultValue: "2025-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -715,19 +715,20 @@ export const tableName: OperationURLParameter = {
   },
 };
 
-export const networkSecurityPerimeterConfigurationName: OperationURLParameter = {
-  parameterPath: "networkSecurityPerimeterConfigurationName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^.*$"),
+export const networkSecurityPerimeterConfigurationName: OperationURLParameter =
+  {
+    parameterPath: "networkSecurityPerimeterConfigurationName",
+    mapper: {
+      constraints: {
+        Pattern: new RegExp("^.*$"),
+      },
+      serializedName: "networkSecurityPerimeterConfigurationName",
+      required: true,
+      type: {
+        name: "String",
+      },
     },
-    serializedName: "networkSecurityPerimeterConfigurationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
+  };
 
 export const parameters14: OperationParameter = {
   parameterPath: "parameters",

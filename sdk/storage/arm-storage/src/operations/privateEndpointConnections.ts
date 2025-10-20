@@ -23,7 +23,9 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
+export class PrivateEndpointConnectionsImpl
+  implements PrivateEndpointConnections
+{
   private readonly client: StorageManagementClient;
 
   /**
@@ -60,7 +62,12 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, accountName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -81,7 +88,11 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     accountName: string,
     options?: PrivateEndpointConnectionsListOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
       yield* page;
     }
   }

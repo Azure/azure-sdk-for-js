@@ -92,7 +92,9 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * Lists deleted accounts under the subscription.
    * @param options The options parameters.
    */
-  private _list(options?: DeletedAccountsListOptionalParams): Promise<DeletedAccountsListResponse> {
+  private _list(
+    options?: DeletedAccountsListOptionalParams,
+  ): Promise<DeletedAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -122,7 +124,10 @@ export class DeletedAccountsImpl implements DeletedAccounts {
     nextLink: string,
     options?: DeletedAccountsListNextOptionalParams,
   ): Promise<DeletedAccountsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -176,7 +181,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

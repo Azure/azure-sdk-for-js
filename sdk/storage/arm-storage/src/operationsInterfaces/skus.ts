@@ -14,5 +14,7 @@ export interface Skus {
    * Lists the available SKUs supported by Microsoft.Storage for given subscription.
    * @param options The options parameters.
    */
-  list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuInformation>;
+  list(
+    options?: SkusListOptionalParams,
+  ): PagedAsyncIterableIterator<SkuInformation>;
 }

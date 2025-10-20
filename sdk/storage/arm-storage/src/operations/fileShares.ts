@@ -70,7 +70,12 @@ export class FileSharesImpl implements FileShares {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, accountName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -91,7 +96,12 @@ export class FileSharesImpl implements FileShares {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -104,7 +114,11 @@ export class FileSharesImpl implements FileShares {
     accountName: string,
     options?: FileSharesListOptionalParams,
   ): AsyncIterableIterator<FileShareItem> {
-    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -471,7 +485,11 @@ const leaseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.shareName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.xMsSnapshot],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsSnapshot,
+  ],
   mediaType: "json",
   serializer,
 };

@@ -1031,6 +1031,11 @@ export type FileSharesUpdateResponse = FileShare;
 export type Format = string;
 
 // @public
+export interface GeoPriorityReplicationStatus {
+    isBlobEnabled?: boolean;
+}
+
+// @public
 export interface GeoReplicationStats {
     readonly canFailover?: boolean;
     readonly canPlannedFailover?: boolean;
@@ -2179,6 +2184,7 @@ export interface ObjectReplicationPolicy extends Resource {
     readonly enabledTime?: Date;
     metrics?: ObjectReplicationPolicyPropertiesMetrics;
     readonly policyId?: string;
+    priorityReplication?: ObjectReplicationPolicyPropertiesPriorityReplication;
     rules?: ObjectReplicationPolicyRule[];
     sourceAccount?: string;
 }
@@ -2191,6 +2197,11 @@ export interface ObjectReplicationPolicyFilter {
 
 // @public
 export interface ObjectReplicationPolicyPropertiesMetrics {
+    enabled?: boolean;
+}
+
+// @public
+export interface ObjectReplicationPolicyPropertiesPriorityReplication {
     enabled?: boolean;
 }
 
@@ -2692,6 +2703,7 @@ export interface StorageAccount extends TrackedResource {
     readonly encryption?: Encryption;
     extendedLocation?: ExtendedLocation;
     readonly failoverInProgress?: boolean;
+    geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
     readonly geoReplicationStats?: GeoReplicationStats;
     identity?: Identity;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
@@ -2746,6 +2758,7 @@ export interface StorageAccountCreateParameters {
     enableNfsV3?: boolean;
     encryption?: Encryption;
     extendedLocation?: ExtendedLocation;
+    geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
     identity?: Identity;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
     isHnsEnabled?: boolean;
@@ -3028,6 +3041,7 @@ export interface StorageAccountUpdateParameters {
     enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     encryption?: Encryption;
+    geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
     identity?: Identity;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
     isLocalUserEnabled?: boolean;

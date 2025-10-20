@@ -61,7 +61,12 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, accountName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -82,7 +87,11 @@ export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
     accountName: string,
     options?: BlobInventoryPoliciesListOptionalParams,
   ): AsyncIterableIterator<BlobInventoryPolicy> {
-    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
       yield* page;
     }
   }

@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { StorageManagementClient } from "../storageManagementClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   StorageAccount,
@@ -152,7 +156,11 @@ export class StorageAccountsImpl implements StorageAccounts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -172,7 +180,11 @@ export class StorageAccountsImpl implements StorageAccounts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -184,7 +196,10 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     options?: StorageAccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<StorageAccount> {
-    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -225,7 +240,10 @@ export class StorageAccountsImpl implements StorageAccounts {
     parameters: StorageAccountCreateParameters,
     options?: StorageAccountsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<StorageAccountsCreateResponse>, StorageAccountsCreateResponse>
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateResponse>,
+      StorageAccountsCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -237,7 +255,8 @@ export class StorageAccountsImpl implements StorageAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -299,7 +318,12 @@ export class StorageAccountsImpl implements StorageAccounts {
     parameters: StorageAccountCreateParameters,
     options?: StorageAccountsCreateOptionalParams,
   ): Promise<StorageAccountsCreateResponse> {
-    const poller = await this.beginCreate(resourceGroupName, accountName, parameters, options);
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      accountName,
+      parameters,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -377,7 +401,9 @@ export class StorageAccountsImpl implements StorageAccounts {
    * returned; use the ListKeys operation for this.
    * @param options The options parameters.
    */
-  private _list(options?: StorageAccountsListOptionalParams): Promise<StorageAccountsListResponse> {
+  private _list(
+    options?: StorageAccountsListOptionalParams,
+  ): Promise<StorageAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -519,7 +545,8 @@ export class StorageAccountsImpl implements StorageAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -583,7 +610,11 @@ export class StorageAccountsImpl implements StorageAccounts {
     accountName: string,
     options?: StorageAccountsFailoverOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginFailover(resourceGroupName, accountName, options);
+    const poller = await this.beginFailover(
+      resourceGroupName,
+      accountName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -616,7 +647,8 @@ export class StorageAccountsImpl implements StorageAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -709,7 +741,8 @@ export class StorageAccountsImpl implements StorageAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -801,7 +834,8 @@ export class StorageAccountsImpl implements StorageAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -923,7 +957,8 @@ export class StorageAccountsImpl implements StorageAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1021,7 +1056,10 @@ export class StorageAccountsImpl implements StorageAccounts {
     nextLink: string,
     options?: StorageAccountsListNextOptionalParams,
   ): Promise<StorageAccountsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 
   /**
@@ -1162,7 +1200,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1279,28 +1321,29 @@ const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+    httpMethod: "POST",
+    responses: {
+      200: {},
+      201: {},
+      202: {},
+      204: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.subscriptionId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
   httpMethod: "POST",
@@ -1397,7 +1440,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageAccountListResult,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
