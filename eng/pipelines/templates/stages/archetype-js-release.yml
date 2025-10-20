@@ -174,8 +174,7 @@ stages:
                         displayName: "Install dependencies"
 
                       - bash: |
-                          npm install --prod
-                          npm install -g
+                          npm link
                         workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/dev-tool
                         displayName: Install dev-tool
 
