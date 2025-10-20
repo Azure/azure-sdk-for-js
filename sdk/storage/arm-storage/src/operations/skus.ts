@@ -10,11 +10,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { StorageManagementClient } from "../storageManagementClient.js";
-import type {
-  SkuInformation,
-  SkusListOptionalParams,
-  SkusListResponse,
-} from "../models/index.js";
+import type { SkuInformation, SkusListOptionalParams, SkusListResponse } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Skus operations. */
@@ -33,9 +29,7 @@ export class SkusImpl implements Skus {
    * Lists the available SKUs supported by Microsoft.Storage for given subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: SkusListOptionalParams,
-  ): PagedAsyncIterableIterator<SkuInformation> {
+  public list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuInformation> {
     const iter = this.listPagingAll(options);
     return {
       next() {

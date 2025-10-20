@@ -66,12 +66,7 @@ export class QueueImpl implements Queue {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -92,12 +87,7 @@ export class QueueImpl implements Queue {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,11 +100,7 @@ export class QueueImpl implements Queue {
     accountName: string,
     options?: QueueListOptionalParams,
   ): AsyncIterableIterator<ListQueue> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -365,11 +351,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.filter,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

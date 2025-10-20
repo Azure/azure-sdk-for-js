@@ -11,12 +11,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { StorageManagementClient } from "../storageManagementClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   ListContainerItem,
@@ -92,12 +88,7 @@ export class BlobContainersImpl implements BlobContainers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -118,12 +109,7 @@ export class BlobContainersImpl implements BlobContainers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -136,11 +122,7 @@ export class BlobContainersImpl implements BlobContainers {
     accountName: string,
     options?: BlobContainersListOptionalParams,
   ): AsyncIterableIterator<ListContainerItem> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -531,8 +513,7 @@ export class BlobContainersImpl implements BlobContainers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -772,35 +753,29 @@ const clearLegalHoldOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const createOrUpdateImmutabilityPolicyOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ImmutabilityPolicy,
-        headersMapper:
-          Mappers.BlobContainersCreateOrUpdateImmutabilityPolicyHeaders,
-      },
+const createOrUpdateImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImmutabilityPolicy,
+      headersMapper: Mappers.BlobContainersCreateOrUpdateImmutabilityPolicyHeaders,
     },
-    requestBody: Parameters.parameters1,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.accountName,
-      Parameters.subscriptionId,
-      Parameters.containerName,
-      Parameters.immutabilityPolicyName,
-    ],
-    headerParameters: [
-      Parameters.accept,
-      Parameters.contentType,
-      Parameters.ifMatch,
-    ],
-    mediaType: "json",
-    serializer,
-  };
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.containerName,
+    Parameters.immutabilityPolicyName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  mediaType: "json",
+  serializer,
+};
 const getImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
   httpMethod: "GET",
@@ -881,11 +856,7 @@ const extendImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.containerName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };
