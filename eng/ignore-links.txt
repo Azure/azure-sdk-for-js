@@ -50,3 +50,4 @@ https://learn.microsoft.com/javascript/api/@azure/arm-storagediscovery?view=azur
 https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhcivm?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-workloadorchestration?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-computerecommender?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-virtualenclaves?view=azure-node-preview
