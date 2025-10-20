@@ -176,11 +176,11 @@ stages:
                       - bash: |
                           npm link
                         workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/dev-tool
-                        displayName: Install dev-tool
+                        displayName: Link dev-tool globally
 
                       - bash: |
                           node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                        displayName: Update samples
+                        displayName: Publish samples for ${{ artifact.name }}
 
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
