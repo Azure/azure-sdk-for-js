@@ -3,12 +3,12 @@
 
 // import type { Recorder } from "@azure-tools/test-recorder";
 // import { createRecorder } from "./utils/recordedClient.js";
-import { 
+import {
   assert,
   // beforeEach,
   // afterEach,
   it,
-  describe
+  describe,
 } from "vitest";
 
 describe("My test", () => {
