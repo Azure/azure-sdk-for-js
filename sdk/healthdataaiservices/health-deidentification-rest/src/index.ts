@@ -1,16 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import DeidentificationClient from "./deidentificationClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./deidentificationClient.js";
-export * from "./parameters.js";
-export * from "./responses.js";
-export * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export * from "./models.js";
-export * from "./outputModels.js";
-export * from "./paginateHelper.js";
-export * from "./pollingHelper.js";
-
-export default DeidentificationClient;
+export { DeidentificationClient } from "./deidentificationClient.js";
+export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export {
+  DeidentificationJob,
+  DeidentificationOperationType,
+  SourceStorageLocation,
+  TargetStorageLocation,
+  DeidentificationJobCustomizationOptions,
+  OperationState,
+  DeidentificationJobSummary,
+  DeidentificationDocumentDetails,
+  DeidentificationDocumentLocation,
+  DeidentificationContent,
+  TaggedPhiEntities,
+  TextEncodingType,
+  SimplePhiEntity,
+  PhiCategory,
+  DeidentificationCustomizationOptions,
+  DeidentificationResult,
+  PhiTaggerResult,
+  PhiEntity,
+  StringIndex,
+  KnownVersions,
+} from "./models/index.js";
+export {
+  DeidentificationClientOptionalParams,
+  DeidentifyTextOptionalParams,
+  DeleteJobOptionalParams,
+  CancelJobOptionalParams,
+  ListJobDocumentsOptionalParams,
+  ListJobsOptionalParams,
+  DeidentifyDocumentsOptionalParams,
+  GetJobOptionalParams,
+} from "./api/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

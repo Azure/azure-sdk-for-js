@@ -1,65 +1,119 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger.js";
+import type { DeidentificationContext, DeidentificationClientOptionalParams } from "./api/index.js";
+import { createDeidentification } from "./api/index.js";
+import {
+  deidentifyText,
+  deleteJob,
+  cancelJob,
+  listJobDocuments,
+  listJobs,
+  deidentifyDocuments,
+  getJob,
+} from "./api/operations.js";
+import type {
+  DeidentifyTextOptionalParams,
+  DeleteJobOptionalParams,
+  CancelJobOptionalParams,
+  ListJobDocumentsOptionalParams,
+  ListJobsOptionalParams,
+  DeidentifyDocumentsOptionalParams,
+  GetJobOptionalParams,
+} from "./api/options.js";
+import type {
+  DeidentificationJob,
+  DeidentificationDocumentDetails,
+  DeidentificationContent,
+  DeidentificationResult,
+} from "./models/models.js";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { DeidentificationClient } from "./clientDefinitions.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-/** The optional parameters for the client */
-export interface DeidentificationClientOptions extends ClientOptions {
-  /** The api version option of the client */
-  apiVersion?: string;
-}
+export { DeidentificationClientOptionalParams } from "./api/deidentificationContext.js";
 
-/**
- * Initialize a new instance of `DeidentificationClient`
- * @param endpointParam - Url of your De-identification Service.
- * @param credentials - uniquely identify client credential
- * @param options - the parameter for all optional parameters
- */
-export default function createClient(
-  endpointParam: string,
-  credentials: TokenCredential,
-  { apiVersion = "2025-07-15-preview", ...options }: DeidentificationClientOptions = {},
-): DeidentificationClient {
-  const endpointUrl = options.endpoint ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
-  const userAgentPrefix =
-    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
-      : `${userAgentInfo}`;
-  options = {
-    ...options,
-    userAgentOptions: {
-      userAgentPrefix,
-    },
-    loggingOptions: {
-      logger: options.loggingOptions?.logger ?? logger.info,
-    },
-    credentials: {
-      scopes: options.credentials?.scopes ?? ["https://deid.azure.com/.default"],
-    },
-  };
-  const client = getClient(endpointUrl, credentials, options) as DeidentificationClient;
+export class DeidentificationClient {
+  private _client: DeidentificationContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
-  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  client.pipeline.addPolicy({
-    name: "ClientApiVersionPolicy",
-    sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
-      const url = new URL(req.url);
-      if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
+  constructor(
+    endpointParam: string,
+    credential: TokenCredential,
+    options: DeidentificationClientOptionalParams = {},
+  ) {
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
+    this._client = createDeidentification(endpointParam, credential, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
+    this.pipeline = this._client.pipeline;
+  }
 
-      return next(req);
-    },
-  });
+  /** A remote procedure call (RPC) operation. */
+  deidentifyText(
+    body: DeidentificationContent,
+    options: DeidentifyTextOptionalParams = { requestOptions: {} },
+  ): Promise<DeidentificationResult> {
+    return deidentifyText(this._client, body, options);
+  }
 
-  return client;
+  /** Removes the record of the job from the service. Does not delete any documents. */
+  deleteJob(
+    name: string,
+    options: DeleteJobOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return deleteJob(this._client, name, options);
+  }
+
+  /**
+   * Cancels a job that is in progress.
+   *
+   * The job will be marked as canceled and the service will stop processing the job. The service will not delete any documents that have already been processed.
+   *
+   * If the job is already complete, this will have no effect.
+   */
+  cancelJob(
+    name: string,
+    options: CancelJobOptionalParams = { requestOptions: {} },
+  ): Promise<DeidentificationJob> {
+    return cancelJob(this._client, name, options);
+  }
+
+  /** Resource list operation template. */
+  listJobDocuments(
+    name: string,
+    options: ListJobDocumentsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<DeidentificationDocumentDetails> {
+    return listJobDocuments(this._client, name, options);
+  }
+
+  /** Resource list operation template. */
+  listJobs(
+    options: ListJobsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<DeidentificationJob> {
+    return listJobs(this._client, options);
+  }
+
+  /** Long-running resource create or replace operation template. */
+  deidentifyDocuments(
+    name: string,
+    resource: DeidentificationJob,
+    options: DeidentifyDocumentsOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<DeidentificationJob>, DeidentificationJob> {
+    return deidentifyDocuments(this._client, name, resource, options);
+  }
+
+  /** Resource read operation template. */
+  getJob(
+    name: string,
+    options: GetJobOptionalParams = { requestOptions: {} },
+  ): Promise<DeidentificationJob> {
+    return getJob(this._client, name, options);
+  }
 }

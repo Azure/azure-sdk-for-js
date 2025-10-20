@@ -5,81 +5,40 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { ErrorModel } from '@azure-rest/core-client';
-import type { ErrorResponse } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export interface CancelJob {
-    post(options?: CancelJobParameters): StreamableMethod<CancelJob200Response | CancelJobDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface CancelJob200Headers {
-    "x-ms-client-request-id"?: string;
+// @public
+export interface CancelJobOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface CancelJob200Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CancelJob200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CancelJobDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface CancelJobDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & CancelJobDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CancelJobHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & CancelJobHeaders;
-}
-
-// @public (undocumented)
-export interface CancelJobHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
-
-// @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
-export default createClient;
-
-// @public (undocumented)
-export type DeidentificationClient = Client & {
-    path: Routes;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
 };
 
+// @public (undocumented)
+export class DeidentificationClient {
+    constructor(endpointParam: string, credential: TokenCredential, options?: DeidentificationClientOptionalParams);
+    cancelJob(name: string, options?: CancelJobOptionalParams): Promise<DeidentificationJob>;
+    deidentifyDocuments(name: string, resource: DeidentificationJob, options?: DeidentifyDocumentsOptionalParams): PollerLike<OperationState_2<DeidentificationJob>, DeidentificationJob>;
+    deidentifyText(body: DeidentificationContent, options?: DeidentifyTextOptionalParams): Promise<DeidentificationResult>;
+    deleteJob(name: string, options?: DeleteJobOptionalParams): Promise<void>;
+    getJob(name: string, options?: GetJobOptionalParams): Promise<DeidentificationJob>;
+    listJobDocuments(name: string, options?: ListJobDocumentsOptionalParams): PagedAsyncIterableIterator<DeidentificationDocumentDetails>;
+    listJobs(options?: ListJobsOptionalParams): PagedAsyncIterableIterator<DeidentificationJob>;
+    readonly pipeline: Pipeline;
+}
+
 // @public
-export interface DeidentificationClientOptions extends ClientOptions {
+export interface DeidentificationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
@@ -99,25 +58,32 @@ export interface DeidentificationCustomizationOptions {
 }
 
 // @public
-export interface DeidentificationDocumentDetailsOutput {
+export interface DeidentificationDocumentDetails {
     error?: ErrorModel;
     readonly id: string;
-    input: DeidentificationDocumentLocationOutput;
-    output?: DeidentificationDocumentLocationOutput;
-    status: OperationStateOutput;
+    input: DeidentificationDocumentLocation;
+    output?: DeidentificationDocumentLocation;
+    status: OperationState;
 }
 
 // @public
-export interface DeidentificationDocumentLocationOutput {
+export interface DeidentificationDocumentLocation {
     readonly etag: string;
     location: string;
 }
 
 // @public
 export interface DeidentificationJob {
+    readonly createdAt: Date;
     customizations?: DeidentificationJobCustomizationOptions;
+    readonly error?: ErrorModel;
+    readonly lastUpdatedAt: Date;
+    readonly name: string;
     operation?: DeidentificationOperationType;
     sourceLocation: SourceStorageLocation;
+    readonly startedAt?: Date;
+    readonly status: OperationState;
+    readonly summary?: DeidentificationJobSummary;
     targetLocation: TargetStorageLocation;
 }
 
@@ -126,28 +92,6 @@ export interface DeidentificationJobCustomizationOptions {
     inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
-}
-
-// @public
-export interface DeidentificationJobCustomizationOptionsOutput {
-    inputLocale?: string;
-    redactionFormat?: string;
-    surrogateLocale?: string;
-}
-
-// @public
-export interface DeidentificationJobOutput {
-    readonly createdAt: string;
-    customizations?: DeidentificationJobCustomizationOptionsOutput;
-    readonly error?: ErrorModel;
-    readonly lastUpdatedAt: string;
-    readonly name: string;
-    operation?: DeidentificationOperationTypeOutput;
-    sourceLocation: SourceStorageLocationOutput;
-    readonly startedAt?: string;
-    readonly status: OperationStateOutput;
-    readonly summary?: DeidentificationJobSummaryOutput;
-    targetLocation: TargetStorageLocationOutput;
 }
 
 // @public
@@ -160,425 +104,63 @@ export interface DeidentificationJobSummary {
 }
 
 // @public
-export interface DeidentificationJobSummaryOutput {
-    bytesProcessed: number;
-    canceled: number;
-    failed: number;
-    successful: number;
-    total: number;
-}
+export type DeidentificationOperationType = "Redact" | "Surrogate" | "Tag" | "SurrogateOnly";
 
 // @public
-export type DeidentificationOperationType = string;
-
-// @public
-export type DeidentificationOperationTypeOutput = string;
-
-// @public
-export interface DeidentificationResultOutput {
+export interface DeidentificationResult {
     outputText?: string;
-    taggerResult?: PhiTaggerResultOutput;
-}
-
-// @public (undocumented)
-export interface DeidentifyDocuments200Headers {
-    "operation-location": string;
-    "x-ms-client-request-id"?: string;
+    taggerResult?: PhiTaggerResult;
 }
 
 // @public
-export interface DeidentifyDocuments200Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DeidentifyDocuments200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DeidentifyDocuments201Headers {
-    "operation-location": string;
-    "x-ms-client-request-id"?: string;
+export interface DeidentifyDocumentsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeidentifyDocuments201Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DeidentifyDocuments201Headers;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface DeidentifyDocumentsBodyParam {
-    body: DeidentificationJob;
-}
-
-// @public (undocumented)
-export interface DeidentifyDocumentsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface DeidentifyDocumentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & DeidentifyDocumentsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface DeidentifyDocumentsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DeidentifyDocumentsHeaders;
-}
-
-// @public (undocumented)
-export interface DeidentifyDocumentsHeaders {
-    "x-ms-client-request-id"?: string;
+export interface DeidentifyTextOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface DeidentifyDocumentsLogicalResponse extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type DeidentifyDocumentsParameters = DeidentifyDocumentsHeaderParam & DeidentifyDocumentsBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeidentifyText {
-    post(options: DeidentifyTextParameters): StreamableMethod<DeidentifyText200Response | DeidentifyTextDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface DeidentifyText200Headers {
-    "x-ms-client-request-id"?: string;
+export interface DeleteJobOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface DeidentifyText200Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationResultOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & DeidentifyText200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DeidentifyTextBodyParam {
-    body: DeidentificationContent;
-}
-
-// @public (undocumented)
-export interface DeidentifyTextDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface DeidentifyTextDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & DeidentifyTextDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface DeidentifyTextHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DeidentifyTextHeaders;
-}
-
-// @public (undocumented)
-export interface DeidentifyTextHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type DeidentifyTextParameters = DeidentifyTextHeaderParam & DeidentifyTextBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeleteJob204Headers {
-    "x-ms-client-request-id"?: string;
+export interface GetJobOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface DeleteJob204Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & DeleteJob204Headers;
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface DeleteJobDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface DeleteJobDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & DeleteJobDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface DeleteJobHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DeleteJobHeaders;
-}
-
-// @public (undocumented)
-export interface DeleteJobHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
-
-// @public
-export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
-
-// @public (undocumented)
-export interface GetJob {
-    delete(options?: DeleteJobParameters): StreamableMethod<DeleteJob204Response | DeleteJobDefaultResponse>;
-    get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
-    put(options: DeidentifyDocumentsParameters): StreamableMethod<DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface GetJob200Headers {
-    "x-ms-client-request-id"?: string;
+export enum KnownVersions {
+    V20241115 = "2024-11-15",
+    V20250715Preview = "2025-07-15-preview"
 }
 
 // @public
-export interface GetJob200Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetJob200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetJobDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetJobDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetJobDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface GetJobHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetJobHeaders;
-}
-
-// @public (undocumented)
-export interface GetJobHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetJobParameters = GetJobHeaderParam & RequestParameters;
-
-// @public
-export function getLongRunningPoller<TResult extends DeidentifyDocumentsLogicalResponse | DeidentifyDocumentsDefaultResponse>(client: Client, initialResponse: DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState_2<TResult>>): Promise<SimplePollerLike<OperationState_2<TResult>, TResult>>;
-
-// @public
-export type GetPage<TPage> = (pageLink: string) => Promise<{
-    page: TPage;
-    nextPageLink?: string;
-}>;
-
-// @public (undocumented)
-export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsLogicalResponse | DeidentifyDocumentsDefaultResponse): response is DeidentifyDocumentsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeleteJob204Response | DeleteJobDefaultResponse): response is DeleteJobDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListJobs200Response | ListJobsDefaultResponse): response is ListJobsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListJobDocuments200Response | ListJobDocumentsDefaultResponse): response is ListJobDocumentsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CancelJob200Response | CancelJobDefaultResponse): response is CancelJobDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeidentifyText200Response | DeidentifyTextDefaultResponse): response is DeidentifyTextDefaultResponse;
-
-// @public (undocumented)
-export interface ListJobDocuments {
-    get(options?: ListJobDocumentsParameters): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface ListJobDocuments200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public
-export interface ListJobDocuments200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedDeidentificationDocumentDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & ListJobDocuments200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ListJobDocumentsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface ListJobDocumentsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & ListJobDocumentsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface ListJobDocumentsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ListJobDocumentsHeaders;
-}
-
-// @public (undocumented)
-export interface ListJobDocumentsHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type ListJobDocumentsParameters = ListJobDocumentsQueryParam & ListJobDocumentsHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListJobDocumentsQueryParam {
-    // (undocumented)
-    queryParameters?: ListJobDocumentsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListJobDocumentsQueryParamProperties {
-    continuationToken?: string;
-    maxpagesize?: number;
-}
-
-// @public (undocumented)
-export interface ListJobs {
-    get(options?: ListJobsParameters): StreamableMethod<ListJobs200Response | ListJobsDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface ListJobs200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public
-export interface ListJobs200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedDeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & ListJobs200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ListJobsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface ListJobsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & ListJobsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface ListJobsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ListJobsHeaders;
-}
-
-// @public (undocumented)
-export interface ListJobsHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListJobsQueryParam {
-    // (undocumented)
-    queryParameters?: ListJobsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListJobsQueryParamProperties {
+export interface ListJobDocumentsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
     continuationToken?: string;
     maxpagesize?: number;
 }
 
 // @public
-export type OperationState = string;
+export interface ListJobsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    continuationToken?: string;
+    maxpagesize?: number;
+}
 
 // @public
-export type OperationStateOutput = string;
+export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
     next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PagedDeidentificationDocumentDetailsOutput {
-    nextLink?: string;
-    value: Array<DeidentificationDocumentDetailsOutput>;
-}
-
-// @public
-export interface PagedDeidentificationJobOutput {
-    nextLink?: string;
-    value: Array<DeidentificationJobOutput>;
 }
 
 // @public
@@ -587,47 +169,30 @@ export interface PageSettings {
 }
 
 // @public
-export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
+export type PhiCategory = "Unknown" | "Account" | "Age" | "BioID" | "City" | "CountryOrRegion" | "Date" | "Device" | "Doctor" | "Email" | "Fax" | "HealthPlan" | "Hospital" | "IDNum" | "IPAddress" | "License" | "LocationOther" | "MedicalRecord" | "Organization" | "Patient" | "Phone" | "Profession" | "SocialSecurity" | "State" | "Street" | "Url" | "Username" | "Vehicle" | "Zip";
 
 // @public
-export type PaginateReturn<TResult> = TResult extends {
-    body: {
-        value?: infer TPage;
-    };
-} ? GetArrayType<TPage> : Array<unknown>;
-
-// @public
-export interface PagingOptions<TResponse> {
-    customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
-}
-
-// @public
-export type PhiCategory = string;
-
-// @public
-export type PhiCategoryOutput = string;
-
-// @public
-export interface PhiEntityOutput {
-    category: PhiCategoryOutput;
+export interface PhiEntity {
+    category: PhiCategory;
     confidenceScore?: number;
-    length: StringIndexOutput;
-    offset: StringIndexOutput;
+    length: StringIndex;
+    offset: StringIndex;
     text?: string;
 }
 
 // @public
-export interface PhiTaggerResultOutput {
-    entities: Array<PhiEntityOutput>;
+export interface PhiTaggerResult {
+    entities: PhiEntity[];
 }
 
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeidentificationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+
 // @public (undocumented)
-export interface Routes {
-    (path: "/jobs/{name}", name: string): GetJob;
-    (path: "/jobs"): ListJobs;
-    (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
-    (path: "/jobs/{name}:cancel", name: string): CancelJob;
-    (path: "/deid"): DeidentifyText;
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -639,28 +204,6 @@ export interface SimplePhiEntity {
 }
 
 // @public
-export interface SimplePollerLike<TState extends OperationState_2<TResult>, TResult> {
-    getOperationState(): TState;
-    getResult(): TResult | undefined;
-    isDone(): boolean;
-    // @deprecated
-    isStopped(): boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
-    poll(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TState>;
-    pollUntilDone(pollOptions?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
-    serialize(): Promise<string>;
-    // @deprecated
-    stopPolling(): void;
-    submitted(): Promise<void>;
-    // @deprecated
-    toString(): string;
-}
-
-// @public
 export interface SourceStorageLocation {
     extensions?: string[];
     location: string;
@@ -668,14 +211,7 @@ export interface SourceStorageLocation {
 }
 
 // @public
-export interface SourceStorageLocationOutput {
-    extensions?: string[];
-    location: string;
-    prefix: string;
-}
-
-// @public
-export interface StringIndexOutput {
+export interface StringIndex {
     codePoint: number;
     utf16: number;
     utf8: number;
@@ -684,7 +220,7 @@ export interface StringIndexOutput {
 // @public
 export interface TaggedPhiEntities {
     encoding: TextEncodingType;
-    entities: Array<SimplePhiEntity>;
+    entities: SimplePhiEntity[];
 }
 
 // @public
@@ -695,14 +231,7 @@ export interface TargetStorageLocation {
 }
 
 // @public
-export interface TargetStorageLocationOutput {
-    location: string;
-    overwrite?: boolean;
-    prefix: string;
-}
-
-// @public
-export type TextEncodingType = string;
+export type TextEncodingType = "Utf8" | "Utf16" | "CodePoint";
 
 // (No @packageDocumentation comment for this package)
 
