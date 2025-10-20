@@ -7,7 +7,5 @@
  * @returns RFC4122 v4 UUID.
  */
 export function randomUUID(): string {
-  // globalThis.crypto.randomUUID is available in Node.js 19+ and is always available
-  // (no secure context requirement unlike browsers)
-  return globalThis.crypto.randomUUID();
+  return crypto.randomUUID();
 }
