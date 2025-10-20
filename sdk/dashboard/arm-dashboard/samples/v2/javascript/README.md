@@ -1,9 +1,9 @@
-# @azure/arm-dashboard client library samples for JavaScript
+# @azure/arm-dashboard client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-dashboard in some common scenarios.
 
-| **File Name**                                                                             | **Description**                                                                                                                                                                                            |
-| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **File Name**                                                                             | **Description**                                                                                                                                                                                                    |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [grafanaCheckEnterpriseDetailsSample.js][grafanacheckenterprisedetailssample]             | retrieve enterprise add-on details information x-ms-original-file: 2025-08-01/EnterpriseDetails_Post.json                                                                                                  |
 | [grafanaCreateSample.js][grafanacreatesample]                                             | create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana. x-ms-original-file: 2025-08-01/Grafana_Create.json       |
 | [grafanaDeleteSample.js][grafanadeletesample]                                             | delete a workspace for Grafana resource. x-ms-original-file: 2025-08-01/Grafana_Delete.json                                                                                                                |

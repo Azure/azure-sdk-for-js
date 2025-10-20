@@ -7558,47 +7558,59 @@ importers:
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: ^2.0.0
+        specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: ^4.1.0
+        specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
-        specifier: ^1.0.0
-        version: 1.0.0(@types/debug@4.1.12)(@types/node@20.19.19)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.19)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../../common/tools/dev-tool
       '@azure/eslint-plugin-azure-sdk':
-        specifier: ^3.0.0
+        specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: ^4.9.0
-        version: link:../../identity/identity
+        specifier: catalog:internal
+        version: 4.11.1
       '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.19
+        specifier: 'catalog:'
+        version: 20.19.22
       '@vitest/browser':
-        specifier: ^3.0.9
-        version: 3.2.4(msw@2.7.3(@types/node@20.19.19)(typescript@5.8.3))(playwright@1.55.1)(vite@7.1.9(@types/node@20.19.19)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
+        specifier: catalog:testing
+        version: 3.2.4(msw@2.7.3(@types/node@20.19.22)(typescript@5.9.3))(playwright@1.56.1)(vite@7.1.10(@types/node@20.19.22)(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1))(vitest@3.2.4)
       '@vitest/coverage-istanbul':
-        specifier: ^3.0.9
+        specifier: catalog:testing
         version: 3.2.4(vitest@3.2.4)
+      cross-env:
+        specifier: 'catalog:'
+        version: 7.0.3
       dotenv:
-        specifier: ^16.0.0
+        specifier: catalog:testing
         version: 16.6.1
       eslint:
-        specifier: ^9.9.0
-        version: 9.37.0
+        specifier: 'catalog:'
+        version: 9.38.0
       playwright:
-        specifier: ^1.52.0
-        version: 1.55.1
+        specifier: catalog:testing
+        version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.0.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.3
       typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
+        specifier: 'catalog:'
+        version: 5.9.3
       vitest:
-        specifier: ^3.0.9
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.19)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.19)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+        specifier: catalog:testing
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.22)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.22)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
 
   sdk/databasewatcher/arm-databasewatcher:
     dependencies:
