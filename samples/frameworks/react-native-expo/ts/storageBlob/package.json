@@ -1,5 +1,5 @@
 {
-  "name": "storageblob",
+  "name": "@azure-samples/storage-blob-react-native-expo",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
