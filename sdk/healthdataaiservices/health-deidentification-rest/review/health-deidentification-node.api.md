@@ -88,10 +88,12 @@ export interface DeidentificationContent {
     customizations?: DeidentificationCustomizationOptions;
     inputText: string;
     operation?: DeidentificationOperationType;
+    taggedEntities?: TaggedPhiEntities;
 }
 
 // @public
 export interface DeidentificationCustomizationOptions {
+    inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
 }
@@ -121,12 +123,14 @@ export interface DeidentificationJob {
 
 // @public
 export interface DeidentificationJobCustomizationOptions {
+    inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
 }
 
 // @public
 export interface DeidentificationJobCustomizationOptionsOutput {
+    inputLocale?: string;
     redactionFormat?: string;
     surrogateLocale?: string;
 }
@@ -598,6 +602,9 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
+export type PhiCategory = string;
+
+// @public
 export type PhiCategoryOutput = string;
 
 // @public
@@ -621,6 +628,14 @@ export interface Routes {
     (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
     (path: "/jobs/{name}:cancel", name: string): CancelJob;
     (path: "/deid"): DeidentifyText;
+}
+
+// @public
+export interface SimplePhiEntity {
+    category: PhiCategory;
+    length: number;
+    offset: number;
+    text?: string;
 }
 
 // @public
@@ -667,6 +682,12 @@ export interface StringIndexOutput {
 }
 
 // @public
+export interface TaggedPhiEntities {
+    encoding: TextEncodingType;
+    entities: Array<SimplePhiEntity>;
+}
+
+// @public
 export interface TargetStorageLocation {
     location: string;
     overwrite?: boolean;
@@ -679,6 +700,9 @@ export interface TargetStorageLocationOutput {
     overwrite?: boolean;
     prefix: string;
 }
+
+// @public
+export type TextEncodingType = string;
 
 // (No @packageDocumentation comment for this package)
 

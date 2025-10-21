@@ -4,6 +4,7 @@
 import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { computeSha256Hash, delay, isDefined } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
+import { assert } from "vitest";
 import type {
   SearchClient,
   SearchField,
@@ -17,7 +18,6 @@ import type {
 } from "../../../src/index.js";
 import { GeographyPoint, KnownAnalyzerNames } from "../../../src/index.js";
 import type { Hotel } from "./interfaces.js";
-import { assert } from "vitest";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
@@ -327,6 +327,7 @@ export async function createIndex(
       profiles: vectorSearchProfiles,
     },
     semanticSearch: {
+      defaultConfigurationName: "semantic-configuration",
       configurations: [
         {
           name: "semantic-configuration",
@@ -556,13 +557,9 @@ export async function populateIndex(
 
   await client.uploadDocuments(testDocuments);
 
-  let count = await client.getDocumentsCount();
-  while (count !== testDocuments.length) {
+  while ((await client.getDocumentsCount()) !== testDocuments.length) {
     await delay(WAIT_TIME);
-    count = await client.getDocumentsCount();
   }
-
-  await delay(WAIT_TIME);
 }
 
 async function addVectorDescriptions(

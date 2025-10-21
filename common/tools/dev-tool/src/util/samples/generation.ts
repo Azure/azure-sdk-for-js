@@ -94,7 +94,20 @@ function resolveDependencyVersion(name: string, specifier: string): string {
   } else if (specifier === "workspace:^") {
     return "latest";
   } else {
-    return resolveCatalogVersion(name, specifier);
+    const resolvedVersion = resolveCatalogVersion(name, specifier);
+    // Our pnpm workspace has "linkWorkspacePackages: true" so we can't use a
+    // caret version for "@azure/identity" in the "catalog:internal" catalog;
+    // Otherwise it would introduce a circular dependency as the source version satisfies
+    // the caret version range. To avoid that we used a specific version that is
+    // different from the source version so it resolves to a npmjs version instead.
+    // However, for our samples we still want the caret version so that customers
+    // can get the latest version. Our sample usage of @azure/identity is mostly
+    // `DefaultAzureCredential` so changing to a caret version is fine.
+    if (name === "@azure/identity" && specifier === "catalog:internal") {
+      return `^${resolvedVersion}`;
+    }
+
+    return resolvedVersion;
   }
 }
 
@@ -255,16 +268,21 @@ export async function makeSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+              // In TypeScript samples, we include TypeScript, `cross-env`, and `rimraf`, because they're used
               // in the package scripts as well as @types/node.
               devDependencies: {
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
-                typescript: devToolPackageJson.dependencies.typescript,
+                "cross-env": "latest",
                 rimraf: "latest",
+                typescript: devToolPackageJson.dependencies.typescript,
               },
             }
-          : {}),
+          : {
+              devDependencies: {
+                "cross-env": "latest",
+              },
+            }),
       };
     },
   };

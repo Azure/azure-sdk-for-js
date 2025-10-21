@@ -60,7 +60,7 @@ node dpsCertificateCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID="<deviceprovisioningservices subscription id>" DEVICEPROVISIONINGSERVICES_RESOURCE_GROUP="<deviceprovisioningservices resource group>" node dpsCertificateCreateOrUpdateSample.js
+cross-env DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID="<deviceprovisioningservices subscription id>" DEVICEPROVISIONINGSERVICES_RESOURCE_GROUP="<deviceprovisioningservices resource group>" node dpsCertificateCreateOrUpdateSample.js
 ```
 
 ## Next Steps

@@ -78,7 +78,7 @@ node dist/applicationTypeVersionsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SERVICEFABRIC_SUBSCRIPTION_ID="<servicefabric subscription id>" SERVICEFABRIC_RESOURCE_GROUP="<servicefabric resource group>" node dist/applicationTypeVersionsCreateOrUpdateSample.js
+cross-env SERVICEFABRIC_SUBSCRIPTION_ID="<servicefabric subscription id>" SERVICEFABRIC_RESOURCE_GROUP="<servicefabric resource group>" node dist/applicationTypeVersionsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

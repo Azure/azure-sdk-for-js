@@ -266,10 +266,6 @@
       "path": "sdk/web-pubsub/web-pubsub-express"
     },
     {
-      "name": "mixed-reality-remote-rendering",
-      "path": "sdk/remoterendering/mixed-reality-remote-rendering"
-    },
-    {
       "path": "sdk/test-utils/test-utils"
     },
     {

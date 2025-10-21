@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  action,
   changeDisasterRecoveryConfiguration,
   shrink,
   restore,
@@ -16,6 +17,7 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
+  AutonomousDatabasesActionOptionalParams,
   AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
   AutonomousDatabasesRestoreOptionalParams,

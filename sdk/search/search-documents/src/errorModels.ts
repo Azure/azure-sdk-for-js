@@ -6,11 +6,15 @@
  * operations. (This also follows the OData error response format.).
  */
 export interface ErrorResponse {
-  /** The error object. */
+  /**
+   * The error object.
+   */
   error?: ErrorDetail;
 }
 
-/** The error detail. */
+/**
+ * The error detail.
+ */
 export interface ErrorDetail {
   /**
    * The error code.
@@ -39,7 +43,9 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/** The resource management error additional info. */
+/**
+ * The resource management error additional info.
+ */
 export interface ErrorAdditionalInfo {
   /**
    * The additional info type.
