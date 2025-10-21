@@ -58,7 +58,7 @@ If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github
 
 ## Code structure
 
-If you are the first time to generate SDK you could enable the config `generate-test: true` in `README.md` or `tspconfig.yaml`. For management plane packages, `generate-test` is always be enabled. Then we'll generate simple utils and a sample test file for you.
+If this is your first time generating an SDK, you can enable the config `generate-test: true` in `README.md` or `tspconfig.yaml`. For management plane packages, `generate-test` is always enabled. Then we'll generate simple utils and a sample test file for you.
 
 ```yml
 generate-test: true
