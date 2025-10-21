@@ -59,7 +59,7 @@ node dist/generatePreviewArtifactsSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env DEVHUB_SUBSCRIPTION_ID="<devhub subscription id>" node dist/generatePreviewArtifactsSample.js
+cross-env DEVHUB_SUBSCRIPTION_ID="<devhub subscription id>" node dist/generatePreviewArtifactsSample.js
 ```
 
 ## Next Steps

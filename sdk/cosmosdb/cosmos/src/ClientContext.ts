@@ -46,6 +46,11 @@ import { getUserAgent } from "./common/platform.js";
 import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
 import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
+import {
+  AAD_DEFAULT_SCOPE,
+  AAD_AUTH_PREFIX,
+  AAD_RESOURCE_NOT_FOUND_ERROR,
+} from "./common/constants.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -83,17 +88,43 @@ export class ClientContext {
     if (cosmosClientOptions.aadCredentials) {
       this.pipeline = createEmptyPipeline();
       const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
-      const scope = `${hrefEndpoint}/.default`;
+
+      // Use custom AAD scope if provided, otherwise use account-based scope
+      const accountScope = `${hrefEndpoint}/.default`;
+      const primaryScope = cosmosClientOptions.aadScope || accountScope;
+      const fallbackScope = AAD_DEFAULT_SCOPE;
+
       this.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential: cosmosClientOptions.aadCredentials,
-          scopes: scope,
+          scopes: primaryScope,
           challengeCallbacks: {
             async authorizeRequest({ request, getAccessToken }) {
-              const tokenResponse = await getAccessToken([scope], {});
-              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
-              request.headers.set("Authorization", authorizationToken);
+              try {
+                const tokenResponse = await getAccessToken([primaryScope], {});
+
+                const authorizationToken = `${AAD_AUTH_PREFIX}${tokenResponse.token}`;
+                request.headers.set(Constants.HttpHeaders.Authorization, authorizationToken);
+              } catch (error: any) {
+                // If no custom scope is provided and we get AADSTS500011 error,
+                // fallback to the default Cosmos scope
+                if (
+                  !cosmosClientOptions.aadScope &&
+                  error?.message?.includes(AAD_RESOURCE_NOT_FOUND_ERROR)
+                ) {
+                  try {
+                    const fallbackTokenResponse = await getAccessToken([fallbackScope], {});
+                    const authorizationToken = `${AAD_AUTH_PREFIX}${fallbackTokenResponse.token}`;
+                    request.headers.set(Constants.HttpHeaders.Authorization, authorizationToken);
+                  } catch (fallbackError) {
+                    // If fallback also fails, throw the original error
+                    throw error;
+                  }
+                } else {
+                  // If custom scope is provided or error is not AADSTS500011, throw the original error
+                  throw error;
+                }
+              }
             },
           },
         }),
@@ -148,13 +179,13 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -219,13 +250,13 @@ export class ClientContext {
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }
-    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-      diagnosticNode,
-      request.resourceType,
-      request.operationType,
-      0,
-      options,
-    );
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: request.resourceType,
+      operationType: request.operationType,
+      startServiceEndpointIndex: 0,
+      excludedLocations: options?.excludedLocations,
+    });
     request.headers = await this.buildHeaders(request);
 
     if (startEpk !== undefined && endEpk !== undefined) {
@@ -282,13 +313,13 @@ export class ClientContext {
       operationType: OperationType.Read,
       resourceType,
     });
-    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-      diagnosticNode,
-      request.resourceType,
-      request.operationType,
-      0,
-      options,
-    );
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: request.resourceType,
+      operationType: request.operationType,
+      startServiceEndpointIndex: 0,
+      excludedLocations: options?.excludedLocations,
+    });
     request.headers = await this.buildHeaders(request);
     if (correlatedActivityId !== undefined) {
       request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
@@ -368,13 +399,13 @@ export class ClientContext {
       request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -433,13 +464,13 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -494,13 +525,13 @@ export class ClientContext {
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -602,13 +633,13 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -664,13 +695,13 @@ export class ClientContext {
       this.applySessionToken(request);
 
       // upsert will use WriteEndpoint since it uses POST operation
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -726,13 +757,13 @@ export class ClientContext {
     request.headers = await this.buildHeaders(request);
     request.partitionKeyRangeId = partitionKeyRangeId;
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
-    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-      diagnosticNode,
-      request.resourceType,
-      request.operationType,
-      0,
-      options,
-    );
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: request.resourceType,
+      operationType: request.operationType,
+      startServiceEndpointIndex: 0,
+      excludedLocations: options?.excludedLocations,
+    });
     const response = await executePlugins(
       diagnosticNode,
       request,
@@ -840,13 +871,13 @@ export class ClientContext {
 
       this.applySessionToken(request);
 
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -902,13 +933,13 @@ export class ClientContext {
       request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError ?? true;
       this.applySessionToken(request);
 
-      request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
-        diagnosticNode,
-        request.resourceType,
-        request.operationType,
-        0,
-        options,
-      );
+      request.endpoint = await this.globalEndpointManager.resolveServiceEndpointInternal({
+        diagnosticNode: diagnosticNode,
+        resourceType: request.resourceType,
+        operationType: request.operationType,
+        startServiceEndpointIndex: 0,
+        excludedLocations: options?.excludedLocations,
+      });
       const response = await executePlugins(
         diagnosticNode,
         request,
@@ -1073,8 +1104,8 @@ export class ClientContext {
    */
   public isPartitionLevelFailOverEnabled(): boolean {
     return (
-      this.connectionPolicy.enablePartitionLevelFailover ||
-      this.connectionPolicy.enablePartitionLevelCircuitBreaker
+      this.globalEndpointManager.enablePartitionLevelFailover ||
+      this.globalEndpointManager.enablePartitionLevelCircuitBreaker
     );
   }
 }

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { DnsPrivateZone } from "../../models/models.js";
-import {
+import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { listByLocation, get } from "../../api/dnsPrivateZones/operations.js";
+import type {
   DnsPrivateZonesListByLocationOptionalParams,
   DnsPrivateZonesGetOptionalParams,
 } from "../../api/dnsPrivateZones/options.js";
-import { listByLocation, get } from "../../api/dnsPrivateZones/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DnsPrivateZone } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DnsPrivateZones operations. */
 export interface DnsPrivateZonesOperations {

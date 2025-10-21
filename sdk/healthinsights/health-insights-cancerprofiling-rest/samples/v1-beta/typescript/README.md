@@ -49,7 +49,7 @@ node dist/sample_infer_cancer_profiling.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" HEALTH_INSIGHTS_API_KEY="<health insights api key>" node dist/sample_infer_cancer_profiling.js
+cross-env HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" HEALTH_INSIGHTS_API_KEY="<health insights api key>" node dist/sample_infer_cancer_profiling.js
 ```
 
 ## Next Steps

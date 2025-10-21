@@ -78,7 +78,7 @@ node dist/accountsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env NEWRELICOBSERVABILITY_SUBSCRIPTION_ID="<newrelicobservability subscription id>" node dist/accountsListSample.js
+cross-env NEWRELICOBSERVABILITY_SUBSCRIPTION_ID="<newrelicobservability subscription id>" node dist/accountsListSample.js
 ```
 
 ## Next Steps

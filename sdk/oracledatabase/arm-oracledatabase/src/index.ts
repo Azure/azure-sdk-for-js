@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -41,6 +42,7 @@ export {
   CloudExadataInfrastructureLifecycleState,
   KnownComputeModel,
   ComputeModel,
+  ExascaleConfigDetails,
   TrackedResource,
   Resource,
   SystemData,
@@ -50,6 +52,7 @@ export {
   ResourceProvisioningState,
   CloudExadataInfrastructureUpdate,
   CloudExadataInfrastructureUpdateProperties,
+  ConfigureExascaleCloudExadataInfrastructureDetails,
   DbServer,
   DbServerProperties,
   DbServerPatchingDetails,
@@ -76,6 +79,8 @@ export {
   IormLifecycleState,
   KnownObjective,
   Objective,
+  KnownExadataVmClusterStorageManagementType,
+  ExadataVmClusterStorageManagementType,
   CloudVmClusterUpdate,
   CloudVmClusterUpdateProperties,
   AddRemoveDbNode,
@@ -204,6 +209,9 @@ export {
   GenerateType,
   AutonomousDatabaseWalletFile,
   RestoreAutonomousDatabaseDetails,
+  AutonomousDatabaseLifecycleAction,
+  KnownAutonomousDatabaseLifecycleActionEnum,
+  AutonomousDatabaseLifecycleActionEnum,
   AutonomousDatabaseBackup,
   AutonomousDatabaseBackupProperties,
   KnownAutonomousDatabaseBackupLifecycleState,
@@ -225,6 +233,8 @@ export {
   KnownGridImageType,
   GridImageType,
   ExadbVmClusterStorageDetails,
+  KnownShapeAttribute,
+  ShapeAttribute,
   ExadbVmClusterUpdate,
   ExadbVmClusterUpdateProperties,
   RemoveVirtualMachineFromExadbVmClusterDetails,
@@ -239,10 +249,43 @@ export {
   KnownExascaleDbStorageVaultLifecycleState,
   ExascaleDbStorageVaultLifecycleState,
   ExascaleDbStorageVaultTagsUpdate,
+  NetworkAnchor,
+  NetworkAnchorProperties,
+  DnsForwardingRule,
+  NetworkAnchorUpdate,
+  NetworkAnchorUpdateProperties,
+  ResourceAnchor,
+  ResourceAnchorProperties,
+  ResourceAnchorUpdate,
+  DbSystem,
+  DbSystemProperties,
+  KnownDbSystemDatabaseEditionType,
+  DbSystemDatabaseEditionType,
+  DbSystemBaseProperties,
+  DbSystemBasePropertiesUnion,
+  KnownDbSystemSourceType,
+  DbSystemSourceType,
+  DbSystemOptions,
+  KnownStorageManagementType,
+  StorageManagementType,
+  KnownDiskRedundancyType,
+  DiskRedundancyType,
+  KnownDbSystemLifecycleState,
+  DbSystemLifecycleState,
+  KnownStorageVolumePerformanceMode,
+  StorageVolumePerformanceMode,
+  DbSystemUpdate,
+  DbSystemUpdateProperties,
+  DbVersion,
+  DbVersionProperties,
   KnownSystemShapes,
   SystemShapes,
   KnownShapeFamily,
   ShapeFamily,
+  KnownBaseDbSystemShapes,
+  BaseDbSystemShapes,
+  KnownShapeFamilyType,
+  ShapeFamilyType,
   KnownVersions,
 } from "./models/index.js";
 export { OracleDatabaseManagementClientOptionalParams } from "./api/index.js";
@@ -262,6 +305,7 @@ export {
   AutonomousDatabaseNationalCharacterSetsGetOptionalParams,
 } from "./api/autonomousDatabaseNationalCharacterSets/index.js";
 export {
+  AutonomousDatabasesActionOptionalParams,
   AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
   AutonomousDatabasesRestoreOptionalParams,
@@ -280,6 +324,7 @@ export {
   AutonomousDatabaseVersionsGetOptionalParams,
 } from "./api/autonomousDatabaseVersions/index.js";
 export {
+  CloudExadataInfrastructuresConfigureExascaleOptionalParams,
   CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
   CloudExadataInfrastructuresListByResourceGroupOptionalParams,
   CloudExadataInfrastructuresDeleteOptionalParams,
@@ -309,9 +354,21 @@ export {
   DbServersGetOptionalParams,
 } from "./api/dbServers/index.js";
 export {
+  DbSystemsListByResourceGroupOptionalParams,
+  DbSystemsDeleteOptionalParams,
+  DbSystemsUpdateOptionalParams,
+  DbSystemsGetOptionalParams,
+  DbSystemsCreateOrUpdateOptionalParams,
+  DbSystemsListBySubscriptionOptionalParams,
+} from "./api/dbSystems/index.js";
+export {
   DbSystemShapesListByLocationOptionalParams,
   DbSystemShapesGetOptionalParams,
 } from "./api/dbSystemShapes/index.js";
+export {
+  DbVersionsListByLocationOptionalParams,
+  DbVersionsGetOptionalParams,
+} from "./api/dbVersions/index.js";
 export {
   DnsPrivateViewsListByLocationOptionalParams,
   DnsPrivateViewsGetOptionalParams,
@@ -354,6 +411,14 @@ export {
   GiVersionsListByLocationOptionalParams,
   GiVersionsGetOptionalParams,
 } from "./api/giVersions/index.js";
+export {
+  NetworkAnchorsListByResourceGroupOptionalParams,
+  NetworkAnchorsDeleteOptionalParams,
+  NetworkAnchorsUpdateOptionalParams,
+  NetworkAnchorsGetOptionalParams,
+  NetworkAnchorsCreateOrUpdateOptionalParams,
+  NetworkAnchorsListBySubscriptionOptionalParams,
+} from "./api/networkAnchors/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
@@ -366,6 +431,14 @@ export {
   OracleSubscriptionsCreateOrUpdateOptionalParams,
   OracleSubscriptionsListBySubscriptionOptionalParams,
 } from "./api/oracleSubscriptions/index.js";
+export {
+  ResourceAnchorsListByResourceGroupOptionalParams,
+  ResourceAnchorsDeleteOptionalParams,
+  ResourceAnchorsUpdateOptionalParams,
+  ResourceAnchorsGetOptionalParams,
+  ResourceAnchorsCreateOrUpdateOptionalParams,
+  ResourceAnchorsListBySubscriptionOptionalParams,
+} from "./api/resourceAnchors/index.js";
 export {
   SystemVersionsListByLocationOptionalParams,
   SystemVersionsGetOptionalParams,
@@ -386,7 +459,9 @@ export {
   CloudVmClustersOperations,
   DbNodesOperations,
   DbServersOperations,
+  DbSystemsOperations,
   DbSystemShapesOperations,
+  DbVersionsOperations,
   DnsPrivateViewsOperations,
   DnsPrivateZonesOperations,
   ExadbVmClustersOperations,
@@ -395,9 +470,12 @@ export {
   FlexComponentsOperations,
   GiMinorVersionsOperations,
   GiVersionsOperations,
+  NetworkAnchorsOperations,
   OperationsOperations,
   OracleSubscriptionsOperations,
+  ResourceAnchorsOperations,
   SystemVersionsOperations,
   VirtualNetworkAddressesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

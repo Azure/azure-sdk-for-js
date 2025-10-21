@@ -15,7 +15,7 @@ require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/speci
 generate-metadata: true
 generate-sample: true
 add-credentials: true
-package-version: "1.0.0-beta.2"
+package-version: "1.0.0-beta.3"
 rest-level-client: true
 generate-test: true
 # use-extension:

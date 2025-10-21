@@ -4,14 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type Access = string;
@@ -85,6 +85,7 @@ export interface ApplicationsOperations {
     resumeUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
     startRollback: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => Promise<ApplicationResource>;
+    updateUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeUpdateApplicationUpgradeParameters, options?: ApplicationsUpdateUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
@@ -104,6 +105,11 @@ export interface ApplicationsStartRollbackOptionalParams extends OperationOption
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ApplicationsUpdateUpgradeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -265,6 +271,16 @@ export interface AzureActiveDirectory {
     clusterApplication?: string;
     tenantId?: string;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface ClientCertificate {
@@ -651,6 +667,24 @@ export enum KnownRollingUpgradeMode {
 }
 
 // @public
+export enum KnownRuntimeFailureAction {
+    Manual = "Manual",
+    Rollback = "Rollback"
+}
+
+// @public
+export enum KnownRuntimeRollingUpgradeMode {
+    Monitored = "Monitored",
+    UnmonitoredAuto = "UnmonitoredAuto",
+    UnmonitoredManual = "UnmonitoredManual"
+}
+
+// @public
+export enum KnownRuntimeUpgradeKind {
+    Rolling = "Rolling"
+}
+
+// @public
 export enum KnownSecurityEncryptionType {
     DiskWithVMGuestState = "DiskWithVMGuestState",
     VMGuestStateOnly = "VMGuestStateOnly"
@@ -735,8 +769,8 @@ export enum KnownUpdateType {
 // @public
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
-    // (undocumented)
-    V20250301Preview = "2025-03-01-preview"
+    V20250301Preview = "2025-03-01-preview",
+    V20250601Preview = "2025-06-01-preview"
 }
 
 // @public
@@ -843,6 +877,7 @@ export interface ManagedClusterProperties {
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
     enableServicePublicIP?: boolean;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
@@ -1101,6 +1136,7 @@ export interface NodeTypeProperties {
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
     hostGroupId?: string;
+    isOutboundOnly?: boolean;
     isPrimary: boolean;
     isSpotVM?: boolean;
     isStateless?: boolean;
@@ -1402,9 +1438,55 @@ export interface RollingUpgradeMonitoringPolicy {
 }
 
 // @public
+export interface RuntimeApplicationHealthPolicy {
+    considerWarningAsError: boolean;
+    defaultServiceTypeHealthPolicy?: RuntimeServiceTypeHealthPolicy;
+    maxPercentUnhealthyDeployedApplications: number;
+    serviceTypeHealthPolicyMap?: Record<string, RuntimeServiceTypeHealthPolicy>;
+}
+
+// @public
+export type RuntimeFailureAction = string;
+
+// @public
 export interface RuntimeResumeApplicationUpgradeParameters {
     upgradeDomainName?: string;
 }
+
+// @public
+export type RuntimeRollingUpgradeMode = string;
+
+// @public
+export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
+    failureAction?: RuntimeFailureAction;
+    forceRestart?: boolean;
+    healthCheckRetryTimeoutInMilliseconds?: string;
+    healthCheckStableDurationInMilliseconds?: string;
+    healthCheckWaitDurationInMilliseconds?: string;
+    instanceCloseDelayDurationInSeconds?: number;
+    replicaSetCheckTimeoutInMilliseconds?: number;
+    rollingUpgradeMode: RuntimeRollingUpgradeMode;
+    upgradeDomainTimeoutInMilliseconds?: string;
+    upgradeTimeoutInMilliseconds?: string;
+}
+
+// @public
+export interface RuntimeServiceTypeHealthPolicy {
+    maxPercentUnhealthyPartitionsPerService: number;
+    maxPercentUnhealthyReplicasPerPartition: number;
+    maxPercentUnhealthyServices: number;
+}
+
+// @public
+export interface RuntimeUpdateApplicationUpgradeParameters {
+    applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+    name: string;
+    updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+    upgradeKind: RuntimeUpgradeKind;
+}
+
+// @public
+export type RuntimeUpgradeKind = string;
 
 // @public
 export interface ScalingMechanism {
@@ -1448,6 +1530,7 @@ export type ServiceCorrelationScheme = string;
 // @public
 export interface ServiceEndpoint {
     locations?: string[];
+    networkIdentifier?: string;
     service: string;
 }
 
@@ -1475,6 +1558,7 @@ export class ServiceFabricManagedClustersManagementClient {
 // @public
 export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
