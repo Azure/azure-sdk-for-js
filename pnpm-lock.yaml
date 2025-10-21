@@ -106,7 +106,7 @@ importers:
     dependencies:
       '@_ts/max':
         specifier: npm:typescript@latest
-        version: typescript@5.9.2
+        version: typescript@5.9.3
       '@_ts/min':
         specifier: npm:typescript@~4.2.4
         version: typescript@4.2.4
@@ -370,7 +370,7 @@ importers:
         version: link:../../../sdk/identity/identity
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../../../sdk/storage/storage-blob
+        version: 12.29.1
       '@fastify/multipart':
         specifier: ^9.0.3
         version: 9.2.1
@@ -893,7 +893,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       openai:
         specifier: ^5.9.0
         version: 5.22.0(ws@8.18.3)(zod@3.25.76)
@@ -1219,7 +1219,7 @@ importers:
         version: link:../../identity/identity
       '@azure/storage-blob':
         specifier: ^12.17.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       mime:
         specifier: ^4.0.1
         version: 4.1.0
@@ -2800,6 +2800,21 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: ^1.0.0
         version: 1.0.0(@types/debug@4.1.12)(@types/node@20.19.17)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.17)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+      '@azure/arm-authorization':
+        specifier: workspace:^
+        version: link:../../authorization/arm-authorization
+      '@azure/arm-batch':
+        specifier: ^10.0.0
+        version: link:../arm-batch
+      '@azure/arm-compute':
+        specifier: ^23.1.0
+        version: 23.1.0
+      '@azure/arm-keyvault':
+        specifier: workspace:^
+        version: link:../../keyvault/arm-keyvault
+      '@azure/arm-resources':
+        specifier: ^5.2.0
+        version: 5.2.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -2809,6 +2824,9 @@ importers:
       '@azure/identity':
         specifier: ^4.9.0
         version: link:../../identity/identity
+      '@azure/keyvault-keys':
+        specifier: workspace:^
+        version: link:../../keyvault/keyvault-keys
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.17
@@ -3533,7 +3551,7 @@ importers:
         version: 4.11.1
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.17
@@ -10847,7 +10865,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       tslib:
         specifier: ^2.6.3
         version: 2.8.1
@@ -19940,7 +19958,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.15.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21239,7 +21257,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.17
@@ -24678,7 +24696,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.0
-        version: link:../storage-common
+        version: 12.1.1
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -24709,7 +24727,7 @@ importers:
         version: 4.11.1
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: link:../storage-file-share
+        version: 12.29.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.17
@@ -24766,7 +24784,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../storage-blob
+        version: 12.29.1
       '@azure/storage-internal-avro':
         specifier: ^1.0.0
         version: link:../storage-internal-avro
@@ -24827,7 +24845,7 @@ importers:
         version: link:../../core/core-rest-pipeline
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../storage-blob
+        version: 12.29.1
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -24946,10 +24964,10 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.29.0
-        version: link:../storage-blob
+        version: 12.29.1
       '@azure/storage-common':
         specifier: ^12.1.0
-        version: link:../storage-common
+        version: 12.1.1
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -25010,7 +25028,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-datalake':
         specifier: ^12.26.0
-        version: link:../storage-file-datalake
+        version: 12.28.1
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -25068,7 +25086,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.0
-        version: link:../storage-common
+        version: 12.1.1
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -25132,7 +25150,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: link:../storage-file-share
+        version: 12.29.1
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -25239,7 +25257,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.0
-        version: link:../storage-common
+        version: 12.1.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27378,7 +27396,7 @@ importers:
         version: 4.11.1
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.29.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.17
@@ -28387,6 +28405,10 @@ packages:
     resolution: {integrity: sha512-/NYRy9mM/b2I0EnstncAI9DpqcAJQWyBS8KYuAeIV6XPzoSeeRsOeiCTXVD3fBdMoO2D5sKtCTRYAP1NwlNoLA==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/arm-compute@23.1.0':
+    resolution: {integrity: sha512-B79Ttt8t4cQBmBai9yddAvlHnJEWXuLJG0ehje5719qVRKDcJRg7i65tzHcvVIz1dF8Mtbh4JoZScoZMqtBvBw==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/arm-cosmosdb@16.0.0-beta.6':
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -28569,6 +28591,22 @@ packages:
   '@azure/storage-blob@12.27.0':
     resolution: {integrity: sha512-IQjj9RIzAKatmNca3D6bT0qJ+Pkox1WZGOg2esJF2YLHb45pQKOwGPIAV+w3rfgkj7zV3RMxpn/c6iftzSOZJQ==}
     engines: {node: '>=18.0.0'}
+
+  '@azure/storage-blob@12.29.1':
+    resolution: {integrity: sha512-7ktyY0rfTM0vo7HvtK6E3UvYnI9qfd6Oz6z/+92VhGRveWng3kJwMKeUpqmW/NmwcDNbxHpSlldG+vsUnRFnBg==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-common@12.1.1':
+    resolution: {integrity: sha512-eIOH1pqFwI6UmVNnDQvmFeSg0XppuzDLFeUNO/Xht7ODAzRLgGDh7h550pSxoA+lPDxBl1+D2m/KG3jWzCUjTg==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-file-datalake@12.28.1':
+    resolution: {integrity: sha512-eJZZURs/zjEQ+asgI1fWkYVXHiEec7WpO5H9JvxBxUrfvc/cOUvEwweS73LQkXMcNO67YXl7xLsRlIPv3hRboQ==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-file-share@12.29.1':
+    resolution: {integrity: sha512-OK+0bjTFGwtJTh3t4Ui5BbKVmoK51c9r8I5IWEHB8Rjes5LEY841CKYcO3XMTi6NNANssFcr+sBvmntKAZCJug==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/template@1.0.13-beta.1':
     resolution: {integrity: sha512-dn0mqAC4jPUbqAOUxdkVNihu1rV6Na7rX8xtwU2LI0JKlZJXOULxzDR4Zyc02s5aUdLpRkyxGoGStdkc+dJC4w==}
@@ -33082,8 +33120,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.9.2:
-    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -33578,6 +33616,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/arm-compute@23.1.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/arm-cosmosdb@16.0.0-beta.6':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -34055,6 +34105,76 @@ snapshots:
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
       '@azure/logger': 1.3.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-blob@12.29.1':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-common': 12.1.1
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-common@12.1.1':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-datalake@12.28.1':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-blob': 12.29.1
+      '@azure/storage-common': 12.1.1
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-share@12.29.1':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-common': 12.1.1
       events: 3.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -38939,7 +39059,7 @@ snapshots:
 
   typescript@5.8.3: {}
 
-  typescript@5.9.2: {}
+  typescript@5.9.3: {}
 
   uc.micro@2.1.0: {}
 
