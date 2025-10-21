@@ -93,6 +93,9 @@
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
     "vitest": "catalog:testing"
   },
   "scripts": {
