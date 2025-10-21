@@ -371,15 +371,12 @@ export class EventHubConsumerClient {
    * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
-  getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._context
-      .managementSession!.getEventHubProperties({
-        ...options,
-        retryOptions: this._clientOptions.retryOptions,
-      })
-      .then((eventHubProperties) => {
-        return eventHubProperties.partitionIds;
-      });
+  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
+    const eventHubProperties = await this._context.managementSession!.getEventHubProperties({
+      ...options,
+      retryOptions: this._clientOptions.retryOptions,
+    });
+    return eventHubProperties.partitionIds;
   }
 
   /**

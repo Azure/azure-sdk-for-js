@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
@@ -89,7 +89,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-08-01-preview",
+    defaultValue: "2025-01-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
