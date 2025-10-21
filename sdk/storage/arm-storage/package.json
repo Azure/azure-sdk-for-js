@@ -42,7 +42,11 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "playwright": "catalog:testing",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
+    "cross-env": "catalog:"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {

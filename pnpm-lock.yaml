@@ -28588,12 +28588,24 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 3.2.4(vitest@3.2.4)
+      cross-env:
+        specifier: 'catalog:'
+        version: 7.0.3
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
       playwright:
         specifier: catalog:testing
         version: 1.55.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.0.1
+      tshy:
+        specifier: 'catalog:'
+        version: 3.0.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
