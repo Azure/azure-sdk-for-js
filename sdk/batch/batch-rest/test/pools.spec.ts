@@ -192,7 +192,7 @@ describe("Pool Operations Test", () => {
         metadata: [{ name: "foo", value: "bar" }],
         applicationPackageReferences: [],
         // Ensures the start task isn't cleared
-        startTask: { commandLine: "cmd /c echo hello > hello.txt" }
+        startTask: { commandLine: "cmd /c echo hello > hello.txt" },
       },
       contentType: "application/json; odata=minimalmetadata",
     };
@@ -692,13 +692,22 @@ describe("Pool Operations Test", () => {
     }
   });
 
-  it("should create a pool with confidential VM", async () => {
+  it("should create a pool with confidential VM and Metadata Security Protocol", async () => {
     const poolId = recorder.variable("CVM_POOL", CVM_POOL);
     const poolParams: CreatePoolParameters = {
       body: {
         id: poolId,
         vmSize: VMSIZE_D2s,
         virtualMachineConfiguration: {
+          diskEncryptionConfiguration: {
+            customerManagedKey: {
+              keyUrl: "https://myvault.vault.azure.net/keys/mykey/000000000000000000",
+              identityReference: {
+                resourceId:
+                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}",
+              },
+            },
+          },
           imageReference: {
             publisher: "canonical",
             offer: "0001-com-ubuntu-confidential-vm-jammy",
@@ -712,6 +721,15 @@ describe("Pool Operations Test", () => {
               secureBootEnabled: true,
               vTpmEnabled: true,
             },
+            proxyAgentSettings: {
+              enabled: true,
+              wireServer: {
+                inVMAccessControlProfileReferenceId: "Batch.MetadataSecurityProtocolProfile",
+              },
+              imds: {
+                mode: "Audit",
+              },
+            },
           },
           osDisk: {
             managedDisk: {
@@ -724,13 +742,17 @@ describe("Pool Operations Test", () => {
         targetDedicatedNodes: 0,
       },
       contentType: "application/json; odata=minimalmetadata",
-    };
+    } as CreatePoolParameters;
 
     const result = await batchClient.path("/pools").post(poolParams);
 
-    if (isUnexpected(result)) {
+    if (!isUnexpected(result)) {
       assert.fail(`Received unexpected status code from creating pool: ${result.status}`);
+      return;
     }
+    assert.equal(result.status, "400");
+    assert.equal(result.body.code, "InvalidPropertyValue");
+    console.log(result.body);
 
     try {
       const res = await batchClient.path("/pools/{poolId}", poolId).get();
@@ -749,6 +771,11 @@ describe("Pool Operations Test", () => {
         osDisk.managedDisk!.securityProfile!.securityEncryptionType?.toLocaleLowerCase(),
         "vmgueststateonly",
       );
+
+      const proxySettings = securityProfile.proxyAgentSettings!;
+      assert.equal(proxySettings.enabled, true);
+      assert.equal(proxySettings.wireServer!.mode?.toLocaleLowerCase(), "enforce");
+      assert.equal(proxySettings.imds!.mode?.toLocaleLowerCase(), "audit");
     } finally {
       await batchClient.path("/pools/{poolId}", poolId).delete();
     }
