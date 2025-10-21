@@ -84,7 +84,7 @@ sdk/
 │  │  │  |  ├─ sampleTest.spec.ts
 ```
 
-if you want to write some test cases for your service, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#how-to-write-test-for-dpgrlcmpg)
+If you want to write some test cases for your service, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#how-to-write-test-for-dpgrlcmpg)
 
 ## Run tests in record mode
 
