@@ -1,11 +1,10 @@
 # Release History
 
-## 7.1.0 (2025-10-16)
+## 7.1.0 (2025-10-21)
 
 ### Features Added
   - Added operation group LicensesOperations
   - Added operation group MaintenancesOperations
-  - Added operation group ServiceComponentsOperations
   - Added operation PrivateCloudsOperations.getVcfLicense
   - Added Interface AvailableWindowForMaintenanceWhileRescheduleOperation
   - Added Interface AvailableWindowForMaintenanceWhileScheduleOperation
@@ -42,7 +41,6 @@
   - Added Interface ScheduleOperation
   - Added Interface ScheduleOperationConstraint
   - Added Interface SchedulingWindow
-  - Added Interface ServiceComponentsCheckAvailabilityOptionalParams
   - Added Interface Vcf5License
   - Added Interface VcfLicense
   - Added Interface VmwareFirewallLicenseProperties

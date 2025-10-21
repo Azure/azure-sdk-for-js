@@ -83,7 +83,6 @@ These sample programs show how to use the JavaScript client libraries for @azure
 | [scriptExecutionsListSample.js][scriptexecutionslistsample]                                 | list ScriptExecution resources by PrivateCloud x-ms-original-file: 2025-09-01/ScriptExecutions_List.json                                 |
 | [scriptPackagesGetSample.js][scriptpackagesgetsample]                                       | get a ScriptPackage x-ms-original-file: 2025-09-01/ScriptPackages_Get.json                                                               |
 | [scriptPackagesListSample.js][scriptpackageslistsample]                                     | list ScriptPackage resources by PrivateCloud x-ms-original-file: 2025-09-01/ScriptPackages_List.json                                     |
-| [serviceComponentsCheckAvailabilitySample.js][servicecomponentscheckavailabilitysample]     | return service component availability x-ms-original-file: 2025-09-01/ServiceComponents_CheckAvailability.json                            |
 | [skusListSample.js][skuslistsample]                                                         | a list of SKUs. x-ms-original-file: 2025-09-01/Skus_List.json                                                                            |
 | [virtualMachinesGetSample.js][virtualmachinesgetsample]                                     | get a VirtualMachine x-ms-original-file: 2025-09-01/VirtualMachines_Get.json                                                             |
 | [virtualMachinesListSample.js][virtualmachineslistsample]                                   | list VirtualMachine resources by Cluster x-ms-original-file: 2025-09-01/VirtualMachines_List.json                                        |
@@ -246,7 +245,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [scriptexecutionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/scriptExecutionsListSample.js
 [scriptpackagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/scriptPackagesGetSample.js
 [scriptpackageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/scriptPackagesListSample.js
-[servicecomponentscheckavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/serviceComponentsCheckAvailabilitySample.js
 [skuslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/skusListSample.js
 [virtualmachinesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/virtualMachinesGetSample.js
 [virtualmachineslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v7/javascript/virtualMachinesListSample.js

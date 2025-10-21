@@ -308,7 +308,6 @@
       "@azure/arm-avs!VirtualMachinesOperations#get:member": "Microsoft.AVS.VirtualMachines.get",
       "@azure/arm-avs!VirtualMachinesOperations#list:member": "Microsoft.AVS.VirtualMachines.list",
       "@azure/arm-avs!SkusOperations#list:member": "Microsoft.AVS.Skus.list",
-      "@azure/arm-avs!ServiceComponentsOperations#checkAvailability:member": "Microsoft.AVS.ServiceComponents.checkAvailability",
       "@azure/arm-avs!ScriptPackagesOperations#get:member": "Microsoft.AVS.ScriptPackages.get",
       "@azure/arm-avs!ScriptPackagesOperations#list:member": "Microsoft.AVS.ScriptPackages.list",
       "@azure/arm-avs!ScriptExecutionsOperations#getExecutionLogs:member": "Microsoft.AVS.ScriptExecutions.getExecutionLogs",

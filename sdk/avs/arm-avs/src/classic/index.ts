@@ -21,7 +21,6 @@ export { PureStoragePoliciesOperations } from "./pureStoragePolicies/index.js";
 export { ScriptCmdletsOperations } from "./scriptCmdlets/index.js";
 export { ScriptExecutionsOperations } from "./scriptExecutions/index.js";
 export { ScriptPackagesOperations } from "./scriptPackages/index.js";
-export { ServiceComponentsOperations } from "./serviceComponents/index.js";
 export { SkusOperations } from "./skus/index.js";
 export { VirtualMachinesOperations } from "./virtualMachines/index.js";
 export { WorkloadNetworksOperations } from "./workloadNetworks/index.js";

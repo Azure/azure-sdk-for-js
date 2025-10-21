@@ -449,7 +449,6 @@ export {
   ScriptPackagesGetOptionalParams,
   ScriptPackagesListOptionalParams,
 } from "./api/scriptPackages/index.js";
-export { ServiceComponentsCheckAvailabilityOptionalParams } from "./api/serviceComponents/index.js";
 export { SkusListOptionalParams } from "./api/skus/index.js";
 export {
   VirtualMachinesRestrictMovementOptionalParams,
@@ -519,7 +518,6 @@ export {
   ScriptCmdletsOperations,
   ScriptExecutionsOperations,
   ScriptPackagesOperations,
-  ServiceComponentsOperations,
   SkusOperations,
   VirtualMachinesOperations,
   WorkloadNetworksOperations,

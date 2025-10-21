@@ -189,7 +189,6 @@ export class AzureVMwareSolutionAPI {
     readonly scriptCmdlets: ScriptCmdletsOperations;
     readonly scriptExecutions: ScriptExecutionsOperations;
     readonly scriptPackages: ScriptPackagesOperations;
-    readonly serviceComponents: ServiceComponentsOperations;
     readonly skus: SkusOperations;
     readonly virtualMachines: VirtualMachinesOperations;
     readonly workloadNetworks: WorkloadNetworksOperations;
@@ -2222,16 +2221,6 @@ export interface ScriptStringExecutionParameter extends ScriptExecutionParameter
 
 // @public
 export type SegmentStatusEnum = string;
-
-// @public
-export interface ServiceComponentsCheckAvailabilityOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ServiceComponentsOperations {
-    checkAvailability: (location: string, serviceComponentName: string, options?: ServiceComponentsCheckAvailabilityOptionalParams) => PollerLike<OperationState<void>, void>;
-}
 
 // @public
 export interface Sku {

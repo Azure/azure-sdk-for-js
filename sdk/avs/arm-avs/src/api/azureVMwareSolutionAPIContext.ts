@@ -36,7 +36,7 @@ export function createAzureVMwareSolutionAPI(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-avs/7.1.0`;
+  const userAgentInfo = `azsdk-js-arm-avs/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

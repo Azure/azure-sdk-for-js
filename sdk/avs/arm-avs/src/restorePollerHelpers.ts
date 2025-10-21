@@ -25,7 +25,6 @@ import {
   _createDhcpDeserialize,
 } from "./api/workloadNetworks/operations.js";
 import { _restrictMovementDeserialize } from "./api/virtualMachines/operations.js";
-import { _checkAvailabilityDeserialize } from "./api/serviceComponents/operations.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
@@ -249,11 +248,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}/restrictMovement":
     {
       deserializer: _restrictMovementDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
-  "POST /subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/serviceComponents/{serviceComponentName}/checkAvailability":
-    {
-      deserializer: _checkAvailabilityDeserialize,
       expectedStatuses: ["202", "200"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}":

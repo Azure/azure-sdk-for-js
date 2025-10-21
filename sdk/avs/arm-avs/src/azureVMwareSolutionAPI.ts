@@ -46,8 +46,6 @@ import type { ScriptExecutionsOperations } from "./classic/scriptExecutions/inde
 import { _getScriptExecutionsOperations } from "./classic/scriptExecutions/index.js";
 import type { ScriptPackagesOperations } from "./classic/scriptPackages/index.js";
 import { _getScriptPackagesOperations } from "./classic/scriptPackages/index.js";
-import type { ServiceComponentsOperations } from "./classic/serviceComponents/index.js";
-import { _getServiceComponentsOperations } from "./classic/serviceComponents/index.js";
 import type { SkusOperations } from "./classic/skus/index.js";
 import { _getSkusOperations } from "./classic/skus/index.js";
 import type { VirtualMachinesOperations } from "./classic/virtualMachines/index.js";
@@ -82,7 +80,6 @@ export class AzureVMwareSolutionAPI {
     this.workloadNetworks = _getWorkloadNetworksOperations(this._client);
     this.virtualMachines = _getVirtualMachinesOperations(this._client);
     this.skus = _getSkusOperations(this._client);
-    this.serviceComponents = _getServiceComponentsOperations(this._client);
     this.scriptPackages = _getScriptPackagesOperations(this._client);
     this.scriptExecutions = _getScriptExecutionsOperations(this._client);
     this.scriptCmdlets = _getScriptCmdletsOperations(this._client);
@@ -111,8 +108,6 @@ export class AzureVMwareSolutionAPI {
   public readonly virtualMachines: VirtualMachinesOperations;
   /** The operation groups for skus */
   public readonly skus: SkusOperations;
-  /** The operation groups for serviceComponents */
-  public readonly serviceComponents: ServiceComponentsOperations;
   /** The operation groups for scriptPackages */
   public readonly scriptPackages: ScriptPackagesOperations;
   /** The operation groups for scriptExecutions */
