@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type { SimplePollerLike, OperationState} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
