@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  AgentPoolDeleteMachinesParameter} from "@azure/arm-containerservice";
 import {
-  AgentPoolDeleteMachinesParameter,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
