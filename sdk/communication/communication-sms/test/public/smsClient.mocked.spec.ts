@@ -77,7 +77,7 @@ describe("[mocked] SmsClient", async function () {
       const smsTestResult = smsTestResults[0];
       expect(sendRequestSpy).toHaveBeenCalled();
       assert.equal(smsTestResult.httpStatusCode, 202);
-      assert.equal(smsTestResult.messageId, "id");
+      assert.equal(smsTestResult.messageId, "test-message-id-123");
     });
 
     afterEach(function () {

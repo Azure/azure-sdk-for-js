@@ -12,15 +12,17 @@ urlFragment: communication-sms-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - SMS in some common scenarios.
 
-| **File Name**                               | **Description**                                       |
-| ------------------------------------------- | ----------------------------------------------------- |
-| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients           |
-| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message          |
-| [usingAadAuth.js][usingaadauth]             | Use AAD token credentials when sending a SMS message. |
-| [optOutCheck.js][optoutcheck]               | Check if recipients opted out of receiving messages   |
-| [optOutAdd.js][optoutadd]                   | Opt out recipients from receiving messages            |
-| [optOutRemove.js][optoutremove]             | Remove recipients from Opt Out list                   |
-
+| **File Name**                                                                  | **Description**                                              |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| [sendSms.js][sendsms]                                                          | Send an SMS message to 1 or more recipients                  |
+| [sendSmsWithOptions.js][sendsmswithoptions]                                    | Configure SMS options when sending a message                 |
+| [usingAadAuth.js][usingaadauth]                                                | Use AAD token credentials when sending a SMS message.        |
+| [optOutCheck.js][optoutcheck]                                                  | Check if recipients opted out of receiving messages          |
+| [optOutAdd.js][optoutadd]                                                      | Opt out recipients from receiving messages                   |
+| [optOutRemove.js][optoutremove]                                                | Remove recipients from Opt Out list                          |
+| [sendSmsWithTelcoMessagingClient.js][sendsmswithtelco]                         | Send SMS using TelcoMessagingClient (recommended)            |
+| [optOutCheckWithTelcoMessagingClient.js][optoutcheckwithtelco]                 | Check opt-out status using TelcoMessagingClient              |
+| [smsWithDeliveryReportsUsingTelcoMessagingClient.js][deliveryreportswithtelco] | Send SMS and get delivery reports using TelcoMessagingClient |
 
 ## Prerequisites
 
@@ -65,11 +67,13 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSms.js
 [sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithOptions.js
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/usingAadAuth.js
+[optoutcheck]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutCheck.js
+[optoutadd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutAdd.js
+[optoutremove]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutRemove.js
+[sendsmswithtelco]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithTelcoMessagingClient.js
+[optoutcheckwithtelco]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutCheckWithTelcoMessagingClient.js
+[deliveryreportswithtelco]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/smsWithDeliveryReportsUsingTelcoMessagingClient.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-sms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-sms/README.md
-[optoutcheck]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutCheck.js
-[optoutadd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutAdd.js
-[optoutremove]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutRemove.js
-

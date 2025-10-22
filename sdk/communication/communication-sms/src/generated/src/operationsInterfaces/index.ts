@@ -8,3 +8,4 @@
 
 export * from "./sms.js";
 export * from "./optOuts.js";
+export * from "./deliveryReports.js";

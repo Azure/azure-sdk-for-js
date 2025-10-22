@@ -12,8 +12,12 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { SmsImpl, OptOutsImpl } from "./operations/index.js";
-import { Sms, OptOuts } from "./operationsInterfaces/index.js";
+import {
+  SmsImpl,
+  OptOutsImpl,
+  DeliveryReportsImpl,
+} from "./operations/index.js";
+import { Sms, OptOuts, DeliveryReports } from "./operationsInterfaces/index.js";
 import { SmsApiClientOptionalParams } from "./models/index.js";
 
 export class SmsApiClient extends coreClient.ServiceClient {
@@ -38,7 +42,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-sms/1.2.0-beta.4`;
+    const packageDetails = `azsdk-js-communication-sms/1.2.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -57,9 +61,10 @@ export class SmsApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2025-05-29-preview";
+    this.apiVersion = options.apiVersion || "2025-08-01-preview";
     this.sms = new SmsImpl(this);
     this.optOuts = new OptOutsImpl(this);
+    this.deliveryReports = new DeliveryReportsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -93,4 +98,5 @@ export class SmsApiClient extends coreClient.ServiceClient {
 
   sms: Sms;
   optOuts: OptOuts;
+  deliveryReports: DeliveryReports;
 }

@@ -16,10 +16,11 @@ import { extractOperationOptions } from "./extractOperationOptions.js";
 import { generateSendMessageRequest } from "./utils/smsUtils.js";
 import { logger } from "./logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { OptOutsClient as OptOutsClientImpl } from "./optOutsClient.js";
+import { OptOutsClientImpl, type OptOutsClient } from "./optOutsClient.js";
 
 /**
  * Client options used to configure SMS Client API requests.
+ * @deprecated SmsClientOptions will be deprecated along with SmsClient. Please migrate to TelcoMessagingClientOptions.
  */
 export interface SmsClientOptions extends CommonClientOptions {}
 
@@ -98,110 +99,6 @@ export interface SmsSendResult {
 }
 
 /**
- * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
- * to call Opt Out Management Api methods.
- */
-export interface OptOutsClient {
-  /**
-   * Adds phone numbers to the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
-   */
-  add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
-  /**
-   * Checks if phone numbers are in the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
-   */
-  check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
-  /**
-   * Removes phone numbers from the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
-   */
-  remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
-}
-
-/**
- * Client options used to configure OptOuts Client API Add requests.
- */
-export interface AddOptions extends OperationOptions {}
-
-/**
- * Client options used to configure OptOuts Client API Check requests.
- */
-export interface CheckOptions extends OperationOptions {}
-
-/**
- * Client options used to configure OptOuts Client API Remove requests.
- */
-export interface RemoveOptions extends OperationOptions {}
-
-/**
- * The result of Opt Out Check request.
- */
-export interface OptOutCheckResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * Indicates if the recipient's phone number in opted out from receiving messages or not.
-   */
-  isOptedOut: boolean;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
- * The result of Opt Out Add request.
- */
-export interface OptOutAddResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
- * The result of Opt Out Remove request.
- */
-export interface OptOutRemoveResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
  * Checks whether the type of a value is SmsClientOptions or not.
  *
  * @param options - The value being checked.
@@ -212,6 +109,10 @@ const isSmsClientOptions = (options: any): options is SmsClientOptions =>
 /**
  * A SmsClient represents a Client to the Azure Communication Sms service allowing you
  * to send SMS messages.
+ * 
+ * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient 
+ * which provides the same functionality through its `sms` sub-client along with additional features 
+ * like opt-out management and delivery reports. For migration guidance, see the documentation.
  */
 export class SmsClient {
   private readonly api: SmsApiClient;
@@ -223,6 +124,7 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class.
+   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -231,6 +133,7 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
+   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -239,6 +142,7 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class using a TokenCredential.
+   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -271,6 +175,8 @@ export class SmsClient {
   /**
    * Sends an SMS from a phone number that is acquired by the authenticated account, to another phone number.
    *
+   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient 
+   * and use `telcoMessagingClient.sms.send()` instead.
    * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options - Additional request options
    */
