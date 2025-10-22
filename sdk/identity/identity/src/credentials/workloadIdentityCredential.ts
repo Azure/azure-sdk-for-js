@@ -297,12 +297,12 @@ export class WorkloadIdentityCredential implements TokenCredential {
 
     // Host provided CA bytes in AZURE_KUBERNETES_CA_DATA and can't change now
     if (!this.caFile) {
-      if (!validatePemCertificates(this.caData!)) {
-        throw new CredentialUnavailableError(
-          `${credentialName}: is unavailable. ${ErrorMessages.INVALID_CA_CERTIFICATES}`,
-        );
-      }
       if (!this.cachedTlsSettings) {
+        if (!validatePemCertificates(this.caData!)) {
+          throw new CredentialUnavailableError(
+            `${credentialName}: is unavailable. ${ErrorMessages.INVALID_CA_CERTIFICATES}`,
+          );
+        }
         this.cachedTlsSettings = this.sniName ? { servername: this.sniName } : {};
         this.cachedTlsSettings.ca = this.caData;
       }
