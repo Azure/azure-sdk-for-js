@@ -1,6 +1,6 @@
 # Release History
 
-## 23.0.0 (2025-10-17)
+## 23.0.0 (2025-10-22)
 
 ### Features Added
   - Interface AdvancedNetworkingSecurity has a new optional parameter advancedNetworkPolicies

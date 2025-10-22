@@ -4,11 +4,11 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteMonthlySchedule {
