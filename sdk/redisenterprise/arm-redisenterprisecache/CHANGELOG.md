@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2025-10-17)
+## 4.0.0 (2025-10-22)
 
 ### Features Added
   - Added operation group AccessPolicyAssignmentOperations
@@ -17,11 +17,15 @@
   - Added Interface AccessPolicyAssignmentList
   - Added Interface AccessPolicyAssignmentListOptionalParams
   - Added Interface AccessPolicyAssignmentPropertiesUser
+  - Added Interface ClusterCommonProperties
+  - Added Interface ClusterCommonPropertiesEncryption
+  - Added Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption
+  - Added Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
   - Added Interface ClusterCreateProperties
-  - Added Interface ClusterProperties
   - Added Interface ClusterUpdateProperties
+  - Added Interface DatabaseCommonProperties
+  - Added Interface DatabaseCommonPropertiesGeoReplication
   - Added Interface DatabaseCreateProperties
-  - Added Interface DatabaseProperties
   - Added Interface DatabasesDeleteHeaders
   - Added Interface DatabasesExportHeaders
   - Added Interface DatabasesForceLinkToReplicationGroupHeaders
@@ -137,6 +141,10 @@
 ### Breaking Changes
   - Operation Databases.beginFlush has a new signature
   - Operation Databases.beginFlushAndWait has a new signature
+  - Removed Interface ClusterPropertiesEncryption
+  - Removed Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
+  - Removed Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Removed Interface DatabasePropertiesGeoReplication
 
     
 ## 4.0.0-beta.1 (2025-04-24)
