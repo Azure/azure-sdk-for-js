@@ -1624,7 +1624,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         await deleteBlobClient.setLegalHold(false);
 
         await deleteBlobClient.deleteImmutabilityPolicy();
-        await deleteBlobClient.delete({ deleteSnapshots: "include" });
+        await deleteBlobClient.delete({ deleteSnapshots: "include", blobDeleteType: "permanent" });
       }
       if (recorder) {
         await recorder.stop();
@@ -1809,7 +1809,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     assert.equal(setLegalHoldResult.legalHold, false);
 
     await blobSnapshotClient.deleteImmutabilityPolicy();
-    await blobClient.delete({ deleteSnapshots: "include" });
+    await blobClient.delete({ deleteSnapshots: "include", blobDeleteType: "permanent" });
   });
 
   it("Set immutability policy and set legalhold and delete immutability policy on blob with version", async () => {

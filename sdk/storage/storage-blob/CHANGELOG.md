@@ -1,5 +1,11 @@
 # Release History
 
+## 12.30.0 (Unreleased)
+
+### Features Added
+
+- Added support for blobDeleteType in BlobClient.delete() to permanently delete blobs in storage accounts with soft delete enabled.
+
 ## 12.29.1 (2025-10-16)
 
 ### Features Added
