@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-impactreporting",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for ImpactClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -59,9 +59,9 @@
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
-    "@azure/abort-controller": "^2.1.2",
+    "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.1.0",
+    "@azure/core-lro": "workspace:*",
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",

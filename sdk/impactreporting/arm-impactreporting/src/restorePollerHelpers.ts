@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ImpactClient } from "./impactClient.js";
-import { _connectorsCreateOrUpdateDeserialize } from "./api/connectors/index.js";
-import { _workloadImpactsCreateDeserialize } from "./api/workloadImpacts/index.js";
+import { _createOrUpdateDeserialize } from "./api/connectors/operations.js";
+import { _createDeserialize } from "./api/workloadImpacts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -72,19 +72,20 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   deserializer: Function;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}": {
-    deserializer: _connectorsCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
+    deserializer: _createOrUpdateDeserialize,
+    expectedStatuses: ["200", "201", "202"],
   },
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}":
     {
-      deserializer: _workloadImpactsCreateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createDeserialize,
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 

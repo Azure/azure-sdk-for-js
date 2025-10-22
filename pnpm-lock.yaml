@@ -15325,13 +15325,13 @@ importers:
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
-        specifier: ^2.1.2
+        specifier: workspace:*
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-lro':
-        specifier: ^3.1.0
+        specifier: workspace:*
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
