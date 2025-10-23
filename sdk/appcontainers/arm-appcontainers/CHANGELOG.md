@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2025-10-22)
+## 3.0.0 (2025-10-23)
 
 ### Features Added
   - Added operation group HttpRouteConfigOperations
