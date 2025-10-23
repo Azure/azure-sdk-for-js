@@ -98,20 +98,40 @@ async function main() {
   });
   console.log("Created reinforcement fine-tuning job:\n", JSON.stringify(fineTuningJob, null, 2));
 
-  // Pause the fine-tuning job
-  console.log(`\nPausing fine-tuning job with ID: ${fineTuningJob.id}`);
-  const pausedJob = await openAiClient.fineTuning.jobs.pause(fineTuningJob.id);
-  console.log("Paused job:\n", JSON.stringify(pausedJob, null, 2));
+  // Get the fine-tuning job by ID
+  console.log(`\nGetting fine-tuning job with ID: ${fineTuningJob.id}`);
+  const retrievedJob = await openAiClient.fineTuning.jobs.retrieve(fineTuningJob.id);
+  console.log("Retrieved job:\n", JSON.stringify(retrievedJob));
 
-  // Resume the fine-tuning job
-  console.log(`\nResuming fine-tuning job with ID: ${fineTuningJob.id}`);
-  const resumedJob = await openAiClient.fineTuning.jobs.resume(fineTuningJob.id);
-  console.log("Resumed job:\n", JSON.stringify(resumedJob, null, 2));
+  // List all fine-tuning jobs
+  console.log("\nListing all fine-tuning jobs:");
+  const jobsPage = await openAiClient.fineTuning.jobs.list();
+  for (const job of jobsPage.data) {
+    console.log(JSON.stringify(job));
+  }
+
+  // Pause is failing, commenting out for now
+  // // Pause the fine-tuning job
+  // console.log(`\nPausing fine-tuning job with ID: ${fineTuningJob.id}`);
+  // const pausedJob = await openAiClient.fineTuning.jobs.pause(fineTuningJob.id);
+  // console.log("Paused job:\n", JSON.stringify(pausedJob, null, 2));
+
+  // // Resume the fine-tuning job
+  // console.log(`\nResuming fine-tuning job with ID: ${fineTuningJob.id}`);
+  // const resumedJob = await openAiClient.fineTuning.jobs.resume(fineTuningJob.id);
+  // console.log("Resumed job:\n", JSON.stringify(resumedJob, null, 2));
 
   // List events for the fine-tuning job (limit 10)
   console.log(`\nListing events for fine-tuning job: ${fineTuningJob.id}`);
   const events = await openAiClient.fineTuning.jobs.listEvents(fineTuningJob.id, { limit: 10 });
   console.log(JSON.stringify(events, null, 2));
+  
+  // Cancel the fine-tuning job
+  console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
+  const cancelledJob = await openAiClient.fineTuning.jobs.cancel(fineTuningJob.id);
+  console.log(
+    `Successfully cancelled fine-tuning job: ${cancelledJob.id}, Status: ${cancelledJob.status}`,
+  );
 
   // List checkpoints for the fine-tuning job (limit 10)
   // Note: job typically needs to be in a terminal state to have checkpoints.
