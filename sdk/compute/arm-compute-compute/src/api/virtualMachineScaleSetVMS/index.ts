@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  runCommand,
+  start,
+  retrieveBootDiagnosticsData,
+  restart,
+  redeploy,
+  powerOff,
+  performMaintenance,
+  attachDetachDataDisks,
+  simulateEviction,
+  reimageAll,
+  reimage,
+  getInstanceView,
+  deallocate,
+  approveRollingUpgrade,
+  list,
+  $delete,
+  update,
+  get,
+} from "./operations.js";
+export {
+  VirtualMachineScaleSetVMSRunCommandOptionalParams,
+  VirtualMachineScaleSetVMSStartOptionalParams,
+  VirtualMachineScaleSetVMSRetrieveBootDiagnosticsDataOptionalParams,
+  VirtualMachineScaleSetVMSRestartOptionalParams,
+  VirtualMachineScaleSetVMSRedeployOptionalParams,
+  VirtualMachineScaleSetVMSPowerOffOptionalParams,
+  VirtualMachineScaleSetVMSPerformMaintenanceOptionalParams,
+  VirtualMachineScaleSetVMSAttachDetachDataDisksOptionalParams,
+  VirtualMachineScaleSetVMSSimulateEvictionOptionalParams,
+  VirtualMachineScaleSetVMSReimageAllOptionalParams,
+  VirtualMachineScaleSetVMSReimageOptionalParams,
+  VirtualMachineScaleSetVMSGetInstanceViewOptionalParams,
+  VirtualMachineScaleSetVMSDeallocateOptionalParams,
+  VirtualMachineScaleSetVMSApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetVMSListOptionalParams,
+  VirtualMachineScaleSetVMSDeleteOptionalParams,
+  VirtualMachineScaleSetVMSUpdateOptionalParams,
+  VirtualMachineScaleSetVMSGetOptionalParams,
+} from "./options.js";

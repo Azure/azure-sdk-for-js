@@ -1,0 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export { AvailabilitySetsOperations } from "./availabilitySets/index.js";
+export { CapacityReservationGroupsOperations } from "./capacityReservationGroups/index.js";
+export { CapacityReservationsOperations } from "./capacityReservations/index.js";
+export { DedicatedHostGroupsOperations } from "./dedicatedHostGroups/index.js";
+export { DedicatedHostsOperations } from "./dedicatedHosts/index.js";
+export { ImagesOperations } from "./images/index.js";
+export { LogAnalyticsOperationGroupOperations } from "./logAnalyticsOperationGroup/index.js";
+export { OperationsOperations } from "./operations/index.js";
+export { ProximityPlacementGroupsOperations } from "./proximityPlacementGroups/index.js";
+export { RestorePointCollectionsOperations } from "./restorePointCollections/index.js";
+export { RestorePointsOperations } from "./restorePoints/index.js";
+export { RollingUpgradeStatusInfosOperations } from "./rollingUpgradeStatusInfos/index.js";
+export { SshPublicKeyResourcesOperations } from "./sshPublicKeyResources/index.js";
+export { UsageOperationGroupOperations } from "./usageOperationGroup/index.js";
+export { VirtualMachineExtensionImagesOperations } from "./virtualMachineExtensionImages/index.js";
+export { VirtualMachineExtensionsOperations } from "./virtualMachineExtensions/index.js";
+export { VirtualMachineImagesEdgeZoneOperationGroupOperations } from "./virtualMachineImagesEdgeZoneOperationGroup/index.js";
+export { VirtualMachineImagesOperationGroupOperations } from "./virtualMachineImagesOperationGroup/index.js";
+export { VirtualMachineRunCommandsOperations } from "./virtualMachineRunCommands/index.js";
+export { VirtualMachineRunCommandsOperationGroupOperations } from "./virtualMachineRunCommandsOperationGroup/index.js";
+export { VirtualMachinesOperations } from "./virtualMachines/index.js";
+export { VirtualMachineScaleSetExtensionsOperations } from "./virtualMachineScaleSetExtensions/index.js";
+export { VirtualMachineScaleSetsOperations } from "./virtualMachineScaleSets/index.js";
+export { VirtualMachineScaleSetsOperationGroupOperations } from "./virtualMachineScaleSetsOperationGroup/index.js";
+export { VirtualMachineScaleSetVMExtensionsOperations } from "./virtualMachineScaleSetVMExtensions/index.js";
+export { VirtualMachineScaleSetVMRunCommandsOperations } from "./virtualMachineScaleSetVMRunCommands/index.js";
+export { VirtualMachineScaleSetVMSOperations } from "./virtualMachineScaleSetVMS/index.js";
+export { VirtualMachineSizesOperationGroupOperations } from "./virtualMachineSizesOperationGroup/index.js";
+export { VirtualMachinesOperationGroupOperations } from "./virtualMachinesOperationGroup/index.js";
