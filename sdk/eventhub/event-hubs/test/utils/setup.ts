@@ -82,6 +82,9 @@ export default async function ({ provide }: GlobalSetupContext) {
       provide(key, assertEnvironmentVariable(key));
     }
     return () => {};
+  } else if (process.env["TestType"] === "browser") {
+    // only running some unit tests under browsers so don't need to do anything here
+    return () => {};
   }
   provide(EnvVarKeys.TEST_MODE, "mock");
   provide(EnvVarKeys.EVENTHUB_NAME, MOCKS.EVENTHUB_NAME);
