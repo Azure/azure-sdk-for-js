@@ -1,4 +1,169 @@
 # Release History
+
+## 1.1.0 (2025-10-23)
+
+### Features Added
+  - Added operation group NamespaceAssetsOperations
+  - Added operation group NamespaceDevicesOperations
+  - Added operation group NamespaceDiscoveredAssetsOperations
+  - Added operation group NamespaceDiscoveredDevicesOperations
+  - Added operation group NamespacesOperations
+  - Added operation group SchemaRegistriesOperations
+  - Added operation group SchemasOperations
+  - Added operation group SchemaVersionsOperations
+  - Added Interface BrokerStateStoreDestinationConfiguration
+  - Added Interface DatasetBrokerStateStoreDestination
+  - Added Interface DatasetDestination
+  - Added Interface DatasetMqttDestination
+  - Added Interface DatasetStorageDestination
+  - Added Interface DeviceMessagingEndpoint
+  - Added Interface DeviceRef
+  - Added Interface DeviceStatus
+  - Added Interface DeviceStatusEndpoint
+  - Added Interface DeviceStatusEndpoints
+  - Added Interface DiscoveredInboundEndpoints
+  - Added Interface DiscoveredMessagingEndpoints
+  - Added Interface DiscoveredOutboundEndpoints
+  - Added Interface ErrorDetails
+  - Added Interface EventDestination
+  - Added Interface EventMqttDestination
+  - Added Interface EventStorageDestination
+  - Added Interface HostAuthentication
+  - Added Interface InboundEndpoints
+  - Added Interface ManagementAction
+  - Added Interface ManagementGroup
+  - Added Interface Messaging
+  - Added Interface MessagingEndpoint
+  - Added Interface MessagingEndpoints
+  - Added Interface MqttDestinationConfiguration
+  - Added Interface Namespace
+  - Added Interface NamespaceAsset
+  - Added Interface NamespaceAssetProperties
+  - Added Interface NamespaceAssetsCreateOrReplaceOptionalParams
+  - Added Interface NamespaceAssetsDeleteOptionalParams
+  - Added Interface NamespaceAssetsGetOptionalParams
+  - Added Interface NamespaceAssetsListByResourceGroupOptionalParams
+  - Added Interface NamespaceAssetStatus
+  - Added Interface NamespaceAssetStatusDataset
+  - Added Interface NamespaceAssetStatusEvent
+  - Added Interface NamespaceAssetStatusEventGroup
+  - Added Interface NamespaceAssetStatusManagementAction
+  - Added Interface NamespaceAssetStatusManagementGroup
+  - Added Interface NamespaceAssetStatusStream
+  - Added Interface NamespaceAssetsUpdateOptionalParams
+  - Added Interface NamespaceAssetUpdate
+  - Added Interface NamespaceAssetUpdateProperties
+  - Added Interface NamespaceDataset
+  - Added Interface NamespaceDatasetDataPoint
+  - Added Interface NamespaceDevice
+  - Added Interface NamespaceDeviceProperties
+  - Added Interface NamespaceDevicesCreateOrReplaceOptionalParams
+  - Added Interface NamespaceDevicesDeleteOptionalParams
+  - Added Interface NamespaceDevicesGetOptionalParams
+  - Added Interface NamespaceDevicesListByResourceGroupOptionalParams
+  - Added Interface NamespaceDevicesUpdateOptionalParams
+  - Added Interface NamespaceDeviceUpdate
+  - Added Interface NamespaceDeviceUpdateProperties
+  - Added Interface NamespaceDiscoveredAsset
+  - Added Interface NamespaceDiscoveredAssetProperties
+  - Added Interface NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams
+  - Added Interface NamespaceDiscoveredAssetsDeleteOptionalParams
+  - Added Interface NamespaceDiscoveredAssetsGetOptionalParams
+  - Added Interface NamespaceDiscoveredAssetsListByResourceGroupOptionalParams
+  - Added Interface NamespaceDiscoveredAssetsUpdateOptionalParams
+  - Added Interface NamespaceDiscoveredAssetUpdate
+  - Added Interface NamespaceDiscoveredAssetUpdateProperties
+  - Added Interface NamespaceDiscoveredDataset
+  - Added Interface NamespaceDiscoveredDatasetDataPoint
+  - Added Interface NamespaceDiscoveredDevice
+  - Added Interface NamespaceDiscoveredDeviceProperties
+  - Added Interface NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams
+  - Added Interface NamespaceDiscoveredDevicesDeleteOptionalParams
+  - Added Interface NamespaceDiscoveredDevicesGetOptionalParams
+  - Added Interface NamespaceDiscoveredDevicesListByResourceGroupOptionalParams
+  - Added Interface NamespaceDiscoveredDevicesUpdateOptionalParams
+  - Added Interface NamespaceDiscoveredDeviceUpdate
+  - Added Interface NamespaceDiscoveredDeviceUpdateProperties
+  - Added Interface NamespaceDiscoveredEvent
+  - Added Interface NamespaceDiscoveredEventGroup
+  - Added Interface NamespaceDiscoveredManagementAction
+  - Added Interface NamespaceDiscoveredManagementGroup
+  - Added Interface NamespaceDiscoveredStream
+  - Added Interface NamespaceEvent
+  - Added Interface NamespaceEventGroup
+  - Added Interface NamespaceMessageSchemaReference
+  - Added Interface NamespaceMigrateRequest
+  - Added Interface NamespaceProperties
+  - Added Interface NamespacesCreateOrReplaceOptionalParams
+  - Added Interface NamespacesDeleteOptionalParams
+  - Added Interface NamespacesGetOptionalParams
+  - Added Interface NamespacesListByResourceGroupOptionalParams
+  - Added Interface NamespacesListBySubscriptionOptionalParams
+  - Added Interface NamespacesMigrateOptionalParams
+  - Added Interface NamespaceStream
+  - Added Interface NamespacesUpdateOptionalParams
+  - Added Interface NamespaceUpdate
+  - Added Interface NamespaceUpdateProperties
+  - Added Interface OutboundEndpoints
+  - Added Interface Schema
+  - Added Interface SchemaProperties
+  - Added Interface SchemaRegistriesCreateOrReplaceOptionalParams
+  - Added Interface SchemaRegistriesDeleteOptionalParams
+  - Added Interface SchemaRegistriesGetOptionalParams
+  - Added Interface SchemaRegistriesListByResourceGroupOptionalParams
+  - Added Interface SchemaRegistriesListBySubscriptionOptionalParams
+  - Added Interface SchemaRegistriesUpdateOptionalParams
+  - Added Interface SchemaRegistry
+  - Added Interface SchemaRegistryProperties
+  - Added Interface SchemaRegistryUpdate
+  - Added Interface SchemaRegistryUpdateProperties
+  - Added Interface SchemasCreateOrReplaceOptionalParams
+  - Added Interface SchemasDeleteOptionalParams
+  - Added Interface SchemasGetOptionalParams
+  - Added Interface SchemasListBySchemaRegistryOptionalParams
+  - Added Interface SchemaVersion
+  - Added Interface SchemaVersionProperties
+  - Added Interface SchemaVersionsCreateOrReplaceOptionalParams
+  - Added Interface SchemaVersionsDeleteOptionalParams
+  - Added Interface SchemaVersionsGetOptionalParams
+  - Added Interface SchemaVersionsListBySchemaOptionalParams
+  - Added Interface StatusConfig
+  - Added Interface StatusError
+  - Added Interface StorageDestinationConfiguration
+  - Added Interface StreamDestination
+  - Added Interface StreamMqttDestination
+  - Added Interface StreamStorageDestination
+  - Added Interface SystemAssignedServiceIdentity
+  - Added Interface TrustSettings
+  - Added Interface X509CertificateCredentials
+  - Interface DeviceRegistryManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DatasetDestinationTarget
+  - Added Type Alias DatasetDestinationUnion
+  - Added Type Alias EventDestinationTarget
+  - Added Type Alias EventDestinationUnion
+  - Added Type Alias Format
+  - Added Type Alias ManagementActionType
+  - Added Type Alias MqttDestinationQos
+  - Added Type Alias NamespaceDiscoveredManagementActionType
+  - Added Type Alias SchemaType
+  - Added Type Alias Scope
+  - Added Type Alias StreamDestinationTarget
+  - Added Type Alias StreamDestinationUnion
+  - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Enum AzureClouds
+  - Added Enum KnownDatasetDestinationTarget
+  - Added Enum KnownEventDestinationTarget
+  - Added Enum KnownFormat
+  - Added Enum KnownManagementActionType
+  - Added Enum KnownMqttDestinationQos
+  - Added Enum KnownNamespaceDiscoveredManagementActionType
+  - Added Enum KnownSchemaType
+  - Added Enum KnownScope
+  - Added Enum KnownStreamDestinationTarget
+  - Added Enum KnownSystemAssignedServiceIdentityType
+  - Enum KnownVersions has a new value V20251001
+
     
 ## 1.0.0 (2025-02-27)
 
