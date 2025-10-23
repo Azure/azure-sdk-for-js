@@ -14,9 +14,26 @@ const fs = require("fs");
 require("dotenv/config");
 
 const endpoint = process.env["PROJECT_ENDPOINT"];
-const modelName = process.env["MODEL_NAME"] || "gpt-4.1";
+const modelName = process.env["MODEL_NAME"] || "o4-mini";
 const trainingFilePath = "finetuning/data/countdown_train_100.jsonl";
 const validationFilePath = "finetuning/data/countdown_valid_50.jsonl";
+
+// helper: wait until the uploaded file is "processed"
+async function waitForFileReady(openAiClient, fileId, { pollMs = 2000, timeoutMs = 5 * 60 * 1000 } = {}) {
+  const start = Date.now();
+  while (true) {
+    const file = await openAiClient.files.retrieve(fileId);
+    // Typical statuses: uploaded | processing | processed | failed
+    if (file.status === "processed") return file;
+    if (file.status === "failed") {
+      throw new Error(`File ${fileId} import failed: ${file.status_details || "Unknown reason"}`);
+    }
+    if (Date.now() - start > timeoutMs) {
+      throw new Error(`File ${fileId} import did not complete within ${timeoutMs / 1000}s. Last status: ${file.status}`);
+    }
+    await new Promise(r => setTimeout(r, pollMs));
+  }
+}
 
 async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
@@ -40,6 +57,11 @@ async function main() {
     purpose: "fine-tune",
   });
   console.log(`Uploaded validation file with ID: ${validationFile.id}`);
+
+  // Wait until both files are processed
+  await waitForFileReady(openAiClient, trainFile.id);
+  await waitForFileReady(openAiClient, validationFile.id);
+  console.log("Both training and validation files are processed.");
 
   // Create a reinforcement fine-tuning job
   const grader = {

@@ -38,7 +38,7 @@ async function main() {
 
   const openAiClient = await project.getAzureOpenAIClient({
     // The API version should match the version of the Azure OpenAI resource.
-    apiVersion: "2025-04-28",
+    apiVersion: "2025-04-01-preview",
   });
 
   // Upload training and validation files
@@ -57,7 +57,9 @@ async function main() {
   console.log(`Uploaded validation file with ID: ${validationFile.id}`);
 
   // Wait until both files are processed
+  await waitForFileReady(openAiClient, trainFile.id);
   await waitForFileReady(openAiClient, validationFile.id);
+  console.log("Both training and validation files are processed.");
 
   // Create a supervised fine-tuning job
   const fineTuningJob = await openAiClient.fineTuning.jobs.create({
