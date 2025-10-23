@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2025-08-28)
+## 1.0.0-beta.2 (2025-10-23)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
@@ -8,8 +8,6 @@ Compared with version 1.0.0-beta.1
   - Interface ImpactClientOptionalParams has a new optional parameter cloudSetting
   - Added Type Alias AzureSupportedClouds
   - Added Enum AzureClouds
-
-### Breaking Changes
   - Removed Interface Performance_2
 
     

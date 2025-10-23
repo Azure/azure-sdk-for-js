@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ImpactClient } = require("@azure/arm-impactreporting");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 /**
  * This sample demonstrates how to create Insight resource, This is Admin only operation
  *
  * @summary create Insight resource, This is Admin only operation
  * x-ms-original-file: 2024-05-01-preview/Insights_Create.json
  */
+
+const { ImpactClient } = require("@azure/arm-impactreporting");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 async function creatingAnInsight() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
