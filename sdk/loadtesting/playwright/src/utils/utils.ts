@@ -41,8 +41,6 @@ export const getPackageVersion = (): string => {
   return "unknown-version";
 };
 
-// const playwrightServiceConfig = new PlaywrightServiceConfig();
-
 export const exitWithFailureMessage = (
   error: {
     key: string;
@@ -149,7 +147,7 @@ export const validateMptPAT = (
     const accessToken = getAccessToken();
     const result = populateValuesFromServiceUrl();
     if (!accessToken) {
-      validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR);
+      validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN);
     }
     const claims = parseJwt<Partial<AccessTokenClaims>>(accessToken!);
     if (!claims.exp) {
@@ -180,7 +178,7 @@ const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void
 export const warnIfAccessTokenCloseToExpiry = (): void => {
   const accessToken = getAccessToken();
   if (!accessToken) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_PAT_TOKEN.message);
   }
   const claims = parseJwt<JwtPayload>(accessToken!);
   const currentTime = Date.now();
@@ -197,7 +195,7 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
   }
   const token = getAccessToken();
   if (!token) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR_ENTRA_TOKEN.message);
   }
   return token;
 };
