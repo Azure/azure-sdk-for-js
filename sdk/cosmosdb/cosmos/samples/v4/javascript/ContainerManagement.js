@@ -218,11 +218,11 @@ async function run() {
 
   // Create some sample items with different partition key values
   const cities = [
-    { id: "1", name: "Olympia", state: "WA", isCapitol: true },
-    { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-    { id: "3", name: "Seattle", state: "WA", isCapitol: false },
-    { id: "4", name: "Springfield", state: "IL", isCapitol: true },
-    { id: "5", name: "Chicago", state: "IL", isCapitol: false },
+    { id: "1", name: "Olympia", state: "WA", isCapital: true },
+    { id: "2", name: "Redmond", state: "WA", isCapital: false },
+    { id: "3", name: "Seattle", state: "WA", isCapital: false },
+    { id: "4", name: "Springfield", state: "IL", isCapital: true },
+    { id: "5", name: "Chicago", state: "IL", isCapital: false },
   ];
 
   console.log("Creating sample cities...");
