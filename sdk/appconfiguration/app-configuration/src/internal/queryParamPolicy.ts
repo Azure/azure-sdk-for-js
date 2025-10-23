@@ -27,7 +27,8 @@ export function queryParamPolicy(): PipelinePolicy {
         }
 
         const params: ParamEntry[] = [];
-        for (const [name, value] of url.searchParams.entries()) {
+        for (const entry of url.search.substring(1).split("&")) {
+          const [name, value] = entry.split("=", 1);
           params.push({ lowercaseName: name.toLowerCase(), value });
         }
 
@@ -42,12 +43,11 @@ export function queryParamPolicy(): PipelinePolicy {
           return 0;
         });
 
-        const newSearchParams = new URLSearchParams();
-        for (const p of params) {
-          newSearchParams.append(p.lowercaseName, p.value);
-        }
+        const newSearchParams = params
+          .map(({ lowercaseName, value }) => `${lowercaseName}=${value}`)
+          .join("&");
 
-        const newUrl = url.origin + url.pathname + "?" + newSearchParams.toString() + url.hash;
+        const newUrl = url.origin + url.pathname + "?" + newSearchParams + url.hash;
         if (newUrl !== originalUrl) {
           request.url = newUrl;
         }
