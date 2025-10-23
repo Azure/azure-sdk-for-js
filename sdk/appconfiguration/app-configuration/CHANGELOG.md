@@ -6,6 +6,11 @@
 
 - Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs.
 
+- Support snapshot reference.
+  - New type for SnapshotReference - `ConfigurationSetting<SnapshotReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties (to translate `ConfigurationSetting` into the type above).
+  - Helper method `isSnapshotReference` checks the contentType and return boolean values.
+
 ### Breaking Changes
 
 ### Bugs Fixed

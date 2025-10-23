@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the mongo clusters in a given resource group.
  *
  * @summary list all the mongo clusters in a given resource group.
- * x-ms-original-file: 2025-07-01-preview/MongoClusters_ListByResourceGroup.json
+ * x-ms-original-file: 2025-08-01-preview/MongoClusters_ListByResourceGroup.json
  */
 async function listsTheMongoClusterResourcesInAResourceGroup() {
   const credential = new DefaultAzureCredential();

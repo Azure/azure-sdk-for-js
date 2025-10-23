@@ -68,7 +68,7 @@ node dist/accessControlHelloWorld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<client object id>" node dist/accessControlHelloWorld.js
+cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<client object id>" node dist/accessControlHelloWorld.js
 ```
 
 ## Next Steps

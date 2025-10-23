@@ -313,6 +313,8 @@ export interface CloudExadataInfrastructureProperties {
   storageServerType?: string;
   /** The compute model of the Exadata Infrastructure */
   readonly computeModel?: ComputeModel;
+  /** The exascale config details for the cloud Exadata infrastructure */
+  readonly exascaleConfig?: ExascaleConfigDetails;
 }
 
 export function cloudExadataInfrastructurePropertiesSerializer(
@@ -381,6 +383,9 @@ export function cloudExadataInfrastructurePropertiesDeserializer(
     databaseServerType: item["databaseServerType"],
     storageServerType: item["storageServerType"],
     computeModel: item["computeModel"],
+    exascaleConfig: !item["exascaleConfig"]
+      ? item["exascaleConfig"]
+      : exascaleConfigDetailsDeserializer(item["exascaleConfig"]),
   };
 }
 
@@ -786,6 +791,21 @@ export enum KnownComputeModel {
  */
 export type ComputeModel = string;
 
+/** The exascale config response details for the cloud Exadata infrastructure */
+export interface ExascaleConfigDetails {
+  /** Storage size needed for Exascale in GBs. */
+  totalStorageInGbs: number;
+  /** Available storage size for Exascale in GBs. */
+  availableStorageInGbs?: number;
+}
+
+export function exascaleConfigDetailsDeserializer(item: any): ExascaleConfigDetails {
+  return {
+    totalStorageInGbs: item["totalStorageInGbs"],
+    availableStorageInGbs: item["availableStorageInGbs"],
+  };
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -881,7 +901,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -966,6 +986,18 @@ export function cloudExadataInfrastructureUpdatePropertiesSerializer(
       : customerContactArraySerializer(item["customerContacts"]),
     displayName: item["displayName"],
   };
+}
+
+/** The exascale config request details for the Cloud Exadata infrastructure. */
+export interface ConfigureExascaleCloudExadataInfrastructureDetails {
+  /** Storage size needed for Exascale in GBs. */
+  totalStorageInGbs: number;
+}
+
+export function configureExascaleCloudExadataInfrastructureDetailsSerializer(
+  item: ConfigureExascaleCloudExadataInfrastructureDetails,
+): any {
+  return { totalStorageInGbs: item["totalStorageInGbs"] };
 }
 
 /** DbServer resource model */
@@ -1357,6 +1389,10 @@ export interface CloudVmClusterProperties {
   readonly subnetOcid?: string;
   /** The compute model of the VM Cluster. */
   readonly computeModel?: ComputeModel;
+  /** Exadata Database Storage Vault ID */
+  exascaleDbStorageVaultId?: string;
+  /** Specifies whether the type of storage management for the VM cluster is ASM or Exascale. */
+  readonly storageManagementType?: ExadataVmClusterStorageManagementType;
 }
 
 export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterProperties): any {
@@ -1405,6 +1441,7 @@ export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterPropertie
       : item["dbServers"].map((p: any) => {
           return p;
         }),
+    exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
   };
 }
 
@@ -1484,6 +1521,8 @@ export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterP
     compartmentId: item["compartmentId"],
     subnetOcid: item["subnetOcid"],
     computeModel: item["computeModel"],
+    exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
+    storageManagementType: item["storageManagementType"],
   };
 }
 
@@ -1779,6 +1818,24 @@ export enum KnownObjective {
  * **Basic**: Basic objective
  */
 export type Objective = string;
+
+/** Specifies the type of storage management for the Cloud VM Cluster if its ASM or Exascale. */
+export enum KnownExadataVmClusterStorageManagementType {
+  /** Indicates that storage management for the Cloud VM Cluster is ASM */
+  ASM = "ASM",
+  /** Indicates that storage management for the Cloud VM Cluster is Exascale */
+  Exascale = "Exascale",
+}
+
+/**
+ * Specifies the type of storage management for the Cloud VM Cluster if its ASM or Exascale. \
+ * {@link KnownExadataVmClusterStorageManagementType} can be used interchangeably with ExadataVmClusterStorageManagementType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ASM**: Indicates that storage management for the Cloud VM Cluster is ASM \
+ * **Exascale**: Indicates that storage management for the Cloud VM Cluster is Exascale
+ */
+export type ExadataVmClusterStorageManagementType = string;
 
 /** The type used for update operations of the CloudVmCluster. */
 export interface CloudVmClusterUpdate {
@@ -2847,6 +2904,8 @@ export interface DbSystemShapeProperties {
   areServerTypesSupported?: boolean;
   /** The display name of the shape used for the DB system */
   displayName?: string;
+  /** The shapeAttributes of the DB system shape.. */
+  shapeAttributes?: string[];
 }
 
 export function dbSystemShapePropertiesDeserializer(item: any): DbSystemShapeProperties {
@@ -2875,6 +2934,11 @@ export function dbSystemShapePropertiesDeserializer(item: any): DbSystemShapePro
     computeModel: item["computeModel"],
     areServerTypesSupported: item["areServerTypesSupported"],
     displayName: item["displayName"],
+    shapeAttributes: !item["shapeAttributes"]
+      ? item["shapeAttributes"]
+      : item["shapeAttributes"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3249,7 +3313,7 @@ export function autonomousDatabaseArrayDeserializer(result: Array<AutonomousData
   });
 }
 
-/** Autonomous Database  resource model. */
+/** Autonomous Database resource model. */
 export interface AutonomousDatabase extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: AutonomousDatabaseBasePropertiesUnion;
@@ -3347,7 +3411,7 @@ export interface AutonomousDatabaseBaseProperties {
   /** Views lifecycleState */
   readonly lifecycleState?: AutonomousDatabaseLifecycleState;
   /** The list of scheduled operations. */
-  scheduledOperations?: ScheduledOperationsType;
+  scheduledOperationsList?: ScheduledOperationsType[];
   /** The private endpoint Ip address for the resource. */
   privateEndpointIp?: string;
   /** The resource's private endpoint label. */
@@ -3467,9 +3531,9 @@ export function autonomousDatabaseBasePropertiesSerializer(
     isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArraySerializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     subnetId: item["subnetId"],
@@ -3541,9 +3605,9 @@ export function autonomousDatabaseBasePropertiesDeserializer(
     lifecycleDetails: item["lifecycleDetails"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArrayDeserializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     ociUrl: item["ociUrl"],
@@ -3904,6 +3968,22 @@ export enum KnownAutonomousDatabaseLifecycleState {
  * **Standby**: Indicates that resource in Standby state
  */
 export type AutonomousDatabaseLifecycleState = string;
+
+export function scheduledOperationsTypeArraySerializer(
+  result: Array<ScheduledOperationsType>,
+): any[] {
+  return result.map((item) => {
+    return scheduledOperationsTypeSerializer(item);
+  });
+}
+
+export function scheduledOperationsTypeArrayDeserializer(
+  result: Array<ScheduledOperationsType>,
+): any[] {
+  return result.map((item) => {
+    return scheduledOperationsTypeDeserializer(item);
+  });
+}
 
 /** The list of scheduled operations. */
 export interface ScheduledOperationsType {
@@ -4410,9 +4490,9 @@ export function autonomousDatabasePropertiesSerializer(item: AutonomousDatabaseP
     isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArraySerializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     subnetId: item["subnetId"],
@@ -4482,9 +4562,9 @@ export function autonomousDatabasePropertiesDeserializer(item: any): AutonomousD
     lifecycleDetails: item["lifecycleDetails"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArrayDeserializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     ociUrl: item["ociUrl"],
@@ -4612,9 +4692,9 @@ export function autonomousDatabaseClonePropertiesSerializer(
     isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArraySerializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     subnetId: item["subnetId"],
@@ -4691,9 +4771,9 @@ export function autonomousDatabaseClonePropertiesDeserializer(
     lifecycleDetails: item["lifecycleDetails"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArrayDeserializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     ociUrl: item["ociUrl"],
@@ -4913,9 +4993,9 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerialize
     isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArraySerializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     subnetId: item["subnetId"],
@@ -4993,9 +5073,9 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
     lifecycleDetails: item["lifecycleDetails"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArrayDeserializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     ociUrl: item["ociUrl"],
@@ -5124,9 +5204,9 @@ export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
     isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArraySerializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     subnetId: item["subnetId"],
@@ -5203,9 +5283,9 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
     lifecycleDetails: item["lifecycleDetails"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeArrayDeserializer(item["scheduledOperationsList"]),
     privateEndpointIp: item["privateEndpointIp"],
     privateEndpointLabel: item["privateEndpointLabel"],
     ociUrl: item["ociUrl"],
@@ -5337,7 +5417,7 @@ export interface AutonomousDatabaseUpdateProperties {
   /** The Oracle license model that applies to the Oracle Autonomous Database. The default is LICENSE_INCLUDED. */
   licenseModel?: LicenseModel;
   /** The list of scheduled operations. */
-  scheduledOperations?: ScheduledOperationsTypeUpdate;
+  scheduledOperationsList?: ScheduledOperationsTypeUpdate[];
   /** The Oracle Database Edition that applies to the Autonomous databases. */
   databaseEdition?: DatabaseEditionType;
   /** Details for the long-term backup schedule. */
@@ -5376,9 +5456,9 @@ export function autonomousDatabaseUpdatePropertiesSerializer(
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
     licenseModel: item["licenseModel"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeUpdateSerializer(item["scheduledOperations"]),
+    scheduledOperationsList: !item["scheduledOperationsList"]
+      ? item["scheduledOperationsList"]
+      : scheduledOperationsTypeUpdateArraySerializer(item["scheduledOperationsList"]),
     databaseEdition: item["databaseEdition"],
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
@@ -5396,10 +5476,18 @@ export function autonomousDatabaseUpdatePropertiesSerializer(
   };
 }
 
+export function scheduledOperationsTypeUpdateArraySerializer(
+  result: Array<ScheduledOperationsTypeUpdate>,
+): any[] {
+  return result.map((item) => {
+    return scheduledOperationsTypeUpdateSerializer(item);
+  });
+}
+
 /** The list of scheduled operations. */
 export interface ScheduledOperationsTypeUpdate {
   /** Day of week */
-  dayOfWeek: DayOfWeekUpdate;
+  dayOfWeek?: DayOfWeekUpdate;
   /** auto start time. value must be of ISO-8601 format HH:mm */
   scheduledStartTime?: string;
   /** auto stop time. value must be of ISO-8601 format HH:mm */
@@ -5408,7 +5496,9 @@ export interface ScheduledOperationsTypeUpdate {
 
 export function scheduledOperationsTypeUpdateSerializer(item: ScheduledOperationsTypeUpdate): any {
   return {
-    dayOfWeek: dayOfWeekUpdateSerializer(item["dayOfWeek"]),
+    dayOfWeek: !item["dayOfWeek"]
+      ? item["dayOfWeek"]
+      : dayOfWeekUpdateSerializer(item["dayOfWeek"]),
     scheduledStartTime: item["scheduledStartTime"],
     scheduledStopTime: item["scheduledStopTime"],
   };
@@ -5417,7 +5507,7 @@ export function scheduledOperationsTypeUpdateSerializer(item: ScheduledOperation
 /** DayOfWeek resource properties */
 export interface DayOfWeekUpdate {
   /** Name of the day of the week. */
-  name: DayOfWeekName;
+  name?: DayOfWeekName;
 }
 
 export function dayOfWeekUpdateSerializer(item: DayOfWeekUpdate): any {
@@ -5503,6 +5593,39 @@ export function restoreAutonomousDatabaseDetailsSerializer(
 ): any {
   return { timestamp: item["timestamp"].toISOString() };
 }
+
+/** Autonomous Database Action Object */
+export interface AutonomousDatabaseLifecycleAction {
+  /** Autonomous Database lifecycle action */
+  action: AutonomousDatabaseLifecycleActionEnum;
+}
+
+export function autonomousDatabaseLifecycleActionSerializer(
+  item: AutonomousDatabaseLifecycleAction,
+): any {
+  return { action: item["action"] };
+}
+
+/** Autonomous Database Action Enum */
+export enum KnownAutonomousDatabaseLifecycleActionEnum {
+  /** Start Autonomous Database */
+  Start = "Start",
+  /** Stop Autonomous Database */
+  Stop = "Stop",
+  /** Restart Autonomous Database */
+  Restart = "Restart",
+}
+
+/**
+ * Autonomous Database Action Enum \
+ * {@link KnownAutonomousDatabaseLifecycleActionEnum} can be used interchangeably with AutonomousDatabaseLifecycleActionEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Start**: Start Autonomous Database \
+ * **Stop**: Stop Autonomous Database \
+ * **Restart**: Restart Autonomous Database
+ */
+export type AutonomousDatabaseLifecycleActionEnum = string;
 
 /** AutonomousDatabaseBackup resource definition */
 export interface AutonomousDatabaseBackup extends ProxyResource {
@@ -6064,6 +6187,8 @@ export interface ExadbVmClusterProperties {
   readonly backupSubnetOcid?: string;
   /** Cluster subnet ocid */
   readonly subnetOcid?: string;
+  /** The type of Exascale storage used for Exadata VM cluster. */
+  shapeAttribute?: ShapeAttribute;
 }
 
 export function exadbVmClusterPropertiesSerializer(item: ExadbVmClusterProperties): any {
@@ -6095,6 +6220,7 @@ export function exadbVmClusterPropertiesSerializer(item: ExadbVmClusterPropertie
     timeZone: item["timeZone"],
     totalEcpuCount: item["totalEcpuCount"],
     vmFileSystemStorage: exadbVmClusterStorageDetailsSerializer(item["vmFileSystemStorage"]),
+    shapeAttribute: item["shapeAttribute"],
   };
 }
 
@@ -6161,6 +6287,7 @@ export function exadbVmClusterPropertiesDeserializer(item: any): ExadbVmClusterP
       : exadataIormConfigDeserializer(item["iormConfigCache"]),
     backupSubnetOcid: item["backupSubnetOcid"],
     subnetOcid: item["subnetOcid"],
+    shapeAttribute: item["shapeAttribute"],
   };
 }
 
@@ -6230,6 +6357,24 @@ export function exadbVmClusterStorageDetailsDeserializer(item: any): ExadbVmClus
     totalSizeInGbs: item["totalSizeInGbs"],
   };
 }
+
+/** The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later */
+export enum KnownShapeAttribute {
+  /** Smart storage */
+  SmartStorage = "SMART_STORAGE",
+  /** block storage */
+  BlockStorage = "BLOCK_STORAGE",
+}
+
+/**
+ * The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later \
+ * {@link KnownShapeAttribute} can be used interchangeably with ShapeAttribute,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SMART_STORAGE**: Smart storage \
+ * **BLOCK_STORAGE**: block storage
+ */
+export type ShapeAttribute = string;
 
 /** The type used for update operations of the ExadbVmCluster. */
 export interface ExadbVmClusterUpdate {
@@ -6470,6 +6615,10 @@ export interface ExascaleDbStorageVaultProperties {
   readonly ocid?: string;
   /** HTTPS link to OCI resources exposed to Azure Customer via Azure Interface. */
   readonly ociUrl?: string;
+  /** Cloud Exadata infrastructure ID */
+  exadataInfrastructureId?: string;
+  /** The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault. */
+  readonly attachedShapeAttributes?: ShapeAttribute[];
 }
 
 export function exascaleDbStorageVaultPropertiesSerializer(
@@ -6483,6 +6632,7 @@ export function exascaleDbStorageVaultPropertiesSerializer(
       item["highCapacityDatabaseStorageInput"],
     ),
     timeZone: item["timeZone"],
+    exadataInfrastructureId: item["exadataInfrastructureId"],
   };
 }
 
@@ -6506,6 +6656,12 @@ export function exascaleDbStorageVaultPropertiesDeserializer(
     vmClusterCount: item["vmClusterCount"],
     ocid: item["ocid"],
     ociUrl: item["ociUrl"],
+    exadataInfrastructureId: item["exadataInfrastructureId"],
+    attachedShapeAttributes: !item["attachedShapeAttributes"]
+      ? item["attachedShapeAttributes"]
+      : item["attachedShapeAttributes"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -6617,6 +6773,899 @@ export function exascaleDbStorageVaultArrayDeserializer(
   });
 }
 
+/** The response of a NetworkAnchor list operation. */
+export interface _NetworkAnchorListResult {
+  /** The NetworkAnchor items on this page */
+  value: NetworkAnchor[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _networkAnchorListResultDeserializer(item: any): _NetworkAnchorListResult {
+  return {
+    value: networkAnchorArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function networkAnchorArraySerializer(result: Array<NetworkAnchor>): any[] {
+  return result.map((item) => {
+    return networkAnchorSerializer(item);
+  });
+}
+
+export function networkAnchorArrayDeserializer(result: Array<NetworkAnchor>): any[] {
+  return result.map((item) => {
+    return networkAnchorDeserializer(item);
+  });
+}
+
+/** Network Anchor resource model. */
+export interface NetworkAnchor extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NetworkAnchorProperties;
+  /** The availability zones. */
+  zones?: string[];
+}
+
+export function networkAnchorSerializer(item: NetworkAnchor): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkAnchorPropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function networkAnchorDeserializer(item: any): NetworkAnchor {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkAnchorPropertiesDeserializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Network Anchor properties */
+export interface NetworkAnchorProperties {
+  /** Corresponding resource anchor Azure ID */
+  resourceAnchorId: string;
+  /** NetworkAnchor provisioning state */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /** VNET for network connectivity */
+  readonly vnetId?: string;
+  /** Client subnet */
+  subnetId: string;
+  /** Delegated Azure subnet cidr block. */
+  readonly cidrBlock?: string;
+  /** Oracle Cloud Infrastructure VCN OCID */
+  readonly ociVcnId?: string;
+  /** OCI DNS label. This is optional if DNS config is provided. */
+  ociVcnDnsLabel?: string;
+  /** Oracle Cloud Infrastructure subnet OCID */
+  readonly ociSubnetId?: string;
+  /** OCI backup subnet cidr block. */
+  ociBackupCidrBlock?: string;
+  /** Indicates whether DNS zone sync from OCI to Azure is enabled */
+  isOracleToAzureDnsZoneSyncEnabled?: boolean;
+  /** Indicates whether the Oracle DNS listening endpoint is enabled */
+  isOracleDnsListeningEndpointEnabled?: boolean;
+  /** Indicates whether the Oracle DNS forwarding endpoint is enabled */
+  isOracleDnsForwardingEndpointEnabled?: boolean;
+  /** DNS forwarding rules */
+  dnsForwardingRules?: DnsForwardingRule[];
+  /** Comma-separated list of CIDRs that are allowed to send requests to the DNS listening endpoint */
+  dnsListeningEndpointAllowedCidrs?: string;
+  /** DNS listening endpoint IP address */
+  readonly dnsListeningEndpointIpAddress?: string;
+  /** DNS forwarding endpoint IP address */
+  readonly dnsForwardingEndpointIpAddress?: string;
+  /** Deep link to OCI console DNS Forwarding rules page */
+  readonly dnsForwardingRulesUrl?: string;
+  /** Deep link to OCI console DNS Listening endpoint NSG rules */
+  readonly dnsListeningEndpointNsgRulesUrl?: string;
+  /** Deep link to OCI console DNS Forwarding endpoint NSG rules */
+  readonly dnsForwardingEndpointNsgRulesUrl?: string;
+}
+
+export function networkAnchorPropertiesSerializer(item: NetworkAnchorProperties): any {
+  return {
+    resourceAnchorId: item["resourceAnchorId"],
+    subnetId: item["subnetId"],
+    ociVcnDnsLabel: item["ociVcnDnsLabel"],
+    ociBackupCidrBlock: item["ociBackupCidrBlock"],
+    isOracleToAzureDnsZoneSyncEnabled: item["isOracleToAzureDnsZoneSyncEnabled"],
+    isOracleDnsListeningEndpointEnabled: item["isOracleDnsListeningEndpointEnabled"],
+    isOracleDnsForwardingEndpointEnabled: item["isOracleDnsForwardingEndpointEnabled"],
+    dnsForwardingRules: !item["dnsForwardingRules"]
+      ? item["dnsForwardingRules"]
+      : dnsForwardingRuleArraySerializer(item["dnsForwardingRules"]),
+    dnsListeningEndpointAllowedCidrs: item["dnsListeningEndpointAllowedCidrs"],
+  };
+}
+
+export function networkAnchorPropertiesDeserializer(item: any): NetworkAnchorProperties {
+  return {
+    resourceAnchorId: item["resourceAnchorId"],
+    provisioningState: item["provisioningState"],
+    vnetId: item["vnetId"],
+    subnetId: item["subnetId"],
+    cidrBlock: item["cidrBlock"],
+    ociVcnId: item["ociVcnId"],
+    ociVcnDnsLabel: item["ociVcnDnsLabel"],
+    ociSubnetId: item["ociSubnetId"],
+    ociBackupCidrBlock: item["ociBackupCidrBlock"],
+    isOracleToAzureDnsZoneSyncEnabled: item["isOracleToAzureDnsZoneSyncEnabled"],
+    isOracleDnsListeningEndpointEnabled: item["isOracleDnsListeningEndpointEnabled"],
+    isOracleDnsForwardingEndpointEnabled: item["isOracleDnsForwardingEndpointEnabled"],
+    dnsForwardingRules: !item["dnsForwardingRules"]
+      ? item["dnsForwardingRules"]
+      : dnsForwardingRuleArrayDeserializer(item["dnsForwardingRules"]),
+    dnsListeningEndpointAllowedCidrs: item["dnsListeningEndpointAllowedCidrs"],
+    dnsListeningEndpointIpAddress: item["dnsListeningEndpointIpAddress"],
+    dnsForwardingEndpointIpAddress: item["dnsForwardingEndpointIpAddress"],
+    dnsForwardingRulesUrl: item["dnsForwardingRulesUrl"],
+    dnsListeningEndpointNsgRulesUrl: item["dnsListeningEndpointNsgRulesUrl"],
+    dnsForwardingEndpointNsgRulesUrl: item["dnsForwardingEndpointNsgRulesUrl"],
+  };
+}
+
+export function dnsForwardingRuleArraySerializer(result: Array<DnsForwardingRule>): any[] {
+  return result.map((item) => {
+    return dnsForwardingRuleSerializer(item);
+  });
+}
+
+export function dnsForwardingRuleArrayDeserializer(result: Array<DnsForwardingRule>): any[] {
+  return result.map((item) => {
+    return dnsForwardingRuleDeserializer(item);
+  });
+}
+
+/** DNS forwarding rule properties */
+export interface DnsForwardingRule {
+  /** Comma-separated domain names */
+  domainNames: string;
+  /** Forwarding ip address */
+  forwardingIpAddress: string;
+}
+
+export function dnsForwardingRuleSerializer(item: DnsForwardingRule): any {
+  return {
+    domainNames: item["domainNames"],
+    forwardingIpAddress: item["forwardingIpAddress"],
+  };
+}
+
+export function dnsForwardingRuleDeserializer(item: any): DnsForwardingRule {
+  return {
+    domainNames: item["domainNames"],
+    forwardingIpAddress: item["forwardingIpAddress"],
+  };
+}
+
+/** The type used for update operations of the NetworkAnchor. */
+export interface NetworkAnchorUpdate {
+  /** The availability zones. */
+  zones?: string[];
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: NetworkAnchorUpdateProperties;
+}
+
+export function networkAnchorUpdateSerializer(item: NetworkAnchorUpdate): any {
+  return {
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkAnchorUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the NetworkAnchor. */
+export interface NetworkAnchorUpdateProperties {
+  /** OCI backup subnet cidr block. */
+  ociBackupCidrBlock?: string;
+  /** Indicates whether DNS zone sync from OCI to Azure is enabled */
+  isOracleToAzureDnsZoneSyncEnabled?: boolean;
+  /** Indicates whether the Oracle DNS listening endpoint is enabled */
+  isOracleDnsListeningEndpointEnabled?: boolean;
+  /** Indicates whether the Oracle DNS forwarding endpoint is enabled */
+  isOracleDnsForwardingEndpointEnabled?: boolean;
+}
+
+export function networkAnchorUpdatePropertiesSerializer(item: NetworkAnchorUpdateProperties): any {
+  return {
+    ociBackupCidrBlock: item["ociBackupCidrBlock"],
+    isOracleToAzureDnsZoneSyncEnabled: item["isOracleToAzureDnsZoneSyncEnabled"],
+    isOracleDnsListeningEndpointEnabled: item["isOracleDnsListeningEndpointEnabled"],
+    isOracleDnsForwardingEndpointEnabled: item["isOracleDnsForwardingEndpointEnabled"],
+  };
+}
+
+/** The response of a ResourceAnchor list operation. */
+export interface _ResourceAnchorListResult {
+  /** The ResourceAnchor items on this page */
+  value: ResourceAnchor[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _resourceAnchorListResultDeserializer(item: any): _ResourceAnchorListResult {
+  return {
+    value: resourceAnchorArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function resourceAnchorArraySerializer(result: Array<ResourceAnchor>): any[] {
+  return result.map((item) => {
+    return resourceAnchorSerializer(item);
+  });
+}
+
+export function resourceAnchorArrayDeserializer(result: Array<ResourceAnchor>): any[] {
+  return result.map((item) => {
+    return resourceAnchorDeserializer(item);
+  });
+}
+
+/** Resource Anchor model. */
+export interface ResourceAnchor extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ResourceAnchorProperties;
+}
+
+export function resourceAnchorSerializer(item: ResourceAnchor): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : resourceAnchorPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function resourceAnchorDeserializer(item: any): ResourceAnchor {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : resourceAnchorPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Resource Anchor properties. */
+export interface ResourceAnchorProperties {
+  /** ResourceAnchor provisioning state */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /** Oracle Cloud Infrastructure compartment Id (ocid) which was created or linked by customer with resource anchor. This compartmentId is different from where resource Anchor lives */
+  readonly linkedCompartmentId?: string;
+}
+
+export function resourceAnchorPropertiesSerializer(item: ResourceAnchorProperties): any {
+  return item;
+}
+
+export function resourceAnchorPropertiesDeserializer(item: any): ResourceAnchorProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    linkedCompartmentId: item["linkedCompartmentId"],
+  };
+}
+
+/** The type used for update operations of the ResourceAnchor. */
+export interface ResourceAnchorUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function resourceAnchorUpdateSerializer(item: ResourceAnchorUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a DbSystem list operation. */
+export interface _DbSystemListResult {
+  /** The DbSystem items on this page */
+  value: DbSystem[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dbSystemListResultDeserializer(item: any): _DbSystemListResult {
+  return {
+    value: dbSystemArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function dbSystemArraySerializer(result: Array<DbSystem>): any[] {
+  return result.map((item) => {
+    return dbSystemSerializer(item);
+  });
+}
+
+export function dbSystemArrayDeserializer(result: Array<DbSystem>): any[] {
+  return result.map((item) => {
+    return dbSystemDeserializer(item);
+  });
+}
+
+/** DbSystem resource definition */
+export interface DbSystem extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DbSystemProperties;
+  /** The availability zones. */
+  zones?: string[];
+}
+
+export function dbSystemSerializer(item: DbSystem): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : dbSystemPropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function dbSystemDeserializer(item: any): DbSystem {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : dbSystemPropertiesDeserializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** DbSystem resource model. */
+export interface DbSystemProperties extends DbSystemBaseProperties {
+  /** The source of the database for creating a new database. */
+  source: "None";
+  /** The Oracle Database Edition that applies to all the databases on the DB system. Exadata DB systems and 2-node RAC DB systems require EnterpriseEditionExtremePerformance. */
+  databaseEdition: DbSystemDatabaseEditionType;
+  /** A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, #, or -. */
+  adminPassword?: string;
+  /** A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation. */
+  dbVersion: string;
+  /** The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name. */
+  pdbName?: string;
+}
+
+export function dbSystemPropertiesSerializer(item: DbSystemProperties): any {
+  return {
+    source: item["source"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    clusterName: item["clusterName"],
+    displayName: item["displayName"],
+    initialDataStorageSizeInGb: item["initialDataStorageSizeInGb"],
+    dbSystemOptions: !item["dbSystemOptions"]
+      ? item["dbSystemOptions"]
+      : dbSystemOptionsSerializer(item["dbSystemOptions"]),
+    diskRedundancy: item["diskRedundancy"],
+    domain: item["domainV2"],
+    hostname: item["hostname"],
+    licenseModel: item["licenseModelV2"],
+    nodeCount: item["nodeCount"],
+    shape: item["shape"],
+    sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
+      return p;
+    }),
+    storageVolumePerformanceMode: item["storageVolumePerformanceMode"],
+    timeZone: item["timeZone"],
+    computeModel: item["computeModel"],
+    computeCount: item["computeCount"],
+    databaseEdition: item["databaseEdition"],
+    adminPassword: item["adminPassword"],
+    dbVersion: item["dbVersion"],
+    pdbName: item["pdbName"],
+  };
+}
+
+export function dbSystemPropertiesDeserializer(item: any): DbSystemProperties {
+  return {
+    source: item["source"],
+    provisioningState: item["provisioningState"],
+    ociUrl: item["ociUrl"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    clusterName: item["clusterName"],
+    displayName: item["displayName"],
+    initialDataStorageSizeInGb: item["initialDataStorageSizeInGb"],
+    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
+    dbSystemOptions: !item["dbSystemOptions"]
+      ? item["dbSystemOptions"]
+      : dbSystemOptionsDeserializer(item["dbSystemOptions"]),
+    diskRedundancy: item["diskRedundancy"],
+    domainV2: item["domain"],
+    gridImageOcid: item["gridImageOcid"],
+    hostname: item["hostname"],
+    ocid: item["ocid"],
+    licenseModelV2: item["licenseModel"],
+    lifecycleDetails: item["lifecycleDetails"],
+    lifecycleState: item["lifecycleState"],
+    listenerPort: item["listenerPort"],
+    memorySizeInGbs: item["memorySizeInGbs"],
+    nodeCount: item["nodeCount"],
+    scanDnsName: item["scanDnsName"],
+    scanIps: !item["scanIps"]
+      ? item["scanIps"]
+      : item["scanIps"].map((p: any) => {
+          return p;
+        }),
+    shape: item["shape"],
+    sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
+      return p;
+    }),
+    storageVolumePerformanceMode: item["storageVolumePerformanceMode"],
+    timeZone: item["timeZone"],
+    version: item["version"],
+    computeModel: item["computeModel"],
+    computeCount: item["computeCount"],
+    databaseEdition: item["databaseEdition"],
+    adminPassword: item["adminPassword"],
+    dbVersion: item["dbVersion"],
+    pdbName: item["pdbName"],
+  };
+}
+
+/** Database edition type enum. */
+export enum KnownDbSystemDatabaseEditionType {
+  /** Standard edition */
+  StandardEdition = "StandardEdition",
+  /** Enterprise edition */
+  EnterpriseEdition = "EnterpriseEdition",
+  /** Enterprise edition high performance */
+  EnterpriseEditionHighPerformance = "EnterpriseEditionHighPerformance",
+  /** Enterprise edition extreme */
+  EnterpriseEditionExtreme = "EnterpriseEditionExtreme",
+  /** Enterprise edition developer */
+  EnterpriseEditionDeveloper = "EnterpriseEditionDeveloper",
+}
+
+/**
+ * Database edition type enum. \
+ * {@link KnownDbSystemDatabaseEditionType} can be used interchangeably with DbSystemDatabaseEditionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StandardEdition**: Standard edition \
+ * **EnterpriseEdition**: Enterprise edition \
+ * **EnterpriseEditionHighPerformance**: Enterprise edition high performance \
+ * **EnterpriseEditionExtreme**: Enterprise edition extreme \
+ * **EnterpriseEditionDeveloper**: Enterprise edition developer
+ */
+export type DbSystemDatabaseEditionType = string;
+
+/** DbSystem resource base model. */
+export interface DbSystemBaseProperties {
+  /** The source of the database: Use `None` for creating a new database. The default is `None`. */
+  /** The discriminator possible values: None */
+  source?: DbSystemSourceType;
+  /** dbSystem provisioning state */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /** HTTPS link to OCI resources exposed to Azure Customer via Azure Interface. */
+  readonly ociUrl?: string;
+  /** Azure Resource Anchor ID */
+  resourceAnchorId: string;
+  /** Azure Network Anchor ID */
+  networkAnchorId: string;
+  /** The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. */
+  clusterName?: string;
+  /** The user-friendly name for the DB system. The name does not have to be unique. */
+  displayName?: string;
+  /** Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume. */
+  initialDataStorageSizeInGb?: number;
+  /** The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems. */
+  readonly dataStorageSizeInGbs?: number;
+  /** The DB system options. */
+  dbSystemOptions?: DbSystemOptions;
+  /** The type of redundancy configured for the DB system. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. */
+  diskRedundancy?: DiskRedundancyType;
+  /** The domain name for the DB system. */
+  domainV2?: string;
+  /** The OCID of a grid infrastructure software image. This is a database software image of the type GRID_IMAGE. */
+  readonly gridImageOcid?: string;
+  /** The hostname for the DB system. */
+  hostname: string;
+  /** The OCID of the DB system. */
+  readonly ocid?: string;
+  /** The Oracle license model that applies to all the databases on the DB system. The default is LicenseIncluded. */
+  licenseModelV2?: LicenseModel;
+  /** Additional information about the current lifecycle state. */
+  readonly lifecycleDetails?: string;
+  /** The current state of the DB system. */
+  readonly lifecycleState?: DbSystemLifecycleState;
+  /** The port number configured for the listener on the DB system. */
+  readonly listenerPort?: number;
+  /** Memory allocated to the DB system, in gigabytes. */
+  readonly memorySizeInGbs?: number;
+  /** The number of nodes in the DB system. For RAC DB systems, the value is greater than 1. */
+  nodeCount?: number;
+  /** The FQDN of the DNS record for the SCAN IP addresses that are associated with the DB system. */
+  readonly scanDnsName?: string;
+  /** The list of Single Client Access Name (SCAN) IP addresses associated with the DB system. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster. Note: For a single-node DB system, this list is empty. */
+  readonly scanIps?: string[];
+  /** The shape of the DB system. The shape determines resources to allocate to the DB system. For virtual machine shapes, the number of CPU cores and memory. For bare metal and Exadata shapes, the number of CPU cores, storage, and memory. */
+  shape: string;
+  /** The public key portion of one or more key pairs used for SSH access to the DB system. */
+  sshPublicKeys: string[];
+  /** The block storage volume performance level. Valid values are Balanced and HighPerformance. See [Block Volume Performance](/Content/Block/Concepts/blockvolumeperformance.htm) for more information. */
+  storageVolumePerformanceMode?: StorageVolumePerformanceMode;
+  /** The time zone of the DB system, e.g., UTC, to set the timeZone as UTC. */
+  timeZone?: string;
+  /** The Oracle Database version of the DB system. */
+  readonly version?: string;
+  /** The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy. */
+  computeModel?: ComputeModel;
+  /** The number of compute servers for the DB system. */
+  computeCount?: number;
+}
+
+export function dbSystemBasePropertiesSerializer(item: DbSystemBaseProperties): any {
+  return {
+    source: item["source"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    clusterName: item["clusterName"],
+    displayName: item["displayName"],
+    initialDataStorageSizeInGb: item["initialDataStorageSizeInGb"],
+    dbSystemOptions: !item["dbSystemOptions"]
+      ? item["dbSystemOptions"]
+      : dbSystemOptionsSerializer(item["dbSystemOptions"]),
+    diskRedundancy: item["diskRedundancy"],
+    domain: item["domainV2"],
+    hostname: item["hostname"],
+    licenseModel: item["licenseModelV2"],
+    nodeCount: item["nodeCount"],
+    shape: item["shape"],
+    sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
+      return p;
+    }),
+    storageVolumePerformanceMode: item["storageVolumePerformanceMode"],
+    timeZone: item["timeZone"],
+    computeModel: item["computeModel"],
+    computeCount: item["computeCount"],
+  };
+}
+
+export function dbSystemBasePropertiesDeserializer(item: any): DbSystemBaseProperties {
+  return {
+    source: item["source"],
+    provisioningState: item["provisioningState"],
+    ociUrl: item["ociUrl"],
+    resourceAnchorId: item["resourceAnchorId"],
+    networkAnchorId: item["networkAnchorId"],
+    clusterName: item["clusterName"],
+    displayName: item["displayName"],
+    initialDataStorageSizeInGb: item["initialDataStorageSizeInGb"],
+    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
+    dbSystemOptions: !item["dbSystemOptions"]
+      ? item["dbSystemOptions"]
+      : dbSystemOptionsDeserializer(item["dbSystemOptions"]),
+    diskRedundancy: item["diskRedundancy"],
+    domainV2: item["domain"],
+    gridImageOcid: item["gridImageOcid"],
+    hostname: item["hostname"],
+    ocid: item["ocid"],
+    licenseModelV2: item["licenseModel"],
+    lifecycleDetails: item["lifecycleDetails"],
+    lifecycleState: item["lifecycleState"],
+    listenerPort: item["listenerPort"],
+    memorySizeInGbs: item["memorySizeInGbs"],
+    nodeCount: item["nodeCount"],
+    scanDnsName: item["scanDnsName"],
+    scanIps: !item["scanIps"]
+      ? item["scanIps"]
+      : item["scanIps"].map((p: any) => {
+          return p;
+        }),
+    shape: item["shape"],
+    sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
+      return p;
+    }),
+    storageVolumePerformanceMode: item["storageVolumePerformanceMode"],
+    timeZone: item["timeZone"],
+    version: item["version"],
+    computeModel: item["computeModel"],
+    computeCount: item["computeCount"],
+  };
+}
+
+/** Alias for DbSystemBasePropertiesUnion */
+export type DbSystemBasePropertiesUnion = DbSystemProperties | DbSystemBaseProperties;
+
+export function dbSystemBasePropertiesUnionSerializer(item: DbSystemBasePropertiesUnion): any {
+  switch (item.source) {
+    case "None":
+      return dbSystemPropertiesSerializer(item as DbSystemProperties);
+
+    default:
+      return dbSystemBasePropertiesSerializer(item);
+  }
+}
+
+export function dbSystemBasePropertiesUnionDeserializer(item: any): DbSystemBasePropertiesUnion {
+  switch (item.source) {
+    case "None":
+      return dbSystemPropertiesDeserializer(item as DbSystemProperties);
+
+    default:
+      return dbSystemBasePropertiesDeserializer(item);
+  }
+}
+
+/** The DbSystem source type of the database. */
+export enum KnownDbSystemSourceType {
+  /** for creating a new database. */
+  None = "None",
+}
+
+/**
+ * The DbSystem source type of the database. \
+ * {@link KnownDbSystemSourceType} can be used interchangeably with DbSystemSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: for creating a new database.
+ */
+export type DbSystemSourceType = string;
+
+/** DbSystemOptions resource properties. */
+export interface DbSystemOptions {
+  /** The storage option used in DB system. ASM - Automatic storage management, LVM - Logical Volume management. */
+  storageManagement?: StorageManagementType;
+}
+
+export function dbSystemOptionsSerializer(item: DbSystemOptions): any {
+  return { storageManagement: item["storageManagement"] };
+}
+
+export function dbSystemOptionsDeserializer(item: any): DbSystemOptions {
+  return {
+    storageManagement: item["storageManagement"],
+  };
+}
+
+/** Storage Management type enum. */
+export enum KnownStorageManagementType {
+  /** Logical Volume management */
+  LVM = "LVM",
+}
+
+/**
+ * Storage Management type enum. \
+ * {@link KnownStorageManagementType} can be used interchangeably with StorageManagementType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LVM**: Logical Volume management
+ */
+export type StorageManagementType = string;
+
+/** Disk redundancy type enum. */
+export enum KnownDiskRedundancyType {
+  /** 3-way redundancy. */
+  High = "High",
+  /** 2-way redundancy. */
+  Normal = "Normal",
+}
+
+/**
+ * Disk redundancy type enum. \
+ * {@link KnownDiskRedundancyType} can be used interchangeably with DiskRedundancyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High**: 3-way redundancy. \
+ * **Normal**: 2-way redundancy.
+ */
+export type DiskRedundancyType = string;
+
+/** DB System lifecycle state enum */
+export enum KnownDbSystemLifecycleState {
+  /** Indicates that resource in Provisioning state */
+  Provisioning = "Provisioning",
+  /** Indicates that resource in Available state */
+  Available = "Available",
+  /** Indicates that resource in Updating state */
+  Updating = "Updating",
+  /** Indicates that resource in Terminating state */
+  Terminating = "Terminating",
+  /** Indicates that resource in Terminated state */
+  Terminated = "Terminated",
+  /** Indicates that resource in Failed state */
+  Failed = "Failed",
+  /** Indicates that resource is Migrated state */
+  Migrated = "Migrated",
+  /** Indicates that resource maintenance in progress state */
+  MaintenanceInProgress = "MaintenanceInProgress",
+  /** Indicates that resource needs attention state */
+  NeedsAttention = "NeedsAttention",
+  /** Indicates that resource in Upgrading state */
+  Upgrading = "Upgrading",
+}
+
+/**
+ * DB System lifecycle state enum \
+ * {@link KnownDbSystemLifecycleState} can be used interchangeably with DbSystemLifecycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **Failed**: Indicates that resource in Failed state \
+ * **Migrated**: Indicates that resource is Migrated state \
+ * **MaintenanceInProgress**: Indicates that resource maintenance in progress state \
+ * **NeedsAttention**: Indicates that resource needs attention state \
+ * **Upgrading**: Indicates that resource in Upgrading state
+ */
+export type DbSystemLifecycleState = string;
+
+/** Storage volume performance mode. */
+export enum KnownStorageVolumePerformanceMode {
+  /** With this option, you are purchasing 10 VPUs per GB/month. For more information, including specific throughput and IOPS performance numbers for various volume sizes. */
+  Balanced = "Balanced",
+  /** With this option, you are purchasing 20 VPUs per GB/month. For more information, including specific throughput and IOPS performance numbers for various volume sizes. */
+  HighPerformance = "HighPerformance",
+}
+
+/**
+ * Storage volume performance mode. \
+ * {@link KnownStorageVolumePerformanceMode} can be used interchangeably with StorageVolumePerformanceMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Balanced**: With this option, you are purchasing 10 VPUs per GB\/month. For more information, including specific throughput and IOPS performance numbers for various volume sizes. \
+ * **HighPerformance**: With this option, you are purchasing 20 VPUs per GB\/month. For more information, including specific throughput and IOPS performance numbers for various volume sizes.
+ */
+export type StorageVolumePerformanceMode = string;
+
+/** The type used for update operations of the DbSystem. */
+export interface DbSystemUpdate {
+  /** The availability zones. */
+  zones?: string[];
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: DbSystemUpdateProperties;
+}
+
+export function dbSystemUpdateSerializer(item: DbSystemUpdate): any {
+  return {
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : dbSystemUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the DbSystem. */
+export interface DbSystemUpdateProperties {
+  /** The source of the database for creating a new database. */
+  source?: "None";
+}
+
+export function dbSystemUpdatePropertiesSerializer(item: DbSystemUpdateProperties): any {
+  return { source: item["source"] };
+}
+
+/** Oracle Database DbVersion resource definition */
+export interface DbVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DbVersionProperties;
+}
+
+export function dbVersionDeserializer(item: any): DbVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : dbVersionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** DbVersion resource model */
+export interface DbVersionProperties {
+  /** A valid Oracle Database version. */
+  version: string;
+  /** True if this version of the Oracle Database software is the latest version for a release. */
+  isLatestForMajorVersion?: boolean;
+  /** True if this version of the Oracle Database software is the preview version. */
+  isPreviewDbVersion?: boolean;
+  /** True if this version of the Oracle Database software is supported for Upgrade. */
+  isUpgradeSupported?: boolean;
+  /** True if this version of the Oracle Database software supports pluggable databases. */
+  supportsPdb?: boolean;
+}
+
+export function dbVersionPropertiesDeserializer(item: any): DbVersionProperties {
+  return {
+    version: item["version"],
+    isLatestForMajorVersion: item["isLatestForMajorVersion"],
+    isPreviewDbVersion: item["isPreviewDbVersion"],
+    isUpgradeSupported: item["isUpgradeSupported"],
+    supportsPdb: item["supportsPdb"],
+  };
+}
+
+/** The response of a DbVersion list operation. */
+export interface _DbVersionListResult {
+  /** The DbVersion items on this page */
+  value: DbVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dbVersionListResultDeserializer(item: any): _DbVersionListResult {
+  return {
+    value: dbVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function dbVersionArrayDeserializer(result: Array<DbVersion>): any[] {
+  return result.map((item) => {
+    return dbVersionDeserializer(item);
+  });
+}
+
 /** Allowed values for System Shapes */
 export enum KnownSystemShapes {
   /** Exadata X9M shape */
@@ -6656,6 +7705,45 @@ export enum KnownShapeFamily {
  */
 export type ShapeFamily = string;
 
+/** Allowed values for BaseDb System Shapes */
+export enum KnownBaseDbSystemShapes {
+  /** Vm Standard X86 */
+  VMStandardX86 = "VM.Standard.x86",
+}
+
+/**
+ * Allowed values for BaseDb System Shapes \
+ * {@link KnownBaseDbSystemShapes} can be used interchangeably with BaseDbSystemShapes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VM.Standard.x86**: Vm Standard X86
+ */
+export type BaseDbSystemShapes = string;
+
+/** Allowed values for shape family. */
+export enum KnownShapeFamilyType {
+  /** Family value for Exadata Shape */
+  Exadata = "EXADATA",
+  /** Family value for Exadb XS Shape */
+  ExadbXs = "EXADB_XS",
+  /** Family value for Single Node Shape */
+  SingleNode = "SINGLENODE",
+  /** Family value for Virtual Machine Shape */
+  VirtualMachine = "VIRTUALMACHINE",
+}
+
+/**
+ * Allowed values for shape family. \
+ * {@link KnownShapeFamilyType} can be used interchangeably with ShapeFamilyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EXADATA**: Family value for Exadata Shape \
+ * **EXADB_XS**: Family value for Exadb XS Shape \
+ * **SINGLENODE**: Family value for Single Node Shape \
+ * **VIRTUALMACHINE**: Family value for Virtual Machine Shape
+ */
+export type ShapeFamilyType = string;
+
 /** Versions for API */
 export enum KnownVersions {
   /** 2023-09-01 */
@@ -6664,6 +7752,8 @@ export enum KnownVersions {
   V20240601 = "2024-06-01",
   /** 2025-03-01 */
   V20250301 = "2025-03-01",
+  /** 2025-09-01 */
+  V20250901 = "2025-09-01",
 }
 
 export function privateIpAddressPropertiesArrayDeserializer(

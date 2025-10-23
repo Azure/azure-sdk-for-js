@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes specific machines in an agent pool.
  *
  * @summary Deletes specific machines in an agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-07-02-preview/examples/AgentPoolsDeleteMachines.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-08-01/examples/AgentPoolsDeleteMachines.json
  */
 async function deleteSpecificMachinesInAnAgentPool(): Promise<void> {
   const subscriptionId =

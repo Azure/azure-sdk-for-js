@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceClient.",
-  "version": "23.0.0-beta.4",
+  "version": "23.0.0",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -31,10 +31,15 @@
   "type": "module",
   "devDependencies": {
     "typescript": "catalog:",
+    "rimraf": "catalog:",
     "dotenv": "catalog:testing",
     "@azure/dev-tool": "workspace:^",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "tshy": "catalog:",
     "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
+    "@azure/logger": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
@@ -55,7 +60,7 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",

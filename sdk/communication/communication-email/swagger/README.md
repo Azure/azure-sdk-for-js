@@ -11,9 +11,9 @@ description: Email REST API Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2024-07-01-preview
-package-version: 1.0.0
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e64ad693df24b47d4009eece6663c8d95cf94be6/specification/communication/data-plane/Email/readme.md
+tag: package-2025-09-01
+package-version: 1.1.0
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/83327afe471d7a2eb923de58b163658d45e0e5a7/specification/communication/data-plane/Email/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
