@@ -44,11 +44,11 @@ describe("urlQueryParamsNormalizationPolicy", () => {
   it("keeps empty parameter value", async () => {
     const policy = queryParamPolicy();
     const request = createPipelineRequest({
-      url: "https://example.azconfig.io/kv?key=&api-version=2023-11-01&key1",
+      url: "https://example.azconfig.io/kv?key=&api-version=2023-11-01&key1&=",
     });
     const response = await policy.sendRequest(request, mockNext());
     const finalUrl = response.headers.get("url-lookup")!;
-    expect(finalUrl.endsWith("?api-version=2023-11-01&key=&key1=")).toBe(true);
+    expect(finalUrl.endsWith("?=&api-version=2023-11-01&key=&key1=")).toBe(true);
   });
 
   it("removes redundant &", async () => {
