@@ -3,7 +3,7 @@
 
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
-import { truncatedISO8061Date } from "./utils/utils.common.js";
+import { truncatedISO8601Date } from "./utils/utils.common.js";
 
 /**
  * Protocols for generated SAS.
@@ -230,14 +230,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined,
+            this.startsOn ? truncatedISO8601Date(this.startsOn, false) : undefined,
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined,
+            this.expiresOn ? truncatedISO8601Date(this.expiresOn, false) : undefined,
           );
           break;
         case "sip":
