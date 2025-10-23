@@ -1,0 +1,35 @@
+{
+  "apiVersion": "2025-10-15",
+  "emitterVersion": "0.44.1-alpha.20251010.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Ai.Speech.BatchTranscription",
+    "CrossLanguageDefinitionId": {
+      "@azure/azure-ai-speech-batchtranscription!TranscriptionJob:interface": "Azure.Ai.Speech.BatchTranscription.TranscriptionJob",
+      "@azure/azure-ai-speech-batchtranscription!TranscriptionLinks:interface": "Azure.Ai.Speech.BatchTranscription.TranscriptionLinks",
+      "@azure/azure-ai-speech-batchtranscription!TranscriptionProperties:interface": "Azure.Ai.Speech.BatchTranscription.TranscriptionProperties",
+      "@azure/azure-ai-speech-batchtranscription!EntityError:interface": "Azure.Ai.Speech.BatchTranscription.EntityError",
+      "@azure/azure-ai-speech-batchtranscription!DiarizationProperties:interface": "Azure.Ai.Speech.BatchTranscription.DiarizationProperties",
+      "@azure/azure-ai-speech-batchtranscription!LanguageIdentificationProperties:interface": "Azure.Ai.Speech.BatchTranscription.LanguageIdentificationProperties",
+      "@azure/azure-ai-speech-batchtranscription!EntityReference:interface": "Azure.Ai.Speech.BatchTranscription.EntityReference",
+      "@azure/azure-ai-speech-batchtranscription!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/azure-ai-speech-batchtranscription!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/azure-ai-speech-batchtranscription!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/azure-ai-speech-batchtranscription!SpeechToTextCustomPageTranscriptionJob:interface": "Azure.Ai.Speech.BatchTranscription.SpeechToTextCustomPage",
+      "@azure/azure-ai-speech-batchtranscription!SpeechToTextCustomPageTranscriptionFile:interface": "Azure.Ai.Speech.BatchTranscription.SpeechToTextCustomPage",
+      "@azure/azure-ai-speech-batchtranscription!TranscriptionFile:interface": "Azure.Ai.Speech.BatchTranscription.TranscriptionFile",
+      "@azure/azure-ai-speech-batchtranscription!FileLinks:interface": "Azure.Ai.Speech.BatchTranscription.FileLinks",
+      "@azure/azure-ai-speech-batchtranscription!FileProperties:interface": "Azure.Ai.Speech.BatchTranscription.FileProperties",
+      "@azure/azure-ai-speech-batchtranscription!KnownPunctuationMode:enum": "Azure.Ai.Speech.BatchTranscription.PunctuationMode",
+      "@azure/azure-ai-speech-batchtranscription!KnownProfanityFilterMode:enum": "Azure.Ai.Speech.BatchTranscription.ProfanityFilterMode",
+      "@azure/azure-ai-speech-batchtranscription!KnownLanguageIdentificationMode:enum": "Azure.Ai.Speech.BatchTranscription.LanguageIdentificationMode",
+      "@azure/azure-ai-speech-batchtranscription!KnownTranscriptionStatus:enum": "Azure.Ai.Speech.BatchTranscription.TranscriptionStatus",
+      "@azure/azure-ai-speech-batchtranscription!KnownFileKind:enum": "Azure.Ai.Speech.BatchTranscription.FileKind",
+      "@azure/azure-ai-speech-batchtranscription!KnownServiceApiVersions:enum": "Azure.Ai.Speech.BatchTranscription.ServiceApiVersions",
+      "@azure/azure-ai-speech-batchtranscription!BatchTranscriptionClient#listTranscriptionFiles:member(1)": "Azure.Ai.Speech.BatchTranscription.listTranscriptionFiles",
+      "@azure/azure-ai-speech-batchtranscription!BatchTranscriptionClient#listTranscriptions:member(1)": "Azure.Ai.Speech.BatchTranscription.listTranscriptions",
+      "@azure/azure-ai-speech-batchtranscription!BatchTranscriptionClient#deleteTranscription:member(1)": "Azure.Ai.Speech.BatchTranscription.deleteTranscription",
+      "@azure/azure-ai-speech-batchtranscription!BatchTranscriptionClient#getTranscription:member(1)": "Azure.Ai.Speech.BatchTranscription.getTranscription",
+      "@azure/azure-ai-speech-batchtranscription!BatchTranscriptionClient#startTranscription:member(1)": "Azure.Ai.Speech.BatchTranscription.startTranscription"
+    }
+  }
+}

@@ -2,11 +2,7 @@
   "version": "0.2",
   "language": "en",
   "languageId": "typescript,javascript",
-  "dictionaries": [
-    "node",
-    "powershell",
-    "typescript"
-  ],
+  "dictionaries": ["node", "powershell", "typescript"],
   "ignorePaths": [
     "**/*-lintReport.html",
     "**/node_modules/**",
@@ -116,6 +112,7 @@
     "devboxes",
     "devcenter",
     "devdeps",
+    "diarization",
     "dicom",
     "dotenv",
     "dtmi",
@@ -182,23 +179,15 @@
   "overrides": [
     {
       "filename": "eng/tools/rush-runner.js",
-      "words": [
-        "Jsons"
-      ]
+      "words": ["Jsons"]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/**/*.md",
-      "words": [
-        "APIM",
-        "scaffolder"
-      ]
+      "words": ["APIM", "scaffolder"]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/**/*.md",
-      "words": [
-        "APIM",
-        "MSAPIM"
-      ]
+      "words": ["APIM", "MSAPIM"]
     },
     {
       "filename": "sdk/attestation/attestation/review/**/*.md",
@@ -229,33 +218,19 @@
     },
     {
       "filename": "sdk/communication/communication-common/review/**/*.md",
-      "words": [
-        "gcch"
-      ]
+      "words": ["gcch"]
     },
     {
       "filename": "sdk/communication/communication-email/review/**/*.md",
-      "words": [
-        "rpmsg",
-        "xlsb"
-      ]
+      "words": ["rpmsg", "xlsb"]
     },
     {
       "filename": "sdk/containerregistry/container-registry/review/**/*.md",
-      "words": [
-        "Illumos",
-        "illumos",
-        "mipsle",
-        "riscv"
-      ]
+      "words": ["Illumos", "illumos", "mipsle", "riscv"]
     },
     {
       "filename": "sdk/core/core-amqp/review/**/*.md",
-      "words": [
-        "EHOSTDOWN",
-        "ENONET",
-        "sastoken"
-      ]
+      "words": ["EHOSTDOWN", "ENONET", "sastoken"]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
@@ -274,29 +249,19 @@
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
-      "words": [
-        "Funtion"
-      ]
+      "words": ["Funtion"]
     },
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": [
-        "dtdl"
-      ]
+      "words": ["dtdl"]
     },
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": [
-        "dependecies"
-      ]
+      "words": ["dependecies"]
     },
     {
       "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/**/*.md",
-      "words": [
-        "presentationml",
-        "spreadsheetml",
-        "wordprocessingml"
-      ]
+      "words": ["presentationml", "spreadsheetml", "wordprocessingml"]
     },
     {
       "filename": "sdk/easm/defender-easm-rest/review/**/*.md",
@@ -315,25 +280,15 @@
     },
     {
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
-      "words": [
-        "Dicom",
-        "Gcch",
-        "gcch"
-      ]
+      "words": ["Dicom", "Gcch", "gcch"]
     },
     {
       "filename": "sdk/eventgrid/eventgrid-systemevents/review/**/*.md",
-      "words": [
-        "Dicom",
-        "Gcch",
-        "gcch"
-      ]
+      "words": ["Dicom", "Gcch", "gcch"]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": [
-        "iddocument"
-      ]
+      "words": ["iddocument"]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
@@ -361,99 +316,55 @@
     },
     {
       "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
-      "words": [
-        "ctxt",
-        "mros",
-        "nify"
-      ]
+      "words": ["ctxt", "mros", "nify"]
     },
     {
       "filename": "sdk/identity/**/*.md",
-      "words": [
-        "MSAL",
-        "PKCE"
-      ]
+      "words": ["MSAL", "PKCE"]
     },
     {
       "filename": "sdk/identity/**/*.ts",
-      "words": [
-        "azcmagent",
-        "HIMDS"
-      ]
+      "words": ["azcmagent", "HIMDS"]
     },
     {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
-      "words": [
-        "Dtmi",
-        "dtmis"
-      ]
+      "words": ["Dtmi", "dtmis"]
     },
     {
       "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
-      "words": [
-        "ECHSM",
-        "RSAHSM",
-        "ekus",
-        "upns"
-      ]
+      "words": ["ECHSM", "RSAHSM", "ekus", "upns"]
     },
     {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": [
-        "ECHSM",
-        "OKPHSM",
-        "RSAHSM",
-        "RSNULL",
-        "Rsnull"
-      ]
+      "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
     },
     {
       "filename": "sdk/loadtestservice/load-testing-rest/review/**/*.md",
-      "words": [
-        "vusers"
-      ]
+      "words": ["vusers"]
     },
     {
       "filename": "sdk/maps/maps-common/review/**/*.md",
-      "words": [
-        "bbox"
-      ]
+      "words": ["bbox"]
     },
     {
       "filename": "sdk/maps/maps-render-rest/review/**/*.md",
-      "words": [
-        "bbox"
-      ]
+      "words": ["bbox"]
     },
     {
       "filename": "sdk/maps/maps-route-rest/review/**/*.md",
-      "words": [
-        "Hundredkm",
-        "UTURN",
-        "bbox"
-      ]
+      "words": ["Hundredkm", "UTURN", "bbox"]
     },
     {
       "filename": "sdk/maps/maps-search-rest/review/**/*.md",
-      "words": [
-        "Neighbourhood",
-        "Xstr",
-        "bbox"
-      ]
+      "words": ["Neighbourhood", "Xstr", "bbox"]
     },
     {
       "filename": "sdk/monitor/monitor-query/review/**/*.md",
-      "words": [
-        "fourty",
-        "Milli",
-        "rollupby"
-      ]
+      "words": ["fourty", "Milli", "rollupby"]
     },
     {
       "filename": "sdk/notificationhubs/notification-hubs/review/**/*.md",
-      "words": [
-        "fcmv"
-      ]
+      "words": ["fcmv"]
     },
     {
       "filename": "sdk/search/search-documents/review/**/*.md",
@@ -511,53 +422,31 @@
     },
     {
       "filename": "sdk/search/search-documents/review/**/*.md",
-      "words": [
-        "Createor"
-      ]
+      "words": ["Createor"]
     },
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": [
-        "RAGRS"
-      ]
+      "words": ["RAGRS"]
     },
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": [
-        "Uncommited"
-      ]
+      "words": ["Uncommited"]
     },
     {
       "filename": "sdk/storage/storage-file-share/review/**/*.md",
-      "words": [
-        "Sddl"
-      ]
+      "words": ["Sddl"]
     },
     {
       "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
-      "words": [
-        "Abgr",
-        "Argb",
-        "Bgra",
-        "Grpc",
-        "Onvif",
-        "abgr",
-        "argb",
-        "bgra",
-        "onvif"
-      ]
+      "words": ["Abgr", "Argb", "Bgra", "Grpc", "Onvif", "abgr", "argb", "bgra", "onvif"]
     },
     {
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/**/*.md",
-      "words": [
-        "protobuf"
-      ]
+      "words": ["protobuf"]
     },
     {
       "filename": "sdk/web-pubsub/web-pubsub-client/review/**/*.md",
-      "words": [
-        "protobuf"
-      ]
+      "words": ["protobuf"]
     }
   ]
 }
