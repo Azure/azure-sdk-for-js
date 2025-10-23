@@ -21,7 +21,7 @@ async function main() {
 
   const openAiClient = await project.getAzureOpenAIClient({
     // The API version should match the version of the Azure OpenAI resource.
-    apiVersion: "2025-04-01-preview",
+    apiVersion: "2025-04-28",
   });
 
   // Upload training and validation files
