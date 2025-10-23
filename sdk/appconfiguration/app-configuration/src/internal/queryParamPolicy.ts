@@ -28,7 +28,7 @@ export function queryParamPolicy(): PipelinePolicy {
 
         const params: ParamEntry[] = [];
         for (const entry of url.search.substring(1).split("&")) {
-          const [name, value] = entry.split("=", 1);
+          const [name, value] = entry.split("=", 2);
           params.push({ lowercaseName: name.toLowerCase(), value });
         }
 
