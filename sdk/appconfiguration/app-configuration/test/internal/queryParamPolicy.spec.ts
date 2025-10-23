@@ -31,6 +31,16 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     ).toBe(true);
   });
 
+  it("keeps original encoded parameter value", async () => {
+    const policy = queryParamPolicy();
+    const request = createPipelineRequest({
+      url: "https://example.azconfig.io/kv?key=%25%20%2B",
+    });
+    const response = await policy.sendRequest(request, mockNext());
+    const finalUrl = response.headers.get("url-lookup")!;
+    expect(finalUrl.endsWith("?key=%25%20%2B")).toBe(true);
+  });
+
   it("keeps original order of query parameters", async () => {
     const policy = queryParamPolicy();
     const request = createPipelineRequest({
