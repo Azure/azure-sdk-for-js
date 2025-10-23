@@ -219,11 +219,11 @@ async function run(): Promise<void> {
 
   // Create some sample items with different partition key values
   const cities = [
-    { id: "1", name: "Olympia", state: "WA", isCapitol: true },
-    { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-    { id: "3", name: "Seattle", state: "WA", isCapitol: false },
-    { id: "4", name: "Springfield", state: "IL", isCapitol: true },
-    { id: "5", name: "Chicago", state: "IL", isCapitol: false },
+    { id: "1", name: "Olympia", state: "WA", isCapital: true },
+    { id: "2", name: "Redmond", state: "WA", isCapital: false },
+    { id: "3", name: "Seattle", state: "WA", isCapital: false },
+    { id: "4", name: "Springfield", state: "IL", isCapital: true },
+    { id: "5", name: "Chicago", state: "IL", isCapital: false },
   ];
 
   console.log("Creating sample cities...");
@@ -233,7 +233,9 @@ async function run(): Promise<void> {
 
   // Query to verify items before deletion
   const beforeDeletionQuery = "SELECT c.id, c.name, c.state FROM c WHERE c.state = 'WA'";
-  const { resources: waItemsBefore } = await containerForDeletion.items.query(beforeDeletionQuery).fetchAll();
+  const { resources: waItemsBefore } = await containerForDeletion.items
+    .query(beforeDeletionQuery)
+    .fetchAll();
   console.log(`Items in WA before deletion: ${waItemsBefore.length}`);
 
   // Delete all items for partition key 'WA'
@@ -241,7 +243,9 @@ async function run(): Promise<void> {
   console.log("Deleted all items for partition key 'WA'");
 
   // Query to verify items after deletion
-  const { resources: waItemsAfter } = await containerForDeletion.items.query(beforeDeletionQuery).fetchAll();
+  const { resources: waItemsAfter } = await containerForDeletion.items
+    .query(beforeDeletionQuery)
+    .fetchAll();
   console.log(`Items in WA after deletion: ${waItemsAfter.length}`);
 
   // Verify IL items are still present
