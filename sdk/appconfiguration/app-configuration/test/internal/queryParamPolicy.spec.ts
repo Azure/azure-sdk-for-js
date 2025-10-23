@@ -40,4 +40,14 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     const finalUrl = response.headers.get("url-lookup")!;
     expect(finalUrl.endsWith("?api-version=2023-11-01&tags=tag2&tags=tag1")).toBe(true);
   });
+
+  it("keeps empty value", async () => {
+    const policy = queryParamPolicy();
+    const request = createPipelineRequest({
+      url: "https://example.azconfig.io/kv?key=&api-version=2023-11-01",
+    });
+    const response = await policy.sendRequest(request, mockNext());
+    const finalUrl = response.headers.get("url-lookup")!;
+    expect(finalUrl.endsWith("?api-version=2023-11-01&key=")).toBe(true);
+  });
 });
