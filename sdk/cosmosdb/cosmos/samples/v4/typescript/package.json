@@ -36,12 +36,11 @@
     "@azure/cosmos": "latest",
     "dotenv": "latest",
     "@azure/core-util": "^1.11.0",
-    "@azure/identity": "^4.11.1"
+    "@azure/identity": "^4.8.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "cross-env": "latest",
-    "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~5.8.2",
+    "rimraf": "latest"
   }
 }
