@@ -173,7 +173,7 @@ Our dependency `rhea` depends a few NodeJS modules. We need to provide polyfills
 npm add buffer os-browserify path-browserify process isomorphic-webcrypto
 ```
 
-Add a `metro.config.js` to the root of the project with content of
+Update `metro.config.js` under the root of the project with content of
 
 ```js
 const { getDefaultConfig } = require("expo/metro-config");
@@ -260,4 +260,4 @@ Then update our testing code to pass the `webSocketOptions` via the client optio
 +  });
 ```
 
-Now the application should run, sending and receiving Event Hub Events/Service Bus messages.
+Now the application should run, allow invoking test to send and receive Event Hub Events/Service Bus messages.
