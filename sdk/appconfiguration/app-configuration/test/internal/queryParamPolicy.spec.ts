@@ -41,7 +41,7 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     expect(finalUrl.endsWith("?api-version=2023-11-01&tags=tag2&tags=tag1")).toBe(true);
   });
 
-  it("keeps empty value", async () => {
+  it("keeps empty parameter value", async () => {
     const policy = queryParamPolicy();
     const request = createPipelineRequest({
       url: "https://example.azconfig.io/kv?key=&api-version=2023-11-01&key1",
@@ -49,5 +49,25 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     const response = await policy.sendRequest(request, mockNext());
     const finalUrl = response.headers.get("url-lookup")!;
     expect(finalUrl.endsWith("?api-version=2023-11-01&key=&key1=")).toBe(true);
+  });
+
+  it("removes redundant &", async () => {
+    const policy = queryParamPolicy();
+    const request = createPipelineRequest({
+      url: "https://example.azconfig.io/kv?b=2&&a=1",
+    });
+    const response = await policy.sendRequest(request, mockNext());
+    const finalUrl = response.headers.get("url-lookup")!;
+    expect(finalUrl.endsWith("?a=1&b=2")).toBe(true);
+  });
+
+  it("skips when no query parameters are present", async () => {
+    const policy = queryParamPolicy();
+    const request = createPipelineRequest({
+      url: "https://example.azconfig.io/kv?",
+    });
+    const response = await policy.sendRequest(request, mockNext());
+    const finalUrl = response.headers.get("url-lookup")!;
+    expect(finalUrl.endsWith("/kv?")).toBe(true);
   });
 });
