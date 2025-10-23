@@ -23,6 +23,7 @@ import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -186,16 +187,12 @@ export class CosmosClient {
       );
     }
 
-    this.clientContext = new ClientContext(
+    this.clientContext = this.initializeClientContext(
       optionsOrConnectionString,
       globalEndpointManager,
       clientConfig,
-      determineDiagnosticLevel(
-        optionsOrConnectionString.diagnosticLevel,
-        getDiagnosticLevelFromEnvironment(),
-      ),
-      this.globalPartitionEndpointManager,
     );
+
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
       optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
@@ -209,6 +206,25 @@ export class CosmosClient {
 
     this.databases = new Databases(this, this.clientContext, this.encryptionManager);
     this.offers = new Offers(this, this.clientContext);
+  }
+
+  private initializeClientContext(
+    optionsOrConnectionString: CosmosClientOptions,
+    globalEndpointManager: GlobalEndpointManager,
+    clientConfig: ClientConfigDiagnostic,
+  ): ClientContext {
+    const clientContext = new ClientContext(
+      optionsOrConnectionString,
+      globalEndpointManager,
+      clientConfig,
+      determineDiagnosticLevel(
+        optionsOrConnectionString.diagnosticLevel,
+        getDiagnosticLevelFromEnvironment(),
+      ),
+      this.globalPartitionEndpointManager,
+    );
+    clientContext.partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
+    return clientContext;
   }
 
   private initializeClientConfigDiagnostic(
