@@ -72,8 +72,7 @@ export class OrderByQueryExecutionContext
     // Only process if we either have no more unfilled producers OR we need to maintain order
     while (
       this.bufferedDocumentProducersQueue.size() > 0 &&
-      (this.unfilledDocumentProducersQueue.isEmpty() ||
-        this.bufferedDocumentProducersQueue.size() >= 1)
+      this.unfilledDocumentProducersQueue.isEmpty()  
     ) {
       documentProducer = this.bufferedDocumentProducersQueue.deq();
       const { result, headers } = await documentProducer.fetchNextItem();
@@ -123,7 +122,8 @@ export class OrderByQueryExecutionContext
     try {
       await this.bufferDocumentProducers(diagnosticNode);
       await this.fillBufferFromBufferQueue();
-      return this.drainBufferedItems();
+      const drainedItemsResponse = await this.drainBufferedItems();
+      return drainedItemsResponse;
     } catch (error) {
       console.error("Error fetching more results:", error);
       throw error;

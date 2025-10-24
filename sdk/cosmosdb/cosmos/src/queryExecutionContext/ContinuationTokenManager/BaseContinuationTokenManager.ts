@@ -42,7 +42,7 @@ export abstract class BaseContinuationTokenManager {
 
   // Abstract methods that subclasses must implement
   protected abstract initializeFromToken(token: string): void;
-  public abstract handleCurrentPageRanges(pageSize: number): {
+  public abstract handleCurrentPageRanges(pageSize: number, isResponseEmpty: boolean): {
     endIndex: number;
     processedRanges: string[];
   };

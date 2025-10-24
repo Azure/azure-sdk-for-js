@@ -181,6 +181,9 @@ export class DocumentProducer {
       let resources = resourcesResult;
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
+      // TODO: remove afterwards
+      const resourceIds = resources ? resources.map((r: any) => r.payload?.id) : [];
+      console.log(`[DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} buffered ${resources?.length || 0} items with ids:`, resourceIds);
 
       // Extract query execution info from headers if available
       if (headerResponse && headerResponse["x-ms-cosmos-query-execution-info"]) {
@@ -210,6 +213,10 @@ export class DocumentProducer {
           );
           addHeaderToFetchResult = false;
         });
+        console.log(`  [DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} items:`, finalItemIds);
+        if (resources.length > 0 && resources[0].orderByItems) {
+          console.log(`  [DOCPROD-BUFFER] First item orderByItems:`, resources[0].orderByItems);
+        }
       }
 
       // need to modify the header response so that the query metrics are per partition

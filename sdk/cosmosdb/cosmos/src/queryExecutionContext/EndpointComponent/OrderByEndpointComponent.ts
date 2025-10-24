@@ -19,7 +19,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-  ) {}
+  ) { }
   /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
@@ -39,8 +39,16 @@ export class OrderByEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      const result = createParallelQueryResult([], new Map(), {}, []);
-      return { result, headers: response.headers };
+      // Preserve the partitionKeyRangeMap and updatedContinuationRanges from the original response
+      // even when the buffer is empty, as they contain important continuation token information
+      const originalResult = response?.result as ParallelQueryResult;
+      const result = createParallelQueryResult(
+        [],
+        originalResult?.partitionKeyRangeMap || new Map(),
+        originalResult?.updatedContinuationRanges || {},
+        []
+      );
+      return { result, headers: response?.headers };
     }
 
     const parallelResult = response.result as ParallelQueryResult;

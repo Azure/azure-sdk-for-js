@@ -26,12 +26,6 @@ export class RidSkipCountFilter implements FilterStrategy {
    */
   constructor(private readonly filterContext: FilterContext) {
     this.remainingSkipCount = this.filterContext.skipCount;
-    console.log(`[RidSkipCountFilter] Constructor - Filter context: ${JSON.stringify({
-      orderByItems: this.filterContext.orderByItems,
-      rid: this.filterContext.rid,
-      skipCount: this.filterContext.skipCount,
-      sortOrders: this.filterContext.sortOrders
-    })}`);
   }
 
   /**
@@ -40,6 +34,16 @@ export class RidSkipCountFilter implements FilterStrategy {
    * @returns A new array containing only the documents that should be processed.
    */
   public applyFilter(documents: any[]): any[] {    
+    console.log(`[FILTER-DEBUG] === Starting RidSkipCountFilter.applyFilter ===`);
+    console.log(`[FILTER-DEBUG] Input documents count: ${documents.length}`);
+    console.log(`[FILTER-DEBUG] Filter context:`, {
+      orderByItems: this.filterContext.orderByItems,
+      sortOrders: this.filterContext.sortOrders,
+      rid: this.filterContext.rid,
+      skipCount: this.filterContext.skipCount,
+      initialSkipCount: this.remainingSkipCount
+    });
+    
     const filteredDocs: any[] = [];
     let skippedCount = 0;
     
@@ -52,6 +56,11 @@ export class RidSkipCountFilter implements FilterStrategy {
       filteredDocs.push(doc);
     }
     
+    console.log(`[FILTER-DEBUG] === Filter Results ===`);
+    console.log(`[FILTER-DEBUG] Filtered documents count: ${filteredDocs.length}`);
+    console.log(`[FILTER-DEBUG] Skipped documents count: ${skippedCount}`);
+    console.log(`[FILTER-DEBUG] Remaining skip count: ${this.remainingSkipCount}`);
+    
     return filteredDocs;
   }
 
@@ -60,56 +69,47 @@ export class RidSkipCountFilter implements FilterStrategy {
    * Implements the .NET SDK's FilterNextAsync logic with robust OrderBy comparison.
    */
   private shouldIncludeDocument(doc: any): boolean {
-    const docPayload = doc.payload || doc;
+    const docPayload = doc.payload || doc;    
+    const docId = docPayload?.id || 'unknown';
+    const docAmount = docPayload?.amount || 'unknown';
     
-    // Log full document structure for DISTINCT queries
-    console.log(`[RidSkipCountFilter] === Processing Document ===`);
-    console.log(`[RidSkipCountFilter] Doc structure: ${JSON.stringify({
-      _rid: doc._rid,
-      orderByItems: doc.orderByItems,
-      payload: docPayload.category || docPayload.id,
-      _hash: doc._hash || 'N/A'
-    })}`);
+    console.log(`[FILTER-DETAIL] === shouldIncludeDocument for ${docId} (amount: ${docAmount}) ===`);
+    console.log(`[FILTER-DETAIL] Document orderByItems:`, doc.orderByItems);
+    console.log(`[FILTER-DETAIL] Continuation orderByItems:`, this.filterContext.orderByItems);
     
     // Step 1: OrderBy Value Filtering using OrderByComparator
-    const sortOrderCompare = this.compareOrderByItems(doc);
-    console.log(`[RidSkipCountFilter] OrderBy comparison: ${sortOrderCompare} (doc vs continuation)`);
-    console.log(`[RidSkipCountFilter]   Doc orderByItems: ${JSON.stringify(doc.orderByItems)}`);
-    console.log(`[RidSkipCountFilter]   Continuation orderByItems: ${JSON.stringify(this.filterContext.orderByItems)}`);
-
-    // If sortOrderCompare > 0, this document comes after the continuation point
-    if (sortOrderCompare > 0) {
-      console.log(`[RidSkipCountFilter] ✓ INCLUDE: OrderBy > continuation (${docPayload.category || docPayload.id})`);
-      return true; // Include documents that come after continuation point
-    }
+    const sortOrderCompare = this.compareOrderByItems(doc);    
+    console.log(`[FILTER-DETAIL] OrderBy comparison result: ${sortOrderCompare}`);
+    
+    // FIXED: Correct the inverted logic!
+    // compareOrderByItems returns: negative if doc < continuation, positive if doc > continuation
+    // But for filtering: negative means doc comes BEFORE (skip), positive means doc comes AFTER (include)
     
     // If sortOrderCompare < 0, this document comes before the continuation point
     if (sortOrderCompare < 0) {
-      console.log(`[RidSkipCountFilter] ✗ SKIP: OrderBy < continuation (${docPayload.category || docPayload.id})`);
+      return true; // Include documents that come after continuation point
+    }
+    
+    // If sortOrderCompare > 0, this document comes after the continuation point  
+    if (sortOrderCompare > 0) {
       return false; // Skip documents that come before continuation point
     }
 
+
     // Step 2: RID Filtering (sortOrderCompare === 0, same OrderBy values)
-    // 
-    // RID Comparison Logic (from Java SDK):
-    // - RIDs are base64-encoded structures containing database, collection, and document IDs
-    // - We extract and compare ONLY the Document ID portion (8 bytes at offset 8-15)
-    // - Document IDs are stored in Big Endian format and must be compared as unsigned integers
-    // - ridOrderCompare = continuationRid.Document.CompareTo(docRid.Document)
-    
     // Check if RID is available for comparison (some queries like JOIN may not have RID)
-    if (!this.filterContext.rid) {
-      console.log(`[RidSkipCountFilter] No RID in filter context - using skipCount only`);
-      // Without RID, we can't do RID-based filtering, so include the document
-      // The skipCount logic will handle any necessary filtering
-      if (this.remainingSkipCount > 0) {
-        console.log(`[RidSkipCountFilter] ✗ SKIP: skipCount=${this.remainingSkipCount} (${docPayload.category || docPayload.id})`);
-        this.remainingSkipCount--;
-        return false;
-      }
-      console.log(`[RidSkipCountFilter] ✓ INCLUDE: skipCount exhausted (${docPayload.category || docPayload.id})`);
-      return true;
-    }
+    // if (!this.filterContext.rid) {
+    //   console.log(`[FILTER-DETAIL] No RID in continuation token, using skip count only`);
+    //   // Without RID, we can't do RID-based filtering, so include the document
+    //   // The skipCount logic will handle any necessary filtering
+    //   if (this.remainingSkipCount > 0) {
+    //     console.log(`[FILTER-DETAIL] ✗ Skip count remaining: ${this.remainingSkipCount}, skipping`);
+    //     this.remainingSkipCount--;
+    //     return false;
+    //   }
+    //   console.log(`[FILTER-DETAIL] ✓ Skip count exhausted, including`);
+    //   return true;
+    // }
     
     // For ORDER BY queries, _rid is at the top level of doc, not in payload
     // Query rewrites to: SELECT c._rid, [...] AS orderByItems, {...} AS payload
@@ -130,54 +130,43 @@ export class RidSkipCountFilter implements FilterStrategy {
       } else {
         ridOrderCompare = 0;
       }
-    }
-    console.log(`[RidSkipCountFilter] Base RID comparison: continuation(${this.filterContext.rid}) vs doc(${docRid}) = ${ridOrderCompare}`);
-    
+    }    
     // Apply direction logic based on sort order and query execution info 
     const sortOrders = this.filterContext.sortOrders || [];
     const queryExecutionInfo = this.filterContext.queryExecutionInfo;
     
-    // Direction logic based on index scan direction (following .NET SDK lines 1485-1511)
+    // Direction logic based on index scan direction
     // Find the first descending sort order in the array
     const hasDescendingSort = sortOrders.some(order => order === 'Descending');
-    console.log(`[RidSkipCountFilter] Sort orders: [${sortOrders.join(', ')}], Has descending: ${hasDescendingSort}, QueryExecutionInfo: ${JSON.stringify(queryExecutionInfo)}`);
     
     if (!queryExecutionInfo || queryExecutionInfo.reverseRidEnabled) {
       // Default behavior or when reverseRidEnabled is true
       if (hasDescendingSort) {
         ridOrderCompare = -ridOrderCompare; // Flip for DESC sort order
-        console.log(`[RidSkipCountFilter] Flipped RID comparison for DESC sort order (reverseRidEnabled): ${ridOrderCompare}`);
       }
     } else {
       // When reverseRidEnabled is false, use reverseIndexScan
       if (queryExecutionInfo.reverseIndexScan) {
         ridOrderCompare = -ridOrderCompare; // Flip based on index scan direction
-        console.log(`[RidSkipCountFilter] Flipped RID comparison for reverseIndexScan: ${ridOrderCompare}`);
       }
     }
     
-    console.log(`[RidSkipCountFilter] Final RID comparison result: ${ridOrderCompare}`);
     
-    // Following .NET SDK: if (ridOrderCompare > 0) continue; // Skip
+    // if (ridOrderCompare > 0) continue; // Skip
     if (ridOrderCompare > 0) {
-      console.log(`[RidSkipCountFilter] ✗ SKIP: RID already processed (${docPayload.category || docPayload.id})`);
       return false; // Skip documents that were already processed
     }
     
     if (ridOrderCompare < 0) {
-      console.log(`[RidSkipCountFilter] ✓ INCLUDE: RID comes after continuation (${docPayload.category || docPayload.id})`);
       return true; // Include documents that come after continuation
     }
 
     // Step 3: SkipCount Logic (ridOrderCompare === 0, exact same RID)
-    console.log(`[RidSkipCountFilter] Same RID - checking skipCount (remaining: ${this.remainingSkipCount})`);
     if (this.remainingSkipCount > 0) {
-      console.log(`[RidSkipCountFilter] ✗ SKIP: Same RID, skipCount=${this.remainingSkipCount} (${docPayload.category || docPayload.id})`);
       this.remainingSkipCount--;
       return false; // Skip this document due to skip count
     }
     
-    console.log(`[RidSkipCountFilter] ✓ INCLUDE: Same RID, skipCount exhausted (${docPayload.category || docPayload.id})`);
     return true; // Include this document (skip count exhausted)
   }
 

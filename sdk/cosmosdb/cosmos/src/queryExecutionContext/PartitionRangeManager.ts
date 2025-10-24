@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
 
 /**
@@ -114,6 +115,38 @@ export class PartitionRangeManager {
     return { endIndex, processedRanges, lastRangeBeforePageLimit };
   }
 
+  public processEmptyOrderByRanges(
+    pageSize: number,
+    ranges: QueryRangeWithContinuationToken[],
+  ): {
+    endIndex: number;
+    processedRanges: string[];
+    lastRangeBeforePageLimit: QueryRangeMapping | undefined;
+  } {
+    const endIndex = 0;
+    const processedRanges: string[] = [];
+    let lastRangeBeforePageLimit: QueryRangeMapping | undefined;
+    
+    // since there is no data returned add all the ids to processed ranges
+    for (const [rangeId, _] of this.partitionKeyRangeMap) {
+      processedRanges.push(rangeId);
+    }
+    console.log("Processed ranges for empty response:", processedRanges);
+    // search for matching range in the map(min max value exact match) and return that as lastRangeBeforePageLimit
+    for (const [_, mapping] of this.partitionKeyRangeMap) {
+      console.log("Checking mapping for empty response:", JSON.stringify(mapping), JSON.stringify(ranges));
+      if (
+        mapping.partitionKeyRange.minInclusive === ranges[0].queryRange.min &&
+        mapping.partitionKeyRange.maxExclusive === ranges[0].queryRange.max
+      ) {
+        console.log("Found matching range for empty response:", JSON.stringify(mapping));
+        lastRangeBeforePageLimit = mapping;
+        break;
+      }
+    }
+
+    return { endIndex, processedRanges, lastRangeBeforePageLimit };
+  }
   /**
    * Processes ranges for parallel queries - multi-range aggregation
    */

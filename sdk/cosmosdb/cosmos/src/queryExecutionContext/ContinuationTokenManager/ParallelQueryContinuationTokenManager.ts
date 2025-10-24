@@ -48,7 +48,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     return this.continuationToken?.limit;
   }
 
-  public handleCurrentPageRanges(pageSize: number): {
+  public handleCurrentPageRanges(pageSize: number, isResponseEmpty: boolean): {
     endIndex: number;
     processedRanges: string[];
   } {

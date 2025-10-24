@@ -104,7 +104,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
+          `is not allowed`,
         );
       }
 
@@ -246,13 +246,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     try {
-      if (this.fetchBuffer.length >= this.pageSize) {
-        const temp = this.fetchBuffer.slice(0, this.pageSize);
-        this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
-      } else {
+      // Keep fetching until we have enough items or no more results
+      while (this.fetchBuffer.length < this.pageSize && this.endpoint.hasMoreResults()) {
         const response = await this.endpoint.fetchMore(diagnosticNode);
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+
         if (
           !response ||
           !response.result ||
@@ -333,15 +331,37 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
+    // Properly serialize the response for logging
+    const responseForLogging = {
+      ...response,
+      result: response?.result ? {
+        ...response.result,
+        partitionKeyRangeMap: response.result.partitionKeyRangeMap instanceof Map
+          ? Object.fromEntries(response.result.partitionKeyRangeMap)
+          : response.result.partitionKeyRangeMap
+      } : undefined
+    };
+    console.log("[PipelinedQueryExecutionContext] Fetched new data from endpoint:", JSON.stringify(responseForLogging));
+
     // Process response and update continuation token manager
     if (response?.result) {
+      console.log("[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap type:", typeof response.result.partitionKeyRangeMap);
+      console.log("[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap is Map?:", response.result.partitionKeyRangeMap instanceof Map);
+      if (response.result.partitionKeyRangeMap instanceof Map) {
+        console.log("[PipelinedQueryExecutionContext] Processing response - Map entries:", Object.fromEntries(response.result.partitionKeyRangeMap));
+      }
       this.continuationTokenManager.processResponseResult(response.result);
     }
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
+      console.log("[PipelinedQueryExecutionContext] Empty buffer detected - response.result:", response?.result);
+      if (response?.result?.partitionKeyRangeMap instanceof Map) {
+        console.log("[PipelinedQueryExecutionContext] Empty buffer - original partitionKeyRangeMap entries:", Object.fromEntries(response.result.partitionKeyRangeMap));
+      }
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
+      console.log("[PipelinedQueryExecutionContext] About to create empty result - this will lose partitionKeyRangeMap!");
       return this.createEmptyResultWithHeaders(response?.headers);
     }
 
@@ -357,7 +377,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
-    const result = this.continuationTokenManager.handleCurrentPageRanges(this.pageSize);
+    const result = this.continuationTokenManager.handleCurrentPageRanges(
+      this.pageSize,
+      this.fetchBuffer.length === 0,
+    );
+
+    console.log(`[PipelinedQueryExecutionContext] fetchBufferEndIndexForCurrentPage - result:`, JSON.stringify(result));
     return result;
   }
 
@@ -388,8 +413,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-          "with your vector search query.",
+        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+        "with your vector search query.",
       );
     }
     return;

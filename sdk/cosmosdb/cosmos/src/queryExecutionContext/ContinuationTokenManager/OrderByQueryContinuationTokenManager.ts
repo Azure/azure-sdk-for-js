@@ -84,23 +84,50 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  public handleCurrentPageRanges(pageSize: number): {
+  public handleCurrentPageRanges(pageSize: number, isResponseEmpty: boolean = false): {
     endIndex: number;
     processedRanges: string[];
   } {
     this.removeExhaustedRangesFromRanges();
-    return this.processRanges(pageSize);
+    return this.processRanges(pageSize, isResponseEmpty);
   }
 
-  private processRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
-    const result = this.partitionRangeManager.processOrderByRanges(pageSize);
-    const { lastRangeBeforePageLimit } = result;
+  private processRanges(pageSize: number, isResponseEmpty: boolean = false): { endIndex: number; processedRanges: string[] } {
+    // Handle empty response case - update the previous valid continuation token
+    if (isResponseEmpty && this.continuationToken) {
+      let rangeProcessingResult;
+      
+      if (this.ranges.length === 0) {
+        console.log("Processing empty response with no ranges for ORDER BY query continuation token.");
+        rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
+      } else {
+        console.log("Processing empty response for ORDER BY query continuation token.");
+        rangeProcessingResult = this.partitionRangeManager.processEmptyOrderByRanges(pageSize, this.ranges);
+      }
 
-    // Store the range mapping
+      const { lastRangeBeforePageLimit } = rangeProcessingResult;
+      if (lastRangeBeforePageLimit) {
+        // Use the range matching the continuation token for empty response
+        this.continuationToken.rangeMappings = [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
+        console.log("Empty response: Updated continuation token with valid range");
+      } else {
+        // Range is exhausted - end the query to prevent infinite loop
+        console.log("Empty response: Range is exhausted (null continuation token) - ending query to prevent infinite loop");
+        this.continuationToken = undefined;
+      }
+      return { endIndex: rangeProcessingResult.endIndex, processedRanges: rangeProcessingResult.processedRanges };
+    }
+    
+    // Normal processing path - handle non-empty responses
+    const rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
+    const { lastRangeBeforePageLimit } = rangeProcessingResult;
+
+    // Check if we have a valid range to continue with
     if (!lastRangeBeforePageLimit) {
       this.continuationToken = undefined;
-      return { endIndex: 0, processedRanges: [] };
+      return { endIndex: rangeProcessingResult.endIndex, processedRanges: rangeProcessingResult.processedRanges };
     }
+    
     const queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
 
     // Extract ORDER BY items from the last item on the page
@@ -108,14 +135,15 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     let documentRid: string;
     let skipCount: number = 0;
 
-    if (result.endIndex > 0 && this.orderByItemsArray) {
-      const lastItemIndexOnPage = result.endIndex - 1;
+    if (rangeProcessingResult.endIndex > 0 && this.orderByItemsArray) {
+      const lastItemIndexOnPage = rangeProcessingResult.endIndex - 1;
 
       if (lastItemIndexOnPage < this.orderByItemsArray.length) {
         lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage].orderByItems;
         documentRid = this.orderByItemsArray[lastItemIndexOnPage]._rid;
         // Calculate skip count: count how many documents in the page have the same RID
         // This handles JOIN queries where multiple documents can have the same RID
+        skipCount = 0;
         for (let i = 0; i <= lastItemIndexOnPage; i++) {
           if (this.orderByItemsArray[i]._rid === documentRid) {
             skipCount++;
@@ -138,7 +166,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       lastRangeBeforePageLimit.hashedLastResult, // Hash for distinct queries
     );
 
-    return { endIndex: result.endIndex, processedRanges: result.processedRanges };
+    return { endIndex: rangeProcessingResult.endIndex, processedRanges: rangeProcessingResult.processedRanges };
   }
 
   public getTokenString(): string | undefined {
