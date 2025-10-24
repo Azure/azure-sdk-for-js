@@ -4,7 +4,7 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
 import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createHash, createPrivateKey } from "node:crypto";
+import { createPrivateKey } from "node:crypto";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
@@ -13,8 +13,8 @@ import {
 import type { CertificateParts } from "../msal/types.js";
 import type { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions.js";
 import { credentialLogger } from "../util/logging.js";
-import { readFile } from "node:fs/promises";
 import { tracingClient } from "../util/tracing.js";
+import { parseCertificate } from "../util/certificatesUtils.js";
 import type {
   ClientCertificateCredentialPEMConfiguration,
   ClientCertificatePEMCertificate,
@@ -184,56 +184,4 @@ export class ClientCertificateCredential implements TokenCredential {
       x5c: parts.x5c,
     };
   }
-}
-
-/**
- * Parses a certificate into its relevant parts
- *
- * @param certificateConfiguration - The certificate contents or path to the certificate
- * @param sendCertificateChain - true if the entire certificate chain should be sent for SNI, false otherwise
- * @returns The parsed certificate parts and the certificate contents
- */
-export async function parseCertificate(
-  certificateConfiguration: ClientCertificateCredentialPEMConfiguration,
-  sendCertificateChain: boolean,
-): Promise<Omit<CertificateParts, "privateKey"> & { certificateContents: string }> {
-  const certificate = (certificateConfiguration as ClientCertificatePEMCertificate).certificate;
-  const certificatePath = (certificateConfiguration as ClientCertificatePEMCertificatePath)
-    .certificatePath;
-  const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
-  const x5c = sendCertificateChain ? certificateContents : undefined;
-
-  const certificatePattern =
-    /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
-  const publicKeys: string[] = [];
-
-  // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
-  let match;
-  do {
-    match = certificatePattern.exec(certificateContents);
-    if (match) {
-      publicKeys.push(match[3]);
-    }
-  } while (match);
-
-  if (publicKeys.length === 0) {
-    throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
-  }
-
-  const thumbprint = createHash("sha1") // CodeQL [SM04514] Needed for backward compatibility reason
-    .update(Buffer.from(publicKeys[0], "base64"))
-    .digest("hex")
-    .toUpperCase();
-
-  const thumbprintSha256 = createHash("sha256")
-    .update(Buffer.from(publicKeys[0], "base64"))
-    .digest("hex")
-    .toUpperCase();
-
-  return {
-    certificateContents,
-    thumbprintSha256,
-    thumbprint,
-    x5c,
-  };
 }
