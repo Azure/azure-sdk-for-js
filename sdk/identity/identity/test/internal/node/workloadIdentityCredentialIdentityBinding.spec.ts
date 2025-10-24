@@ -1,0 +1,615 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WorkloadIdentityCredential } from "@azure/identity";
+import { env } from "@azure-tools/test-recorder";
+import fs from "node:fs/promises";
+import { readFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { parseAndValidateCustomTokenProxy } from "$internal/credentials/workloadIdentityCredential.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+
+const TEST_CERT_PATH = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
+
+function getTestCertificateContent(): string {
+  return readFileSync(TEST_CERT_PATH, "utf8");
+}
+
+describe("WorkloadIdentityCredential - Identity Binding Configuration", function () {
+  const tenantId = env.AZURE_TENANT_ID ?? "tenantId";
+  const clientId = env.AZURE_CLIENT_ID ?? "clientId";
+  const tokenFilePath =
+    env.AZURE_FEDERATED_TOKEN_FILE || path.join("assets", "fake-federated-token-file.txt");
+
+  afterEach(async function () {
+    vi.unstubAllEnvs();
+    delete process.env.AZURE_KUBERNETES_TOKEN_PROXY;
+    delete process.env.AZURE_KUBERNETES_CA_DATA;
+    delete process.env.AZURE_KUBERNETES_CA_FILE;
+    delete process.env.AZURE_KUBERNETES_SNI_NAME;
+    vi.restoreAllMocks();
+  });
+
+  describe("Certificate Validation & Processing", function () {
+    it("should throw error for invalid CA certificate data", async function () {
+      vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
+      vi.stubEnv("AZURE_KUBERNETES_CA_DATA", "invalid-certificate-data");
+
+      const credential = new WorkloadIdentityCredential({
+        tenantId,
+        clientId,
+        tokenFilePath,
+        enableAzureKubernetesTokenProxy: true,
+      });
+
+      assert.equal((credential as any).caData, "invalid-certificate-data");
+
+      let error: Error | undefined;
+      try {
+        await (credential as any).getTlsSettings();
+      } catch (e) {
+        error = e as Error;
+      }
+
+      assert.isDefined(error);
+      assert.match(error!.message, /no valid PEM certificates found/);
+    });
+
+    it("should validate CA file changes and cache invalidation", async function () {
+      const invalidCaContent = "invalid-certificate-data";
+      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
+      const tempCaFile = path.join(tempDir, "ca.pem");
+        // Copy valid certificate initially
+        await fs.copyFile(TEST_CERT_PATH, tempCaFile);
+
+        vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
+        vi.stubEnv("AZURE_KUBERNETES_CA_FILE", tempCaFile);
+
+        const credential = new WorkloadIdentityCredential({
+          tenantId,
+          clientId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+
+        // First call should succeed with valid certificate
+        const tlsSettings1 = await (credential as any).getTlsSettings();
+        assert.isDefined(tlsSettings1);
+        assert.equal(tlsSettings1.ca, getTestCertificateContent());
+
+        // Second call should return the same cached settings
+        const tlsSettings2 = await (credential as any).getTlsSettings();
+        assert.strictEqual(tlsSettings1, tlsSettings2); // Same object reference
+
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        await fs.writeFile(tempCaFile, invalidCaContent, "utf8");
+
+        // Third call should detect the change and fail with invalid certificate
+        let error: Error | undefined;
+        try {
+          await (credential as any).getTlsSettings();
+        } catch (e) {
+          error = e as Error;
+        }
+
+        assert.isDefined(error);
+        assert.match(error!.message, /no valid PEM certificates found/);
+
+        await fs.copyFile(TEST_CERT_PATH, tempCaFile);
+        await new Promise((resolve) => setTimeout(resolve, 10));
+
+        // Fourth call should succeed again with the new valid certificate
+        const tlsSettings3 = await (credential as any).getTlsSettings();
+        assert.isDefined(tlsSettings3);
+        assert.equal(tlsSettings3.ca, getTestCertificateContent());
+        // Should be a new object reference since cache was invalidated
+        assert.equal(tlsSettings3.ca, getTestCertificateContent());
+        await fs.unlink(tempCaFile);
+        await fs.rmdir(tempDir);
+    });
+
+    it("should handle empty CA file during rotation", async function () {
+      const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
+      const tempCaFile = path.join(tempDir, "ca.pem");
+
+        await fs.copyFile(TEST_CERT_PATH, tempCaFile);
+
+        vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
+        vi.stubEnv("AZURE_KUBERNETES_CA_FILE", tempCaFile);
+
+        const credential = new WorkloadIdentityCredential({
+          tenantId,
+          clientId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+
+        // First call should succeed and cache the TLS settings
+        const tlsSettings1 = await (credential as any).getTlsSettings();
+        assert.isDefined(tlsSettings1);
+        assert.equal(tlsSettings1.ca, getTestCertificateContent());
+
+        // Simulate CA rotation by emptying the file
+        await fs.writeFile(tempCaFile, "", "utf8");
+        await new Promise((resolve) => setTimeout(resolve, 10));
+
+        // Call with empty file should return cached settings
+        const tlsSettings2 = await (credential as any).getTlsSettings();
+        assert.strictEqual(tlsSettings1, tlsSettings2); 
+
+        const credential2 = new WorkloadIdentityCredential({
+          tenantId,
+          clientId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+
+        let rejectionError: Error | undefined;
+        try {
+          await (credential2 as any).getTlsSettings();
+        } catch (error) {
+          rejectionError = error as Error;
+        }
+        assert.isDefined(rejectionError);
+        assert.match(rejectionError!.message, /CA certificate file is empty/);
+          await fs.unlink(tempCaFile);
+          await fs.rmdir(tempDir);
+
+    });
+  });
+
+  describe("URL Rewriting", function () {
+    let pipelineModule: any;
+    let createDefaultHttpClientSpy: any;
+
+    beforeEach(async function () {
+      pipelineModule = await import("@azure/core-rest-pipeline");
+      createDefaultHttpClientSpy = vi.spyOn(pipelineModule, "createDefaultHttpClient");
+    });
+
+    afterEach(function () {
+      vi.unstubAllEnvs();
+      vi.restoreAllMocks();
+    });
+
+    const testCases = [
+      {
+        name: "proxy url with / path; request path has no leading slash",
+        proxyUrl: "https://proxy.example.com/",
+        requestUrl: "https://orig.example.com/login?a=1&b=2",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/login",
+        wantQuery: "?a=1&b=2",
+      },
+      {
+        name: "proxy url with / path; request path has no path",
+        proxyUrl: "https://proxy.example.com/",
+        requestUrl: "https://orig.example.com?a=1&b=2",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/",
+        wantQuery: "?a=1&b=2",
+      },
+      {
+        name: "no trailing slash on proxy; add slash between",
+        proxyUrl: "https://proxy.example.com/base",
+        requestUrl: "https://orig.example.com/login?a=1&b=2",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/base/login",
+        wantQuery: "?a=1&b=2",
+      },
+      {
+        name: "trailing slash on proxy; collapse double slash",
+        proxyUrl: "https://proxy.example.com/v1/",
+        requestUrl: "https://orig.example.com/oauth2/token?x=1",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/v1/oauth2/token",
+        wantQuery: "?x=1",
+      },
+      {
+        name: "with encoded path segments; maintain encoding",
+        proxyUrl: "https://proxy.example.com/base/",
+        requestUrl: "https://orig.example.com/a%20b?q=1",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/base/a%20b",
+        wantQuery: "?q=1",
+      },
+      {
+        name: "both sides no slashes; insert slash",
+        proxyUrl: "https://proxy.example.com/api",
+        requestUrl: "https://orig.example.com/v1",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/api/v1",
+        wantQuery: "",
+      },
+      {
+        name: "preserve query and fragment",
+        proxyUrl: "https://proxy.example.com/base",
+        requestUrl: "https://orig.example.com/path?query=value#fragment",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/base/path",
+        wantQuery: "?query=value",
+        wantFragment: "#fragment",
+      },
+      {
+        name: "empty request path becomes root",
+        proxyUrl: "https://proxy.example.com/api",
+        requestUrl: "https://orig.example.com",
+        wantScheme: "https",
+        wantHost: "proxy.example.com",
+        wantPath: "/api/",
+        wantQuery: "",
+      },
+    ];
+
+    testCases.forEach((testCase) => {
+      it(testCase.name, async function () {
+        vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", testCase.proxyUrl);
+
+        let capturedRequest: any;
+
+        const mockClient = {
+          sendRequest: vi.fn().mockImplementation(async (request: any) => {
+            capturedRequest = { ...request };
+            return {
+              status: 200,
+              bodyAsText: JSON.stringify({ access_token: "test-token", expires_in: 3600 }),
+              headers: new Map([["content-type", "application/json"]]),
+            };
+          }),
+        };
+
+        createDefaultHttpClientSpy.mockReturnValue(mockClient);
+
+        const credential = new WorkloadIdentityCredential({
+          tenantId,
+          clientId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+
+        const proxyClient = (credential as any).createAksProxyClient(testCase.proxyUrl);
+
+        const mockRequest = {
+          url: testCase.requestUrl,
+          method: "POST",
+          headers: createHttpHeaders(),
+          body: "test-body",
+        };
+
+        await proxyClient.sendRequest(mockRequest);
+        assert.isDefined(capturedRequest, "Request should have been captured");
+
+        const rewrittenUrl = new URL(capturedRequest.url);
+        assert.equal(rewrittenUrl.protocol, `${testCase.wantScheme}:`);
+        assert.equal(rewrittenUrl.host, testCase.wantHost);
+        assert.equal(rewrittenUrl.pathname, testCase.wantPath);
+        assert.equal(rewrittenUrl.search, testCase.wantQuery);
+
+        if (testCase.wantFragment) {
+          assert.equal(rewrittenUrl.hash, testCase.wantFragment);
+        }
+      });
+    });
+
+    it("should handle encoded URL components correctly", async function () {
+      const proxyUrl = "https://proxy.example.com/p%20a";
+      const requestUrl = "https://orig.example.com/b%20c?q=%20space";
+
+      vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", proxyUrl);
+
+      let capturedRequest: any;
+
+      const mockClient = {
+        sendRequest: vi.fn().mockImplementation(async (request: any) => {
+          capturedRequest = { ...request };
+          return {
+            status: 200,
+            bodyAsText: "{}",
+            headers: new Map(),
+          };
+        }),
+      };
+      createDefaultHttpClientSpy.mockReturnValue(mockClient as any);
+
+      const credential = new WorkloadIdentityCredential({
+        tenantId,
+        clientId,
+        tokenFilePath,
+        enableAzureKubernetesTokenProxy: true,
+      });
+      const proxyClient = (credential as any).createAksProxyClient(proxyUrl);
+
+      const mockRequest = {
+        url: requestUrl,
+        method: "GET",
+        headers: createHttpHeaders(),
+      };
+
+      await proxyClient.sendRequest(mockRequest);
+
+      assert.isDefined(capturedRequest, "Request should have been captured");
+      const rewritten = new URL(capturedRequest.url);
+
+      assert.equal(rewritten.pathname, "/p%20a/b%20c");
+      assert.equal(rewritten.search, "?q=%20space");
+    });
+  });
+
+  describe("parseAndValidateCustomTokenProxy", () => {
+    const testCases = [
+      {
+        name: "valid https endpoint without path",
+        endpoint: "https://example.com",
+        expectError: false,
+        expectedPath: "/",
+        expectedHost: "example.com",
+        expectedScheme: "https",
+      },
+      {
+        name: "valid https endpoint with path",
+        endpoint: "https://example.com/token/path",
+        expectError: false,
+        expectedPath: "/token/path",
+      },
+      {
+        name: "reject non-https scheme",
+        endpoint: "http://example.com",
+        expectError: true,
+        errorContains: "https scheme",
+      },
+      {
+        name: "reject user info",
+        endpoint: "https://user:pass@example.com/token",
+        expectError: true,
+        errorContains: "must not contain user info",
+      },
+      {
+        name: "reject query params",
+        endpoint: "https://example.com/token?foo=bar",
+        expectError: true,
+        errorContains: "must not contain a query",
+      },
+      {
+        name: "reject fragment",
+        endpoint: "https://example.com/token#frag",
+        expectError: true,
+        errorContains: "must not contain a fragment",
+      },
+      {
+        name: "allow valid percent-encoded URLs",
+        endpoint: "https://example.com/token%20path",
+        expectError: false,
+        expectedPath: "/token%20path",
+        expectedHost: "example.com",
+        expectedScheme: "https",
+      },
+    ];
+
+    testCases.forEach((testCase) => {
+      it(testCase.name, () => {
+        if (testCase.expectError) {
+          assert.throws(
+            () => parseAndValidateCustomTokenProxy(testCase.endpoint),
+            testCase.errorContains,
+          );
+        } else {
+          const result = parseAndValidateCustomTokenProxy(testCase.endpoint);
+          const url = new URL(result);
+
+          if (testCase.expectedScheme) {
+            assert.equal(url.protocol, `${testCase.expectedScheme}:`);
+          }
+          if (testCase.expectedHost) {
+            assert.equal(url.host, testCase.expectedHost);
+          }
+          if (testCase.expectedPath) {
+            assert.equal(url.pathname, testCase.expectedPath);
+          }
+
+          // Ensure no query or fragment
+          assert.equal(url.search, "");
+          assert.equal(url.hash, "");
+        }
+      });
+    });
+  });
+
+  describe("Configuration validation", function () {
+    let tempDir: string;
+    let testCAFile: string;
+
+    beforeEach(async function () {
+      // Create temp directory and copy the test CA file
+      tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "config-test-"));
+      testCAFile = path.join(tempDir, "test-ca.pem");
+      await fs.copyFile(TEST_CERT_PATH, testCAFile);
+    });
+
+    afterEach(async function () {
+      vi.unstubAllEnvs();
+      vi.restoreAllMocks();
+
+      // Clean up temp files
+      try {
+        await fs.rm(tempDir, { recursive: true, force: true });
+      } catch (error) {
+        // Ignore cleanup errors
+      }
+    });
+
+    const testCases = [
+      {
+        name: "no custom endpoint",
+        envs: {},
+        expectError: false,
+        expectCustomHttpClient: false,
+      },
+      {
+        name: "custom endpoint enabled with minimal settings",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+        },
+        expectError: false,
+        expectCustomHttpClient: true,
+      },
+      {
+        name: "custom endpoint enabled with CA file + SNI",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+          AZURE_KUBERNETES_SNI_NAME: "custom-sni.example.com",
+        },
+        expectError: false,
+        expectCustomHttpClient: true,
+        useCAFile: true,
+      },
+      {
+        name: "custom endpoint enabled with invalid CA file",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+          AZURE_KUBERNETES_CA_FILE: "/non/existent/path/to/custom-ca-file.pem",
+        },
+        expectError: false, // Credential created successfully, validation in getTlsSettings should fail
+        expectCustomHttpClient: true,
+        expectRuntimeError: true,
+      },
+      {
+        name: "custom endpoint enabled with CA file contains invalid CA data",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+        },
+        expectError: false, // Credential created successfully, validation in getTlsSettings should fail
+        expectCustomHttpClient: true,
+        expectRuntimeError: true,
+        useInvalidCAFile: true,
+      },
+      {
+        name: "custom endpoint enabled with CA data + SNI",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+          AZURE_KUBERNETES_SNI_NAME: "custom-sni.example.com",
+        },
+        useCAData: true,
+        expectError: false,
+        expectCustomHttpClient: true,
+      },
+      {
+        name: "custom endpoint enabled with invalid CA data",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+          AZURE_KUBERNETES_CA_DATA: "invalid-ca-cert",
+        },
+        expectError: false, // Construction succeeds, but validation in getTlsSettings should fail
+        expectCustomHttpClient: true,
+        expectRuntimeError: true,
+      },
+      {
+        name: "custom endpoint enabled with SNI",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+          AZURE_KUBERNETES_SNI_NAME: "custom-sni.example.com",
+        },
+        expectError: false,
+        expectCustomHttpClient: true,
+      },
+      {
+        name: "custom endpoint disabled with extra environment variables",
+        envs: {
+          AZURE_KUBERNETES_SNI_NAME: "custom-sni.example.com",
+        },
+        expectError: true,
+        expectErrorMessage:
+          /AZURE_KUBERNETES_TOKEN_PROXY is not set but other custom endpoint-related environment variables are present/,
+      },
+      {
+        name: "custom endpoint enabled with both CAData and CAFile",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
+        },
+        useCAData: true,
+        useCAFile: true,
+        expectError: true,
+        expectErrorMessage:
+          /AZURE_KUBERNETES_CA_FILE and AZURE_KUBERNETES_CA_DATA are mutually exclusive/,
+      },
+      {
+        name: "custom endpoint enabled with invalid endpoint",
+        envs: {
+          AZURE_KUBERNETES_TOKEN_PROXY: "http://custom-endpoint.com",
+        },
+        expectError: true,
+        expectErrorMessage: /Custom token endpoint must use https scheme/,
+      },
+    ];
+
+    testCases.forEach((testCase) => {
+      it(testCase.name, async function () {
+        // Set up environment variables
+        for (const [key, value] of Object.entries(testCase.envs)) {
+          vi.stubEnv(key, value);
+        }
+
+        // Set up CA file/data if needed
+        if (testCase.useCAFile) {
+          vi.stubEnv("AZURE_KUBERNETES_CA_FILE", testCAFile);
+        }
+
+        if (testCase.useCAData) {
+          vi.stubEnv("AZURE_KUBERNETES_CA_DATA", getTestCertificateContent());
+        }
+
+        if (testCase.useInvalidCAFile) {
+          const invalidCAFile = path.join(tempDir, "invalid-ca.pem");
+          await fs.writeFile(invalidCAFile, "invalid-ca-cert", "utf8");
+          vi.stubEnv("AZURE_KUBERNETES_CA_FILE", invalidCAFile);
+        }
+
+        if (testCase.expectError) {
+          assert.throws(() => {
+            new WorkloadIdentityCredential({
+              clientId,
+              tenantId,
+              tokenFilePath,
+              enableAzureKubernetesTokenProxy: true,
+            });
+          }, testCase.expectErrorMessage);
+          return;
+        }
+        const credential = new WorkloadIdentityCredential({
+          clientId,
+          tenantId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+
+        const clientAssertionCredential = credential["client"];
+        const clientOptions = (clientAssertionCredential as any)?.options;
+        const hasCustomHttpClient = clientOptions && clientOptions.httpClient !== undefined;
+
+        if (testCase.expectCustomHttpClient) {
+          assert.isTrue(hasCustomHttpClient, "Expected custom httpClient to be set");
+        } else {
+          assert.isFalse(hasCustomHttpClient, "Expected no custom httpClient");
+        }
+
+        if (testCase.expectRuntimeError) {
+          let runtimeError: Error | undefined;
+          try {
+            await (credential as any).getTlsSettings();
+          } catch (error) {
+            runtimeError = error as Error;
+          }
+          assert.isDefined(runtimeError, "Expected runtime error during CA validation");
+        }
+      });
+    });
+  });
+});
