@@ -1,0 +1,4 @@
+directory: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/NotificationHubs
+commit: 53faa503c0f6155842e2487a087b7935b95914cc
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

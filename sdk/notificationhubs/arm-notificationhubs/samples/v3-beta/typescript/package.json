@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-notificationhubs-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-notificationhubs client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -18,10 +18,10 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -32,11 +32,12 @@
   "dependencies": {
     "@azure/arm-notificationhubs": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.11.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the notification hub.
- *
- * @summary Gets the notification hub.
- * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/NotificationHubs/Get.json
- */
-
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the notification hub.
+ *
+ * @summary gets the notification hub.
+ * x-ms-original-file: 2023-10-01-preview/NotificationHubs/Get.json
+ */
 async function notificationHubsGet(): Promise<void> {
-  const subscriptionId =
-    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
-  const resourceGroupName = process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
-  const namespaceName = "nh-sdk-ns";
-  const notificationHubName = "nh-sdk-hub";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
-  const result = await client.notificationHubs.get(
-    resourceGroupName,
-    namespaceName,
-    notificationHubName,
-  );
+  const result = await client.notificationHubs.get("5ktrial", "nh-sdk-ns", "nh-sdk-hub");
   console.log(result);
 }
 
