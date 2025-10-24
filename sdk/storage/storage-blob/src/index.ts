@@ -64,6 +64,8 @@ export {
   AnonymousCredential,
   AnonymousCredentialPolicy,
   BaseRequestPolicy,
+  CredentialPolicy,
+  Credential,
   StorageRetryPolicyType,
   StorageRetryPolicy,
   StorageRetryOptions,

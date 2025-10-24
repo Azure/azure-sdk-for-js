@@ -7,15 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,30 +12,33 @@
- import type { CancelOnProgress } from '@azure/core-lro';
- import * as coreClient from '@azure/core-client';
- import * as coreHttpCompat from '@azure/core-http-compat';
- import * as coreRestPipeline from '@azure/core-rest-pipeline';
-+import { Credential as Credential_2 } from '@azure/storage-common';
-+import { CredentialPolicy } from '@azure/storage-common';
- import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
- import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+@@ -20,24 +20,25 @@
  import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -44,7 +36,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
  import { WebResourceLike as WebResource } from '@azure/core-http-compat';
-@@ -52,77 +55,8 @@
+@@ -54,77 +55,8 @@
  
  // @public
  export type AccountKind = "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
@@ -122,7 +114,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -145,8 +79,9 @@
+@@ -147,8 +79,9 @@
  
  // @public
  export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
@@ -132,7 +124,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
      sourceAuthorization?: HttpAuthorization;
-@@ -227,8 +162,9 @@
+@@ -229,8 +162,9 @@
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
      immutabilityPolicy?: BlobImmutabilityPolicy;
@@ -142,7 +134,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -239,8 +175,9 @@
+@@ -241,8 +175,9 @@
  // @public
  export interface AppendBlobCreateOptions extends CommonOptions {
      abortSignal?: AbortSignalLike;
@@ -152,7 +144,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
      immutabilityPolicy?: BlobImmutabilityPolicy;
-@@ -252,12 +189,8 @@
+@@ -254,12 +189,8 @@
  // @public
  export type AppendBlobCreateResponse = WithResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>;
  
@@ -165,7 +157,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
      conditions?: AppendBlobRequestConditions;
  }
-@@ -309,8 +242,9 @@
+@@ -311,8 +242,9 @@
  
  // @public
  export interface BlobAcquireLeaseOptions extends CommonOptions {
@@ -175,7 +167,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -352,22 +286,14 @@
+@@ -354,22 +286,14 @@
  
  // @public
  export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
@@ -199,7 +191,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -389,14 +315,16 @@
+@@ -391,14 +315,16 @@
      constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
      constructor(url: string, pipeline: PipelineLike);
@@ -216,7 +208,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
      downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
      downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
-@@ -604,14 +532,8 @@
+@@ -606,14 +532,8 @@
  // @public
  export type BlobDownloadResponseModel = WithResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>;
  
@@ -231,7 +223,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
      blockSize?: number;
      concurrency?: number;
-@@ -641,8 +563,9 @@
+@@ -643,8 +563,9 @@
  }
  
  // @public
@@ -241,7 +233,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -732,8 +655,9 @@
+@@ -734,8 +655,9 @@
  
  // @public
  export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
@@ -251,7 +243,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -941,23 +865,13 @@
+@@ -943,23 +865,13 @@
  
  // @public
  export interface BlobQueryArrowConfiguration {
@@ -276,7 +268,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      columnSeparator?: string;
      escapeCharacter?: string;
      fieldQuote?: string;
-@@ -1047,68 +961,8 @@
+@@ -1049,68 +961,8 @@
      conditions?: ModifiedAccessConditions;
  }
  
@@ -345,7 +337,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
      constructor(url: string, pipeline: PipelineLike);
      createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
-@@ -1117,8 +971,9 @@
+@@ -1119,8 +971,9 @@
      }>;
      deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
      findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
@@ -355,7 +347,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
      getBlobBatchClient(): BlobBatchClient;
-@@ -1652,8 +1507,9 @@
+@@ -1654,8 +1507,9 @@
      encryptionScope?: string;
      expiresOn?: Date;
      identifier?: string;
@@ -365,7 +357,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -1815,8 +1671,9 @@
+@@ -1817,8 +1671,9 @@
  export type ContainerFindBlobsByTagsSegmentResponse = WithResponse<FilterBlobSegment & ContainerFilterBlobsHeaders, ContainerFilterBlobsHeaders, FilterBlobSegmentModel>;
  
  // @public
@@ -375,7 +367,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2010,45 +1867,8 @@
+@@ -2012,45 +1867,8 @@
  export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {
  }
  
@@ -421,7 +413,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      clientRequestId?: string;
      date?: Date;
      errorCode?: string;
-@@ -2099,13 +1919,8 @@
+@@ -2101,13 +1919,8 @@
  // @public
  export type ContainerUndeleteResponse = WithResponse<ContainerUndeleteHeaders, ContainerUndeleteHeaders>;
  
@@ -435,20 +427,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface CorsRule {
-@@ -2122,8 +1937,12 @@
-     encryptionKey?: string;
-     encryptionKeySha256?: string;
- }
- 
-+export { Credential_2 as Credential }
-+
-+export { CredentialPolicy }
-+
- // @public
- export type DeleteSnapshotsOptionType = "include" | "only";
- 
- // @public
-@@ -2174,17 +1993,8 @@
+@@ -2180,17 +1993,8 @@
      where: string;
  }
  
@@ -466,7 +445,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2192,11 +2002,8 @@
+@@ -2198,11 +2002,8 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -478,7 +457,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      scheme: string;
      value: string;
  }
-@@ -2368,13 +2175,8 @@
+@@ -2374,13 +2175,8 @@
      ifNoneMatch?: string;
  }
  
@@ -492,7 +471,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      enabled: boolean;
      includeAPIs?: boolean;
      retentionPolicy?: RetentionPolicy;
-@@ -2387,12 +2189,8 @@
+@@ -2393,12 +2189,8 @@
      ifUnmodifiedSince?: Date;
  }
  
@@ -505,7 +484,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifMatch?: string;
      ifModifiedSince?: Date;
      ifNoneMatch?: string;
-@@ -2403,23 +2201,8 @@
+@@ -2409,23 +2201,8 @@
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
  
@@ -529,7 +508,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      contentMD5?: Uint8Array;
-@@ -2434,8 +2217,9 @@
+@@ -2440,8 +2217,9 @@
  
  // @public
  export interface PageBlobClearPagesOptions extends CommonOptions {
@@ -539,7 +518,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
  }
-@@ -2601,12 +2385,8 @@
+@@ -2607,12 +2385,8 @@
      conditions?: BlobRequestConditions;
  }
  
@@ -552,7 +531,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      date?: Date;
-@@ -2777,31 +2557,9 @@
+@@ -2783,31 +2557,9 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -584,7 +563,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      P10 = "P10",
      P15 = "P15",
      P20 = "P20",
-@@ -2870,62 +2628,8 @@
+@@ -2876,62 +2628,8 @@
      start: string;
  }
  
@@ -647,7 +626,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3144,18 +2848,16 @@
+@@ -3150,18 +2848,16 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -670,7 +649,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3171,16 +2873,14 @@
+@@ -3177,16 +2873,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }
