@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import {
   getGenericBSU,
   getGenericCredential,
@@ -12,12 +14,7 @@ import {
 } from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src/index.js";
-import type {
-  ContainerClient,
-  BlockBlobClient,
-  BlobBatchClient,
-  StorageSharedKeyCredential,
-} from "../src/index.js";
+import type { ContainerClient, BlockBlobClient, BlobBatchClient } from "../src/index.js";
 import { BlobServiceClient, newPipeline } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

@@ -77,7 +77,7 @@ export function storageSharedKeyCredentialPolicy(
 
   /**
    * Retrieve header value according to shared key sign rules.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+   * @see https://learn.microsoft.com/rest/api/storageservices/authenticate-with-shared-key
    */
   function getHeaderValueToSign(request: PipelineRequest, headerName: string): string {
     const value = request.headers.get(headerName);
@@ -88,7 +88,7 @@ export function storageSharedKeyCredentialPolicy(
 
     // When using version 2015-02-21 or later, if Content-Length is zero, then
     // set the Content-Length part of the StringToSign to an empty string.
-    // https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+    // https://learn.microsoft.com/rest/api/storageservices/authenticate-with-shared-key
     if (headerName === HeaderConstants.CONTENT_LENGTH && value === "0") {
       return "";
     }

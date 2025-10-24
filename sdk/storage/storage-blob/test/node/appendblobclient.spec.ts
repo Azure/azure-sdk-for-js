@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  StorageSharedKeyCredential,
-  ContainerClient,
-  BlobServiceClient,
-} from "../../src/index.js";
+
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   AppendBlobClient,
   newPipeline,

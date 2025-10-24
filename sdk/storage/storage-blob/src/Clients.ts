@@ -15,8 +15,7 @@ import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type {
   AppendBlob,
   Blob as StorageBlob,
