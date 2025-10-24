@@ -4,7 +4,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
+import { createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
   BatchPoolResizeOptions,
