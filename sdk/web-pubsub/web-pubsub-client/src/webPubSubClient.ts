@@ -920,9 +920,9 @@ export class WebPubSubClient {
     // Try recover connection
     let recovered = false;
     this._state = WebPubSubClientState.Recovering;
-    const abortSignal = AbortSignal.timeout(30 * 1000);
     try {
-      while (!abortSignal.aborted || this._isStopping) {
+      const abortSignal = AbortSignal.timeout(30 * 1000);
+      while (!abortSignal.aborted && !this._isStopping) {
         try {
           await this._connectCore.call(this, recoveryUri);
           recovered = true;
