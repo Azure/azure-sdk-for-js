@@ -5,10 +5,8 @@
  * @summary This sample demonstrates how to create a `DeidentificationClient` and then deidentify a `string`
  */
 
-import createClient, {
-  DeidentificationContent,
-  isUnexpected,
-} from "@azure-rest/health-deidentification";
+import type { DeidentificationContent } from "@azure-rest/health-deidentification";
+import createClient, { isUnexpected } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
