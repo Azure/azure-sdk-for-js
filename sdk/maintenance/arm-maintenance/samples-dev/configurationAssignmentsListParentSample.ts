@@ -1,39 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List configurationAssignments for resource.
- *
- * @summary List configurationAssignments for resource.
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ConfigurationAssignments_ListParent.json
- */
-
 import { MaintenanceManagementClient } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list configurationAssignments for resource.
+ *
+ * @summary list configurationAssignments for resource.
+ * x-ms-original-file: 2023-10-01-preview/ConfigurationAssignments_ListParent.json
+ */
 async function configurationAssignmentsListParent(): Promise<void> {
-  const subscriptionId =
-    process.env["MAINTENANCE_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = process.env["MAINTENANCE_RESOURCE_GROUP"] || "examplerg";
-  const providerName = "Microsoft.Compute";
-  const resourceParentType = "virtualMachineScaleSets";
-  const resourceParentName = "smdtest1";
-  const resourceType = "virtualMachines";
-  const resourceName = "smdtestvm1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.configurationAssignments.listParent(
-    resourceGroupName,
-    providerName,
-    resourceParentType,
-    resourceParentName,
-    resourceType,
-    resourceName,
+    "examplerg",
+    "Microsoft.Compute",
+    "virtualMachineScaleSets",
+    "smdtest1",
+    "virtualMachines",
+    "smdtestvm1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
