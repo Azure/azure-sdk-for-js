@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a CloudLink
  *
  * @summary delete a CloudLink
- * x-ms-original-file: 2024-09-01/CloudLinks_Delete.json
+ * x-ms-original-file: 2025-09-01/CloudLinks_Delete.json
  */
 async function cloudLinksDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

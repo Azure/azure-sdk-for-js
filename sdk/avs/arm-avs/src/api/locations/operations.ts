@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext as Client } from "../index.js";
+import type { AzureVMwareSolutionAPIContext as Client } from "../index.js";
+import type { Trial, Quota } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   skuSerializer,
-  Trial,
   trialDeserializer,
-  Quota,
   quotaDeserializer,
 } from "../../models/models.js";
-import {
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   LocationsCheckQuotaAvailabilityOptionalParams,
   LocationsCheckTrialAvailabilityOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _checkQuotaAvailabilitySend(
   context: Client,

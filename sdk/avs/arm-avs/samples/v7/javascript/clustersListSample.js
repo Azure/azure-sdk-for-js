@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Cluster resources by PrivateCloud
  *
  * @summary list Cluster resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/Clusters_List.json
+ * x-ms-original-file: 2025-09-01/Clusters_List.json
  */
 async function clustersList() {
   const credential = new DefaultAzureCredential();
