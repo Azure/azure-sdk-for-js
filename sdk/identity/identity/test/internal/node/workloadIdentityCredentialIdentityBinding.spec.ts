@@ -910,7 +910,6 @@ function generateSelfSignedCertificate(
   const keyFile = path.join(tempDir, `test-key-${Date.now()}.pem`);
   const certFile = path.join(tempDir, `test-cert-${Date.now()}.pem`);
 
-  execSync(`openssl genrsa -out "${keyFile}" 2048`, { stdio: "pipe" });
   const subj = "/CN=testName";
   const addext = `subjectAltName=DNS:${subjectName}`;
   execSync(
