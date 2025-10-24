@@ -10,11 +10,13 @@ import path from "node:path";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { parseAndValidateCustomTokenProxy } from "$internal/credentials/workloadIdentityCredential.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { AuthenticationResult } from "@azure/msal-node";
+import type { AuthenticationResult } from "@azure/msal-node";
 import { execSync } from "node:child_process";
-import { IncomingMessage, ServerResponse } from "node:http";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
-import { createServer, Server } from "node:https";
+import type { IncomingMessage, ServerResponse } from "node:http";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import { createServer } from "node:https";
+import type { Server } from "node:https";
 
 const TEST_CERT_PATH = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
 
@@ -109,7 +111,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       const tlsSettings3 = await (credential as any).getTlsSettings();
       assert.isDefined(tlsSettings3);
       assert.equal(tlsSettings3.ca, getTestCertificateContent());
-      
+
       // Should be a new object reference since cache was invalidated
       assert.equal(tlsSettings3.ca, getTestCertificateContent());
       await fs.unlink(tempCaFile);
@@ -612,10 +614,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
   });
 
   describe("Identity binding feature", function () {
-    const tenantId = env.AZURE_TENANT_ID ?? "tenantId";
-    const clientId = env.AZURE_CLIENT_ID ?? "clientId";
-    const tokenFilePath =
-      env.AZURE_FEDERATED_TOKEN_FILE || path.join("assets", "fake-federated-token-file.txt");
     let tempDir: string;
     let cleanup: MsalTestCleanup;
 
@@ -645,11 +643,11 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         // OIDC discovery document
         if (url.pathname.includes("/.well-known/openid-configuration")) {
           res.writeHead(200, { "Content-Type": "application/json" });
-          const tenantId = url.pathname.split("/")[1] || "common";
+          const pathTenantId = url.pathname.split("/")[1] || "common";
           const discoveryDoc = {
             token_endpoint: `https://${req.headers.host}/token`,
-            authorization_endpoint: `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`,
-            issuer: `https://login.microsoftonline.com/${tenantId}/v2.0`,
+            authorization_endpoint: `https://login.microsoftonline.com/${pathTenantId}/oauth2/v2.0/authorize`,
+            issuer: `https://login.microsoftonline.com/${pathTenantId}/v2.0`,
           };
           res.end(JSON.stringify(discoveryDoc));
         } else if (url.pathname === "/common/discovery/instance") {
@@ -674,7 +672,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         }
       });
 
-      const cleanup = () => {
+      const serverCleanup = () => {
         fs.unlink(keyFile).catch(() => {});
         fs.unlink(certFile).catch(() => {});
       };
@@ -683,7 +681,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         server,
         caData: cert,
         subjectName,
-        cleanup,
+        cleanup: serverCleanup,
       };
     }
 
@@ -713,7 +711,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     it("should use custom token endpoint with CA data configuration", async function () {
       const subjectName = "ca-data-test.example.com";
-      const { server, caData, cleanup } = createTestTokenEndpointServer(
+      const { server, caData, cleanup: serverCleanup } = createTestTokenEndpointServer(
         subjectName,
         (req: any, res: any) => {
           let body = "";
@@ -765,7 +763,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.equal(token!.token, "token");
 
           server.close();
-          cleanup();
+          serverCleanup();
           resolve();
         });
       });
@@ -773,7 +771,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     it("should use custom token endpoint with CA file configuration", async function () {
       const subjectName = "ca-file-test.example.com";
-      const { server, caData, cleanup } = createTestTokenEndpointServer(
+      const { server, caData, cleanup: serverCleanup } = createTestTokenEndpointServer(
         subjectName,
         (req: any, res: any) => {
           let body = "";
@@ -828,7 +826,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.equal(token!.token, "token");
 
           server.close();
-          cleanup();
+          serverCleanup();
           resolve();
         });
       });
@@ -836,7 +834,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     it("should use custom token endpoint with SNI configuration", async function () {
       const sniName = "testSniName";
-      const { server, caData, subjectName, cleanup } = createTestTokenEndpointServer(
+      const { server, caData, subjectName, cleanup: serverCleanup } = createTestTokenEndpointServer(
         sniName,
         (req: any, res: any) => {
           let body = "";
@@ -897,7 +895,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.equal(token!.token, "token");
 
           server.close();
-          cleanup();
+          serverCleanup();
           resolve();
         });
       });
