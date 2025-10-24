@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get workflow information by its name
  *
  * @summary Get workflow information by its name
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/LogicApps_GetWorkflow.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/LogicApps_GetWorkflow.json
  */
 async function getAWorkflow(): Promise<void> {
   const subscriptionId =

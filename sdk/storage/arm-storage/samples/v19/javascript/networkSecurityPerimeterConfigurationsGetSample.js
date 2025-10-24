@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets effective NetworkSecurityPerimeterConfiguration for association
  *
  * @summary Gets effective NetworkSecurityPerimeterConfiguration for association
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/NetworkSecurityPerimeterConfigurationGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/NetworkSecurityPerimeterConfigurationGet.json
  */
 async function networkSecurityPerimeterConfigurationGet() {
   const subscriptionId =

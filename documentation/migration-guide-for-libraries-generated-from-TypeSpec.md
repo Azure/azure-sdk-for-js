@@ -6,6 +6,7 @@
 >   Previously referred to as *“modular”/“modularized libraries.”*
 > - **Libraries generated with AutoRest**: Client libraries produced by the **AutoRest Code Generator** (previous generation).  
 >   Previously referred to as *“HLC”, "Swagger generator", "OpenAPI Generator"*
+
 This guide helps developers transition their JavaScript/TypeScript applications to use the *TypeSpec generated* Azure SDK libraries.
 
 **For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/quickstart-guide-for-libraries-generated-from-TypeSpec.md).**
