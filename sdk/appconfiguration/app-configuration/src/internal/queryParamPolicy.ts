@@ -31,8 +31,10 @@ export function queryParamPolicy(): PipelinePolicy {
           if (entry === "") {
             continue;
           }
-          const [name, value] = entry.split("=", 2);
-          params.push({ lowercaseName: name.toLowerCase(), value: value ?? "" });
+          const equalIndex = entry.indexOf("=");
+          const name = equalIndex === -1 ? entry : entry.substring(0, equalIndex);
+          const value = equalIndex === -1 ? "" : entry.substring(equalIndex + 1);
+          params.push({ lowercaseName: name.toLowerCase(), value });
         }
 
         // Modern JavaScript Array.prototype.sort is stable
@@ -46,7 +48,7 @@ export function queryParamPolicy(): PipelinePolicy {
           return 0;
         });
 
-        const newSearchParams = params
+        const newSearchParams: string = params
           .map(({ lowercaseName, value }) => `${lowercaseName}=${value}`)
           .join("&");
 

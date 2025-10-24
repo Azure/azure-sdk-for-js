@@ -71,7 +71,7 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     expect(finalUrl.endsWith("?a=1&b=2")).toBe(true);
   });
 
-  it("skips when no query parameters are present", async () => {
+  it("skips when no query parameter is present", async () => {
     const policy = queryParamPolicy();
     const request = createPipelineRequest({
       url: "https://example.azconfig.io/kv?",
