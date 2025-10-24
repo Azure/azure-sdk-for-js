@@ -1412,9 +1412,10 @@ export class ContainerClient extends StorageClient {
    *
    * const containerName = "<container name>";
    * const containerClient = blobServiceClient.getContainerClient(containerName);
-   * const blobs = containerClient.listBlobsFlat();
-   * let i = 1;
+   *
    * // Example using `for await` syntax
+   * let i = 1;
+   * const blobs = containerClient.listBlobsFlat();
    * for await (const blob of blobs) {
    *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
