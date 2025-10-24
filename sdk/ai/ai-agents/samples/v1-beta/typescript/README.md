@@ -20,6 +20,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agentsBingGrounding.ts][agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                         |
 | [agentsBingGroundingWithStreaming.ts][agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                         |
 | [agentsBrowserAutomation.ts][agentsbrowserautomation]                         | demonstrates how to use agent operations with the Browser Automation tool.                                                 |
+| [agentsComputerUse.ts][agentscomputeruse]                                     | demonstrates how to use agent operations with the Computer Use tool.                                                       |
 | [agentsConnectedAgents.ts][agentsconnectedagents]                             | This sample demonstrates how to use Agent operations with the Connected Agent tool from the Azure Agents service.          |
 | [agentsImageInputWithBase64.ts][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.ts][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
@@ -104,6 +105,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGrounding.ts
 [agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGroundingWithStreaming.ts
 [agentsbrowserautomation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBrowserAutomation.ts
+[agentscomputeruse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsComputerUse.ts
 [agentsconnectedagents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsConnectedAgents.ts
 [agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithBase64.ts
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithFile.ts
