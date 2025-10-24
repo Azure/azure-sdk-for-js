@@ -131,6 +131,7 @@ export enum CustomSDKStatsCounter {
 // Legacy alias for backward compatibility
 export const CustomStatsbeatCounter = CustomSDKStatsCounter;
 
+
 export const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
 export const AIMS_API_VERSION = "api-version=2017-12-01";
 export const AIMS_FORMAT = "format=json";
