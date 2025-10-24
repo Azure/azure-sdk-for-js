@@ -88,7 +88,7 @@
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",
     "@types/ws": "^8.5.10",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "debug": "^4.3.4",
