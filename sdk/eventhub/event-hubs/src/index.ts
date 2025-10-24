@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { EventData, ReceivedEventData } from "./eventData.js";
-export { WebSocketImpl } from "rhea-promise";
+export type { WebSocketImpl } from "rhea-promise";
 export { LastEnqueuedEventProperties } from "./partitionReceiver.js";
 export { OperationOptions } from "./util/operationOptions.js";
 export {
