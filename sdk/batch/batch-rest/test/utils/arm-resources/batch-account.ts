@@ -3,9 +3,9 @@
 
 import type { BatchAccount } from "@azure/arm-batch";
 import { BatchManagementClient } from "@azure/arm-batch";
-import { getArmCredential } from "../credential.js";
 import { getLocation, getResourceGroupName, getSubscriptionId } from "./env-const.js";
 import { RestError } from "@azure/core-rest-pipeline";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function createByosBatchAccount(
   accountName: string,
@@ -18,7 +18,7 @@ export async function createByosBatchAccount(
   const subscriptionId = getSubscriptionId();
   const resourceGroupName = getResourceGroupName();
 
-  const client = new BatchManagementClient(getArmCredential(), subscriptionId);
+  const client = new BatchManagementClient(createTestCredential(), subscriptionId);
   try {
     const res = await client.batchAccountOperations.beginCreateAndWait(
       resourceGroupName,
@@ -54,6 +54,6 @@ export async function createByosBatchAccount(
 export async function deleteBatchAccount(accountName: string): Promise<void> {
   const subscriptionId = getSubscriptionId();
   const resourceGroupName = getResourceGroupName();
-  const client = new BatchManagementClient(getArmCredential(), subscriptionId);
+  const client = new BatchManagementClient(createTestCredential(), subscriptionId);
   await client.batchAccountOperations.beginDeleteAndWait(resourceGroupName, accountName);
 }

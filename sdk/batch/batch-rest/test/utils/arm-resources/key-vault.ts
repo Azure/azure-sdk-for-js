@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getArmCredential } from "../credential.js";
 import {
   getLocation,
   getResourceGroupName,
@@ -16,8 +15,8 @@ import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import type { RoleAssignment } from "@azure/arm-authorization";
 import { KeyClient } from "@azure/keyvault-keys";
 import type { KeyVaultKey, CreateKeyOptions } from "@azure/keyvault-keys";
-import { randomUUID } from "crypto";
 import { RestError } from "@azure/core-rest-pipeline";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 /**
  * Creates a Key Vault suitable for a BYOS (Bring Your Own Subscription) Batch account scenario.
@@ -27,7 +26,7 @@ import { RestError } from "@azure/core-rest-pipeline";
  * 3. Resource access flags enabled: deployment, ARM template deployment, disk encryption.
  **/
 export async function createKeyVaultForByosBatchAccount(keyVaultName: string): Promise<Vault> {
-  const keyVaultClient = new KeyVaultManagementClient(getArmCredential(), getSubscriptionId());
+  const keyVaultClient = new KeyVaultManagementClient(createTestCredential(), getSubscriptionId());
 
   // Construct parameters honoring selected permission model.
   const keyVaultParams: VaultCreateOrUpdateParameters = {
@@ -103,7 +102,7 @@ export async function assignRoleToKeyVault(
   principalType: "ServicePrincipal" | "User" | "Group" = "ServicePrincipal",
 ): Promise<RoleAssignment> {
   const subscriptionId = getSubscriptionId();
-  const authClient = new AuthorizationManagementClient(getArmCredential(), subscriptionId);
+  const authClient = new AuthorizationManagementClient(createTestCredential(), subscriptionId);
 
   // Retrieve the role definition matching the provided role name at the specified scope.
   const defs = [];
@@ -122,7 +121,7 @@ export async function assignRoleToKeyVault(
     throw new Error(`Resolved role definition for '${roleName}' has no id`);
   }
 
-  const assignmentName = randomUUID();
+  const assignmentName = crypto.randomUUID();
   const assignment = await authClient.roleAssignments.create(keyVaultResourceId, assignmentName, {
     principalId: principalObjectId,
     roleDefinitionId: roleDef.id,
@@ -171,7 +170,7 @@ export async function grantKeyVaultAdministrator(
 }
 
 export async function deleteKeyVault(keyVaultName: string): Promise<void> {
-  const keyVaultClient = new KeyVaultManagementClient(getArmCredential(), getSubscriptionId());
+  const keyVaultClient = new KeyVaultManagementClient(createTestCredential(), getSubscriptionId());
   await keyVaultClient.vaults.delete(getResourceGroupName(), keyVaultName);
 }
 
@@ -190,7 +189,7 @@ export async function createKeyInKeyVault(
   options?: CreateKeyOptions,
   retryCnt: number = 3,
 ): Promise<KeyVaultKey> {
-  const keyClient = new KeyClient(vaultUrl, getArmCredential());
+  const keyClient = new KeyClient(vaultUrl, createTestCredential());
 
   const defaultOptions: CreateKeyOptions = {
     keySize: 2048,
@@ -244,7 +243,7 @@ export async function createKeyInKeyVaultAndGetUrl(
  * @returns A promise that resolves when the key is deleted
  */
 export async function deleteKeyFromKeyVault(vaultUrl: string, keyName: string): Promise<void> {
-  const keyClient = new KeyClient(vaultUrl, getArmCredential());
+  const keyClient = new KeyClient(vaultUrl, createTestCredential());
 
   try {
     await keyClient.beginDeleteKey(keyName);

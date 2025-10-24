@@ -13,10 +13,8 @@ import {
 } from "./fakeTestSecrets.js";
 
 import { isNodeLike } from "@azure/core-util";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential, NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import { EnvTokenCredential } from "./credential.js";
-import { DefaultAzureCredential } from "@azure/identity";
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -64,24 +62,6 @@ export async function createRecorder(ctx: TestInfo): Promise<Recorder> {
   return recorder;
 }
 
-export function createBatchClient(recorder?: Recorder, options: ClientOptions = {}): BatchClient {
-  const credential = isPlaybackMode()
-    ? new NoOpCredential()
-    : isNodeLike
-      ? new AzureNamedKeyCredential(env.AZURE_BATCH_ACCOUNT!, env.AZURE_BATCH_ACCESS_KEY!)
-      : new EnvTokenCredential("");
-
-  if (!isPlaybackMode() && !env.AZURE_BATCH_ENDPOINT) {
-    throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
-  }
-
-  return BatchServiceClient(
-    env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",
-    credential,
-    recorder ? recorder.configureClientOptions({ ...options }) : options,
-  );
-}
-
 export function createBatchClientV2(params: {
   recorder: Recorder;
   accountEndpoint: string;
@@ -92,11 +72,9 @@ export function createBatchClientV2(params: {
   const { recorder, accountEndpoint, accountName, accountKey, options } = params;
   const credential = isPlaybackMode()
     ? new NoOpCredential()
-    : isNodeLike
-      ? accountKey && accountName
-        ? new AzureNamedKeyCredential(accountName, accountKey)
-        : new DefaultAzureCredential()
-      : new EnvTokenCredential("BATCH_ACCESS_TOKEN");
+    : isNodeLike && accountKey && accountName
+      ? new AzureNamedKeyCredential(accountName, accountKey)
+      : createTestCredential();
 
   return BatchServiceClient(
     accountEndpoint,

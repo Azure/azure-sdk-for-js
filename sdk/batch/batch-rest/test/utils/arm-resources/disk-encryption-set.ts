@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getArmCredential } from "../credential.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { getLocation, getResourceGroupName, getSubscriptionId } from "./env-const.js";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import type { DiskEncryptionSet } from "@azure/arm-compute";
@@ -21,7 +21,7 @@ export async function createDiskEncryptionSet(
   keyVaultResourceId: string,
   keyVaultKeyUrl: string,
 ): Promise<DiskEncryptionSet> {
-  const computeClient = new ComputeManagementClient(getArmCredential(), getSubscriptionId());
+  const computeClient = new ComputeManagementClient(createTestCredential(), getSubscriptionId());
 
   const desParams: DiskEncryptionSet = {
     location: getLocation(),
@@ -51,7 +51,7 @@ export async function createDiskEncryptionSet(
  * @param diskEncryptionSetName - Name of the Disk Encryption Set to delete.
  */
 export async function deleteDiskEncryptionSet(diskEncryptionSetName: string): Promise<void> {
-  const computeClient = new ComputeManagementClient(getArmCredential(), getSubscriptionId());
+  const computeClient = new ComputeManagementClient(createTestCredential(), getSubscriptionId());
   try {
     await computeClient.diskEncryptionSets.beginDeleteAndWait(
       getResourceGroupName(),
