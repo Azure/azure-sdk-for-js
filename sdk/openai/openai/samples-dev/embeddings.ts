@@ -8,13 +8,11 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
+
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 
 // The prompt to generate the embeddings vector
 const input = ["This is the sample text to be embedded"];
@@ -22,12 +20,15 @@ const input = ["This is the sample text to be embedded"];
 export async function main(): Promise<void> {
   console.log("== Get embeddings sample ==");
 
+  if (!endpoint) {
+    throw new Error("Please set the AZURE_OPENAI_ENDPOINT environment variable.");
+  }
+
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const apiVersion = "2025-04-01-preview";
-  const deployment = "text-embedding-3-large";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const embeddings = await client.embeddings.create({ input, model: "" });
+  const deployment = "text-embedding-ada-002";
+  const client = new OpenAI({ baseURL: endpoint + "/openai/v1", apiKey: azureADTokenProvider });
+  const embeddings = await client.embeddings.create({ input, model: deployment });
 
   for (const embeddingData of embeddings.data) {
     console.log(`The embedding values are ${embeddingData.embedding}`);
