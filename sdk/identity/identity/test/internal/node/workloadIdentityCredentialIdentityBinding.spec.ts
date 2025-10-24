@@ -711,36 +711,37 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     it("should use custom token endpoint with CA data configuration", async function () {
       const subjectName = "ca-data-test.example.com";
-      const { server, caData, cleanup: serverCleanup } = createTestTokenEndpointServer(
-        subjectName,
-        (req: any, res: any) => {
-          let body = "";
-          req.on("data", (chunk: any) => {
-            body += chunk.toString();
-          });
+      const {
+        server,
+        caData,
+        cleanup: serverCleanup,
+      } = createTestTokenEndpointServer(subjectName, (req: any, res: any) => {
+        let body = "";
+        req.on("data", (chunk: any) => {
+          body += chunk.toString();
+        });
 
-          req.on("end", () => {
-            const params = new URLSearchParams(body);
+        req.on("end", () => {
+          const params = new URLSearchParams(body);
 
-            assert.equal(
-              params.get("client_assertion_type"),
-              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-            );
-            assert.equal(params.get("client_id"), clientId);
-            assert.equal(params.get("grant_type"), "client_credentials");
-            assert.isDefined(params.get("client_assertion"));
+          assert.equal(
+            params.get("client_assertion_type"),
+            "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+          );
+          assert.equal(params.get("client_id"), clientId);
+          assert.equal(params.get("grant_type"), "client_credentials");
+          assert.isDefined(params.get("client_assertion"));
 
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(
-              JSON.stringify({
-                access_token: "token",
-                token_type: "Bearer",
-                expires_in: 3600,
-              }),
-            );
-          });
-        },
-      );
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(
+            JSON.stringify({
+              access_token: "token",
+              token_type: "Bearer",
+              expires_in: 3600,
+            }),
+          );
+        });
+      });
 
       return new Promise<void>((resolve) => {
         server.listen(0, async () => {
@@ -771,36 +772,37 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     it("should use custom token endpoint with CA file configuration", async function () {
       const subjectName = "ca-file-test.example.com";
-      const { server, caData, cleanup: serverCleanup } = createTestTokenEndpointServer(
-        subjectName,
-        (req: any, res: any) => {
-          let body = "";
-          req.on("data", (chunk: any) => {
-            body += chunk.toString();
-          });
+      const {
+        server,
+        caData,
+        cleanup: serverCleanup,
+      } = createTestTokenEndpointServer(subjectName, (req: any, res: any) => {
+        let body = "";
+        req.on("data", (chunk: any) => {
+          body += chunk.toString();
+        });
 
-          req.on("end", () => {
-            const params = new URLSearchParams(body);
+        req.on("end", () => {
+          const params = new URLSearchParams(body);
 
-            assert.equal(
-              params.get("client_assertion_type"),
-              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-            );
-            assert.equal(params.get("client_id"), clientId);
-            assert.equal(params.get("grant_type"), "client_credentials");
-            assert.isDefined(params.get("client_assertion"));
+          assert.equal(
+            params.get("client_assertion_type"),
+            "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+          );
+          assert.equal(params.get("client_id"), clientId);
+          assert.equal(params.get("grant_type"), "client_credentials");
+          assert.isDefined(params.get("client_assertion"));
 
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(
-              JSON.stringify({
-                access_token: "token",
-                token_type: "Bearer",
-                expires_in: 3600,
-              }),
-            );
-          });
-        },
-      );
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(
+            JSON.stringify({
+              access_token: "token",
+              token_type: "Bearer",
+              expires_in: 3600,
+            }),
+          );
+        });
+      });
 
       return new Promise<void>((resolve) => {
         server.listen(0, async () => {
@@ -834,38 +836,40 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
     it("should use custom token endpoint with SNI configuration", async function () {
       const sniName = "testSniName";
-      const { server, caData, subjectName, cleanup: serverCleanup } = createTestTokenEndpointServer(
-        sniName,
-        (req: any, res: any) => {
-          let body = "";
-          req.on("data", (chunk: any) => {
-            body += chunk.toString();
-          });
+      const {
+        server,
+        caData,
+        subjectName,
+        cleanup: serverCleanup,
+      } = createTestTokenEndpointServer(sniName, (req: any, res: any) => {
+        let body = "";
+        req.on("data", (chunk: any) => {
+          body += chunk.toString();
+        });
 
-          req.on("end", () => {
-            const params = new URLSearchParams(body);
+        req.on("end", () => {
+          const params = new URLSearchParams(body);
 
-            // Validate the OAuth2 request parameters
-            assert.equal(
-              params.get("client_assertion_type"),
-              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-            );
-            assert.equal(params.get("client_id"), clientId);
-            assert.equal(params.get("grant_type"), "client_credentials");
-            assert.isDefined(params.get("client_assertion")); // JWT assertion should be present
+          // Validate the OAuth2 request parameters
+          assert.equal(
+            params.get("client_assertion_type"),
+            "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+          );
+          assert.equal(params.get("client_id"), clientId);
+          assert.equal(params.get("grant_type"), "client_credentials");
+          assert.isDefined(params.get("client_assertion")); // JWT assertion should be present
 
-            // Send successful mock token response (must match stubbedToken.accessToken)
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(
-              JSON.stringify({
-                access_token: "token",
-                token_type: "Bearer",
-                expires_in: 3600,
-              }),
-            );
-          });
-        },
-      );
+          // Send successful mock token response (must match stubbedToken.accessToken)
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(
+            JSON.stringify({
+              access_token: "token",
+              token_type: "Bearer",
+              expires_in: 3600,
+            }),
+          );
+        });
+      });
 
       return new Promise<void>((resolve) => {
         server.listen(0, async () => {
