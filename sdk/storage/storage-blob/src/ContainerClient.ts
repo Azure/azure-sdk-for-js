@@ -7,8 +7,7 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
   BlobDeleteResponse,
@@ -1413,10 +1412,9 @@ export class ContainerClient extends StorageClient {
    *
    * const containerName = "<container name>";
    * const containerClient = blobServiceClient.getContainerClient(containerName);
-   *
-   * // Example using `for await` syntax
-   * let i = 1;
    * const blobs = containerClient.listBlobsFlat();
+   * let i = 1;
+   * // Example using `for await` syntax
    * for await (const blob of blobs) {
    *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
