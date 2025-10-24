@@ -5,11 +5,16 @@ import { WorkloadIdentityCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import fs from "node:fs/promises";
 import { readFileSync } from "node:fs";
-import os from "node:os";
+import os, { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { parseAndValidateCustomTokenProxy } from "$internal/credentials/workloadIdentityCredential.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { AuthenticationResult } from "@azure/msal-node";
+import { execSync } from "node:child_process";
+import { IncomingMessage, ServerResponse } from "node:http";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import { createServer, Server } from "node:https";
 
 const TEST_CERT_PATH = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
 
@@ -61,102 +66,102 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       const invalidCaContent = "invalid-certificate-data";
       const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
       const tempCaFile = path.join(tempDir, "ca.pem");
-        // Copy valid certificate initially
-        await fs.copyFile(TEST_CERT_PATH, tempCaFile);
+      // Copy valid certificate initially
+      await fs.copyFile(TEST_CERT_PATH, tempCaFile);
 
-        vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
-        vi.stubEnv("AZURE_KUBERNETES_CA_FILE", tempCaFile);
+      vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
+      vi.stubEnv("AZURE_KUBERNETES_CA_FILE", tempCaFile);
 
-        const credential = new WorkloadIdentityCredential({
-          tenantId,
-          clientId,
-          tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
-        });
+      const credential = new WorkloadIdentityCredential({
+        tenantId,
+        clientId,
+        tokenFilePath,
+        enableAzureKubernetesTokenProxy: true,
+      });
 
-        // First call should succeed with valid certificate
-        const tlsSettings1 = await (credential as any).getTlsSettings();
-        assert.isDefined(tlsSettings1);
-        assert.equal(tlsSettings1.ca, getTestCertificateContent());
+      // First call should succeed with valid certificate
+      const tlsSettings1 = await (credential as any).getTlsSettings();
+      assert.isDefined(tlsSettings1);
+      assert.equal(tlsSettings1.ca, getTestCertificateContent());
 
-        // Second call should return the same cached settings
-        const tlsSettings2 = await (credential as any).getTlsSettings();
-        assert.strictEqual(tlsSettings1, tlsSettings2); // Same object reference
+      // Second call should return the same cached settings
+      const tlsSettings2 = await (credential as any).getTlsSettings();
+      assert.strictEqual(tlsSettings1, tlsSettings2); // Same object reference
 
-        await new Promise((resolve) => setTimeout(resolve, 10));
-        await fs.writeFile(tempCaFile, invalidCaContent, "utf8");
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      await fs.writeFile(tempCaFile, invalidCaContent, "utf8");
 
-        // Third call should detect the change and fail with invalid certificate
-        let error: Error | undefined;
-        try {
-          await (credential as any).getTlsSettings();
-        } catch (e) {
-          error = e as Error;
-        }
+      // Third call should detect the change and fail with invalid certificate
+      let error: Error | undefined;
+      try {
+        await (credential as any).getTlsSettings();
+      } catch (e) {
+        error = e as Error;
+      }
 
-        assert.isDefined(error);
-        assert.match(error!.message, /no valid PEM certificates found/);
+      assert.isDefined(error);
+      assert.match(error!.message, /no valid PEM certificates found/);
 
-        await fs.copyFile(TEST_CERT_PATH, tempCaFile);
-        await new Promise((resolve) => setTimeout(resolve, 10));
+      await fs.copyFile(TEST_CERT_PATH, tempCaFile);
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
-        // Fourth call should succeed again with the new valid certificate
-        const tlsSettings3 = await (credential as any).getTlsSettings();
-        assert.isDefined(tlsSettings3);
-        assert.equal(tlsSettings3.ca, getTestCertificateContent());
-        // Should be a new object reference since cache was invalidated
-        assert.equal(tlsSettings3.ca, getTestCertificateContent());
-        await fs.unlink(tempCaFile);
-        await fs.rmdir(tempDir);
+      // Fourth call should succeed again with the new valid certificate
+      const tlsSettings3 = await (credential as any).getTlsSettings();
+      assert.isDefined(tlsSettings3);
+      assert.equal(tlsSettings3.ca, getTestCertificateContent());
+      
+      // Should be a new object reference since cache was invalidated
+      assert.equal(tlsSettings3.ca, getTestCertificateContent());
+      await fs.unlink(tempCaFile);
+      await fs.rmdir(tempDir);
     });
 
     it("should handle empty CA file during rotation", async function () {
       const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
       const tempCaFile = path.join(tempDir, "ca.pem");
 
-        await fs.copyFile(TEST_CERT_PATH, tempCaFile);
+      await fs.copyFile(TEST_CERT_PATH, tempCaFile);
 
-        vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
-        vi.stubEnv("AZURE_KUBERNETES_CA_FILE", tempCaFile);
+      vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
+      vi.stubEnv("AZURE_KUBERNETES_CA_FILE", tempCaFile);
 
-        const credential = new WorkloadIdentityCredential({
-          tenantId,
-          clientId,
-          tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
-        });
+      const credential = new WorkloadIdentityCredential({
+        tenantId,
+        clientId,
+        tokenFilePath,
+        enableAzureKubernetesTokenProxy: true,
+      });
 
-        // First call should succeed and cache the TLS settings
-        const tlsSettings1 = await (credential as any).getTlsSettings();
-        assert.isDefined(tlsSettings1);
-        assert.equal(tlsSettings1.ca, getTestCertificateContent());
+      // First call should succeed and cache the TLS settings
+      const tlsSettings1 = await (credential as any).getTlsSettings();
+      assert.isDefined(tlsSettings1);
+      assert.equal(tlsSettings1.ca, getTestCertificateContent());
 
-        // Simulate CA rotation by emptying the file
-        await fs.writeFile(tempCaFile, "", "utf8");
-        await new Promise((resolve) => setTimeout(resolve, 10));
+      // Simulate CA rotation by emptying the file
+      await fs.writeFile(tempCaFile, "", "utf8");
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
-        // Call with empty file should return cached settings
-        const tlsSettings2 = await (credential as any).getTlsSettings();
-        assert.strictEqual(tlsSettings1, tlsSettings2); 
+      // Call with empty file should return cached settings
+      const tlsSettings2 = await (credential as any).getTlsSettings();
+      assert.strictEqual(tlsSettings1, tlsSettings2);
 
-        const credential2 = new WorkloadIdentityCredential({
-          tenantId,
-          clientId,
-          tokenFilePath,
-          enableAzureKubernetesTokenProxy: true,
-        });
+      const credential2 = new WorkloadIdentityCredential({
+        tenantId,
+        clientId,
+        tokenFilePath,
+        enableAzureKubernetesTokenProxy: true,
+      });
 
-        let rejectionError: Error | undefined;
-        try {
-          await (credential2 as any).getTlsSettings();
-        } catch (error) {
-          rejectionError = error as Error;
-        }
-        assert.isDefined(rejectionError);
-        assert.match(rejectionError!.message, /CA certificate file is empty/);
-          await fs.unlink(tempCaFile);
-          await fs.rmdir(tempDir);
-
+      let rejectionError: Error | undefined;
+      try {
+        await (credential2 as any).getTlsSettings();
+      } catch (error) {
+        rejectionError = error as Error;
+      }
+      assert.isDefined(rejectionError);
+      assert.match(rejectionError!.message, /CA certificate file is empty/);
+      await fs.unlink(tempCaFile);
+      await fs.rmdir(tempDir);
     });
   });
 
@@ -428,7 +433,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
     let testCAFile: string;
 
     beforeEach(async function () {
-      // Create temp directory and copy the test CA file
       tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "config-test-"));
       testCAFile = path.join(tempDir, "test-ca.pem");
       await fs.copyFile(TEST_CERT_PATH, testCAFile);
@@ -437,13 +441,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
     afterEach(async function () {
       vi.unstubAllEnvs();
       vi.restoreAllMocks();
-
-      // Clean up temp files
-      try {
-        await fs.rm(tempDir, { recursive: true, force: true });
-      } catch (error) {
-        // Ignore cleanup errors
-      }
+      await fs.rm(tempDir, { recursive: true, force: true });
     });
 
     const testCases = [
@@ -612,4 +610,318 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       });
     });
   });
+
+  describe("Identity binding feature", function () {
+    const tenantId = env.AZURE_TENANT_ID ?? "tenantId";
+    const clientId = env.AZURE_CLIENT_ID ?? "clientId";
+    const tokenFilePath =
+      env.AZURE_FEDERATED_TOKEN_FILE || path.join("assets", "fake-federated-token-file.txt");
+    let tempDir: string;
+    let cleanup: MsalTestCleanup;
+
+    let originalTlsReject: string | undefined;
+
+    const hourInMs = 1000 * 60 * 60;
+    const stubbedToken = {
+      accessToken: "token",
+      expiresOn: new Date(Date.now() + 2 * hourInMs),
+      tokenType: "Bearer",
+    } as AuthenticationResult;
+
+    function createTestTokenEndpointServer(
+      subjectName: string,
+      tokenHandler: (req: IncomingMessage, res: ServerResponse) => void,
+    ): { server: Server; caData: string; subjectName: string; cleanup: () => void } {
+      const { key, cert, keyFile, certFile } = generateSelfSignedCertificate(subjectName, tempDir);
+
+      const serverOptions = {
+        key,
+        cert,
+        rejectUnauthorized: false,
+      };
+
+      const server = createServer(serverOptions, (req, res) => {
+        const url = new URL(req.url!, `https://${req.headers.host}`);
+        // OIDC discovery document
+        if (url.pathname.includes("/.well-known/openid-configuration")) {
+          res.writeHead(200, { "Content-Type": "application/json" });
+          const tenantId = url.pathname.split("/")[1] || "common";
+          const discoveryDoc = {
+            token_endpoint: `https://${req.headers.host}/token`,
+            authorization_endpoint: `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`,
+            issuer: `https://login.microsoftonline.com/${tenantId}/v2.0`,
+          };
+          res.end(JSON.stringify(discoveryDoc));
+        } else if (url.pathname === "/common/discovery/instance") {
+          res.writeHead(200, { "Content-Type": "application/json" });
+          const instanceDoc = {
+            tenant_discovery_endpoint: `https://${req.headers.host}/common/v2.0/.well-known/openid_configuration`,
+            metadata: [
+              {
+                preferred_network: `${req.headers.host}`,
+                preferred_cache: `${req.headers.host}`,
+                aliases: [`${req.headers.host}`],
+              },
+            ],
+          };
+          res.end(JSON.stringify(instanceDoc));
+        } else if (url.pathname === "/token") {
+          // Token endpoint
+          tokenHandler(req, res);
+        } else {
+          res.writeHead(404);
+          res.end("Not Found");
+        }
+      });
+
+      const cleanup = () => {
+        fs.unlink(keyFile).catch(() => {});
+        fs.unlink(certFile).catch(() => {});
+      };
+
+      return {
+        server,
+        caData: cert,
+        subjectName,
+        cleanup,
+      };
+    }
+
+    beforeEach(async function () {
+      const msalSetup = await msalNodeTestSetup(stubbedToken);
+      cleanup = msalSetup.cleanup;
+
+      originalTlsReject = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+      tempDir = await fs.mkdtemp(path.join(tmpdir(), "tempDir"));
+    });
+
+    afterEach(async function () {
+      await cleanup();
+
+      if (originalTlsReject !== undefined) {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = originalTlsReject;
+      } else {
+        delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+      }
+
+      vi.unstubAllEnvs();
+
+      await fs.rm(tempDir, { recursive: true, force: true });
+    });
+
+    it("should use custom token endpoint with CA data configuration", async function () {
+      const subjectName = "ca-data-test.example.com";
+      const { server, caData, cleanup } = createTestTokenEndpointServer(
+        subjectName,
+        (req: any, res: any) => {
+          let body = "";
+          req.on("data", (chunk: any) => {
+            body += chunk.toString();
+          });
+
+          req.on("end", () => {
+            const params = new URLSearchParams(body);
+
+            assert.equal(
+              params.get("client_assertion_type"),
+              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+            );
+            assert.equal(params.get("client_id"), clientId);
+            assert.equal(params.get("grant_type"), "client_credentials");
+            assert.isDefined(params.get("client_assertion"));
+
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(
+              JSON.stringify({
+                access_token: "token",
+                token_type: "Bearer",
+                expires_in: 3600,
+              }),
+            );
+          });
+        },
+      );
+
+      return new Promise<void>((resolve) => {
+        server.listen(0, async () => {
+          const address = server.address();
+          const port = typeof address === "object" && address ? address.port : 0;
+          const serverUrl = `https://localhost:${port}`;
+
+          vi.stubEnv("AZURE_CLIENT_ID", clientId);
+          vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
+          vi.stubEnv("AZURE_TENANT_ID", tenantId);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_ENDPOINT", `${serverUrl}/token`);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_CA_DATA", caData);
+
+          const credential = new WorkloadIdentityCredential({
+            enableAzureKubernetesTokenProxy: true,
+          });
+          const token = await credential.getToken("https://vault.azure.net/.default");
+
+          assert.isDefined(token);
+          assert.equal(token!.token, "token");
+
+          server.close();
+          cleanup();
+          resolve();
+        });
+      });
+    });
+
+    it("should use custom token endpoint with CA file configuration", async function () {
+      const subjectName = "ca-file-test.example.com";
+      const { server, caData, cleanup } = createTestTokenEndpointServer(
+        subjectName,
+        (req: any, res: any) => {
+          let body = "";
+          req.on("data", (chunk: any) => {
+            body += chunk.toString();
+          });
+
+          req.on("end", () => {
+            const params = new URLSearchParams(body);
+
+            assert.equal(
+              params.get("client_assertion_type"),
+              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+            );
+            assert.equal(params.get("client_id"), clientId);
+            assert.equal(params.get("grant_type"), "client_credentials");
+            assert.isDefined(params.get("client_assertion"));
+
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(
+              JSON.stringify({
+                access_token: "token",
+                token_type: "Bearer",
+                expires_in: 3600,
+              }),
+            );
+          });
+        },
+      );
+
+      return new Promise<void>((resolve) => {
+        server.listen(0, async () => {
+          const address = server.address();
+          const port = typeof address === "object" && address ? address.port : 0;
+          const serverUrl = `https://localhost:${port}`;
+
+          const caFile = path.join(tempDir, "ca-cert.pem");
+          await fs.writeFile(caFile, caData, "utf8");
+
+          vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
+          vi.stubEnv("AZURE_CLIENT_ID", clientId);
+          vi.stubEnv("AZURE_TENANT_ID", tenantId);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_ENDPOINT", `${serverUrl}/token`);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_CA_FILE", caFile);
+
+          const credential = new WorkloadIdentityCredential({
+            enableAzureKubernetesTokenProxy: true,
+          });
+          const token = await credential.getToken("https://vault.azure.net/.default");
+
+          assert.isDefined(token);
+          assert.equal(token!.token, "token");
+
+          server.close();
+          cleanup();
+          resolve();
+        });
+      });
+    });
+
+    it("should use custom token endpoint with SNI configuration", async function () {
+      const sniName = "testSniName";
+      const { server, caData, subjectName, cleanup } = createTestTokenEndpointServer(
+        sniName,
+        (req: any, res: any) => {
+          let body = "";
+          req.on("data", (chunk: any) => {
+            body += chunk.toString();
+          });
+
+          req.on("end", () => {
+            const params = new URLSearchParams(body);
+
+            // Validate the OAuth2 request parameters
+            assert.equal(
+              params.get("client_assertion_type"),
+              "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+            );
+            assert.equal(params.get("client_id"), clientId);
+            assert.equal(params.get("grant_type"), "client_credentials");
+            assert.isDefined(params.get("client_assertion")); // JWT assertion should be present
+
+            // Send successful mock token response (must match stubbedToken.accessToken)
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(
+              JSON.stringify({
+                access_token: "token",
+                token_type: "Bearer",
+                expires_in: 3600,
+              }),
+            );
+          });
+        },
+      );
+
+      return new Promise<void>((resolve) => {
+        server.listen(0, async () => {
+          const address = server.address();
+          const port = typeof address === "object" && address ? address.port : 0;
+          const serverUrl = `https://localhost:${port}`;
+
+          const caFile = path.join(tempDir, "ca-cert.pem");
+          await fs.writeFile(caFile, caData, "utf8");
+
+          vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
+          vi.stubEnv("AZURE_CLIENT_ID", clientId);
+          vi.stubEnv("AZURE_TENANT_ID", tenantId);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_ENDPOINT", `${serverUrl}/token`);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_CA_FILE", caFile);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_SNI", sniName);
+
+          assert.equal(subjectName, sniName, "Certificate subject name should match SNI name");
+
+          const credential = new WorkloadIdentityCredential({
+            enableAzureKubernetesTokenProxy: true,
+          });
+
+          const token = await credential.getToken("https://vault.azure.net/.default");
+
+          assert.isDefined(token);
+          assert.equal(token!.token, "token");
+
+          server.close();
+          cleanup();
+          resolve();
+        });
+      });
+    });
+  });
 });
+
+function generateSelfSignedCertificate(
+  subjectName: string,
+  tempDir: string,
+): { key: string; cert: string; keyFile: string; certFile: string } {
+  const keyFile = path.join(tempDir, `test-key-${Date.now()}.pem`);
+  const certFile = path.join(tempDir, `test-cert-${Date.now()}.pem`);
+
+  execSync(`openssl genrsa -out "${keyFile}" 2048`, { stdio: "pipe" });
+  const subj = "/CN=testName";
+  const addext = `subjectAltName=DNS:${subjectName}`;
+  execSync(
+    `openssl req -x509 -nodes -days 1 -newkey rsa:2048 -keyout "${keyFile}" -out "${certFile}" -subj "${subj}" -addext "${addext}"`,
+    { stdio: "pipe" },
+  );
+
+  const key = readFileSync(keyFile, "utf8");
+  const cert = readFileSync(certFile, "utf8");
+
+  return { key, cert, keyFile, certFile };
+}
