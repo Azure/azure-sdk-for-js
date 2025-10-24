@@ -79,12 +79,26 @@ export abstract class BaseSender {
             );
           }
         }
-        this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
-          instrumentationKey: options.instrumentationKey,
-          endpointUrl: options.endpointUrl,
-          disableOfflineStorage: this.disableOfflineStorage,
-          networkCollectionInterval: exportInterval,
-        });
+        // Initialize customer SDK stats metrics asynchronously to avoid circular dependency
+        // Only initialize if not already set (e.g., by tests)
+        if (!this.customerSDKStatsMetrics) {
+          import("../../export/statsbeat/customerSDKStats.js")
+            .then((module) =>
+              module.CustomerSDKStatsMetrics.getInstance({
+                instrumentationKey: options.instrumentationKey,
+                endpointUrl: options.endpointUrl,
+                disableOfflineStorage: this.disableOfflineStorage,
+                networkCollectionInterval: exportInterval,
+              }),
+            )
+            .then((metrics) => {
+              this.customerSDKStatsMetrics = metrics;
+              return;
+            })
+            .catch((error) => {
+              diag.warn("Failed to initialize customer SDK stats metrics:", error);
+            });
+        }
       }
     }
     this.persister = new FileSystemPersist(
