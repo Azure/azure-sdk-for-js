@@ -5,8 +5,8 @@
  * @summary This sample demonstrates how to create a job which will deidentify all files within a specific folder of a blob storage container.
  */
 
+import type { DeidentificationJob } from "@azure-rest/health-deidentification";
 import DeidentificationClient, {
-  DeidentificationJob,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-deidentification";
