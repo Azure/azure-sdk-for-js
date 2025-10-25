@@ -4,7 +4,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createRecorder } from "./utils/recordedClient.js";
+import { createBatchClientV2, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
   BatchPoolResizeOptions,
@@ -21,11 +21,16 @@ import {
   type GetPool200Response,
   type BatchPoolNodeCountsOutput,
 } from "../src/index.js";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fakeTestSecrets.js";
 import { wait } from "./utils/wait.js";
 import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";
-import { describe, it, beforeEach, afterEach, assert, expect } from "vitest";
+import { describe, it, beforeAll, beforeEach, afterEach, assert, expect } from "vitest";
 import { waitForNodesToStart } from "./utils/pool.js";
+import {
+  createHoboBatchAccount,
+  getBatchAccountKeys,
+} from "./utils/arm-resources/batch-account.js";
+import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -42,16 +47,45 @@ const CVM_POOL = getResourceName("Pool-Confidential");
 describe("Pool Operations Test", () => {
   let recorder: Recorder;
   let batchClient: BatchClient;
+  let batchAccountEndpoint = fakeAzureBatchEndpoint;
+  let batchAccountKey = fakeTestPasswordPlaceholder2;
 
   const nonAdminPoolUser: string = "nonAdminUser";
 
   /**
    * Provision helper resources needed for testing pools
    */
+  beforeAll(async () => {
+    if (isPlaybackMode()) {
+      return;
+    }
+
+    const account = await createHoboBatchAccount(getHoboBatchAccountName());
+    batchAccountEndpoint = `https://${account.accountEndpoint!}`;
+
+    const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
+    console.log("Successfully created Batch Account:", getHoboBatchAccountName());
+
+    batchAccountKey = accountKeys.primary!;
+  });
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    batchClient = createBatchClient(recorder);
+    batchClient = createBatchClientV2({
+      recorder,
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    recorder.addSanitizers({
+      generalSanitizers: [
+        {
+          target: batchAccountEndpoint,
+          value: fakeAzureBatchEndpoint,
+        },
+      ],
+    });
   });
 
   afterEach(async () => {
@@ -93,7 +127,7 @@ describe("Pool Operations Test", () => {
         userAccounts: [
           {
             name: nonAdminPoolUser,
-            password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2", // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
+            password: isPlaybackMode() ? fakeTestPasswordPlaceholder2 : "user_1account_password2",
             elevationLevel: "nonadmin",
           },
         ],
@@ -358,7 +392,7 @@ describe("Pool Operations Test", () => {
         userAccounts: [
           {
             name: nonAdminPoolUser,
-            password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",
+            password: isPlaybackMode() ? fakeTestPasswordPlaceholder2 : "user_1account_password2",
             elevationLevel: "nonadmin",
           },
         ],

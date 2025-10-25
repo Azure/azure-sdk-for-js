@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { BatchClient } from "../../src/index.js";
 import BatchServiceClient from "../../src/index.js";
 import {
-  fakeTestPasswordPlaceholder1,
+  fakeTestPasswordPlaceholder2,
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets.js";
@@ -31,11 +31,11 @@ const recorderEnvSetup: RecorderStartOptions = {
     bodyKeySanitizers: [
       {
         jsonPath: "$.userAccounts[0].password",
-        value: fakeTestPasswordPlaceholder1,
+        value: fakeTestPasswordPlaceholder2,
       },
       {
         jsonPath: "$.password",
-        value: fakeTestPasswordPlaceholder1,
+        value: fakeTestPasswordPlaceholder2,
       },
     ],
     generalSanitizers: [
@@ -63,7 +63,7 @@ export async function createRecorder(ctx: TestInfo): Promise<Recorder> {
 }
 
 export function createBatchClientV2(params: {
-  recorder: Recorder;
+  recorder?: Recorder;
   accountEndpoint: string;
   accountName?: string;
   accountKey?: string;
@@ -79,6 +79,6 @@ export function createBatchClientV2(params: {
   return BatchServiceClient(
     accountEndpoint,
     credential,
-    recorder.configureClientOptions({ ...options }),
+    recorder?.configureClientOptions({ ...options }),
   );
 }
