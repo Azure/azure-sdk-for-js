@@ -19,6 +19,7 @@ import { FetchResult, FetchResultType } from "./FetchResult.js";
 import { getInitialHeader } from "./headerUtils.js";
 import type { CosmosHeaders } from "./headerUtils.js";
 import type { SqlQuerySpec } from "./index.js";
+import type { FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
 
 /** @hidden */
 export class DocumentProducer {
@@ -35,6 +36,8 @@ export class DocumentProducer {
   public startEpk: string;
   public endEpk: string;
   public populateEpkRangeHeaders: boolean;
+  private filter?: FilterStrategy;
+  private queryExecutionInfo?: { reverseRidEnabled: boolean; reverseIndexScan: boolean };
 
   /**
    * Provides the Target Partition Range Query Execution Context.
@@ -54,6 +57,7 @@ export class DocumentProducer {
     startEpk?: string,
     endEpk?: string,
     populateEpkRangeHeaders: boolean = false,
+    filter?: FilterStrategy,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -75,6 +79,7 @@ export class DocumentProducer {
     this.startEpk = startEpk;
     this.endEpk = endEpk;
     this.populateEpkRangeHeaders = populateEpkRangeHeaders;
+    this.filter = filter;
   }
   public peekBufferedItems(): any[] {
     const bufferedResults = [];
@@ -171,14 +176,37 @@ export class DocumentProducer {
     }
 
     try {
-      const { result: resources, headers: headerResponse } =
+      const { result: resourcesResult, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode);
+      let resources = resourcesResult;
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
+      // TODO: remove afterwards
+      const resourceIds = resources ? resources.map((r: any) => r.payload?.id) : [];
+      console.log(
+        `[DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} buffered ${resources?.length || 0} items with ids:`,
+        resourceIds,
+      );
+
+      // Extract query execution info from headers if available
+      if (headerResponse && headerResponse["x-ms-cosmos-query-execution-info"]) {
+        try {
+          this.queryExecutionInfo = JSON.parse(headerResponse["x-ms-cosmos-query-execution-info"]);
+        } catch (e) {
+          console.warn(`[DocumentProducer] Failed to parse query execution info: ${e}`);
+        }
+      }
+
+      if (this.filter && resources) {
+        resources = this.filter.applyFilter(resources);
+      }
+
       if (resources !== undefined) {
         // add fetched header to the 1st element in the buffer
         let addHeaderToFetchResult = true;
+        const finalItemIds: any[] = [];
         resources.forEach((element: any) => {
+          finalItemIds.push(element.payload?.id);
           this.fetchResults.push(
             new FetchResult(
               element,
@@ -188,6 +216,13 @@ export class DocumentProducer {
           );
           addHeaderToFetchResult = false;
         });
+        console.log(
+          `  [DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} items:`,
+          finalItemIds,
+        );
+        if (resources.length > 0 && resources[0].orderByItems) {
+          console.log(`  [DOCPROD-BUFFER] First item orderByItems:`, resources[0].orderByItems);
+        }
       }
 
       // need to modify the header response so that the query metrics are per partition
@@ -215,7 +250,7 @@ export class DocumentProducer {
     }
   }
 
-  public getTargetParitionKeyRange(): PartitionKeyRange {
+  public getTargetPartitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
   /**
@@ -332,5 +367,11 @@ export class DocumentProducer {
 
     // If the internal buffer is empty, return empty result
     return { result: [], headers: getInitialHeader() };
+  }
+
+  public getQueryExecutionInfo():
+    | { reverseRidEnabled: boolean; reverseIndexScan: boolean }
+    | undefined {
+    return this.queryExecutionInfo;
   }
 }
