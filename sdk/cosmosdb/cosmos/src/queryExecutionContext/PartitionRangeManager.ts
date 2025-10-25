@@ -116,7 +116,6 @@ export class PartitionRangeManager {
   }
 
   public processEmptyOrderByRanges(
-    pageSize: number,
     ranges: QueryRangeWithContinuationToken[],
   ): {
     endIndex: number;

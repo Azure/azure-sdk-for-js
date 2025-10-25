@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NonStreamingOrderByResult, OrderByDocument } from "./nonStreamingOrderByResult.js";
+import type { OrderByDocument } from "./nonStreamingOrderByResult.js";
 
 /**
  * @hidden
