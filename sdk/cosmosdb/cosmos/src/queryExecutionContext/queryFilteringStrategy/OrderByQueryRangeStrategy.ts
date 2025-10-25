@@ -50,7 +50,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const targetRangeMapping = continuationRanges[continuationRanges.length - 1].range;
       // It is assumed that range mapping array is going to contain only range
       const targetRange: PartitionKeyRange = targetRangeMapping;
-      
+
       // Set the target partition ID for filter context identification
       result.targetPartitionId = targetRange.id;
 

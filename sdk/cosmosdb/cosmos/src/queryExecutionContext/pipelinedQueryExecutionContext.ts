@@ -14,6 +14,7 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
+import { Constants } from "../common/index.js";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
@@ -22,6 +23,7 @@ import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStr
 import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import { validateContinuationTokenUsage } from "./QueryValidationHelper.js";
 import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
+import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -33,6 +35,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
+  private isContinuationTokenUnsupportedQueryType = false;
   private continuationTokenManager: BaseContinuationTokenManager;
   constructor(
     private clientContext: ClientContext,
@@ -66,7 +69,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
     // Determine if this query type supports continuation tokens
-    const isUnsupportedQueryType =
+    this.isContinuationTokenUnsupportedQueryType =
       isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
 
     if (this.options.enableQueryControl) {
@@ -74,9 +77,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
-        isUnsupportedQueryType,
+        this.isContinuationTokenUnsupportedQueryType,
       );
     }
+
+    // Parse continuation token fields once for reuse in pipeline construction
+    const queryContinuationFields = parseContinuationTokenFields(this.options.continuationToken);
 
     // Validate continuation token usage for unsupported query types
     validateContinuationTokenUsage(
@@ -104,7 +110,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-          `is not allowed`,
+            `is not allowed`,
         );
       }
 
@@ -181,8 +187,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       if (distinctType === "Ordered") {
         let lastHash;
-        if (this.continuationTokenManager) {
-          lastHash = this.continuationTokenManager.getHashedLastResult();
+        if (queryContinuationFields) {
+          lastHash = queryContinuationFields.hashedLastResult;
         }
         this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint, lastHash);
       }
@@ -193,10 +199,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       let top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
-        if (this.continuationTokenManager) {
-          const tokenTop = this.continuationTokenManager.getLimit();
-          if (tokenTop !== undefined) {
-            top = tokenTop;
+        if (queryContinuationFields) {
+          if (queryContinuationFields.limit !== undefined) {
+            top = queryContinuationFields.limit;
           }
         }
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
@@ -207,15 +212,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       let limit = partitionedQueryExecutionInfo.queryInfo.limit;
       let offset = partitionedQueryExecutionInfo.queryInfo.offset;
 
-      if (this.continuationTokenManager) {
-        const tokenLimit = this.continuationTokenManager.getLimit();
-        const tokenOffset = this.continuationTokenManager.getOffset();
-
-        if (tokenLimit !== undefined) {
-          limit = tokenLimit;
+      if (queryContinuationFields) {
+        if (queryContinuationFields.limit !== undefined) {
+          limit = queryContinuationFields.limit;
         }
-        if (tokenOffset !== undefined) {
-          offset = tokenOffset;
+        if (queryContinuationFields.offset !== undefined) {
+          offset = queryContinuationFields.offset;
         }
       }
 
@@ -281,7 +283,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     // For unsupported query types, use simplified buffer-only logic
-    if (this.continuationTokenManager.getUnsupportedQueryType()) {
+    if (this.isContinuationTokenUnsupportedQueryType) {
       return this._handleContinuationUnsupportedQueryFetch(diagnosticNode);
     }
 
@@ -304,7 +306,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer?.length) {
-      return this.createEmptyResultWithHeaders(response?.headers);
+      return this.createEmptyResult(response?.headers);
     }
 
     // Buffer new data and return up to pageSize
@@ -317,11 +319,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.fetchBuffer.length > 0) {
-      const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+      const { endIndex, continuationToken } = this.continuationTokenManager.createContinuationToken(
+        this.pageSize,
+        this.fetchBuffer.length === 0,
+      );
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-      this._clearProcessedRangeMetadata(processedRanges, endIndex);
-      this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
+      this._setContinuationTokenInHeaders(continuationToken);
 
       return { result: temp, headers: this.fetchMoreRespHeaders };
     }
@@ -334,65 +338,87 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Properly serialize the response for logging
     const responseForLogging = {
       ...response,
-      result: response?.result ? {
-        ...response.result,
-        partitionKeyRangeMap: response.result.partitionKeyRangeMap instanceof Map
-          ? Object.fromEntries(response.result.partitionKeyRangeMap)
-          : response.result.partitionKeyRangeMap
-      } : undefined
+      result: response?.result
+        ? {
+            ...response.result,
+            partitionKeyRangeMap:
+              response.result.partitionKeyRangeMap instanceof Map
+                ? Object.fromEntries(response.result.partitionKeyRangeMap)
+                : response.result.partitionKeyRangeMap,
+          }
+        : undefined,
     };
-    console.log("[PipelinedQueryExecutionContext] Fetched new data from endpoint:", JSON.stringify(responseForLogging));
+    console.log(
+      "[PipelinedQueryExecutionContext] Fetched new data from endpoint:",
+      JSON.stringify(responseForLogging),
+    );
 
     // Process response and update continuation token manager
     if (response?.result) {
-      console.log("[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap type:", typeof response.result.partitionKeyRangeMap);
-      console.log("[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap is Map?:", response.result.partitionKeyRangeMap instanceof Map);
+      console.log(
+        "[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap type:",
+        typeof response.result.partitionKeyRangeMap,
+      );
+      console.log(
+        "[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap is Map?:",
+        response.result.partitionKeyRangeMap instanceof Map,
+      );
       if (response.result.partitionKeyRangeMap instanceof Map) {
-        console.log("[PipelinedQueryExecutionContext] Processing response - Map entries:", Object.fromEntries(response.result.partitionKeyRangeMap));
+        console.log(
+          "[PipelinedQueryExecutionContext] Processing response - Map entries:",
+          Object.fromEntries(response.result.partitionKeyRangeMap),
+        );
       }
-      this.continuationTokenManager.processResponseResult(response.result);
     }
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
-      console.log("[PipelinedQueryExecutionContext] Empty buffer detected - response.result:", response?.result);
+      console.log(
+        "[PipelinedQueryExecutionContext] Empty buffer detected - response.result:",
+        response?.result,
+      );
       if (response?.result?.partitionKeyRangeMap instanceof Map) {
-        console.log("[PipelinedQueryExecutionContext] Empty buffer - original partitionKeyRangeMap entries:", Object.fromEntries(response.result.partitionKeyRangeMap));
+        console.log(
+          "[PipelinedQueryExecutionContext] Empty buffer - original partitionKeyRangeMap entries:",
+          Object.fromEntries(response.result.partitionKeyRangeMap),
+        );
       }
-      const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
-      this._clearProcessedRangeMetadata(processedRanges, endIndex);
-      this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
-      console.log("[PipelinedQueryExecutionContext] About to create empty result - this will lose partitionKeyRangeMap!");
-      return this.createEmptyResultWithHeaders(response?.headers);
+      const { continuationToken } = this.continuationTokenManager.createContinuationToken(
+        this.pageSize,
+        true, // isResponseEmpty = true
+        response?.result, // Pass response data for processing
+      );
+      this._setContinuationTokenInHeaders(continuationToken);
+      console.log(
+        "[PipelinedQueryExecutionContext] Empty response - continuation token set:",
+        continuationToken ? "YES" : "NO",
+      );
+      return this.createEmptyResult(this.fetchMoreRespHeaders);
     }
 
     this.fetchBuffer = response.result.buffer;
-    const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+    const { endIndex, continuationToken } = this.continuationTokenManager.createContinuationToken(
+      this.pageSize,
+      false, // isResponseEmpty = false
+      response.result, // Pass response data for processing
+    );
 
     const temp = this.fetchBuffer.slice(0, endIndex);
     this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-    this._clearProcessedRangeMetadata(processedRanges, endIndex);
-    this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
+    this._setContinuationTokenInHeaders(continuationToken);
 
     return { result: temp, headers: this.fetchMoreRespHeaders };
   }
 
-  private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
-    const result = this.continuationTokenManager.handleCurrentPageRanges(
-      this.pageSize,
-      this.fetchBuffer.length === 0,
-    );
-
-    console.log(`[PipelinedQueryExecutionContext] fetchBufferEndIndexForCurrentPage - result:`, JSON.stringify(result));
-    return result;
+  private _setContinuationTokenInHeaders(continuationToken?: string): void {
+    if (continuationToken) {
+      Object.assign(this.fetchMoreRespHeaders, {
+        [Constants.HttpHeaders.Continuation]: continuationToken,
+      });
+    }
   }
 
-  private _clearProcessedRangeMetadata(processedRanges: string[], endIndex: number): void {
-    this.continuationTokenManager.cleanProcessedData(processedRanges, endIndex);
-  }
-
-  private createEmptyResultWithHeaders(headers?: CosmosHeaders): Response<any> {
+  private createEmptyResult(headers?: CosmosHeaders): Response<any> {
     const hdrs = headers || getInitialHeader();
-    this.continuationTokenManager.setContinuationTokenInHeaders(hdrs);
     return { result: [], headers: hdrs };
   }
 
@@ -413,8 +439,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-        "with your vector search query.",
+          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+          "with your vector search query.",
       );
     }
     return;

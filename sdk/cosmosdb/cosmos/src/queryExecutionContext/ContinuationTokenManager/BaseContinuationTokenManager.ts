@@ -7,8 +7,6 @@ import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
-import type { CosmosHeaders } from "../CosmosHeaders.js";
-import { Constants } from "../../common/index.js";
 import { PartitionRangeManager } from "../PartitionRangeManager.js";
 import { QueryRange } from "../../routing/QueryRange.js";
 
@@ -40,26 +38,18 @@ export abstract class BaseContinuationTokenManager {
     this.isUnsupportedQueryType = isUnsupportedQueryType;
   }
 
-  // Abstract methods that subclasses must implement
   protected abstract initializeFromToken(token: string): void;
-  public abstract handleCurrentPageRanges(pageSize: number, isResponseEmpty: boolean): {
+  public abstract createContinuationToken(
+    pageSize: number,
+    isResponseEmpty: boolean,
+    responseResult?: QueryResponseResult,
+  ): {
     endIndex: number;
     processedRanges: string[];
+    continuationToken?: string;
   };
-  public abstract getTokenString(): string | undefined;
-  public abstract getOffset(): number | undefined;
-  public abstract getLimit(): number | undefined;
-  public abstract getHashedLastResult(): string | undefined;
 
-  /**
-   * Gets whether this query type supports continuation tokens
-   * @returns True if the query type doesn't support continuation tokens
-   */
-  public getUnsupportedQueryType(): boolean {
-    return this.isUnsupportedQueryType;
-  }
-
-  public removePartitionRangeMapping(rangeId: string): void {
+  private removePartitionRangeMapping(rangeId: string): void {
     this.partitionRangeManager.removePartitionRangeMapping(rangeId);
   }
 
@@ -67,32 +57,13 @@ export abstract class BaseContinuationTokenManager {
    * Cleans up processed data after a page has been returned.
    * Handles common cleanup logic and delegates to subclass-specific cleanup.
    */
-  public cleanProcessedData(processedRanges: string[], _endIndex: number): void {
+  protected cleanProcessedData(processedRanges: string[], _endIndex: number): void {
     processedRanges.forEach((rangeId) => {
       this.removePartitionRangeMapping(rangeId);
     });
   }
 
-  /**
-   * Template method for subclasses to override and handle their specific data cleanup.
-   * Default implementation is a no-op for parallel queries.
-   */
-  protected cleanSubclassSpecificData(_endIndex: number): void {
-    // Default no-op implementation for parallel queries
-  }
-
-  public setContinuationTokenInHeaders(headers: CosmosHeaders): void {
-    const tokenString = this.getTokenString();
-    if (tokenString) {
-      Object.assign(headers, { [Constants.HttpHeaders.Continuation]: tokenString });
-    }
-  }
-
-  public hasUnprocessedRanges(): boolean {
-    return this.partitionRangeManager.hasUnprocessedRanges();
-  }
-
-  public setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+  private setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
     this.partitionRangeManager.setPartitionKeyRangeMap(partitionKeyRangeMap);
   }
 
@@ -100,7 +71,7 @@ export abstract class BaseContinuationTokenManager {
    * Processes the entire response result and updates the continuation token manager state.
    * This encapsulates all response handling logic in one place.
    */
-  public processResponseResult(responseResult: QueryResponseResult): void {
+  protected processResponseResult(responseResult: QueryResponseResult): void {
     if (!responseResult) {
       return;
     }
@@ -140,7 +111,7 @@ export abstract class BaseContinuationTokenManager {
   }
 
   // Common partition range change handling
-  public handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
+  protected handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
     if (updatedContinuationRanges && Object.keys(updatedContinuationRanges).length === 0) {
       return;
     }

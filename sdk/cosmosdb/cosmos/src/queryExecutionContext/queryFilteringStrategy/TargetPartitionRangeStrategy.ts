@@ -15,7 +15,7 @@ export interface PartitionRangeFilterResult {
   rangeTokenPairs: PartitionRangeWithContinuationToken[];
 
   /**
-   * 
+   *
    **/
 
   targetPartitionId?: string;

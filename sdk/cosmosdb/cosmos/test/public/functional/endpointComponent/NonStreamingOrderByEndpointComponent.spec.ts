@@ -37,16 +37,18 @@ describe("NonStreamingOrderByEndpointComponent", () => {
         headers: {},
       }),
       fetchMore: async () => ({
-        result: { buffer: [
-          {
-            orderByItems: [
-              {
-                item: item++,
-              },
-            ],
-            payload: { id: id++ },
-          },
-        ]},
+        result: {
+          buffer: [
+            {
+              orderByItems: [
+                {
+                  item: item++,
+                },
+              ],
+              payload: { id: id++ },
+            },
+          ],
+        },
         headers: {},
       }),
     } as ExecutionContext;

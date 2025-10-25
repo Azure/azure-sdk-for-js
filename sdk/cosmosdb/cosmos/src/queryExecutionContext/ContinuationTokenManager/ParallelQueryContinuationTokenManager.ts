@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js";
+import type { QueryResponseResult } from "./BaseContinuationTokenManager.js";
 import type {
   CompositeQueryContinuationToken,
   QueryRangeWithContinuationToken,
@@ -28,8 +29,6 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     isUnsupportedQueryType: boolean = false,
   ) {
     super(collectionLink, isUnsupportedQueryType);
-
-    // Handle initialization directly - no deferred complexity needed
     if (initialContinuationToken) {
       this.initializeFromToken(initialContinuationToken);
     }
@@ -40,20 +39,37 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     this.ranges = this.continuationToken.rangeMappings || [];
   }
 
-  public getOffset(): number | undefined {
-    return this.continuationToken?.offset;
-  }
-
-  public getLimit(): number | undefined {
-    return this.continuationToken?.limit;
-  }
-
-  public handleCurrentPageRanges(pageSize: number, isResponseEmpty: boolean): {
+  public createContinuationToken(
+    pageSize: number,
+    _isResponseEmpty: boolean,
+    responseResult?: QueryResponseResult,
+  ): {
     endIndex: number;
     processedRanges: string[];
+    continuationToken?: string;
   } {
+    // Process response data first if provided
+    if (responseResult) {
+      this.processResponseResult(responseResult);
+    }
+
     this.removeExhaustedRangesFromRanges();
-    return this.processRanges(pageSize);
+    const result = this.processRanges(pageSize);
+
+    // Clean up processed data automatically
+    this.cleanProcessedData(result.processedRanges, result.endIndex);
+
+    // Add the continuation token string to the result
+    const tokenString = this.isUnsupportedQueryType
+      ? undefined
+      : this.continuationToken
+        ? serializeCompositeToken(this.continuationToken)
+        : undefined;
+
+    return {
+      ...result,
+      continuationToken: tokenString,
+    };
   }
 
   private processRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
@@ -102,18 +118,5 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
         this.continuationToken.rangeMappings.push(newRange);
       }
     }
-  }
-
-  public getTokenString(): string | undefined {
-    if (this.isUnsupportedQueryType) {
-      return undefined;
-    }
-    return this.continuationToken ? serializeCompositeToken(this.continuationToken) : undefined;
-  }
-
-  // Virtual methods with default implementations (can be overridden by subclasses)
-  public getHashedLastResult(): string | undefined {
-    // Default implementation returns undefined for non-ORDER BY queries
-    return undefined;
   }
 }

@@ -19,7 +19,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-  ) { }
+  ) {}
   /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
@@ -46,7 +46,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
         [],
         originalResult?.partitionKeyRangeMap || new Map(),
         originalResult?.updatedContinuationRanges || {},
-        []
+        [],
       );
       return { result, headers: response?.headers };
     }

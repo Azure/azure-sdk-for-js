@@ -183,7 +183,10 @@ export class DocumentProducer {
       this._updateStates(undefined, resources === undefined);
       // TODO: remove afterwards
       const resourceIds = resources ? resources.map((r: any) => r.payload?.id) : [];
-      console.log(`[DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} buffered ${resources?.length || 0} items with ids:`, resourceIds);
+      console.log(
+        `[DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} buffered ${resources?.length || 0} items with ids:`,
+        resourceIds,
+      );
 
       // Extract query execution info from headers if available
       if (headerResponse && headerResponse["x-ms-cosmos-query-execution-info"]) {
@@ -213,7 +216,10 @@ export class DocumentProducer {
           );
           addHeaderToFetchResult = false;
         });
-        console.log(`  [DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} items:`, finalItemIds);
+        console.log(
+          `  [DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} items:`,
+          finalItemIds,
+        );
         if (resources.length > 0 && resources[0].orderByItems) {
           console.log(`  [DOCPROD-BUFFER] First item orderByItems:`, resources[0].orderByItems);
         }
@@ -363,7 +369,9 @@ export class DocumentProducer {
     return { result: [], headers: getInitialHeader() };
   }
 
-  public getQueryExecutionInfo(): { reverseRidEnabled: boolean; reverseIndexScan: boolean } | undefined {
+  public getQueryExecutionInfo():
+    | { reverseRidEnabled: boolean; reverseIndexScan: boolean }
+    | undefined {
     return this.queryExecutionInfo;
   }
 }

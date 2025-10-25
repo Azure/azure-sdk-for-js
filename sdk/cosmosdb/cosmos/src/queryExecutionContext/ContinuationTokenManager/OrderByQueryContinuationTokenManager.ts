@@ -38,7 +38,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     this.ranges = this.continuationToken?.rangeMappings || [];
   }
 
-  public setOrderByItemsArray(
+  private setOrderByItemsArray(
     orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined,
   ): void {
     this.orderByItemsArray = orderByItemsArray;
@@ -47,7 +47,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   /**
    * Override to handle ORDER BY specific response data.
    */
-  public processResponseResult(responseResult: QueryResponseResult): void {
+  protected processResponseResult(responseResult: QueryResponseResult): void {
     super.processResponseResult(responseResult);
     if (responseResult.orderByItems) {
       this.setOrderByItemsArray(responseResult.orderByItems);
@@ -57,24 +57,12 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   /**
    * Override to handle ORDER BY specific data cleanup.
    */
-  public cleanProcessedData(processedRanges: string[], endIndex: number): void {
+  protected cleanProcessedData(processedRanges: string[], endIndex: number): void {
     super.cleanProcessedData(processedRanges, endIndex);
     this.sliceOrderByItemsArray(endIndex);
   }
 
-  public getOffset(): number | undefined {
-    return this.continuationToken?.offset;
-  }
-
-  public getLimit(): number | undefined {
-    return this.continuationToken?.limit;
-  }
-
-  public getHashedLastResult(): string | undefined {
-    return this.continuationToken?.hashedLastResult;
-  }
-
-  public sliceOrderByItemsArray(endIndex: number): void {
+  private sliceOrderByItemsArray(endIndex: number): void {
     if (this.orderByItemsArray) {
       if (endIndex === 0 || endIndex >= this.orderByItemsArray.length) {
         this.orderByItemsArray = [];
@@ -84,40 +72,80 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  public handleCurrentPageRanges(pageSize: number, isResponseEmpty: boolean = false): {
+  public createContinuationToken(
+    pageSize: number,
+    isResponseEmpty: boolean = false,
+    responseResult?: QueryResponseResult,
+  ): {
     endIndex: number;
     processedRanges: string[];
+    continuationToken?: string;
   } {
+    // Process response data first if provided
+    if (responseResult) {
+      this.processResponseResult(responseResult);
+    }
+
     this.removeExhaustedRangesFromRanges();
-    return this.processRanges(pageSize, isResponseEmpty);
+    const result = this.processRanges(pageSize, isResponseEmpty);
+
+    // Clean up processed data automatically
+    this.cleanProcessedData(result.processedRanges, result.endIndex);
+
+    // Add the continuation token string to the result
+    const tokenString = this.isUnsupportedQueryType
+      ? undefined
+      : this.continuationToken
+        ? serializeOrderByQueryContinuationToken(this.continuationToken)
+        : undefined;
+
+    return {
+      ...result,
+      continuationToken: tokenString,
+    };
   }
 
-  private processRanges(pageSize: number, isResponseEmpty: boolean = false): { endIndex: number; processedRanges: string[] } {
+  private processRanges(
+    pageSize: number,
+    isResponseEmpty: boolean = false,
+  ): { endIndex: number; processedRanges: string[] } {
     // Handle empty response case - update the previous valid continuation token
     if (isResponseEmpty && this.continuationToken) {
       let rangeProcessingResult;
-      
+
       if (this.ranges.length === 0) {
-        console.log("Processing empty response with no ranges for ORDER BY query continuation token.");
+        console.log(
+          "Processing empty response with no ranges for ORDER BY query continuation token.",
+        );
         rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
       } else {
         console.log("Processing empty response for ORDER BY query continuation token.");
-        rangeProcessingResult = this.partitionRangeManager.processEmptyOrderByRanges(pageSize, this.ranges);
+        rangeProcessingResult = this.partitionRangeManager.processEmptyOrderByRanges(
+          pageSize,
+          this.ranges,
+        );
       }
 
       const { lastRangeBeforePageLimit } = rangeProcessingResult;
       if (lastRangeBeforePageLimit) {
         // Use the range matching the continuation token for empty response
-        this.continuationToken.rangeMappings = [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
+        this.continuationToken.rangeMappings = [
+          convertRangeMappingToQueryRange(lastRangeBeforePageLimit),
+        ];
         console.log("Empty response: Updated continuation token with valid range");
       } else {
         // Range is exhausted - end the query to prevent infinite loop
-        console.log("Empty response: Range is exhausted (null continuation token) - ending query to prevent infinite loop");
+        console.log(
+          "Empty response: Range is exhausted (null continuation token) - ending query to prevent infinite loop",
+        );
         this.continuationToken = undefined;
       }
-      return { endIndex: rangeProcessingResult.endIndex, processedRanges: rangeProcessingResult.processedRanges };
+      return {
+        endIndex: rangeProcessingResult.endIndex,
+        processedRanges: rangeProcessingResult.processedRanges,
+      };
     }
-    
+
     // Normal processing path - handle non-empty responses
     const rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
     const { lastRangeBeforePageLimit } = rangeProcessingResult;
@@ -125,9 +153,12 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     // Check if we have a valid range to continue with
     if (!lastRangeBeforePageLimit) {
       this.continuationToken = undefined;
-      return { endIndex: rangeProcessingResult.endIndex, processedRanges: rangeProcessingResult.processedRanges };
+      return {
+        endIndex: rangeProcessingResult.endIndex,
+        processedRanges: rangeProcessingResult.processedRanges,
+      };
     }
-    
+
     const queryRange = convertRangeMappingToQueryRange(lastRangeBeforePageLimit);
 
     // Extract ORDER BY items from the last item on the page
@@ -166,15 +197,9 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       lastRangeBeforePageLimit.hashedLastResult, // Hash for distinct queries
     );
 
-    return { endIndex: rangeProcessingResult.endIndex, processedRanges: rangeProcessingResult.processedRanges };
-  }
-
-  public getTokenString(): string | undefined {
-    if (this.isUnsupportedQueryType) {
-      return undefined;
-    }
-    return this.continuationToken
-      ? serializeOrderByQueryContinuationToken(this.continuationToken)
-      : undefined;
+    return {
+      endIndex: rangeProcessingResult.endIndex,
+      processedRanges: rangeProcessingResult.processedRanges,
+    };
   }
 }

@@ -72,7 +72,7 @@ export class OrderByQueryExecutionContext
     // Only process if we either have no more unfilled producers OR we need to maintain order
     while (
       this.bufferedDocumentProducersQueue.size() > 0 &&
-      this.unfilledDocumentProducersQueue.isEmpty()  
+      this.unfilledDocumentProducersQueue.isEmpty()
     ) {
       documentProducer = this.bufferedDocumentProducersQueue.deq();
       const { result, headers } = await documentProducer.fetchNextItem();

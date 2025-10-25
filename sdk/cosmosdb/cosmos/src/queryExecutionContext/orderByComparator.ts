@@ -7,21 +7,21 @@ import type { NonStreamingOrderByResult, OrderByDocument } from "./nonStreamingO
  * @hidden
  * Utility function to compare two sets of OrderBy items according to sort orders
  * @param orderByItemsA - First set of order by items
- * @param orderByItemsB - Second set of order by items  
+ * @param orderByItemsB - Second set of order by items
  * @param sortOrders - Array of sort orders ("Ascending" or "Descending")
  * @returns Comparison result: negative if A \< B, 0 if A == B, positive if A \> B
  */
 export function compareOrderByItems(
   orderByItemsA: any[],
-  orderByItemsB: any[], 
-  sortOrders: string[]
+  orderByItemsB: any[],
+  sortOrders: string[],
 ): number {
   const comparator = new OrderByComparator(sortOrders);
-  
+
   // Create temporary OrderByDocument objects for comparison
   const docA: OrderByDocument = { orderByItems: orderByItemsA, payload: null };
   const docB: OrderByDocument = { orderByItems: orderByItemsB, payload: null };
-  
+
   return comparator.compareItems(docA, docB);
 }
 
