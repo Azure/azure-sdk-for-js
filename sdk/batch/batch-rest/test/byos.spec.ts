@@ -27,13 +27,14 @@ import {
   createComputeGallery,
   createVmAccessProfileVersion,
   deleteComputeGallery,
+  deleteVmAccessProfileVersion,
 } from "./utils/arm-resources/compute-gallary.js";
+import { getByosBatchAccountName } from "./utils/arm-resources/env-const.js";
 
-const BYOS_ACCOUNT = "jssdkbyosaccount";
-const KEY_VAULT_NAME = "jssdkbyoskv";
-const DES_NAME = "jssdkbyosdes";
-const GALLERY_NAME = "jssdkbyosgallery";
-const VM_ACCESS_PROFILE_NAME = "jssdkaccessprofile";
+const KEY_VAULT_NAME = getResourceName("byoskv");
+const DES_NAME = getResourceName("byosdes");
+const GALLERY_NAME = getResourceName("byosgallery");
+const VM_ACCESS_PROFILE_NAME = getResourceName("accessprofile");
 
 describe("BYOS Account", () => {
   let accountEndpoint = fakeAzureBatchEndpoint;
@@ -57,12 +58,12 @@ describe("BYOS Account", () => {
     console.log("successfully create key in key vault:", key.name);
 
     const account = await createByosBatchAccount(
-      BYOS_ACCOUNT,
+      getByosBatchAccountName(),
       keyVault.id!,
       keyVault.properties!.vaultUri!,
     );
     accountEndpoint = `https://${account.accountEndpoint!}`;
-    console.log("successfully create byos account:", BYOS_ACCOUNT);
+    console.log("successfully create byos account:", getByosBatchAccountName());
 
     const diskEncryptionSet = await createDiskEncryptionSet(DES_NAME, keyVault.id!, keyUrl);
     desResourceId = diskEncryptionSet.id!;
@@ -86,14 +87,15 @@ describe("BYOS Account", () => {
     if (isPlaybackMode()) {
       return;
     }
-    await deleteBatchAccount(BYOS_ACCOUNT);
-    console.log("successfully delete byos account:", BYOS_ACCOUNT);
 
     await deleteKeyVault(KEY_VAULT_NAME);
     console.log("successfully delete key vault:", KEY_VAULT_NAME);
 
     await deleteDiskEncryptionSet(DES_NAME);
     console.log("successfully delete disk encryption set:", DES_NAME);
+
+    await deleteVmAccessProfileVersion(GALLERY_NAME, VM_ACCESS_PROFILE_NAME);
+    console.log("successfully delete in-VM access control profile:", VM_ACCESS_PROFILE_NAME);
 
     await deleteComputeGallery(GALLERY_NAME);
     console.log("successfully delete compute gallery:", GALLERY_NAME);

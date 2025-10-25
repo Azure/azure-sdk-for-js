@@ -3,89 +3,84 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
+import { createBatchClientV2, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
   BatchJobCreateOptions,
   CreateJobParameters,
-  CreatePoolParameters,
   UpdateJobParameters,
 } from "../src/index.js";
 import { isUnexpected } from "../src/index.js";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fakeTestSecrets.js";
 import { getResourceName } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
+import {
+  createHoboBatchAccount,
+  getBatchAccountKeys,
+} from "./utils/arm-resources/batch-account.js";
+import { createBatchWindowsPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
+import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
+const BASIC_POOL_NUM_VMS = 4;
 const JOB_NAME = getResourceName("Job-Basic");
 const JOB_PRIORITY = 600;
 
 describe("Job Operations Test", () => {
   let recorder: Recorder;
   let batchClient: BatchClient;
+  let batchAccountEndpoint = fakeAzureBatchEndpoint;
+  let batchAccountKey = fakeTestPasswordPlaceholder2;
 
   /**
    * Provision helper resources needed for testing jobs
    */
   beforeAll(async () => {
-    if (!isPlaybackMode()) {
-      batchClient = createBatchClient();
-
-      const poolParams: CreatePoolParameters = {
-        body: {
-          id: BASIC_POOL,
-          vmSize: "Standard_D1_v2",
-          virtualMachineConfiguration: {
-            nodeAgentSKUId: "batch.node.windows amd64",
-            imageReference: {
-              publisher: "microsoftwindowsserver",
-              offer: "windowsserver",
-              sku: "2022-datacenter",
-            },
-          },
-          targetDedicatedNodes: 4,
-          // Ensures there's a compute node file we can reference later
-          startTask: { commandLine: "cmd /c echo hello > hello.txt" },
-          // Sets up pool user we can reference later
-          userAccounts: [
-            {
-              name: "nonAdminUser",
-              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2", // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
-              elevationLevel: "nonadmin",
-            },
-          ],
-        },
-        contentType: "application/json; odata=minimalmetadata",
-      };
-
-      const poolPostResult = await batchClient.path("/pools").post(poolParams);
-      if (isUnexpected(poolPostResult)) {
-        console.dir(poolPostResult, { depth: null });
-        assert.fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
-              Unable to provision resource needed for Job Testing.
-              Response Body: ${poolPostResult.body}`);
-      }
+    if (isPlaybackMode()) {
+      return;
     }
+
+    const account = await createHoboBatchAccount(getHoboBatchAccountName());
+    batchAccountEndpoint = `https://${account.accountEndpoint!}`;
+
+    const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
+    console.log("Successfully created Batch Account:", getHoboBatchAccountName());
+
+    batchAccountKey = accountKeys.primary!;
+
+    await createBatchWindowsPool(getHoboBatchAccountName(), BASIC_POOL, BASIC_POOL_NUM_VMS);
+    console.log("Successfully created Batch Pool:", BASIC_POOL);
   });
 
   /**
    * Unprovision helper resources after all tests ran
    */
   afterAll(async () => {
-    if (!isPlaybackMode()) {
-      batchClient = createBatchClient();
-
-      const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
-      if (isUnexpected(poolDeleteResponse)) {
-        assert.fail(`Received unexpected status code from deleting pool: ${poolDeleteResponse.status}.Pool Resource Leaked.
-            Respose Body: ${poolDeleteResponse.body.message}`);
-      }
+    if (isPlaybackMode()) {
+      return;
     }
+
+    await deleteBatchPool(getHoboBatchAccountName(), BASIC_POOL);
+    console.log("Successfully deleted Batch Pool:", BASIC_POOL);
   });
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    batchClient = createBatchClient(recorder);
+    batchClient = createBatchClientV2({
+      recorder,
+      accountEndpoint: batchAccountEndpoint,
+      accountName: getHoboBatchAccountName(),
+      accountKey: batchAccountKey,
+    });
+
+    recorder.addSanitizers({
+      generalSanitizers: [
+        {
+          target: batchAccountEndpoint,
+          value: fakeAzureBatchEndpoint,
+        },
+      ],
+    });
   });
 
   afterEach(async () => {

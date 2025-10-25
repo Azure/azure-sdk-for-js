@@ -50,7 +50,40 @@ export async function createVmAccessProfileVersion(
     versionName || "1.0.0",
     {
       location: getLocation(),
+      mode: "Audit",
+      defaultAccess: "Deny",
+      rules: {
+        privileges: [
+          {
+            name: "TestPrivilege",
+            path: "/machine",
+            queryParameters: {
+              comp: "list",
+            },
+          },
+        ],
+      },
     },
   );
   return version;
+}
+
+export async function deleteVmAccessProfileVersion(
+  galleryName: string,
+  profileName: string,
+  versionName?: string,
+): Promise<void> {
+  const client = new ComputeManagementClient(createTestCredential(), getSubscriptionId());
+  await client.galleryInVMAccessControlProfileVersions.beginDeleteAndWait(
+    getResourceGroupName(),
+    galleryName,
+    profileName,
+    versionName || "1.0.0",
+  );
+
+  await client.galleryInVMAccessControlProfiles.beginDeleteAndWait(
+    getResourceGroupName(),
+    galleryName,
+    profileName,
+  );
 }

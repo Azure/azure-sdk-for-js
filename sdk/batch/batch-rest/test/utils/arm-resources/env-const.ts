@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 
+import { getResourceName } from "../helpers.js";
+
 export function getSubscriptionId(): string {
   const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
   if (!subscriptionId) {
@@ -40,4 +42,15 @@ export function getUserObjectId(): string {
     throw new Error("USER_OBJECT_ID must be set");
   }
   return objectId;
+}
+
+const hoboBatchAccountName = "jssdkhobobatchacct";
+const byosBatchAccountName = "jssdkbyosbatchacct";
+
+export function getHoboBatchAccountName(): string {
+  return hoboBatchAccountName;
+}
+
+export function getByosBatchAccountName(): string {
+  return byosBatchAccountName;
 }
