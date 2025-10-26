@@ -6,9 +6,9 @@
  * @azsdk-util
  */
 
-import "dotenv/config";
 import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
+import "dotenv/config";
 import { env } from "node:process";
 import type { Hotel } from "./interfaces.js";
 

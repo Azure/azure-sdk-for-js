@@ -33,7 +33,8 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
  * const ratingMin = 4;
  * const filter = odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`;
  * ```
- * For more information on supported syntax see: https://learn.microsoft.com/azure/search/search-query-odata-filter
+ * For more information on supported syntax see:
+ * https://learn.microsoft.com/azure/search/search-query-odata-filter
  * @param strings - Array of strings for the expression
  * @param values - Array of values for the expression
  */

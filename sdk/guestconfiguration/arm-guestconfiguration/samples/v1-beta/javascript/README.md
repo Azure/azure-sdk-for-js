@@ -63,7 +63,7 @@ node guestConfigurationAssignmentReportsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env GUESTCONFIGURATION_SUBSCRIPTION_ID="<guestconfiguration subscription id>" GUESTCONFIGURATION_RESOURCE_GROUP="<guestconfiguration resource group>" node guestConfigurationAssignmentReportsGetSample.js
+cross-env GUESTCONFIGURATION_SUBSCRIPTION_ID="<guestconfiguration subscription id>" GUESTCONFIGURATION_RESOURCE_GROUP="<guestconfiguration resource group>" node guestConfigurationAssignmentReportsGetSample.js
 ```
 
 ## Next Steps

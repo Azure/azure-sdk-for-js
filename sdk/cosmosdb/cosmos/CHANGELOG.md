@@ -1,5 +1,12 @@
 # Release History
-## 4.6.0 (2025-10-01)
+
+## 4.7.0 (2025-10-23)
+
+### Features Added
+
+Dynamic Enablement for PPAF(Per Partition Automatic Failover): Added support to dynamically enable or disable PPAF based on the `enablePartitionLevelFailover` flag retrieved from the database account properties removing the need of SDK restart. 
+
+## 4.6.0 (2025-10-08)
 
 ### Features Added
 
@@ -13,6 +20,7 @@ await container.items.upsert(city, requestOptions);
 
 await container.item("1").delete(requestOptions);
 ```
+- [#36015](https://github.com/Azure/azure-sdk-for-js/issues/36015) AAD Authentication Scope Override: Added support for overriding AAD authentication scope via the new `aadScope` option in `CosmosClientOptions`. When no custom scope is provided, the system uses the account-specific scope for authentication and implements a fallback mechanism to `https://cosmos.azure.com/.default` in case of `AADSTS500011` errors. When a custom scope is explicitly provided via the `aadScope` option, no fallback occurs.
 
 ### Bugs Fixed
 - [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
