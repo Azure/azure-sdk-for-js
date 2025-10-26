@@ -9,12 +9,12 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { InternalHttpHeaders } from "../common/index.js";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.
@@ -123,6 +123,13 @@ export class OrderByQueryExecutionContext
       await this.bufferDocumentProducers(diagnosticNode);
       await this.fillBufferFromBufferQueue();
       const drainedItemsResponse = await this.drainBufferedItems();
+
+      // If we have unfilled producers, mark continuation as not ready
+      if (!this.unfilledDocumentProducersQueue.isEmpty()) {
+        drainedItemsResponse.headers = drainedItemsResponse.headers || {};
+        drainedItemsResponse.headers[InternalHttpHeaders.ContinuationReady] = "false";
+      }
+
       return drainedItemsResponse;
     } catch (error) {
       console.error("Error fetching more results:", error);

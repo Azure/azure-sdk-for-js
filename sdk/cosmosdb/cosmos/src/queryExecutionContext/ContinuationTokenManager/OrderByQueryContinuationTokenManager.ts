@@ -120,9 +120,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
       } else {
         console.log("Processing empty response for ORDER BY query continuation token.");
-        rangeProcessingResult = this.partitionRangeManager.processEmptyOrderByRanges(
-          this.ranges,
-        );
+        rangeProcessingResult = this.partitionRangeManager.processEmptyOrderByRanges(this.ranges);
       }
 
       const { lastRangeBeforePageLimit } = rangeProcessingResult;

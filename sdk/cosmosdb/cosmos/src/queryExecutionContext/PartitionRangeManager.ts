@@ -115,9 +115,7 @@ export class PartitionRangeManager {
     return { endIndex, processedRanges, lastRangeBeforePageLimit };
   }
 
-  public processEmptyOrderByRanges(
-    ranges: QueryRangeWithContinuationToken[],
-  ): {
+  public processEmptyOrderByRanges(ranges: QueryRangeWithContinuationToken[]): {
     endIndex: number;
     processedRanges: string[];
     lastRangeBeforePageLimit: QueryRangeMapping | undefined;

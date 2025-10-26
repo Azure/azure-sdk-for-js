@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common/index.js";
+import { Constants, InternalHttpHeaders } from "../common/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
 import {
   decodeAndParseJSONString,
@@ -14,13 +14,24 @@ export class FeedResponse<TResource> {
     private readonly headers: CosmosHeaders,
     public readonly hasMoreResults: boolean,
     public readonly diagnostics: CosmosDiagnostics,
-  ) {}
+  ) { }
 
   public get continuation(): string {
     return this.continuationToken;
   }
   public get continuationToken(): string {
-    return this.headers[Constants.HttpHeaders.Continuation];
+    // Detect if query is not ready to serve continuation token
+    const isContinuationNotReady =
+      this.headers[InternalHttpHeaders.ContinuationReady] === "false";
+    const continuationToken = this.headers[Constants.HttpHeaders.Continuation];
+
+    if (isContinuationNotReady && continuationToken === undefined) {
+      throw new Error(
+        "Query is not ready to serve continuation token. Keep calling hasMoreResults() until you get some data",
+      );
+    }
+
+    return continuationToken;
   }
   public get queryMetrics(): string {
     return this.headers[Constants.HttpHeaders.QueryMetrics];
