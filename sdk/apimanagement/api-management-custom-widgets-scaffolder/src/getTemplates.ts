@@ -17,10 +17,11 @@ export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
 }
 
 async function getFiles(path: string): Promise<string[]> {
+  // Normalize Windows path separators to forward slashes for glob pattern
   const normalizedPath = path.replace(/\\/g, "/");
   const files: string[] = [];
 
-  for await (const file of glob(normalizedPath)) {
+  for await (const file of glob(normalizedPath, { withFileTypes: false })) {
     files.push(file);
   }
 
