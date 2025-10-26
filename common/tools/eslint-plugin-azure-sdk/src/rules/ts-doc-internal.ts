@@ -8,8 +8,7 @@
 
 import { TSESTree, ESLintUtils } from "@typescript-eslint/utils";
 import { getLocalExports, createRule } from "../utils/index.js";
-import { globSync } from "glob";
-import { readFileSync } from "node:fs";
+import { readFileSync, globSync } from "node:fs";
 import { relative } from "node:path";
 
 //------------------------------------------------------------------------------

@@ -5,85 +5,29 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
-  arm:
-    '@azure/arm-cognitiveservices':
-      specifier: 7.6.0
-      version: 7.6.0
-    '@azure/arm-storage':
-      specifier: 18.5.0
-      version: 18.5.0
-    '@azure/arm-webpubsub':
-      specifier: 1.2.0
-      version: 1.2.0
   default:
     '@types/node':
       specifier: ^22.13.14
       version: 22.18.12
-    autorest:
-      specifier: latest
-      version: 3.7.2
     cross-env:
       specifier: ^7.0.3
       version: 7.0.3
     eslint:
       specifier: ^9.33.0
       version: 9.38.0
-    prettier:
-      specifier: ^3.6.2
-      version: 3.6.2
     rimraf:
       specifier: ^6.0.1
       version: 6.0.1
     tshy:
       specifier: ^3.0.0
       version: 3.0.3
-    tslib:
-      specifier: ^2.8.1
-      version: 2.8.1
-    tsx:
-      specifier: ^4.20.4
-      version: 4.20.6
     typescript:
       specifier: ~5.9.3
       version: 5.9.3
-  internal:
-    '@azure/identity':
-      specifier: 4.11.1
-      version: 4.11.1
   testing:
-    '@rollup/plugin-inject':
-      specifier: ^5.0.5
-      version: 5.0.5
-    '@types/chai-as-promised':
-      specifier: ^8.0.2
-      version: 8.0.2
-    '@vitest/browser':
-      specifier: ^3.2.3
-      version: 3.2.4
     '@vitest/coverage-istanbul':
       specifier: ^3.2.3
       version: 3.2.4
-    '@vitest/expect':
-      specifier: ^3.2.3
-      version: 3.2.4
-    chai:
-      specifier: ^6.2.0
-      version: 6.2.0
-    chai-as-promised:
-      specifier: ^8.0.1
-      version: 8.0.2
-    chai-exclude:
-      specifier: ^3.0.0
-      version: 3.0.1
-    dotenv:
-      specifier: ^16.0.0
-      version: 16.6.1
-    nock:
-      specifier: ^13.5.4
-      version: 13.5.6
-    playwright:
-      specifier: ^1.50.1
-      version: 1.56.1
     vitest:
       specifier: ^3.2.3
       version: 3.2.4
@@ -1273,9 +1217,6 @@ importers:
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
-      glob:
-        specifier: ^11.0.3
-        version: 11.0.3
       inquirer:
         specifier: ^12.6.3
         version: 12.10.0(@types/node@22.18.12)

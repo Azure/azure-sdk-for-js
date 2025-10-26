@@ -11,7 +11,6 @@ var chalk = require('chalk');
 var node_path = require('node:path');
 var node_url = require('node:url');
 var fs$1 = require('node:fs/promises');
-var glob = require('glob');
 var mustache = require('mustache');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
@@ -486,11 +485,12 @@ async function getTemplates(template) {
     return [...sharedFiles, ...templateFiles];
 }
 async function getFiles(path) {
-    // Starting from glob v8 `\` is only used as an escape character, and never as a path separator in glob patterns.
-    // Glob pattern paths must use forward-slashes as path separators.
-    // See https://github.com/isaacs/node-glob/blob/af57da21c7722bb6edb687ccd4ad3b99d3e7a333/changelog.md#80
     const normalizedPath = path.replace(/\\/g, "/");
-    return glob.glob(normalizedPath, { dot: true });
+    const files = [];
+    for await (const file of fs$1.glob(normalizedPath)) {
+        files.push(file);
+    }
+    return files;
 }
 
 // Copyright (c) Microsoft Corporation.

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ScaffoldTech } from "./scaffolding.js";
-import { glob } from "glob";
+import { glob } from "node:fs/promises";
 import { join as pathJoin } from "node:path";
 import { sourceDir } from "./sourceDir.js";
 
@@ -17,9 +17,12 @@ export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
 }
 
 async function getFiles(path: string): Promise<string[]> {
-  // Starting from glob v8 `\` is only used as an escape character, and never as a path separator in glob patterns.
-  // Glob pattern paths must use forward-slashes as path separators.
-  // See https://github.com/isaacs/node-glob/blob/af57da21c7722bb6edb687ccd4ad3b99d3e7a333/changelog.md#80
   const normalizedPath = path.replace(/\\/g, "/");
-  return glob(normalizedPath, { dot: true });
+  const files: string[] = [];
+
+  for await (const file of glob(normalizedPath)) {
+    files.push(file);
+  }
+
+  return files;
 }
