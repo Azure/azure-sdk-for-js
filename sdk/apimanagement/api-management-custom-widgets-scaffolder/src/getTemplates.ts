@@ -21,7 +21,7 @@ async function getFiles(path: string): Promise<string[]> {
   const normalizedPath = path.replace(/\\/g, "/");
   const files: string[] = [];
 
-  for await (const file of glob(normalizedPath, { withFileTypes: false })) {
+  for await (const file of glob(normalizedPath)) {
     files.push(file);
   }
 
