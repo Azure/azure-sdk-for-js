@@ -233,7 +233,7 @@ When filing GitHub issues, the following details are requested:
 - Subscription environment
   - What is the machine(s) specs processing your Event Hub?
   - How many instances are running?
-  - What is the max heap set (e.g. in NodeJS v22, the `--max-old-space-size-in-MiB` parameter can be used to set it)?
+  - What is the max heap set (e.g. in NodeJS v22, the `--max-old-space-size=SIZE (in MiB)` parameter can be used to set it)?
 - What is the average size of each EventData?
 - What is the traffic pattern like in your Event Hub? (i.e. # messages/minute and if the Subscription is always busy or has slow traffic periods.)
 - Repro code and steps
