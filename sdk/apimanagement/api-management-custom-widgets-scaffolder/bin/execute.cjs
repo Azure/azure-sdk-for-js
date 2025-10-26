@@ -485,9 +485,10 @@ async function getTemplates(template) {
     return [...sharedFiles, ...templateFiles];
 }
 async function getFiles(path) {
+    // Normalize Windows path separators to forward slashes for glob pattern
     const normalizedPath = path.replace(/\\/g, "/");
     const files = [];
-    for await (const file of fs$1.glob(normalizedPath)) {
+    for await (const file of fs$1.glob(normalizedPath, { withFileTypes: false })) {
         files.push(file);
     }
     return files;
