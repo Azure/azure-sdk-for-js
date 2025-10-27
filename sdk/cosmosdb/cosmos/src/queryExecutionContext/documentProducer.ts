@@ -182,7 +182,7 @@ export class DocumentProducer {
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       // TODO: remove afterwards
-      const resourceIds = resources ? resources.map((r: any) => r.payload?.id) : [];
+      const resourceIds = resources ? resources.map((r: any) => r.id || r.payload?.id) : [];
       console.log(
         `[DOCPROD-BUFFER] Partition ${this.targetPartitionKeyRange.id} buffered ${resources?.length || 0} items with ids:`,
         resourceIds,
@@ -206,7 +206,7 @@ export class DocumentProducer {
         let addHeaderToFetchResult = true;
         const finalItemIds: any[] = [];
         resources.forEach((element: any) => {
-          finalItemIds.push(element.payload?.id);
+          finalItemIds.push(element.id || element.payload?.id);
           this.fetchResults.push(
             new FetchResult(
               element,

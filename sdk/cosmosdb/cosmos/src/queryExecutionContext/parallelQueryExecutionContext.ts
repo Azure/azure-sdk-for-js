@@ -14,8 +14,7 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
  */
 export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   // Instance members are inherited
 
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts
@@ -28,7 +27,7 @@ export class ParallelQueryExecutionContext
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): number {
-    return this.compareDocumentProducersByRange(docProd1, docProd2);
+    return this.compareDocumentProducersByRange(docProd2, docProd1);
   }
 
   /**
