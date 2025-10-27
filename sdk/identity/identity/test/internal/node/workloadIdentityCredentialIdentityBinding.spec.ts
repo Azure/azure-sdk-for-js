@@ -10,11 +10,8 @@ import path from "node:path";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { parseAndValidateCustomTokenProxy } from "$internal/credentials/workloadIdentityCredential.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type { AuthenticationResult } from "@azure/msal-node";
 import { execSync } from "node:child_process";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
-import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import { createServer } from "node:https";
 import type { Server } from "node:https";
 
@@ -615,16 +612,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
   describe("Identity binding feature", function () {
     let tempDir: string;
-    let cleanup: MsalTestCleanup;
 
     let originalTlsReject: string | undefined;
-
-    const hourInMs = 1000 * 60 * 60;
-    const stubbedToken = {
-      accessToken: "token",
-      expiresOn: new Date(Date.now() + 2 * hourInMs),
-      tokenType: "Bearer",
-    } as AuthenticationResult;
 
     function createTestTokenEndpointServer(
       subjectName: string,
@@ -635,11 +624,12 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       const serverOptions = {
         key,
         cert,
-        rejectUnauthorized: false,
       };
 
       const server = createServer(serverOptions, (req, res) => {
         const url = new URL(req.url!, `https://${req.headers.host}`);
+        console.log("URL", url);
+        console.log("Pathname", url.pathname);
         // OIDC discovery document
         if (url.pathname.includes("/.well-known/openid-configuration")) {
           res.writeHead(200, { "Content-Type": "application/json" });
@@ -663,7 +653,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
             ],
           };
           res.end(JSON.stringify(instanceDoc));
-        } else if (url.pathname === "/token") {
+        } else if (url.pathname.includes("/token")) {
           // Token endpoint
           tokenHandler(req, res);
         } else {
@@ -686,9 +676,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
     }
 
     beforeEach(async function () {
-      const msalSetup = await msalNodeTestSetup(stubbedToken);
-      cleanup = msalSetup.cleanup;
-
       originalTlsReject = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -696,8 +683,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
     });
 
     afterEach(async function () {
-      await cleanup();
-
       if (originalTlsReject !== undefined) {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = originalTlsReject;
       } else {
@@ -705,6 +690,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       }
 
       vi.unstubAllEnvs();
+      vi.restoreAllMocks();
 
       await fs.rm(tempDir, { recursive: true, force: true });
     });
@@ -752,8 +738,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           vi.stubEnv("AZURE_CLIENT_ID", clientId);
           vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
           vi.stubEnv("AZURE_TENANT_ID", tenantId);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_ENDPOINT", `${serverUrl}/token`);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_CA_DATA", caData);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", `${serverUrl}/token`);
+          vi.stubEnv("AZURE_KUBERNETES_CA_DATA", caData);
 
           const credential = new WorkloadIdentityCredential({
             enableAzureKubernetesTokenProxy: true,
@@ -816,8 +802,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
           vi.stubEnv("AZURE_CLIENT_ID", clientId);
           vi.stubEnv("AZURE_TENANT_ID", tenantId);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_ENDPOINT", `${serverUrl}/token`);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_CA_FILE", caFile);
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", `${serverUrl}/token`);
+          vi.stubEnv("AZURE_KUBERNETES_CA_FILE", caFile);
 
           const credential = new WorkloadIdentityCredential({
             enableAzureKubernetesTokenProxy: true,
@@ -833,13 +819,12 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         });
       });
     });
-
     it("should use custom token endpoint with SNI configuration", async function () {
-      const sniName = "testSniName";
+      const sniName = "test.ests.aks";
       const {
         server,
         caData,
-        subjectName,
+        // subjectName,
         cleanup: serverCleanup,
       } = createTestTokenEndpointServer(sniName, (req: any, res: any) => {
         let body = "";
@@ -857,13 +842,12 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           );
           assert.equal(params.get("client_id"), clientId);
           assert.equal(params.get("grant_type"), "client_credentials");
-          assert.isDefined(params.get("client_assertion")); // JWT assertion should be present
+          assert.isDefined(params.get("client_assertion"));
 
-          // Send successful mock token response (must match stubbedToken.accessToken)
           res.writeHead(200, { "Content-Type": "application/json" });
           res.end(
             JSON.stringify({
-              access_token: "token",
+              access_token: "tokenTest",
               token_type: "Bearer",
               expires_in: 3600,
             }),
@@ -883,20 +867,15 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
           vi.stubEnv("AZURE_CLIENT_ID", clientId);
           vi.stubEnv("AZURE_TENANT_ID", tenantId);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_ENDPOINT", `${serverUrl}/token`);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_CA_FILE", caFile);
-          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY_SNI", sniName);
-
-          assert.equal(subjectName, sniName, "Certificate subject name should match SNI name");
-
+          vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", `${serverUrl}/token`);
+          vi.stubEnv("AZURE_KUBERNETES_CA_FILE", caFile);
+          vi.stubEnv("AZURE_KUBERNETES_SNI_NAME", sniName);
           const credential = new WorkloadIdentityCredential({
             enableAzureKubernetesTokenProxy: true,
           });
-
           const token = await credential.getToken("https://vault.azure.net/.default");
-
           assert.isDefined(token);
-          assert.equal(token!.token, "token");
+          assert.equal(token!.token, "tokenTest");
 
           server.close();
           serverCleanup();

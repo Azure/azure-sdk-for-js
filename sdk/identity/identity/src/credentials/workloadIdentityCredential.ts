@@ -256,7 +256,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
         );
         const tlsSettings = await this.getTlsSettings();
 
-        // Rewrite request URL following Go rewriteProxyRequestURL pattern
         const proxyUrl = new URL(tokenEndpoint);
 
         // Remove leading slash from request path and join with proxy path
@@ -275,7 +274,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
         request.tlsSettings = tlsSettings;
 
         logger.info(`${credentialName}: Sending request to ${request.url}`);
-
         // Forward the modified request with custom TLS settings
         return defaultClient.sendRequest(request);
       },
