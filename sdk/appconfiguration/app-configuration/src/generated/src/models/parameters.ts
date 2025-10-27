@@ -76,7 +76,7 @@ export const apiVersion: OperationQueryParameter = {
 export const after: OperationQueryParameter = {
   parameterPath: ["options", "after"],
   mapper: {
-    serializedName: "After",
+    serializedName: "after",
     type: {
       name: "String",
     },
