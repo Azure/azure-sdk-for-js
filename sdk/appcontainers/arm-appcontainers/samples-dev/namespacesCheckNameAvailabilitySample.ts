@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks if resource name is available.
- *
- * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/Certificates_CheckNameAvailability.json
- */
-
+import type {
+  CheckNameAvailabilityRequest} from "@azure/arm-appcontainers";
 import {
-  CheckNameAvailabilityRequest,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Checks if resource name is available.
+ *
+ * @summary Checks if resource name is available.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/Certificates_CheckNameAvailability.json
+ */
 async function certificatesCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -40,7 +40,7 @@ async function certificatesCheckNameAvailability(): Promise<void> {
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ContainerApps_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ContainerApps_CheckNameAvailability.json
  */
 async function containerAppsCheckNameAvailability(): Promise<void> {
   const subscriptionId =

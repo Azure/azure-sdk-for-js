@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the Java Components for a managed environment.
- *
- * @summary Get the Java Components for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/JavaComponents_List.json
- */
-
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Get the Java Components for a managed environment.
+ *
+ * @summary Get the Java Components for a managed environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_List.json
+ */
 async function listJavaComponents(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -35,7 +34,7 @@ async function listJavaComponents(): Promise<void> {
  * This sample demonstrates how to Get the Java Components for a managed environment.
  *
  * @summary Get the Java Components for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/JavaComponents_List_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/JavaComponents_List_ServiceBind.json
  */
 async function listJavaComponentsWithServiceBinds(): Promise<void> {
   const subscriptionId =

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all the load balancer backed address pools.
- *
- * @summary Gets all the load balancer backed address pools.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/LBBackendAddressPoolListWithBackendAddressesPoolType.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Gets all the load balancer backed address pools.
+ *
+ * @summary Gets all the load balancer backed address pools.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/LBBackendAddressPoolListWithBackendAddressesPoolType.json
+ */
 async function loadBalancerWithBackendAddressPoolContainingBackendAddresses(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
@@ -32,7 +31,7 @@ async function loadBalancerWithBackendAddressPoolContainingBackendAddresses(): P
  * This sample demonstrates how to Gets all the load balancer backed address pools.
  *
  * @summary Gets all the load balancer backed address pools.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/LoadBalancerBackendAddressPoolList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/LoadBalancerBackendAddressPoolList.json
  */
 async function loadBalancerBackendAddressPoolList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

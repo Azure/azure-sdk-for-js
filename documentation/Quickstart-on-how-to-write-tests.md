@@ -58,15 +58,42 @@ If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github
 
 ## Code structure
 
-If you are the first time to generate SDK you could enable the config `generate-test: true` in `README.md`. We'll generate simple utils and a sample test file for you.
+If this is your first time generating an SDK, you can enable the config `generate-test: true` in `README.md` or `tspconfig.yaml`. For management plane packages, `generate-test` is always enabled. Then we'll generate simple utils and a sample test file for you.
 
-```yml
-generate-test: true
+```
+  // Copyright (c) Microsoft Corporation.
+  // Licensed under the MIT License.
+
+  // import type { Recorder } from "@azure-tools/test-recorder";
+  // import { createRecorder } from "./utils/recordedClient.js";
+  import {
+    assert,
+    // beforeEach,
+    // afterEach,
+    it,
+    describe,
+  } from "vitest";
+
+  describe("My test", () => {
+    // let recorder: Recorder;
+
+    // beforeEach(async function (ctx) {
+    //   recorder = await createRecorder(ctx);
+    // });
+
+    // afterEach(async function () {
+    //   await recorder.stop();
+    // });
+
+    it("sample test", async function () {
+      assert.equal(1, 1);
+    });
+  });
 ```
 
-They only contains basics for testing, you need to update to your own utility and test cases. The overall structure will be similar to below:
+This only contains basics for testing, we comment out some lines **except** licence header. If you want to update to your own utility and test cases. The overall structure will be similar to below:
 
-_Note: the structure of the `test` folder has slight differences between high-level and rest-level clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC, we separate the sample test and utils._
+_Note: the structure of the `test` folder has slight differences between high-level, rest-level and Modular clients. In HLC, we only have one file under the `test` folder which contains all contents. But in RLC and Modular, we separate the sample test and utils._
 
 ```
 sdk/
@@ -84,9 +111,13 @@ sdk/
 │  │  │  |  ├─ sampleTest.spec.ts
 ```
 
+You could also refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#how-to-write-test-for-dpgrlcmpg) to add your test cases.
+
+After writing your test cases you need to run your test cases and record the test recordings. See [here](#run-tests-in-record-mode)
+
 ## Run tests in record mode
 
-Before running tests, it's advised to update the dependencises and build our project by running the command `pnpm install && pnpm build --filter=<package-name>...`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
+Before running tests, it's advised to update the dependencies and build our project by running the command `pnpm install && pnpm build --filter=<package-name>...`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
 
 ```Shell
 > pnpm install
@@ -113,6 +144,8 @@ If you are the first time to run tests you may fail with below message because t
 ```
 
 To record or update our recordings, we need to set the environment variable `TEST_MODE` to `record`. Then, run `pnpm test`.
+
+After running the test cases, you need to push your recordings into assets repo. See [here](#how-to-push-test-recordings-to-assets-repo)
 
 ```Shell
 # Windows
