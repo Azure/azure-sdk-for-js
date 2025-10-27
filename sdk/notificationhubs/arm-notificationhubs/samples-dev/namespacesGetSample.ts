@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Returns the given namespace.
- *
- * @summary Returns the given namespace.
- * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/Get.json
- */
-
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to returns the given namespace.
+ *
+ * @summary returns the given namespace.
+ * x-ms-original-file: 2023-10-01-preview/Namespaces/Get.json
+ */
 async function namespacesGet(): Promise<void> {
-  const subscriptionId =
-    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
-  const resourceGroupName = process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
-  const namespaceName = "nh-sdk-ns";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.get(resourceGroupName, namespaceName);
+  const result = await client.namespaces.get("5ktrial", "nh-sdk-ns");
   console.log(result);
 }
 
