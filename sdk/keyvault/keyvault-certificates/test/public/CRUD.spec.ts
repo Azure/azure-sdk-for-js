@@ -11,12 +11,13 @@ import type { ClientSecretCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 
 import type { CertificateClient } from "../../src/index.js";
-import { assertThrowsAbortError, delay } from "./utils/common.js";
+import { assertThrowsAbortError } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { delay } from "@azure/core-util";
 expect.extend({ toSupportTracing });
 
 describe("Certificates client - create, read, update and delete", () => {
@@ -459,6 +460,12 @@ describe("Certificates client - create, read, update and delete", () => {
       testPollerProperties,
     );
 
+    // Wait for the certificate operation to be fully initialized on the server
+    // before attempting to read, cancel, or delete it to avoid race conditions
+    if (!isPlaybackMode()) {
+      await delay(2000);
+    }
+
     let certificateOperation: any;
 
     // Read
@@ -473,8 +480,9 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(certificateOperation.cancellationRequested).toEqual(true);
 
     // Wait for the cancellation to propagate on the server side before deleting
-    // This prevents a race condition where the delete operation conflicts with the ongoing cancellation
-    await delay(2000);
+    if (!isPlaybackMode()) {
+      await delay(2000);
+    }
 
     // Delete
     await client.deleteCertificateOperation(certificateName);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
@@ -28,16 +28,4 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
   }
-}
-
-/**
- * Delays execution for a specified number of milliseconds.
- * In playback mode, returns immediately without delay.
- * @param ms - The number of milliseconds to delay
- */
-export async function delay(ms: number): Promise<void> {
-  if (isPlaybackMode()) {
-    return;
-  }
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
