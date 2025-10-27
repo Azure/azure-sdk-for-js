@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AdvisorManagementClient } from "../src/advisorManagementClient.js";
-import { RecommendationsListOptionalParams } from "../src/models/index.js";
+import type { RecommendationsListOptionalParams } from "../src/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -57,7 +58,7 @@ describe("Advisor test", () => {
     const top = 5;
     const options: RecommendationsListOptionalParams = { top };
     const resArray = new Array();
-    for await (let item of client.recommendations.list(options)) {
+    for await (const item of client.recommendations.list(options)) {
       resArray.push(item);
     }
 

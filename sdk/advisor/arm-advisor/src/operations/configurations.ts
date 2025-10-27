@@ -6,18 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Configurations } from "../operationsInterfaces/index.js";
+import type { Configurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { AdvisorManagementClient } from "../advisorManagementClient.js";
-import {
+import type { AdvisorManagementClient } from "../advisorManagementClient.js";
+import type {
   ConfigData,
   ConfigurationsListBySubscriptionNextOptionalParams,
   ConfigurationsListBySubscriptionOptionalParams,
   ConfigurationsListBySubscriptionResponse,
+  ConfigurationsListByResourceGroupNextOptionalParams,
   ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationsListByResourceGroupResponse,
   ConfigurationName,
@@ -26,6 +27,7 @@ import {
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse,
   ConfigurationsListBySubscriptionNextResponse,
+  ConfigurationsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -73,7 +75,7 @@ export class ConfigurationsImpl implements Configurations {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -81,7 +83,7 @@ export class ConfigurationsImpl implements Configurations {
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -116,7 +118,11 @@ export class ConfigurationsImpl implements Configurations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(resourceGroup, options, settings);
+        return this.listByResourceGroupPagingPage(
+          resourceGroup,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -124,18 +130,38 @@ export class ConfigurationsImpl implements Configurations {
   private async *listByResourceGroupPagingPage(
     resourceGroup: string,
     options?: ConfigurationsListByResourceGroupOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigData[]> {
     let result: ConfigurationsListByResourceGroupResponse;
-    result = await this._listByResourceGroup(resourceGroup, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroup, options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroup,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByResourceGroupPagingAll(
     resourceGroup: string,
     options?: ConfigurationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConfigData> {
-    for await (const page of this.listByResourceGroupPagingPage(resourceGroup, options)) {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroup,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -147,7 +173,10 @@ export class ConfigurationsImpl implements Configurations {
   private _listBySubscription(
     options?: ConfigurationsListBySubscriptionOptionalParams,
   ): Promise<ConfigurationsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
   /**
@@ -216,6 +245,23 @@ export class ConfigurationsImpl implements Configurations {
       listBySubscriptionNextOperationSpec,
     );
   }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroup The name of the Azure resource group.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroup: string,
+    nextLink: string,
+    options?: ConfigurationsListByResourceGroupNextOptionalParams,
+  ): Promise<ConfigurationsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroup, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -249,7 +295,11 @@ const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.configContract,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.configurationName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.configurationName,
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -266,7 +316,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroup],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -304,7 +358,31 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.resourceGroup,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

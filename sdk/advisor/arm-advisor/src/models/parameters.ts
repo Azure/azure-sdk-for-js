@@ -6,14 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  ConfigData as ConfigDataMapper,
+  TrackedRecommendationPropertiesPayload as TrackedRecommendationPropertiesPayloadMapper,
   SuppressionContract as SuppressionContractMapper,
+  AssessmentResult as AssessmentResultMapper,
+  ConfigData as ConfigDataMapper,
+  PredictionRequest as PredictionRequestMapper,
+  RecommendationRejectBody as RecommendationRejectBodyMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -40,21 +44,10 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const name: OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-01-01",
+    defaultValue: "2025-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -63,77 +56,16 @@ export const apiVersion: OperationQueryParameter = {
   },
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
   mapper: {
-    serializedName: "nextLink",
+    serializedName: "resourceUri",
     required: true,
     type: {
       name: "String",
     },
   },
   skipEncoding: true,
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const configContract: OperationParameter = {
-  parameterPath: "configContract",
-  mapper: ConfigDataMapper,
-};
-
-export const configurationName: OperationURLParameter = {
-  parameterPath: "configurationName",
-  mapper: {
-    serializedName: "configurationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const resourceGroup: OperationURLParameter = {
-  parameterPath: "resourceGroup",
-  mapper: {
-    serializedName: "resourceGroup",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "Uuid",
-    },
-  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -166,17 +98,6 @@ export const skipToken: OperationQueryParameter = {
   },
 };
 
-export const resourceUri: OperationURLParameter = {
-  parameterPath: "resourceUri",
-  mapper: {
-    serializedName: "resourceUri",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const recommendationId: OperationURLParameter = {
   parameterPath: "recommendationId",
   mapper: {
@@ -188,7 +109,177 @@ export const recommendationId: OperationURLParameter = {
   },
 };
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const trackedProperties: OperationParameter = {
+  parameterPath: "trackedProperties",
+  mapper: TrackedRecommendationPropertiesPayloadMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const suppressionContract: OperationParameter = {
   parameterPath: "suppressionContract",
   mapper: SuppressionContractMapper,
+};
+
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const skiptoken: OperationQueryParameter = {
+  parameterPath: ["options", "skiptoken"],
+  mapper: {
+    serializedName: "$skiptoken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const assessmentName: OperationURLParameter = {
+  parameterPath: "assessmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-0-9a-zA-Z_]{1,63}$"),
+    },
+    serializedName: "assessmentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const assessmentContract: OperationParameter = {
+  parameterPath: "assessmentContract",
+  mapper: AssessmentResultMapper,
+};
+
+export const configContract: OperationParameter = {
+  parameterPath: "configContract",
+  mapper: ConfigDataMapper,
+};
+
+export const configurationName: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    serializedName: "configurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroup: OperationURLParameter = {
+  parameterPath: "resourceGroup",
+  mapper: {
+    serializedName: "resourceGroup",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const predictionRequest: OperationParameter = {
+  parameterPath: "predictionRequest",
+  mapper: PredictionRequestMapper,
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "$skip",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const reviewId: OperationURLParameter = {
+  parameterPath: "reviewId",
+  mapper: {
+    serializedName: "reviewId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const recommendationRejectBody: OperationParameter = {
+  parameterPath: "recommendationRejectBody",
+  mapper: RecommendationRejectBodyMapper,
+};
+
+export const recommendationResourceId: OperationURLParameter = {
+  parameterPath: "recommendationResourceId",
+  mapper: {
+    serializedName: "recommendationResourceId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

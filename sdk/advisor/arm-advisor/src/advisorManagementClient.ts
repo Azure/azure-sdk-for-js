@@ -8,23 +8,48 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
 import {
-  RecommendationMetadataImpl,
-  ConfigurationsImpl,
   RecommendationsImpl,
-  OperationsImpl,
   SuppressionsImpl,
+  RecommendationMetadataImpl,
+  OperationsImpl,
+  AdvisorScoresImpl,
+  AssessmentTypesImpl,
+  AssessmentsImpl,
+  ConfigurationsImpl,
+  ResiliencyReviewsImpl,
+  TriageRecommendationsImpl,
+  TriageResourcesImpl,
+  WorkloadsImpl,
 } from "./operations/index.js";
-import {
-  RecommendationMetadata,
-  Configurations,
+import type {
   Recommendations,
-  Operations,
   Suppressions,
+  RecommendationMetadata,
+  Operations,
+  AdvisorScores,
+  AssessmentTypes,
+  Assessments,
+  Configurations,
+  ResiliencyReviews,
+  TriageRecommendations,
+  TriageResources,
+  Workloads,
 } from "./operationsInterfaces/index.js";
-import { AdvisorManagementClientOptionalParams } from "./models/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import type {
+  AdvisorManagementClientOptionalParams,
+  PredictionRequest,
+  PredictOptionalParams,
+  PredictResponse,
+} from "./models/index.js";
 
 export class AdvisorManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -34,7 +59,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AdvisorManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -72,7 +97,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-advisor/3.2.0`;
+    const packageDetails = `azsdk-js-arm-advisor/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,7 +109,8 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -94,7 +120,8 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -110,9 +137,11 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -122,12 +151,19 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-01-01";
-    this.recommendationMetadata = new RecommendationMetadataImpl(this);
-    this.configurations = new ConfigurationsImpl(this);
+    this.apiVersion = options.apiVersion || "2025-05-01-preview";
     this.recommendations = new RecommendationsImpl(this);
-    this.operations = new OperationsImpl(this);
     this.suppressions = new SuppressionsImpl(this);
+    this.recommendationMetadata = new RecommendationMetadataImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.advisorScores = new AdvisorScoresImpl(this);
+    this.assessmentTypes = new AssessmentTypesImpl(this);
+    this.assessments = new AssessmentsImpl(this);
+    this.configurations = new ConfigurationsImpl(this);
+    this.resiliencyReviews = new ResiliencyReviewsImpl(this);
+    this.triageRecommendations = new TriageRecommendationsImpl(this);
+    this.triageResources = new TriageResourcesImpl(this);
+    this.workloads = new WorkloadsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -138,7 +174,10 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -156,9 +195,52 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  recommendationMetadata: RecommendationMetadata;
-  configurations: Configurations;
+  /**
+   * Predicts a recommendation.
+   * @param predictionRequest The request body
+   * @param options The options parameters.
+   */
+  predict(
+    predictionRequest: PredictionRequest,
+    options?: PredictOptionalParams,
+  ): Promise<PredictResponse> {
+    return this.sendOperationRequest(
+      { predictionRequest, options },
+      predictOperationSpec,
+    );
+  }
+
   recommendations: Recommendations;
-  operations: Operations;
   suppressions: Suppressions;
+  recommendationMetadata: RecommendationMetadata;
+  operations: Operations;
+  advisorScores: AdvisorScores;
+  assessmentTypes: AssessmentTypes;
+  assessments: Assessments;
+  configurations: Configurations;
+  resiliencyReviews: ResiliencyReviews;
+  triageRecommendations: TriageRecommendations;
+  triageResources: TriageResources;
+  workloads: Workloads;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const predictOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/predict",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PredictionResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  requestBody: Parameters.predictionRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};

@@ -8,28 +8,26 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { RecommendationMetadata } from "../operationsInterfaces/index.js";
+import type { Workloads } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { AdvisorManagementClient } from "../advisorManagementClient.js";
 import type {
-  MetadataEntity,
-  RecommendationMetadataListNextOptionalParams,
-  RecommendationMetadataListOptionalParams,
-  RecommendationMetadataListResponse,
-  RecommendationMetadataGetOptionalParams,
-  RecommendationMetadataGetResponse,
-  RecommendationMetadataListNextResponse,
+  WorkloadResult,
+  WorkloadsListNextOptionalParams,
+  WorkloadsListOptionalParams,
+  WorkloadsListResponse,
+  WorkloadsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RecommendationMetadata operations. */
-export class RecommendationMetadataImpl implements RecommendationMetadata {
+/** Class containing Workloads operations. */
+export class WorkloadsImpl implements Workloads {
   private readonly client: AdvisorManagementClient;
 
   /**
-   * Initialize a new instance of the class RecommendationMetadata class.
+   * Initialize a new instance of the class Workloads class.
    * @param client Reference to the service client
    */
   constructor(client: AdvisorManagementClient) {
@@ -37,12 +35,12 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Get list of Workloads.
    * @param options The options parameters.
    */
   public list(
-    options?: RecommendationMetadataListOptionalParams,
-  ): PagedAsyncIterableIterator<MetadataEntity> {
+    options?: WorkloadsListOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadResult> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -61,10 +59,10 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingPage(
-    options?: RecommendationMetadataListOptionalParams,
+    options?: WorkloadsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MetadataEntity[]> {
-    let result: RecommendationMetadataListResponse;
+  ): AsyncIterableIterator<WorkloadResult[]> {
+    let result: WorkloadsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -83,36 +81,21 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingAll(
-    options?: RecommendationMetadataListOptionalParams,
-  ): AsyncIterableIterator<MetadataEntity> {
+    options?: WorkloadsListOptionalParams,
+  ): AsyncIterableIterator<WorkloadResult> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Get list of Workloads.
    * @param options The options parameters.
    */
   private _list(
-    options?: RecommendationMetadataListOptionalParams,
-  ): Promise<RecommendationMetadataListResponse> {
+    options?: WorkloadsListOptionalParams,
+  ): Promise<WorkloadsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Gets the metadata entity.
-   * @param name Name of metadata entity.
-   * @param options The options parameters.
-   */
-  get(
-    name: string,
-    options?: RecommendationMetadataGetOptionalParams,
-  ): Promise<RecommendationMetadataGetResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getOperationSpec,
-    );
   }
 
   /**
@@ -122,8 +105,8 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    */
   private _listNext(
     nextLink: string,
-    options?: RecommendationMetadataListNextOptionalParams,
-  ): Promise<RecommendationMetadataListNextResponse> {
+    options?: WorkloadsListNextOptionalParams,
+  ): Promise<WorkloadsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec,
@@ -134,38 +117,18 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/workloads",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult,
+      bodyMapper: Mappers.WorkloadListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetadataEntity,
-    },
-    404: {
-      bodyMapper: Mappers.ARMErrorResponseBody,
-      isError: true,
-    },
-    default: {
-      bodyMapper: Mappers.ArmErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.name],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -174,13 +137,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult,
+      bodyMapper: Mappers.WorkloadListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

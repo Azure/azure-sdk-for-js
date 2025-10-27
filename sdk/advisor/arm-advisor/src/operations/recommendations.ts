@@ -6,23 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Recommendations } from "../operationsInterfaces/index.js";
+import type { Recommendations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { AdvisorManagementClient } from "../advisorManagementClient.js";
-import {
+import type { AdvisorManagementClient } from "../advisorManagementClient.js";
+import type {
   ResourceRecommendationBase,
+  RecommendationsListByTenantNextOptionalParams,
+  RecommendationsListByTenantOptionalParams,
+  RecommendationsListByTenantResponse,
   RecommendationsListNextOptionalParams,
   RecommendationsListOptionalParams,
   RecommendationsListResponse,
+  RecommendationsGetOptionalParams,
+  RecommendationsGetResponse,
+  TrackedRecommendationPropertiesPayload,
+  RecommendationsPatchOptionalParams,
+  RecommendationsPatchResponse,
   RecommendationsGenerateOptionalParams,
   RecommendationsGenerateResponse,
   RecommendationsGetGenerateStatusOptionalParams,
-  RecommendationsGetOptionalParams,
-  RecommendationsGetResponse,
+  RecommendationsGetGenerateStatusResponse,
+  RecommendationsListByTenantNextResponse,
   RecommendationsListNextResponse,
 } from "../models/index.js";
 
@@ -37,6 +45,72 @@ export class RecommendationsImpl implements Recommendations {
    */
   constructor(client: AdvisorManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Obtains cached recommendations for a subscription. The recommendations are generated or computed by
+   * invoking generateRecommendations.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  public listByTenant(
+    resourceUri: string,
+    options?: RecommendationsListByTenantOptionalParams,
+  ): PagedAsyncIterableIterator<ResourceRecommendationBase> {
+    const iter = this.listByTenantPagingAll(resourceUri, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByTenantPagingPage(resourceUri, options, settings);
+      },
+    };
+  }
+
+  private async *listByTenantPagingPage(
+    resourceUri: string,
+    options?: RecommendationsListByTenantOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ResourceRecommendationBase[]> {
+    let result: RecommendationsListByTenantResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByTenant(resourceUri, options);
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByTenantNext(
+        resourceUri,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByTenantPagingAll(
+    resourceUri: string,
+    options?: RecommendationsListByTenantOptionalParams,
+  ): AsyncIterableIterator<ResourceRecommendationBase> {
+    for await (const page of this.listByTenantPagingPage(
+      resourceUri,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -72,7 +146,7 @@ export class RecommendationsImpl implements Recommendations {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -80,7 +154,7 @@ export class RecommendationsImpl implements Recommendations {
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -92,6 +166,58 @@ export class RecommendationsImpl implements Recommendations {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Obtains cached recommendations for a subscription. The recommendations are generated or computed by
+   * invoking generateRecommendations.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  private _listByTenant(
+    resourceUri: string,
+    options?: RecommendationsListByTenantOptionalParams,
+  ): Promise<RecommendationsListByTenantResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, options },
+      listByTenantOperationSpec,
+    );
+  }
+
+  /**
+   * Obtains details of a cached recommendation.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param recommendationId The recommendation ID.
+   * @param options The options parameters.
+   */
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    options?: RecommendationsGetOptionalParams,
+  ): Promise<RecommendationsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, recommendationId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Update the tracked properties of a Recommendation.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param recommendationId The recommendation ID.
+   * @param trackedProperties The properties to update on the recommendation.
+   * @param options The options parameters.
+   */
+  patch(
+    resourceUri: string,
+    recommendationId: string,
+    trackedProperties: TrackedRecommendationPropertiesPayload,
+    options?: RecommendationsPatchOptionalParams,
+  ): Promise<RecommendationsPatchResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, recommendationId, trackedProperties, options },
+      patchOperationSpec,
+    );
   }
 
   /**
@@ -116,7 +242,7 @@ export class RecommendationsImpl implements Recommendations {
   getGenerateStatus(
     operationId: string,
     options?: RecommendationsGetGenerateStatusOptionalParams,
-  ): Promise<void> {
+  ): Promise<RecommendationsGetGenerateStatusResponse> {
     return this.client.sendOperationRequest(
       { operationId, options },
       getGenerateStatusOperationSpec,
@@ -128,25 +254,26 @@ export class RecommendationsImpl implements Recommendations {
    * invoking generateRecommendations.
    * @param options The options parameters.
    */
-  private _list(options?: RecommendationsListOptionalParams): Promise<RecommendationsListResponse> {
+  private _list(
+    options?: RecommendationsListOptionalParams,
+  ): Promise<RecommendationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Obtains details of a cached recommendation.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
-   * @param recommendationId The recommendation ID.
+   * ListByTenantNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByTenant method.
    * @param options The options parameters.
    */
-  get(
+  private _listByTenantNext(
     resourceUri: string,
-    recommendationId: string,
-    options?: RecommendationsGetOptionalParams,
-  ): Promise<RecommendationsGetResponse> {
+    nextLink: string,
+    options?: RecommendationsListByTenantNextOptionalParams,
+  ): Promise<RecommendationsListByTenantNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, recommendationId, options },
-      getOperationSpec,
+      { resourceUri, nextLink, options },
+      listByTenantNextOperationSpec,
     );
   }
 
@@ -159,12 +286,78 @@ export class RecommendationsImpl implements Recommendations {
     nextLink: string,
     options?: RecommendationsListNextOptionalParams,
   ): Promise<RecommendationsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByTenantOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceRecommendationBaseListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skipToken,
+  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceRecommendationBase,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.recommendationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const patchOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceRecommendationBase,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  requestBody: Parameters.trackedProperties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.recommendationId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const generateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations",
   httpMethod: "POST",
@@ -185,14 +378,20 @@ const getGenerateStatusOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}",
   httpMethod: "GET",
   responses: {
-    202: {},
+    202: {
+      headersMapper: Mappers.RecommendationsGetGenerateStatusHeaders,
+    },
     204: {},
     default: {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.operationId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.operationId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -207,24 +406,32 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skipToken,
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+const listByTenantNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceRecommendationBase,
+      bodyMapper: Mappers.ResourceRecommendationBaseListResult,
     },
     default: {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -239,7 +446,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
