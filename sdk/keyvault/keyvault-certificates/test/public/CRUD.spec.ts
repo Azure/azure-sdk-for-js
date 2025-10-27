@@ -11,7 +11,7 @@ import type { ClientSecretCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 
 import type { CertificateClient } from "../../src/index.js";
-import { assertThrowsAbortError } from "./utils/common.js";
+import { assertThrowsAbortError, delay } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
@@ -471,6 +471,10 @@ describe("Certificates client - create, read, update and delete", () => {
     await operationPoller.cancelOperation();
     certificateOperation = operationPoller.getOperationState().certificateOperation!;
     expect(certificateOperation.cancellationRequested).toEqual(true);
+
+    // Wait for the cancellation to propagate on the server side before deleting
+    // This prevents a race condition where the delete operation conflicts with the ongoing cancellation
+    await delay(2000);
 
     // Delete
     await client.deleteCertificateOperation(certificateName);
