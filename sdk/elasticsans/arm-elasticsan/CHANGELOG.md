@@ -1,4 +1,91 @@
 # Release History
+
+## 2.0.0-beta.1 (2025-10-27)
+Compared with version 1.1.0
+
+### Features Added
+  - Added operation ElasticSansOperations.create
+  - Added operation ElasticSansOperations.delete
+  - Added operation ElasticSansOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.create
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation VolumeGroupsOperations.create
+  - Added operation VolumeGroupsOperations.delete
+  - Added operation VolumeGroupsOperations.update
+  - Added operation VolumesOperations.create
+  - Added operation VolumesOperations.delete
+  - Added operation VolumesOperations.preBackup
+  - Added operation VolumesOperations.preRestore
+  - Added operation VolumesOperations.update
+  - Added operation VolumeSnapshotsOperations.create
+  - Added operation VolumeSnapshotsOperations.delete
+  - Added Interface AutoScaleProperties
+  - Added Interface DeleteRetentionPolicy
+  - Added Interface DiskSnapshotList
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PreValidationResponse
+  - Added Interface RestorePollerOptions
+  - Added Interface RestoreVolumeOptionalParams
+  - Added Interface ScaleUpProperties
+  - Added Interface VolumeNameList
+  - Added Interface VolumesPreBackupOptionalParams
+  - Added Interface VolumesPreRestoreOptionalParams
+  - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
+  - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
+  - Interface VolumeGroupProperties has a new optional parameter deleteRetentionPolicy
+  - Interface VolumeGroupsListByElasticSanOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
+  - Interface VolumeGroupUpdateProperties has a new optional parameter deleteRetentionPolicy
+  - Interface VolumesListByVolumeGroupOptionalParams has a new optional parameter xMsAccessSoftDeletedResources
+  - Added Type Alias AutoScalePolicyEnforcement
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DeleteType
+  - Added Type Alias PolicyState
+  - Added Type Alias XMsAccessSoftDeletedResources
+  - Added Enum AzureClouds
+  - Added Enum KnownAutoScalePolicyEnforcement
+  - Added Enum KnownDeleteType
+  - Added Enum KnownPolicyState
+  - Added Enum KnownVersions
+  - Added Enum KnownXMsAccessSoftDeletedResources
+  - Enum KnownProvisioningStates has a new value Deleted
+  - Enum KnownProvisioningStates has a new value Restoring
+  - Enum KnownProvisioningStates has a new value SoftDeleting
+
+### Breaking Changes
+  - Removed operation ElasticSans.beginCreate
+  - Removed operation ElasticSans.beginCreateAndWait
+  - Removed operation ElasticSans.beginDelete
+  - Removed operation ElasticSans.beginDeleteAndWait
+  - Removed operation ElasticSans.beginUpdate
+  - Removed operation ElasticSans.beginUpdateAndWait
+  - Removed operation PrivateEndpointConnections.beginCreate
+  - Removed operation PrivateEndpointConnections.beginCreateAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation VolumeGroups.beginCreate
+  - Removed operation VolumeGroups.beginCreateAndWait
+  - Removed operation VolumeGroups.beginDelete
+  - Removed operation VolumeGroups.beginDeleteAndWait
+  - Removed operation VolumeGroups.beginUpdate
+  - Removed operation VolumeGroups.beginUpdateAndWait
+  - Removed operation Volumes.beginCreate
+  - Removed operation Volumes.beginCreateAndWait
+  - Removed operation Volumes.beginDelete
+  - Removed operation Volumes.beginDeleteAndWait
+  - Removed operation Volumes.beginUpdate
+  - Removed operation Volumes.beginUpdateAndWait
+  - Removed operation VolumeSnapshots.beginCreate
+  - Removed operation VolumeSnapshots.beginCreateAndWait
+  - Removed operation VolumeSnapshots.beginDelete
+  - Removed operation VolumeSnapshots.beginDeleteAndWait
+  - Removed Interface ElasticSanList
+  - Removed Interface SkuInformationList
+  - Removed Interface SnapshotList
+  - Removed Interface VolumeGroupList
+  - Removed Interface VolumeList
+  - Parameter value of interface PrivateLinkResourceListResult is now required
+
     
 ## 1.2.0-beta.2 (2025-04-18)
 Compared with version 1.1.0
