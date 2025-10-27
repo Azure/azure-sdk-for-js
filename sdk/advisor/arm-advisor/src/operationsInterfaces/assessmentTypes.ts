@@ -8,18 +8,18 @@
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
-  OperationEntity,
-  OperationsListOptionalParams,
+  AssessmentTypeResult,
+  AssessmentTypesListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Operations. */
-export interface Operations {
+/** Interface representing a AssessmentTypes. */
+export interface AssessmentTypes {
   /**
-   * List the operations for the provider
+   * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationEntity>;
+    options?: AssessmentTypesListOptionalParams,
+  ): PagedAsyncIterableIterator<AssessmentTypeResult>;
 }

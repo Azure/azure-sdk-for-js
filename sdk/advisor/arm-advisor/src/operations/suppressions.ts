@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Suppressions } from "../operationsInterfaces/index.js";
+import type { Suppressions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { AdvisorManagementClient } from "../advisorManagementClient.js";
-import {
+import type { AdvisorManagementClient } from "../advisorManagementClient.js";
+import type {
   SuppressionContract,
   SuppressionsListNextOptionalParams,
   SuppressionsListOptionalParams,
@@ -72,7 +72,7 @@ export class SuppressionsImpl implements Suppressions {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -80,7 +80,7 @@ export class SuppressionsImpl implements Suppressions {
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -96,8 +96,7 @@ export class SuppressionsImpl implements Suppressions {
 
   /**
    * Obtains the details of a suppression.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param recommendationId The recommendation ID.
    * @param name The name of the suppression.
    * @param options The options parameters.
@@ -118,8 +117,7 @@ export class SuppressionsImpl implements Suppressions {
    * Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute
    * is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of
    * a recommendation.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param recommendationId The recommendation ID.
    * @param name The name of the suppression.
    * @param suppressionContract The snoozed or dismissed attribute; for example, the snooze duration.
@@ -141,8 +139,7 @@ export class SuppressionsImpl implements Suppressions {
   /**
    * Enables the activation of a snoozed or dismissed recommendation. The snoozed or dismissed attribute
    * of a recommendation is referred to as a suppression.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param recommendationId The recommendation ID.
    * @param name The name of the suppression.
    * @param options The options parameters.
@@ -164,7 +161,9 @@ export class SuppressionsImpl implements Suppressions {
    * attribute of a recommendation is referred to as a suppression.
    * @param options The options parameters.
    */
-  private _list(options?: SuppressionsListOptionalParams): Promise<SuppressionsListResponse> {
+  private _list(
+    options?: SuppressionsListOptionalParams,
+  ): Promise<SuppressionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -177,7 +176,10 @@ export class SuppressionsImpl implements Suppressions {
     nextLink: string,
     options?: SuppressionsListNextOptionalParams,
   ): Promise<SuppressionsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -201,9 +203,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.name,
     Parameters.resourceUri,
     Parameters.recommendationId,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -227,9 +229,9 @@ const createOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.name,
     Parameters.resourceUri,
     Parameters.recommendationId,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -247,9 +249,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.name,
     Parameters.resourceUri,
     Parameters.recommendationId,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -265,7 +267,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skipToken,
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -281,7 +287,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
