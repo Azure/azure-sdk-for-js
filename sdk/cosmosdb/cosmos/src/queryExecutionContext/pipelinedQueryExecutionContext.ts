@@ -47,10 +47,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private emitRawOrderByPayload: boolean = false,
   ) {
     this.endpoint = null;
-    this.pageSize = options["maxItemCount"];
-    if (this.pageSize === undefined) {
-      this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
+    if(!this.options.maxItemCount) {
+      this.options.maxItemCount = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
+    this.pageSize = options["maxItemCount"]
 
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
@@ -110,7 +110,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
+          `is not allowed`,
         );
       }
 
@@ -340,12 +340,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       ...response,
       result: response?.result
         ? {
-            ...response.result,
-            partitionKeyRangeMap:
-              response.result.partitionKeyRangeMap instanceof Map
-                ? Object.fromEntries(response.result.partitionKeyRangeMap)
-                : response.result.partitionKeyRangeMap,
-          }
+          ...response.result,
+          partitionKeyRangeMap:
+            response.result.partitionKeyRangeMap instanceof Map
+              ? Object.fromEntries(response.result.partitionKeyRangeMap)
+              : response.result.partitionKeyRangeMap,
+        }
         : undefined,
     };
     console.log(

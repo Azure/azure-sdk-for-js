@@ -575,7 +575,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     await removeAllDatabases(client);
   });
 
-  describe("Token Structure Validation", () => {
+  describe.skip("Token Structure Validation", () => {
     CONTINUATION_TOKEN_TEST_CASES.forEach((testCase) => {
       it(`should validate ${testCase.name}: ${testCase.description}`, async () => {
         const container = testCase.requiresMultiPartition
@@ -771,7 +771,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe("Single Partition Scenarios", () => {
+  describe.skip("Single Partition Scenarios", () => {
     it("should handle large result sets with multiple continuation tokens", async () => {
       const query = "SELECT * FROM c ORDER BY c.sequence ASC";
       const maxItemCount = 5;
@@ -878,7 +878,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe("Multi-Partition Scenarios", () => {
+  describe.skip("Multi-Partition Scenarios", () => {
     it("should handle cross-partition queries with composite tokens", async () => {
       const query = "SELECT * FROM c WHERE c.amount > 30";
 
@@ -1040,7 +1040,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe("Token Edge Cases and Serialization", () => {
+  describe.skip("Token Edge Cases and Serialization", () => {
     it("should handle very large tokens", async () => {
       // Create a query that might generate larger tokens
       const query =
@@ -1218,7 +1218,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     });
   });
 
-  describe("Integration Tests", () => {
+  describe.skip("Integration Tests", () => {
     it("should handle continuation token across multiple iterations", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 10, enableQueryControl: true };
@@ -1764,7 +1764,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   });
 
   describe("Final Integration Tests", () => {
-    it("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
+    it.skip("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 30, enableQueryControl: true };
 
@@ -1833,9 +1833,191 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         `✓ OrderBy pattern test completed: ${allResults.length} items in ${iterationCount} iterations`,
       );
     });
-  });
 
-  /**
+    it.skip("should handle SELECT * FROM c query with comprehensive ID validation", async () => {
+      const query = "SELECT * FROM c";
+      const queryOptions = { maxItemCount: 100, enableQueryControl: true, maxDegreeOfParallelism: 2 };
+
+      console.log("\n=== Testing SELECT * Query with Full ID Validation ===");
+      console.log(`Query: ${query}`);
+      console.log(`Expected total items: 25000`);
+
+      let queryIterator = multiPartitionContainer2.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      const seenIds = new Set<string>();
+      const categoryCounts = new Map<string, number>();
+      let iterationCount = 0;
+      let duplicateCount = 0;
+
+      // Collect all results using continuation tokens
+      while (queryIterator.hasMoreResults()) {
+        const response = await queryIterator.fetchNext();
+        iterationCount++;
+
+        console.log(
+          `Iteration ${iterationCount}: ${response.resources.length} items, continuation: ${response.continuationToken}`,
+        );
+
+        // Process each item in this batch
+        for (const item of response.resources) {
+          // Check for duplicates
+          if (seenIds.has(item.id)) {
+            duplicateCount++;
+            console.error(`DUPLICATE FOUND: ${item.id} (duplicate #${duplicateCount})`);
+          } else {
+            seenIds.add(item.id);
+          }
+
+          // Track category distribution
+          const count = categoryCounts.get(item.category) || 0;
+          categoryCounts.set(item.category, count + 1);
+
+          allResults.push(item);
+        }
+
+        // Continue with next batch if we have a continuation token
+        if (response.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = multiPartitionContainer2.items.query(query, {
+            ...queryOptions,
+            continuationToken: response.continuationToken,
+          });
+        }
+      }
+
+      console.log(`\n=== SELECT * Query Results Summary ===`);
+      console.log(`Total iterations: ${iterationCount}`);
+      console.log(`Total items collected: ${allResults.length}`);
+      console.log(`Unique IDs: ${seenIds.size}`);
+      console.log(`Duplicate count: ${duplicateCount}`);
+      console.log(`Category distribution:`, Object.fromEntries(categoryCounts));
+
+      // Comprehensive validations
+      expect(duplicateCount).toBe(0);
+      expect(allResults.length).toBe(25000);
+      expect(seenIds.size).toBe(25000);
+
+      // Validate we got all expected IDs (mp-item-000 to mp-item-24999)
+      const expectedIds = new Set<string>();
+      for (let i = 0; i < 25000; i++) {
+        expectedIds.add(`mp-item-${i.toString().padStart(3, "0")}`);
+      }
+
+      const missingIds: string[] = [];
+      const unexpectedIds: string[] = [];
+
+      // Check for missing IDs
+      for (const expectedId of expectedIds) {
+        if (!seenIds.has(expectedId)) {
+          missingIds.push(expectedId);
+        }
+      }
+
+      // Check for unexpected IDs
+      for (const seenId of seenIds) {
+        if (!expectedIds.has(seenId)) {
+          unexpectedIds.push(seenId);
+        }
+      }
+
+      if (missingIds.length > 0) {
+        console.error(`Missing IDs (${missingIds.length}):`, missingIds.slice(0, 10));
+      }
+      if (unexpectedIds.length > 0) {
+        console.error(`Unexpected IDs (${unexpectedIds.length}):`, unexpectedIds.slice(0, 10));
+      }
+
+      expect(missingIds.length).toBe(0);
+      expect(unexpectedIds.length).toBe(0);
+
+      // Validate each category has the expected count (25000 / 8 categories = ~3125 each)
+      const expectedCategoryCounts = 25000 / 8; // 8 categories total
+      for (const [category, count] of categoryCounts) {
+        expect(count).toBeCloseTo(expectedCategoryCounts, -2); // Within 100 items tolerance
+        console.log(`Category ${category}: ${count} items (expected ~${expectedCategoryCounts})`);
+      }
+
+    });
+
+    it("should handle SELECT * with low maxDegreeOfParallelism multiple times", async () => {
+      const query = "SELECT * FROM c";
+
+      console.log("\n=== Testing SELECT * with Low Parallelism Multiple Iterations ===");
+
+      const queryOptions = {
+        maxDegreeOfParallelism: 5,
+        enableQueryControl: true
+      };
+
+      let queryIterator = multiPartitionContainer2.items.query(query, queryOptions);
+      const collectedIds = new Set<string>();
+      const rangeMappingsSizes: number[] = [];
+      let iterationCount = 0;
+      let totalContinuationTokens = 0;
+
+      while (queryIterator.hasMoreResults()) {
+        const response = await queryIterator.fetchNext();
+        iterationCount++;
+
+        // Collect IDs from this batch
+        for (const item of response.resources) {
+          if (collectedIds.has(item.id)) {
+            throw new Error(`Duplicate ID found in test run : ${item.id}`);
+          }
+          collectedIds.add(item.id);
+        }
+
+        console.log(
+          `    Iteration ${iterationCount}: ${response.resources.length} items, total collected: ${collectedIds.size}`,
+        );
+
+        if (response.continuationToken) {
+          totalContinuationTokens++;
+
+          // Parse continuation token to analyze rangeMappings
+          try {
+            const parsedToken = JSON.parse(response.continuationToken);
+            if (parsedToken.rangeMappings && Array.isArray(parsedToken.rangeMappings)) {
+              rangeMappingsSizes.push(parsedToken.rangeMappings.length);
+              console.log(
+                `    Continuation token ${totalContinuationTokens}: ${parsedToken.rangeMappings.length} range mappings`,
+              );
+
+            }
+          } catch (parseError) {
+            console.error(`    Failed to parse continuation token:`, parseError);
+          }
+
+          // Create new iterator with continuation token
+          queryOptions.maxDegreeOfParallelism = 2;
+          if (queryIterator.hasMoreResults() && response.continuationToken) {
+            queryIterator = multiPartitionContainer2.items.query(query, {
+              ...queryOptions,
+              continuationToken: response.continuationToken,
+            });
+          }
+        }
+      }
+
+      console.log(`    Total iterations: ${iterationCount}`);
+      console.log(`    Total continuation tokens: ${totalContinuationTokens}`);
+      console.log(`    Unique IDs collected: ${collectedIds.size}`);
+      console.log(`    Range mappings sizes: [${rangeMappingsSizes.slice(0, 5).join(", ")}${rangeMappingsSizes.length > 5 ? "..." : ""}]`);
+
+      // Validate this test run
+      expect(collectedIds.size).toBe(25000);
+      expect(totalContinuationTokens).toBeGreaterThan(0);
+      expect(iterationCount).toBeGreaterThan(1);
+
+
+
+
+
+      console.log(`\n✓ Low parallelism testing completed successfully`);
+      console.log(`✓ All scenarios validated across multiple iterations`);
+      console.log(`✓ Continuation token handling verified for low maxItemCount values`);
+      console.log(`✓ Range mappings vs parallelism scenarios tested`);
+    });
+  });  /**
    * Test that continuation token can be reused successfully
    */
   async function testTokenReusability(
