@@ -618,7 +618,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
     function createTestTokenEndpointServer(
       subjectName: string,
       tokenHandler: (req: IncomingMessage, res: ServerResponse) => void,
-    ): { server: Server; caData: string; subjectName: string; cleanup: () => void } {
+    ): { server: Server; caData: string; cleanup: () => void } {
       const { key, cert, keyFile, certFile } = generateSelfSignedCertificate(subjectName, tempDir);
 
       const serverOptions = {
@@ -663,14 +663,13 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       });
 
       const serverCleanup = () => {
-        fs.unlink(keyFile).catch(() => {});
-        fs.unlink(certFile).catch(() => {});
+        fs.unlink(keyFile).catch(() => { });
+        fs.unlink(certFile).catch(() => { });
       };
 
       return {
         server,
         caData: cert,
-        subjectName,
         cleanup: serverCleanup,
       };
     }
@@ -819,12 +818,12 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         });
       });
     });
+    
     it("should use custom token endpoint with SNI configuration", async function () {
       const sniName = "test.ests.aks";
       const {
         server,
         caData,
-        // subjectName,
         cleanup: serverCleanup,
       } = createTestTokenEndpointServer(sniName, (req: any, res: any) => {
         let body = "";
