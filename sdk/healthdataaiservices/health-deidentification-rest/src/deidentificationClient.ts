@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2025-07-15-preview", ...options }: DeidentificationClientOptions = {},
 ): DeidentificationClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-health-deidentification-rest/1.1.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

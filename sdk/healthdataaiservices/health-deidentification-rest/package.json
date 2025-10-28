@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/health-deidentification",
-  "version": "1.1.0-beta.1",
+  "version": "1.1.0-beta.2",
   "description": "Health Deidentification Service",
   "engines": {
     "node": ">=20.0.0"
@@ -59,9 +59,9 @@
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
-    "@azure/abort-controller": "^2.1.2",
+    "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.1.0",
+    "@azure/core-lro": "workspace:*",
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
