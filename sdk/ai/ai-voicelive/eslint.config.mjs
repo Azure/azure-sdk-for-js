@@ -9,6 +9,14 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-package-json-files-required": "off",
       "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
       "tsdoc/syntax": "warn"
-    }
-  }
+    },
+  },
+  {
+    files: ["src/models/models.ts"],
+    rules: {
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/naming-convention": "off",
+      "tsdoc/syntax": "off",
+    },
+  },
 ]);
