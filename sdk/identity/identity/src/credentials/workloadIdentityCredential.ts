@@ -28,18 +28,6 @@ export const SupportedWorkloadEnvironmentVariables = [
   "AZURE_FEDERATED_TOKEN_FILE",
 ];
 
-/**
- * Environment variables for the identity binding feature.
- * They are only used when `EnableAzureKubernetesTokenProxy` is set in the environment.
- * @internal
- */
-export const SupportedIdentityBindingWorkloadEnvironmentVariables = [
-  "AZURE_KUBERNETES_TOKEN_ENDPOINT",
-  "AZURE_KUBERNETES_SNI_NAME",
-  "AZURE_KUBERNETES_CA_FILE",
-  "AZURE_KUBERNETES_CA_DATA",
-];
-
 const logger = credentialLogger(credentialName);
 
 /**
