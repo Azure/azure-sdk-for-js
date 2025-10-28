@@ -24,6 +24,7 @@ async function main() {
     isReadOnly: false,
     contentType: featureFlagContentType,
     value: {
+      id: featureFlagName,
       enabled: false,
       description: "I'm a description",
       conditions: {
