@@ -5,9 +5,6 @@
       "@azure/core-rest-pipeline": ["./dist/browser/index.d.ts"],
       "@azure/core-rest-pipeline/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    },
-    // work-around for browser build-test. We need NodeJS types because of mixed usage of
-    // NodeJS and browser types in same file.
-    "types": ["node"]
+    }
   }
 }
