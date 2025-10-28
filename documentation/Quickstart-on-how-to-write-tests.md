@@ -177,7 +177,7 @@ This time we could get following similar logs. Go to the folder `purview-scannin
 If we have existing recordings, then the tests have been run against generated the HTTP recordings, we can run your tests in `playback` mode.
 
 ```Shell
-# Windows
+# Windows with CMD
 > set TEST_MODE=playback
 > pnpm test
 
