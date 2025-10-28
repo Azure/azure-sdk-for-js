@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an admin rule.
- *
- * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
- */
-
 import type { AdminRule} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates an admin rule.
+ *
+ * @summary Creates or updates an admin rule.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
+ */
 async function createAAdminRuleWithNetworkGroupAsSourceOrDestination(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
@@ -57,7 +56,7 @@ async function createAAdminRuleWithNetworkGroupAsSourceOrDestination(): Promise<
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerAdminRulePut.json
  */
 async function createAnAdminRule(): Promise<void> {
   const subscriptionId =

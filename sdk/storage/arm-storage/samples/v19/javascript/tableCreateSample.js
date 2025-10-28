@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/TableOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableOperationPut.json
  */
 async function tableOperationPut() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -26,7 +26,7 @@ async function tableOperationPut() {
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/TableOperationPutOrPatchAcls.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableOperationPutOrPatchAcls.json
  */
 async function tableOperationPutOrPatchAcls() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

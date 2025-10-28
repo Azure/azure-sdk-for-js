@@ -67,7 +67,6 @@ export interface AgentPool extends SubResource {
     creationData?: CreationData;
     readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
-    enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
@@ -87,7 +86,8 @@ export interface AgentPool extends SubResource {
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
-    readonly nodeImageVersion?: string;
+    nodeCustomizationProfile?: NodeCustomizationProfile;
+    nodeImageVersion?: string;
     nodeInitializationTaints?: string[];
     nodeLabels?: {
         [propertyName: string]: string;
@@ -177,6 +177,13 @@ export interface AgentPoolNetworkProfile {
     allowedHostPorts?: PortRange[];
     applicationSecurityGroups?: string[];
     nodePublicIPTags?: IPTag[];
+}
+
+// @public
+export interface AgentPoolRecentlyUsedVersion {
+    nodeImageVersion?: string;
+    orchestratorVersion?: string;
+    timestamp?: Date;
 }
 
 // @public
@@ -349,6 +356,7 @@ export interface AgentPoolUpgradeProfile {
     latestNodeImageVersion?: string;
     readonly name?: string;
     osType: OSType;
+    readonly recentlyUsedVersions?: AgentPoolRecentlyUsedVersion[];
     readonly type?: string;
     upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
 }
@@ -462,6 +470,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     managedClusterSnapshots: ManagedClusterSnapshots;
     // (undocumented)
     managedNamespaces: ManagedNamespaces;
+    // (undocumented)
+    meshMemberships: MeshMemberships;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -820,6 +830,7 @@ export interface IstioCertificateAuthority {
 export interface IstioComponents {
     egressGateways?: IstioEgressGateway[];
     ingressGateways?: IstioIngressGateway[];
+    proxyRedirectionMechanism?: ProxyRedirectionMechanism;
 }
 
 // @public
@@ -1024,6 +1035,7 @@ export enum KnownAgentPoolMode {
 // @public
 export enum KnownAgentPoolSSHAccess {
     Disabled = "Disabled",
+    EntraId = "EntraId",
     LocalUser = "LocalUser"
 }
 
@@ -1281,6 +1293,16 @@ export enum KnownManagedGatewayType {
 }
 
 // @public
+export enum KnownMeshMembershipProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownMode {
     Iptables = "IPTABLES",
     Ipvs = "IPVS"
@@ -1375,6 +1397,7 @@ export enum KnownOssku {
     AzureLinux = "AzureLinux",
     AzureLinux3 = "AzureLinux3",
     CBLMariner = "CBLMariner",
+    Flatcar = "Flatcar",
     Mariner = "Mariner",
     Ubuntu = "Ubuntu",
     Ubuntu2204 = "Ubuntu2204",
@@ -1432,6 +1455,12 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
 export enum KnownProtocol {
     TCP = "TCP",
     UDP = "UDP"
+}
+
+// @public
+export enum KnownProxyRedirectionMechanism {
+    CNIChaining = "CNIChaining",
+    InitContainers = "InitContainers"
 }
 
 // @public
@@ -2003,6 +2032,7 @@ export interface ManagedCluster extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
+    hostedSystemProfile?: ManagedClusterHostedSystemProfile;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     identity?: ManagedClusterIdentity;
     identityProfile?: {
@@ -2082,7 +2112,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
     creationData?: CreationData;
     readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
-    enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
@@ -2102,7 +2131,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
-    readonly nodeImageVersion?: string;
+    nodeCustomizationProfile?: NodeCustomizationProfile;
+    nodeImageVersion?: string;
     nodeInitializationTaints?: string[];
     nodeLabels?: {
         [propertyName: string]: string;
@@ -2222,6 +2252,11 @@ export interface ManagedClusterBootstrapProfile {
 
 // @public
 export interface ManagedClusterCostAnalysis {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterHostedSystemProfile {
     enabled?: boolean;
 }
 
@@ -3191,6 +3226,82 @@ export interface ManualScaleProfile {
 }
 
 // @public
+export interface MeshMembership extends ProxyResource {
+    readonly eTag?: string;
+    managedBy?: string;
+    properties?: MeshMembershipProperties;
+}
+
+// @public
+export interface MeshMembershipProperties {
+    managedMeshID: string;
+    readonly provisioningState?: MeshMembershipProvisioningState;
+}
+
+// @public
+export type MeshMembershipProvisioningState = string;
+
+// @public
+export interface MeshMemberships {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, meshMembershipName: string, parameters: MeshMembership, options?: MeshMembershipsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MeshMembershipsCreateOrUpdateResponse>, MeshMembershipsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, meshMembershipName: string, parameters: MeshMembership, options?: MeshMembershipsCreateOrUpdateOptionalParams): Promise<MeshMembershipsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, meshMembershipName: string, options?: MeshMembershipsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MeshMembershipsDeleteResponse>, MeshMembershipsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, meshMembershipName: string, options?: MeshMembershipsDeleteOptionalParams): Promise<MeshMembershipsDeleteResponse>;
+    get(resourceGroupName: string, resourceName: string, meshMembershipName: string, options?: MeshMembershipsGetOptionalParams): Promise<MeshMembershipsGetResponse>;
+    listByManagedCluster(resourceGroupName: string, resourceName: string, options?: MeshMembershipsListByManagedClusterOptionalParams): PagedAsyncIterableIterator<MeshMembership>;
+}
+
+// @public
+export interface MeshMembershipsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MeshMembershipsCreateOrUpdateResponse = MeshMembership;
+
+// @public
+export interface MeshMembershipsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface MeshMembershipsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MeshMembershipsDeleteResponse = MeshMembershipsDeleteHeaders;
+
+// @public
+export interface MeshMembershipsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MeshMembershipsGetResponse = MeshMembership;
+
+// @public
+export interface MeshMembershipsListByManagedClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MeshMembershipsListByManagedClusterNextResponse = MeshMembershipsListResult;
+
+// @public
+export interface MeshMembershipsListByManagedClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MeshMembershipsListByManagedClusterResponse = MeshMembershipsListResult;
+
+// @public
+export interface MeshMembershipsListResult {
+    readonly nextLink?: string;
+    value?: MeshMembership[];
+}
+
+// @public
 export interface MeshRevision {
     compatibleWith?: CompatibleVersions[];
     revision?: string;
@@ -3283,6 +3394,11 @@ export interface NetworkProfileForSnapshot {
 
 // @public
 export type NginxIngressControllerType = string;
+
+// @public
+export interface NodeCustomizationProfile {
+    nodeCustomizationId?: string;
+}
 
 // @public
 export interface NodeImageVersion {
@@ -3530,6 +3646,9 @@ export interface PrivateLinkServiceConnectionState {
 
 // @public
 export type Protocol = string;
+
+// @public
+export type ProxyRedirectionMechanism = string;
 
 // @public
 export interface ProxyResource extends Resource {
