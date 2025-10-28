@@ -14,7 +14,8 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
  */
 export class ParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   // Instance members are inherited
 
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts

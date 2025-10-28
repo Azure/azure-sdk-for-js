@@ -14,7 +14,8 @@ import { InternalHttpHeaders } from "../common/index.js";
 /** @hidden */
 export class OrderByQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.

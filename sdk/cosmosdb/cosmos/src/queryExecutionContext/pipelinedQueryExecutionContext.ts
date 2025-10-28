@@ -47,10 +47,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private emitRawOrderByPayload: boolean = false,
   ) {
     this.endpoint = null;
-    if(!this.options.maxItemCount) {
+    if (!this.options.maxItemCount) {
       this.options.maxItemCount = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
-    this.pageSize = options["maxItemCount"]
+    this.pageSize = options["maxItemCount"];
 
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
@@ -110,7 +110,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-          `is not allowed`,
+            `is not allowed`,
         );
       }
 
@@ -334,24 +334,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     this.fetchBuffer = [];
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-
-    // Properly serialize the response for logging
-    const responseForLogging = {
-      ...response,
-      result: response?.result
-        ? {
-          ...response.result,
-          partitionKeyRangeMap:
-            response.result.partitionKeyRangeMap instanceof Map
-              ? Object.fromEntries(response.result.partitionKeyRangeMap)
-              : response.result.partitionKeyRangeMap,
-        }
-        : undefined,
-    };
-    console.log(
-      "[PipelinedQueryExecutionContext] Fetched new data from endpoint:",
-      JSON.stringify(responseForLogging),
-    );
 
     // Process response and update continuation token manager
     if (response?.result) {
