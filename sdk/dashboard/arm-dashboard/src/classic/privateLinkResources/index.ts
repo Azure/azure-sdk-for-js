@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import { list, get } from "../../api/privateLinkResources/operations.js";
-import {
+import type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
-import { PrivateLinkResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PrivateLinkResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {
