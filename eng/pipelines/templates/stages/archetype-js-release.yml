@@ -206,6 +206,8 @@ stages:
           Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
+        # Wait for publishing job to complete before running
+        dependsOn: 'PublishPackage'
         condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
         pool:
           name: $(LINUXPOOL)
