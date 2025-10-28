@@ -663,8 +663,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       });
 
       const serverCleanup = () => {
-        fs.unlink(keyFile).catch(() => { });
-        fs.unlink(certFile).catch(() => { });
+        fs.unlink(keyFile).catch(() => {});
+        fs.unlink(certFile).catch(() => {});
       };
 
       return {
@@ -818,7 +818,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         });
       });
     });
-    
+
     it("should use custom token endpoint with SNI configuration", async function () {
       const sniName = "test.ests.aks";
       const {
