@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix invalid format of "User-Agent" header value [Issue #36383](https://github.com/Azure/azure-sdk-for-js/issues/36383)
+
 ### Other Changes
 
 ## 0.3.1 (2025-09-11)
