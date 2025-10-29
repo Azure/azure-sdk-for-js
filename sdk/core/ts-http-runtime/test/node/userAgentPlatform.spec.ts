@@ -26,7 +26,6 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
     assert.notOk(map.has("Node"));
     assert.notOk(map.has("Deno"));
     assert.notOk(map.has("Bun"));
@@ -38,9 +37,8 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
     assert.ok(map.has("Bun"));
-    assert.equal(map.get("Bun"), "1.0.0");
+    assert.ok(map.get("Bun")?.startsWith("1.0.0 ("));
     assert.notOk(map.has("Node"));
     assert.notOk(map.has("Deno"));
   });
@@ -51,9 +49,8 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
     assert.ok(map.has("Deno"));
-    assert.equal(map.get("Deno"), "2.0.0");
+    assert.ok(map.get("Deno")?.startsWith("2.0.0 ("));
     assert.notOk(map.has("Node"));
     assert.notOk(map.has("Bun"));
   });
@@ -64,9 +61,8 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
     assert.ok(map.has("Node"));
-    assert.equal(map.get("Node"), "20.0.0");
+    assert.ok(map.get("Node")?.startsWith("20.0.0 ("));
     assert.notOk(map.has("Deno"));
     assert.notOk(map.has("Bun"));
   });
