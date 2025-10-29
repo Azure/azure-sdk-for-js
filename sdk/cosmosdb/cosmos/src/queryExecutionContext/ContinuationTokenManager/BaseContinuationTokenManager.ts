@@ -133,8 +133,8 @@ export abstract class BaseContinuationTokenManager {
     // Find existing range mapping to update in the common ranges array
     const existingMappingIndex = this.ranges.findIndex(
       (mapping) =>
-        mapping.queryRange.min === oldRange.minInclusive &&
-        mapping.queryRange.max === oldRange.maxExclusive,
+        mapping.queryRange.min === oldRange.min &&
+        mapping.queryRange.max === oldRange.max,
     );
 
     if (existingMappingIndex < 0) {
@@ -146,8 +146,8 @@ export abstract class BaseContinuationTokenManager {
 
     // Create new QueryRange with updated boundaries
     const updatedQueryRange = new QueryRange(
-      newRange.minInclusive,
-      newRange.maxExclusive,
+      newRange.min,
+      newRange.max,
       true, // minInclusive
       false, // maxInclusive (exclusive max)
     );
@@ -162,8 +162,8 @@ export abstract class BaseContinuationTokenManager {
     this.ranges = this.ranges.filter(
       (mapping) =>
         !(
-          mapping.queryRange.min === oldRange.minInclusive &&
-          mapping.queryRange.max === oldRange.maxExclusive
+          mapping.queryRange.min === oldRange.min &&
+          mapping.queryRange.max === oldRange.max
         ),
     );
 
@@ -176,8 +176,8 @@ export abstract class BaseContinuationTokenManager {
   private createNewRangeMapping(partitionKeyRange: any, continuationToken: string): void {
     // Create new QueryRange
     const queryRange = new QueryRange(
-      partitionKeyRange.minInclusive,
-      partitionKeyRange.maxExclusive,
+      partitionKeyRange.min,
+      partitionKeyRange.max,
       true, // minInclusive
       false, // maxInclusive (exclusive max)
     );
