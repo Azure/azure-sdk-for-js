@@ -298,7 +298,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     // Host provided the CA bytes in a file whose contents it can change,
     let fileContent: Buffer;
     try {
-      fileContent = await readFile(this.caFile, null);
+      fileContent = await readFile(this.caFile);
     } catch (error) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. ${ErrorMessages.FAILED_TO_READ_CA_FILE(this.caFile!, error)}`,
