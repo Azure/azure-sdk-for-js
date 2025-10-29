@@ -21,11 +21,11 @@ export function getRuntimeInfo(): string {
     const osInfo = `${os.type()} ${os.release()}; ${os.arch()}`;
     const versions = process.versions as ExtendedPlatformVersions;
     if (versions.bun) {
-      return `Bun/${process.version} (${osInfo})`;
+      return `Bun/${versions.bun} (${osInfo})`;
     } else if (versions.deno) {
-      return `Deno/${process.version} (${osInfo})`;
+      return `Deno/${versions.deno} (${osInfo})`;
     } else if (versions.node) {
-      return `Node/${process.version} (${osInfo})`;
+      return `Node/${versions.node} (${osInfo})`;
     }
   }
 
