@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added support for Mac OS broker authentication via VSCode. [#35683](https://github.com/Azure/azure-sdk-for-js/pull/35683)
+- Added support for Linux broker authentication. [#PR_NUMBER](https://github.com/Azure/azure-sdk-for-js/pull/PR_NUMBER)
 
 ### Breaking Changes
 
