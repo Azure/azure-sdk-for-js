@@ -4,6 +4,9 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { TokenCredential } from '@azure/core-auth';
+
 // @public
 export interface AgentConfig {
     agentId: string;
@@ -44,6 +47,11 @@ export interface AudioInputTranscriptionOptions {
 // @public
 export interface AudioNoiseReduction {
     type: string;
+}
+
+// @public (undocumented)
+export interface AudioStreamOptions extends SendEventOptions {
+    turnId?: string;
 }
 
 // @public
@@ -349,6 +357,26 @@ export type ClientEventType = string;
 
 // @public
 export type ClientEventUnion = ClientEventSessionUpdate | ClientEventSessionAvatarConnect | ClientEventInputAudioTurnStart | ClientEventInputAudioTurnAppend | ClientEventInputAudioTurnEnd | ClientEventInputAudioTurnCancel | ClientEventInputAudioClear | ClientEventInputAudioBufferAppend | ClientEventInputAudioBufferCommit | ClientEventInputAudioBufferClear | ClientEventConversationItemCreate | ClientEventConversationItemTruncate | ClientEventConversationItemDelete | ClientEventResponseCreate | ClientEventResponseCancel | ClientEventConversationItemRetrieve | ClientEvent;
+
+// @public
+export enum ConnectionState {
+    // (undocumented)
+    Connected = "connected",
+    // (undocumented)
+    Connecting = "connecting",
+    // (undocumented)
+    Disconnected = "disconnected",
+    // (undocumented)
+    Disconnecting = "disconnecting",
+    // (undocumented)
+    Reconnecting = "reconnecting"
+}
+
+// @public (undocumented)
+export interface ConnectOptions {
+    abortSignal?: AbortSignalLike;
+    timeoutMs?: number;
+}
 
 // @public
 export interface ContentPart {
@@ -924,6 +952,12 @@ export interface ResponseTextContentPart extends ContentPart {
     type: "text";
 }
 
+// @public (undocumented)
+export interface SendEventOptions {
+    abortSignal?: AbortSignalLike;
+    timeoutMs?: number;
+}
+
 // @public
 export interface ServerEvent {
     // (undocumented)
@@ -1374,6 +1408,11 @@ export type TurnDetectionType = string;
 // @public
 export type TurnDetectionUnion = ServerVad | AzureSemanticVad | AzureSemanticVadEn | AzureSemanticVadMultilingual | TurnDetection;
 
+// @public (undocumented)
+export interface TurnOptions extends SendEventOptions {
+    turnId?: string;
+}
+
 // @public
 export interface UserMessageItem extends MessageItem {
     // (undocumented)
@@ -1406,12 +1445,112 @@ export interface VideoResolution {
 export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
 
 // @public
+export class VoiceLiveAuthenticationError extends VoiceLiveConnectionError {
+    constructor(message: string, code: string, cause?: Error);
+}
+
+// @public
+export class VoiceLiveClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: VoiceLiveClientOptions);
+    // (undocumented)
+    get activeTurnId(): string | undefined;
+    addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
+    connect(options?: ConnectOptions): Promise<void>;
+    // (undocumented)
+    get connectionState(): ConnectionState;
+    disconnect(): Promise<void>;
+    endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
+    // (undocumented)
+    get isConnected(): boolean;
+    sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
+    sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
+    // (undocumented)
+    get sessionId(): string | undefined;
+    startAudioTurn(options?: TurnOptions): Promise<string>;
+    updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
+}
+
+// @public (undocumented)
+export interface VoiceLiveClientOptions {
+    apiVersion?: string;
+    autoReconnect?: boolean;
+    connectionTimeoutMs?: number;
+    enableDebugLogging?: boolean;
+    maxReconnectAttempts?: number;
+    reconnectDelayMs?: number;
+}
+
+// @public
+export class VoiceLiveConnectionError extends Error {
+    constructor(message: string, code: string, context?: string, recoverable?: boolean, cause?: Error);
+    readonly cause?: Error;
+    readonly code: string;
+    readonly context: string;
+    readonly recoverable: boolean;
+    readonly timestamp: Date;
+    toJSON(): Record<string, any>;
+}
+
+// @public
+export class VoiceLiveError extends VoiceLiveConnectionError {
+    constructor(message: string, code: string, context?: string, recoverable?: boolean, cause?: Error);
+}
+
+// @public
+export class VoiceLiveErrorClassifier {
+    static classifyConnectionError(error: any): VoiceLiveConnectionError;
+    static classifyProtocolError(error: Error, messageType: string, _messageData?: any): VoiceLiveProtocolError;
+    static classifyWebSocketClose(code: number, reason: string): VoiceLiveConnectionError;
+}
+
+// @public
+export enum VoiceLiveErrorCodes {
+    // (undocumented)
+    ALREADY_CONNECTED = "ALREADY_CONNECTED",
+    // (undocumented)
+    AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED",
+    // (undocumented)
+    BUFFER_OVERFLOW = "BUFFER_OVERFLOW",
+    // (undocumented)
+    CONNECTION_FAILED = "CONNECTION_FAILED",
+    // (undocumented)
+    CONNECTION_LOST = "CONNECTION_LOST",
+    // (undocumented)
+    CONNECTION_TIMEOUT = "CONNECTION_TIMEOUT",
+    // (undocumented)
+    FORBIDDEN = "FORBIDDEN",
+    // (undocumented)
+    INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
+    // (undocumented)
+    INVALID_MESSAGE = "INVALID_MESSAGE",
+    // (undocumented)
+    INVALID_STATE = "INVALID_STATE",
+    // (undocumented)
+    MESSAGE_TOO_LARGE = "MESSAGE_TOO_LARGE",
+    // (undocumented)
+    NOT_CONNECTED = "NOT_CONNECTED",
+    // (undocumented)
+    OPERATION_CANCELLED = "OPERATION_CANCELLED",
+    // (undocumented)
+    PROTOCOL_ERROR = "PROTOCOL_ERROR",
+    // (undocumented)
+    UNAUTHORIZED = "UNAUTHORIZED",
+    // (undocumented)
+    WEBSOCKET_ERROR = "WEBSOCKET_ERROR"
+}
+
+// @public
 export interface VoiceLiveErrorDetails {
     code?: string;
     eventId?: string;
     message: string;
     param?: string;
     type?: string;
+}
+
+// @public
+export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
+    constructor(message: string, code: string, cause?: Error);
 }
 
 // (No @packageDocumentation comment for this package)

@@ -178,3 +178,28 @@ export {
   ServerEventResponseFunctionCallArgumentsDelta,
   ServerEventResponseFunctionCallArgumentsDone,
 } from "./models/index.js";
+
+// Main client export
+export {
+  VoiceLiveClient,
+  VoiceLiveClientOptions,
+  ConnectOptions,
+  SendEventOptions,
+  AudioStreamOptions,
+  TurnOptions
+} from "./voiceLiveClient.js";
+
+// WebSocket and connection exports
+export {
+  ConnectionState
+} from "./websocket/connectionManager.js";
+
+// Error exports
+export {
+  VoiceLiveError,
+  VoiceLiveConnectionError,
+  VoiceLiveAuthenticationError,
+  VoiceLiveProtocolError,
+  VoiceLiveErrorCodes,
+  VoiceLiveErrorClassifier
+} from "./errors/index.js";
