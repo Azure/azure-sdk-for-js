@@ -4,9 +4,9 @@
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
   OperationStatus,
-  Ingestion,
+  IngestionDefinition,
   IngestionSource,
-  FormContent,
+  StacAssetData,
   StacMosaic,
   StacAssetUrlSigningMode,
   StacCollection,
@@ -22,7 +22,7 @@ import type {
   ColorMapNames,
   Feature,
   TilerImageFormat,
-  ImageRequest,
+  ImageParameters,
   RegisterMosaic,
   PixelSelection,
   TileMatrixSetId,
@@ -86,17 +86,18 @@ export type IngestionsGetParameters = RequestParameters;
 
 export interface IngestionsCreateBodyParam {
   /** Definition of the ingestion */
-  body: Ingestion;
+  body: IngestionDefinition;
 }
 
 export type IngestionsCreateParameters = IngestionsCreateBodyParam &
   RequestParameters;
 /** Ingestion properties to update */
-export type IngestionResourceMergeAndPatch = Partial<Ingestion>;
+export type IngestionDefinitionResourceMergeAndPatch =
+  Partial<IngestionDefinition>;
 
 export interface IngestionsUpdateBodyParam {
   /** Ingestion properties to update */
-  body: IngestionResourceMergeAndPatch;
+  body: IngestionDefinitionResourceMergeAndPatch;
 }
 
 export interface IngestionsUpdateMediaTypesParam {
@@ -132,19 +133,19 @@ export interface IngestionSourcesCreateBodyParam {
 export type IngestionSourcesCreateParameters = IngestionSourcesCreateBodyParam &
   RequestParameters;
 
-export interface IngestionSourcesCreateOrReplaceBodyParam {
+export interface IngestionSourcesReplaceBodyParam {
   /** Definition of the ingestion source */
   body: IngestionSource;
 }
 
-export type IngestionSourcesCreateOrReplaceParameters =
-  IngestionSourcesCreateOrReplaceBodyParam & RequestParameters;
+export type IngestionSourcesReplaceParameters =
+  IngestionSourcesReplaceBodyParam & RequestParameters;
 export type IngestionSourcesDeleteParameters = RequestParameters;
 export type IngestionSourcesListManagedIdentitiesParameters = RequestParameters;
 
 export interface StacCollectionAssetsCreateBodyParam {
   /** Multi-part form data */
-  body: FormContent;
+  body: StacAssetData;
 }
 
 export interface StacCollectionAssetsCreateMediaTypesParam {
@@ -157,19 +158,19 @@ export type StacCollectionAssetsCreateParameters =
     StacCollectionAssetsCreateBodyParam &
     RequestParameters;
 
-export interface StacCollectionAssetsCreateOrReplaceBodyParam {
+export interface StacCollectionAssetsReplaceBodyParam {
   /** Multi-part form data */
-  body: FormContent;
+  body: StacAssetData;
 }
 
-export interface StacCollectionAssetsCreateOrReplaceMediaTypesParam {
+export interface StacCollectionAssetsReplaceMediaTypesParam {
   /** Content type of the multipart form data request. */
   contentType: "multipart/form-data";
 }
 
-export type StacCollectionAssetsCreateOrReplaceParameters =
-  StacCollectionAssetsCreateOrReplaceMediaTypesParam &
-    StacCollectionAssetsCreateOrReplaceBodyParam &
+export type StacCollectionAssetsReplaceParameters =
+  StacCollectionAssetsReplaceMediaTypesParam &
+    StacCollectionAssetsReplaceBodyParam &
     RequestParameters;
 export type StacCollectionAssetsDeleteParameters = RequestParameters;
 export type StacCollectionConfigGetParameters = RequestParameters;
@@ -184,13 +185,13 @@ export type StacCollectionMosaicsAddParameters =
   StacCollectionMosaicsAddBodyParam & RequestParameters;
 export type StacCollectionMosaicsGetParameters = RequestParameters;
 
-export interface StacCollectionMosaicsCreateOrReplaceBodyParam {
+export interface StacCollectionMosaicsReplaceBodyParam {
   /** Mosaic definition to be created or updated. */
   body: StacMosaic;
 }
 
-export type StacCollectionMosaicsCreateOrReplaceParameters =
-  StacCollectionMosaicsCreateOrReplaceBodyParam & RequestParameters;
+export type StacCollectionMosaicsReplaceParameters =
+  StacCollectionMosaicsReplaceBodyParam & RequestParameters;
 export type StacCollectionMosaicsDeleteParameters = RequestParameters;
 
 export interface StacCollectionsGetAllQueryParamProperties {
@@ -265,13 +266,13 @@ export type StacCollectionRenderOptionsCreateParameters =
   StacCollectionRenderOptionsCreateBodyParam & RequestParameters;
 export type StacCollectionRenderOptionsGetParameters = RequestParameters;
 
-export interface StacCollectionRenderOptionsCreateOrReplaceBodyParam {
+export interface StacCollectionRenderOptionsReplaceBodyParam {
   /** Render option configuration to be created or updated. */
   body: RenderOption;
 }
 
-export type StacCollectionRenderOptionsCreateOrReplaceParameters =
-  StacCollectionRenderOptionsCreateOrReplaceBodyParam & RequestParameters;
+export type StacCollectionRenderOptionsReplaceParameters =
+  StacCollectionRenderOptionsReplaceBodyParam & RequestParameters;
 export type StacCollectionRenderOptionsDeleteParameters = RequestParameters;
 export type StacCollectionThumbnailsGetParameters = RequestParameters;
 export type StacCollectionTileSettingsGetParameters = RequestParameters;
@@ -284,6 +285,7 @@ export interface StacCollectionTileSettingsReplaceBodyParam {
 export type StacCollectionTileSettingsReplaceParameters =
   StacCollectionTileSettingsReplaceBodyParam & RequestParameters;
 export type StacConformanceClassGetParameters = RequestParameters;
+export type StacLandingPagesGetParameters = RequestParameters;
 
 /** This is the wrapper object for the parameter `bbox` with explode set to false and style set to form. */
 export interface StacItemsGetFeaturesBboxQueryParam {
@@ -409,7 +411,6 @@ export type StacItemsUpdateParameters = StacItemsUpdateMediaTypesParam &
   StacItemsUpdateBodyParam &
   RequestParameters;
 export type StacItemsDeleteParameters = RequestParameters;
-export type StacLandingPagesGetParameters = RequestParameters;
 export type StacQueryablesGetAllParameters = RequestParameters;
 export type StacQueryablesDeleteParameters = RequestParameters;
 export type StacQueryablesGetAllByCollectionParameters = RequestParameters;
@@ -422,13 +423,13 @@ export interface StacQueryablesCreateBodyParam {
 export type StacQueryablesCreateParameters = StacQueryablesCreateBodyParam &
   RequestParameters;
 
-export interface StacQueryablesCreateOrReplaceBodyParam {
+export interface StacQueryablesReplaceBodyParam {
   /** Request queryable definition body */
   body: StacQueryable;
 }
 
-export type StacQueryablesCreateOrReplaceParameters =
-  StacQueryablesCreateOrReplaceBodyParam & RequestParameters;
+export type StacQueryablesReplaceParameters = StacQueryablesReplaceBodyParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `collections` with explode set to false and style set to form. */
 export interface StacSearchGetCollectionsQueryParam {
@@ -510,16 +511,6 @@ export type StacSearchCreateParameters = StacSearchCreateBodyParam &
 export type TileMatrixDefinitionsGetParameters = RequestParameters;
 export type TileMatrixListGetParameters = RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerAssetStatisticsGetAllAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `c` with explode set to false and style set to form. */
 export interface TilerAssetStatisticsGetAllCQueryParam {
   /** Value of the parameter */
@@ -555,8 +546,8 @@ export interface TilerAssetStatisticsGetAllQueryParamProperties {
   assets?: TilerAssetStatisticsGetAllAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerAssetStatisticsGetAllAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -616,16 +607,6 @@ export interface TilerGeoJsonsCropWidthByHeightFormatBodyParam {
   body: Feature;
 }
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerGeoJsonsCropWidthByHeightFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerGeoJsonsCropWidthByHeightFormatAssetsQueryParam {
   /** Value of the parameter */
@@ -651,10 +632,8 @@ export interface TilerGeoJsonsCropWidthByHeightFormatQueryParamProperties {
   assets?: TilerGeoJsonsCropWidthByHeightFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | TilerGeoJsonsCropWidthByHeightFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -709,16 +688,6 @@ export interface TilerGeoJsonsCropFormatBodyParam {
   body: Feature;
 }
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerGeoJsonsCropFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerGeoJsonsCropFormatAssetsQueryParam {
   /** Value of the parameter */
@@ -744,8 +713,8 @@ export interface TilerGeoJsonsCropFormatQueryParamProperties {
   assets?: TilerGeoJsonsCropFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerGeoJsonsCropFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -804,16 +773,6 @@ export interface TilerGeoJsonStatisticsGetBodyParam {
   body: Feature;
 }
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerGeoJsonStatisticsGetAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `c` with explode set to false and style set to form. */
 export interface TilerGeoJsonStatisticsGetCQueryParam {
   /** Value of the parameter */
@@ -849,8 +808,8 @@ export interface TilerGeoJsonStatisticsGetQueryParamProperties {
   assets?: TilerGeoJsonStatisticsGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerGeoJsonStatisticsGetAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -951,16 +910,6 @@ export interface TilerInfoOperationsGetQueryParam {
 export type TilerInfoOperationsGetParameters =
   TilerInfoOperationsGetQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetsQueryParam {
   /** Value of the parameter */
@@ -986,10 +935,8 @@ export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightQueryParamPropert
   assets?: TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | TilerPartsGetCroppedToBoundingBoxWidthByHeightAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1039,16 +986,6 @@ export interface TilerPartsGetCroppedToBoundingBoxWidthByHeightQueryParam {
 export type TilerPartsGetCroppedToBoundingBoxWidthByHeightParameters =
   TilerPartsGetCroppedToBoundingBoxWidthByHeightQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerPartsGetCroppedToBoundingBoxAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPartsGetCroppedToBoundingBoxAssetsQueryParam {
   /** Value of the parameter */
@@ -1074,8 +1011,8 @@ export interface TilerPartsGetCroppedToBoundingBoxQueryParamProperties {
   assets?: TilerPartsGetCroppedToBoundingBoxAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerPartsGetCroppedToBoundingBoxAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1129,16 +1066,6 @@ export interface TilerPartsGetCroppedToBoundingBoxQueryParam {
 export type TilerPartsGetCroppedToBoundingBoxParameters =
   TilerPartsGetCroppedToBoundingBoxQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerPointsGetPointAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPointsGetPointAssetsQueryParam {
   /** Value of the parameter */
@@ -1154,8 +1081,8 @@ export interface TilerPointsGetPointQueryParamProperties {
   assets?: TilerPointsGetPointAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerPointsGetPointAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1178,16 +1105,6 @@ export interface TilerPointsGetPointQueryParam {
 
 export type TilerPointsGetPointParameters = TilerPointsGetPointQueryParam &
   RequestParameters;
-
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerPreviewsGetFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPreviewsGetFormatAssetsQueryParam {
@@ -1214,8 +1131,8 @@ export interface TilerPreviewsGetFormatQueryParamProperties {
   assets?: TilerPreviewsGetFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerPreviewsGetFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1267,16 +1184,6 @@ export interface TilerPreviewsGetFormatQueryParam {
 export type TilerPreviewsGetFormatParameters =
   TilerPreviewsGetFormatQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerPreviewsGetAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPreviewsGetAssetsQueryParam {
   /** Value of the parameter */
@@ -1302,8 +1209,8 @@ export interface TilerPreviewsGetQueryParamProperties {
   assets?: TilerPreviewsGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerPreviewsGetAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1363,22 +1270,12 @@ export type TilerPreviewsGetParameters = TilerPreviewsGetQueryParam &
 
 export interface TilerStaticImagesCreateBodyParam {
   /** Image request body */
-  body: ImageRequest;
+  body: ImageParameters;
 }
 
 export type TilerStaticImagesCreateParameters =
   TilerStaticImagesCreateBodyParam & RequestParameters;
 export type TilerStaticImagesGetParameters = RequestParameters;
-
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerStatisticsGetAllAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
 
 /** This is the wrapper object for the parameter `c` with explode set to false and style set to form. */
 export interface TilerStatisticsGetAllCQueryParam {
@@ -1415,8 +1312,8 @@ export interface TilerStatisticsGetAllQueryParamProperties {
   assets?: TilerStatisticsGetAllAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerStatisticsGetAllAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1469,16 +1366,6 @@ export interface TilerStatisticsGetAllQueryParam {
 export type TilerStatisticsGetAllParameters = TilerStatisticsGetAllQueryParam &
   RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerTileJsonTileMatrixSetsGetAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerTileJsonTileMatrixSetsGetAssetsQueryParam {
   /** Value of the parameter */
@@ -1504,8 +1391,8 @@ export interface TilerTileJsonTileMatrixSetsGetQueryParamProperties {
   assets?: TilerTileJsonTileMatrixSetsGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerTileJsonTileMatrixSetsGetAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1568,16 +1455,6 @@ export interface TilerTileJsonTileMatrixSetsGetQueryParam {
 export type TilerTileJsonTileMatrixSetsGetParameters =
   TilerTileJsonTileMatrixSetsGetQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `subdataset_bands` with explode set to false and style set to form. */
 export interface TilerTileMatrixSetsGetZxyScaleByFormatSubdatasetBandsQueryParam {
   /** Value of the parameter */
@@ -1613,10 +1490,8 @@ export interface TilerTileMatrixSetsGetZxyScaleByFormatQueryParamProperties {
   assets?: TilerTileMatrixSetsGetZxyScaleByFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | TilerTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1672,16 +1547,6 @@ export interface TilerTileMatrixSetsGetZxyScaleByFormatQueryParam {
 export type TilerTileMatrixSetsGetZxyScaleByFormatParameters =
   TilerTileMatrixSetsGetZxyScaleByFormatQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetsQueryParam {
   /** Value of the parameter */
@@ -1707,10 +1572,8 @@ export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlQueryParamProperties {
   assets?: TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1876,16 +1739,6 @@ export interface MosaicsRegisterSearchRegisterBodyParam {
 export type MosaicsRegisterSearchRegisterParameters =
   MosaicsRegisterSearchRegisterBodyParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface MosaicsTileMatrixSetsTileJsonGetAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTileMatrixSetsTileJsonGetAssetsQueryParam {
   /** Value of the parameter */
@@ -1911,8 +1764,8 @@ export interface MosaicsTileMatrixSetsTileJsonGetQueryParamProperties {
   assets?: MosaicsTileMatrixSetsTileJsonGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | MosaicsTileMatrixSetsTileJsonGetAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -1996,16 +1849,6 @@ export interface MosaicsTileMatrixSetsTileJsonGetQueryParam {
 export type MosaicsTileMatrixSetsTileJsonGetParameters =
   MosaicsTileMatrixSetsTileJsonGetQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface MosaicsTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTileMatrixSetsGetZxyScaleByFormatAssetsQueryParam {
   /** Value of the parameter */
@@ -2031,10 +1874,8 @@ export interface MosaicsTileMatrixSetsGetZxyScaleByFormatQueryParamProperties {
   assets?: MosaicsTileMatrixSetsGetZxyScaleByFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | MosaicsTileMatrixSetsGetZxyScaleByFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2105,16 +1946,6 @@ export interface MosaicsTileMatrixSetsGetZxyScaleByFormatQueryParam {
 export type MosaicsTileMatrixSetsGetZxyScaleByFormatParameters =
   MosaicsTileMatrixSetsGetZxyScaleByFormatQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlAssetsQueryParam {
   /** Value of the parameter */
@@ -2140,10 +1971,8 @@ export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParamPro
   assets?: MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2242,16 +2071,6 @@ export interface SasGetSignQueryParam {
 
 export type SasGetSignParameters = SasGetSignQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerTilesGetZxyScaleByFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `subdataset_bands` with explode set to false and style set to form. */
 export interface TilerTilesGetZxyScaleByFormatSubdatasetBandsQueryParam {
   /** Value of the parameter */
@@ -2287,8 +2106,8 @@ export interface TilerTilesGetZxyScaleByFormatQueryParamProperties {
   assets?: TilerTilesGetZxyScaleByFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerTilesGetZxyScaleByFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2351,16 +2170,6 @@ export interface TilerTilesGetZxyScaleByFormatQueryParam {
 export type TilerTilesGetZxyScaleByFormatParameters =
   TilerTilesGetZxyScaleByFormatQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerTileJsonOperationsGetAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerTileJsonOperationsGetAssetsQueryParam {
   /** Value of the parameter */
@@ -2386,8 +2195,8 @@ export interface TilerTileJsonOperationsGetQueryParamProperties {
   assets?: TilerTileJsonOperationsGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerTileJsonOperationsGetAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2457,16 +2266,6 @@ export interface TilerTileJsonOperationsGetQueryParam {
 export type TilerTileJsonOperationsGetParameters =
   TilerTileJsonOperationsGetQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface TilerWmtsGetCapabilitiesXmlAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerWmtsGetCapabilitiesXmlAssetsQueryParam {
   /** Value of the parameter */
@@ -2492,8 +2291,8 @@ export interface TilerWmtsGetCapabilitiesXmlQueryParamProperties {
   assets?: TilerWmtsGetCapabilitiesXmlAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | TilerWmtsGetCapabilitiesXmlAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2562,16 +2361,6 @@ export interface TilerWmtsGetCapabilitiesXmlQueryParam {
 export type TilerWmtsGetCapabilitiesXmlParameters =
   TilerWmtsGetCapabilitiesXmlQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface MosaicsTilesGetZxyScaleByFormatAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTilesGetZxyScaleByFormatAssetsQueryParam {
   /** Value of the parameter */
@@ -2597,8 +2386,8 @@ export interface MosaicsTilesGetZxyScaleByFormatQueryParamProperties {
   assets?: MosaicsTilesGetZxyScaleByFormatAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | MosaicsTilesGetZxyScaleByFormatAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2676,16 +2465,6 @@ export interface MosaicsTilesGetZxyScaleByFormatQueryParam {
 export type MosaicsTilesGetZxyScaleByFormatParameters =
   MosaicsTilesGetZxyScaleByFormatQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface MosaicsTileJsonOperationsGetAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTileJsonOperationsGetAssetsQueryParam {
   /** Value of the parameter */
@@ -2711,8 +2490,8 @@ export interface MosaicsTileJsonOperationsGetQueryParamProperties {
   assets?: MosaicsTileJsonOperationsGetAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?: string[] | MosaicsTileJsonOperationsGetAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */
@@ -2802,16 +2581,6 @@ export interface MosaicsTileJsonOperationsGetQueryParam {
 export type MosaicsTileJsonOperationsGetParameters =
   MosaicsTileJsonOperationsGetQueryParam & RequestParameters;
 
-/** This is the wrapper object for the parameter `asset_bidx` with explode set to false and style set to form. */
-export interface MosaicsWmtsMosaicsGetCapabilitiesXmlAssetBidxQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsWmtsMosaicsGetCapabilitiesXmlAssetsQueryParam {
   /** Value of the parameter */
@@ -2837,10 +2606,8 @@ export interface MosaicsWmtsMosaicsGetCapabilitiesXmlQueryParamProperties {
   assets?: MosaicsWmtsMosaicsGetCapabilitiesXmlAssetsQueryParam;
   /** Band math expression between assets */
   expression?: string;
-  /** Per asset band indexes (coma separated indexes) */
-  asset_bidx?:
-    | string[]
-    | MosaicsWmtsMosaicsGetCapabilitiesXmlAssetBidxQueryParam;
+  /** Per asset band indexes (coma separated indexes, e.g. "image|1,2,3" means use the bands 1, 2, and 3 from the asset named "image") */
+  asset_bidx?: string;
   /** Asset as Band */
   asset_as_band?: boolean;
   /** Overwrite internal Nodata value */

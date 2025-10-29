@@ -17,17 +17,17 @@ import type {
   IngestionSourcesListParameters,
   IngestionSourcesCreateParameters,
   IngestionSourcesGetParameters,
-  IngestionSourcesCreateOrReplaceParameters,
+  IngestionSourcesReplaceParameters,
   IngestionSourcesDeleteParameters,
   IngestionSourcesListManagedIdentitiesParameters,
   StacCollectionAssetsCreateParameters,
-  StacCollectionAssetsCreateOrReplaceParameters,
+  StacCollectionAssetsReplaceParameters,
   StacCollectionAssetsDeleteParameters,
   StacCollectionConfigGetParameters,
   StacCollectionMosaicsGetAllParameters,
   StacCollectionMosaicsAddParameters,
   StacCollectionMosaicsGetParameters,
-  StacCollectionMosaicsCreateOrReplaceParameters,
+  StacCollectionMosaicsReplaceParameters,
   StacCollectionMosaicsDeleteParameters,
   StacCollectionsGetAllParameters,
   StacCollectionsCreateParameters,
@@ -39,22 +39,22 @@ import type {
   StacCollectionRenderOptionsGetAllParameters,
   StacCollectionRenderOptionsCreateParameters,
   StacCollectionRenderOptionsGetParameters,
-  StacCollectionRenderOptionsCreateOrReplaceParameters,
+  StacCollectionRenderOptionsReplaceParameters,
   StacCollectionRenderOptionsDeleteParameters,
   StacCollectionThumbnailsGetParameters,
   StacCollectionTileSettingsGetParameters,
   StacCollectionTileSettingsReplaceParameters,
   StacConformanceClassGetParameters,
+  StacLandingPagesGetParameters,
   StacItemsGetFeaturesParameters,
   StacItemsCreateParameters,
   StacItemsGetParameters,
   StacItemsCreateOrReplaceParameters,
   StacItemsUpdateParameters,
   StacItemsDeleteParameters,
-  StacLandingPagesGetParameters,
   StacQueryablesGetAllParameters,
   StacQueryablesDeleteParameters,
-  StacQueryablesCreateOrReplaceParameters,
+  StacQueryablesReplaceParameters,
   StacQueryablesGetAllByCollectionParameters,
   StacQueryablesCreateParameters,
   StacSearchGetParameters,
@@ -132,33 +132,28 @@ import type {
   IngestionSourcesCreateDefaultResponse,
   IngestionSourcesGet200Response,
   IngestionSourcesGetDefaultResponse,
-  IngestionSourcesCreateOrReplace200Response,
-  IngestionSourcesCreateOrReplace201Response,
-  IngestionSourcesCreateOrReplaceDefaultResponse,
+  IngestionSourcesReplace200Response,
+  IngestionSourcesReplaceDefaultResponse,
   IngestionSourcesDelete204Response,
   IngestionSourcesDeleteDefaultResponse,
   IngestionSourcesListManagedIdentities200Response,
   IngestionSourcesListManagedIdentitiesDefaultResponse,
-  StacCollectionAssetsCreate200Response,
   StacCollectionAssetsCreate201Response,
   StacCollectionAssetsCreateDefaultResponse,
-  StacCollectionAssetsCreateOrReplace200Response,
-  StacCollectionAssetsCreateOrReplace201Response,
-  StacCollectionAssetsCreateOrReplaceDefaultResponse,
+  StacCollectionAssetsReplace200Response,
+  StacCollectionAssetsReplaceDefaultResponse,
   StacCollectionAssetsDelete200Response,
   StacCollectionAssetsDeleteDefaultResponse,
   StacCollectionConfigGet200Response,
   StacCollectionConfigGetDefaultResponse,
   StacCollectionMosaicsGetAll200Response,
   StacCollectionMosaicsGetAllDefaultResponse,
-  StacCollectionMosaicsAdd200Response,
   StacCollectionMosaicsAdd201Response,
   StacCollectionMosaicsAddDefaultResponse,
   StacCollectionMosaicsGet200Response,
   StacCollectionMosaicsGetDefaultResponse,
-  StacCollectionMosaicsCreateOrReplace200Response,
-  StacCollectionMosaicsCreateOrReplace201Response,
-  StacCollectionMosaicsCreateOrReplaceDefaultResponse,
+  StacCollectionMosaicsReplace200Response,
+  StacCollectionMosaicsReplaceDefaultResponse,
   StacCollectionMosaicsDelete200Response,
   StacCollectionMosaicsDeleteDefaultResponse,
   StacCollectionsGetAll200Response,
@@ -168,24 +163,20 @@ import type {
   StacCollectionsGet200Response,
   StacCollectionsGetDefaultResponse,
   StacCollectionsCreateOrReplace200Response,
-  StacCollectionsCreateOrReplaceDefaultResponse,
   StacCollectionsDelete202Response,
   StacCollectionsDeleteDefaultResponse,
   StacCollectionPartitionTypesGet200Response,
   StacCollectionPartitionTypesGetDefaultResponse,
   StacCollectionPartitionTypesReplace200Response,
-  StacCollectionPartitionTypesReplace404Response,
   StacCollectionPartitionTypesReplaceDefaultResponse,
   StacCollectionRenderOptionsGetAll200Response,
   StacCollectionRenderOptionsGetAllDefaultResponse,
-  StacCollectionRenderOptionsCreate200Response,
   StacCollectionRenderOptionsCreate201Response,
   StacCollectionRenderOptionsCreateDefaultResponse,
   StacCollectionRenderOptionsGet200Response,
   StacCollectionRenderOptionsGetDefaultResponse,
-  StacCollectionRenderOptionsCreateOrReplace200Response,
-  StacCollectionRenderOptionsCreateOrReplace201Response,
-  StacCollectionRenderOptionsCreateOrReplaceDefaultResponse,
+  StacCollectionRenderOptionsReplace200Response,
+  StacCollectionRenderOptionsReplaceDefaultResponse,
   StacCollectionRenderOptionsDelete200Response,
   StacCollectionRenderOptionsDeleteDefaultResponse,
   StacCollectionThumbnailsGet200Response,
@@ -196,6 +187,8 @@ import type {
   StacCollectionTileSettingsReplaceDefaultResponse,
   StacConformanceClassGet200Response,
   StacConformanceClassGetDefaultResponse,
+  StacLandingPagesGet200Response,
+  StacLandingPagesGetDefaultResponse,
   StacItemsGetFeatures200Response,
   StacItemsGetFeaturesDefaultResponse,
   StacItemsCreate202Response,
@@ -208,15 +201,12 @@ import type {
   StacItemsUpdateDefaultResponse,
   StacItemsDelete202Response,
   StacItemsDeleteDefaultResponse,
-  StacLandingPagesGet200Response,
-  StacLandingPagesGetDefaultResponse,
   StacQueryablesGetAll200Response,
   StacQueryablesGetAllDefaultResponse,
   StacQueryablesDelete200Response,
   StacQueryablesDeleteDefaultResponse,
-  StacQueryablesCreateOrReplace200Response,
-  StacQueryablesCreateOrReplace201Response,
-  StacQueryablesCreateOrReplaceDefaultResponse,
+  StacQueryablesReplace200Response,
+  StacQueryablesReplaceDefaultResponse,
   StacQueryablesGetAllByCollection200Response,
   StacQueryablesGetAllByCollectionDefaultResponse,
   StacQueryablesCreate201Response,
@@ -424,11 +414,9 @@ export interface IngestionSourcesGet {
   >;
   /** Update an existing ingestion source in a geo-catalog */
   put(
-    options: IngestionSourcesCreateOrReplaceParameters,
+    options: IngestionSourcesReplaceParameters,
   ): StreamableMethod<
-    | IngestionSourcesCreateOrReplace200Response
-    | IngestionSourcesCreateOrReplace201Response
-    | IngestionSourcesCreateOrReplaceDefaultResponse
+    IngestionSourcesReplace200Response | IngestionSourcesReplaceDefaultResponse
   >;
   /** Delete an ingestion source from a geo-catalog */
   delete(
@@ -456,20 +444,18 @@ export interface StacCollectionAssetsCreate {
   post(
     options: StacCollectionAssetsCreateParameters,
   ): StreamableMethod<
-    | StacCollectionAssetsCreate200Response
     | StacCollectionAssetsCreate201Response
     | StacCollectionAssetsCreateDefaultResponse
   >;
 }
 
-export interface StacCollectionAssetsCreateOrReplace {
+export interface StacCollectionAssetsReplace {
   /** Update an existing asset in a given collection. */
   put(
-    options: StacCollectionAssetsCreateOrReplaceParameters,
+    options: StacCollectionAssetsReplaceParameters,
   ): StreamableMethod<
-    | StacCollectionAssetsCreateOrReplace200Response
-    | StacCollectionAssetsCreateOrReplace201Response
-    | StacCollectionAssetsCreateOrReplaceDefaultResponse
+    | StacCollectionAssetsReplace200Response
+    | StacCollectionAssetsReplaceDefaultResponse
   >;
   /** Delete an asset from a given collection. */
   delete(
@@ -501,7 +487,6 @@ export interface StacCollectionMosaicsGetAll {
   post(
     options: StacCollectionMosaicsAddParameters,
   ): StreamableMethod<
-    | StacCollectionMosaicsAdd200Response
     | StacCollectionMosaicsAdd201Response
     | StacCollectionMosaicsAddDefaultResponse
   >;
@@ -517,11 +502,10 @@ export interface StacCollectionMosaicsGet {
   >;
   /** Update a mosaic definition from a given collection */
   put(
-    options: StacCollectionMosaicsCreateOrReplaceParameters,
+    options: StacCollectionMosaicsReplaceParameters,
   ): StreamableMethod<
-    | StacCollectionMosaicsCreateOrReplace200Response
-    | StacCollectionMosaicsCreateOrReplace201Response
-    | StacCollectionMosaicsCreateOrReplaceDefaultResponse
+    | StacCollectionMosaicsReplace200Response
+    | StacCollectionMosaicsReplaceDefaultResponse
   >;
   /** Delete a mosaic definition from a given collection */
   delete(
@@ -557,10 +541,7 @@ export interface StacCollectionsGet {
   /** Create or replace a collection in the GeoCatalog instance */
   put(
     options: StacCollectionsCreateOrReplaceParameters,
-  ): StreamableMethod<
-    | StacCollectionsCreateOrReplace200Response
-    | StacCollectionsCreateOrReplaceDefaultResponse
-  >;
+  ): StreamableMethod<StacCollectionsCreateOrReplace200Response>;
   /** Delete a collection in the GeoCatalog instance */
   delete(
     options?: StacCollectionsDeleteParameters,
@@ -590,7 +571,6 @@ export interface StacCollectionPartitionTypesGet {
     options: StacCollectionPartitionTypesReplaceParameters,
   ): StreamableMethod<
     | StacCollectionPartitionTypesReplace200Response
-    | StacCollectionPartitionTypesReplace404Response
     | StacCollectionPartitionTypesReplaceDefaultResponse
   >;
 }
@@ -607,7 +587,6 @@ export interface StacCollectionRenderOptionsGetAll {
   post(
     options: StacCollectionRenderOptionsCreateParameters,
   ): StreamableMethod<
-    | StacCollectionRenderOptionsCreate200Response
     | StacCollectionRenderOptionsCreate201Response
     | StacCollectionRenderOptionsCreateDefaultResponse
   >;
@@ -623,11 +602,10 @@ export interface StacCollectionRenderOptionsGet {
   >;
   /** Update a render option for a given collection */
   put(
-    options: StacCollectionRenderOptionsCreateOrReplaceParameters,
+    options: StacCollectionRenderOptionsReplaceParameters,
   ): StreamableMethod<
-    | StacCollectionRenderOptionsCreateOrReplace200Response
-    | StacCollectionRenderOptionsCreateOrReplace201Response
-    | StacCollectionRenderOptionsCreateOrReplaceDefaultResponse
+    | StacCollectionRenderOptionsReplace200Response
+    | StacCollectionRenderOptionsReplaceDefaultResponse
   >;
   /** Delete a render option for a given collection */
   delete(
@@ -671,6 +649,15 @@ export interface StacConformanceClassGet {
     options?: StacConformanceClassGetParameters,
   ): StreamableMethod<
     StacConformanceClassGet200Response | StacConformanceClassGetDefaultResponse
+  >;
+}
+
+export interface StacLandingPagesGet {
+  /** Return the STAC landing page. */
+  get(
+    options?: StacLandingPagesGetParameters,
+  ): StreamableMethod<
+    StacLandingPagesGet200Response | StacLandingPagesGetDefaultResponse
   >;
 }
 
@@ -721,15 +708,6 @@ export interface StacItemsGet {
   >;
 }
 
-export interface StacLandingPagesGet {
-  /** Return the STAC landing page. */
-  get(
-    options?: StacLandingPagesGetParameters,
-  ): StreamableMethod<
-    StacLandingPagesGet200Response | StacLandingPagesGetDefaultResponse
-  >;
-}
-
 export interface StacQueryablesGetAll {
   /** List all queryables in the GeoCatalog instance */
   get(
@@ -751,11 +729,9 @@ export interface StacQueryablesDelete {
    * corresponding collection id.
    */
   put(
-    options: StacQueryablesCreateOrReplaceParameters,
+    options: StacQueryablesReplaceParameters,
   ): StreamableMethod<
-    | StacQueryablesCreateOrReplace200Response
-    | StacQueryablesCreateOrReplace201Response
-    | StacQueryablesCreateOrReplaceDefaultResponse
+    StacQueryablesReplace200Response | StacQueryablesReplaceDefaultResponse
   >;
 }
 
@@ -1241,7 +1217,7 @@ export interface Routes {
     path: "/stac/collections/{collectionId}/assets/{assetId}",
     collectionId: string,
     assetId: string,
-  ): StacCollectionAssetsCreateOrReplace;
+  ): StacCollectionAssetsReplace;
   /** Resource for '/stac/collections/\{collectionId\}/configurations' has methods for the following verbs: get */
   (
     path: "/stac/collections/{collectionId}/configurations",
@@ -1293,6 +1269,8 @@ export interface Routes {
   ): StacCollectionTileSettingsGet;
   /** Resource for '/stac/conformance' has methods for the following verbs: get */
   (path: "/stac/conformance"): StacConformanceClassGet;
+  /** Resource for '/stac' has methods for the following verbs: get */
+  (path: "/stac"): StacLandingPagesGet;
   /** Resource for '/stac/collections/\{collectionId\}/items' has methods for the following verbs: get, post */
   (
     path: "/stac/collections/{collectionId}/items",
@@ -1304,8 +1282,6 @@ export interface Routes {
     collectionId: string,
     itemId: string,
   ): StacItemsGet;
-  /** Resource for '/stac' has methods for the following verbs: get */
-  (path: "/stac"): StacLandingPagesGet;
   /** Resource for '/stac/queryables' has methods for the following verbs: get */
   (path: "/stac/queryables"): StacQueryablesGetAll;
   /** Resource for '/stac/collections/\{collectionId\}/queryables/\{queryableName\}' has methods for the following verbs: delete, put */

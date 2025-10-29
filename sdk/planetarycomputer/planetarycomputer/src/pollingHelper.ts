@@ -18,9 +18,6 @@ import type {
   StacCollectionsCreate202Response,
   StacCollectionsCreateDefaultResponse,
   StacCollectionsCreateLogicalResponse,
-  StacCollectionsCreateOrReplace200Response,
-  StacCollectionsCreateOrReplaceDefaultResponse,
-  StacCollectionsCreateOrReplaceLogicalResponse,
   StacCollectionsDelete202Response,
   StacCollectionsDeleteDefaultResponse,
   StacCollectionsDeleteLogicalResponse,
@@ -136,17 +133,6 @@ export async function getLongRunningPoller<
   initialResponse:
     | StacCollectionsCreate202Response
     | StacCollectionsCreateDefaultResponse,
-  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
-): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-export async function getLongRunningPoller<
-  TResult extends
-    | StacCollectionsCreateOrReplaceLogicalResponse
-    | StacCollectionsCreateOrReplaceDefaultResponse,
->(
-  client: Client,
-  initialResponse:
-    | StacCollectionsCreateOrReplace200Response
-    | StacCollectionsCreateOrReplaceDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<

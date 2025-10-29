@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /** Microsoft Planetary Computer Pro geo-catalog ingestion creation model */
-export interface Ingestion {
+export interface IngestionDefinition {
   /**
    * Ingestion type
    *
@@ -57,12 +57,12 @@ export interface ManagedIdentityConnection {
   objectId: string;
 }
 
-export interface FormContentDataPartDescriptor {
+export interface StacAssetDataDataPartDescriptor {
   name: "data";
   body: AssetMetadata;
 }
 
-export interface FormContentFilePartDescriptor {
+export interface StacAssetDataFilePartDescriptor {
   name: "file";
   body:
     | string
@@ -93,7 +93,7 @@ export interface AssetMetadata {
  *
  * Represents a STAC collection.
  */
-export interface StacCollection {
+export interface StacCollection extends Record<string, unknown> {
   /** MSFT Created */
   "msft:_created"?: string;
   /** MSFT Updated */
@@ -116,6 +116,12 @@ export interface StacCollection {
   type?: string;
   /** Assets */
   assets?: Record<string, StacAsset>;
+  /**
+   * Item Assets
+   *
+   * See the [Item Assets Definition Extension Specification](https://github.com/stac-extensions/item-assets)
+   */
+  item_assets?: Record<string, StacItemAsset>;
   /** License identifier for the collection data. */
   license: string;
   /** Spatial and temporal extent of the collection. */
@@ -228,6 +234,40 @@ export interface StacProvider {
 }
 
 /**
+ * https://github.com/stac-extensions/item-assets
+ *
+ * Represents a STAC item asset, which describes the assets available under any item in the collection.
+ */
+export interface StacItemAsset extends Record<string, unknown> {
+  /** Platform that acquired the data. */
+  platform?: string;
+  /** Instruments that acquired the data. */
+  instruments?: string[];
+  /** Constellation of satellites that acquired the data. */
+  constellation?: string;
+  /** Mission associated with the data. */
+  mission?: string;
+  /** Organizations or individuals who provide the data. */
+  providers?: Array<StacProvider>;
+  /** Ground sample distance in meters. */
+  gsd?: number;
+  /** Creation timestamp of the data. */
+  created?: Date | string;
+  /** Last update timestamp of the data. */
+  updated?: Date | string;
+  /** Human-readable title for the asset. */
+  title: string;
+  /** Detailed description of the asset. */
+  description?: string;
+  /** URL to the asset file. */
+  href?: string;
+  /** Media type of the asset. */
+  type: string;
+  /** Roles of the asset within the item. */
+  roles?: string[];
+}
+
+/**
  * https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#extent-object
  *
  * Represents the spatial and temporal extent of a STAC collection.
@@ -264,7 +304,7 @@ export interface StacExtensionSpatialExtent {
  */
 export interface StacCollectionTemporalExtent {
   /** Array of time intervals in format [[start_datetime, end_datetime]]. */
-  interval: string[][];
+  interval: (Date[] | string[] | null)[][];
 }
 
 /** Configuration for map tile visualization. */
@@ -707,7 +747,7 @@ export interface Feature {
 }
 
 /** Parameters for requesting a rendered image from a collection */
-export interface ImageRequest {
+export interface ImageParameters {
   /** Cql */
   cql: Record<string, unknown>;
   /** Zoom */
@@ -816,9 +856,9 @@ export type IngestionStatus = string;
 /** Alias for IngestionSourceType */
 export type IngestionSourceType = string;
 /** FormContent model for file upload. */
-export type FormContent =
+export type StacAssetData =
   | FormData
-  | Array<FormContentDataPartDescriptor | FormContentFilePartDescriptor>;
+  | Array<StacAssetDataDataPartDescriptor | StacAssetDataFilePartDescriptor>;
 /** Alias for StacLinkType */
 export type StacLinkType = string;
 /** Alias for RenderOptionType */

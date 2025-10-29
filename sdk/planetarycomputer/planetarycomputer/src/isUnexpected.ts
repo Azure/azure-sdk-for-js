@@ -33,33 +33,28 @@ import type {
   IngestionSourcesCreateDefaultResponse,
   IngestionSourcesGet200Response,
   IngestionSourcesGetDefaultResponse,
-  IngestionSourcesCreateOrReplace200Response,
-  IngestionSourcesCreateOrReplace201Response,
-  IngestionSourcesCreateOrReplaceDefaultResponse,
+  IngestionSourcesReplace200Response,
+  IngestionSourcesReplaceDefaultResponse,
   IngestionSourcesDelete204Response,
   IngestionSourcesDeleteDefaultResponse,
   IngestionSourcesListManagedIdentities200Response,
   IngestionSourcesListManagedIdentitiesDefaultResponse,
-  StacCollectionAssetsCreate200Response,
   StacCollectionAssetsCreate201Response,
   StacCollectionAssetsCreateDefaultResponse,
-  StacCollectionAssetsCreateOrReplace200Response,
-  StacCollectionAssetsCreateOrReplace201Response,
-  StacCollectionAssetsCreateOrReplaceDefaultResponse,
+  StacCollectionAssetsReplace200Response,
+  StacCollectionAssetsReplaceDefaultResponse,
   StacCollectionAssetsDelete200Response,
   StacCollectionAssetsDeleteDefaultResponse,
   StacCollectionConfigGet200Response,
   StacCollectionConfigGetDefaultResponse,
   StacCollectionMosaicsGetAll200Response,
   StacCollectionMosaicsGetAllDefaultResponse,
-  StacCollectionMosaicsAdd200Response,
   StacCollectionMosaicsAdd201Response,
   StacCollectionMosaicsAddDefaultResponse,
   StacCollectionMosaicsGet200Response,
   StacCollectionMosaicsGetDefaultResponse,
-  StacCollectionMosaicsCreateOrReplace200Response,
-  StacCollectionMosaicsCreateOrReplace201Response,
-  StacCollectionMosaicsCreateOrReplaceDefaultResponse,
+  StacCollectionMosaicsReplace200Response,
+  StacCollectionMosaicsReplaceDefaultResponse,
   StacCollectionMosaicsDelete200Response,
   StacCollectionMosaicsDeleteDefaultResponse,
   StacCollectionsGetAll200Response,
@@ -69,27 +64,21 @@ import type {
   StacCollectionsCreateDefaultResponse,
   StacCollectionsGet200Response,
   StacCollectionsGetDefaultResponse,
-  StacCollectionsCreateOrReplace200Response,
-  StacCollectionsCreateOrReplaceLogicalResponse,
-  StacCollectionsCreateOrReplaceDefaultResponse,
   StacCollectionsDelete202Response,
   StacCollectionsDeleteLogicalResponse,
   StacCollectionsDeleteDefaultResponse,
   StacCollectionPartitionTypesGet200Response,
   StacCollectionPartitionTypesGetDefaultResponse,
   StacCollectionPartitionTypesReplace200Response,
-  StacCollectionPartitionTypesReplace404Response,
   StacCollectionPartitionTypesReplaceDefaultResponse,
   StacCollectionRenderOptionsGetAll200Response,
   StacCollectionRenderOptionsGetAllDefaultResponse,
-  StacCollectionRenderOptionsCreate200Response,
   StacCollectionRenderOptionsCreate201Response,
   StacCollectionRenderOptionsCreateDefaultResponse,
   StacCollectionRenderOptionsGet200Response,
   StacCollectionRenderOptionsGetDefaultResponse,
-  StacCollectionRenderOptionsCreateOrReplace200Response,
-  StacCollectionRenderOptionsCreateOrReplace201Response,
-  StacCollectionRenderOptionsCreateOrReplaceDefaultResponse,
+  StacCollectionRenderOptionsReplace200Response,
+  StacCollectionRenderOptionsReplaceDefaultResponse,
   StacCollectionRenderOptionsDelete200Response,
   StacCollectionRenderOptionsDeleteDefaultResponse,
   StacCollectionThumbnailsGet200Response,
@@ -100,6 +89,8 @@ import type {
   StacCollectionTileSettingsReplaceDefaultResponse,
   StacConformanceClassGet200Response,
   StacConformanceClassGetDefaultResponse,
+  StacLandingPagesGet200Response,
+  StacLandingPagesGetDefaultResponse,
   StacItemsGetFeatures200Response,
   StacItemsGetFeaturesDefaultResponse,
   StacItemsCreate202Response,
@@ -116,15 +107,12 @@ import type {
   StacItemsDelete202Response,
   StacItemsDeleteLogicalResponse,
   StacItemsDeleteDefaultResponse,
-  StacLandingPagesGet200Response,
-  StacLandingPagesGetDefaultResponse,
   StacQueryablesGetAll200Response,
   StacQueryablesGetAllDefaultResponse,
   StacQueryablesDelete200Response,
   StacQueryablesDeleteDefaultResponse,
-  StacQueryablesCreateOrReplace200Response,
-  StacQueryablesCreateOrReplace201Response,
-  StacQueryablesCreateOrReplaceDefaultResponse,
+  StacQueryablesReplace200Response,
+  StacQueryablesReplaceDefaultResponse,
   StacQueryablesGetAllByCollection200Response,
   StacQueryablesGetAllByCollectionDefaultResponse,
   StacQueryablesCreate201Response,
@@ -236,24 +224,20 @@ const responseMap: Record<string, string[]> = {
   "GET /inma/ingestion-sources": ["200"],
   "POST /inma/ingestion-sources": ["201"],
   "GET /inma/ingestion-sources/{id}": ["200"],
-  "PUT /inma/ingestion-sources/{id}": ["200", "201"],
+  "PUT /inma/ingestion-sources/{id}": ["200"],
   "DELETE /inma/ingestion-sources/{id}": ["204"],
   "GET /inma/ingestion-sources/managed-identities": ["200"],
-  "POST /stac/collections/{collectionId}/assets": ["200", "201"],
-  "PUT /stac/collections/{collectionId}/assets/{assetId}": ["200", "201"],
+  "POST /stac/collections/{collectionId}/assets": ["201"],
+  "PUT /stac/collections/{collectionId}/assets/{assetId}": ["200"],
   "DELETE /stac/collections/{collectionId}/assets/{assetId}": ["200"],
   "GET /stac/collections/{collectionId}/configurations": ["200"],
   "GET /stac/collections/{collectionId}/configurations/mosaics": ["200"],
-  "POST /stac/collections/{collectionId}/configurations/mosaics": [
-    "200",
-    "201",
-  ],
+  "POST /stac/collections/{collectionId}/configurations/mosaics": ["201"],
   "GET /stac/collections/{collectionId}/configurations/mosaics/{mosaicId}": [
     "200",
   ],
   "PUT /stac/collections/{collectionId}/configurations/mosaics/{mosaicId}": [
     "200",
-    "201",
   ],
   "DELETE /stac/collections/{collectionId}/configurations/mosaics/{mosaicId}": [
     "200",
@@ -264,38 +248,31 @@ const responseMap: Record<string, string[]> = {
   "PUT /stac/collections/{collectionId}": ["200"],
   "DELETE /stac/collections/{collectionId}": ["202"],
   "GET /stac/collections/{collectionId}/configurations/partition-type": ["200"],
-  "PUT /stac/collections/{collectionId}/configurations/partition-type": [
-    "200",
-    "404",
-  ],
+  "PUT /stac/collections/{collectionId}/configurations/partition-type": ["200"],
   "GET /stac/collections/{collectionId}/configurations/render-options": ["200"],
   "POST /stac/collections/{collectionId}/configurations/render-options": [
-    "200",
     "201",
   ],
   "GET /stac/collections/{collectionId}/configurations/render-options/{renderOptionId}":
     ["200"],
   "PUT /stac/collections/{collectionId}/configurations/render-options/{renderOptionId}":
-    ["200", "201"],
+    ["200"],
   "DELETE /stac/collections/{collectionId}/configurations/render-options/{renderOptionId}":
     ["200"],
   "GET /stac/collections/{collectionId}/thumbnail": ["200"],
   "GET /stac/collections/{collectionId}/configurations/tile-settings": ["200"],
   "PUT /stac/collections/{collectionId}/configurations/tile-settings": ["200"],
   "GET /stac/conformance": ["200"],
+  "GET /stac": ["200"],
   "GET /stac/collections/{collectionId}/items": ["200"],
   "POST /stac/collections/{collectionId}/items": ["202"],
   "GET /stac/collections/{collectionId}/items/{itemId}": ["200"],
   "PUT /stac/collections/{collectionId}/items/{itemId}": ["202"],
   "PATCH /stac/collections/{collectionId}/items/{itemId}": ["202"],
   "DELETE /stac/collections/{collectionId}/items/{itemId}": ["202"],
-  "GET /stac": ["200"],
   "GET /stac/queryables": ["200"],
   "DELETE /stac/collections/{collectionId}/queryables/{queryableName}": ["200"],
-  "PUT /stac/collections/{collectionId}/queryables/{queryableName}": [
-    "200",
-    "201",
-  ],
+  "PUT /stac/collections/{collectionId}/queryables/{queryableName}": ["200"],
   "GET /stac/collections/{collectionId}/queryables": ["200"],
   "POST /stac/collections/{collectionId}/queryables": ["201"],
   "GET /stac/search": ["200"],
@@ -422,10 +399,9 @@ export function isUnexpected(
 ): response is IngestionSourcesGetDefaultResponse;
 export function isUnexpected(
   response:
-    | IngestionSourcesCreateOrReplace200Response
-    | IngestionSourcesCreateOrReplace201Response
-    | IngestionSourcesCreateOrReplaceDefaultResponse,
-): response is IngestionSourcesCreateOrReplaceDefaultResponse;
+    | IngestionSourcesReplace200Response
+    | IngestionSourcesReplaceDefaultResponse,
+): response is IngestionSourcesReplaceDefaultResponse;
 export function isUnexpected(
   response:
     | IngestionSourcesDelete204Response
@@ -438,16 +414,14 @@ export function isUnexpected(
 ): response is IngestionSourcesListManagedIdentitiesDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionAssetsCreate200Response
     | StacCollectionAssetsCreate201Response
     | StacCollectionAssetsCreateDefaultResponse,
 ): response is StacCollectionAssetsCreateDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionAssetsCreateOrReplace200Response
-    | StacCollectionAssetsCreateOrReplace201Response
-    | StacCollectionAssetsCreateOrReplaceDefaultResponse,
-): response is StacCollectionAssetsCreateOrReplaceDefaultResponse;
+    | StacCollectionAssetsReplace200Response
+    | StacCollectionAssetsReplaceDefaultResponse,
+): response is StacCollectionAssetsReplaceDefaultResponse;
 export function isUnexpected(
   response:
     | StacCollectionAssetsDelete200Response
@@ -465,7 +439,6 @@ export function isUnexpected(
 ): response is StacCollectionMosaicsGetAllDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionMosaicsAdd200Response
     | StacCollectionMosaicsAdd201Response
     | StacCollectionMosaicsAddDefaultResponse,
 ): response is StacCollectionMosaicsAddDefaultResponse;
@@ -476,10 +449,9 @@ export function isUnexpected(
 ): response is StacCollectionMosaicsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionMosaicsCreateOrReplace200Response
-    | StacCollectionMosaicsCreateOrReplace201Response
-    | StacCollectionMosaicsCreateOrReplaceDefaultResponse,
-): response is StacCollectionMosaicsCreateOrReplaceDefaultResponse;
+    | StacCollectionMosaicsReplace200Response
+    | StacCollectionMosaicsReplaceDefaultResponse,
+): response is StacCollectionMosaicsReplaceDefaultResponse;
 export function isUnexpected(
   response:
     | StacCollectionMosaicsDelete200Response
@@ -501,12 +473,6 @@ export function isUnexpected(
 ): response is StacCollectionsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionsCreateOrReplace200Response
-    | StacCollectionsCreateOrReplaceLogicalResponse
-    | StacCollectionsCreateOrReplaceDefaultResponse,
-): response is StacCollectionsCreateOrReplaceDefaultResponse;
-export function isUnexpected(
-  response:
     | StacCollectionsDelete202Response
     | StacCollectionsDeleteLogicalResponse
     | StacCollectionsDeleteDefaultResponse,
@@ -519,7 +485,6 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | StacCollectionPartitionTypesReplace200Response
-    | StacCollectionPartitionTypesReplace404Response
     | StacCollectionPartitionTypesReplaceDefaultResponse,
 ): response is StacCollectionPartitionTypesReplaceDefaultResponse;
 export function isUnexpected(
@@ -529,7 +494,6 @@ export function isUnexpected(
 ): response is StacCollectionRenderOptionsGetAllDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionRenderOptionsCreate200Response
     | StacCollectionRenderOptionsCreate201Response
     | StacCollectionRenderOptionsCreateDefaultResponse,
 ): response is StacCollectionRenderOptionsCreateDefaultResponse;
@@ -540,10 +504,9 @@ export function isUnexpected(
 ): response is StacCollectionRenderOptionsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | StacCollectionRenderOptionsCreateOrReplace200Response
-    | StacCollectionRenderOptionsCreateOrReplace201Response
-    | StacCollectionRenderOptionsCreateOrReplaceDefaultResponse,
-): response is StacCollectionRenderOptionsCreateOrReplaceDefaultResponse;
+    | StacCollectionRenderOptionsReplace200Response
+    | StacCollectionRenderOptionsReplaceDefaultResponse,
+): response is StacCollectionRenderOptionsReplaceDefaultResponse;
 export function isUnexpected(
   response:
     | StacCollectionRenderOptionsDelete200Response
@@ -569,6 +532,9 @@ export function isUnexpected(
     | StacConformanceClassGet200Response
     | StacConformanceClassGetDefaultResponse,
 ): response is StacConformanceClassGetDefaultResponse;
+export function isUnexpected(
+  response: StacLandingPagesGet200Response | StacLandingPagesGetDefaultResponse,
+): response is StacLandingPagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | StacItemsGetFeatures200Response
@@ -602,9 +568,6 @@ export function isUnexpected(
     | StacItemsDeleteDefaultResponse,
 ): response is StacItemsDeleteDefaultResponse;
 export function isUnexpected(
-  response: StacLandingPagesGet200Response | StacLandingPagesGetDefaultResponse,
-): response is StacLandingPagesGetDefaultResponse;
-export function isUnexpected(
   response:
     | StacQueryablesGetAll200Response
     | StacQueryablesGetAllDefaultResponse,
@@ -616,10 +579,9 @@ export function isUnexpected(
 ): response is StacQueryablesDeleteDefaultResponse;
 export function isUnexpected(
   response:
-    | StacQueryablesCreateOrReplace200Response
-    | StacQueryablesCreateOrReplace201Response
-    | StacQueryablesCreateOrReplaceDefaultResponse,
-): response is StacQueryablesCreateOrReplaceDefaultResponse;
+    | StacQueryablesReplace200Response
+    | StacQueryablesReplaceDefaultResponse,
+): response is StacQueryablesReplaceDefaultResponse;
 export function isUnexpected(
   response:
     | StacQueryablesGetAllByCollection200Response
@@ -858,33 +820,28 @@ export function isUnexpected(
     | IngestionSourcesCreateDefaultResponse
     | IngestionSourcesGet200Response
     | IngestionSourcesGetDefaultResponse
-    | IngestionSourcesCreateOrReplace200Response
-    | IngestionSourcesCreateOrReplace201Response
-    | IngestionSourcesCreateOrReplaceDefaultResponse
+    | IngestionSourcesReplace200Response
+    | IngestionSourcesReplaceDefaultResponse
     | IngestionSourcesDelete204Response
     | IngestionSourcesDeleteDefaultResponse
     | IngestionSourcesListManagedIdentities200Response
     | IngestionSourcesListManagedIdentitiesDefaultResponse
-    | StacCollectionAssetsCreate200Response
     | StacCollectionAssetsCreate201Response
     | StacCollectionAssetsCreateDefaultResponse
-    | StacCollectionAssetsCreateOrReplace200Response
-    | StacCollectionAssetsCreateOrReplace201Response
-    | StacCollectionAssetsCreateOrReplaceDefaultResponse
+    | StacCollectionAssetsReplace200Response
+    | StacCollectionAssetsReplaceDefaultResponse
     | StacCollectionAssetsDelete200Response
     | StacCollectionAssetsDeleteDefaultResponse
     | StacCollectionConfigGet200Response
     | StacCollectionConfigGetDefaultResponse
     | StacCollectionMosaicsGetAll200Response
     | StacCollectionMosaicsGetAllDefaultResponse
-    | StacCollectionMosaicsAdd200Response
     | StacCollectionMosaicsAdd201Response
     | StacCollectionMosaicsAddDefaultResponse
     | StacCollectionMosaicsGet200Response
     | StacCollectionMosaicsGetDefaultResponse
-    | StacCollectionMosaicsCreateOrReplace200Response
-    | StacCollectionMosaicsCreateOrReplace201Response
-    | StacCollectionMosaicsCreateOrReplaceDefaultResponse
+    | StacCollectionMosaicsReplace200Response
+    | StacCollectionMosaicsReplaceDefaultResponse
     | StacCollectionMosaicsDelete200Response
     | StacCollectionMosaicsDeleteDefaultResponse
     | StacCollectionsGetAll200Response
@@ -894,27 +851,21 @@ export function isUnexpected(
     | StacCollectionsCreateDefaultResponse
     | StacCollectionsGet200Response
     | StacCollectionsGetDefaultResponse
-    | StacCollectionsCreateOrReplace200Response
-    | StacCollectionsCreateOrReplaceLogicalResponse
-    | StacCollectionsCreateOrReplaceDefaultResponse
     | StacCollectionsDelete202Response
     | StacCollectionsDeleteLogicalResponse
     | StacCollectionsDeleteDefaultResponse
     | StacCollectionPartitionTypesGet200Response
     | StacCollectionPartitionTypesGetDefaultResponse
     | StacCollectionPartitionTypesReplace200Response
-    | StacCollectionPartitionTypesReplace404Response
     | StacCollectionPartitionTypesReplaceDefaultResponse
     | StacCollectionRenderOptionsGetAll200Response
     | StacCollectionRenderOptionsGetAllDefaultResponse
-    | StacCollectionRenderOptionsCreate200Response
     | StacCollectionRenderOptionsCreate201Response
     | StacCollectionRenderOptionsCreateDefaultResponse
     | StacCollectionRenderOptionsGet200Response
     | StacCollectionRenderOptionsGetDefaultResponse
-    | StacCollectionRenderOptionsCreateOrReplace200Response
-    | StacCollectionRenderOptionsCreateOrReplace201Response
-    | StacCollectionRenderOptionsCreateOrReplaceDefaultResponse
+    | StacCollectionRenderOptionsReplace200Response
+    | StacCollectionRenderOptionsReplaceDefaultResponse
     | StacCollectionRenderOptionsDelete200Response
     | StacCollectionRenderOptionsDeleteDefaultResponse
     | StacCollectionThumbnailsGet200Response
@@ -925,6 +876,8 @@ export function isUnexpected(
     | StacCollectionTileSettingsReplaceDefaultResponse
     | StacConformanceClassGet200Response
     | StacConformanceClassGetDefaultResponse
+    | StacLandingPagesGet200Response
+    | StacLandingPagesGetDefaultResponse
     | StacItemsGetFeatures200Response
     | StacItemsGetFeaturesDefaultResponse
     | StacItemsCreate202Response
@@ -941,15 +894,12 @@ export function isUnexpected(
     | StacItemsDelete202Response
     | StacItemsDeleteLogicalResponse
     | StacItemsDeleteDefaultResponse
-    | StacLandingPagesGet200Response
-    | StacLandingPagesGetDefaultResponse
     | StacQueryablesGetAll200Response
     | StacQueryablesGetAllDefaultResponse
     | StacQueryablesDelete200Response
     | StacQueryablesDeleteDefaultResponse
-    | StacQueryablesCreateOrReplace200Response
-    | StacQueryablesCreateOrReplace201Response
-    | StacQueryablesCreateOrReplaceDefaultResponse
+    | StacQueryablesReplace200Response
+    | StacQueryablesReplaceDefaultResponse
     | StacQueryablesGetAllByCollection200Response
     | StacQueryablesGetAllByCollectionDefaultResponse
     | StacQueryablesCreate201Response
@@ -1056,44 +1006,43 @@ export function isUnexpected(
   | IngestionSourcesListDefaultResponse
   | IngestionSourcesCreateDefaultResponse
   | IngestionSourcesGetDefaultResponse
-  | IngestionSourcesCreateOrReplaceDefaultResponse
+  | IngestionSourcesReplaceDefaultResponse
   | IngestionSourcesDeleteDefaultResponse
   | IngestionSourcesListManagedIdentitiesDefaultResponse
   | StacCollectionAssetsCreateDefaultResponse
-  | StacCollectionAssetsCreateOrReplaceDefaultResponse
+  | StacCollectionAssetsReplaceDefaultResponse
   | StacCollectionAssetsDeleteDefaultResponse
   | StacCollectionConfigGetDefaultResponse
   | StacCollectionMosaicsGetAllDefaultResponse
   | StacCollectionMosaicsAddDefaultResponse
   | StacCollectionMosaicsGetDefaultResponse
-  | StacCollectionMosaicsCreateOrReplaceDefaultResponse
+  | StacCollectionMosaicsReplaceDefaultResponse
   | StacCollectionMosaicsDeleteDefaultResponse
   | StacCollectionsGetAllDefaultResponse
   | StacCollectionsCreateDefaultResponse
   | StacCollectionsGetDefaultResponse
-  | StacCollectionsCreateOrReplaceDefaultResponse
   | StacCollectionsDeleteDefaultResponse
   | StacCollectionPartitionTypesGetDefaultResponse
   | StacCollectionPartitionTypesReplaceDefaultResponse
   | StacCollectionRenderOptionsGetAllDefaultResponse
   | StacCollectionRenderOptionsCreateDefaultResponse
   | StacCollectionRenderOptionsGetDefaultResponse
-  | StacCollectionRenderOptionsCreateOrReplaceDefaultResponse
+  | StacCollectionRenderOptionsReplaceDefaultResponse
   | StacCollectionRenderOptionsDeleteDefaultResponse
   | StacCollectionThumbnailsGetDefaultResponse
   | StacCollectionTileSettingsGetDefaultResponse
   | StacCollectionTileSettingsReplaceDefaultResponse
   | StacConformanceClassGetDefaultResponse
+  | StacLandingPagesGetDefaultResponse
   | StacItemsGetFeaturesDefaultResponse
   | StacItemsCreateDefaultResponse
   | StacItemsGetDefaultResponse
   | StacItemsCreateOrReplaceDefaultResponse
   | StacItemsUpdateDefaultResponse
   | StacItemsDeleteDefaultResponse
-  | StacLandingPagesGetDefaultResponse
   | StacQueryablesGetAllDefaultResponse
   | StacQueryablesDeleteDefaultResponse
-  | StacQueryablesCreateOrReplaceDefaultResponse
+  | StacQueryablesReplaceDefaultResponse
   | StacQueryablesGetAllByCollectionDefaultResponse
   | StacQueryablesCreateDefaultResponse
   | StacSearchGetDefaultResponse

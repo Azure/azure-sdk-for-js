@@ -36,7 +36,7 @@ export interface OperationOutput {
   /** Additional information elements about the particular operation type */
   additionalInformation?: Record<string, string>;
   /** Error information */
-  error?: ErrorModel;
+  error?: ErrorInfoOutput;
 }
 
 /** Operation status history item */
@@ -53,6 +53,12 @@ export interface OperationStatusHistoryItemOutput {
   errorCode?: string;
   /** If the status is failed, the error message */
   errorMessage?: string;
+}
+
+/** Error information wrapper */
+export interface ErrorInfoOutput {
+  /** Error details */
+  error: ErrorModel;
 }
 
 /** Generic paged response model */
@@ -110,15 +116,15 @@ export interface IngestionRunOperationOutput {
 }
 
 /** Generic paged response model */
-export interface PageIngestionOutput {
+export interface PageIngestionDefinitionOutput {
   /** The items on the page */
-  value: Array<IngestionOutput>;
+  value: Array<IngestionDefinitionOutput>;
   /** Link to the next page of results */
   nextLink?: string;
 }
 
 /** Microsoft Planetary Computer Pro geo-catalog ingestion creation model */
-export interface IngestionOutput {
+export interface IngestionDefinitionOutput {
   /** Ingestion id */
   readonly id: string;
   /**
@@ -164,7 +170,7 @@ export interface IngestionSourceSummaryOutput {
    */
   kind: IngestionSourceTypeOutput;
   /** Created time in UTC format */
-  created: string;
+  created?: string;
 }
 
 /** Ingestion Source */
@@ -172,7 +178,7 @@ export interface IngestionSourceOutputParent {
   /** Ingestion source id */
   id: string;
   /** Created time in UTC format */
-  readonly created: string;
+  readonly created?: string;
   kind: IngestionSourceTypeOutput;
 }
 
@@ -231,7 +237,7 @@ export interface ManagedIdentityMetadataOutput {
  *
  * Represents a STAC collection.
  */
-export interface StacCollectionOutput {
+export interface StacCollectionOutput extends Record<string, any> {
   /** MSFT Created */
   "msft:_created"?: string;
   /** MSFT Updated */
@@ -254,6 +260,12 @@ export interface StacCollectionOutput {
   type?: string;
   /** Assets */
   assets?: Record<string, StacAssetOutput>;
+  /**
+   * Item Assets
+   *
+   * See the [Item Assets Definition Extension Specification](https://github.com/stac-extensions/item-assets)
+   */
+  item_assets?: Record<string, StacItemAssetOutput>;
   /** License identifier for the collection data. */
   license: string;
   /** Spatial and temporal extent of the collection. */
@@ -366,6 +378,40 @@ export interface StacProviderOutput {
 }
 
 /**
+ * https://github.com/stac-extensions/item-assets
+ *
+ * Represents a STAC item asset, which describes the assets available under any item in the collection.
+ */
+export interface StacItemAssetOutput extends Record<string, any> {
+  /** Platform that acquired the data. */
+  platform?: string;
+  /** Instruments that acquired the data. */
+  instruments?: string[];
+  /** Constellation of satellites that acquired the data. */
+  constellation?: string;
+  /** Mission associated with the data. */
+  mission?: string;
+  /** Organizations or individuals who provide the data. */
+  providers?: Array<StacProviderOutput>;
+  /** Ground sample distance in meters. */
+  gsd?: number;
+  /** Creation timestamp of the data. */
+  created?: string;
+  /** Last update timestamp of the data. */
+  updated?: string;
+  /** Human-readable title for the asset. */
+  title: string;
+  /** Detailed description of the asset. */
+  description?: string;
+  /** URL to the asset file. */
+  href?: string;
+  /** Media type of the asset. */
+  type: string;
+  /** Roles of the asset within the item. */
+  roles?: string[];
+}
+
+/**
  * https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#extent-object
  *
  * Represents the spatial and temporal extent of a STAC collection.
@@ -402,7 +448,7 @@ export interface StacExtensionSpatialExtentOutput {
  */
 export interface StacCollectionTemporalExtentOutput {
   /** Array of time intervals in format [[start_datetime, end_datetime]]. */
-  interval: string[][];
+  interval: (string[] | null)[][];
 }
 
 /** User-specific collection settings for visualization. */
@@ -587,6 +633,36 @@ export interface StacConformanceClassesOutput {
 }
 
 /**
+ * https://github.com/radiantearth/stac-api-spec/blob/master/api-spec.md#ogc-api---features-endpoints
+ *
+ * Represents the STAC API landing page with links to available resources.
+ */
+export interface StacLandingPageOutput {
+  /** MSFT Created */
+  "msft:_created"?: string;
+  /** MSFT Updated */
+  "msft:_updated"?: string;
+  /** MSFT Short Description */
+  "msft:short_description"?: string;
+  /** URLs to STAC extensions implemented by this STAC resource. */
+  stac_extensions?: string[];
+  /** Unique identifier for the STAC catalog. */
+  id: string;
+  /** Detailed description of the STAC catalog. */
+  description: string;
+  /** Human-readable title for the STAC catalog. */
+  title?: string;
+  /** Stac Version */
+  stac_version?: string;
+  /** List of OGC API conformance classes implemented by this API. */
+  conformsTo: string[];
+  /** Links to related resources and endpoints. */
+  links: Array<StacLinkOutput>;
+  /** Type */
+  type?: string;
+}
+
+/**
  * https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/itemcollection-spec.md
  *
  * Represents a collection of STAC Items as a GeoJSON FeatureCollection.
@@ -758,36 +834,6 @@ export interface StacContextExtensionOutput {
   matched?: number;
 }
 
-/**
- * https://github.com/radiantearth/stac-api-spec/blob/master/api-spec.md#ogc-api---features-endpoints
- *
- * Represents the STAC API landing page with links to available resources.
- */
-export interface StacLandingPageOutput {
-  /** MSFT Created */
-  "msft:_created"?: string;
-  /** MSFT Updated */
-  "msft:_updated"?: string;
-  /** MSFT Short Description */
-  "msft:short_description"?: string;
-  /** URLs to STAC extensions implemented by this STAC resource. */
-  stac_extensions?: string[];
-  /** Unique identifier for the STAC catalog. */
-  id: string;
-  /** Detailed description of the STAC catalog. */
-  description: string;
-  /** Human-readable title for the STAC catalog. */
-  title?: string;
-  /** Stac Version */
-  stac_version?: string;
-  /** List of OGC API conformance classes implemented by this API. */
-  conformsTo: string[];
-  /** Links to related resources and endpoints. */
-  links: Array<StacLinkOutput>;
-  /** Type */
-  type?: string;
-}
-
 /** Definition of a queryable field for STAC API filtering. */
 export interface StacQueryableOutput {
   /** Name of the queryable field. */
@@ -922,12 +968,6 @@ export interface VariableMatrixWidthOutput {
   maxTileRow: number;
 }
 
-/** Return dataset's statistics. */
-export interface StacAssetStatisticsOutput {
-  /** Response Asset Statistics Api Collections  Collection Id  Items  Item Id  Asset Statistics Get */
-  data: Record<string, BandStatisticsOutput>;
-}
-
 /** Statistical information about a data band. */
 export interface BandStatisticsOutput {
   /** Minimum value in the band. */
@@ -987,27 +1027,14 @@ export interface StacItemStatisticsGeoJsonOutput {
    */
   type: FeatureTypeOutput;
   /** Feature properties */
-  properties?: Record<string, any>;
-  /** MSFT Created */
-  "msft:_created"?: string;
-  /** MSFT Updated */
-  "msft:_updated"?: string;
-  /** MSFT Short Description */
-  "msft:short_description"?: string;
-  /** Unique identifier for the feature */
-  id: string;
-  /** Bounding box coordinates for the feature */
-  bbox: number[];
-  /** Stac Version */
-  stac_version?: string;
-  /** ID of the STAC collection this item belongs to */
-  collection?: string;
-  /** MSFT Timestamp */
-  "_msft:ts"?: string;
-  /** MSFT ETag */
-  "_msft:etag"?: string;
-  /** List of STAC extension URLs used by this item */
-  stac_extensions?: string[];
+  properties?: StacItemStatisticsGeoJsonPropertiesOutput;
+}
+
+/** Properties for STAC Item statistics GeoJSON Feature */
+export interface StacItemStatisticsGeoJsonPropertiesOutput
+  extends Record<string, any> {
+  /** Statistical information for each band in the asset */
+  statistics: Record<string, BandStatisticsOutput>;
 }
 
 /** GeoJSON Feature object containing rio-tiler model information */
@@ -1055,7 +1082,7 @@ export interface TilerInfoOutput {
   /** Height */
   height?: number;
   /** Overviews */
-  overviews?: string[];
+  overviews?: number[];
   /** Scales */
   scales?: number[];
   /** Offsets */
@@ -1066,12 +1093,8 @@ export interface TilerInfoOutput {
   minzoom?: number;
   /** Maxzoom */
   maxzoom?: number;
-}
-
-/** Return dataset's basic info or the list of available assets. */
-export interface InfoOperationResponseOutput {
-  /** body for info operation response */
-  data: TilerInfoOutput;
+  /** Coordinate Reference System */
+  crs?: string;
 }
 
 /**
@@ -1095,7 +1118,7 @@ export interface ImageResponseOutput {
 }
 
 /** Return dataset's statistics. */
-export interface StatisticsResponseOutput
+export interface TilerStacItemStatisticsOutput
   extends Record<string, BandStatisticsOutput> {}
 
 /**
@@ -1103,7 +1126,7 @@ export interface StatisticsResponseOutput
  *
  * Based on https://github.com/mapbox/tilejson-spec/tree/master/2.2.0TileJSON metadata describing a tile set according to the TileJSON specification
  */
-export interface TileJsonMetaDataOutput {
+export interface TileJsonMetadataOutput {
   /** TileJson */
   tilejson?: string;
   /** Human-readable name of the tile set */
@@ -1138,6 +1161,18 @@ export interface TileJsonMetaDataOutput {
   bounds?: number[];
   /** Default center point [longitude, latitude, zoom] for the tile set */
   center?: number[];
+}
+
+/** Asset information for the specified point */
+export interface StacItemPointAssetOutput {
+  /** STAC item ID */
+  id: string;
+  /** Bounding box coordinates for the feature */
+  bbox: number[];
+  /** Asset information for the specified point */
+  assets: Record<string, StacAssetOutput>;
+  /** Collection ID */
+  collection: string;
 }
 
 /** Information about a registered STAC search query */
