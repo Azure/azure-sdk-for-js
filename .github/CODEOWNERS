@@ -331,8 +331,6 @@
 # ServiceLabel: %Azure Load Testing
 /sdk/loadtesting/ @azure/testing-services
 
-# Cosmos API review files
-/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 ####################
 # Management Libraries
