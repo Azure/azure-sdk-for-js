@@ -54,8 +54,7 @@ foreach ($directory in $packageDirectories) {
 }
 
 $cspellOutput = &"$REPO_ROOT/eng/common/spelling/Invoke-Cspell.ps1" `
-  -FileList $filePaths `
-  -PackageInstallCache (Join-Path ([System.IO.Path]::GetTempPath()) "cspell-tool-path-upgraded")
+  -FileList $filePaths
 
 if ($LASTEXITCODE) {
   foreach ($log in $cspellOutput) {
