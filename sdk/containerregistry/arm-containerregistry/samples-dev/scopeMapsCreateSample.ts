@@ -1,46 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates a scope map for a container registry with the specified parameters.
- *
- * @summary Creates a scope map for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ScopeMapCreate.json
- */
-
-import {
-  ScopeMap,
-  ContainerRegistryManagementClient,
-} from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates a scope map for a container registry with the specified parameters.
+ *
+ * @summary creates a scope map for a container registry with the specified parameters.
+ * x-ms-original-file: 2025-06-01-preview/ScopeMapCreate.json
+ */
 async function scopeMapCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const scopeMapName = "myScopeMap";
-  const scopeMapCreateParameters: ScopeMap = {
-    description: "Developer Scopes",
-    actions: [
-      "repositories/myrepository/contentWrite",
-      "repositories/myrepository/delete",
-    ],
-  };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.scopeMaps.beginCreateAndWait(
-    resourceGroupName,
-    registryName,
-    scopeMapName,
-    scopeMapCreateParameters,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.scopeMaps.create("myResourceGroup", "myRegistry", "myScopeMap", {
+    properties: {
+      description: "Developer Scopes",
+      actions: ["repositories/myrepository/contentWrite", "repositories/myrepository/delete"],
+    },
+  });
   console.log(result);
 }
 

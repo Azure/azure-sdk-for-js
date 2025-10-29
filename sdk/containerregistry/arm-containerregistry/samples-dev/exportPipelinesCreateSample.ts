@@ -1,48 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates an export pipeline for a container registry with the specified parameters.
- *
- * @summary Creates an export pipeline for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ExportPipelineCreate.json
- */
-
-import {
-  ExportPipeline,
-  ContainerRegistryManagementClient,
-} from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates an export pipeline for a container registry with the specified parameters.
+ *
+ * @summary creates an export pipeline for a container registry with the specified parameters.
+ * x-ms-original-file: 2025-06-01-preview/ExportPipelineCreate.json
+ */
 async function exportPipelineCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const exportPipelineName = "myExportPipeline";
-  const exportPipelineCreateParameters: ExportPipeline = {
-    identity: { type: "SystemAssigned" },
-    location: "westus",
-    options: ["OverwriteBlobs"],
-    target: {
-      type: "AzureStorageBlobContainer",
-      keyVaultUri: "https://myvault.vault.azure.net/secrets/acrexportsas",
-      uri: "https://accountname.blob.core.windows.net/containername",
-    },
-  };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.exportPipelines.beginCreateAndWait(
-    resourceGroupName,
-    registryName,
-    exportPipelineName,
-    exportPipelineCreateParameters,
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.exportPipelines.create(
+    "myResourceGroup",
+    "myRegistry",
+    "myExportPipeline",
+    {
+      location: "westus",
+      identity: { type: "SystemAssigned" },
+      properties: {
+        target: {
+          type: "AzureStorageBlobContainer",
+          uri: "https://accountname.blob.core.windows.net/containername",
+          keyVaultUri: "https://myvault.vault.azure.net/secrets/acrexportsas",
+          storageAccessMode: "SasToken",
+        },
+        options: ["OverwriteBlobs"],
+      },
+    },
   );
   console.log(result);
 }

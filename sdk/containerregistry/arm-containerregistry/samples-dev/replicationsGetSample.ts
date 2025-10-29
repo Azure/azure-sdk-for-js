@@ -1,35 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the properties of the specified replication.
- *
- * @summary Gets the properties of the specified replication.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ReplicationGet.json
- */
-
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the properties of the specified replication.
+ *
+ * @summary gets the properties of the specified replication.
+ * x-ms-original-file: 2025-06-01-preview/ReplicationGet.json
+ */
 async function replicationGet(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const replicationName = "myReplication";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.replications.get(
-    resourceGroupName,
-    registryName,
-    replicationName,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.replications.get("myResourceGroup", "myRegistry", "myReplication");
   console.log(result);
 }
 
