@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Recorder,
+import type {
   RecorderStartOptions,
-  VitestTestContext,
+  VitestTestContext} from "@azure-tools/test-recorder";
+import {
+  Recorder
 } from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {

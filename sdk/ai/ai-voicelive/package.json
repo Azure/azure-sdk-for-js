@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "description": "A generated SDK for VoiceLiveClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -54,30 +54,33 @@
     "constantPaths": []
   },
   "dependencies": {
-    "@azure/core-util": "^1.12.0",
     "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:*",
     "@azure-tools/test-recorder": "workspace:*",
     "@azure-tools/test-utils-vitest": "workspace:*",
     "@azure/dev-tool": "workspace:*",
-    "tshy": "catalog:",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "cross-env": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
+    "@types/ws": "^8.18.1",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
