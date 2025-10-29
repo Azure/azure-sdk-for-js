@@ -1,31 +1,108 @@
 # Release History
 
-## 1.1.0-beta.1 (2025-09-30)
+## 1.1.0-beta.2 (2025-10-29)
+Compared with version 1.0.0
 
 ### Features Added
-- Added `DeidentificationOperationType.SurrogateOnly`, which returns output text where user-defined PHI entities are replaced with realistic replacement values. When using this operation, include `DeidentificationContent.taggedEntities`, which allows user input of PHI entities detected in the input text. The service will skip tagging and apply surrogation directly to the user-defined entities.
-- Added `DeidentificationCustomizationOptions.inputLocale` to allow specifying the locale of the input text for TAG and REDACT operations.
+  - Added Routes interface
+  - Added Interface CancelJob
+  - Added Interface CancelJob200Headers
+  - Added Interface CancelJob200Response
+  - Added Interface CancelJobDefaultHeaders
+  - Added Interface CancelJobDefaultResponse
+  - Added Interface CancelJobHeaderParam
+  - Added Interface CancelJobHeaders
+  - Added Interface DeidentificationClientOptions
+  - Added Interface DeidentificationContent
+  - Added Interface DeidentificationCustomizationOptions
+  - Added Interface DeidentificationDocumentDetailsOutput
+  - Added Interface DeidentificationDocumentLocationOutput
+  - Added Interface DeidentificationJob
+  - Added Interface DeidentificationJobCustomizationOptions
+  - Added Interface DeidentificationJobCustomizationOptionsOutput
+  - Added Interface DeidentificationJobOutput
+  - Added Interface DeidentificationJobSummary
+  - Added Interface DeidentificationJobSummaryOutput
+  - Added Interface DeidentificationResultOutput
+  - Added Interface DeidentifyDocuments200Headers
+  - Added Interface DeidentifyDocuments200Response
+  - Added Interface DeidentifyDocuments201Headers
+  - Added Interface DeidentifyDocuments201Response
+  - Added Interface DeidentifyDocumentsBodyParam
+  - Added Interface DeidentifyDocumentsDefaultHeaders
+  - Added Interface DeidentifyDocumentsDefaultResponse
+  - Added Interface DeidentifyDocumentsHeaderParam
+  - Added Interface DeidentifyDocumentsHeaders
+  - Added Interface DeidentifyDocumentsLogicalResponse
+  - Added Interface DeidentifyText
+  - Added Interface DeidentifyText200Headers
+  - Added Interface DeidentifyText200Response
+  - Added Interface DeidentifyTextBodyParam
+  - Added Interface DeidentifyTextDefaultHeaders
+  - Added Interface DeidentifyTextDefaultResponse
+  - Added Interface DeidentifyTextHeaderParam
+  - Added Interface DeidentifyTextHeaders
+  - Added Interface DeleteJob204Headers
+  - Added Interface DeleteJob204Response
+  - Added Interface DeleteJobDefaultHeaders
+  - Added Interface DeleteJobDefaultResponse
+  - Added Interface DeleteJobHeaderParam
+  - Added Interface DeleteJobHeaders
+  - Added Interface GetJob
+  - Added Interface GetJob200Headers
+  - Added Interface GetJob200Response
+  - Added Interface GetJobDefaultHeaders
+  - Added Interface GetJobDefaultResponse
+  - Added Interface GetJobHeaderParam
+  - Added Interface GetJobHeaders
+  - Added Interface ListJobDocuments
+  - Added Interface ListJobDocuments200Headers
+  - Added Interface ListJobDocuments200Response
+  - Added Interface ListJobDocumentsDefaultHeaders
+  - Added Interface ListJobDocumentsDefaultResponse
+  - Added Interface ListJobDocumentsHeaderParam
+  - Added Interface ListJobDocumentsHeaders
+  - Added Interface ListJobDocumentsQueryParam
+  - Added Interface ListJobDocumentsQueryParamProperties
+  - Added Interface ListJobs
+  - Added Interface ListJobs200Headers
+  - Added Interface ListJobs200Response
+  - Added Interface ListJobsDefaultHeaders
+  - Added Interface ListJobsDefaultResponse
+  - Added Interface ListJobsHeaderParam
+  - Added Interface ListJobsHeaders
+  - Added Interface ListJobsQueryParam
+  - Added Interface ListJobsQueryParamProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PagedDeidentificationDocumentDetailsOutput
+  - Added Interface PagedDeidentificationJobOutput
+  - Added Interface PageSettings
+  - Added Interface PagingOptions
+  - Added Interface PhiEntityOutput
+  - Added Interface PhiTaggerResultOutput
+  - Added Interface SimplePhiEntity
+  - Added Interface SimplePollerLike
+  - Added Interface SourceStorageLocation
+  - Added Interface SourceStorageLocationOutput
+  - Added Interface StringIndexOutput
+  - Added Interface TaggedPhiEntities
+  - Added Interface TargetStorageLocation
+  - Added Interface TargetStorageLocationOutput
+  - Added Type Alias CancelJobParameters
+  - Added Type Alias DeidentificationClient
+  - Added Type Alias DeidentificationOperationType
+  - Added Type Alias DeidentificationOperationTypeOutput
+  - Added Type Alias DeidentifyDocumentsParameters
+  - Added Type Alias DeidentifyTextParameters
+  - Added Type Alias DeleteJobParameters
+  - Added Type Alias GetJobParameters
+  - Added Type Alias ListJobDocumentsParameters
+  - Added Type Alias ListJobsParameters
+  - Added Type Alias OperationState
+  - Added Type Alias OperationStateOutput
+  - Added Type Alias PhiCategory
+  - Added Type Alias PhiCategoryOutput
+  - Added Type Alias TextEncodingType
+  - Added function createClient
+  - Added function isUnexpected
 
-
-## 1.0.0 (2025-07-01)
-
-### Features Added
-
-- Introduced `DeidentificationCustomizationOptions` and `DeidentificationJobCustomizationOptions` models.
-    - Added `surrogate_locale` field in these models.
-    - Moved `redaction_format` field into these models.
-- Introduced `overwrite` property in `TargetStorageLocation` model, which allows a job to overwrite existing documents in the storage location. 
-
-### Breaking Changes
-
-- Changed method names in `DeidentificationClient` to match functionality:
-    - Changed the `Deidentify` method name to `DeidentifyText`.
-    - Changed the `CreateJob` method name to `DeidentifyDocuments`.
-- Deprecated `DocumentDataType`.
-- Changed `path` field to `location` in `SourceStorageLocation` and `TargetStorageLocation`.
-- Changed `outputPrefix` behavior to no longer include the job's name by default.
-- Deprecated `path` and `location` from `PhiTaggerResultOutput` model.
-
-## 1.0.0-beta.1 (2024-08-15)
-
-- Initial implementation of Azure Health Data Services de-identification service REST client library for JavaScript.
