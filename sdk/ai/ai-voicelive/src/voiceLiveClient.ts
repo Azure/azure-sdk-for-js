@@ -20,6 +20,12 @@ import { VoiceLiveMessageParser } from './protocol/messageParser.js';
 import { CredentialHandler } from './auth/credentialHandler.js';
 import { VoiceLiveConnectionError, VoiceLiveErrorClassifier } from './errors/index.js';
 import { logger } from './logger.js';
+import { EnhancedVoiceLiveEventEmitter } from './events/enhancedEventEmitter.js';
+import { ResponseStreamer } from './streaming/responseStreamer.js';
+import { VoiceLiveAsyncIterators } from './streaming/asyncIterators.js';
+import { AudioProcessor } from './media/audioProcessor.js';
+import { VideoProcessor } from './media/videoProcessor.js';
+import { AvatarManager } from './avatar/avatarManager.js';
 
 export interface VoiceLiveClientOptions {
   /** API version to use for the Voice Live service */
@@ -75,6 +81,14 @@ export class VoiceLiveClient {
   private _sessionId?: string;
   private _activeTurnId?: string;
 
+  // Real-time features
+  private readonly _eventEmitter: EnhancedVoiceLiveEventEmitter;
+  private readonly _responseStreamer: ResponseStreamer;
+  private readonly _asyncIterators: VoiceLiveAsyncIterators;
+  private readonly _audioProcessor: AudioProcessor;
+  private readonly _videoProcessor: VideoProcessor;
+  private readonly _avatarManager: AvatarManager;
+
   /**
    * Creates an instance of VoiceLiveClient with endpoint and credential.
    * 
@@ -91,6 +105,14 @@ export class VoiceLiveClient {
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
+    
+    // Initialize real-time features
+    this._eventEmitter = new EnhancedVoiceLiveEventEmitter();
+    this._responseStreamer = new ResponseStreamer(this._eventEmitter);
+    this._asyncIterators = new VoiceLiveAsyncIterators(this._eventEmitter);
+    this._audioProcessor = new AudioProcessor();
+    this._videoProcessor = new VideoProcessor();
+    this._avatarManager = new AvatarManager(this._eventEmitter, this._videoProcessor);
     
     logger.info('VoiceLiveClient created', { 
       endpoint: this._endpoint,
@@ -379,6 +401,64 @@ export class VoiceLiveClient {
       this._sessionId = event.session.id;
       logger.info('Session created', { sessionId: this._sessionId });
     }
+
+    // Emit through enhanced event emitter for real-time features
+    this._eventEmitter.emitServerEvent(event);
+  }
+
+  // Real-time feature accessors
+
+  /**
+   * Access to enhanced event system with async iteration and filtering
+   */
+  get events(): EnhancedVoiceLiveEventEmitter {
+    return this._eventEmitter;
+  }
+
+  /**
+   * Access to response streaming capabilities
+   */
+  get streaming(): ResponseStreamer {
+    return this._responseStreamer;
+  }
+
+  /**
+   * Access to async iteration patterns for data streaming
+   */
+  get asyncIterators(): VoiceLiveAsyncIterators {
+    return this._asyncIterators;
+  }
+
+  /**
+   * Access to audio processing capabilities
+   */
+  get audioProcessor(): AudioProcessor {
+    return this._audioProcessor;
+  }
+
+  /**
+   * Access to video and avatar processing capabilities
+   */
+  get videoProcessor(): VideoProcessor {
+    return this._videoProcessor;
+  }
+
+  /**
+   * Access to avatar management and animation handling
+   */
+  get avatarManager(): AvatarManager {
+    return this._avatarManager;
+  }
+
+  /**
+   * Wait for a specific event with optional filtering and timeout
+   */
+  async waitForEvent<K extends keyof import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap>(
+    event: K,
+    filter?: (eventData: import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]) => boolean,
+    timeoutMs = 30000
+  ): Promise<import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]> {
+    return this._eventEmitter.waitForEvent(event, filter, timeoutMs);
   }
 
   private async _sendEvent(event: ClientEventUnion, options: SendEventOptions): Promise<void> {
