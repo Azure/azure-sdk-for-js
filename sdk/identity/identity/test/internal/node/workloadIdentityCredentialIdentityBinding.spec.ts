@@ -628,8 +628,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
       const server = createServer(serverOptions, (req, res) => {
         const url = new URL(req.url!, `https://${req.headers.host}`);
-        console.log("URL", url);
-        console.log("Pathname", url.pathname);
         // OIDC discovery document
         if (url.pathname.includes("/.well-known/openid-configuration")) {
           res.writeHead(200, { "Content-Type": "application/json" });

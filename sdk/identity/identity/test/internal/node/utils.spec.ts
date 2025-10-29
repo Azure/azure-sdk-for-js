@@ -24,7 +24,7 @@ describe("Identity utilities (Node.js only)", function () {
   });
 
   describe("Certificate utilities", () => {
-    const testPemPath = path.join(__dirname, "../../../assets/test.pem");
+    const testPemPath = path.join(__dirname, "../../../assets/fake-cert.pem");
     const validPemCertificate = fs.readFileSync(testPemPath, "utf8");
 
     describe("extractPemCertificateKeys", () => {
