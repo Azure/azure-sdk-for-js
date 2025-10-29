@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
- *
- * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageByManifestDigest.json
- */
-
-import {
-  ImportImageParameters,
-  ContainerRegistryManagementClient,
-} from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to copies an image to this container registry from the specified container registry.
+ *
+ * @summary copies an image to this container registry from the specified container registry.
+ * x-ms-original-file: 2025-06-01-preview/ImportImageByManifestDigest.json
+ */
 async function importImageByManifestDigest(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const parameters: ImportImageParameters = {
-    mode: "Force",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  await client.registries.importImage("myResourceGroup", "myRegistry", {
     source: {
       resourceId:
         "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
@@ -32,35 +23,21 @@ async function importImageByManifestDigest(): Promise<void> {
     },
     targetTags: ["targetRepository:targetTag"],
     untaggedTargetRepositories: ["targetRepository1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.registries.beginImportImageAndWait(
-    resourceGroupName,
-    registryName,
-    parameters,
-  );
-  console.log(result);
+    mode: "Force",
+  });
 }
 
 /**
- * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
+ * This sample demonstrates how to copies an image to this container registry from the specified container registry.
  *
- * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageByTag.json
+ * @summary copies an image to this container registry from the specified container registry.
+ * x-ms-original-file: 2025-06-01-preview/ImportImageByTag.json
  */
 async function importImageByTag(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const parameters: ImportImageParameters = {
-    mode: "Force",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  await client.registries.importImage("myResourceGroup", "myRegistry", {
     source: {
       resourceId:
         "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
@@ -68,53 +45,29 @@ async function importImageByTag(): Promise<void> {
     },
     targetTags: ["targetRepository:targetTag"],
     untaggedTargetRepositories: ["targetRepository1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.registries.beginImportImageAndWait(
-    resourceGroupName,
-    registryName,
-    parameters,
-  );
-  console.log(result);
+    mode: "Force",
+  });
 }
 
 /**
- * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
+ * This sample demonstrates how to copies an image to this container registry from the specified container registry.
  *
- * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageFromPublicRegistry.json
+ * @summary copies an image to this container registry from the specified container registry.
+ * x-ms-original-file: 2025-06-01-preview/ImportImageFromPublicRegistry.json
  */
 async function importImageFromPublicRegistry(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const parameters: ImportImageParameters = {
-    mode: "Force",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  await client.registries.importImage("myResourceGroup", "myRegistry", {
     source: {
       registryUri: "registry.hub.docker.com",
       sourceImage: "library/hello-world",
     },
     targetTags: ["targetRepository:targetTag"],
     untaggedTargetRepositories: ["targetRepository1"],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.registries.beginImportImageAndWait(
-    resourceGroupName,
-    registryName,
-    parameters,
-  );
-  console.log(result);
+    mode: "Force",
+  });
 }
 
 async function main(): Promise<void> {

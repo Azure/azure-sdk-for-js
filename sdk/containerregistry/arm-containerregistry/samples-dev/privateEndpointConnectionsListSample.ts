@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all private endpoint connections in a container registry.
- *
- * @summary List all private endpoint connections in a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PrivateEndpointConnectionList.json
- */
-
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all private endpoint connections in a container registry.
+ *
+ * @summary list all private endpoint connections in a container registry.
+ * x-ms-original-file: 2025-06-01-preview/PrivateEndpointConnectionList.json
+ */
 async function privateEndpointConnectionList(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.privateEndpointConnections.list(
-    resourceGroupName,
-    registryName,
+    "myResourceGroup",
+    "myRegistry",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
