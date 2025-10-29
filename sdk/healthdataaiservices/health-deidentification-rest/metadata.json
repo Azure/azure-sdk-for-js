@@ -1,4 +1,41 @@
 {
   "apiVersion": "2025-07-15-preview",
-  "emitterVersion": "0.44.1"
+  "emitterVersion": "0.45.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "HealthDataAIServices.DeidServices",
+    "CrossLanguageDefinitionId": {
+      "@azure-rest/health-deidentification!DeidentificationJob:interface": "HealthDataAIServices.DeidServices.DeidentificationJob",
+      "@azure-rest/health-deidentification!SourceStorageLocation:interface": "HealthDataAIServices.DeidServices.SourceStorageLocation",
+      "@azure-rest/health-deidentification!TargetStorageLocation:interface": "HealthDataAIServices.DeidServices.TargetStorageLocation",
+      "@azure-rest/health-deidentification!DeidentificationJobCustomizationOptions:interface": "HealthDataAIServices.DeidServices.DeidentificationJobCustomizationOptions",
+      "@azure-rest/health-deidentification!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure-rest/health-deidentification!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure-rest/health-deidentification!DeidentificationJobSummary:interface": "HealthDataAIServices.DeidServices.DeidentificationJobSummary",
+      "@azure-rest/health-deidentification!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure-rest/health-deidentification!PagedDeidentificationJob:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure-rest/health-deidentification!PagedDeidentificationDocumentDetails:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure-rest/health-deidentification!DeidentificationDocumentDetails:interface": "HealthDataAIServices.DeidServices.DeidentificationDocumentDetails",
+      "@azure-rest/health-deidentification!DeidentificationDocumentLocation:interface": "HealthDataAIServices.DeidServices.DeidentificationDocumentLocation",
+      "@azure-rest/health-deidentification!DeidentificationContent:interface": "HealthDataAIServices.DeidServices.DeidentificationContent",
+      "@azure-rest/health-deidentification!TaggedPhiEntities:interface": "HealthDataAIServices.DeidServices.TaggedPhiEntities",
+      "@azure-rest/health-deidentification!SimplePhiEntity:interface": "HealthDataAIServices.DeidServices.SimplePhiEntity",
+      "@azure-rest/health-deidentification!DeidentificationCustomizationOptions:interface": "HealthDataAIServices.DeidServices.DeidentificationCustomizationOptions",
+      "@azure-rest/health-deidentification!DeidentificationResult:interface": "HealthDataAIServices.DeidServices.DeidentificationResult",
+      "@azure-rest/health-deidentification!PhiTaggerResult:interface": "HealthDataAIServices.DeidServices.PhiTaggerResult",
+      "@azure-rest/health-deidentification!PhiEntity:interface": "HealthDataAIServices.DeidServices.PhiEntity",
+      "@azure-rest/health-deidentification!StringIndex:interface": "HealthDataAIServices.DeidServices.StringIndex",
+      "@azure-rest/health-deidentification!KnownDeidentificationOperationType:enum": "HealthDataAIServices.DeidServices.DeidentificationOperationType",
+      "@azure-rest/health-deidentification!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
+      "@azure-rest/health-deidentification!KnownTextEncodingType:enum": "HealthDataAIServices.DeidServices.TextEncodingType",
+      "@azure-rest/health-deidentification!KnownPhiCategory:enum": "HealthDataAIServices.DeidServices.PhiCategory",
+      "@azure-rest/health-deidentification!KnownVersions:enum": "HealthDataAIServices.DeidServices.Versions",
+      "@azure-rest/health-deidentification!DeidentificationClient#deidentifyText:member(1)": "HealthDataAIServices.DeidServices.deidentifyText",
+      "@azure-rest/health-deidentification!DeidentificationClient#deleteJob:member(1)": "HealthDataAIServices.DeidServices.deleteJob",
+      "@azure-rest/health-deidentification!DeidentificationClient#cancelJob:member(1)": "HealthDataAIServices.DeidServices.cancelJob",
+      "@azure-rest/health-deidentification!DeidentificationClient#listJobDocuments:member(1)": "HealthDataAIServices.DeidServices.listJobDocuments",
+      "@azure-rest/health-deidentification!DeidentificationClient#listJobs:member(1)": "HealthDataAIServices.DeidServices.listJobs",
+      "@azure-rest/health-deidentification!DeidentificationClient#deidentifyDocuments:member(1)": "HealthDataAIServices.DeidServices.deidentifyDocuments",
+      "@azure-rest/health-deidentification!DeidentificationClient#getJob:member(1)": "HealthDataAIServices.DeidServices.getJob"
+    }
+  }
 }

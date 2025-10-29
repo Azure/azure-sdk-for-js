@@ -5,11 +5,8 @@
  * @summary This sample demonstrates how to list files that were completed by a job.
  */
 
-import createClient, {
-  DeidentificationJob,
-  isUnexpected,
-  paginate,
-} from "@azure-rest/health-deidentification";
+import type { DeidentificationJob } from "@azure-rest/health-deidentification";
+import createClient, { isUnexpected, paginate } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
