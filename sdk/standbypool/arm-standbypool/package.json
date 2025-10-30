@@ -16,7 +16,7 @@
       "./api/standbyContainerGroupPools": "./src/api/standbyContainerGroupPools/index.ts",
       "./api/standbyVirtualMachinePoolRuntimeViews": "./src/api/standbyVirtualMachinePoolRuntimeViews/index.ts",
       "./api/standbyVirtualMachines": "./src/api/standbyVirtualMachines/index.ts",
-      "./api/standbyVirtualMachinePools": "./src/api/standbyVirtualMachinePools/index.ts",
+      "./api/standbyVirtualMachinePoolsTesting": "./src/api/standbyVirtualMachinePoolsTesting/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
@@ -231,22 +231,22 @@
         "default": "./dist/commonjs/api/standbyVirtualMachines/index.js"
       }
     },
-    "./api/standbyVirtualMachinePools": {
+    "./api/standbyVirtualMachinePoolsTesting": {
       "browser": {
-        "types": "./dist/browser/api/standbyVirtualMachinePools/index.d.ts",
-        "default": "./dist/browser/api/standbyVirtualMachinePools/index.js"
+        "types": "./dist/browser/api/standbyVirtualMachinePoolsTesting/index.d.ts",
+        "default": "./dist/browser/api/standbyVirtualMachinePoolsTesting/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/standbyVirtualMachinePools/index.d.ts",
-        "default": "./dist/react-native/api/standbyVirtualMachinePools/index.js"
+        "types": "./dist/react-native/api/standbyVirtualMachinePoolsTesting/index.d.ts",
+        "default": "./dist/react-native/api/standbyVirtualMachinePoolsTesting/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/standbyVirtualMachinePools/index.d.ts",
-        "default": "./dist/esm/api/standbyVirtualMachinePools/index.js"
+        "types": "./dist/esm/api/standbyVirtualMachinePoolsTesting/index.d.ts",
+        "default": "./dist/esm/api/standbyVirtualMachinePoolsTesting/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/standbyVirtualMachinePools/index.d.ts",
-        "default": "./dist/commonjs/api/standbyVirtualMachinePools/index.js"
+        "types": "./dist/commonjs/api/standbyVirtualMachinePoolsTesting/index.d.ts",
+        "default": "./dist/commonjs/api/standbyVirtualMachinePoolsTesting/index.js"
       }
     },
     "./api/operations": {
