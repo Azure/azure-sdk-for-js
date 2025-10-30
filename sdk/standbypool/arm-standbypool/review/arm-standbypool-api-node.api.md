@@ -4,9 +4,9 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export function createStandbyPoolManagement(credential: TokenCredential, subscriptionId: string, options?: StandbyPoolManagementClientOptionalParams): StandbyPoolManagementContext;
@@ -14,6 +14,7 @@ export function createStandbyPoolManagement(credential: TokenCredential, subscri
 // @public
 export interface StandbyPoolManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public (undocumented)

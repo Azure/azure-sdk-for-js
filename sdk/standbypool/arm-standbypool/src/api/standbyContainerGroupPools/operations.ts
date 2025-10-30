@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StandbyPoolManagementContext as Client } from "../index.js";
+import type {
   StandbyContainerGroupPoolResource,
-  standbyContainerGroupPoolResourceSerializer,
-  standbyContainerGroupPoolResourceDeserializer,
   StandbyContainerGroupPoolResourceUpdate,
-  standbyContainerGroupPoolResourceUpdateSerializer,
   _StandbyContainerGroupPoolResourceListResult,
-  _standbyContainerGroupPoolResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  standbyContainerGroupPoolResourceSerializer,
+  standbyContainerGroupPoolResourceDeserializer,
+  standbyContainerGroupPoolResourceUpdateSerializer,
+  _standbyContainerGroupPoolResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
   StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
   StandbyContainerGroupPoolsUpdateOptionalParams,
@@ -20,19 +26,9 @@ import {
   StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
   StandbyContainerGroupPoolsGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -230,13 +226,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -308,7 +298,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StandbyContainerGroupPoolResource> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -331,7 +321,7 @@ export function createOrUpdate(
   OperationState<StandbyContainerGroupPoolResource>,
   StandbyContainerGroupPoolResource
 > {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

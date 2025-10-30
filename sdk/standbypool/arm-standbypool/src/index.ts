@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -86,13 +87,13 @@ export {
   StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
 } from "./api/standbyVirtualMachinePoolRuntimeViews/index.js";
 export {
-  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  StandbyVirtualMachinePoolsUpdateOptionalParams,
-  StandbyVirtualMachinePoolsDeleteOptionalParams,
-  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  StandbyVirtualMachinePoolsGetOptionalParams,
-} from "./api/standbyVirtualMachinePools/index.js";
+  StandbyVirtualMachinePoolsTestingListBySubscriptionOptionalParams,
+  StandbyVirtualMachinePoolsTestingListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsTestingUpdateOptionalParams,
+  StandbyVirtualMachinePoolsTestingDeleteOptionalParams,
+  StandbyVirtualMachinePoolsTestingCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsTestingGetOptionalParams,
+} from "./api/standbyVirtualMachinePoolsTesting/index.js";
 export {
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
   StandbyVirtualMachinesGetOptionalParams,
@@ -102,7 +103,8 @@ export {
   StandbyContainerGroupPoolRuntimeViewsOperations,
   StandbyContainerGroupPoolsOperations,
   StandbyVirtualMachinePoolRuntimeViewsOperations,
-  StandbyVirtualMachinePoolsOperations,
+  StandbyVirtualMachinePoolsTestingOperations,
   StandbyVirtualMachinesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

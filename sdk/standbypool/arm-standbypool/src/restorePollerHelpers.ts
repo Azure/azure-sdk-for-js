@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
+import type { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/standbyContainerGroupPools/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeStandbyVirtualMachinePools,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeStandbyVirtualMachinePools,
-} from "./api/standbyVirtualMachinePools/operations.js";
+  _$deleteDeserialize as _$deleteDeserializeStandbyVirtualMachinePoolsTesting,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeStandbyVirtualMachinePoolsTesting,
+} from "./api/standbyVirtualMachinePoolsTesting/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -78,6 +74,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   deserializer: Function;
   expectedStatuses: string[];
 }
@@ -91,17 +88,17 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
     {
       deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
     {
-      deserializer: _$deleteDeserializeStandbyVirtualMachinePools,
+      deserializer: _$deleteDeserializeStandbyVirtualMachinePoolsTesting,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
     {
-      deserializer: _createOrUpdateDeserializeStandbyVirtualMachinePools,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createOrUpdateDeserializeStandbyVirtualMachinePoolsTesting,
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 
