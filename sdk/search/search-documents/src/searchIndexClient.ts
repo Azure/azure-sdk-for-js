@@ -9,7 +9,11 @@ import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult, IndexStatisticsSummary, KnowledgeSourceStatus } from "./generated/service/models/index.js";
+import type {
+  AnalyzeResult,
+  IndexStatisticsSummary,
+  KnowledgeSourceStatus,
+} from "./generated/service/models/index.js";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
@@ -1047,9 +1051,12 @@ export class SearchIndexClient {
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteKnowledgeBase", options);
     try {
-      const knowledgeBaseName = typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
+      const knowledgeBaseName =
+        typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
       const etag =
-        typeof knowledgeBase !== "string" && updatedOptions.onlyIfUnchanged ? knowledgeBase.etag : undefined;
+        typeof knowledgeBase !== "string" && updatedOptions.onlyIfUnchanged
+          ? knowledgeBase.etag
+          : undefined;
 
       const result = await this.client.knowledgeBases.delete(knowledgeBaseName, {
         ...updatedOptions,
@@ -1255,7 +1262,10 @@ export class SearchIndexClient {
     sourceName: string,
     options?: GetKnowledgeSourceStatusOptions,
   ): Promise<KnowledgeSourceStatus> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeSourceStatus", options);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-getKnowledgeSourceStatus",
+      options,
+    );
     try {
       const result = await this.client.knowledgeSources.getStatus(sourceName, updatedOptions);
       return result;
@@ -1269,7 +1279,6 @@ export class SearchIndexClient {
       span.end();
     }
   }
-  
 
   /**
    * Retrieves the SearchClient corresponding to this SearchIndexClient
@@ -1307,6 +1316,4 @@ export class SearchIndexClient {
       options || this.options,
     );
   }
-
-
 }

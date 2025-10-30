@@ -3418,7 +3418,6 @@ export interface GetKnowledgeSourceOptions extends OperationOptions {}
 export interface ListKnowledgeSourcesOptions extends OperationOptions {}
 export interface CreateKnowledgeSourceOptions extends OperationOptions {}
 export interface GetKnowledgeSourceStatusOptions extends OperationOptions {}
- 
 
 /**
  * Defines values for LexicalAnalyzerName.
