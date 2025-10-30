@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Patches a certificate. Currently only patching of tags is supported
- *
- * @summary Patches a certificate. Currently only patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ConnectedEnvironmentsCertificates_Patch.json
- */
-
+import type {
+  CertificatePatch} from "@azure/arm-appcontainers";
 import {
-  CertificatePatch,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Patches a certificate. Currently only patching of tags is supported
+ *
+ * @summary Patches a certificate. Currently only patching of tags is supported
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironmentsCertificates_Patch.json
+ */
 async function patchCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -28,12 +28,13 @@ async function patchCertificate(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.connectedEnvironmentsCertificates.update(
-    resourceGroupName,
-    connectedEnvironmentName,
-    certificateName,
-    certificateEnvelope,
-  );
+  const result =
+    await client.connectedEnvironmentsCertificates.beginUpdateAndWait(
+      resourceGroupName,
+      connectedEnvironmentName,
+      certificateName,
+      certificateEnvelope,
+    );
   console.log(result);
 }
 

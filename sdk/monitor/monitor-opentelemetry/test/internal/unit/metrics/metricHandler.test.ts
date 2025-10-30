@@ -106,7 +106,7 @@ describe("MetricHandler", () => {
     };
     createHandler();
     const meterProvider = MetricsApi.getMeterProvider() as MeterProvider;
-    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 6);
+    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 5); // redis4 is now supported via redis
   });
 
   describe("#autoCollect", () => {

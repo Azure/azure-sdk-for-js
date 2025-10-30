@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
  *
  * @summary Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountPatchEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountPatchEncryptionScope.json
  */
 async function storageAccountPatchEncryptionScope() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

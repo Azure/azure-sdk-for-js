@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the usage of file service in storage account including account limits, file share limits and constants used in recommendations and bursting formula.
  *
  * @summary Gets the usage of file service in storage account including account limits, file share limits and constants used in recommendations and bursting formula.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileServicesGetUsage.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileServicesGetUsage.json
  */
 async function getFileServiceUsage(): Promise<void> {
   const subscriptionId =
