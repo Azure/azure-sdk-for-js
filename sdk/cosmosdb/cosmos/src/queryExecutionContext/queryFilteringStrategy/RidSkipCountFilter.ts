@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FilterContext, FilterStrategy } from "./FilterStrategy.js";
+import type { FilterContext, FilterStrategy } from "../index.js";
 import { compareOrderByItems } from "../orderByComparator.js";
 
 /**
- * @internal
  * Implements post-fetch filtering for ORDER BY queries to handle continuation tokens correctly.
  * This logic is applied only to the target partition from which a query is resumed.
  * It filters out documents that have already been emitted in previous pages by comparing

@@ -14,7 +14,9 @@ export * from "./orderByQueryExecutionContext.js";
 export * from "./pipelinedQueryExecutionContext.js";
 export * from "./orderByComparator.js";
 
-// Target Partition Range Management
+// Query Filtering Strategy - Direct exports
+export type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
+export { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
 export {
   TargetPartitionRangeManager,
   QueryExecutionContextType,

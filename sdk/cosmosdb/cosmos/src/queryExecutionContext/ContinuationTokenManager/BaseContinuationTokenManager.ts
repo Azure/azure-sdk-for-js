@@ -133,8 +133,7 @@ export abstract class BaseContinuationTokenManager {
     // Find existing range mapping to update in the common ranges array
     const existingMappingIndex = this.ranges.findIndex(
       (mapping) =>
-        mapping.queryRange.min === oldRange.min &&
-        mapping.queryRange.max === oldRange.max,
+        mapping.queryRange.min === oldRange.min && mapping.queryRange.max === oldRange.max,
     );
 
     if (existingMappingIndex < 0) {
@@ -161,10 +160,7 @@ export abstract class BaseContinuationTokenManager {
     // Remove the old range mapping from the common ranges array
     this.ranges = this.ranges.filter(
       (mapping) =>
-        !(
-          mapping.queryRange.min === oldRange.min &&
-          mapping.queryRange.max === oldRange.max
-        ),
+        !(mapping.queryRange.min === oldRange.min && mapping.queryRange.max === oldRange.max),
     );
 
     // Add new range mappings for each split range

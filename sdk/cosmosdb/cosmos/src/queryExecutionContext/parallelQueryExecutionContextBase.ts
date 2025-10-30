@@ -15,9 +15,12 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
-import type { FilterContext } from "./queryFilteringStrategy/FilterStrategy.js";
-import type { FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
-import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
+import type { FilterContext, FilterStrategy } from "./index.js";
+import {
+  RidSkipCountFilter,
+  TargetPartitionRangeManager,
+  QueryExecutionContextType,
+} from "./index.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
@@ -27,10 +30,6 @@ import type { QueryRangeMapping } from "./QueryRangeMapping.js";
 import type { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { parseCompositeQueryContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import {
-  TargetPartitionRangeManager,
-  QueryExecutionContextType,
-} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { createParallelQueryResult } from "./ParallelQueryResult.js";
 import type {
   PartitionRangeUpdate,

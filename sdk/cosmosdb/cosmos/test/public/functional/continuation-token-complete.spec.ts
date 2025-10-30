@@ -598,7 +598,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         while (queryIterator.hasMoreResults()) {
           let result = await queryIterator.fetchNext();
 
-
           // For OrderBy queries, apply the pattern: keep fetching until getting non-empty results
           if (isOrderByQuery) {
             while (queryIterator.hasMoreResults() && result.resources.length === 0) {
@@ -1814,7 +1813,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
     it("should handle SELECT * FROM c query with comprehensive ID validation", async () => {
       const query = "SELECT * FROM c";
-      const queryOptions = { maxItemCount: 100, enableQueryControl: true, maxDegreeOfParallelism: 2 };
+      const queryOptions = {
+        maxItemCount: 100,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 2,
+      };
 
       console.log("\n=== Testing SELECT * Query with Full ID Validation ===");
       console.log(`Query: ${query}`);
@@ -1913,7 +1916,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         expect(count).toBeCloseTo(expectedCategoryCounts, -2); // Within 100 items tolerance
         console.log(`Category ${category}: ${count} items (expected ~${expectedCategoryCounts})`);
       }
-
     });
 
     it("should handle SELECT * with low maxDegreeOfParallelism multiple times", async () => {
@@ -1923,7 +1925,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       const queryOptions = {
         maxDegreeOfParallelism: 5,
-        enableQueryControl: true
+        enableQueryControl: true,
       };
 
       let queryIterator = multiPartitionContainer2.items.query(query, queryOptions);
@@ -1959,7 +1961,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
               console.log(
                 `    Continuation token: ${response.continuationToken}, ${totalContinuationTokens}: ${parsedToken.rangeMappings.length} range mappings`,
               );
-
             }
           } catch (parseError) {
             console.error(`    Failed to parse continuation token:`, parseError);
@@ -1979,16 +1980,14 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       console.log(`    Total iterations: ${iterationCount}`);
       console.log(`    Total continuation tokens: ${totalContinuationTokens}`);
       console.log(`    Unique IDs collected: ${collectedIds.size}`);
-      console.log(`    Range mappings sizes: [${rangeMappingsSizes.slice(0, 5).join(", ")}${rangeMappingsSizes.length > 5 ? "..." : ""}]`);
+      console.log(
+        `    Range mappings sizes: [${rangeMappingsSizes.slice(0, 5).join(", ")}${rangeMappingsSizes.length > 5 ? "..." : ""}]`,
+      );
 
       // Validate this test run
       expect(collectedIds.size).toBe(25000);
       expect(totalContinuationTokens).toBeGreaterThan(0);
       expect(iterationCount).toBeGreaterThan(1);
-
-
-
-
 
       console.log(`\n✓ Low parallelism testing completed successfully`);
       console.log(`✓ All scenarios validated across multiple iterations`);
@@ -2001,7 +2000,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       const queryOptions = {
         maxItemCount: 150,
         enableQueryControl: true,
-        maxDegreeOfParallelism: 3
+        maxDegreeOfParallelism: 3,
       };
 
       console.log("\n=== Fuzzy SELECT * Query Test ===");
@@ -2027,16 +2026,24 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         let sessionItems = 0;
         let sessionToken: string | undefined;
 
-        for (let fetchIndex = 0; fetchIndex < fetchCount && currentQueryIterator.hasMoreResults(); fetchIndex++) {
+        for (
+          let fetchIndex = 0;
+          fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
+          fetchIndex++
+        ) {
           totalIterations++;
           const response = await currentQueryIterator.fetchNext();
 
-          console.log(`  Fetch ${fetchIndex + 1}/${fetchCount}: ${response.resources.length} items`);
+          console.log(
+            `  Fetch ${fetchIndex + 1}/${fetchCount}: ${response.resources.length} items`,
+          );
 
           // Collect items and check for duplicates
           for (const item of response.resources) {
             if (allCollectedIds.has(item.id)) {
-              throw new Error(`DUPLICATE ID DETECTED: ${item.id} in session ${sessionCount}, fetch ${fetchIndex + 1}`);
+              throw new Error(
+                `DUPLICATE ID DETECTED: ${item.id} in session ${sessionCount}, fetch ${fetchIndex + 1}`,
+              );
             }
             allCollectedIds.add(item.id);
             allCollectedItems.push(item);
@@ -2046,11 +2053,15 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           // Store the latest continuation token
           if (response.continuationToken) {
             sessionToken = response.continuationToken;
-            console.log(`  Continuation token available from fetch ${fetchIndex + 1}, ${sessionToken}`);
+            console.log(
+              `  Continuation token available from fetch ${fetchIndex + 1}, ${sessionToken}`,
+            );
           }
         }
 
-        console.log(`Session ${sessionCount} collected ${sessionItems} items, total so far: ${allCollectedIds.size}`);
+        console.log(
+          `Session ${sessionCount} collected ${sessionItems} items, total so far: ${allCollectedIds.size}`,
+        );
 
         // If we have a continuation token, create a new iterator
         if (sessionToken && currentQueryIterator.hasMoreResults()) {
@@ -2059,7 +2070,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           // Store token history for debugging
           tokenHistory.push({
             token: sessionToken.substring(0, 50),
-            position: allCollectedIds.size
+            position: allCollectedIds.size,
           });
 
           console.log(`Creating new iterator with continuation token #${totalTokens}`);
@@ -2069,7 +2080,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           const fuzzedOptions = {
             ...queryOptions,
             maxItemCount: Math.floor(Math.random() * 100) + 50, // 50-149
-            continuationToken: sessionToken
+            continuationToken: sessionToken,
           };
 
           console.log(`New iterator maxItemCount: ${fuzzedOptions.maxItemCount}`);
@@ -2166,13 +2177,13 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       }
 
       console.log(`\n✓ Fuzzy SELECT * query test completed successfully`);
-      console.log(`✓ Verified ${allCollectedIds.size} unique items across ${sessionCount} sessions`);
+      console.log(
+        `✓ Verified ${allCollectedIds.size} unique items across ${sessionCount} sessions`,
+      );
       console.log(`✓ Continuation token usage patterns validated`);
       console.log(`✓ Data integrity and completeness confirmed`);
     });
-
-
-  });  /**
+  }); /**
    * Test that continuation token can be reused successfully
    */
   async function testTokenReusability(

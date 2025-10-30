@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * @internal
  * Represents the context for filtering, including the values from the continuation token.
  */
 export interface FilterContext {
@@ -32,7 +31,6 @@ export interface FilterContext {
 }
 
 /**
- * @internal
  * Defines the interface for a post-fetch query filter.
  */
 export interface FilterStrategy {
