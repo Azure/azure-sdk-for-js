@@ -8,12 +8,16 @@ import { AIProjectClient } from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import OpenAI from "openai";
+import { getBearerTokenProvider } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
   DEPLOYMENT_NAME: "DeepSeek-V3",
-  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
+  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  OPENAI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project/openai",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
   DEPLOYMENT_GPT_MODEL: "gpt-4o",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
@@ -112,14 +116,30 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   return recorder;
 }
 
+export async function createOpenAI(): Promise<OpenAI> {
+  const credential = createTestCredential();
+  const projectEndpoint = process.env["OPENAI_PROJECT_ENDPOINT"] || "";
+
+  const scope = "https://ai.azure.com/.default";
+  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
+
+  return new OpenAI({
+    apiKey: azureADTokenProvider,
+    baseURL: projectEndpoint,
+    defaultQuery: { "api-version": "2025-05-15-preview" },
+    defaultHeaders: { "accept-encoding": "deflate" },
+    dangerouslyAllowBrowser: true,
+  });
+}
+
 export function createProjectsClient(
   recorder?: Recorder,
   options?: ClientOptions,
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint =
-    process.env["AZURE_AI_PROJECT_ENDPOINT"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
-  return AIProjectClient.fromEndpoint(
+    process.env["PROJECT_ENDPOINT"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
+  return new AIProjectClient(
     endpoint,
     credential,
     recorder ? recorder.configureClientOptions(options ?? {}) : options,
@@ -146,6 +166,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "";
-  return AIProjectClient.fromEndpoint(endpoint, credential, options);
+  const endpoint = process.env["PROJECT_ENDPOINT"] || "";
+  return new AIProjectClient(endpoint, credential, options);
 }
