@@ -10,7 +10,7 @@
     "check-format": "turbo run check-format",
     "cspell": "cspell --no-progress .",
     "format": "turbo run format",
-    "refresh-lockfile": "git fetch upstream && git checkout upstream/main -- pnpm-lock.yaml && pnpm install",
+    "refresh-lockfile": "git checkout upstream/main -- pnpm-lock.yaml && pnpm install",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "preinstall": "npx only-allow pnpm",
