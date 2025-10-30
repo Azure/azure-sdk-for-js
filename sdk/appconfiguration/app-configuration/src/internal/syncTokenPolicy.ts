@@ -29,7 +29,7 @@ export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
 
       if (syncTokenHeaderValue) {
         logger.info(
-          `"[syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}"`,
+          `[syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}`,
         );
         request.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
       }
