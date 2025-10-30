@@ -268,14 +268,20 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           }
         }
         this.fetchBuffer.push(...response.result.buffer);
-        return this._fetchMoreImplementation(diagnosticNode);
+      }
+
+      // Return collected items up to pageSize
+      if (this.fetchBuffer.length > 0) {
+        const temp = this.fetchBuffer.slice(0, this.pageSize);
+        this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+        return { result: temp, headers: this.fetchMoreRespHeaders };
+      } else {
+        return { result: undefined, headers: this.fetchMoreRespHeaders };
       }
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
-      if (err) {
-        throw err;
-      }
+      throw err;
     }
   }
 
