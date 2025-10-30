@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential } from '@azure/core-auth';
+import type { KeyCredential, TokenCredential } from '@azure/core-auth';
 import type { AbortSignalLike } from '@azure/abort-controller';
-import type { 
+import type {
   RequestSession,
   ClientEventSessionUpdate,
   ClientEventUnion,
@@ -93,19 +93,19 @@ export class VoiceLiveClient {
    * Creates an instance of VoiceLiveClient with endpoint and credential.
    * 
    * @param endpoint - The Voice Live service endpoint URL
-   * @param credential - Azure credential for authentication
+   * @param credential - Azure TokenCredential or KeyCredential for authentication
    * @param options - Optional configuration for the client
    */
   constructor(
-    endpoint: string, 
-    credential: TokenCredential, 
+    endpoint: string,
+    credential: TokenCredential | KeyCredential,
     options: VoiceLiveClientOptions = {}
   ) {
     this._endpoint = this._normalizeEndpoint(endpoint);
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
-    
+
     // Initialize real-time features
     this._eventEmitter = new EnhancedVoiceLiveEventEmitter();
     this._responseStreamer = new ResponseStreamer(this._eventEmitter);
@@ -113,8 +113,8 @@ export class VoiceLiveClient {
     this._audioProcessor = new AudioProcessor();
     this._videoProcessor = new VideoProcessor();
     this._avatarManager = new AvatarManager(this._eventEmitter, this._videoProcessor);
-    
-    logger.info('VoiceLiveClient created', { 
+
+    logger.info('VoiceLiveClient created', {
       endpoint: this._endpoint,
       apiVersion: this._options.apiVersion,
       enableDebugLogging: this._options.enableDebugLogging
@@ -132,14 +132,14 @@ export class VoiceLiveClient {
 
     try {
       logger.info('Connecting to Voice Live service', { endpoint: this._endpoint });
-      
+
       // Get WebSocket URL with authentication
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
-        this._endpoint, 
+        this._endpoint,
         this._options.apiVersion
       );
       const authHeaders = await this._credentialHandler.getAuthHeaders();
-      
+
       // Create connection manager with Phase 2 integration
       const websocketFactory = new VoiceLiveWebSocketFactory();
       this._connectionManager = new ConnectionManager(
@@ -159,15 +159,15 @@ export class VoiceLiveClient {
 
       // Setup connection event handlers
       this._setupConnectionEventHandlers();
-      
+
       // Connect with proper error handling
       await this._connectionManager.connect(options.abortSignal as AbortSignal);
-      
+
       logger.info('Successfully connected to Voice Live service');
-      
+
     } catch (error) {
       logger.error('Failed to connect to Voice Live service', { error });
-      
+
       // Use Phase 2 error classification
       if (error instanceof VoiceLiveConnectionError) {
         throw error;
@@ -186,7 +186,7 @@ export class VoiceLiveClient {
     }
 
     logger.info('Disconnecting from Voice Live service');
-    
+
     try {
       await this._connectionManager.disconnect();
     } catch (error) {
@@ -203,7 +203,7 @@ export class VoiceLiveClient {
    * Updates the session configuration with the service.
    */
   async updateSession(
-    session: RequestSession, 
+    session: RequestSession,
     options: SendEventOptions = {}
   ): Promise<void> {
     this._ensureConnected();
@@ -296,7 +296,7 @@ export class VoiceLiveClient {
     };
 
     await this._sendEvent(endEvent, options);
-    
+
     if (targetTurnId === this._activeTurnId) {
       this._activeTurnId = undefined;
     }
@@ -339,7 +339,7 @@ export class VoiceLiveClient {
 
   private _buildDefaultOptions(options: VoiceLiveClientOptions): Required<VoiceLiveClientOptions> {
     return {
-      apiVersion: options.apiVersion || '2024-10-01-preview',
+      apiVersion: options.apiVersion || '2025-10-01',
       connectionTimeoutMs: options.connectionTimeoutMs || 30000,
       maxReconnectAttempts: options.maxReconnectAttempts || 5,
       reconnectDelayMs: options.reconnectDelayMs || 1000,
@@ -353,7 +353,7 @@ export class VoiceLiveClient {
     if (!endpoint.startsWith('http://') && !endpoint.startsWith('https://')) {
       endpoint = `https://${endpoint}`;
     }
-    
+
     // Remove trailing slash
     return endpoint.replace(/\/$/, '');
   }
@@ -379,11 +379,11 @@ export class VoiceLiveClient {
 
   private _handleIncomingMessage(data: string | ArrayBuffer): void {
     try {
-      logger.info('Message received', { 
-        type: typeof data, 
-        size: typeof data === 'string' ? data.length : data.byteLength 
+      logger.info('Message received', {
+        type: typeof data,
+        size: typeof data === 'string' ? data.length : data.byteLength
       });
-      
+
       // Parse and process the message using Phase 2 message parser
       const parsed = this._messageParser.parseIncomingMessage(data);
       if (parsed && parsed.type === 'server') {
@@ -472,14 +472,14 @@ export class VoiceLiveClient {
     try {
       const serialized = this._messageParser.serializeOutgoingMessage(event);
       await this._connectionManager.send(serialized, options.abortSignal as AbortSignal);
-      
+
       logger.info('Sent event', { type: event.type, eventId: (event as any).eventId });
-      
+
     } catch (error) {
       if (error instanceof VoiceLiveConnectionError) {
         throw error;
       }
-      
+
       throw VoiceLiveErrorClassifier.classifyConnectionError(error);
     }
   }

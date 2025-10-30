@@ -204,6 +204,12 @@ export {
   VoiceLiveErrorClassifier
 } from "./errors/index.js";
 
+// Authentication exports
+export {
+  CredentialHandler,
+  VoiceLiveCredential
+} from "./auth/credentialHandler.js";
+
 // Enhanced event system exports
 export {
   VoiceLiveEventEmitter,

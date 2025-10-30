@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { KeyCredential } from '@azure/core-auth';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -593,6 +594,17 @@ export interface ConversationRequestItem {
 
 // @public
 export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | ConversationRequestItem;
+
+// @public
+export class CredentialHandler {
+    constructor(credential: VoiceLiveCredential, scope?: string);
+    get credentialType(): 'key' | 'token';
+    getAccessToken(): Promise<string>;
+    getAuthHeaders(): Promise<Record<string, string>>;
+    getWebSocketUrl(baseEndpoint: string, apiVersion: string): Promise<string>;
+    get isApiKey(): boolean;
+    updateApiKey(newKey: string): void;
+}
 
 // @public (undocumented)
 export interface DisconnectedEventArgs {
@@ -1850,7 +1862,7 @@ export class VoiceLiveAuthenticationError extends VoiceLiveConnectionError {
 
 // @public
 export class VoiceLiveClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: VoiceLiveClientOptions);
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: VoiceLiveClientOptions);
     // (undocumented)
     get activeTurnId(): string | undefined;
     addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
@@ -1896,6 +1908,9 @@ export class VoiceLiveConnectionError extends Error {
     readonly timestamp: Date;
     toJSON(): Record<string, any>;
 }
+
+// @public
+export type VoiceLiveCredential = TokenCredential | KeyCredential;
 
 // @public
 export class VoiceLiveError extends VoiceLiveConnectionError {
