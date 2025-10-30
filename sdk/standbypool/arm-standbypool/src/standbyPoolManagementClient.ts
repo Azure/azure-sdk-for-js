@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createStandbyPoolManagement,
+import type {
   StandbyPoolManagementContext,
   StandbyPoolManagementClientOptionalParams,
 } from "./api/index.js";
-import {
-  StandbyContainerGroupPoolRuntimeViewsOperations,
-  _getStandbyContainerGroupPoolRuntimeViewsOperations,
-} from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
-import {
-  StandbyContainerGroupPoolsOperations,
-  _getStandbyContainerGroupPoolsOperations,
-} from "./classic/standbyContainerGroupPools/index.js";
-import {
-  StandbyVirtualMachinePoolRuntimeViewsOperations,
-  _getStandbyVirtualMachinePoolRuntimeViewsOperations,
-} from "./classic/standbyVirtualMachinePoolRuntimeViews/index.js";
-import {
-  StandbyVirtualMachinesOperations,
-  _getStandbyVirtualMachinesOperations,
-} from "./classic/standbyVirtualMachines/index.js";
-import {
-  StandbyVirtualMachinePoolsOperations,
-  _getStandbyVirtualMachinePoolsOperations,
-} from "./classic/standbyVirtualMachinePools/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createStandbyPoolManagement } from "./api/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { StandbyContainerGroupPoolRuntimeViewsOperations } from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
+import { _getStandbyContainerGroupPoolRuntimeViewsOperations } from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
+import type { StandbyContainerGroupPoolsOperations } from "./classic/standbyContainerGroupPools/index.js";
+import { _getStandbyContainerGroupPoolsOperations } from "./classic/standbyContainerGroupPools/index.js";
+import type { StandbyVirtualMachinePoolRuntimeViewsOperations } from "./classic/standbyVirtualMachinePoolRuntimeViews/index.js";
+import { _getStandbyVirtualMachinePoolRuntimeViewsOperations } from "./classic/standbyVirtualMachinePoolRuntimeViews/index.js";
+import type { StandbyVirtualMachinePoolsTestingOperations } from "./classic/standbyVirtualMachinePoolsTesting/index.js";
+import { _getStandbyVirtualMachinePoolsTestingOperations } from "./classic/standbyVirtualMachinePoolsTesting/index.js";
+import type { StandbyVirtualMachinesOperations } from "./classic/standbyVirtualMachines/index.js";
+import { _getStandbyVirtualMachinesOperations } from "./classic/standbyVirtualMachines/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { StandbyPoolManagementClientOptionalParams } from "./api/standbyPoolManagementContext.js";
 
@@ -57,7 +48,9 @@ export class StandbyPoolManagementClient {
     this.standbyVirtualMachinePoolRuntimeViews =
       _getStandbyVirtualMachinePoolRuntimeViewsOperations(this._client);
     this.standbyVirtualMachines = _getStandbyVirtualMachinesOperations(this._client);
-    this.standbyVirtualMachinePools = _getStandbyVirtualMachinePoolsOperations(this._client);
+    this.standbyVirtualMachinePoolsTesting = _getStandbyVirtualMachinePoolsTestingOperations(
+      this._client,
+    );
     this.operations = _getOperationsOperations(this._client);
   }
 
@@ -69,8 +62,8 @@ export class StandbyPoolManagementClient {
   public readonly standbyVirtualMachinePoolRuntimeViews: StandbyVirtualMachinePoolRuntimeViewsOperations;
   /** The operation groups for standbyVirtualMachines */
   public readonly standbyVirtualMachines: StandbyVirtualMachinesOperations;
-  /** The operation groups for standbyVirtualMachinePools */
-  public readonly standbyVirtualMachinePools: StandbyVirtualMachinePoolsOperations;
+  /** The operation groups for standbyVirtualMachinePoolsTesting */
+  public readonly standbyVirtualMachinePoolsTesting: StandbyVirtualMachinePoolsTestingOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

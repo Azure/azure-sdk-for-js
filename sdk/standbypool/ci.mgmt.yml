@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -13,6 +13,7 @@ trigger:
     include:
       - sdk/standbypool/arm-standbypool
       - sdk/standbypool/ci.mgmt.yml
+      - /mnt/vss/_work/1/s/azure-sdk-for-js/sdk/standbypool/arm-standbypool
 pr:
   branches:
     include:
@@ -26,6 +27,7 @@ pr:
     include:
       - sdk/standbypool/arm-standbypool
       - sdk/standbypool/ci.mgmt.yml
+      - /mnt/vss/_work/1/s/azure-sdk-for-js/sdk/standbypool/arm-standbypool
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
