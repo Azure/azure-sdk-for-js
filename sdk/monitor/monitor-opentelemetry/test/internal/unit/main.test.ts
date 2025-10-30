@@ -585,8 +585,8 @@ describe("Main functions", () => {
       }
     }
 
-    assert.isDefined(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
-    assert.isDefined(hasOTLPReader, "Should have OTLP metric reader");
+    assert.isTrue(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
+    assert.isTrue(hasOTLPReader, "Should have OTLP metric reader");
 
     void shutdownAzureMonitor();
   });

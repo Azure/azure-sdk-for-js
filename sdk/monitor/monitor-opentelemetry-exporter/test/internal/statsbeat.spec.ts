@@ -735,7 +735,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         try {
           await longIntervalStatsbeat["longIntervalMetricReader"].collect();
           // If we get here without an error, the test passes
-          assert.isDefined(true, "Metric reader collect method executed without errors");
         } catch (error) {
           // If an error occurs, the test should fail
           assert.fail(

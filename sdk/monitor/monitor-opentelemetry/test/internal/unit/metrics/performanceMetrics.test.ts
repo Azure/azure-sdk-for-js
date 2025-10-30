@@ -63,7 +63,7 @@ describe("PerformanceCounterMetricsHandler", () => {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 120));
-      assert.isDefined(exportStub.mock.calls.length > 0, "export called");
+      assert.isTrue(exportStub.mock.calls.length > 0, "export called");
       const resourceMetrics = exportStub.mock.calls[0][0];
       const scopeMetrics = resourceMetrics.scopeMetrics;
       assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
