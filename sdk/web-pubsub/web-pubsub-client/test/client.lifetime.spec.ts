@@ -125,7 +125,7 @@ describe("WebPubSubClient", function () {
           .spyOn(client as any, "_sendMessage")
           .mockImplementationOnce(() => Promise.reject())
           .mockImplementationOnce(() => {
-            client["_ackMap"].get(2)!.resolve({ ackId: 2, isDuplicated: false } as WebPubSubResult);
+            client["_ackManager"].resolveAck(2, { ackId: 2, isDuplicated: false } as WebPubSubResult);
             return Promise.resolve();
           });
 
@@ -149,7 +149,7 @@ describe("WebPubSubClient", function () {
         .spyOn(client as any, "_sendMessage")
         .mockImplementationOnce(() => Promise.reject())
         .mockImplementationOnce(() => {
-          client["_ackMap"].get(1)!.resolve({ ackId: 1, isDuplicated: false } as WebPubSubResult);
+          client["_ackManager"].resolveAck(1, { ackId: 1, isDuplicated: false } as WebPubSubResult);
           return Promise.resolve();
         });
 
