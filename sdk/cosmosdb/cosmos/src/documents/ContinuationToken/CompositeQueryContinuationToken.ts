@@ -6,6 +6,21 @@ import type { QueryRangeMapping } from "../../queryExecutionContext/QueryRangeMa
 
 /**
  * @hidden
+ * Simplified query range for continuation tokens without internal flags
+ */
+export interface SimplifiedQueryRange {
+  /**
+   * Minimum boundary (inclusive)
+   */
+  min: string;
+  /**
+   * Maximum boundary (exclusive)
+   */
+  max: string;
+}
+
+/**
+ * @hidden
  * Composite continuation token for parallel query execution across multiple partition ranges
  */
 export interface CompositeQueryContinuationToken {
@@ -51,16 +66,16 @@ export function createCompositeQueryContinuationToken(
     limit,
   };
 } /**
- * Adds a range mapping to the continuation token by converting it to QueryRange
+ * Adds a range mapping to the continuation token using simplified range format
  * @hidden
  */
 export function addRangeMappingToCompositeToken(
   token: CompositeQueryContinuationToken,
   rangeMapping: QueryRangeMapping,
 ): void {
-  // Convert the QueryRangeMapping to QueryRange before adding
-  const queryRange = convertRangeMappingToQueryRange(rangeMapping);
-  token.rangeMappings.push(queryRange);
+  // Convert the QueryRangeMapping to simplified QueryRangeWithContinuationToken before adding
+  const queryRangeWithToken = convertRangeMappingToQueryRange(rangeMapping);
+  token.rangeMappings.push(queryRangeWithToken);
 }
 
 /**
@@ -87,9 +102,10 @@ export function parseCompositeQueryContinuationToken(
  */
 export interface QueryRangeWithContinuationToken {
   /**
-   * The query range containing min/max boundaries (with EPK preference)
+   * The simplified query range containing min/max boundaries
+   * (assumes min is inclusive and max is exclusive)
    */
-  queryRange: QueryRange;
+  queryRange: SimplifiedQueryRange;
 
   /**
    * The continuation token for this specific range
@@ -98,9 +114,9 @@ export interface QueryRangeWithContinuationToken {
 }
 
 /**
- * Converts QueryRangeMapping to QueryRangeWithContinuationToken, giving preference to EPK boundaries if present
+ * Converts QueryRangeMapping to QueryRangeWithContinuationToken using simplified range format
  * @param rangeMapping - The QueryRangeMapping to convert
- * @returns QueryRangeWithContinuationToken with appropriate boundaries and continuation token
+ * @returns QueryRangeWithContinuationToken with simplified boundaries and continuation token
  * @hidden
  */
 export function convertRangeMappingToQueryRange(
@@ -112,19 +128,14 @@ export function convertRangeMappingToQueryRange(
 
   const pkRange = rangeMapping.partitionKeyRange;
 
-  // Prefer EPK boundaries if they exist, otherwise use logical boundaries
-  const minInclusive = pkRange.minInclusive;
-  const maxExclusive = pkRange.maxExclusive;
-
-  const queryRange = new QueryRange(
-    minInclusive,
-    maxExclusive,
-    true, // minInclusive is always true for our use case
-    false, // maxInclusive is always false for our use case (maxExclusive)
-  );
+  // Create simplified range assuming min is inclusive and max is exclusive
+  const simplifiedRange: SimplifiedQueryRange = {
+    min: pkRange.minInclusive,
+    max: pkRange.maxExclusive,
+  };
 
   return {
-    queryRange,
+    queryRange: simplifiedRange,
     continuationToken: rangeMapping.continuationToken,
   };
 }
@@ -132,11 +143,28 @@ export function convertRangeMappingToQueryRange(
 /**
  * Converts an array of QueryRangeMapping to an array of QueryRangeWithContinuationToken
  * @param rangeMappings - Array of QueryRangeMapping to convert
- * @returns Array of QueryRangeWithContinuationToken with appropriate boundaries and continuation tokens
+ * @returns Array of QueryRangeWithContinuationToken with simplified boundaries and continuation tokens
  * @hidden
  */
 export function convertRangeMappingsToQueryRangesWithTokens(
   rangeMappings: QueryRangeMapping[],
 ): QueryRangeWithContinuationToken[] {
   return rangeMappings.map((mapping) => convertRangeMappingToQueryRange(mapping));
+}
+
+/**
+ * Converts a SimplifiedQueryRange back to a QueryRange for internal use
+ * @param simplifiedRange - The simplified range to convert
+ * @returns QueryRange with standard assumptions (min inclusive, max exclusive)
+ * @hidden
+ */
+export function convertSimplifiedRangeToQueryRange(
+  simplifiedRange: SimplifiedQueryRange,
+): QueryRange {
+  return new QueryRange(
+    simplifiedRange.min,
+    simplifiedRange.max,
+    true, // minInclusive = true (assumption)
+    false, // maxInclusive = false (max is exclusive, assumption)
+  );
 }

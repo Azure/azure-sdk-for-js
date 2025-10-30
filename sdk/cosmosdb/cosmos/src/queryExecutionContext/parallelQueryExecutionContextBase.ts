@@ -27,7 +27,10 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
-import type { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import type {
+  QueryRangeWithContinuationToken,
+  SimplifiedQueryRange,
+} from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { parseCompositeQueryContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { createParallelQueryResult } from "./ParallelQueryResult.js";
@@ -407,13 +410,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     // Check each range mapping for potential splits/merges
     for (const rangeWithToken of rangeMappings) {
-      // Create a new QueryRange instance from the parsed JSON data
+      // Create a new QueryRange instance from the simplified range data
       const range = rangeWithToken.queryRange;
       const queryRange: QueryRange = new QueryRange(
         range.min,
         range.max,
-        range.isMinInclusive,
-        range.isMaxInclusive,
+        true, // isMinInclusive - assumption: always true
+        false, // isMaxInclusive - assumption: always false (max is exclusive)
       );
 
       const rangeMin = queryRange.min;
@@ -555,15 +558,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       oldRange: {
         min: rangeWithToken.queryRange.min,
         max: rangeWithToken.queryRange.max,
-        isMinInclusive: rangeWithToken.queryRange.isMinInclusive,
-        isMaxInclusive: rangeWithToken.queryRange.isMaxInclusive,
+        isMinInclusive: true, // Assumption: min is always inclusive
+        isMaxInclusive: false, // Assumption: max is always exclusive
       },
       newRanges: [
         {
           min: rangeWithToken.queryRange.min,
           max: rangeWithToken.queryRange.max,
-          isMinInclusive: rangeWithToken.queryRange.isMinInclusive,
-          isMaxInclusive: rangeWithToken.queryRange.isMaxInclusive,
+          isMinInclusive: true, // Assumption: min is always inclusive
+          isMaxInclusive: false, // Assumption: max is always exclusive
         },
       ],
       continuationToken: rangeWithToken.continuationToken,
@@ -582,8 +585,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       oldRange: {
         min: rangeWithToken.queryRange.min,
         max: rangeWithToken.queryRange.max,
-        isMinInclusive: rangeWithToken.queryRange.isMinInclusive,
-        isMaxInclusive: rangeWithToken.queryRange.isMaxInclusive,
+        isMinInclusive: true, // Assumption: min is always inclusive
+        isMaxInclusive: false, // Assumption: max is always exclusive
       },
       newRanges: overlappingRanges.map((range) => ({
         min: range.minInclusive,
@@ -724,16 +727,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   ): QueryRangeWithContinuationToken {
     const partitionRange = documentProducer.targetPartitionKeyRange;
 
-    // Create a QueryRange using the partition key range boundaries
-    const queryRange = new QueryRange(
-      documentProducer.startEpk || partitionRange.minInclusive,
-      documentProducer.endEpk || partitionRange.maxExclusive,
-      true,
-      false,
-    );
+    // Create a simplified QueryRange using the partition key range boundaries
+    const simplifiedQueryRange: SimplifiedQueryRange = {
+      min: documentProducer.startEpk || partitionRange.minInclusive,
+      max: documentProducer.endEpk || partitionRange.maxExclusive,
+    };
 
     return {
-      queryRange: queryRange,
+      queryRange: simplifiedQueryRange,
       continuationToken: documentProducer.continuationToken,
     };
   }

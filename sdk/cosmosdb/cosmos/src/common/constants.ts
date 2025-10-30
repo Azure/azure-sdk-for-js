@@ -556,13 +556,3 @@ export enum UserAgentFeatureFlags {
   PerPartitionAutomaticFailover = 1,
   PerPartitionCircuitBreaker = 2,
 }
-
-/**
- * Internal HTTP headers for debug validation.
- * These headers are used for internal debugging and validation purposes only.
- * @internal
- */
-export const InternalHttpHeaders = {
-  /** Custom debug header for detecting continuation readiness issues */
-  ContinuationReady: "x-ms-cosmos-continuation-ready",
-} as const;

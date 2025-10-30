@@ -2,13 +2,15 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeMapping } from "../QueryRangeMapping.js";
-import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import type {
+  QueryRangeWithContinuationToken,
+  SimplifiedQueryRange,
+} from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
 import { PartitionRangeManager } from "../PartitionRangeManager.js";
-import { QueryRange } from "../../routing/QueryRange.js";
 
 /**
  * Interface representing the result portion of a query response that contains
@@ -143,13 +145,11 @@ export abstract class BaseContinuationTokenManager {
     // Update existing mapping with new range properties
     const existingMapping = this.ranges[existingMappingIndex];
 
-    // Create new QueryRange with updated boundaries
-    const updatedQueryRange = new QueryRange(
-      newRange.min,
-      newRange.max,
-      true, // minInclusive
-      false, // maxInclusive (exclusive max)
-    );
+    // Create new simplified QueryRange with updated boundaries
+    const updatedQueryRange: SimplifiedQueryRange = {
+      min: newRange.min,
+      max: newRange.max,
+    };
 
     // Update the mapping
     existingMapping.queryRange = updatedQueryRange;
@@ -170,13 +170,11 @@ export abstract class BaseContinuationTokenManager {
   }
 
   private createNewRangeMapping(partitionKeyRange: any, continuationToken: string): void {
-    // Create new QueryRange
-    const queryRange = new QueryRange(
-      partitionKeyRange.min,
-      partitionKeyRange.max,
-      true, // minInclusive
-      false, // maxInclusive (exclusive max)
-    );
+    // Create new simplified QueryRange
+    const queryRange: SimplifiedQueryRange = {
+      min: partitionKeyRange.min,
+      max: partitionKeyRange.max,
+    };
 
     // Create new QueryRangeWithContinuationToken
     const newRangeWithToken: QueryRangeWithContinuationToken = {
