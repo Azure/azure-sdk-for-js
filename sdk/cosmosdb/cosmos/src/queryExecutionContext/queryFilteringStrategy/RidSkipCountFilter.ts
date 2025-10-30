@@ -32,8 +32,6 @@ export class RidSkipCountFilter implements FilterStrategy {
    * @returns A new array containing only the documents that should be processed.
    */
   public applyFilter(documents: any[]): any[] {
-    console.log(`[FILTER-DEBUG] === Starting RidSkipCountFilter.applyFilter ===`);
-    console.log(`[FILTER-DEBUG] Input documents count: ${documents.length}`);
     console.log(`[FILTER-DEBUG] Filter context:`, {
       orderByItems: this.filterContext.orderByItems,
       sortOrders: this.filterContext.sortOrders,
@@ -66,19 +64,8 @@ export class RidSkipCountFilter implements FilterStrategy {
    * Implements the .NET SDK's FilterNextAsync logic with robust OrderBy comparison.
    */
   private shouldIncludeDocument(doc: any): boolean {
-    const docPayload = doc.payload || doc;
-    const docId = docPayload?.id || "unknown";
-    const docAmount = docPayload?.amount || "unknown";
-
-    console.log(
-      `[FILTER-DETAIL] === shouldIncludeDocument for ${docId} (amount: ${docAmount}) ===`,
-    );
-    console.log(`[FILTER-DETAIL] Document orderByItems:`, doc.orderByItems);
-    console.log(`[FILTER-DETAIL] Continuation orderByItems:`, this.filterContext.orderByItems);
-
     // Step 1: OrderBy Value Filtering using OrderByComparator
     const sortOrderCompare = this.compareOrderByItems(doc);
-    console.log(`[FILTER-DETAIL] OrderBy comparison result: ${sortOrderCompare}`);
 
     // FIXED: Correct the inverted logic!
     // compareOrderByItems returns: negative if doc < continuation, positive if doc > continuation

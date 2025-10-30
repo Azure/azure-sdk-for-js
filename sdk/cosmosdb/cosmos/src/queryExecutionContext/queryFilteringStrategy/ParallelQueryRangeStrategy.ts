@@ -48,8 +48,6 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
   ): PartitionRangeFilterResult {
-    // console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===");
-
     if (!targetRanges || targetRanges.length === 0) {
       return { rangeTokenPairs: [] };
     }

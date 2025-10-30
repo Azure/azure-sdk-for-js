@@ -114,9 +114,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       let rangeProcessingResult;
 
       if (this.ranges.length === 0) {
-        console.log(
-          "Processing empty response with no ranges for ORDER BY query continuation token.",
-        );
         rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
       } else {
         console.log("Processing empty response for ORDER BY query continuation token.");
@@ -131,10 +128,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         ];
         console.log("Empty response: Updated continuation token with valid range");
       } else {
-        // Range is exhausted - end the query to prevent infinite loop
-        console.log(
-          "Empty response: Range is exhausted (null continuation token) - ending query to prevent infinite loop",
-        );
+        // Range is exhausted - clear the continuation token
         this.continuationToken = undefined;
       }
       return {

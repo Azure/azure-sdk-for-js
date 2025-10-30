@@ -69,18 +69,15 @@ export class TargetPartitionRangeManager {
   private createStrategy(config: TargetPartitionRangeManagerConfig): TargetPartitionRangeStrategy {
     // Use custom strategy if provided
     if (config.customStrategy) {
-      // console.log(`Using custom strategy: ${config.customStrategy.getStrategyType()}`);
       return config.customStrategy;
     }
 
     // Create default strategy based on query type
     switch (config.queryType) {
       case QueryExecutionContextType.Parallel:
-        // console.log("Creating ParallelQueryRangeStrategy");
         return new ParallelQueryRangeStrategy();
 
       case QueryExecutionContextType.OrderBy:
-        // console.log("Creating OrderByQueryRangeStrategy");
         return new OrderByQueryRangeStrategy();
 
       default:
@@ -108,13 +105,11 @@ export class TargetPartitionRangeManager {
 
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
-      console.log(`❌ No target ranges provided - returning empty result`);
       return { rangeTokenPairs: [] };
     }
 
     // Merge base queryInfo with additional queryInfo (additional takes precedence)
     const mergedQueryInfo = { ...this.config.queryInfo, ...additionalQueryInfo };
-    console.log(`Merged query info:`, mergedQueryInfo);
 
     const result = this.strategy.filterPartitionRanges(
       targetRanges,

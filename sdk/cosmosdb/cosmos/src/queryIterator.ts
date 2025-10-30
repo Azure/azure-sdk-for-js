@@ -62,9 +62,6 @@ export class QueryIterator<T> {
     private resourceLink?: string,
     private resourceType?: ResourceType,
   ) {
-    // console.log("==========================================");
-    // console.log("QUERYITERATOR: Constructor called");
-    // console.log("==========================================");
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options || {};
@@ -269,9 +266,6 @@ export class QueryIterator<T> {
         throw error;
       }
     }
-    // console.log("=== QUERYITERATOR DEBUG ===");
-    // console.log("response.headers:", response.headers);
-    // console.log("=== END QUERYITERATOR DEBUG ===");
     return new FeedResponse<T>(
       response.result,
       response.headers,
