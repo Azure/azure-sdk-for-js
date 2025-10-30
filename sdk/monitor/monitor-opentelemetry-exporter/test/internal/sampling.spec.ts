@@ -56,8 +56,8 @@ describe("Library/ApplicationInsightsSampler", () => {
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
-      assert.ok(accepted > iterations * 0.25, "data should pass more than 25% of the time");
-      assert.ok(accepted < iterations * 0.45, "data should pass less than 45% the time");
+      assert.isDefined(accepted > iterations * 0.25, "data should pass more than 25% of the time");
+      assert.isDefined(accepted < iterations * 0.45, "data should pass less than 45% the time");
     });
 
     it("will send data roughly 1/2 of the time on 50% sampling", () => {
@@ -77,8 +77,8 @@ describe("Library/ApplicationInsightsSampler", () => {
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
-      assert.ok(accepted > iterations * 0.4, "data should pass more than 40% of the time");
-      assert.ok(accepted < iterations * 0.6, "data should pass less than 60% the time");
+      assert.isDefined(accepted > iterations * 0.4, "data should pass more than 40% of the time");
+      assert.isDefined(accepted < iterations * 0.6, "data should pass less than 60% the time");
     });
 
     it("will send data all of the time on 100% sampling", () => {
@@ -211,7 +211,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       assert.equal(result.decision, SamplingDecision.RECORD_AND_SAMPLED);
       assert.equal(sampler["_sampleRate"], 50); // Should not update sampler rate only result
       // Should not add sample rate attribute if 100
-      assert.ok(!result.attributes || !(AzureMonitorSampleRate in result.attributes));
+      assert.isTrue(!result.attributes || !(AzureMonitorSampleRate in result.attributes));
     });
 
     it("ignores parent span if remote", () => {
