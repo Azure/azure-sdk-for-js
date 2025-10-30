@@ -27,7 +27,7 @@ describe("message", function () {
       const annotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
 
       const expectedTtl = rhMsg.absolute_expiry_time!.getTime() - rhMsg.creation_time!.getTime();
-      assert.ok(
+      assert.isDefined(
         annotatedMessage.header?.timeToLive,
         "Expecting valid annotatedMsg.header.timeToLive",
       );
@@ -43,7 +43,7 @@ describe("message", function () {
       const annotatedMessage = AmqpAnnotatedMessage.fromRheaMessage(rhMsg);
 
       const expectedTtl = 49 * 24 * 60 * 60 * 1000;
-      assert.ok(
+      assert.isDefined(
         annotatedMessage.header?.timeToLive,
         "Expecting valid annotatedMsg.header.timeToLive",
       );
@@ -61,8 +61,8 @@ describe("message", function () {
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.equal(Constants.maxUint32Value, rhMsg.ttl);
-      assert.ok(rhMsg.creation_time);
-      assert.ok(rhMsg.absolute_expiry_time);
+      assert.isDefined(rhMsg.creation_time);
+      assert.isDefined(rhMsg.absolute_expiry_time);
       assert.equal(
         rhMsg.creation_time!.getTime() + oneHundredDaysInMs,
         rhMsg.absolute_expiry_time!.getTime(),
@@ -121,8 +121,8 @@ describe("message", function () {
       const rhMsg = AmqpAnnotatedMessage.toRheaMessage(input);
 
       assert.equal(rhMsg.ttl, sevenDayInMs);
-      assert.ok(rhMsg.creation_time);
-      assert.ok(rhMsg.absolute_expiry_time);
+      assert.isDefined(rhMsg.creation_time);
+      assert.isDefined(rhMsg.absolute_expiry_time);
       assert.equal(
         rhMsg.absolute_expiry_time!.getTime(),
         rhMsg.creation_time!.getTime() + sevenDayInMs,
