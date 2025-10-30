@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { Session } from "node:inspector";
-import { mkdir, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
 
 export async function runWithCpuProfile(
   functionToProfile: () => Promise<void>,
@@ -16,13 +15,13 @@ export async function runWithCpuProfile(
       // Invoke the logic
       await functionToProfile();
       // some time later...
-      session.post("Profiler.stop", async (err, { profile }) => {
+      session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
-          await mkdir(dirname(profileFilePath), {
+          mkdirSync(profileFilePath.substring(0, profileFilePath.lastIndexOf("/") + 1), {
             recursive: true,
           });
-          await writeFile(profileFilePath, JSON.stringify(profile));
+          writeFileSync(profileFilePath, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileFilePath}...`);
         } else {
           console.log(err);
