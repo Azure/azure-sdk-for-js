@@ -882,6 +882,8 @@ export interface StorageAccountCreateParameters {
   immutableStorageWithVersioning?: ImmutableStorageAccount;
   /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
   dnsEndpointType?: DnsEndpointType;
+  /** Status indicating whether Geo Priority Replication is enabled for the account. */
+  geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
 }
 
 /** The complex type of the extended location. */
@@ -1136,6 +1138,12 @@ export interface AccountImmutabilityPolicyProperties {
   state?: AccountImmutabilityPolicyState;
   /** This property can only be changed for disabled and unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. */
   allowProtectedAppendWrites?: boolean;
+}
+
+/** Geo Priority Replication enablement status for the storage account. */
+export interface GeoPriorityReplicationStatus {
+  /** Indicates whether Blob Geo Priority Replication is enabled for the storage account. */
+  isBlobEnabled?: boolean;
 }
 
 /** The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object. */
@@ -1454,6 +1462,8 @@ export interface StorageAccountUpdateParameters {
   allowedCopyScope?: AllowedCopyScope;
   /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
   dnsEndpointType?: DnsEndpointType;
+  /** Status indicating whether Geo Priority Replication is enabled for the account. */
+  geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
 }
 
 /** The response from the List Deleted Accounts operation. */
@@ -1989,6 +1999,12 @@ export interface ObjectReplicationPolicyFilter {
 /** Optional. The object replication policy metrics feature options. */
 export interface ObjectReplicationPolicyPropertiesMetrics {
   /** Indicates whether object replication metrics feature is enabled for the policy. */
+  enabled?: boolean;
+}
+
+/** Optional. The object replication policy priority replication feature options. */
+export interface ObjectReplicationPolicyPropertiesPriorityReplication {
+  /** Indicates whether object replication priority replication feature is enabled for the policy. */
   enabled?: boolean;
 }
 
@@ -2635,6 +2651,8 @@ export interface ObjectReplicationPolicy extends Resource {
   rules?: ObjectReplicationPolicyRule[];
   /** Optional. The object replication policy metrics feature options. */
   metrics?: ObjectReplicationPolicyPropertiesMetrics;
+  /** Optional. The object replication policy priority replication feature options. */
+  priorityReplication?: ObjectReplicationPolicyPropertiesPriorityReplication;
 }
 
 /** The local user associated with the storage accounts. */
@@ -3279,6 +3297,8 @@ export interface StorageAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountMigrationInProgress?: boolean;
+  /** Status indicating whether Geo Priority Replication is enabled for the account. */
+  geoPriorityReplicationStatus?: GeoPriorityReplicationStatus;
 }
 
 /** Deleted storage account */

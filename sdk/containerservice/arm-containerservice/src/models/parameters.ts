@@ -29,6 +29,7 @@ import {
   LoadBalancer as LoadBalancerMapper,
   IdentityBinding as IdentityBindingMapper,
   JWTAuthenticator as JWTAuthenticatorMapper,
+  MeshMembership as MeshMembershipMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -58,7 +59,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-07-02-preview",
+    defaultValue: "2025-08-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -489,4 +490,25 @@ export const jwtAuthenticatorName: OperationURLParameter = {
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: JWTAuthenticatorMapper,
+};
+
+export const meshMembershipName: OperationURLParameter = {
+  parameterPath: "meshMembershipName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9]{0,62}$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "meshMembershipName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters16: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MeshMembershipMapper,
 };

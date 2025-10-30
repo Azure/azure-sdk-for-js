@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
@@ -79,8 +79,11 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

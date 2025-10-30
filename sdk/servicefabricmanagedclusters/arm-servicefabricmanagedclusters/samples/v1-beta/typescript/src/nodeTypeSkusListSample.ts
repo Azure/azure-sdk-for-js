@@ -8,21 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Service Fabric node type supported SKUs.
  *
  * @summary get a Service Fabric node type supported SKUs.
- * x-ms-original-file: 2025-03-01-preview/NodeTypeSkusListOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/NodeTypeSkusListOperation_example.json
  */
 async function listANodeTypeSKUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.nodeTypeSkus.list(
-    "resRg",
-    "myCluster",
-    "BE",
-  )) {
+  for await (const item of client.nodeTypeSkus.list("resRg", "myCluster", "BE")) {
     resArray.push(item);
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-client",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Core library for interfacing with AutoRest generated code",
   "sdk-type": "client",
   "type": "module",
@@ -83,8 +83,11 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

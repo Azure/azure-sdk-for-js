@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-http-compat",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
   "sdk-type": "client",
   "type": "module",
@@ -78,8 +78,11 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

@@ -198,7 +198,7 @@ export class EventHubSender {
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
-    this._onAmqpClose = async (eventContext: EventContext) => {
+    this._onAmqpClose = (eventContext: EventContext) => {
       const sender = this._sender || eventContext.sender!;
       this.logger.verbose(
         "'sender_close' event occurred. Value for isItselfClosed on the receiver is: '%s' " +
@@ -208,13 +208,14 @@ export class EventHubSender {
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
-        await sender.close().catch((err) => {
+        // Fire-and-forget close operation with error handling
+        sender.close().catch((err) => {
           this.logger.verbose("error when closing after 'sender_close' event: %O", err);
         });
       }
     };
 
-    this._onSessionClose = async (eventContext: EventContext) => {
+    this._onSessionClose = (eventContext: EventContext) => {
       const sender = this._sender || eventContext.sender!;
       this.logger.verbose(
         "'session_close' event occurred. Value for isSessionItselfClosed on the session is: '%s' " +
@@ -224,7 +225,8 @@ export class EventHubSender {
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
-        await sender.close().catch((err) => {
+        // Fire-and-forget close operation with error handling
+        sender.close().catch((err) => {
           this.logger.verbose("error when closing after 'session_close' event: %O", err);
         });
       }

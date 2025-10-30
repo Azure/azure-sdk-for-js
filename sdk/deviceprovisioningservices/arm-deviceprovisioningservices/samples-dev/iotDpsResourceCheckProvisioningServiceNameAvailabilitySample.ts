@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
- *
- * @summary Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
- * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSCheckNameAvailability.json
- */
-
-import type { OperationInputs } from "@azure/arm-deviceprovisioningservices";
 import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
+ *
+ * @summary check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
+ * x-ms-original-file: 2025-02-01-preview/DPSCheckNameAvailability.json
+ */
 async function dpsCheckName(): Promise<void> {
-  const subscriptionId =
-    process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
-    "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const argumentsParam: OperationInputs = { name: "test213123" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotDpsClient(credential, subscriptionId);
-  const result =
-    await client.iotDpsResource.checkProvisioningServiceNameAvailability(argumentsParam);
+  const result = await client.iotDpsResource.checkProvisioningServiceNameAvailability({
+    name: "test213123",
+  });
   console.log(result);
 }
 
