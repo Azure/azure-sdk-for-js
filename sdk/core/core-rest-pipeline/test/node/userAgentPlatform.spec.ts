@@ -43,9 +43,9 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.isNotTrue(map.has("Node"));
-    assert.isNotTrue(map.has("Deno"));
-    assert.isNotTrue(map.has("Bun"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
   });
 
   it("should handle a Node.js process.versions with Bun", async () => {
@@ -56,8 +56,8 @@ describe("userAgentPlatform", () => {
 
     assert.isTrue(map.has("Bun"));
     assert.equal(map.get("Bun"), ("1.0.0 (Linux 6.13.8; x64)"));
-    assert.isNotTrue(map.has("Node"));
-    assert.isNotTrue(map.has("Deno"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
   });
 
   it("should handle a Node.js process.versions with Deno", async () => {
@@ -68,8 +68,8 @@ describe("userAgentPlatform", () => {
 
     assert.isTrue(map.has("Deno"));
     assert.equal(map.get("Deno"), ("2.0.0 (Linux 6.13.8; x64)"));
-    assert.isNotTrue(map.has("Node"));
-    assert.isNotTrue(map.has("Bun"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Bun"));
   });
 
   it("should handle a Node.js process.versions", async () => {
@@ -80,7 +80,7 @@ describe("userAgentPlatform", () => {
 
     assert.isTrue(map.has("Node"));
     assert.equal(map.get("Node"), ("20.0.0 (Linux 6.13.8; x64)"));
-    assert.isNotTrue(map.has("Deno"));
-    assert.isNotTrue(map.has("Bun"));
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
   });
 });
