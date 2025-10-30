@@ -55,7 +55,7 @@ describe("userAgentPlatform", () => {
     await setPlatformSpecificData(map);
 
     assert.isTrue(map.has("Bun"));
-    assert.equal(map.get("Bun"), ("1.0.0 (Linux 6.13.8; x64)"));
+    assert.equal(map.get("Bun"), "1.0.0 (Linux 6.13.8; x64)");
     assert.isFalse(map.has("Node"));
     assert.isFalse(map.has("Deno"));
   });
@@ -67,7 +67,7 @@ describe("userAgentPlatform", () => {
     await setPlatformSpecificData(map);
 
     assert.isTrue(map.has("Deno"));
-    assert.equal(map.get("Deno"), ("2.0.0 (Linux 6.13.8; x64)"));
+    assert.equal(map.get("Deno"), "2.0.0 (Linux 6.13.8; x64)");
     assert.isFalse(map.has("Node"));
     assert.isFalse(map.has("Bun"));
   });
@@ -79,7 +79,7 @@ describe("userAgentPlatform", () => {
     await setPlatformSpecificData(map);
 
     assert.isTrue(map.has("Node"));
-    assert.equal(map.get("Node"), ("20.0.0 (Linux 6.13.8; x64)"));
+    assert.equal(map.get("Node"), "20.0.0 (Linux 6.13.8; x64)");
     assert.isFalse(map.has("Deno"));
     assert.isFalse(map.has("Bun"));
   });
