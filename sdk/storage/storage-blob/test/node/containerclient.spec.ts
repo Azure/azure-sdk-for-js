@@ -10,7 +10,8 @@ import {
 } from "../utils/index.js";
 import type { PublicAccessType } from "../../src/index.js";
 import { getBlobServiceAccountAudience } from "../../src/index.js";
-import type { StorageSharedKeyCredential, BlobServiceClient } from "../../src/index.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { BlobServiceClient } from "../../src/index.js";
 import { ContainerClient, newPipeline, ContainerSASPermissions } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";

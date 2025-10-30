@@ -3,7 +3,7 @@
 import { BlobSASPermissions } from "./BlobSASPermissions.js";
 import type { UserDelegationKey } from "../BlobServiceClient.js";
 import { ContainerSASPermissions } from "./ContainerSASPermissions.js";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";

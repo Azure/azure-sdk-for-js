@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import * as zlib from "zlib";
 
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
 import {
   SimpleTokenCredential,
   base64encode,
@@ -16,12 +19,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type {
-  StorageSharedKeyCredential,
-  BlobClient,
-  ContainerClient,
-  BlobServiceClient,
-} from "../../src/index.js";
+import type { BlobClient, ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   BlockBlobClient,
   newPipeline,
@@ -29,7 +27,6 @@ import {
   BlobSASPermissions,
   getBlobServiceAccountAudience,
   SASProtocol,
-  AnonymousCredential,
 } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
