@@ -41,8 +41,8 @@ describe("DeviceCodeCredential", function () {
     const credential = new DeviceCodeCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with provided values", async function (ctx) {
@@ -58,8 +58,8 @@ describe("DeviceCodeCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with specific permissions", async function (ctx) {
@@ -76,8 +76,8 @@ describe("DeviceCodeCredential", function () {
 
     // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
     const token = await credential.getToken("https://graph.microsoft.com/Calendars.Read");
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates and allows the customization of the prompt callback", async function (ctx) {
@@ -97,8 +97,8 @@ describe("DeviceCodeCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("allows cancelling the authentication", async function (ctx) {
@@ -135,7 +135,7 @@ describe("DeviceCodeCredential", function () {
     }
 
     assert.equal(error?.name, "AbortError");
-    assert.ok(error?.message.match("The authentication has been aborted by the caller."));
+    assert.isTrue(error?.message.match("The authentication has been aborted by the caller."));
   });
 
   it("allows setting disableAutomaticAuthentication", async function (ctx) {
@@ -161,7 +161,7 @@ describe("DeviceCodeCredential", function () {
     );
 
     const account = await credential.authenticate(scope);
-    assert.ok(account);
+    assert.isDefined(account);
   });
 
   it("supports tracing", async function (ctx) {

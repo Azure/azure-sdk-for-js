@@ -31,9 +31,9 @@ describe("AuthorityValidation", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
+    assert.isDefined(token?.token);
     assert.isNotNaN(token?.expiresOnTimestamp);
     assert.isNotNull(token?.expiresOnTimestamp);
-    assert.ok(token?.expiresOnTimestamp > Date.now());
+    assert.isTrue(token?.expiresOnTimestamp > Date.now());
   });
 });

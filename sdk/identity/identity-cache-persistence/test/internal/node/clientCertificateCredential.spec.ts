@@ -76,7 +76,7 @@ describe("ClientCertificateCredential (internal)", () => {
     await credential.getToken(scope);
     const result = await persistence?.load();
     const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+    assert.isDefined(parsedResult.AccessToken);
   });
 
   it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
