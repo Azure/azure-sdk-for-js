@@ -55,7 +55,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         assert.equal((err as Error).name, "AbortError");
       }
     });
@@ -73,7 +73,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         assert.equal((err as Error).name, "AbortError");
       }
     });
@@ -321,7 +321,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       await failedRequest;
       throw new Error("Test failure");
     } catch (err) {
-      assert.ok(isError(err));
+      assert.isTrue(isError(err));
       assert.notEqual((err as Error).message, "Test failure");
     }
 
@@ -467,7 +467,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.ok(isError(err));
+      assert.isTrue(isError(err));
       const error = err as Error;
       assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
       assert.equal(
@@ -541,7 +541,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.ok(isError(err));
+      assert.isTrue(isError(err));
       const error = err as Error;
       assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
       assert.equal(
@@ -606,7 +606,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.ok(isError(err));
+      assert.isTrue(isError(err));
       const error = err as Error;
       assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
       assert.equal(
@@ -684,7 +684,7 @@ describe.skipIf(isBrowser)("RequestResponseLink", function () {
         await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
         throw new Error(testFailureMessage);
       } catch (err) {
-        assert.ok(isError(err));
+        assert.isTrue(isError(err));
         const error = err as Error;
         assert.notEqual(error.message, testFailureMessage);
       }

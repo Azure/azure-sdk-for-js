@@ -26,10 +26,10 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.notOk(map.has("Node"));
-    assert.notOk(map.has("Deno"));
-    assert.notOk(map.has("Bun"));
+    assert.isTrue(map.has("OS"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
   });
 
   it("should handle a Node.js process.versions with Bun", async () => {
@@ -38,11 +38,11 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.ok(map.has("Bun"));
+    assert.isTrue(map.has("OS"));
+    assert.isTrue(map.has("Bun"));
     assert.equal(map.get("Bun"), "1.0.0");
-    assert.notOk(map.has("Node"));
-    assert.notOk(map.has("Deno"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Deno"));
   });
 
   it("should handle a Node.js process.versions with Deno", async () => {
@@ -51,11 +51,11 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.ok(map.has("Deno"));
+    assert.isTrue(map.has("OS"));
+    assert.isTrue(map.has("Deno"));
     assert.equal(map.get("Deno"), "2.0.0");
-    assert.notOk(map.has("Node"));
-    assert.notOk(map.has("Bun"));
+    assert.isFalse(map.has("Node"));
+    assert.isFalse(map.has("Bun"));
   });
 
   it("should handle a Node.js process.versions", async () => {
@@ -64,10 +64,10 @@ describe("userAgentPlatform", () => {
 
     await setPlatformSpecificData(map);
 
-    assert.ok(map.has("OS"));
-    assert.ok(map.has("Node"));
+    assert.isTrue(map.has("OS"));
+    assert.isTrue(map.has("Node"));
     assert.equal(map.get("Node"), "20.0.0");
-    assert.notOk(map.has("Deno"));
-    assert.notOk(map.has("Bun"));
+    assert.isFalse(map.has("Deno"));
+    assert.isFalse(map.has("Bun"));
   });
 });
