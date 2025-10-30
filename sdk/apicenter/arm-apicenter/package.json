@@ -35,6 +35,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

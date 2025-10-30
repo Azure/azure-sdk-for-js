@@ -108,7 +108,6 @@
     "@typescript-eslint/parser": "~8.43.0",
     "@typescript-eslint/rule-tester": "~8.43.0",
     "@typescript-eslint/utils": "~8.43.0",
-    "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",

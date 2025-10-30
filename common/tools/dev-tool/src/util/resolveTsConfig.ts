@@ -3,6 +3,8 @@
 
 import path from "node:path";
 import fs from "node:fs/promises";
+import stripJsonComments from "strip-json-comments";
+
 import type { CompilerOptions } from "typescript";
 
 export type Config = {
@@ -38,9 +40,11 @@ export async function resolveConfig(configPath: string): Promise<Config> {
     const absolutePath = path.resolve(configPath);
     const configDir = path.dirname(absolutePath);
     const rawConfig = JSON.parse(
-      await fs.readFile(
-        !absolutePath.toLowerCase().endsWith(".json") ? `${absolutePath}.json` : absolutePath,
-        "utf8",
+      stripJsonComments(
+        await fs.readFile(
+          !absolutePath.toLowerCase().endsWith(".json") ? `${absolutePath}.json` : absolutePath,
+          "utf8",
+        ),
       ),
     );
 

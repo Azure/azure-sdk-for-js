@@ -97,7 +97,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/keyvault-keys": "^4.9.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

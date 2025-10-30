@@ -98,7 +98,7 @@ export default defineConfig({
         "test/snippets.spec.ts",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "cobertura", "html"],
       reportsDirectory: "coverage",
     },
   },

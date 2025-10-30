@@ -62,6 +62,7 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/fs-extra": "^11.0.0",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",

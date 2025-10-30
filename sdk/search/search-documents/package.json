@@ -90,7 +90,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/openai": "1.0.0-beta.12",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

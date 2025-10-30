@@ -51,7 +51,7 @@
     "@types/express-serve-static-core": "^5.0.7",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

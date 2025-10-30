@@ -73,7 +73,7 @@
     "@azure/identity": "catalog:internal",
     "@rollup/plugin-inject": "catalog:testing",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "ajv": "^8.17.1",
     "buffer": "^6.0.3",

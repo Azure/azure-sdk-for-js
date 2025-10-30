@@ -87,7 +87,7 @@
     "@azure/keyvault-secrets": "^4.2.0",
     "@microsoft/feature-management": "^2.2.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
