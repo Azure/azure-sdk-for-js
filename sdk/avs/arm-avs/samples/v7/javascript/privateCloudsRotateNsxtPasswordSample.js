@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to rotate the NSX-T Manager password
  *
  * @summary rotate the NSX-T Manager password
- * x-ms-original-file: 2024-09-01/PrivateClouds_RotateNsxtPassword.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_RotateNsxtPassword.json
  */
 async function privateCloudsRotateNsxtPassword() {
   const credential = new DefaultAzureCredential();

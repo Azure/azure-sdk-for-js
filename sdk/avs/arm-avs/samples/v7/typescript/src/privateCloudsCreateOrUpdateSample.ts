@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate.json
  */
 async function privateCloudsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,6 +21,14 @@ async function privateCloudsCreateOrUpdate(): Promise<void> {
     properties: {
       networkBlock: "192.168.48.0/22",
       managementCluster: { clusterSize: 4 },
+      vcfLicense: {
+        kind: "vcf5",
+        licenseKey: "12345-12345-12345-12345-12345",
+        endDate: new Date("2025-12-31T23:59:59Z"),
+        cores: 16,
+        broadcomSiteId: "123456",
+        broadcomContractNumber: "123456",
+      },
     },
     tags: {},
   });
@@ -31,7 +39,7 @@ async function privateCloudsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_CreateOrUpdate_FleetNative.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate_FleetNative.json
  */
 async function privateCloudsCreateOrUpdateFleetNative(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,6 +54,14 @@ async function privateCloudsCreateOrUpdateFleetNative(): Promise<void> {
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.Network/virtualNetworks/vnet",
       dnsZoneType: "Private",
       managementCluster: { clusterSize: 4 },
+      vcfLicense: {
+        kind: "vcf5",
+        licenseKey: "12345-12345-12345-12345-12345",
+        endDate: new Date("2025-12-31T23:59:59Z"),
+        cores: 16,
+        broadcomSiteId: "123456",
+        broadcomContractNumber: "123456",
+      },
     },
     tags: {},
   });
@@ -56,7 +72,7 @@ async function privateCloudsCreateOrUpdateFleetNative(): Promise<void> {
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_CreateOrUpdate_Stretched.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate_Stretched.json
  */
 async function privateCloudsCreateOrUpdateStretched(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,6 +85,14 @@ async function privateCloudsCreateOrUpdateStretched(): Promise<void> {
       availability: { strategy: "DualZone", zone: 1, secondaryZone: 2 },
       networkBlock: "192.168.48.0/22",
       managementCluster: { clusterSize: 4 },
+      vcfLicense: {
+        kind: "vcf5",
+        licenseKey: "12345-12345-12345-12345-12345",
+        endDate: new Date("2025-12-31T23:59:59Z"),
+        cores: 16,
+        broadcomSiteId: "123456",
+        broadcomContractNumber: "123456",
+      },
     },
     tags: {},
   });
@@ -79,7 +103,7 @@ async function privateCloudsCreateOrUpdateStretched(): Promise<void> {
  * This sample demonstrates how to create a PrivateCloud
  *
  * @summary create a PrivateCloud
- * x-ms-original-file: 2024-09-01/PrivateClouds_CreateOrUpdate_StretchedZones.json
+ * x-ms-original-file: 2025-09-01/PrivateClouds_CreateOrUpdate_StretchedZones.json
  */
 async function privateCloudsCreateOrUpdateStretchedZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -92,6 +116,14 @@ async function privateCloudsCreateOrUpdateStretchedZones(): Promise<void> {
     properties: {
       networkBlock: "192.168.48.0/22",
       managementCluster: { clusterSize: 4 },
+      vcfLicense: {
+        kind: "vcf5",
+        licenseKey: "12345-12345-12345-12345-12345",
+        endDate: new Date("2025-12-31T23:59:59Z"),
+        cores: 16,
+        broadcomSiteId: "123456",
+        broadcomContractNumber: "123456",
+      },
     },
     tags: {},
   });

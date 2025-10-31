@@ -4,11 +4,11 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AzureVMwareSolutionAPIContext extends Client {
     apiVersion: string;
     subscriptionId: string;
@@ -17,9 +17,10 @@ export interface AzureVMwareSolutionAPIContext extends Client {
 // @public
 export interface AzureVMwareSolutionAPIOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
-// @public (undocumented)
+// @public
 export function createAzureVMwareSolutionAPI(credential: TokenCredential, subscriptionId: string, options?: AzureVMwareSolutionAPIOptionalParams): AzureVMwareSolutionAPIContext;
 
 // (No @packageDocumentation comment for this package)

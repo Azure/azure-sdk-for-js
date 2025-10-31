@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Addon
  *
  * @summary get a Addon
- * x-ms-original-file: 2024-09-01/Addons_Get_ArcReg.json
+ * x-ms-original-file: 2025-09-01/Addons_Get_ArcReg.json
  */
 async function addonsGetArcReg() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function addonsGetArcReg() {
  * This sample demonstrates how to get a Addon
  *
  * @summary get a Addon
- * x-ms-original-file: 2024-09-01/Addons_Get_HCX.json
+ * x-ms-original-file: 2025-09-01/Addons_Get_HCX.json
  */
 async function addonsGetHCX() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function addonsGetHCX() {
  * This sample demonstrates how to get a Addon
  *
  * @summary get a Addon
- * x-ms-original-file: 2024-09-01/Addons_Get_HCX_With_Networks.json
+ * x-ms-original-file: 2025-09-01/Addons_Get_HCX_With_Networks.json
  */
 async function addonsGetHCXWithNetworks() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function addonsGetHCXWithNetworks() {
  * This sample demonstrates how to get a Addon
  *
  * @summary get a Addon
- * x-ms-original-file: 2024-09-01/Addons_Get_SRM.json
+ * x-ms-original-file: 2025-09-01/Addons_Get_SRM.json
  */
 async function addonsGetSRM() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function addonsGetSRM() {
  * This sample demonstrates how to get a Addon
  *
  * @summary get a Addon
- * x-ms-original-file: 2024-09-01/Addons_Get_VR.json
+ * x-ms-original-file: 2025-09-01/Addons_Get_VR.json
  */
 async function addonsGetVR() {
   const credential = new DefaultAzureCredential();
