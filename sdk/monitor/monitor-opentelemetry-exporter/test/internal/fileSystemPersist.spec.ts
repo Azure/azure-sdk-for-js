@@ -6,7 +6,10 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { FileSystemPersist, getStorageDirectory } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
+import {
+  FileSystemPersist,
+  getStorageDirectory,
+} from "../../src/platform/nodejs/persist/fileSystemPersist.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
@@ -18,10 +21,7 @@ const readFileAsync = promisify(fs.readFile);
 const unlinkAsync = promisify(fs.unlink);
 
 const instrumentationKey = "abc";
-const tempDir = getStorageDirectory(
-  instrumentationKey,
-  os.tmpdir(),
-);
+const tempDir = getStorageDirectory(instrumentationKey, os.tmpdir());
 
 const deleteFolderRecursive = (dirPath: string): void => {
   if (fs.existsSync(dirPath)) {
@@ -83,10 +83,7 @@ describe("FileSystemPersist", () => {
 
     it("custom storageDirectory", async () => {
       const customPath = path.join(os.tmpdir(), "TestFolder");
-      const tempDirectory = getStorageDirectory(
-        instrumentationKey,
-        customPath,
-      );
+      const tempDirectory = getStorageDirectory(instrumentationKey, customPath);
 
       deleteFolderRecursive(tempDirectory);
       const envelope: Envelope = {
@@ -272,7 +269,7 @@ describe("FileSystemPersist", () => {
 
       const testInstrumentationKey = "test-ikey";
       const customStorageDir = os.tmpdir();
-      
+
       try {
         const result = getStorageDirectory(testInstrumentationKey, customStorageDir);
 
@@ -288,7 +285,6 @@ describe("FileSystemPersist", () => {
 
         const result2 = getStorageDirectory(testInstrumentationKey, customStorageDir);
         expect(result).toBe(result2);
-        
       } finally {
         os.userInfo = originalUserInfo;
         vi.restoreAllMocks();
