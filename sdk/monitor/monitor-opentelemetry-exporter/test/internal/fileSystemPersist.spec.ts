@@ -6,7 +6,7 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
+import { FileSystemPersist, getStorageDirectory } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
@@ -18,11 +18,9 @@ const readFileAsync = promisify(fs.readFile);
 const unlinkAsync = promisify(fs.unlink);
 
 const instrumentationKey = "abc";
-const tempDir = path.join(
+const tempDir = getStorageDirectory(
+  instrumentationKey,
   os.tmpdir(),
-  "Microsoft",
-  "AzureMonitor",
-  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
 );
 
 const deleteFolderRecursive = (dirPath: string): void => {
@@ -85,12 +83,11 @@ describe("FileSystemPersist", () => {
 
     it("custom storageDirectory", async () => {
       const customPath = path.join(os.tmpdir(), "TestFolder");
-      const tempDirectory = path.join(
+      const tempDirectory = getStorageDirectory(
+        instrumentationKey,
         customPath,
-        "Microsoft",
-        "AzureMonitor",
-        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
       );
+
       deleteFolderRecursive(tempDirectory);
       const envelope: Envelope = {
         name: "name",

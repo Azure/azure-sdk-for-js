@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { tmpdir } from "node:os";
-import { basename, join } from "node:path";
+import { tmpdir, userInfo } from "node:os";
+import { basename, join, dirname } from "node:path";
+import { createHash } from 'node:crypto';
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
@@ -57,12 +58,13 @@ export class FileSystemPersist implements PersistentStorage {
       );
     }
     if (this._enabled) {
-      this._tempDirectory = join(
-        this._options?.storageDirectory || tmpdir(),
-        "Microsoft",
-        "AzureMonitor",
-        FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
-      );
+      this._tempDirectory = //join(
+        //this._options?.storageDirectory || tmpdir(),
+        getStorageDirectory(this._instrumentationKey, this._options?.storageDirectory)
+        //"Microsoft",
+        //"AzureMonitor",
+        //FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
+      //);
 
       // Starts file cleanup task
       if (!this._fileCleanupTimer) {
@@ -235,4 +237,40 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
   }
+}
+
+/**
+ * getStorageDirectory
+ */
+export function getStorageDirectory(instrumentationKey: string, storageDirectory: string | undefined): string {
+  let userSegment: string;
+  let processName: string;
+  let applicationDirectory: string;
+  try {
+    const user = userInfo();
+    userSegment = user.username;
+  } catch (error) {
+    // Fallback to a default value when userInfo() fails
+    userSegment = '';
+  }
+  if (process.title.length > 0) {
+    processName = process.title;
+  } else {
+    processName = '';
+  }
+  if (dirname(process.cwd() || process.argv[1])) {
+    applicationDirectory = dirname(process.cwd() || process.argv[1]);
+  } else {
+    applicationDirectory = '';
+  }
+  const hash_input = `${instrumentationKey}|${userSegment}|${processName}|${applicationDirectory}`;
+  const subDirectory = createHash("sha256").update(hash_input).digest("hex");
+  let sharedRoot: string;
+  if (storageDirectory) {
+    sharedRoot = storageDirectory;
+  } else {
+    sharedRoot = tmpdir();
+  }
+  return join(sharedRoot, "Microsoft-AzureMonitor-" + subDirectory, FileSystemPersist.TEMPDIR_PREFIX + instrumentationKey);
+
 }
