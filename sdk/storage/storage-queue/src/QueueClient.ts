@@ -41,7 +41,7 @@ import {
   appendToURLPath,
   extractConnectionStringParts,
   isIpEndpointStyle,
-  truncatedISO8061Date,
+  truncatedISO8601Date,
   appendToURLQuery,
   assertResponse,
 } from "./utils/utils.common.js";
@@ -886,11 +886,11 @@ export class QueueClient extends StorageClient {
           acl.push({
             accessPolicy: {
               expiresOn: identifier.accessPolicy.expiresOn
-                ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+                ? truncatedISO8601Date(identifier.accessPolicy.expiresOn)
                 : undefined,
               permissions: identifier.accessPolicy.permissions,
               startsOn: identifier.accessPolicy.startsOn
-                ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+                ? truncatedISO8601Date(identifier.accessPolicy.startsOn)
                 : undefined,
             },
             id: identifier.id,
