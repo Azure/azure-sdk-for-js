@@ -19,6 +19,48 @@ import type {
   BigDataPoolsGetResponse,
 } from "../models/index.js";
 
+/** Class containing BigDataPools operations. */
+export class BigDataPoolsImpl implements BigDataPools {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class BigDataPools class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * List Big Data Pools
+   * @param options The options parameters.
+   */
+  async list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse> {
+    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { options },
+        listOperationSpec,
+      ) as Promise<BigDataPoolsListResponse>;
+    });
+  }
+
+  /**
+   * Get Big Data Pool
+   * @param bigDataPoolName The Big Data Pool name
+   * @param options The options parameters.
+   */
+  async get(
+    bigDataPoolName: string,
+    options?: BigDataPoolsGetOptionalParams,
+  ): Promise<BigDataPoolsGetResponse> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { bigDataPoolName, options },
+        getOperationSpec,
+      ) as Promise<BigDataPoolsGetResponse>;
+    });
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -54,46 +96,3 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing BigDataPools operations. */
-export class BigDataPoolsImpl implements BigDataPools {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class BigDataPools class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * List Big Data Pools
-   * @param options - The options parameters.
-   */
-  async list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse> {
-    return tracingClient.withSpan("ArtifactsClient.list", options ?? {}, async (updatedOptions) => {
-      return this.client.sendOperationRequest(
-        { updatedOptions },
-        listOperationSpec,
-      ) as Promise<BigDataPoolsListResponse>;
-    });
-  }
-
-  /**
-   * Get Big Data Pool
-   * @param bigDataPoolName - The Big Data Pool name
-   * @param options - The options parameters.
-   */
-  async get(
-    bigDataPoolName: string,
-    options?: BigDataPoolsGetOptionalParams,
-  ): Promise<BigDataPoolsGetResponse> {
-    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (updatedOptions) => {
-      return this.client.sendOperationRequest(
-        { bigDataPoolName, updatedOptions },
-        getOperationSpec,
-      ) as Promise<BigDataPoolsGetResponse>;
-    });
-  }
-}
