@@ -5,6 +5,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { Gallery, GalleryInVMAccessControlProfileVersion } from "@azure/arm-compute";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { getLocation, getResourceGroupName, getSubscriptionId } from "./env-const.js";
+import { wait } from "../wait.js";
 
 export async function createComputeGallery(galleryName: string): Promise<Gallery> {
   const client = new ComputeManagementClient(createTestCredential(), getSubscriptionId());
@@ -81,6 +82,9 @@ export async function deleteVmAccessProfileVersion(
     versionName || "1.0.0",
   );
 
+  // Wait a bit to ensure the version deletion has fully propagated before deleting the profile
+  await wait(10000);
+  
   await client.galleryInVMAccessControlProfiles.beginDeleteAndWait(
     getResourceGroupName(),
     galleryName,

@@ -15,8 +15,8 @@ import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fa
 import { getResourceName } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 import {
-  createHoboBatchAccount,
   getBatchAccountKeys,
+  getExistingBatchAccount,
 } from "./utils/arm-resources/batch-account.js";
 import { createBatchWindowsPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
@@ -40,16 +40,16 @@ describe("Job Operations Test", () => {
       return;
     }
 
-    const account = await createHoboBatchAccount(getHoboBatchAccountName());
+    const account = await getExistingBatchAccount(getHoboBatchAccountName());
     batchAccountEndpoint = `https://${account.accountEndpoint!}`;
 
     const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
-    console.log("Successfully created Batch Account:", getHoboBatchAccountName());
+    console.log("retrieved Batch Account:", getHoboBatchAccountName());
 
     batchAccountKey = accountKeys.primary!;
 
     await createBatchWindowsPool(getHoboBatchAccountName(), BASIC_POOL, BASIC_POOL_NUM_VMS);
-    console.log("Successfully created Batch Pool:", BASIC_POOL);
+    console.log("created Batch Pool:", BASIC_POOL);
   });
 
   /**
@@ -61,7 +61,7 @@ describe("Job Operations Test", () => {
     }
 
     await deleteBatchPool(getHoboBatchAccountName(), BASIC_POOL);
-    console.log("Successfully deleted Batch Pool:", BASIC_POOL);
+    console.log("deleted Batch Pool:", BASIC_POOL);
   });
 
   beforeEach(async (ctx) => {

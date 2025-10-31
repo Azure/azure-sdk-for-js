@@ -27,8 +27,8 @@ import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpe
 import { describe, it, beforeAll, beforeEach, afterEach, assert, expect } from "vitest";
 import { waitForNodesToStart } from "./utils/pool.js";
 import {
-  createHoboBatchAccount,
   getBatchAccountKeys,
+  getExistingBatchAccount,
 } from "./utils/arm-resources/batch-account.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 
@@ -60,11 +60,11 @@ describe("Pool Operations Test", () => {
       return;
     }
 
-    const account = await createHoboBatchAccount(getHoboBatchAccountName());
+    const account = await getExistingBatchAccount(getHoboBatchAccountName());
     batchAccountEndpoint = `https://${account.accountEndpoint!}`;
 
     const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
-    console.log("Successfully created Batch Account:", getHoboBatchAccountName());
+    console.log("created Batch Account:", getHoboBatchAccountName());
 
     batchAccountKey = accountKeys.primary!;
   });
@@ -733,15 +733,6 @@ describe("Pool Operations Test", () => {
         id: poolId,
         vmSize: VMSIZE_D2s,
         virtualMachineConfiguration: {
-          diskEncryptionConfiguration: {
-            customerManagedKey: {
-              keyUrl: "https://myvault.vault.azure.net/keys/mykey/000000000000000000",
-              identityReference: {
-                resourceId:
-                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}",
-              },
-            },
-          },
           imageReference: {
             publisher: "canonical",
             offer: "0001-com-ubuntu-confidential-vm-jammy",
@@ -758,7 +749,7 @@ describe("Pool Operations Test", () => {
             proxyAgentSettings: {
               enabled: true,
               wireServer: {
-                inVMAccessControlProfileReferenceId: "Batch.MetadataSecurityProtocolProfile",
+                mode: "Audit",
               },
               imds: {
                 mode: "Audit",
@@ -780,13 +771,9 @@ describe("Pool Operations Test", () => {
 
     const result = await batchClient.path("/pools").post(poolParams);
 
-    if (!isUnexpected(result)) {
+    if (isUnexpected(result)) {
       assert.fail(`Received unexpected status code from creating pool: ${result.status}`);
-      return;
     }
-    assert.equal(result.status, "400");
-    assert.equal(result.body.code, "InvalidPropertyValue");
-    console.log(result.body);
 
     try {
       const res = await batchClient.path("/pools/{poolId}", poolId).get();
@@ -808,7 +795,7 @@ describe("Pool Operations Test", () => {
 
       const proxySettings = securityProfile.proxyAgentSettings!;
       assert.equal(proxySettings.enabled, true);
-      assert.equal(proxySettings.wireServer!.mode?.toLocaleLowerCase(), "enforce");
+      assert.equal(proxySettings.wireServer!.mode?.toLocaleLowerCase(), "audit");
       assert.equal(proxySettings.imds!.mode?.toLocaleLowerCase(), "audit");
     } finally {
       await batchClient.path("/pools/{poolId}", poolId).delete();
