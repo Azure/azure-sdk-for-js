@@ -12,10 +12,10 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/node": "^20.0.0",
-    "@vitest/coverage-istanbul": "^3.1.1",
+    "@vitest/coverage-istanbul": "^4.0.0",
     "eslint": "^9.9.0",
     "prettier": "^3.6.2",
-    "vitest": "^3.1.1",
+    "vitest": "^4.0.0",
     "typescript": "~5.8.2"
   }
 }
