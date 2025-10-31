@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getLocation,
-  getResourceGroupName,
-  getSubscriptionId,
-  getTenantId,
-  getAzureBatchServicePrincipalObjectId,
-  getUserObjectId,
-} from "./env-const.js";
+import { getLocation, getResourceGroupName, getSubscriptionId, getTenantId } from "./env-const.js";
 import type { Vault, VaultCreateOrUpdateParameters } from "@azure/arm-keyvault";
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
@@ -59,27 +52,7 @@ export async function createKeyVaultForByosBatchAccount(keyVaultName: string): P
     console.error("Error creating Key Vault:", err);
     throw err;
   }
-
-  try {
-    await grantKeyVaultSecretsOfficer(
-      vault.id!,
-      getAzureBatchServicePrincipalObjectId(),
-      "ServicePrincipal",
-    );
-    // return vault;
-  } catch (err) {
-    console.error("Error granting Key Vault Secrets Officer role for Batch SP:", err);
-    throw err;
-  }
-
-  // Need to also grant the test runner user access so it can create keys.
-  try {
-    await grantKeyVaultAdministrator(vault.id!, getUserObjectId(), "User");
-    return vault;
-  } catch (err) {
-    console.error("Error granting Key Vault Administrator role for user:", err);
-    throw err;
-  }
+  return vault;
 }
 
 /**

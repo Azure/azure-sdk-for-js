@@ -15,8 +15,8 @@ import { fakeAzureBatchEndpoint, fakeTestPasswordPlaceholder2 } from "./utils/fa
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 import {
-  createHoboBatchAccount,
   getBatchAccountKeys,
+  getExistingBatchAccount,
 } from "./utils/arm-resources/batch-account.js";
 import { createBatchWindowsPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
@@ -45,16 +45,16 @@ describe("Task Operations Test", () => {
       return;
     }
 
-    const account = await createHoboBatchAccount(getHoboBatchAccountName());
+    const account = await getExistingBatchAccount(getHoboBatchAccountName());
     batchAccountEndpoint = `https://${account.accountEndpoint!}`;
 
     const accountKeys = await getBatchAccountKeys(getHoboBatchAccountName());
-    console.log("Successfully created Batch Account:", getHoboBatchAccountName());
+    console.log("created Batch Account:", getHoboBatchAccountName());
 
     batchAccountKey = accountKeys.primary!;
 
     await createBatchWindowsPool(getHoboBatchAccountName(), BASIC_POOL, BASIC_POOL_NUM_VMS);
-    console.log("Successfully created Batch Pool:", BASIC_POOL);
+    console.log("created Batch Pool:", BASIC_POOL);
 
     // Create a job for tasks
     const jobClient = createBatchClientV2({
@@ -75,7 +75,7 @@ describe("Task Operations Test", () => {
     if (isUnexpected(jobAddResult)) {
       throw new Error(`Failed to create job: ${jobAddResult.body.message}`);
     }
-    console.log("Successfully created Job:", JOB_NAME);
+    console.log("created Job:", JOB_NAME);
   });
 
   /**
@@ -97,11 +97,11 @@ describe("Task Operations Test", () => {
     if (isUnexpected(jobDeleteResponse)) {
       console.error(`Failed to delete job ${JOB_NAME}: ${jobDeleteResponse.body.message}`);
     } else {
-      console.log("Successfully deleted Job:", JOB_NAME);
+      console.log("deleted Job:", JOB_NAME);
     }
 
     await deleteBatchPool(getHoboBatchAccountName(), BASIC_POOL);
-    console.log("Successfully deleted Batch Pool:", BASIC_POOL);
+    console.log("deleted Batch Pool:", BASIC_POOL);
   });
 
   beforeEach(async (ctx) => {

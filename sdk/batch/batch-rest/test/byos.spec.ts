@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { afterAll, beforeAll, describe, it, beforeEach, afterEach, expect } from "vitest";
-import { createByosBatchAccount, deleteBatchAccount } from "./utils/arm-resources/batch-account.js";
+import { getExistingBatchAccount } from "./utils/arm-resources/batch-account.js";
 import type { BatchClient } from "../src/clientDefinitions.js";
 import { createRecorder, createBatchClientV2 } from "./utils/recordedClient.js";
 import { isUnexpected } from "../src/isUnexpected.js";
@@ -12,6 +12,7 @@ import {
   createKeyInKeyVaultAndGetUrl,
   createKeyVaultForByosBatchAccount,
   deleteKeyVault,
+  grantKeyVaultAdministrator,
 } from "./utils/arm-resources/key-vault.js";
 import {
   createDiskEncryptionSet,
@@ -29,9 +30,9 @@ import {
   deleteComputeGallery,
   deleteVmAccessProfileVersion,
 } from "./utils/arm-resources/compute-gallary.js";
-import { getByosBatchAccountName } from "./utils/arm-resources/env-const.js";
+import { getByosBatchAccountName, getUserObjectId } from "./utils/arm-resources/env-const.js";
 
-const KEY_VAULT_NAME = getResourceName("byoskv");
+const KEY_VAULT_NAME = getResourceName("deskv");
 const DES_NAME = getResourceName("byosdes");
 const GALLERY_NAME = getResourceName("byosgallery");
 const VM_ACCESS_PROFILE_NAME = getResourceName("accessprofile");
@@ -49,28 +50,23 @@ describe("BYOS Account", () => {
     }
 
     const keyVault = await createKeyVaultForByosBatchAccount(KEY_VAULT_NAME);
-    console.log("successfully create key vault:", KEY_VAULT_NAME);
+    console.log("created key vault:", KEY_VAULT_NAME);
+
+    await grantKeyVaultAdministrator(keyVault.id!, await getUserObjectId(), "User");
+    console.log("granted Key Vault Administrator role to test user");
 
     const { key, keyUrl } = await createKeyInKeyVaultAndGetUrl(
       keyVault.properties!.vaultUri!,
       "TestKey1",
     );
-    console.log("successfully create key in key vault:", key.name);
-
-    const account = await createByosBatchAccount(
-      getByosBatchAccountName(),
-      keyVault.id!,
-      keyVault.properties!.vaultUri!,
-    );
-    accountEndpoint = `https://${account.accountEndpoint!}`;
-    console.log("successfully create byos account:", getByosBatchAccountName());
+    console.log("created key in key vault:", key.name);
 
     const diskEncryptionSet = await createDiskEncryptionSet(DES_NAME, keyVault.id!, keyUrl);
     desResourceId = diskEncryptionSet.id!;
-    console.log("successfully create disk encryption set:", DES_NAME);
+    console.log("created disk encryption set:", DES_NAME);
 
     await createComputeGallery(GALLERY_NAME);
-    console.log("successfully create compute gallery:", GALLERY_NAME);
+    console.log("created compute gallery:", GALLERY_NAME);
 
     vmAccessProfileVersionResourceId = await createVmAccessProfileVersion(
       GALLERY_NAME,
@@ -81,6 +77,9 @@ describe("BYOS Account", () => {
       "successfully create in-VM access control profile version:",
       vmAccessProfileVersionResourceId,
     );
+
+    const account = await getExistingBatchAccount(getByosBatchAccountName());
+    accountEndpoint = `https://${account.accountEndpoint!}`;
   });
 
   afterAll(async () => {
@@ -89,16 +88,16 @@ describe("BYOS Account", () => {
     }
 
     await deleteKeyVault(KEY_VAULT_NAME);
-    console.log("successfully delete key vault:", KEY_VAULT_NAME);
+    console.log("deleted key vault:", KEY_VAULT_NAME);
 
     await deleteDiskEncryptionSet(DES_NAME);
-    console.log("successfully delete disk encryption set:", DES_NAME);
+    console.log("deleted disk encryption set:", DES_NAME);
 
     await deleteVmAccessProfileVersion(GALLERY_NAME, VM_ACCESS_PROFILE_NAME);
-    console.log("successfully delete in-VM access control profile:", VM_ACCESS_PROFILE_NAME);
+    console.log("deleted in-VM access control profile:", VM_ACCESS_PROFILE_NAME);
 
     await deleteComputeGallery(GALLERY_NAME);
-    console.log("successfully delete compute gallery:", GALLERY_NAME);
+    console.log("deleted compute gallery:", GALLERY_NAME);
   });
 
   beforeEach(async (ctx) => {
@@ -135,7 +134,7 @@ describe("BYOS Account", () => {
     if (isUnexpected(res)) {
       throw new Error(`Failed to list supported images: ${res.body?.message}`);
     }
-    console.log("supported images:", res.body.value?.length);
+    expect(res.body.value?.length).toBeGreaterThan(0);
   });
 
   it("should create a pool with CMK disk encryption", async () => {
@@ -166,13 +165,11 @@ describe("BYOS Account", () => {
     if (isUnexpected(res)) {
       throw new Error(`Failed to create pool: ${res.body?.message}`);
     }
-    console.log("created pool:", poolId);
 
     const poolRes = await batchClient.path("/pools/{poolId}", poolId).get();
     if (isUnexpected(poolRes)) {
       throw new Error(`Failed to get pool: ${poolRes.body?.message}`);
     }
-    console.log("retrieved pool:", poolId);
 
     expect(poolRes.body.id).toEqual(poolId);
     expect(
@@ -213,13 +210,11 @@ describe("BYOS Account", () => {
     if (isUnexpected(res)) {
       throw new Error(`Failed to create pool: ${res.body?.message}`);
     }
-    console.log("created pool:", poolId);
 
     const poolRes = await batchClient.path("/pools/{poolId}", poolId).get();
     if (isUnexpected(poolRes)) {
       throw new Error(`Failed to get pool: ${poolRes.body?.message}`);
     }
-    console.log("retrieved pool:", poolId);
 
     expect(poolRes.body.id).toEqual(poolId);
     expect(

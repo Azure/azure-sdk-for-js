@@ -8,23 +8,25 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 /**
- * Helper function to check if a batch account exists and return it if found.
- * Returns undefined if the account does not exist.
+ * Helper function to check if a batch account exists and return it if found exists.
+ * @param accountName - The name of the batch account to check.
+ * @param returnUndefinedIfNotFound - If true, returns undefined when the account is not found instead of throwing.
  */
-async function getExistingBatchAccount(
-  client: BatchManagementClient,
-  resourceGroupName: string,
+export async function getExistingBatchAccount<T extends boolean = false>(
   accountName: string,
-): Promise<BatchAccount | undefined> {
+  returnUndefinedIfNotFound?: T,
+): Promise<T extends true ? BatchAccount | undefined : BatchAccount> {
   try {
+    const subscriptionId = getSubscriptionId();
+    const resourceGroupName = getResourceGroupName();
+    const client = new BatchManagementClient(createTestCredential(), subscriptionId);
     const existingAccount = await client.batchAccountOperations.get(resourceGroupName, accountName);
-    console.log(`Batch account ${accountName} already exists.`);
     return existingAccount;
   } catch (error) {
     if (error instanceof RestError && error.statusCode === 404) {
-      // Account does not exist, proceed to create
-      console.log(`Batch account ${accountName} does not exist. Creating a new one.`);
-      return undefined;
+      if (returnUndefinedIfNotFound === true) {
+        return undefined as T extends true ? BatchAccount | undefined : BatchAccount;
+      }
     }
     throw error;
   }
@@ -36,24 +38,35 @@ async function getExistingBatchAccount(
 async function createBatchAccountInternal(
   accountName: string,
   parameters: BatchAccountCreateParameters,
+  retryCnt: number = 3,
 ): Promise<BatchAccount> {
   const subscriptionId = getSubscriptionId();
   const resourceGroupName = getResourceGroupName();
   const client = new BatchManagementClient(createTestCredential(), subscriptionId);
 
   // Check if the account already exists
-  const existingAccount = await getExistingBatchAccount(client, resourceGroupName, accountName);
+  const existingAccount = await getExistingBatchAccount(accountName, true);
   if (existingAccount) {
     return existingAccount;
   }
 
-  // Create the account
-  const res = await client.batchAccountOperations.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    parameters,
-  );
-  return res;
+  try {
+    // Create the account
+    const res = await client.batchAccountOperations.beginCreateAndWait(
+      resourceGroupName,
+      accountName,
+      parameters,
+    );
+    return res;
+  } catch (error) {
+    console.dir(error, { depth: null });
+    if (error instanceof RestError && error.code === "The specified account is being created.") {
+      // Handle conflict error if the account was created in the meantime
+      console.log(`Batch account ${accountName} was created by another process. Retrieving it.`);
+      return createBatchAccountInternal(accountName, parameters, retryCnt - 1);
+    }
+    throw error;
+  }
 }
 
 export async function createHoboBatchAccount(accountName: string): Promise<BatchAccount> {
