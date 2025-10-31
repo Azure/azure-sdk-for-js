@@ -6,10 +6,10 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -198,26 +198,26 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    createAgent: (name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams) => Promise<AgentObject>;
-    createAgentFromManifest: (name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams) => Promise<AgentObject>;
-    createAgentVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    createAgentVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
-    deleteAgent: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
-    deleteAgentContainer: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    deleteAgentVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    getAgent: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
-    getAgentContainer: (agentName: string, agentVersion: string, options?: AgentsGetAgentContainerOptionalParams) => Promise<AgentContainerObject>;
-    getAgentContainerOperation: (agentName: string, operationId: string, options?: AgentsGetAgentContainerOperationOptionalParams) => Promise<AgentContainerOperationObject>;
-    getAgentVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    listAgentContainerOperations: (agentName: string, options?: AgentsListAgentContainerOperationsOptionalParams) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
-    listAgents: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
-    listAgentVersionContainerOperations: (agentName: string, agentVersion: string, options?: AgentsListAgentVersionContainerOperationsOptionalParams) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
-    listAgentVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    startAgentContainer: (agentName: string, agentVersion: string, options?: AgentsStartAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    stopAgentContainer: (agentName: string, agentVersion: string, options?: AgentsStopAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    updateAgent: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams) => Promise<AgentObject>;
-    updateAgentContainer: (agentName: string, agentVersion: string, options?: AgentsUpdateAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    updateAgentFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams) => Promise<AgentObject>;
+    create: (name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams) => Promise<AgentObject>;
+    createFromManifest: (name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams) => Promise<AgentObject>;
+    createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
+    createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
+    delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
+    deleteContainer: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
+    deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
+    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
+    getContainer: (agentName: string, agentVersion: string, options?: AgentsGetAgentContainerOptionalParams) => Promise<AgentContainerObject>;
+    getContainerOperation: (agentName: string, operationId: string, options?: AgentsGetAgentContainerOperationOptionalParams) => Promise<AgentContainerOperationObject>;
+    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
+    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
+    listContainerOperations: (agentName: string, options?: AgentsListAgentContainerOperationsOptionalParams) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
+    listVersionContainerOperations: (agentName: string, agentVersion: string, options?: AgentsListAgentVersionContainerOperationsOptionalParams) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
+    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
+    startContainer: (agentName: string, agentVersion: string, options?: AgentsStartAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
+    stopContainer: (agentName: string, agentVersion: string, options?: AgentsStopAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
+    update: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams) => Promise<AgentObject>;
+    updateContainer: (agentName: string, agentVersion: string, options?: AgentsUpdateAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
+    updateFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams) => Promise<AgentObject>;
 }
 
 // @public
@@ -270,7 +270,7 @@ export interface AgentVersionObject {
 
 // @public
 export class AIProjectClient {
-    constructor(endpointParam: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
+    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
@@ -279,10 +279,10 @@ export class AIProjectClient {
     readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
     readonly evaluators: EvaluatorsOperations;
     getEndpointUrl(): string;
+    getOpenAIClient(): Promise<OpenAI>;
     readonly indexes: IndexesOperations;
     readonly insights: InsightsOperations;
     readonly memoryStores: MemoryStoresOperations;
-    readonly pipeline: Pipeline;
     readonly redTeams: RedTeamsOperations;
     readonly schedules: SchedulesOperations;
 }

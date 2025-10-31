@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
+import OpenAI from "openai";
+import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
@@ -25,7 +27,6 @@ import {
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -45,6 +46,8 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {MemoryStoresOperations} memoryStores - The operation groups for memoryStores
  * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
+ * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client
  */
 export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
@@ -52,35 +55,32 @@ export class AIProjectClient {
   private _endpoint: string;
   private _credential: TokenCredential;
   private _options: AIProjectClientOptionalParams;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
 
   constructor(
-    endpointParam: string,
+    endpoint: string,
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
-    this._endpoint = endpointParam;
+    this._endpoint = endpoint;
     this._credential = credential;
     this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._cognitiveScopeClient = createAIProject(endpointParam, this._credential, {
+    this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
       credentials: {
         ...options.credentials,
-        scopes: ["https://ai.azure.com/.default"],
+        scopes: ["https://cognitiveservices.azure.com/.default"],
       },
     });
-    this._azureScopeClient = createAIProject(endpointParam, credential, {
+    this._azureScopeClient = createAIProject(endpoint, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
 
-    this.pipeline = this._cognitiveScopeClient.pipeline;
     this.schedules = _getSchedulesOperations(this._cognitiveScopeClient);
     this.insights = _getInsightsOperations(this._cognitiveScopeClient);
     this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
@@ -119,6 +119,22 @@ export class AIProjectClient {
   public readonly memoryStores: MemoryStoresOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
+  /**
+   * gets the OpenAI client
+   * @returns the OpenAI client
+   */
+  public async getOpenAIClient(): Promise<OpenAI> {
+    const scope = "https://ai.azure.com/.default";
+    const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
+
+    return new OpenAI({
+      apiKey: azureADTokenProvider,
+      baseURL: `${this._endpoint}/openai`,
+      defaultQuery: { "api-version": this._options?.apiVersion || "2025-05-15-preview" },
+      defaultHeaders: { "accept-encoding": "deflate" },
+      dangerouslyAllowBrowser: true,
+    });
+  }
   /**
    * gets the endpoint of the client
    * @returns the endpoint of the client

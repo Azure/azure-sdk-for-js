@@ -25,7 +25,7 @@ describe("agents - basic", () => {
   });
 
   it("should create and delete an agent version", async () => {
-    const agent = await agents.createAgentVersion(firstAgentName, {
+    const agent = await agents.createVersion(firstAgentName, {
       kind: "prompt",
       model: "gpt-5-mini",
       instructions: agentInstructions,
@@ -36,7 +36,7 @@ describe("agents - basic", () => {
     assert.equal(agent.name, firstAgentName);
     console.log(`Created agent, agent ID: ${agent.id}`);
 
-    const deleted = await agents.deleteAgent(agent.name);
+    const deleted = await agents.delete(agent.name);
     assert.isNotNull(deleted);
     console.log(`Deleted agent, agent name: ${agent.name}`);
   });
