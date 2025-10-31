@@ -60,30 +60,43 @@ describe("DeviceRegistry Schema Registry tests", () => {
         storageAccountContainerUrl: blobStorageAccountUrl,
       },
     };
-    const srCreateResponse = client.schemaRegistries.createOrReplace(resourceGroupName, schemaRegistryName, srProperties);
+    const srCreateResponse = client.schemaRegistries.createOrReplace(
+      resourceGroupName,
+      schemaRegistryName,
+      srProperties,
+    );
     const srCreateResult = await srCreateResponse.pollUntilDone();
     assert.equal(srCreateResult.name, schemaRegistryName);
     assert.equal(srCreateResult.properties?.namespace, srProperties.properties!.namespace);
     assert.equal(srCreateResult.properties?.description, srProperties.properties!.description);
     assert.equal(srCreateResult.properties?.displayName, srProperties.properties!.displayName);
-    assert.equal(srCreateResult.properties?.storageAccountContainerUrl, srProperties.properties!.storageAccountContainerUrl);
+    assert.equal(
+      srCreateResult.properties?.storageAccountContainerUrl,
+      srProperties.properties!.storageAccountContainerUrl,
+    );
 
     // Update Schema Registry
     const srUpdateProperties: SchemaRegistryUpdate = {
       properties: {
         description: "Updated Test Schema Registry",
         displayName: "UpdatedTestSchemaRegistry",
-      }
+      },
     };
     const srUpdateResponse = client.schemaRegistries.update(
       resourceGroupName,
       schemaRegistryName,
-      srUpdateProperties
+      srUpdateProperties,
     );
     const srUpdateResult = await srUpdateResponse.pollUntilDone();
     assert.equal(srUpdateResult.name, schemaRegistryName);
-    assert.equal(srUpdateResult.properties?.description, srUpdateProperties.properties!.description);
-    assert.equal(srUpdateResult.properties?.displayName, srUpdateProperties.properties!.displayName);
+    assert.equal(
+      srUpdateResult.properties?.description,
+      srUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      srUpdateResult.properties?.displayName,
+      srUpdateProperties.properties!.displayName,
+    );
 
     // Get Schema Registry
     const srGetResult = await client.schemaRegistries.get(resourceGroupName, schemaRegistryName);
@@ -111,26 +124,35 @@ describe("DeviceRegistry Schema Registry tests", () => {
         displayName: "TestSchema",
         description: "This is a test schema",
         format: "JsonSchema/draft-07",
-        schemaType: "MessageSchema"
-      }
+        schemaType: "MessageSchema",
+      },
     };
     const schemaCreateResult = await client.schemas.createOrReplace(
       resourceGroupName,
       schemaRegistryName,
       schemaName,
-      schemaProperties
+      schemaProperties,
     );
     assert.equal(schemaCreateResult.name, schemaName);
-    assert.equal(schemaCreateResult.properties?.displayName, schemaProperties.properties!.displayName);
-    assert.equal(schemaCreateResult.properties?.description, schemaProperties.properties!.description);
+    assert.equal(
+      schemaCreateResult.properties?.displayName,
+      schemaProperties.properties!.displayName,
+    );
+    assert.equal(
+      schemaCreateResult.properties?.description,
+      schemaProperties.properties!.description,
+    );
     assert.equal(schemaCreateResult.properties?.format, schemaProperties.properties!.format);
-    assert.equal(schemaCreateResult.properties?.schemaType, schemaProperties.properties!.schemaType);
+    assert.equal(
+      schemaCreateResult.properties?.schemaType,
+      schemaProperties.properties!.schemaType,
+    );
 
     // Get schema
     const schemaGetResult = await client.schemas.get(
       resourceGroupName,
       schemaRegistryName,
-      schemaName
+      schemaName,
     );
     assert.equal(schemaGetResult.name, schemaName);
     assert.equal(schemaGetResult.properties?.displayName, schemaProperties.properties!.displayName);
@@ -142,7 +164,7 @@ describe("DeviceRegistry Schema Registry tests", () => {
     const schemaListResults: Schema[] = [];
     const schemaListResponse = client.schemas.listBySchemaRegistry(
       resourceGroupName,
-      schemaRegistryName
+      schemaRegistryName,
     );
     for await (const schema of schemaListResponse) {
       schemaListResults.push(schema);
@@ -154,35 +176,48 @@ describe("DeviceRegistry Schema Registry tests", () => {
     const schemaVersionProperties: SchemaVersion = {
       properties: {
         description: "This is version 1 of the test schema",
-        schemaContent: "{\"$schema\": \"http://json-schema.org/draft-07/schema#\",\"type\": \"object\",\"properties\": {\"humidity\": {\"type\": \"string\"},\"temperature\": {\"type\":\"number\"}}}"
-      }
+        schemaContent:
+          '{"$schema": "http://json-schema.org/draft-07/schema#","type": "object","properties": {"humidity": {"type": "string"},"temperature": {"type":"number"}}}',
+      },
     };
     const schemaVersionCreateResult = await client.schemaVersions.createOrReplace(
       resourceGroupName,
       schemaRegistryName,
       schemaName,
       schemaVersionName,
-      schemaVersionProperties
+      schemaVersionProperties,
     );
-    assert.equal(schemaVersionCreateResult.properties?.description, schemaVersionProperties.properties!.description);
-    assert.equal(schemaVersionCreateResult.properties?.schemaContent, schemaVersionProperties.properties!.schemaContent);
+    assert.equal(
+      schemaVersionCreateResult.properties?.description,
+      schemaVersionProperties.properties!.description,
+    );
+    assert.equal(
+      schemaVersionCreateResult.properties?.schemaContent,
+      schemaVersionProperties.properties!.schemaContent,
+    );
 
     // Get Schema Version
     const schemaVersionGetResult = await client.schemaVersions.get(
       resourceGroupName,
       schemaRegistryName,
       schemaName,
-      schemaVersionName
+      schemaVersionName,
     );
-    assert.equal(schemaVersionGetResult.properties?.description, schemaVersionProperties.properties!.description);
-    assert.equal(schemaVersionGetResult.properties?.schemaContent, schemaVersionProperties.properties!.schemaContent);
+    assert.equal(
+      schemaVersionGetResult.properties?.description,
+      schemaVersionProperties.properties!.description,
+    );
+    assert.equal(
+      schemaVersionGetResult.properties?.schemaContent,
+      schemaVersionProperties.properties!.schemaContent,
+    );
 
     // List Schema Versions
     const schemaVersionListResults: SchemaVersion[] = [];
     const schemaVersionListResponse = client.schemaVersions.listBySchema(
       resourceGroupName,
       schemaRegistryName,
-      schemaName
+      schemaName,
     );
     for await (const schemaVersion of schemaVersionListResponse) {
       schemaVersionListResults.push(schemaVersion);
@@ -194,15 +229,15 @@ describe("DeviceRegistry Schema Registry tests", () => {
       resourceGroupName,
       schemaRegistryName,
       schemaName,
-      schemaVersionName
+      schemaVersionName,
     );
     await svDeleteResponse.pollUntilDone();
-    
+
     // Delete Schema
     const schemaDeleteResponse = client.schemas.delete(
       resourceGroupName,
       schemaRegistryName,
-      schemaName
+      schemaName,
     );
     await schemaDeleteResponse.pollUntilDone();
 

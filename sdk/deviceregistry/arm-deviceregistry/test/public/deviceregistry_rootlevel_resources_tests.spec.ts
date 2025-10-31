@@ -11,7 +11,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
 import { DeviceRegistryManagementClient } from "../../src/deviceRegistryManagementClient.js";
-import { 
+import {
   AssetEndpointProfile,
   Asset,
   AssetEndpointProfileUpdate,
@@ -21,7 +21,6 @@ import {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-
 describe("DeviceRegistry Namespaced Resources tests", () => {
   let recorder: Recorder;
   let subscriptionId: string;
@@ -60,7 +59,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         targetAddress: "opc.tcp://aep-uri",
@@ -69,17 +68,33 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           method: "Certificate",
           x509Credentials: {
             certificateSecretName: "cert-secret",
-          }
+          },
         },
-      }
+      },
     };
-    const aepCreateResponse = client.assetEndpointProfiles.createOrReplace(resourceGroupName, aepName, aepProperties);
+    const aepCreateResponse = client.assetEndpointProfiles.createOrReplace(
+      resourceGroupName,
+      aepName,
+      aepProperties,
+    );
     const aepCreateResult = await aepCreateResponse.pollUntilDone();
     assert.equal(aepCreateResult.name, aepName);
-    assert.equal(aepCreateResult.properties?.targetAddress, aepProperties.properties!.targetAddress);
-    assert.equal(aepCreateResult.properties?.endpointProfileType, aepProperties.properties!.endpointProfileType);
-    assert.equal(aepCreateResult.properties?.authentication?.method, aepProperties.properties!.authentication!.method);
-    assert.equal(aepCreateResult.properties?.authentication?.x509Credentials?.certificateSecretName, aepProperties.properties!.authentication!.x509Credentials!.certificateSecretName);
+    assert.equal(
+      aepCreateResult.properties?.targetAddress,
+      aepProperties.properties!.targetAddress,
+    );
+    assert.equal(
+      aepCreateResult.properties?.endpointProfileType,
+      aepProperties.properties!.endpointProfileType,
+    );
+    assert.equal(
+      aepCreateResult.properties?.authentication?.method,
+      aepProperties.properties!.authentication!.method,
+    );
+    assert.equal(
+      aepCreateResult.properties?.authentication?.x509Credentials?.certificateSecretName,
+      aepProperties.properties!.authentication!.x509Credentials!.certificateSecretName,
+    );
 
     // Update AssetEndpointProfile
     console.log("Updating root level AssetEndpointProfile...");
@@ -90,28 +105,63 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           usernamePasswordCredentials: {
             usernameSecretName: "username-secret",
             passwordSecretName: "password-secret",
-          }
-        }
-      }
+          },
+        },
+      },
     };
-    const aepUpdateResponse = client.assetEndpointProfiles.update(resourceGroupName, aepName, aepUpdateProperties);
+    const aepUpdateResponse = client.assetEndpointProfiles.update(
+      resourceGroupName,
+      aepName,
+      aepUpdateProperties,
+    );
     const aepUpdateResult = await aepUpdateResponse.pollUntilDone();
     assert.equal(aepUpdateResult.name, aepName);
-    assert.equal(aepUpdateResult.properties?.targetAddress, aepProperties.properties!.targetAddress);
-    assert.equal(aepUpdateResult.properties?.endpointProfileType, aepProperties.properties!.endpointProfileType);
-    assert.equal(aepUpdateResult.properties?.authentication?.method, aepUpdateProperties.properties!.authentication!.method);
-    assert.equal(aepUpdateResult.properties?.authentication?.usernamePasswordCredentials?.usernameSecretName, aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!.usernameSecretName);
-    assert.equal(aepUpdateResult.properties?.authentication?.usernamePasswordCredentials?.passwordSecretName, aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!.passwordSecretName);
+    assert.equal(
+      aepUpdateResult.properties?.targetAddress,
+      aepProperties.properties!.targetAddress,
+    );
+    assert.equal(
+      aepUpdateResult.properties?.endpointProfileType,
+      aepProperties.properties!.endpointProfileType,
+    );
+    assert.equal(
+      aepUpdateResult.properties?.authentication?.method,
+      aepUpdateProperties.properties!.authentication!.method,
+    );
+    assert.equal(
+      aepUpdateResult.properties?.authentication?.usernamePasswordCredentials?.usernameSecretName,
+      aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!
+        .usernameSecretName,
+    );
+    assert.equal(
+      aepUpdateResult.properties?.authentication?.usernamePasswordCredentials?.passwordSecretName,
+      aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!
+        .passwordSecretName,
+    );
 
     // GET AssetEndpointProfile
     console.log("Getting root level AssetEndpointProfile...");
     const aepGetResponse = await client.assetEndpointProfiles.get(resourceGroupName, aepName);
     assert.equal(aepGetResponse.name, aepName);
     assert.equal(aepGetResponse.properties?.targetAddress, aepProperties.properties!.targetAddress);
-    assert.equal(aepGetResponse.properties?.endpointProfileType, aepProperties.properties!.endpointProfileType);
-    assert.equal(aepGetResponse.properties?.authentication?.method, aepUpdateProperties.properties!.authentication!.method);
-    assert.equal(aepGetResponse.properties?.authentication?.usernamePasswordCredentials?.usernameSecretName, aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!.usernameSecretName);
-    assert.equal(aepGetResponse.properties?.authentication?.usernamePasswordCredentials?.passwordSecretName, aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!.passwordSecretName);
+    assert.equal(
+      aepGetResponse.properties?.endpointProfileType,
+      aepProperties.properties!.endpointProfileType,
+    );
+    assert.equal(
+      aepGetResponse.properties?.authentication?.method,
+      aepUpdateProperties.properties!.authentication!.method,
+    );
+    assert.equal(
+      aepGetResponse.properties?.authentication?.usernamePasswordCredentials?.usernameSecretName,
+      aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!
+        .usernameSecretName,
+    );
+    assert.equal(
+      aepGetResponse.properties?.authentication?.usernamePasswordCredentials?.passwordSecretName,
+      aepUpdateProperties.properties!.authentication!.usernamePasswordCredentials!
+        .passwordSecretName,
+    );
 
     // LIST AssetEndpointProfiles
     console.log("Listing root level AssetEndpointProfiles...");
@@ -136,20 +186,33 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         assetEndpointProfileRef: "my-aep-ref",
         description: "Test asset description",
         displayName: "Test Asset",
-      }
+      },
     };
-    const assetCreateResponse = client.assets.createOrReplace(resourceGroupName, assetName, assetProperties);
+    const assetCreateResponse = client.assets.createOrReplace(
+      resourceGroupName,
+      assetName,
+      assetProperties,
+    );
     const assetCreateResult = await assetCreateResponse.pollUntilDone();
     assert.equal(assetCreateResult.name, assetName);
-    assert.equal(assetCreateResult.properties?.assetEndpointProfileRef, assetProperties.properties!.assetEndpointProfileRef);
-    assert.equal(assetCreateResult.properties?.description, assetProperties.properties!.description);
-    assert.equal(assetCreateResult.properties?.displayName, assetProperties.properties!.displayName);
+    assert.equal(
+      assetCreateResult.properties?.assetEndpointProfileRef,
+      assetProperties.properties!.assetEndpointProfileRef,
+    );
+    assert.equal(
+      assetCreateResult.properties?.description,
+      assetProperties.properties!.description,
+    );
+    assert.equal(
+      assetCreateResult.properties?.displayName,
+      assetProperties.properties!.displayName,
+    );
 
     // Update root asset
     console.log("Updating root level Asset...");
@@ -157,23 +220,45 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       properties: {
         description: "Updated test asset description",
         displayName: "Updated Test Asset",
-      }
+      },
     };
-    const assetUpdateResponse = client.assets.update(resourceGroupName, assetName, assetUpdateProperties);
+    const assetUpdateResponse = client.assets.update(
+      resourceGroupName,
+      assetName,
+      assetUpdateProperties,
+    );
     const assetUpdateResult = await assetUpdateResponse.pollUntilDone();
     assert.equal(assetUpdateResult.name, assetName);
-    assert.equal(assetUpdateResult.properties?.assetEndpointProfileRef, assetProperties.properties!.assetEndpointProfileRef);
-    assert.equal(assetUpdateResult.properties?.description, assetUpdateProperties.properties!.description);
-    assert.equal(assetUpdateResult.properties?.displayName, assetUpdateProperties.properties!.displayName);
+    assert.equal(
+      assetUpdateResult.properties?.assetEndpointProfileRef,
+      assetProperties.properties!.assetEndpointProfileRef,
+    );
+    assert.equal(
+      assetUpdateResult.properties?.description,
+      assetUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      assetUpdateResult.properties?.displayName,
+      assetUpdateProperties.properties!.displayName,
+    );
 
     // GET root asset
     console.log("Getting root level Asset...");
     const assetGetResponse = await client.assets.get(resourceGroupName, assetName);
     assert.equal(assetGetResponse.name, assetName);
-    assert.equal(assetGetResponse.properties?.assetEndpointProfileRef, assetProperties.properties!.assetEndpointProfileRef);
-    assert.equal(assetGetResponse.properties?.description, assetUpdateProperties.properties!.description);
-    assert.equal(assetGetResponse.properties?.displayName, assetUpdateProperties.properties!.displayName);
-    
+    assert.equal(
+      assetGetResponse.properties?.assetEndpointProfileRef,
+      assetProperties.properties!.assetEndpointProfileRef,
+    );
+    assert.equal(
+      assetGetResponse.properties?.description,
+      assetUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      assetGetResponse.properties?.displayName,
+      assetUpdateProperties.properties!.displayName,
+    );
+
     // LIST root assets
     console.log("Listing root level Assets...");
     const assetListResponse = client.assets.listByResourceGroup(resourceGroupName);
@@ -188,5 +273,4 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
     const assetDeleteResponse = client.assets.delete(resourceGroupName, assetName);
     await assetDeleteResponse.pollUntilDone();
   });
-
 });

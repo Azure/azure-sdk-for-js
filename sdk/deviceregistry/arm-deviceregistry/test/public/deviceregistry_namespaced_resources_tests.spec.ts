@@ -11,11 +11,11 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
 import { DeviceRegistryManagementClient } from "../../src/deviceRegistryManagementClient.js";
-import { 
+import {
   AssetEndpointProfile,
-  Namespace, 
-  NamespaceAsset, 
-  NamespaceDevice, 
+  Namespace,
+  NamespaceAsset,
+  NamespaceDevice,
   NamespaceUpdate,
   NamespaceAssetUpdate,
   NamespaceDeviceUpdate,
@@ -71,47 +71,70 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       properties: {
         messaging: {
           endpoints: {
-            "myendpoint1": {
+            myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
               endpointType: "azure-iot-edge",
               resourceId: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.IotHub/namespaces/contoso-hub-namespace1`,
             },
-          }
-        }
-      }
+          },
+        },
+      },
     };
-    const nsCreateResponse = client.namespaces.createOrReplace(resourceGroupName, namespaceName, nsProperties);
+    const nsCreateResponse = client.namespaces.createOrReplace(
+      resourceGroupName,
+      namespaceName,
+      nsProperties,
+    );
     const nsCreateResult = await nsCreateResponse.pollUntilDone();
     assert.equal(nsCreateResult.name, namespaceName);
-    assert.equal(nsCreateResult.properties?.messaging?.endpoints?.["myendpoint1"].address, nsProperties.properties!.messaging!.endpoints!["myendpoint1"].address);
+    assert.equal(
+      nsCreateResult.properties?.messaging?.endpoints?.["myendpoint1"].address,
+      nsProperties.properties!.messaging!.endpoints!["myendpoint1"].address,
+    );
 
     // Update Namespace
-    console.log("Updating namespace...")
+    console.log("Updating namespace...");
     const nsUpdateProperties: NamespaceUpdate = {
       properties: {
         messaging: {
           endpoints: {
-            "myendpoint2": {
+            myendpoint2: {
               address: "https://myendpoint2.westeurope-1.iothub.azure.net",
               endpointType: "azure-iot-edge",
               resourceId: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.IotHub/namespaces/contoso-hub-namespace2`,
             },
-          }
-        }
-      }
+          },
+        },
+      },
     };
-    const nsUpdateResponse =client.namespaces.update(resourceGroupName, namespaceName, nsUpdateProperties);
+    const nsUpdateResponse = client.namespaces.update(
+      resourceGroupName,
+      namespaceName,
+      nsUpdateProperties,
+    );
     const nsUpdateResult = await nsUpdateResponse.pollUntilDone();
     assert.equal(nsUpdateResult.name, namespaceName);
-    assert.equal(nsCreateResult.properties?.messaging?.endpoints?.["myendpoint1"].address, nsProperties.properties!.messaging!.endpoints!["myendpoint1"].address);
-    assert.equal(nsUpdateResult.properties?.messaging?.endpoints?.["myendpoint2"].address, nsUpdateProperties.properties!.messaging!.endpoints!["myendpoint2"].address);
+    assert.equal(
+      nsCreateResult.properties?.messaging?.endpoints?.["myendpoint1"].address,
+      nsProperties.properties!.messaging!.endpoints!["myendpoint1"].address,
+    );
+    assert.equal(
+      nsUpdateResult.properties?.messaging?.endpoints?.["myendpoint2"].address,
+      nsUpdateProperties.properties!.messaging!.endpoints!["myendpoint2"].address,
+    );
 
     // Get Namespace
     console.log("Getting namespace resource...");
     const nsGetResult = await client.namespaces.get(resourceGroupName, namespaceName);
     assert.equal(nsGetResult.name, namespaceName);
-    assert.equal(nsGetResult.properties?.messaging?.endpoints?.["myendpoint1"].address, nsProperties.properties!.messaging!.endpoints!["myendpoint1"].address);
-    assert.equal(nsGetResult.properties?.messaging?.endpoints?.["myendpoint2"].address, nsUpdateProperties.properties!.messaging!.endpoints!["myendpoint2"].address);
+    assert.equal(
+      nsGetResult.properties?.messaging?.endpoints?.["myendpoint1"].address,
+      nsProperties.properties!.messaging!.endpoints!["myendpoint1"].address,
+    );
+    assert.equal(
+      nsGetResult.properties?.messaging?.endpoints?.["myendpoint2"].address,
+      nsUpdateProperties.properties!.messaging!.endpoints!["myendpoint2"].address,
+    );
 
     // List Namespaces by Resource Group
     console.log("Listing namespace resources...");
@@ -129,7 +152,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         manufacturer: "Contoso",
@@ -138,22 +161,39 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
         operatingSystemVersion: "18.04",
         endpoints: {
           inbound: {
-            "myendpoint1": {
+            myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
               endpointType: "azure-iot-edge",
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     };
-    const nsDeviceCreateResponse = client.namespaceDevices.createOrReplace(resourceGroupName, namespaceName, nsDeviceName, nsDeviceProperties);
+    const nsDeviceCreateResponse = client.namespaceDevices.createOrReplace(
+      resourceGroupName,
+      namespaceName,
+      nsDeviceName,
+      nsDeviceProperties,
+    );
     const nsDeviceCreateResult = await nsDeviceCreateResponse.pollUntilDone();
     assert.equal(nsDeviceCreateResult.name, nsDeviceName);
-    assert.equal(nsDeviceCreateResult.properties?.manufacturer, nsDeviceProperties.properties!.manufacturer);
+    assert.equal(
+      nsDeviceCreateResult.properties?.manufacturer,
+      nsDeviceProperties.properties!.manufacturer,
+    );
     assert.equal(nsDeviceCreateResult.properties?.model, nsDeviceProperties.properties!.model);
-    assert.equal(nsDeviceCreateResult.properties?.operatingSystem, nsDeviceProperties.properties!.operatingSystem);
-    assert.equal(nsDeviceCreateResult.properties?.operatingSystemVersion, nsDeviceProperties.properties!.operatingSystemVersion);
-    assert.equal(nsDeviceCreateResult.properties?.endpoints?.inbound?.["myendpoint1"].address, nsDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].address);
+    assert.equal(
+      nsDeviceCreateResult.properties?.operatingSystem,
+      nsDeviceProperties.properties!.operatingSystem,
+    );
+    assert.equal(
+      nsDeviceCreateResult.properties?.operatingSystemVersion,
+      nsDeviceProperties.properties!.operatingSystemVersion,
+    );
+    assert.equal(
+      nsDeviceCreateResult.properties?.endpoints?.inbound?.["myendpoint1"].address,
+      nsDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].address,
+    );
 
     // Update Namespace Device
     console.log("Updating namespace device...");
@@ -161,25 +201,49 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       properties: {
         operatingSystemVersion: "20.04",
         enabled: false,
-      }
+      },
     };
-    const nsDeviceUpdateResponse = client.namespaceDevices.update(resourceGroupName, namespaceName, nsDeviceName, nsDeviceUpdateProperties);
+    const nsDeviceUpdateResponse = client.namespaceDevices.update(
+      resourceGroupName,
+      namespaceName,
+      nsDeviceName,
+      nsDeviceUpdateProperties,
+    );
     const nsDeviceUpdateResult = await nsDeviceUpdateResponse.pollUntilDone();
     assert.equal(nsDeviceUpdateResult.name, nsDeviceName);
-    assert.equal(nsDeviceUpdateResult.properties?.operatingSystemVersion, nsDeviceUpdateProperties.properties!.operatingSystemVersion);
-    assert.equal(nsDeviceUpdateResult.properties?.enabled, nsDeviceUpdateProperties.properties!.enabled);
+    assert.equal(
+      nsDeviceUpdateResult.properties?.operatingSystemVersion,
+      nsDeviceUpdateProperties.properties!.operatingSystemVersion,
+    );
+    assert.equal(
+      nsDeviceUpdateResult.properties?.enabled,
+      nsDeviceUpdateProperties.properties!.enabled,
+    );
 
     // Get Namespace Device
     console.log("Getting namespace device...");
-    const nsDeviceGetResult = await client.namespaceDevices.get(resourceGroupName, namespaceName, nsDeviceName);
+    const nsDeviceGetResult = await client.namespaceDevices.get(
+      resourceGroupName,
+      namespaceName,
+      nsDeviceName,
+    );
     assert.equal(nsDeviceGetResult.name, nsDeviceName);
-    assert.equal(nsDeviceGetResult.properties?.operatingSystemVersion, nsDeviceUpdateProperties.properties!.operatingSystemVersion);
-    assert.equal(nsDeviceGetResult.properties?.enabled, nsDeviceUpdateProperties.properties!.enabled);
+    assert.equal(
+      nsDeviceGetResult.properties?.operatingSystemVersion,
+      nsDeviceUpdateProperties.properties!.operatingSystemVersion,
+    );
+    assert.equal(
+      nsDeviceGetResult.properties?.enabled,
+      nsDeviceUpdateProperties.properties!.enabled,
+    );
 
     // List Namespace Devices by Resource Group
     console.log("Listing namespace devices...");
     const nsDeviceListResults: NamespaceDevice[] = [];
-    const nsDeviceListResponse = client.namespaceDevices.listByResourceGroup(resourceGroupName, namespaceName);
+    const nsDeviceListResponse = client.namespaceDevices.listByResourceGroup(
+      resourceGroupName,
+      namespaceName,
+    );
     for await (const nsDevice of nsDeviceListResponse) {
       nsDeviceListResults.push(nsDevice);
     }
@@ -192,24 +256,41 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         deviceRef: {
           deviceName: nsDeviceName,
-          endpointName: "myendpoint1"
+          endpointName: "myendpoint1",
         },
         description: "Test Namespace Asset",
         displayName: "TestNamespaceAsset",
       },
     };
-    const nsAssetCreateResponse = client.namespaceAssets.createOrReplace(resourceGroupName, namespaceName, nsAssetName, nsAssetProperties);
+    const nsAssetCreateResponse = client.namespaceAssets.createOrReplace(
+      resourceGroupName,
+      namespaceName,
+      nsAssetName,
+      nsAssetProperties,
+    );
     const nsAssetCreateResult = await nsAssetCreateResponse.pollUntilDone();
     assert.equal(nsAssetCreateResult.name, nsAssetName);
-    assert.equal(nsAssetCreateResult.properties?.deviceRef?.deviceName, nsAssetProperties.properties!.deviceRef!.deviceName);
-    assert.equal(nsAssetCreateResult.properties?.deviceRef?.endpointName, nsAssetProperties.properties!.deviceRef!.endpointName);
-    assert.equal(nsAssetCreateResult.properties?.description, nsAssetProperties.properties!.description);
-    assert.equal(nsAssetCreateResult.properties?.displayName, nsAssetProperties.properties!.displayName);
+    assert.equal(
+      nsAssetCreateResult.properties?.deviceRef?.deviceName,
+      nsAssetProperties.properties!.deviceRef!.deviceName,
+    );
+    assert.equal(
+      nsAssetCreateResult.properties?.deviceRef?.endpointName,
+      nsAssetProperties.properties!.deviceRef!.endpointName,
+    );
+    assert.equal(
+      nsAssetCreateResult.properties?.description,
+      nsAssetProperties.properties!.description,
+    );
+    assert.equal(
+      nsAssetCreateResult.properties?.displayName,
+      nsAssetProperties.properties!.displayName,
+    );
 
     // Update Namespace Asset
     console.log("Updating namespace asset...");
@@ -217,25 +298,49 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       properties: {
         description: "Updated Test Namespace Asset",
         displayName: "UpdatedTestNamespaceAsset",
-      }
+      },
     };
-    const nsAssetUpdateResponse = client.namespaceAssets.update(resourceGroupName, namespaceName, nsAssetName, nsAssetUpdateProperties);
+    const nsAssetUpdateResponse = client.namespaceAssets.update(
+      resourceGroupName,
+      namespaceName,
+      nsAssetName,
+      nsAssetUpdateProperties,
+    );
     const nsAssetUpdateResult = await nsAssetUpdateResponse.pollUntilDone();
     assert.equal(nsAssetUpdateResult.name, nsAssetName);
-    assert.equal(nsAssetUpdateResult.properties?.description, nsAssetUpdateProperties.properties!.description);
-    assert.equal(nsAssetUpdateResult.properties?.displayName, nsAssetUpdateProperties.properties!.displayName);
+    assert.equal(
+      nsAssetUpdateResult.properties?.description,
+      nsAssetUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      nsAssetUpdateResult.properties?.displayName,
+      nsAssetUpdateProperties.properties!.displayName,
+    );
 
     // Get Namespace Asset
     console.log("Getting namespace asset...");
-    const nsAssetGetResult = await client.namespaceAssets.get(resourceGroupName, namespaceName, nsAssetName);
+    const nsAssetGetResult = await client.namespaceAssets.get(
+      resourceGroupName,
+      namespaceName,
+      nsAssetName,
+    );
     assert.equal(nsAssetGetResult.name, nsAssetName);
-    assert.equal(nsAssetGetResult.properties?.description, nsAssetUpdateProperties.properties!.description);
-    assert.equal(nsAssetGetResult.properties?.displayName, nsAssetUpdateProperties.properties!.displayName);
+    assert.equal(
+      nsAssetGetResult.properties?.description,
+      nsAssetUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      nsAssetGetResult.properties?.displayName,
+      nsAssetUpdateProperties.properties!.displayName,
+    );
 
     // List Namespace Assets by Resource Group
     console.log("Listing namespace assets...");
     const nsAssetListResults: NamespaceAsset[] = [];
-    const nsAssetListResponse = client.namespaceAssets.listByResourceGroup(resourceGroupName, namespaceName);
+    const nsAssetListResponse = client.namespaceAssets.listByResourceGroup(
+      resourceGroupName,
+      namespaceName,
+    );
     for await (const nsAsset of nsAssetListResponse) {
       nsAssetListResults.push(nsAsset);
     }
@@ -248,7 +353,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         manufacturer: "Discovered Contoso",
@@ -259,53 +364,115 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
         version: 1,
         endpoints: {
           inbound: {
-            "myendpoint1": {
+            myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
               endpointType: "azure-iot-edge",
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     };
-    const nsDiscoveredDeviceCreateResponse = client.namespaceDiscoveredDevices.createOrReplace(resourceGroupName, namespaceName, nsDiscoveredDeviceName, nsDiscoveredDeviceProperties);
+    const nsDiscoveredDeviceCreateResponse = client.namespaceDiscoveredDevices.createOrReplace(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredDeviceName,
+      nsDiscoveredDeviceProperties,
+    );
     const nsDiscoveredDeviceCreateResult = await nsDiscoveredDeviceCreateResponse.pollUntilDone();
     assert.equal(nsDiscoveredDeviceCreateResult.name, nsDiscoveredDeviceName);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.manufacturer, nsDiscoveredDeviceProperties.properties!.manufacturer);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.model, nsDiscoveredDeviceProperties.properties!.model);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.operatingSystem, nsDiscoveredDeviceProperties.properties!.operatingSystem);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.operatingSystemVersion, nsDiscoveredDeviceProperties.properties!.operatingSystemVersion);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.discoveryId, nsDiscoveredDeviceProperties.properties!.discoveryId);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.endpoints?.inbound?.["myendpoint1"].address, nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].address);
-    assert.equal(nsDiscoveredDeviceCreateResult.properties?.endpoints?.inbound?.["myendpoint1"].endpointType, nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].endpointType);
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.manufacturer,
+      nsDiscoveredDeviceProperties.properties!.manufacturer,
+    );
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.model,
+      nsDiscoveredDeviceProperties.properties!.model,
+    );
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.operatingSystem,
+      nsDiscoveredDeviceProperties.properties!.operatingSystem,
+    );
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.operatingSystemVersion,
+      nsDiscoveredDeviceProperties.properties!.operatingSystemVersion,
+    );
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.discoveryId,
+      nsDiscoveredDeviceProperties.properties!.discoveryId,
+    );
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.endpoints?.inbound?.["myendpoint1"].address,
+      nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].address,
+    );
+    assert.equal(
+      nsDiscoveredDeviceCreateResult.properties?.endpoints?.inbound?.["myendpoint1"].endpointType,
+      nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].endpointType,
+    );
 
     // Update Namespace Discovered Device
     console.log("Updating namespace discovered device...");
     const nsDiscoveredDeviceUpdateProperties: NamespaceDiscoveredDeviceUpdate = {
       properties: {
         operatingSystemVersion: "11",
-      }
+      },
     };
-    const nsDiscoveredDeviceUpdateResponse = client.namespaceDiscoveredDevices.update(resourceGroupName, namespaceName, nsDiscoveredDeviceName, nsDiscoveredDeviceUpdateProperties);
+    const nsDiscoveredDeviceUpdateResponse = client.namespaceDiscoveredDevices.update(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredDeviceName,
+      nsDiscoveredDeviceUpdateProperties,
+    );
     const nsDiscoveredDeviceUpdateResult = await nsDiscoveredDeviceUpdateResponse.pollUntilDone();
     assert.equal(nsDiscoveredDeviceUpdateResult.name, nsDiscoveredDeviceName);
-    assert.equal(nsDiscoveredDeviceUpdateResult.properties?.operatingSystemVersion, nsDiscoveredDeviceUpdateProperties.properties!.operatingSystemVersion);
+    assert.equal(
+      nsDiscoveredDeviceUpdateResult.properties?.operatingSystemVersion,
+      nsDiscoveredDeviceUpdateProperties.properties!.operatingSystemVersion,
+    );
 
     // Get Namespace Discovered Device
     console.log("Getting namespace discovered device...");
-    const nsDiscoveredDeviceGetResult = await client.namespaceDiscoveredDevices.get(resourceGroupName, namespaceName, nsDiscoveredDeviceName);
+    const nsDiscoveredDeviceGetResult = await client.namespaceDiscoveredDevices.get(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredDeviceName,
+    );
     assert.equal(nsDiscoveredDeviceGetResult.name, nsDiscoveredDeviceName);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.operatingSystemVersion, nsDiscoveredDeviceUpdateProperties.properties!.operatingSystemVersion);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.manufacturer, nsDiscoveredDeviceProperties.properties!.manufacturer);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.model, nsDiscoveredDeviceProperties.properties!.model);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.operatingSystem, nsDiscoveredDeviceProperties.properties!.operatingSystem);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.discoveryId, nsDiscoveredDeviceProperties.properties!.discoveryId);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.endpoints?.inbound?.["myendpoint1"].address, nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].address);
-    assert.equal(nsDiscoveredDeviceGetResult.properties?.endpoints?.inbound?.["myendpoint1"].endpointType, nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].endpointType);
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.operatingSystemVersion,
+      nsDiscoveredDeviceUpdateProperties.properties!.operatingSystemVersion,
+    );
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.manufacturer,
+      nsDiscoveredDeviceProperties.properties!.manufacturer,
+    );
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.model,
+      nsDiscoveredDeviceProperties.properties!.model,
+    );
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.operatingSystem,
+      nsDiscoveredDeviceProperties.properties!.operatingSystem,
+    );
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.discoveryId,
+      nsDiscoveredDeviceProperties.properties!.discoveryId,
+    );
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.endpoints?.inbound?.["myendpoint1"].address,
+      nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].address,
+    );
+    assert.equal(
+      nsDiscoveredDeviceGetResult.properties?.endpoints?.inbound?.["myendpoint1"].endpointType,
+      nsDiscoveredDeviceProperties.properties!.endpoints!.inbound!["myendpoint1"].endpointType,
+    );
 
     // List Namespace Discovered Devices by Resource Group
     console.log("Listing namespace discovered devices...");
     const nsDiscoveredDeviceListResults: NamespaceDiscoveredDevice[] = [];
-    const nsDiscoveredDeviceListResponse = client.namespaceDiscoveredDevices.listByResourceGroup(resourceGroupName, namespaceName);
+    const nsDiscoveredDeviceListResponse = client.namespaceDiscoveredDevices.listByResourceGroup(
+      resourceGroupName,
+      namespaceName,
+    );
     for await (const nsDiscoveredDevice of nsDiscoveredDeviceListResponse) {
       nsDiscoveredDeviceListResults.push(nsDiscoveredDevice);
     }
@@ -318,12 +485,12 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         deviceRef: {
           deviceName: nsDiscoveredDeviceName,
-          endpointName: "discoveredEndpoint1"
+          endpointName: "discoveredEndpoint1",
         },
         description: "Test Namespace Discovered Asset",
         displayName: "TestNamespaceDiscoveredAsset",
@@ -331,13 +498,30 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
         version: 1,
       },
     };
-    const nsDiscoveredAssetCreateResponse = client.namespaceDiscoveredAssets.createOrReplace(resourceGroupName, namespaceName, nsDiscoveredAssetName, nsDiscoveredAssetProperties);
+    const nsDiscoveredAssetCreateResponse = client.namespaceDiscoveredAssets.createOrReplace(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredAssetName,
+      nsDiscoveredAssetProperties,
+    );
     const nsDiscoveredAssetCreateResult = await nsDiscoveredAssetCreateResponse.pollUntilDone();
     assert.equal(nsDiscoveredAssetCreateResult.name, nsDiscoveredAssetName);
-    assert.equal(nsDiscoveredAssetCreateResult.properties?.deviceRef?.deviceName, nsDiscoveredAssetProperties.properties!.deviceRef!.deviceName);
-    assert.equal(nsDiscoveredAssetCreateResult.properties?.deviceRef?.endpointName, nsDiscoveredAssetProperties.properties!.deviceRef!.endpointName);
-    assert.equal(nsDiscoveredAssetCreateResult.properties?.description, nsDiscoveredAssetProperties.properties!.description);
-    assert.equal(nsDiscoveredAssetCreateResult.properties?.displayName, nsDiscoveredAssetProperties.properties!.displayName);
+    assert.equal(
+      nsDiscoveredAssetCreateResult.properties?.deviceRef?.deviceName,
+      nsDiscoveredAssetProperties.properties!.deviceRef!.deviceName,
+    );
+    assert.equal(
+      nsDiscoveredAssetCreateResult.properties?.deviceRef?.endpointName,
+      nsDiscoveredAssetProperties.properties!.deviceRef!.endpointName,
+    );
+    assert.equal(
+      nsDiscoveredAssetCreateResult.properties?.description,
+      nsDiscoveredAssetProperties.properties!.description,
+    );
+    assert.equal(
+      nsDiscoveredAssetCreateResult.properties?.displayName,
+      nsDiscoveredAssetProperties.properties!.displayName,
+    );
 
     // Update Namespace Discovered Asset
     console.log("Updating namespace discovered asset...");
@@ -345,27 +529,57 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       properties: {
         description: "Updated Test Namespace Discovered Asset",
         displayName: "UpdatedTestNamespaceDiscoveredAsset",
-      }
+      },
     };
-    const nsDiscoveredAssetUpdateResponse = client.namespaceDiscoveredAssets.update(resourceGroupName, namespaceName, nsDiscoveredAssetName, nsDiscoveredAssetUpdateProperties);
+    const nsDiscoveredAssetUpdateResponse = client.namespaceDiscoveredAssets.update(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredAssetName,
+      nsDiscoveredAssetUpdateProperties,
+    );
     const nsDiscoveredAssetUpdateResult = await nsDiscoveredAssetUpdateResponse.pollUntilDone();
     assert.equal(nsDiscoveredAssetUpdateResult.name, nsDiscoveredAssetName);
-    assert.equal(nsDiscoveredAssetUpdateResult.properties?.description, nsDiscoveredAssetUpdateProperties.properties!.description);
-    assert.equal(nsDiscoveredAssetUpdateResult.properties?.displayName, nsDiscoveredAssetUpdateProperties.properties!.displayName);
-    assert.equal(nsDiscoveredAssetUpdateResult.properties?.discoveryId, nsDiscoveredAssetProperties.properties!.discoveryId);
+    assert.equal(
+      nsDiscoveredAssetUpdateResult.properties?.description,
+      nsDiscoveredAssetUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      nsDiscoveredAssetUpdateResult.properties?.displayName,
+      nsDiscoveredAssetUpdateProperties.properties!.displayName,
+    );
+    assert.equal(
+      nsDiscoveredAssetUpdateResult.properties?.discoveryId,
+      nsDiscoveredAssetProperties.properties!.discoveryId,
+    );
 
     // Get Namespace Discovered Asset
     console.log("Getting namespace discovered asset...");
-    const nsDiscoveredAssetGetResult = await client.namespaceDiscoveredAssets.get(resourceGroupName, namespaceName, nsDiscoveredAssetName);
+    const nsDiscoveredAssetGetResult = await client.namespaceDiscoveredAssets.get(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredAssetName,
+    );
     assert.equal(nsDiscoveredAssetGetResult.name, nsDiscoveredAssetName);
-    assert.equal(nsDiscoveredAssetGetResult.properties?.description, nsDiscoveredAssetUpdateProperties.properties!.description);
-    assert.equal(nsDiscoveredAssetGetResult.properties?.displayName, nsDiscoveredAssetUpdateProperties.properties!.displayName);
-    assert.equal(nsDiscoveredAssetGetResult.properties?.discoveryId, nsDiscoveredAssetProperties.properties!.discoveryId);
+    assert.equal(
+      nsDiscoveredAssetGetResult.properties?.description,
+      nsDiscoveredAssetUpdateProperties.properties!.description,
+    );
+    assert.equal(
+      nsDiscoveredAssetGetResult.properties?.displayName,
+      nsDiscoveredAssetUpdateProperties.properties!.displayName,
+    );
+    assert.equal(
+      nsDiscoveredAssetGetResult.properties?.discoveryId,
+      nsDiscoveredAssetProperties.properties!.discoveryId,
+    );
 
     // List Namespace Discovered Assets by Resource Group
     console.log("Listing namespace discovered assets...");
     const nsDiscoveredAssetListResults: NamespaceDiscoveredAsset[] = [];
-    const nsDiscoveredAssetListResponse = client.namespaceDiscoveredAssets.listByResourceGroup(resourceGroupName, namespaceName);
+    const nsDiscoveredAssetListResponse = client.namespaceDiscoveredAssets.listByResourceGroup(
+      resourceGroupName,
+      namespaceName,
+    );
     for await (const nsDiscoveredAsset of nsDiscoveredAssetListResponse) {
       nsDiscoveredAssetListResults.push(nsDiscoveredAsset);
     }
@@ -375,22 +589,38 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
 
     // Delete Namespace Discovered Asset
     console.log("Deleting namespace discovered asset...");
-    const nsDiscoveredAssetDeleteResponse = client.namespaceDiscoveredAssets.delete(resourceGroupName, namespaceName, nsDiscoveredAssetName);
+    const nsDiscoveredAssetDeleteResponse = client.namespaceDiscoveredAssets.delete(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredAssetName,
+    );
     await nsDiscoveredAssetDeleteResponse.pollUntilDone();
 
     // Delete Namespace Discovered Device
     console.log("Deleting namespace discovered device...");
-    const nsDiscoveredDeviceDeleteResponse = client.namespaceDiscoveredDevices.delete(resourceGroupName, namespaceName, nsDiscoveredDeviceName);
+    const nsDiscoveredDeviceDeleteResponse = client.namespaceDiscoveredDevices.delete(
+      resourceGroupName,
+      namespaceName,
+      nsDiscoveredDeviceName,
+    );
     await nsDiscoveredDeviceDeleteResponse.pollUntilDone();
 
     // Delete Namespace Asset
     console.log("Deleting namespace asset...");
-    const nsAssetDeleteResponse = client.namespaceAssets.delete(resourceGroupName, namespaceName, nsAssetName);
+    const nsAssetDeleteResponse = client.namespaceAssets.delete(
+      resourceGroupName,
+      namespaceName,
+      nsAssetName,
+    );
     await nsAssetDeleteResponse.pollUntilDone();
 
     // Delete Namespace Device
     console.log("Deleting namespace device...");
-    const nsDeviceDeleteResponse = client.namespaceDevices.delete(resourceGroupName, namespaceName, nsDeviceName);
+    const nsDeviceDeleteResponse = client.namespaceDevices.delete(
+      resourceGroupName,
+      namespaceName,
+      nsDeviceName,
+    );
     await nsDeviceDeleteResponse.pollUntilDone();
 
     // Delete Namespace
@@ -408,14 +638,14 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       properties: {
         messaging: {
           endpoints: {
-            "myendpoint1": {
+            myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
               endpointType: "azure-iot-edge",
               resourceId: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.IotHub/namespaces/contoso-hub-namespace1`,
             },
-          }
-        }
-      }
+          },
+        },
+      },
     });
     const nsCreateResult = await nsCreateResponse.pollUntilDone();
     assert.equal(nsCreateResult.name, namespaceName);
@@ -427,7 +657,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
         targetAddress: "opc.tcp://aep-uri",
@@ -435,9 +665,13 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
         authentication: {
           method: "Anonymous",
         },
-      }
+      },
     };
-    const aepCreateResponse = client.assetEndpointProfiles.createOrReplace(resourceGroupName, aepName, aepProperties);
+    const aepCreateResponse = client.assetEndpointProfiles.createOrReplace(
+      resourceGroupName,
+      aepName,
+      aepProperties,
+    );
     const aepCreateResult = await aepCreateResponse.pollUntilDone();
     assert.equal(aepCreateResult.name, aepName);
 
@@ -448,34 +682,54 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
       location,
       extendedLocation: {
         name: extendedLocationName,
-        type: "CustomLocation"
+        type: "CustomLocation",
       },
       properties: {
-        assetEndpointProfileRef: aepName
-      }
+        assetEndpointProfileRef: aepName,
+      },
     };
-    const assetCreateResponse = client.assets.createOrReplace(resourceGroupName, assetName, assetProperties);
+    const assetCreateResponse = client.assets.createOrReplace(
+      resourceGroupName,
+      assetName,
+      assetProperties,
+    );
     const assetCreateResult = await assetCreateResponse.pollUntilDone();
     assert.equal(assetCreateResult.name, assetName);
 
     // Migrate the namespace
     console.log("Migrating namespace...");
     const nsMigrateRequest: NamespaceMigrateRequest = {
-      resourceIds: [assetCreateResult.id!]
+      resourceIds: [assetCreateResult.id!],
     };
-    const nsMigrateResponse = client.namespaces.migrate(resourceGroupName, namespaceName, nsMigrateRequest);
+    const nsMigrateResponse = client.namespaces.migrate(
+      resourceGroupName,
+      namespaceName,
+      nsMigrateRequest,
+    );
     await nsMigrateResponse.pollUntilDone();
 
     // Verify new resources now in the namespace
     console.log("Verifying migrated Asset and AssetEndpointProfile in namespace...");
-    const migratedAsset = await client.namespaceAssets.get(resourceGroupName, namespaceName, assetName);
+    const migratedAsset = await client.namespaceAssets.get(
+      resourceGroupName,
+      namespaceName,
+      assetName,
+    );
     assert.equal(migratedAsset.name, assetName);
-    const migratedDevice = await client.namespaceDevices.get(resourceGroupName, namespaceName, aepName);
+    const migratedDevice = await client.namespaceDevices.get(
+      resourceGroupName,
+      namespaceName,
+      aepName,
+    );
     assert.equal(migratedDevice.name, aepName);
 
     // Delete migrated Asset
     console.log("Deleting migrated Asset...");
-    const migratedAssetDeleteResponse = client.namespaceAssets.delete(resourceGroupName, namespaceName, assetName);
+    const migratedAssetDeleteResponse = client.namespaceAssets.delete(
+      resourceGroupName,
+      namespaceName,
+      assetName,
+    );
     await migratedAssetDeleteResponse.pollUntilDone();
 
     // Delete migrated Device
@@ -495,5 +749,4 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
     const nsDeleteResponse = client.namespaces.delete(resourceGroupName, namespaceName);
     await nsDeleteResponse.pollUntilDone();
   });
-
 });
