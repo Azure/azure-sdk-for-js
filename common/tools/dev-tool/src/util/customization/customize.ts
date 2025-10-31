@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { copyFile, stat, readFile, writeFile, readdir } from "node:fs/promises";
-import { ensureDir, copy } from "fs-extra";
+import { copyFile, cp, mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "../pathUtil";
 import {
   Project,
@@ -32,7 +31,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Initialize the state
   setCustomizationState({ customDir, originalDir, outDir });
   // Bring everything from original into the output
-  await copy(originalDir, outDir);
+  await cp(originalDir, outDir, { recursive: true });
 
   if (!(await directoryExists(customDir))) {
     return;
@@ -76,7 +75,7 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   for (const file of filesToCopy) {
     const sourcePath = file;
     const destPath = file.replace(customDir, outDir);
-    await ensureDir(path.dirname(destPath));
+    await mkdir(path.dirname(destPath), { recursive: true });
     await copyFile(sourcePath, destPath);
   }
 }
@@ -173,7 +172,7 @@ export async function processDirectory(customDir: string, originalDir: string): 
     } else if (entry.isDirectory()) {
       const subCustomDir = path.join(customDir, entry.name);
       const subOutDir = path.join(originalDir, entry.name);
-      await ensureDir(subOutDir);
+      await mkdir(subOutDir, { recursive: true });
       await processDirectory(subCustomDir, subOutDir);
     }
   }
