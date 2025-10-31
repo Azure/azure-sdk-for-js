@@ -49,11 +49,11 @@ export class MetricHandler {
     if (config.instrumentationOptions.postgreSql?.enabled) {
       this._views.push({ meterName: "@opentelemetry/instrumentation-pg" });
     }
-    if (config.instrumentationOptions.redis4?.enabled) {
-      this._views.push({ meterName: "@opentelemetry/instrumentation-redis-4" });
-    }
-    if (config.instrumentationOptions.redis?.enabled) {
-      this._views.push({ meterName: "@azure/opentelemetry-instrumentation-redis" });
+    if (
+      config.instrumentationOptions.redis?.enabled ||
+      config.instrumentationOptions.redis4?.enabled
+    ) {
+      this._views.push({ meterName: "@opentelemetry/instrumentation-redis" });
     }
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {

@@ -43,7 +43,6 @@ export type TrackedRequest = {
 
 /**
  * Sets up the environment necessary to do unit testing to Identity credentials.
- * We leverage Sinon to mock the internals of the http and the https modules (in Node, and the SinonFakeXMLHttpRequest in the browser).
  * Once the environment is set, we return a set of utility functions.
  * Some of these functions can be used to test promises that send individual requests,
  * others allow testing or full-on credential requests
@@ -192,7 +191,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     let error: RestError | undefined;
     try {
       // This only makes sense in the browser:
-      // By this point we've queued up responses to go out on our Sinon server.
+      // By this point we've queued up responses to go out.
       // We need the promises to begin triggering, so the server has something to respond to,
       // and only then we can wait for all of the async processes to finish.
       const promise = credential.getToken(scopes, getTokenOptions);
