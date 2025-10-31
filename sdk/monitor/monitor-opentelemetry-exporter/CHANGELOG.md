@@ -6,6 +6,8 @@
 
 - Fixed dynamic import of the exporter package.
 
+- Add support for multiuser permissions in unix.
+
 ## 1.0.0-beta.35 (2025-09-16)
 
 ### Other Changes
