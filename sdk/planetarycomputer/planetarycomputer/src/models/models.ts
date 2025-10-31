@@ -56,13 +56,34 @@ export function operationDeserializer(item: any): Operation {
 }
 
 /** Operation status */
-export type OperationStatus =
-  | "Pending"
-  | "Running"
-  | "Succeeded"
-  | "Canceled"
-  | "Canceling"
-  | "Failed";
+export enum KnownOperationStatus {
+  /** Operation accepted and ready to be run */
+  Pending = "Pending",
+  /** Operation is running */
+  Running = "Running",
+  /** Operation has already finished its execution */
+  Succeeded = "Succeeded",
+  /** Operation canceled by the user */
+  Canceled = "Canceled",
+  /** Operation is being canceling */
+  Canceling = "Canceling",
+  /** Operation failed */
+  Failed = "Failed",
+}
+
+/**
+ * Operation status \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: Operation accepted and ready to be run \
+ * **Running**: Operation is running \
+ * **Succeeded**: Operation has already finished its execution \
+ * **Canceled**: Operation canceled by the user \
+ * **Canceling**: Operation is being canceling \
+ * **Failed**: Operation failed
+ */
+export type OperationStatus = string;
 
 export function operationStatusHistoryItemArrayDeserializer(
   result: Array<OperationStatusHistoryItem>,
@@ -274,9 +295,37 @@ export function ingestionDefinitionDeserializer(
 }
 
 /** Ingestion type */
-export type IngestionType = "StaticCatalog";
+export enum KnownIngestionType {
+  /** Static STAC Catalog */
+  StaticCatalog = "StaticCatalog",
+}
+
+/**
+ * Ingestion type \
+ * {@link KnownIngestionType} can be used interchangeably with IngestionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StaticCatalog**: Static STAC Catalog
+ */
+export type IngestionType = string;
+
 /** Ingestion status */
-export type IngestionStatus = "Ready" | "Deleting";
+export enum KnownIngestionStatus {
+  /** Ingestion accepted and ready to be run */
+  Ready = "Ready",
+  /** Ingestion is being deleting in the background */
+  Deleting = "Deleting",
+}
+
+/**
+ * Ingestion status \
+ * {@link KnownIngestionStatus} can be used interchangeably with IngestionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready**: Ingestion accepted and ready to be run \
+ * **Deleting**: Ingestion is being deleting in the background
+ */
+export type IngestionStatus = string;
 
 /** Generic paged response model */
 export interface _PageIngestionDefinition {
@@ -379,7 +428,22 @@ export function ingestionSourceUnionDeserializer(
 }
 
 /** Ingestion source type */
-export type IngestionSourceType = "SasToken" | "BlobManagedIdentity";
+export enum KnownIngestionSourceType {
+  /** Azure Blob Storage SAS token */
+  SharedAccessSignatureToken = "SasToken",
+  /** Azure Blob Managed Identity */
+  BlobManagedIdentity = "BlobManagedIdentity",
+}
+
+/**
+ * Ingestion source type \
+ * {@link KnownIngestionSourceType} can be used interchangeably with IngestionSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SasToken**: Azure Blob Storage SAS token \
+ * **BlobManagedIdentity**: Azure Blob Managed Identity
+ */
+export type IngestionSourceType = string;
 
 /** SAS Token ingestion source */
 export interface SharedAccessSignatureTokenIngestionSource
@@ -809,7 +873,7 @@ export interface StacLink {
    * Specifies the HTTP method that the resource expects.
    * Default: GET.
    */
-  method?: "GET" | "POST";
+  method?: string;
   /**
    * Object key-value pairs that map to headers.
    * Example: { "Accept": "application/json" }.
@@ -856,20 +920,55 @@ export function stacLinkDeserializer(item: any): StacLink {
 }
 
 /** MIME types for links. */
-export type StacLinkType =
-  | "image/tiff; application=geotiff"
-  | "image/jp2"
-  | "image/png"
-  | "image/jpeg"
-  | "image/jpg"
-  | "image/webp"
-  | "application/x-binary"
-  | "application/xml"
-  | "application/json"
-  | "application/geo+json"
-  | "text/html"
-  | "text/plain"
-  | "application/x-protobuf";
+export enum KnownStacLinkType {
+  /** Represents an image/tiff with application=geotiff. */
+  ImageTiffApplicationGeotiff = "image/tiff; application=geotiff",
+  /** Represents an image/jp2. */
+  ImageJp2 = "image/jp2",
+  /** Represents an image/png. */
+  ImagePng = "image/png",
+  /** Represents an image/jpeg. */
+  ImageJpeg = "image/jpeg",
+  /** Represents an image/jpg. */
+  ImageJpg = "image/jpg",
+  /** Represents an image/webp. */
+  ImageWebp = "image/webp",
+  /** Represents an application/x-binary. */
+  ApplicationXBinary = "application/x-binary",
+  /** Represents an application/xml. */
+  ApplicationXml = "application/xml",
+  /** Represents an application/json. */
+  ApplicationJson = "application/json",
+  /** Represents an application/geo+json. */
+  ApplicationGeoJson = "application/geo+json",
+  /** Represents a text/html. */
+  TextHtml = "text/html",
+  /** Represents a text/plain. */
+  TextPlain = "text/plain",
+  /** Represents an application/x-protobuf. */
+  ApplicationXProtobuf = "application/x-protobuf",
+}
+
+/**
+ * MIME types for links. \
+ * {@link KnownStacLinkType} can be used interchangeably with StacLinkType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **image\/tiff; application=geotiff**: Represents an image\/tiff with application=geotiff. \
+ * **image\/jp2**: Represents an image\/jp2. \
+ * **image\/png**: Represents an image\/png. \
+ * **image\/jpeg**: Represents an image\/jpeg. \
+ * **image\/jpg**: Represents an image\/jpg. \
+ * **image\/webp**: Represents an image\/webp. \
+ * **application\/x-binary**: Represents an application\/x-binary. \
+ * **application\/xml**: Represents an application\/xml. \
+ * **application\/json**: Represents an application\/json. \
+ * **application\/geo+json**: Represents an application\/geo+json. \
+ * **text\/html**: Represents a text\/html. \
+ * **text\/plain**: Represents a text\/plain. \
+ * **application\/x-protobuf**: Represents an application\/x-protobuf.
+ */
+export type StacLinkType = string;
 
 export function stacAssetRecordSerializer(
   item: Record<string, StacAsset>,
@@ -1536,7 +1635,25 @@ export function renderOptionDeserializer(item: any): RenderOption {
 }
 
 /** Specifies the types of render options for map visualization. */
-export type RenderOptionType = "raster-tile" | "vt-polygon" | "vt-line";
+export enum KnownRenderOptionType {
+  /** Raster tile rendering type. */
+  RasterTile = "raster-tile",
+  /** Vector tile polygon rendering type. */
+  VtPolygon = "vt-polygon",
+  /** Vector tile line rendering type. */
+  VtLine = "vt-line",
+}
+
+/**
+ * Specifies the types of render options for map visualization. \
+ * {@link KnownRenderOptionType} can be used interchangeably with RenderOptionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **raster-tile**: Raster tile rendering type. \
+ * **vt-polygon**: Vector tile polygon rendering type. \
+ * **vt-line**: Vector tile line rendering type.
+ */
+export type RenderOptionType = string;
 
 /** Defines parameters for vector tile rendering. */
 export interface RenderOptionVectorOptions {
@@ -1648,7 +1765,29 @@ export function renderOptionLegendDeserializer(item: any): RenderOptionLegend {
  * Legend type to make, one of: `continuous`, `classmap`, `interval` or `none`
  * (note, `none` is a string literal).
  */
-export type LegendConfigType = "continuous" | "classmap" | "interval" | "none";
+export enum KnownLegendConfigType {
+  /** Continuous color ramp legend. */
+  Continuous = "continuous",
+  /** Classified map with discrete colors for classes. */
+  Classmap = "classmap",
+  /** Interval-based legend with discrete ranges. */
+  Interval = "interval",
+  /** No legend. */
+  None = "none",
+}
+
+/**
+ * Legend type to make, one of: `continuous`, `classmap`, `interval` or `none`
+ * (note, `none` is a string literal). \
+ * {@link KnownLegendConfigType} can be used interchangeably with LegendConfigType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **continuous**: Continuous color ramp legend. \
+ * **classmap**: Classified map with discrete colors for classes. \
+ * **interval**: Interval-based legend with discrete ranges. \
+ * **none**: No legend.
+ */
+export type LegendConfigType = string;
 
 export function renderOptionConditionArraySerializer(
   result: Array<RenderOptionCondition>,
@@ -1743,7 +1882,25 @@ export function partitionTypeDeserializer(item: any): PartitionType {
 }
 
 /** Defines partitioning schemes for temporal data organization. */
-export type PartitionTypeScheme = "year" | "month" | "none";
+export enum KnownPartitionTypeScheme {
+  /** Partition data by year. */
+  Year = "year",
+  /** Partition data by month. */
+  Month = "month",
+  /** No partitioning. */
+  None = "none",
+}
+
+/**
+ * Defines partitioning schemes for temporal data organization. \
+ * {@link KnownPartitionTypeScheme} can be used interchangeably with PartitionTypeScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **year**: Partition data by year. \
+ * **month**: Partition data by month. \
+ * **none**: No partitioning.
+ */
+export type PartitionTypeScheme = string;
 
 /**
  * https://github.com/radiantearth/stac-api-spec/blob/master/api-spec.md#ogc-api---features-endpoints
@@ -1913,7 +2070,22 @@ export function stacItemOrStacItemCollectionUnionDeserializer(
 }
 
 /** Enum discriminator for STAC item and collection types. */
-export type StacModelType = "Feature" | "FeatureCollection";
+export enum KnownStacModelType {
+  /** GeoJSON Feature type. */
+  Feature = "Feature",
+  /** GeoJSON FeatureCollection type. */
+  FeatureCollection = "FeatureCollection",
+}
+
+/**
+ * Enum discriminator for STAC item and collection types. \
+ * {@link KnownStacModelType} can be used interchangeably with StacModelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Feature**: GeoJSON Feature type. \
+ * **FeatureCollection**: GeoJSON FeatureCollection type.
+ */
+export type StacModelType = string;
 
 /**
  * https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/itemcollection-spec.md
@@ -2179,13 +2351,34 @@ export function geometryUnionDeserializer(item: any): GeometryUnion {
 }
 
 /** Represents the type of a GeoJSON geometry. */
-export type GeometryType =
-  | "Point"
-  | "LineString"
-  | "Polygon"
-  | "MultiPoint"
-  | "MultiLineString"
-  | "MultiPolygon";
+export enum KnownGeometryType {
+  /** Represents a Point geometry. */
+  Point = "Point",
+  /** Represents a LineString geometry. */
+  LineString = "LineString",
+  /** Represents a Polygon geometry. */
+  Polygon = "Polygon",
+  /** Represents a MultiPoint geometry. */
+  MultiPoint = "MultiPoint",
+  /** Represents a MultiLineString geometry. */
+  MultiLineString = "MultiLineString",
+  /** Represents a MultiPolygon geometry. */
+  MultiPolygon = "MultiPolygon",
+}
+
+/**
+ * Represents the type of a GeoJSON geometry. \
+ * {@link KnownGeometryType} can be used interchangeably with GeometryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Point**: Represents a Point geometry. \
+ * **LineString**: Represents a LineString geometry. \
+ * **Polygon**: Represents a Polygon geometry. \
+ * **MultiPoint**: Represents a MultiPoint geometry. \
+ * **MultiLineString**: Represents a MultiLineString geometry. \
+ * **MultiPolygon**: Represents a MultiPolygon geometry.
+ */
+export type GeometryType = string;
 
 /** Represents a GeoJSON Point geometry. */
 export interface Point extends Geometry {
@@ -2595,12 +2788,52 @@ export function stacQueryableDeserializer(item: any): StacQueryable {
  * Queryable data types for the queryables extension.
  * These are the data types supported by Basic CQL2.
  */
-export type StacQueryableDefinitionDataType =
-  | "string"
-  | "number"
-  | "boolean"
-  | "timestamp"
-  | "date";
+export enum KnownStacQueryableDefinitionDataType {
+  /**
+   * Character strings.
+   * Example: 'This is a literal string.'
+   */
+  String = "string",
+  /**
+   * Numbers including integers and floating point values.
+   * Examples: -100, 3.14159
+   */
+  Number = "number",
+  /**
+   * Booleans.
+   * Examples: true, false
+   */
+  Boolean = "boolean",
+  /**
+   * An instant with a granularity of a second or smaller.
+   * Example (JSON): { "timestamp": "1969-07-20T20:17:40Z" }
+   */
+  Timestamp = "timestamp",
+  /**
+   * An instant with a granularity of a day.
+   * Example (JSON): { "date": "1969-07-20" }
+   */
+  Date = "date",
+}
+
+/**
+ * Queryable data types for the queryables extension.
+ * These are the data types supported by Basic CQL2. \
+ * {@link KnownStacQueryableDefinitionDataType} can be used interchangeably with StacQueryableDefinitionDataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **string**: Character strings.
+ * Example: 'This is a literal string.' \
+ * **number**: Numbers including integers and floating point values.
+ * Examples: -100, 3.14159 \
+ * **boolean**: Booleans.
+ * Examples: true, false \
+ * **timestamp**: An instant with a granularity of a second or smaller.
+ * Example (JSON): { "timestamp": "1969-07-20T20:17:40Z" } \
+ * **date**: An instant with a granularity of a day.
+ * Example (JSON): { "date": "1969-07-20" }
+ */
+export type StacQueryableDefinitionDataType = string;
 
 /**
  * Search model.
@@ -2704,7 +2937,22 @@ export function stacSearchParametersSerializer(
 }
 
 /** Represent the signature type for asset URLs. */
-export type StacAssetUrlSigningMode = "true" | "false";
+export enum KnownStacAssetUrlSigningMode {
+  /** Sign asset URLs in the response. */
+  True = "true",
+  /** Do not sign asset URLs in the response. */
+  False = "false",
+}
+
+/**
+ * Represent the signature type for asset URLs. \
+ * {@link KnownStacAssetUrlSigningMode} can be used interchangeably with StacAssetUrlSigningMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: Sign asset URLs in the response. \
+ * **false**: Do not sign asset URLs in the response.
+ */
+export type StacAssetUrlSigningMode = string;
 
 export function stacSortExtensionArraySerializer(
   result: Array<StacSortExtension>,
@@ -2731,7 +2979,22 @@ export function stacSortExtensionSerializer(item: StacSortExtension): any {
 }
 
 /** Defines the sorting directions for query results in STAC API. */
-export type StacSearchSortingDirection = "asc" | "desc";
+export enum KnownStacSearchSortingDirection {
+  /** Sort results in ascending order. */
+  Asc = "asc",
+  /** Sort results in descending order. */
+  Desc = "desc",
+}
+
+/**
+ * Defines the sorting directions for query results in STAC API. \
+ * {@link KnownStacSearchSortingDirection} can be used interchangeably with StacSearchSortingDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **asc**: Sort results in ascending order. \
+ * **desc**: Sort results in descending order.
+ */
+export type StacSearchSortingDirection = string;
 
 export function searchOptionsFieldsArraySerializer(
   result: Array<SearchOptionsFields>,
@@ -2783,7 +3046,33 @@ export function searchOptionsFieldsSerializer(item: SearchOptionsFields): any {
  *
  * Defines the supported filter languages for STAC API queries.
  */
-export type FilterLanguage = "cql-json" | "cql2-json" | "cql2-text";
+export enum KnownFilterLanguage {
+  /** Common Query Language in JSON format. */
+  CqlJson = "cql-json",
+  /** Common Query Language 2 in JSON format */
+  Cql2Json = "cql2-json",
+  /** Common Query Language 2 in text format. */
+  Cql2Text = "cql2-text",
+}
+
+/**
+ * Choices for filter-lang value in a POST request.
+ *
+ * Based on
+ * https://github.com/stac-api-extensions/filter#queryables
+ *
+ * Note the addition of cql2-json, which is used by the pgstac backend,
+ * but is not included in the spec above.
+ *
+ * Defines the supported filter languages for STAC API queries. \
+ * {@link KnownFilterLanguage} can be used interchangeably with FilterLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cql-json**: Common Query Language in JSON format. \
+ * **cql2-json**: Common Query Language 2 in JSON format \
+ * **cql2-text**: Common Query Language 2 in text format.
+ */
+export type FilterLanguage = string;
 
 /**
  * https://github.com/opengeospatial/2D-Tile-Matrix-Set/blob/master/schemas/tms/2.0/json/tileMatrixSet.json
@@ -2972,7 +3261,24 @@ export function tileMatrixDeserializer(item: any): TileMatrix {
  * for numbering tile rows and columns. This corner is also a corner of the (0, 0)
  * tile.
  */
-export type TileMatrixCornerOfOrigin = "topLeft" | "bottomLeft";
+export enum KnownTileMatrixCornerOfOrigin {
+  /** Origin at the top-left corner (Y increases downward) */
+  TopLeft = "topLeft",
+  /** Origin at the bottom-left corner (Y increases upward) */
+  BottomLeft = "bottomLeft",
+}
+
+/**
+ * The corner of the tile matrix (_topLeft_ or _bottomLeft_) used as the origin
+ * for numbering tile rows and columns. This corner is also a corner of the (0, 0)
+ * tile. \
+ * {@link KnownTileMatrixCornerOfOrigin} can be used interchangeably with TileMatrixCornerOfOrigin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **topLeft**: Origin at the top-left corner (Y increases downward) \
+ * **bottomLeft**: Origin at the bottom-left corner (Y increases upward)
+ */
+export type TileMatrixCornerOfOrigin = string;
 
 export function variableMatrixWidthArrayDeserializer(
   result: Array<VariableMatrixWidth>,
@@ -3001,27 +3307,6 @@ export function variableMatrixWidthDeserializer(
     maxTileRow: item["maxTileRow"],
   };
 }
-
-/** Options for getting asset statistics */
-export interface GetAssetStatisticsOptions {}
-
-export function getAssetStatisticsOptionsSerializer(
-  item: GetAssetStatisticsOptions,
-): any {
-  return item;
-}
-
-/** Resampling algorithm to use when reading source raster data at different resolutions */
-export type Resampling =
-  | "nearest"
-  | "bilinear"
-  | "cubic"
-  | "cubic_spline"
-  | "lanczos"
-  | "average"
-  | "mode"
-  | "gauss"
-  | "rms";
 
 /** Statistical information about a data band. */
 export interface BandStatistics {
@@ -3104,239 +3389,6 @@ export function stacItemBoundsDeserializer(item: any): StacItemBounds {
   };
 }
 
-/** Options for cropping GeoJSON */
-export interface CropGeoJsonOptions {}
-
-export function cropGeoJsonOptionsSerializer(item: CropGeoJsonOptions): any {
-  return item;
-}
-
-/** Supported algorithms for terrain and index-based analysis */
-export type TerrainAlgorithm =
-  | "hillshade"
-  | "contours"
-  | "normalizedIndex"
-  | "terrarium"
-  | "terrainrgb";
-/** Available color maps for data visualization */
-export type ColorMapNames =
-  | "accent"
-  | "accent_r"
-  | "afmhot"
-  | "afmhot_r"
-  | "ai4g-lulc"
-  | "alos-fnf"
-  | "alos-palsar-mask"
-  | "autumn"
-  | "autumn_r"
-  | "binary"
-  | "binary_r"
-  | "blues"
-  | "blues_r"
-  | "bone"
-  | "bone_r"
-  | "brbg"
-  | "brbg_r"
-  | "brg"
-  | "brg_r"
-  | "bugn"
-  | "bugn_r"
-  | "bupu"
-  | "bupu_r"
-  | "bwr"
-  | "bwr_r"
-  | "c-cap"
-  | "cfastie"
-  | "chesapeake-lc-13"
-  | "chesapeake-lc-7"
-  | "chesapeake-lu"
-  | "chloris-biomass"
-  | "cividis"
-  | "cividis_r"
-  | "cmrmap"
-  | "cmrmap_r"
-  | "cool"
-  | "cool_r"
-  | "coolwarm"
-  | "coolwarm_r"
-  | "copper"
-  | "copper_r"
-  | "cubehelix"
-  | "cubehelix_r"
-  | "dark2"
-  | "dark2_r"
-  | "drcog-lulc"
-  | "esa-cci-lc"
-  | "esa-worldcover"
-  | "flag"
-  | "flag_r"
-  | "gap-lulc"
-  | "gist_earth"
-  | "gist_earth_r"
-  | "gist_gray"
-  | "gist_gray_r"
-  | "gist_heat"
-  | "gist_heat_r"
-  | "gist_ncar"
-  | "gist_ncar_r"
-  | "gist_rainbow"
-  | "gist_rainbow_r"
-  | "gist_stern"
-  | "gist_stern_r"
-  | "gist_yarg"
-  | "gist_yarg_r"
-  | "gnbu"
-  | "gnbu_r"
-  | "gnuplot"
-  | "gnuplot2"
-  | "gnuplot2_r"
-  | "gnuplot_r"
-  | "gray"
-  | "gray_r"
-  | "greens"
-  | "greens_r"
-  | "greys"
-  | "greys_r"
-  | "hot"
-  | "hot_r"
-  | "hsv"
-  | "hsv_r"
-  | "inferno"
-  | "inferno_r"
-  | "io-bii"
-  | "io-lulc"
-  | "io-lulc-9-class"
-  | "jet"
-  | "jet_r"
-  | "jrc-change"
-  | "jrc-extent"
-  | "jrc-occurrence"
-  | "jrc-recurrence"
-  | "jrc-seasonality"
-  | "jrc-transitions"
-  | "lidar-classification"
-  | "lidar-hag"
-  | "lidar-hag-alternative"
-  | "lidar-intensity"
-  | "lidar-returns"
-  | "magma"
-  | "magma_r"
-  | "modis-10A1"
-  | "modis-10A2"
-  | "modis-13A1|Q1"
-  | "modis-14A1|A2"
-  | "modis-15A2H|A3H"
-  | "modis-16A3GF-ET"
-  | "modis-16A3GF-PET"
-  | "modis-17A2H|A2HGF"
-  | "modis-17A3HGF"
-  | "modis-64A1"
-  | "mtbs-severity"
-  | "nipy_spectral"
-  | "nipy_spectral_r"
-  | "nrcan-lulc"
-  | "ocean"
-  | "ocean_r"
-  | "oranges"
-  | "oranges_r"
-  | "orrd"
-  | "orrd_r"
-  | "paired"
-  | "paired_r"
-  | "pastel1"
-  | "pastel1_r"
-  | "pastel2"
-  | "pastel2_r"
-  | "pink"
-  | "pink_r"
-  | "piyg"
-  | "piyg_r"
-  | "plasma"
-  | "plasma_r"
-  | "prgn"
-  | "prgn_r"
-  | "prism"
-  | "prism_r"
-  | "pubu"
-  | "pubu_r"
-  | "pubugn"
-  | "pubugn_r"
-  | "puor"
-  | "puor_r"
-  | "purd"
-  | "purd_r"
-  | "purples"
-  | "purples_r"
-  | "qpe"
-  | "rainbow"
-  | "rainbow_r"
-  | "rdbu"
-  | "rdbu_r"
-  | "rdgy"
-  | "rdgy_r"
-  | "rdpu"
-  | "rdpu_r"
-  | "rdylbu"
-  | "rdylbu_r"
-  | "rdylgn"
-  | "rdylgn_r"
-  | "reds"
-  | "reds_r"
-  | "rplumbo"
-  | "schwarzwald"
-  | "seismic"
-  | "seismic_r"
-  | "set1"
-  | "set1_r"
-  | "set2"
-  | "set2_r"
-  | "set3"
-  | "set3_r"
-  | "spectral"
-  | "spectral_r"
-  | "spring"
-  | "spring_r"
-  | "summer"
-  | "summer_r"
-  | "tab10"
-  | "tab10_r"
-  | "tab20"
-  | "tab20_r"
-  | "tab20b"
-  | "tab20b_r"
-  | "tab20c"
-  | "tab20c_r"
-  | "terrain"
-  | "terrain_r"
-  | "twilight"
-  | "twilight_r"
-  | "twilight_shifted"
-  | "twilight_shifted_r"
-  | "usda-cdl"
-  | "usda-cdl-corn"
-  | "usda-cdl-cotton"
-  | "usda-cdl-soybeans"
-  | "usda-cdl-wheat"
-  | "usgs-lcmap"
-  | "viirs-10a1"
-  | "viirs-13a1"
-  | "viirs-14a1"
-  | "viirs-15a2H"
-  | "viridis"
-  | "viridis_r"
-  | "winter"
-  | "winter_r"
-  | "wistia"
-  | "wistia_r"
-  | "ylgn"
-  | "ylgn_r"
-  | "ylgnbu"
-  | "ylgnbu_r"
-  | "ylorbr"
-  | "ylorbr_r"
-  | "ylorrd"
-  | "ylorrd_r";
-
 /** GeoJSON Feature object representing a geographic entity */
 export interface Feature {
   /** Geometry object defining the feature's shape */
@@ -3356,16 +3408,19 @@ export function featureSerializer(item: Feature): any {
 }
 
 /** Type identifier for GeoJSON Feature objects */
-export type FeatureType = "Feature";
-
-/** Options for getting GeoJSON statistics */
-export interface GetGeoJsonStatisticsOptions {}
-
-export function getGeoJsonStatisticsOptionsSerializer(
-  item: GetGeoJsonStatisticsOptions,
-): any {
-  return item;
+export enum KnownFeatureType {
+  /** Standard GeoJSON Feature type identifier */
+  Feature = "Feature",
 }
+
+/**
+ * Type identifier for GeoJSON Feature objects \
+ * {@link KnownFeatureType} can be used interchangeably with FeatureType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Feature**: Standard GeoJSON Feature type identifier
+ */
+export type FeatureType = string;
 
 /** STAC Item representing a spatiotemporal asset with statistical information */
 export interface StacItemStatisticsGeoJson {
@@ -3556,7 +3611,7 @@ export function bandMetadataElementArrayDeserializer(
   });
 }
 
-/** Alias for BandMetadataElement */
+/** Union type for band metadata elements */
 export type BandMetadataElement = string | Record<string, string>;
 
 export function bandMetadataElementDeserializer(
@@ -3566,14 +3621,31 @@ export function bandMetadataElementDeserializer(
 }
 
 /** NoDataType */
-export type NoDataType = "Alpha" | "Mask" | "Internal" | "Nodata" | "None";
-
-/** Options for getting parts (cropped to bounding box) */
-export interface GetPartOptions {}
-
-export function getPartOptionsSerializer(item: GetPartOptions): any {
-  return item;
+export enum KnownNoDataType {
+  /** Nodata represented by alpha channel */
+  Alpha = "Alpha",
+  /** Nodata represented by a mask */
+  Mask = "Mask",
+  /** Nodata represented internally in the dataset */
+  Internal = "Internal",
+  /** Explicit nodata value defined in the dataset */
+  Nodata = "Nodata",
+  /** No nodata value defined */
+  None = "None",
 }
+
+/**
+ * NoDataType \
+ * {@link KnownNoDataType} can be used interchangeably with NoDataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Alpha**: Nodata represented by alpha channel \
+ * **Mask**: Nodata represented by a mask \
+ * **Internal**: Nodata represented internally in the dataset \
+ * **Nodata**: Explicit nodata value defined in the dataset \
+ * **None**: No nodata value defined
+ */
+export type NoDataType = string;
 
 /** Response model for point query operations providing values at a specific location */
 export interface TilerCoreModelsResponsesPoint {
@@ -3599,13 +3671,6 @@ export function tilerCoreModelsResponsesPointDeserializer(
       return p;
     }),
   };
-}
-
-/** Options for getting previews */
-export interface GetPreviewOptions {}
-
-export function getPreviewOptionsSerializer(item: GetPreviewOptions): any {
-  return item;
 }
 
 /** Parameters for requesting a rendered image from a collection */
@@ -3655,15 +3720,6 @@ export function imageResponseDeserializer(item: any): ImageResponse {
   };
 }
 
-/** Options for getting statistics */
-export interface GetStatisticsOptions {}
-
-export function getStatisticsOptionsSerializer(
-  item: GetStatisticsOptions,
-): any {
-  return item;
-}
-
 /** Return dataset's statistics. */
 export interface TilerStacItemStatistics {
   /** Additional properties */
@@ -3677,24 +3733,6 @@ export function tilerStacItemStatisticsDeserializer(
     additionalProperties: serializeRecord(item, [], bandStatisticsDeserializer),
   };
 }
-
-/** Options for getting TileJSON */
-export interface GetTileJsonOptions {}
-
-export function getTileJsonOptionsSerializer(item: GetTileJsonOptions): any {
-  return item;
-}
-
-/** Image format specifier for tile and image requests */
-export type TilerImageFormat =
-  | "png"
-  | "npy"
-  | "tif"
-  | "jpeg"
-  | "jpg"
-  | "jp2"
-  | "webp"
-  | "pngraw";
 
 /**
  * TileJSON metadata describing a tile set according to the TileJSON specification
@@ -3773,23 +3811,22 @@ export function tileJsonMetadataDeserializer(item: any): TileJsonMetadata {
 }
 
 /** Scheme for tile addressing in TileJSON specification */
-export type TileAddressingScheme = "xyz" | "tms";
-
-/** Options for getting a tile from a dataset */
-export interface GetTileOptions {}
-
-export function getTileOptionsSerializer(item: GetTileOptions): any {
-  return item;
+export enum KnownTileAddressingScheme {
+  /** XYZ tile addressing scheme with origin at top-left */
+  Xyz = "xyz",
+  /** TMS tile addressing scheme with origin at bottom-left */
+  Tms = "tms",
 }
 
-/** Options for getting WMTS capabilities */
-export interface GetWmtsCapabilitiesOptions {}
-
-export function getWmtsCapabilitiesOptionsSerializer(
-  item: GetWmtsCapabilitiesOptions,
-): any {
-  return item;
-}
+/**
+ * Scheme for tile addressing in TileJSON specification \
+ * {@link KnownTileAddressingScheme} can be used interchangeably with TileAddressingScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **xyz**: XYZ tile addressing scheme with origin at top-left \
+ * **tms**: TMS tile addressing scheme with origin at bottom-left
+ */
+export type TileAddressingScheme = string;
 
 /** Asset information for the specified point */
 export interface StacItemPointAsset {
@@ -3925,7 +3962,22 @@ export function mosaicMetadataDeserializer(item: any): MosaicMetadata {
 }
 
 /** Type of metadata resource in the system */
-export type MosaicMetadataType = "mosaic" | "search";
+export enum KnownMosaicMetadataType {
+  /** Metadata for a mosaic of multiple raster assets */
+  Mosaic = "mosaic",
+  /** Metadata for a search query result */
+  Search = "search",
+}
+
+/**
+ * Type of metadata resource in the system \
+ * {@link KnownMosaicMetadataType} can be used interchangeably with MosaicMetadataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **mosaic**: Metadata for a mosaic of multiple raster assets \
+ * **search**: Metadata for a search query result
+ */
+export type MosaicMetadataType = string;
 
 /** Response from a successful mosaic registration with search ID and related links */
 export interface TilerMosaicSearchRegistrationResponse {
@@ -3944,50 +3996,6 @@ export function tilerMosaicSearchRegistrationResponseDeserializer(
       ? item["links"]
       : stacLinkArrayDeserializer(item["links"]),
   };
-}
-
-/** Options for mosaic TileJSON */
-export interface GetMosaicTileJsonOptions {}
-
-export function getMosaicTileJsonOptionsSerializer(
-  item: GetMosaicTileJsonOptions,
-): any {
-  return item;
-}
-
-/**
- * Identifier selecting one of the TileMatrixSetId supported (default:
- * 'WebMercatorQuad')
- *
- * Represents the method used to select or compute pixels when creating
- * composites from multiple sources
- */
-export type PixelSelection =
-  | "first"
-  | "highest"
-  | "lowest"
-  | "mean"
-  | "median"
-  | "stdev"
-  | "lastbandlow"
-  | "lastbandhigh";
-
-/** Options for mosaic tiles */
-export interface GetMosaicTileOptions {}
-
-export function getMosaicTileOptionsSerializer(
-  item: GetMosaicTileOptions,
-): any {
-  return item;
-}
-
-/** Options for mosaic WMTS capabilities */
-export interface GetMosaicWmtsCapabilitiesOptions {}
-
-export function getMosaicWmtsCapabilitiesOptionsSerializer(
-  item: GetMosaicWmtsCapabilitiesOptions,
-): any {
-  return item;
 }
 
 /**
@@ -4029,7 +4037,7 @@ export function sharedAccessSignatureTokenDeserializer(
   };
 }
 
-/** Alias for IntervalLegendsElement */
+/** Interval legends element used to define a color map */
 export type IntervalLegendsElement = number[] | Record<string, string>;
 
 export function intervalLegendsElementDeserializer(
@@ -4037,6 +4045,814 @@ export function intervalLegendsElementDeserializer(
 ): IntervalLegendsElement {
   return item;
 }
+
+/** Resampling algorithm to use when reading source raster data at different resolutions */
+export enum KnownResampling {
+  /** Nearest neighbor - fastest method that selects the closest pixel value */
+  Nearest = "nearest",
+  /** Bilinear interpolation - calculates output values using a weighted average of 2x2 input cells */
+  Bilinear = "bilinear",
+  /** Cubic interpolation - uses a weighted average of 4x4 input cells for smoother results */
+  Cubic = "cubic",
+  /** Cubic spline interpolation - similar to cubic but preserves edges better */
+  CubicSpline = "cubic_spline",
+  /** Lanczos windowed sinc resampling - high-quality with minimal artifacts */
+  Lanczos = "lanczos",
+  /** Average resampling - calculates the mean of all contributing pixels */
+  Average = "average",
+  /** Mode resampling - selects the most common value from contributing pixels */
+  Mode = "mode",
+  /** Gaussian weighted resampling - applies a gaussian weighting to contributing pixels */
+  Gauss = "gauss",
+  /** Root mean square resampling - useful for resampling error or deviation grids */
+  Rms = "rms",
+}
+
+/**
+ * Resampling algorithm to use when reading source raster data at different resolutions \
+ * {@link KnownResampling} can be used interchangeably with Resampling,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **nearest**: Nearest neighbor - fastest method that selects the closest pixel value \
+ * **bilinear**: Bilinear interpolation - calculates output values using a weighted average of 2x2 input cells \
+ * **cubic**: Cubic interpolation - uses a weighted average of 4x4 input cells for smoother results \
+ * **cubic_spline**: Cubic spline interpolation - similar to cubic but preserves edges better \
+ * **lanczos**: Lanczos windowed sinc resampling - high-quality with minimal artifacts \
+ * **average**: Average resampling - calculates the mean of all contributing pixels \
+ * **mode**: Mode resampling - selects the most common value from contributing pixels \
+ * **gauss**: Gaussian weighted resampling - applies a gaussian weighting to contributing pixels \
+ * **rms**: Root mean square resampling - useful for resampling error or deviation grids
+ */
+export type Resampling = string;
+
+/** Supported algorithms for terrain and index-based analysis */
+export enum KnownTerrainAlgorithm {
+  /** Creates hillshade visualization from elevation data */
+  Hillshade = "hillshade",
+  /** Generates elevation contour lines */
+  Contours = "contours",
+  /** Calculates normalized difference index between bands */
+  NormalizedIndex = "normalizedIndex",
+  /** Encodes elevation data in Mapbox Terrarium RGB format */
+  Terrarium = "terrarium",
+  /** Encodes elevation data in Mapbox TerrainRGB format */
+  Terrainrgb = "terrainrgb",
+}
+
+/**
+ * Supported algorithms for terrain and index-based analysis \
+ * {@link KnownTerrainAlgorithm} can be used interchangeably with TerrainAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **hillshade**: Creates hillshade visualization from elevation data \
+ * **contours**: Generates elevation contour lines \
+ * **normalizedIndex**: Calculates normalized difference index between bands \
+ * **terrarium**: Encodes elevation data in Mapbox Terrarium RGB format \
+ * **terrainrgb**: Encodes elevation data in Mapbox TerrainRGB format
+ */
+export type TerrainAlgorithm = string;
+
+/** Available color maps for data visualization */
+export enum KnownColorMapNames {
+  /** Accent colormap - qualitative colormap with distinct colors */
+  Accent = "accent",
+  /** Reversed accent colormap */
+  AccentR = "accent_r",
+  /** Afmhot colormap - sequential black-red-yellow-white colormap */
+  Afmhot = "afmhot",
+  /** Reversed afmhot colormap */
+  AfmhotR = "afmhot_r",
+  /** AI for Good land use/land cover colormap */
+  Ai4GLulc = "ai4g-lulc",
+  /** ALOS forest/non-forest colormap */
+  AlosFnf = "alos-fnf",
+  /** ALOS PALSAR mask colormap */
+  AlosPalsarMask = "alos-palsar-mask",
+  /** Autumn colormap - sequential red-orange-yellow colormap */
+  Autumn = "autumn",
+  /** Reversed autumn colormap */
+  AutumnR = "autumn_r",
+  /** Binary colormap - simple black and white colormap */
+  Binary = "binary",
+  /** Reversed binary colormap */
+  BinaryR = "binary_r",
+  /** Blues colormap - sequential white to dark blue */
+  Blues = "blues",
+  /** Reversed blues colormap */
+  BluesR = "blues_r",
+  /** Bone colormap - grayscale with slight blue tint */
+  Bone = "bone",
+  /** Reversed bone colormap */
+  BoneR = "bone_r",
+  /** BrBG colormap - diverging brown to blue-green */
+  Brbg = "brbg",
+  /** Reversed BrBG colormap */
+  BrbgR = "brbg_r",
+  /** BrG colormap - diverging brown to green */
+  Brg = "brg",
+  /** Reversed BrG colormap */
+  BrgR = "brg_r",
+  /** BuGn colormap - sequential white to dark green */
+  Bugn = "bugn",
+  /** Reversed BuGn colormap */
+  BugnR = "bugn_r",
+  /** BuPu colormap - sequential white to dark purple */
+  Bupu = "bupu",
+  /** Reversed BuPu colormap */
+  BupuR = "bupu_r",
+  /** BWR colormap - diverging blue to red */
+  Bwr = "bwr",
+  /** Reversed BWR colormap */
+  BwrR = "bwr_r",
+  /** C-CAP colormap - land cover classification */
+  CCap = "c-cap",
+  /** Cfastie colormap - high contrast colormap */
+  Cfastie = "cfastie",
+  /** Chesapeake land cover 13-class colormap */
+  ChesapeakeLc13 = "chesapeake-lc-13",
+  /** Chesapeake land cover 7-class colormap */
+  ChesapeakeLc7 = "chesapeake-lc-7",
+  /** Chesapeake land use colormap */
+  ChesapeakeLu = "chesapeake-lu",
+  /** Chloris biomass colormap */
+  ChlorisBiomass = "chloris-biomass",
+  /** Cividis colormap - sequential yellow to blue */
+  Cividis = "cividis",
+  /** Reversed cividis colormap */
+  CividisR = "cividis_r",
+  /** CMRmap colormap - perceptually uniform colormap */
+  Cmrmap = "cmrmap",
+  /** Reversed CMRmap colormap */
+  CmrmapR = "cmrmap_r",
+  /** Cool colormap - sequential cyan to magenta */
+  Cool = "cool",
+  /** Reversed cool colormap */
+  CoolR = "cool_r",
+  /** Coolwarm colormap - diverging blue to red */
+  Coolwarm = "coolwarm",
+  /** Reversed coolwarm colormap */
+  CoolwarmR = "coolwarm_r",
+  /** Copper colormap - sequential black to copper */
+  Copper = "copper",
+  /** Reversed copper colormap */
+  CopperR = "copper_r",
+  /** Cubehelix colormap - sequential black to white with hue rotation */
+  Cubehelix = "cubehelix",
+  /** Reversed cubehelix colormap */
+  CubehelixR = "cubehelix_r",
+  /** Dark2 colormap - qualitative colormap with distinct colors */
+  Dark2 = "dark2",
+  /** Reversed dark2 colormap */
+  Dark2R = "dark2_r",
+  /** DRCog land use/land cover colormap */
+  DrcogLulc = "drcog-lulc",
+  /** ESA CCI land cover colormap */
+  EsaCciLc = "esa-cci-lc",
+  /** ESA WorldCover colormap */
+  EsaWorldcover = "esa-worldcover",
+  /** Flag colormap - qualitative colormap with distinct colors */
+  Flag = "flag",
+  /** Reversed flag colormap */
+  FlagR = "flag_r",
+  /** GAP land use/land cover colormap */
+  GapLulc = "gap-lulc",
+  /** Gist_earth colormap - perceptually uniform colormap */
+  GistEarth = "gist_earth",
+  /** Reversed gist_earth colormap */
+  GistEarthR = "gist_earth_r",
+  /** Gist_gray colormap - grayscale colormap */
+  GistGray = "gist_gray",
+  /** Reversed gist_gray colormap */
+  GistGrayR = "gist_gray_r",
+  /** Gist_heat colormap - sequential black-red-yellow-white colormap */
+  GistHeat = "gist_heat",
+  /** Reversed gist_heat colormap */
+  GistHeatR = "gist_heat_r",
+  /** Gist_ncar colormap - perceptually uniform colormap */
+  GistNcar = "gist_ncar",
+  /** Reversed gist_ncar colormap */
+  GistNcarR = "gist_ncar_r",
+  /** Gist_rainbow colormap - perceptually uniform colormap */
+  GistRainbow = "gist_rainbow",
+  /** Reversed gist_rainbow colormap */
+  GistRainbowR = "gist_rainbow_r",
+  /** Gist_stern colormap - perceptually uniform colormap */
+  GistStern = "gist_stern",
+  /** Reversed gist_stern colormap */
+  GistSternR = "gist_stern_r",
+  /** Gist_yarg colormap - grayscale colormap */
+  GistYarg = "gist_yarg",
+  /** Reversed gist_yarg colormap */
+  GistYargR = "gist_yarg_r",
+  /** GnBu colormap - sequential white to dark blue-green */
+  Gnbu = "gnbu",
+  /** Reversed GnBu colormap */
+  GnbuR = "gnbu_r",
+  /** Gnuplot colormap - sequential black to white with hue rotation */
+  Gnuplot = "gnuplot",
+  /** Gnuplot2 colormap - sequential black to white with hue rotation */
+  Gnuplot2 = "gnuplot2",
+  /** Reversed gnuplot2 colormap */
+  Gnuplot2R = "gnuplot2_r",
+  /** Reversed gnuplot colormap */
+  GnuplotR = "gnuplot_r",
+  /** Gray colormap - grayscale colormap */
+  Gray = "gray",
+  /** Reversed gray colormap */
+  GrayR = "gray_r",
+  /** Greens colormap - sequential white to dark green */
+  Greens = "greens",
+  /** Reversed greens colormap */
+  GreensR = "greens_r",
+  /** Greys colormap - sequential white to dark gray */
+  Greys = "greys",
+  /** Reversed greys colormap */
+  GreysR = "greys_r",
+  /** Hot colormap - sequential black-red-yellow-white colormap */
+  Hot = "hot",
+  /** Reversed hot colormap */
+  HotR = "hot_r",
+  /** HSV colormap - hue-saturation-value colormap */
+  Hsv = "hsv",
+  /** Reversed HSV colormap */
+  HsvR = "hsv_r",
+  /** Inferno colormap - sequential black to yellow colormap */
+  Inferno = "inferno",
+  /** Reversed inferno colormap */
+  InfernoR = "inferno_r",
+  /** IO-BII colormap - biodiversity index colormap */
+  IoBii = "io-bii",
+  /** IO-LULC colormap - land use/land cover colormap */
+  IoLulc = "io-lulc",
+  /** IO-LULC 9-class colormap */
+  IoLulc9Class = "io-lulc-9-class",
+  /** Jet colormap - sequential blue-green-yellow-red colormap */
+  Jet = "jet",
+  /** Reversed jet colormap */
+  JetR = "jet_r",
+  /** JRC change colormap */
+  JrcChange = "jrc-change",
+  /** JRC extent colormap */
+  JrcExtent = "jrc-extent",
+  /** JRC occurrence colormap */
+  JrcOccurrence = "jrc-occurrence",
+  /** JRC recurrence colormap */
+  JrcRecurrence = "jrc-recurrence",
+  /** JRC seasonality colormap */
+  JrcSeasonality = "jrc-seasonality",
+  /** JRC transitions colormap */
+  JrcTransitions = "jrc-transitions",
+  /** Lidar classification colormap */
+  LidarClassification = "lidar-classification",
+  /** Lidar height above ground colormap */
+  LidarHag = "lidar-hag",
+  /** Alternative lidar height above ground colormap */
+  LidarHagAlternative = "lidar-hag-alternative",
+  /** Lidar intensity colormap */
+  LidarIntensity = "lidar-intensity",
+  /** Lidar returns colormap */
+  LidarReturns = "lidar-returns",
+  /** Magma colormap - sequential black to yellow colormap */
+  Magma = "magma",
+  /** Reversed magma colormap */
+  MagmaR = "magma_r",
+  /** MODIS 10A1 colormap */
+  Modis10A1 = "modis-10A1",
+  /** MODIS 10A2 colormap */
+  Modis10A2 = "modis-10A2",
+  /** MODIS 13A1|Q1 colormap */
+  Modis13A1Q1 = "modis-13A1|Q1",
+  /** MODIS 14A1|A2 colormap */
+  Modis14A1A2 = "modis-14A1|A2",
+  /** MODIS 15A2H|A3H colormap */
+  Modis15A2HA3H = "modis-15A2H|A3H",
+  /** MODIS 16A3GF-ET colormap */
+  Modis16A3GFET = "modis-16A3GF-ET",
+  /** MODIS 16A3GF-PET colormap */
+  Modis16A3GFPET = "modis-16A3GF-PET",
+  /** MODIS 17A2H|A2HGF colormap */
+  Modis17A2HA2HGF = "modis-17A2H|A2HGF",
+  /** MODIS 17A3HGF colormap */
+  Modis17A3HGF = "modis-17A3HGF",
+  /** MODIS 64A1 colormap */
+  Modis64A1 = "modis-64A1",
+  /** MTBS severity colormap */
+  MtbsSeverity = "mtbs-severity",
+  /** Nipy_spectral colormap - perceptually uniform colormap */
+  NipySpectral = "nipy_spectral",
+  /** Reversed nipy_spectral colormap */
+  NipySpectralR = "nipy_spectral_r",
+  /** NRCAN land use/land cover colormap */
+  NrcanLulc = "nrcan-lulc",
+  /** Ocean colormap - sequential blue to white colormap */
+  Ocean = "ocean",
+  /** Reversed ocean colormap */
+  OceanR = "ocean_r",
+  /** Oranges colormap - sequential white to dark orange */
+  Oranges = "oranges",
+  /** Reversed oranges colormap */
+  OrangesR = "oranges_r",
+  /** OrRd colormap - sequential white to dark red-orange */
+  Orrd = "orrd",
+  /** Reversed OrRd colormap */
+  OrrdR = "orrd_r",
+  /** Paired colormap - qualitative colormap with distinct colors */
+  Paired = "paired",
+  /** Reversed paired colormap */
+  PairedR = "paired_r",
+  /** Pastel1 colormap - qualitative colormap with pastel colors */
+  Pastel1 = "pastel1",
+  /** Reversed pastel1 colormap */
+  Pastel1R = "pastel1_r",
+  /** Pastel2 colormap - qualitative colormap with pastel colors */
+  Pastel2 = "pastel2",
+  /** Reversed pastel2 colormap */
+  Pastel2R = "pastel2_r",
+  /** Pink colormap - sequential white to dark pink */
+  Pink = "pink",
+  /** Reversed pink colormap */
+  PinkR = "pink_r",
+  /** PiYG colormap - diverging pink to green */
+  Piyg = "piyg",
+  /** Reversed PiYG colormap */
+  PiygR = "piyg_r",
+  /** Plasma colormap - sequential black to yellow colormap */
+  Plasma = "plasma",
+  /** Reversed plasma colormap */
+  PlasmaR = "plasma_r",
+  /** PRGn colormap - diverging purple to green */
+  Prgn = "prgn",
+  /** Reversed PRGn colormap */
+  PrgnR = "prgn_r",
+  /** Prism colormap - qualitative colormap with distinct colors */
+  Prism = "prism",
+  /** Reversed prism colormap */
+  PrismR = "prism_r",
+  /** PuBu colormap - sequential white to dark blue */
+  Pubu = "pubu",
+  /** Reversed PuBu colormap */
+  PubuR = "pubu_r",
+  /** PuBuGn colormap - sequential white to dark blue-green */
+  Pubugn = "pubugn",
+  /** Reversed PuBuGn colormap */
+  PubugnR = "pubugn_r",
+  /** PuOr colormap - diverging purple to orange */
+  Puor = "puor",
+  /** Reversed PuOr colormap */
+  PuorR = "puor_r",
+  /** PuRd colormap - sequential white to dark purple-red */
+  Purd = "purd",
+  /** Reversed PuRd colormap */
+  PurdR = "purd_r",
+  /** Purples colormap - sequential white to dark purple */
+  Purples = "purples",
+  /** Reversed purples colormap */
+  PurplesR = "purples_r",
+  /** QPE colormap - qualitative colormap with distinct colors */
+  Qpe = "qpe",
+  /** Rainbow colormap - qualitative colormap with distinct colors */
+  Rainbow = "rainbow",
+  /** Reversed rainbow colormap */
+  RainbowR = "rainbow_r",
+  /** RdBu colormap - diverging red to blue */
+  Rdbu = "rdbu",
+  /** Reversed RdBu colormap */
+  RdbuR = "rdbu_r",
+  /** RdGy colormap - diverging red to gray */
+  Rdgy = "rdgy",
+  /** Reversed RdGy colormap */
+  RdgyR = "rdgy_r",
+  /** RdPu colormap - sequential white to dark red-purple */
+  Rdpu = "rdpu",
+  /** Reversed RdPu colormap */
+  RdpuR = "rdpu_r",
+  /** RdYlBu colormap - diverging red to yellow to blue */
+  Rdylbu = "rdylbu",
+  /** Reversed RdYlBu colormap */
+  RdylbuR = "rdylbu_r",
+  /** RdYlGn colormap - diverging red to yellow to green */
+  Rdylgn = "rdylgn",
+  /** Reversed RdYlGn colormap */
+  RdylgnR = "rdylgn_r",
+  /** Reds colormap - sequential white to dark red */
+  Reds = "reds",
+  /** Reversed reds colormap */
+  RedsR = "reds_r",
+  /** Rplumbo colormap - qualitative colormap with distinct colors */
+  Rplumbo = "rplumbo",
+  /** Schwarzwald colormap - qualitative colormap with distinct colors */
+  Schwarzwald = "schwarzwald",
+  /** Seismic colormap - diverging blue to red */
+  Seismic = "seismic",
+  /** Reversed seismic colormap */
+  SeismicR = "seismic_r",
+  /** Set1 colormap - qualitative colormap with distinct colors */
+  Set1 = "set1",
+  /** Reversed set1 colormap */
+  Set1R = "set1_r",
+  /** Set2 colormap - qualitative colormap with distinct colors */
+  Set2 = "set2",
+  /** Reversed set2 colormap */
+  Set2R = "set2_r",
+  /** Set3 colormap - qualitative colormap with distinct colors */
+  Set3 = "set3",
+  /** Reversed set3 colormap */
+  Set3R = "set3_r",
+  /** Spectral colormap - diverging red to yellow to blue */
+  Spectral = "spectral",
+  /** Reversed spectral colormap */
+  SpectralR = "spectral_r",
+  /** Spring colormap - sequential magenta to yellow */
+  Spring = "spring",
+  /** Reversed spring colormap */
+  SpringR = "spring_r",
+  /** Summer colormap - sequential green to yellow */
+  Summer = "summer",
+  /** Reversed summer colormap */
+  SummerR = "summer_r",
+  /** Tab10 colormap - qualitative colormap with distinct colors */
+  Tab10 = "tab10",
+  /** Reversed tab10 colormap */
+  Tab10R = "tab10_r",
+  /** Tab20 colormap - qualitative colormap with distinct colors */
+  Tab20 = "tab20",
+  /** Reversed tab20 colormap */
+  Tab20R = "tab20_r",
+  /** Tab20b colormap - qualitative colormap with distinct colors */
+  Tab20B = "tab20b",
+  /** Reversed tab20b colormap */
+  Tab20BR = "tab20b_r",
+  /** Tab20c colormap - qualitative colormap with distinct colors */
+  Tab20C = "tab20c",
+  /** Reversed tab20c colormap */
+  Tab20CR = "tab20c_r",
+  /** Terrain colormap - sequential black to white with hue rotation */
+  Terrain = "terrain",
+  /** Reversed terrain colormap */
+  TerrainR = "terrain_r",
+  /** Twilight colormap - diverging blue to red */
+  Twilight = "twilight",
+  /** Reversed twilight colormap */
+  TwilightR = "twilight_r",
+  /** Twilight shifted colormap - diverging blue to red */
+  TwilightShifted = "twilight_shifted",
+  /** Reversed twilight shifted colormap */
+  TwilightShiftedR = "twilight_shifted_r",
+  /** USDA CDL colormap - land cover classification */
+  UsdaCdl = "usda-cdl",
+  /** USDA CDL corn colormap */
+  UsdaCdlCorn = "usda-cdl-corn",
+  /** USDA CDL cotton colormap */
+  UsdaCdlCotton = "usda-cdl-cotton",
+  /** USDA CDL soybeans colormap */
+  UsdaCdlSoybeans = "usda-cdl-soybeans",
+  /** USDA CDL wheat colormap */
+  UsdaCdlWheat = "usda-cdl-wheat",
+  /** USGS LCMAP colormap */
+  UsgsLcmap = "usgs-lcmap",
+  /** VIIRS 10A1 colormap */
+  Viirs10A1 = "viirs-10a1",
+  /** VIIRS 13A1 colormap */
+  Viirs13A1 = "viirs-13a1",
+  /** VIIRS 14A1 colormap */
+  Viirs14A1 = "viirs-14a1",
+  /** VIIRS 15A2H colormap */
+  Viirs15A2H = "viirs-15a2H",
+  /** Viridis colormap - sequential black to yellow colormap */
+  Viridis = "viridis",
+  /** Reversed viridis colormap */
+  ViridisR = "viridis_r",
+  /** Winter colormap - sequential blue to green */
+  Winter = "winter",
+  /** Reversed winter colormap */
+  WinterR = "winter_r",
+  /** Wistia colormap - sequential white to yellow */
+  Wistia = "wistia",
+  /** Reversed wistia colormap */
+  WistiaR = "wistia_r",
+  /** YlGn colormap - sequential white to dark green */
+  Ylgn = "ylgn",
+  /** Reversed YlGn colormap */
+  YlgnR = "ylgn_r",
+  /** YlGnBu colormap - sequential white to dark blue-green */
+  Ylgnbu = "ylgnbu",
+  /** Reversed YlGnBu colormap */
+  YlgnbuR = "ylgnbu_r",
+  /** YlOrBr colormap - sequential white to dark orange-brown */
+  Ylorbr = "ylorbr",
+  /** Reversed YlOrBr colormap */
+  YlorbrR = "ylorbr_r",
+  /** YlOrRd colormap - sequential white to dark red-orange */
+  Ylorrd = "ylorrd",
+  /** Reversed YlOrRd colormap */
+  YlorrdR = "ylorrd_r",
+}
+
+/**
+ * Available color maps for data visualization \
+ * {@link KnownColorMapNames} can be used interchangeably with ColorMapNames,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **accent**: Accent colormap - qualitative colormap with distinct colors \
+ * **accent_r**: Reversed accent colormap \
+ * **afmhot**: Afmhot colormap - sequential black-red-yellow-white colormap \
+ * **afmhot_r**: Reversed afmhot colormap \
+ * **ai4g-lulc**: AI for Good land use\/land cover colormap \
+ * **alos-fnf**: ALOS forest\/non-forest colormap \
+ * **alos-palsar-mask**: ALOS PALSAR mask colormap \
+ * **autumn**: Autumn colormap - sequential red-orange-yellow colormap \
+ * **autumn_r**: Reversed autumn colormap \
+ * **binary**: Binary colormap - simple black and white colormap \
+ * **binary_r**: Reversed binary colormap \
+ * **blues**: Blues colormap - sequential white to dark blue \
+ * **blues_r**: Reversed blues colormap \
+ * **bone**: Bone colormap - grayscale with slight blue tint \
+ * **bone_r**: Reversed bone colormap \
+ * **brbg**: BrBG colormap - diverging brown to blue-green \
+ * **brbg_r**: Reversed BrBG colormap \
+ * **brg**: BrG colormap - diverging brown to green \
+ * **brg_r**: Reversed BrG colormap \
+ * **bugn**: BuGn colormap - sequential white to dark green \
+ * **bugn_r**: Reversed BuGn colormap \
+ * **bupu**: BuPu colormap - sequential white to dark purple \
+ * **bupu_r**: Reversed BuPu colormap \
+ * **bwr**: BWR colormap - diverging blue to red \
+ * **bwr_r**: Reversed BWR colormap \
+ * **c-cap**: C-CAP colormap - land cover classification \
+ * **cfastie**: Cfastie colormap - high contrast colormap \
+ * **chesapeake-lc-13**: Chesapeake land cover 13-class colormap \
+ * **chesapeake-lc-7**: Chesapeake land cover 7-class colormap \
+ * **chesapeake-lu**: Chesapeake land use colormap \
+ * **chloris-biomass**: Chloris biomass colormap \
+ * **cividis**: Cividis colormap - sequential yellow to blue \
+ * **cividis_r**: Reversed cividis colormap \
+ * **cmrmap**: CMRmap colormap - perceptually uniform colormap \
+ * **cmrmap_r**: Reversed CMRmap colormap \
+ * **cool**: Cool colormap - sequential cyan to magenta \
+ * **cool_r**: Reversed cool colormap \
+ * **coolwarm**: Coolwarm colormap - diverging blue to red \
+ * **coolwarm_r**: Reversed coolwarm colormap \
+ * **copper**: Copper colormap - sequential black to copper \
+ * **copper_r**: Reversed copper colormap \
+ * **cubehelix**: Cubehelix colormap - sequential black to white with hue rotation \
+ * **cubehelix_r**: Reversed cubehelix colormap \
+ * **dark2**: Dark2 colormap - qualitative colormap with distinct colors \
+ * **dark2_r**: Reversed dark2 colormap \
+ * **drcog-lulc**: DRCog land use\/land cover colormap \
+ * **esa-cci-lc**: ESA CCI land cover colormap \
+ * **esa-worldcover**: ESA WorldCover colormap \
+ * **flag**: Flag colormap - qualitative colormap with distinct colors \
+ * **flag_r**: Reversed flag colormap \
+ * **gap-lulc**: GAP land use\/land cover colormap \
+ * **gist_earth**: Gist_earth colormap - perceptually uniform colormap \
+ * **gist_earth_r**: Reversed gist_earth colormap \
+ * **gist_gray**: Gist_gray colormap - grayscale colormap \
+ * **gist_gray_r**: Reversed gist_gray colormap \
+ * **gist_heat**: Gist_heat colormap - sequential black-red-yellow-white colormap \
+ * **gist_heat_r**: Reversed gist_heat colormap \
+ * **gist_ncar**: Gist_ncar colormap - perceptually uniform colormap \
+ * **gist_ncar_r**: Reversed gist_ncar colormap \
+ * **gist_rainbow**: Gist_rainbow colormap - perceptually uniform colormap \
+ * **gist_rainbow_r**: Reversed gist_rainbow colormap \
+ * **gist_stern**: Gist_stern colormap - perceptually uniform colormap \
+ * **gist_stern_r**: Reversed gist_stern colormap \
+ * **gist_yarg**: Gist_yarg colormap - grayscale colormap \
+ * **gist_yarg_r**: Reversed gist_yarg colormap \
+ * **gnbu**: GnBu colormap - sequential white to dark blue-green \
+ * **gnbu_r**: Reversed GnBu colormap \
+ * **gnuplot**: Gnuplot colormap - sequential black to white with hue rotation \
+ * **gnuplot2**: Gnuplot2 colormap - sequential black to white with hue rotation \
+ * **gnuplot2_r**: Reversed gnuplot2 colormap \
+ * **gnuplot_r**: Reversed gnuplot colormap \
+ * **gray**: Gray colormap - grayscale colormap \
+ * **gray_r**: Reversed gray colormap \
+ * **greens**: Greens colormap - sequential white to dark green \
+ * **greens_r**: Reversed greens colormap \
+ * **greys**: Greys colormap - sequential white to dark gray \
+ * **greys_r**: Reversed greys colormap \
+ * **hot**: Hot colormap - sequential black-red-yellow-white colormap \
+ * **hot_r**: Reversed hot colormap \
+ * **hsv**: HSV colormap - hue-saturation-value colormap \
+ * **hsv_r**: Reversed HSV colormap \
+ * **inferno**: Inferno colormap - sequential black to yellow colormap \
+ * **inferno_r**: Reversed inferno colormap \
+ * **io-bii**: IO-BII colormap - biodiversity index colormap \
+ * **io-lulc**: IO-LULC colormap - land use\/land cover colormap \
+ * **io-lulc-9-class**: IO-LULC 9-class colormap \
+ * **jet**: Jet colormap - sequential blue-green-yellow-red colormap \
+ * **jet_r**: Reversed jet colormap \
+ * **jrc-change**: JRC change colormap \
+ * **jrc-extent**: JRC extent colormap \
+ * **jrc-occurrence**: JRC occurrence colormap \
+ * **jrc-recurrence**: JRC recurrence colormap \
+ * **jrc-seasonality**: JRC seasonality colormap \
+ * **jrc-transitions**: JRC transitions colormap \
+ * **lidar-classification**: Lidar classification colormap \
+ * **lidar-hag**: Lidar height above ground colormap \
+ * **lidar-hag-alternative**: Alternative lidar height above ground colormap \
+ * **lidar-intensity**: Lidar intensity colormap \
+ * **lidar-returns**: Lidar returns colormap \
+ * **magma**: Magma colormap - sequential black to yellow colormap \
+ * **magma_r**: Reversed magma colormap \
+ * **modis-10A1**: MODIS 10A1 colormap \
+ * **modis-10A2**: MODIS 10A2 colormap \
+ * **modis-13A1|Q1**: MODIS 13A1|Q1 colormap \
+ * **modis-14A1|A2**: MODIS 14A1|A2 colormap \
+ * **modis-15A2H|A3H**: MODIS 15A2H|A3H colormap \
+ * **modis-16A3GF-ET**: MODIS 16A3GF-ET colormap \
+ * **modis-16A3GF-PET**: MODIS 16A3GF-PET colormap \
+ * **modis-17A2H|A2HGF**: MODIS 17A2H|A2HGF colormap \
+ * **modis-17A3HGF**: MODIS 17A3HGF colormap \
+ * **modis-64A1**: MODIS 64A1 colormap \
+ * **mtbs-severity**: MTBS severity colormap \
+ * **nipy_spectral**: Nipy_spectral colormap - perceptually uniform colormap \
+ * **nipy_spectral_r**: Reversed nipy_spectral colormap \
+ * **nrcan-lulc**: NRCAN land use\/land cover colormap \
+ * **ocean**: Ocean colormap - sequential blue to white colormap \
+ * **ocean_r**: Reversed ocean colormap \
+ * **oranges**: Oranges colormap - sequential white to dark orange \
+ * **oranges_r**: Reversed oranges colormap \
+ * **orrd**: OrRd colormap - sequential white to dark red-orange \
+ * **orrd_r**: Reversed OrRd colormap \
+ * **paired**: Paired colormap - qualitative colormap with distinct colors \
+ * **paired_r**: Reversed paired colormap \
+ * **pastel1**: Pastel1 colormap - qualitative colormap with pastel colors \
+ * **pastel1_r**: Reversed pastel1 colormap \
+ * **pastel2**: Pastel2 colormap - qualitative colormap with pastel colors \
+ * **pastel2_r**: Reversed pastel2 colormap \
+ * **pink**: Pink colormap - sequential white to dark pink \
+ * **pink_r**: Reversed pink colormap \
+ * **piyg**: PiYG colormap - diverging pink to green \
+ * **piyg_r**: Reversed PiYG colormap \
+ * **plasma**: Plasma colormap - sequential black to yellow colormap \
+ * **plasma_r**: Reversed plasma colormap \
+ * **prgn**: PRGn colormap - diverging purple to green \
+ * **prgn_r**: Reversed PRGn colormap \
+ * **prism**: Prism colormap - qualitative colormap with distinct colors \
+ * **prism_r**: Reversed prism colormap \
+ * **pubu**: PuBu colormap - sequential white to dark blue \
+ * **pubu_r**: Reversed PuBu colormap \
+ * **pubugn**: PuBuGn colormap - sequential white to dark blue-green \
+ * **pubugn_r**: Reversed PuBuGn colormap \
+ * **puor**: PuOr colormap - diverging purple to orange \
+ * **puor_r**: Reversed PuOr colormap \
+ * **purd**: PuRd colormap - sequential white to dark purple-red \
+ * **purd_r**: Reversed PuRd colormap \
+ * **purples**: Purples colormap - sequential white to dark purple \
+ * **purples_r**: Reversed purples colormap \
+ * **qpe**: QPE colormap - qualitative colormap with distinct colors \
+ * **rainbow**: Rainbow colormap - qualitative colormap with distinct colors \
+ * **rainbow_r**: Reversed rainbow colormap \
+ * **rdbu**: RdBu colormap - diverging red to blue \
+ * **rdbu_r**: Reversed RdBu colormap \
+ * **rdgy**: RdGy colormap - diverging red to gray \
+ * **rdgy_r**: Reversed RdGy colormap \
+ * **rdpu**: RdPu colormap - sequential white to dark red-purple \
+ * **rdpu_r**: Reversed RdPu colormap \
+ * **rdylbu**: RdYlBu colormap - diverging red to yellow to blue \
+ * **rdylbu_r**: Reversed RdYlBu colormap \
+ * **rdylgn**: RdYlGn colormap - diverging red to yellow to green \
+ * **rdylgn_r**: Reversed RdYlGn colormap \
+ * **reds**: Reds colormap - sequential white to dark red \
+ * **reds_r**: Reversed reds colormap \
+ * **rplumbo**: Rplumbo colormap - qualitative colormap with distinct colors \
+ * **schwarzwald**: Schwarzwald colormap - qualitative colormap with distinct colors \
+ * **seismic**: Seismic colormap - diverging blue to red \
+ * **seismic_r**: Reversed seismic colormap \
+ * **set1**: Set1 colormap - qualitative colormap with distinct colors \
+ * **set1_r**: Reversed set1 colormap \
+ * **set2**: Set2 colormap - qualitative colormap with distinct colors \
+ * **set2_r**: Reversed set2 colormap \
+ * **set3**: Set3 colormap - qualitative colormap with distinct colors \
+ * **set3_r**: Reversed set3 colormap \
+ * **spectral**: Spectral colormap - diverging red to yellow to blue \
+ * **spectral_r**: Reversed spectral colormap \
+ * **spring**: Spring colormap - sequential magenta to yellow \
+ * **spring_r**: Reversed spring colormap \
+ * **summer**: Summer colormap - sequential green to yellow \
+ * **summer_r**: Reversed summer colormap \
+ * **tab10**: Tab10 colormap - qualitative colormap with distinct colors \
+ * **tab10_r**: Reversed tab10 colormap \
+ * **tab20**: Tab20 colormap - qualitative colormap with distinct colors \
+ * **tab20_r**: Reversed tab20 colormap \
+ * **tab20b**: Tab20b colormap - qualitative colormap with distinct colors \
+ * **tab20b_r**: Reversed tab20b colormap \
+ * **tab20c**: Tab20c colormap - qualitative colormap with distinct colors \
+ * **tab20c_r**: Reversed tab20c colormap \
+ * **terrain**: Terrain colormap - sequential black to white with hue rotation \
+ * **terrain_r**: Reversed terrain colormap \
+ * **twilight**: Twilight colormap - diverging blue to red \
+ * **twilight_r**: Reversed twilight colormap \
+ * **twilight_shifted**: Twilight shifted colormap - diverging blue to red \
+ * **twilight_shifted_r**: Reversed twilight shifted colormap \
+ * **usda-cdl**: USDA CDL colormap - land cover classification \
+ * **usda-cdl-corn**: USDA CDL corn colormap \
+ * **usda-cdl-cotton**: USDA CDL cotton colormap \
+ * **usda-cdl-soybeans**: USDA CDL soybeans colormap \
+ * **usda-cdl-wheat**: USDA CDL wheat colormap \
+ * **usgs-lcmap**: USGS LCMAP colormap \
+ * **viirs-10a1**: VIIRS 10A1 colormap \
+ * **viirs-13a1**: VIIRS 13A1 colormap \
+ * **viirs-14a1**: VIIRS 14A1 colormap \
+ * **viirs-15a2H**: VIIRS 15A2H colormap \
+ * **viridis**: Viridis colormap - sequential black to yellow colormap \
+ * **viridis_r**: Reversed viridis colormap \
+ * **winter**: Winter colormap - sequential blue to green \
+ * **winter_r**: Reversed winter colormap \
+ * **wistia**: Wistia colormap - sequential white to yellow \
+ * **wistia_r**: Reversed wistia colormap \
+ * **ylgn**: YlGn colormap - sequential white to dark green \
+ * **ylgn_r**: Reversed YlGn colormap \
+ * **ylgnbu**: YlGnBu colormap - sequential white to dark blue-green \
+ * **ylgnbu_r**: Reversed YlGnBu colormap \
+ * **ylorbr**: YlOrBr colormap - sequential white to dark orange-brown \
+ * **ylorbr_r**: Reversed YlOrBr colormap \
+ * **ylorrd**: YlOrRd colormap - sequential white to dark red-orange \
+ * **ylorrd_r**: Reversed YlOrRd colormap
+ */
+export type ColorMapNames = string;
+
+/** Image format specifier for tile and image requests */
+export enum KnownTilerImageFormat {
+  /** Portable Network Graphics format - supports transparency */
+  Png = "png",
+  /** NumPy array format for raw data access */
+  Npy = "npy",
+  /** GeoTIFF format for georeferenced raster data */
+  Tif = "tif",
+  /** JPEG format - smaller file size but lossy compression */
+  Jpeg = "jpeg",
+  /** Alternate extension for JPEG format */
+  Jpg = "jpg",
+  /** JPEG 2000 format - supports both lossy and lossless compression */
+  Jp2 = "jp2",
+  /** WebP format - modern image format with good compression */
+  Webp = "webp",
+  /** Raw PNG format for access to unprocessed data */
+  Pngraw = "pngraw",
+}
+
+/**
+ * Image format specifier for tile and image requests \
+ * {@link KnownTilerImageFormat} can be used interchangeably with TilerImageFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **png**: Portable Network Graphics format - supports transparency \
+ * **npy**: NumPy array format for raw data access \
+ * **tif**: GeoTIFF format for georeferenced raster data \
+ * **jpeg**: JPEG format - smaller file size but lossy compression \
+ * **jpg**: Alternate extension for JPEG format \
+ * **jp2**: JPEG 2000 format - supports both lossy and lossless compression \
+ * **webp**: WebP format - modern image format with good compression \
+ * **pngraw**: Raw PNG format for access to unprocessed data
+ */
+export type TilerImageFormat = string;
+
+/**
+ * Identifier selecting one of the TileMatrixSetId supported (default:
+ * 'WebMercatorQuad')
+ *
+ * Represents the method used to select or compute pixels when creating
+ * composites from multiple sources
+ */
+export enum KnownPixelSelection {
+  /** Select pixel from the first available image */
+  First = "first",
+  /** Select pixel with the highest value */
+  Highest = "highest",
+  /** Select pixel with the lowest value */
+  Lowest = "lowest",
+  /** Calculate mean of available pixels */
+  Mean = "mean",
+  /** Calculate median of available pixels */
+  Median = "median",
+  /** Calculate standard deviation of available pixels */
+  StandardDeviation = "stdev",
+  /** Select image with lowest value in the last band */
+  LastBandLow = "lastbandlow",
+  /** Select image with highest value in the last band */
+  LastBandHigh = "lastbandhigh",
+}
+
+/**
+ * Identifier selecting one of the TileMatrixSetId supported (default:
+ * 'WebMercatorQuad')
+ *
+ * Represents the method used to select or compute pixels when creating
+ * composites from multiple sources \
+ * {@link KnownPixelSelection} can be used interchangeably with PixelSelection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **first**: Select pixel from the first available image \
+ * **highest**: Select pixel with the highest value \
+ * **lowest**: Select pixel with the lowest value \
+ * **mean**: Calculate mean of available pixels \
+ * **median**: Calculate median of available pixels \
+ * **stdev**: Calculate standard deviation of available pixels \
+ * **lastbandlow**: Select image with lowest value in the last band \
+ * **lastbandhigh**: Select image with highest value in the last band
+ */
+export type PixelSelection = string;
 
 /** Represents version information. */
 export enum KnownVersions {

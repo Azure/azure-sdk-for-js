@@ -7,45 +7,33 @@ import {
   stacSortExtensionArraySerializer,
   TileMatrixSet,
   tileMatrixSetDeserializer,
-  GetAssetStatisticsOptions,
   BandStatistics,
   StacItemBounds,
   stacItemBoundsDeserializer,
-  CropGeoJsonOptions,
   Feature,
   featureSerializer,
-  GetGeoJsonStatisticsOptions,
   StacItemStatisticsGeoJson,
   stacItemStatisticsGeoJsonDeserializer,
   TilerInfoGeoJsonFeature,
   tilerInfoGeoJsonFeatureDeserializer,
   tilerInfoRecordDeserializer,
   TilerInfo,
-  GetPartOptions,
   TilerCoreModelsResponsesPoint,
   tilerCoreModelsResponsesPointDeserializer,
-  GetPreviewOptions,
   ImageParameters,
   imageParametersSerializer,
   ImageResponse,
   imageResponseDeserializer,
-  GetStatisticsOptions,
   TilerStacItemStatistics,
   tilerStacItemStatisticsDeserializer,
-  GetTileJsonOptions,
   TileJsonMetadata,
   tileJsonMetadataDeserializer,
-  GetTileOptions,
-  GetWmtsCapabilitiesOptions,
   StacItemPointAsset,
   TilerStacSearchRegistration,
   tilerStacSearchRegistrationDeserializer,
   mosaicMetadataSerializer,
   TilerMosaicSearchRegistrationResponse,
   tilerMosaicSearchRegistrationResponseDeserializer,
-  GetMosaicTileJsonOptions,
-  GetMosaicTileOptions,
-  GetMosaicWmtsCapabilitiesOptions,
   IntervalLegendsElement,
   bandStatisticsRecordRecordDeserializer,
   intervalLegendsElementArrayArrayDeserializer,
@@ -97,8 +85,7 @@ export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,
   searchId: string,
   tileMatrixSetId: string,
-  options: GetMosaicWmtsCapabilitiesOptions,
-  optionalParams: DataGetMosaicsWmtsCapabilitiesOptionalParams = {
+  options: DataGetMosaicsWmtsCapabilitiesOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -137,16 +124,16 @@ export function _getMosaicsWmtsCapabilitiesSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/xml",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
     });
 }
@@ -169,8 +156,7 @@ export async function getMosaicsWmtsCapabilities(
   context: Client,
   searchId: string,
   tileMatrixSetId: string,
-  options: GetMosaicWmtsCapabilitiesOptions,
-  optionalParams: DataGetMosaicsWmtsCapabilitiesOptionalParams = {
+  options: DataGetMosaicsWmtsCapabilitiesOptionalParams = {
     requestOptions: {},
   },
 ): Promise<Uint8Array> {
@@ -179,7 +165,6 @@ export async function getMosaicsWmtsCapabilities(
     searchId,
     tileMatrixSetId,
     options,
-    optionalParams,
   );
   return _getMosaicsWmtsCapabilitiesDeserialize(result);
 }
@@ -193,8 +178,7 @@ export function _getMosaicsTileSend(
   y: number,
   scale: number,
   format: string,
-  options: GetMosaicTileOptions,
-  optionalParams: DataGetMosaicsTileOptionalParams = { requestOptions: {} },
+  options: DataGetMosaicsTileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/mosaic/{searchId}/tiles/{tileMatrixSetId}/{z}/{x}/{y}@{scale}x.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,scan_limit,items_limit,time_limit,exitwhenfull,skipcovered,algorithm,algorithm_params,buffer,color_formula,collection,resampling,pixel_selection,rescale*,colormap_name,colormap,return_mask}",
@@ -239,12 +223,12 @@ export function _getMosaicsTileSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
-    .get({ ...operationOptionsToRequestParameters(optionalParams) });
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getMosaicsTileDeserialize(
@@ -268,8 +252,7 @@ export async function getMosaicsTile(
   y: number,
   scale: number,
   format: string,
-  options: GetMosaicTileOptions,
-  optionalParams: DataGetMosaicsTileOptionalParams = { requestOptions: {} },
+  options: DataGetMosaicsTileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getMosaicsTileSend(
     context,
@@ -281,7 +264,6 @@ export async function getMosaicsTile(
     scale,
     format,
     options,
-    optionalParams,
   );
   return _getMosaicsTileDeserialize(result);
 }
@@ -290,8 +272,7 @@ export function _getMosaicsTileJsonSend(
   context: Client,
   searchId: string,
   tileMatrixSetId: string,
-  options: GetMosaicTileJsonOptions,
-  optionalParams: DataGetMosaicsTileJsonOptionalParams = { requestOptions: {} },
+  options: DataGetMosaicsTileJsonOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/mosaic/{searchId}/{tileMatrixSetId}/tilejson.json{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,scan_limit,items_limit,time_limit,exitwhenfull,skipcovered,algorithm,algorithm_params,minzoom,maxzoom,tile_format,tile_scale,buffer,color_formula,collection,resampling,pixel_selection,rescale*,colormap_name,colormap,return_mask}",
@@ -335,16 +316,16 @@ export function _getMosaicsTileJsonSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
     });
 }
@@ -365,15 +346,13 @@ export async function getMosaicsTileJson(
   context: Client,
   searchId: string,
   tileMatrixSetId: string,
-  options: GetMosaicTileJsonOptions,
-  optionalParams: DataGetMosaicsTileJsonOptionalParams = { requestOptions: {} },
+  options: DataGetMosaicsTileJsonOptionalParams = { requestOptions: {} },
 ): Promise<TileJsonMetadata> {
   const result = await _getMosaicsTileJsonSend(
     context,
     searchId,
     tileMatrixSetId,
     options,
-    optionalParams,
   );
   return _getMosaicsTileJsonDeserialize(result);
 }
@@ -791,10 +770,7 @@ export function _getWmtsCapabilitiesSend(
   collectionId: string,
   itemId: string,
   tileMatrixSetId: string,
-  options: GetWmtsCapabilitiesOptions,
-  optionalParams: DataGetWmtsCapabilitiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetWmtsCapabilitiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/{tileMatrixSetId}/WMTSCapabilities.xml{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,tile_format,tile_scale,minzoom,maxzoom,buffer,color_formula,resampling,rescale*,colormap_name,colormap,return_mask}",
@@ -832,16 +808,16 @@ export function _getWmtsCapabilitiesSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/xml",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
     });
 }
@@ -865,10 +841,7 @@ export async function getWmtsCapabilities(
   collectionId: string,
   itemId: string,
   tileMatrixSetId: string,
-  options: GetWmtsCapabilitiesOptions,
-  optionalParams: DataGetWmtsCapabilitiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetWmtsCapabilitiesOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getWmtsCapabilitiesSend(
     context,
@@ -876,7 +849,6 @@ export async function getWmtsCapabilities(
     itemId,
     tileMatrixSetId,
     options,
-    optionalParams,
   );
   return _getWmtsCapabilitiesDeserialize(result);
 }
@@ -891,8 +863,7 @@ export function _getTileSend(
   y: number,
   scale: number,
   format: string,
-  options: GetTileOptions,
-  optionalParams: DataGetTileOptionalParams = { requestOptions: {} },
+  options: DataGetTileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/tiles/{tileMatrixSetId}/{z}/{x}/{y}@{scale}x.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,buffer,color_formula,resampling,rescale*,colormap_name,colormap,return_mask,subdataset_name,subdataset_bands}",
@@ -937,12 +908,12 @@ export function _getTileSend(
           }),
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
-    .get({ ...operationOptionsToRequestParameters(optionalParams) });
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getTileDeserialize(
@@ -967,8 +938,7 @@ export async function getTile(
   y: number,
   scale: number,
   format: string,
-  options: GetTileOptions,
-  optionalParams: DataGetTileOptionalParams = { requestOptions: {} },
+  options: DataGetTileOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getTileSend(
     context,
@@ -981,7 +951,6 @@ export async function getTile(
     scale,
     format,
     options,
-    optionalParams,
   );
   return _getTileDeserialize(result);
 }
@@ -991,8 +960,7 @@ export function _getTileJsonSend(
   collectionId: string,
   itemId: string,
   tileMatrixSetId: string,
-  options: GetTileJsonOptions,
-  optionalParams: DataGetTileJsonOptionalParams = { requestOptions: {} },
+  options: DataGetTileJsonOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/{tileMatrixSetId}/tilejson.json{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,tile_format,tile_scale,minzoom,maxzoom,buffer,color_formula,resampling,rescale*,colormap_name,colormap,return_mask}",
@@ -1030,16 +998,16 @@ export function _getTileJsonSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
     });
 }
@@ -1061,8 +1029,7 @@ export async function getTileJson(
   collectionId: string,
   itemId: string,
   tileMatrixSetId: string,
-  options: GetTileJsonOptions,
-  optionalParams: DataGetTileJsonOptionalParams = { requestOptions: {} },
+  options: DataGetTileJsonOptionalParams = { requestOptions: {} },
 ): Promise<TileJsonMetadata> {
   const result = await _getTileJsonSend(
     context,
@@ -1070,7 +1037,6 @@ export async function getTileJson(
     itemId,
     tileMatrixSetId,
     options,
-    optionalParams,
   );
   return _getTileJsonDeserialize(result);
 }
@@ -1079,8 +1045,7 @@ export function _listStatisticsSend(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetStatisticsOptions,
-  optionalParams: DataListStatisticsOptionalParams = { requestOptions: {} },
+  options: DataListStatisticsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/statistics{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,resampling,max_size,categorical,c,p,histogram_bins,histogram_range}",
@@ -1115,16 +1080,16 @@ export function _listStatisticsSend(
       histogram_range: options?.histogramRange,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
     });
 }
@@ -1145,15 +1110,13 @@ export async function listStatistics(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetStatisticsOptions,
-  optionalParams: DataListStatisticsOptionalParams = { requestOptions: {} },
+  options: DataListStatisticsOptionalParams = { requestOptions: {} },
 ): Promise<TilerStacItemStatistics> {
   const result = await _listStatisticsSend(
     context,
     collectionId,
     itemId,
     options,
-    optionalParams,
   );
   return _listStatisticsDeserialize(result);
 }
@@ -1266,10 +1229,7 @@ export function _getPreviewWithFormatSend(
   collectionId: string,
   itemId: string,
   format: string,
-  options: GetPreviewOptions,
-  optionalParams: DataGetPreviewWithFormatOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetPreviewWithFormatOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/preview.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,color_formula,dst%2Dcrs,resampling,max_size,height,width,rescale*,colormap_name,colormap,return_mask}",
@@ -1306,12 +1266,12 @@ export function _getPreviewWithFormatSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
-    .get({ ...operationOptionsToRequestParameters(optionalParams) });
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getPreviewWithFormatDeserialize(
@@ -1331,10 +1291,7 @@ export async function getPreviewWithFormat(
   collectionId: string,
   itemId: string,
   format: string,
-  options: GetPreviewOptions,
-  optionalParams: DataGetPreviewWithFormatOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetPreviewWithFormatOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getPreviewWithFormatSend(
     context,
@@ -1342,7 +1299,6 @@ export async function getPreviewWithFormat(
     itemId,
     format,
     options,
-    optionalParams,
   );
   return _getPreviewWithFormatDeserialize(result);
 }
@@ -1351,8 +1307,7 @@ export function _getPreviewSend(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetPreviewOptions,
-  optionalParams: DataGetPreviewOptionalParams = { requestOptions: {} },
+  options: DataGetPreviewOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/preview{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,format,color_formula,dst%2Dcrs,resampling,max_size,height,width,rescale*,colormap_name,colormap,return_mask}",
@@ -1372,6 +1327,7 @@ export function _getPreviewSend(
       unscale: options?.unscale,
       algorithm: options?.algorithm,
       algorithm_params: options?.algorithmParams,
+      format: options?.format,
       color_formula: options?.colorFormula,
       "dst%2Dcrs": options?.dstCrs,
       resampling: options?.resampling,
@@ -1388,12 +1344,12 @@ export function _getPreviewSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
-    .get({ ...operationOptionsToRequestParameters(optionalParams) });
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getPreviewDeserialize(
@@ -1412,16 +1368,9 @@ export async function getPreview(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetPreviewOptions,
-  optionalParams: DataGetPreviewOptionalParams = { requestOptions: {} },
+  options: DataGetPreviewOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPreviewSend(
-    context,
-    collectionId,
-    itemId,
-    options,
-    optionalParams,
-  );
+  const result = await _getPreviewSend(context, collectionId, itemId, options);
   return _getPreviewDeserialize(result);
 }
 
@@ -1511,10 +1460,7 @@ export function _getPartWithDimensionsSend(
   width: number,
   height: number,
   format: string,
-  options: GetPartOptions,
-  optionalParams: DataGetPartWithDimensionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetPartWithDimensionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/crop/{minx},{miny},{maxx},{maxy}/{width}x{height}.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,color_formula,dst%2Dcrs,coord%2Dcrs,resampling,max_size,rescale*,colormap_name,colormap,return_mask}",
@@ -1556,12 +1502,12 @@ export function _getPartWithDimensionsSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
-    .get({ ...operationOptionsToRequestParameters(optionalParams) });
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getPartWithDimensionsDeserialize(
@@ -1587,10 +1533,7 @@ export async function getPartWithDimensions(
   width: number,
   height: number,
   format: string,
-  options: GetPartOptions,
-  optionalParams: DataGetPartWithDimensionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetPartWithDimensionsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getPartWithDimensionsSend(
     context,
@@ -1604,7 +1547,6 @@ export async function getPartWithDimensions(
     height,
     format,
     options,
-    optionalParams,
   );
   return _getPartWithDimensionsDeserialize(result);
 }
@@ -1618,8 +1560,7 @@ export function _getPartSend(
   maxx: number,
   maxy: number,
   format: string,
-  options: GetPartOptions,
-  optionalParams: DataGetPartOptionalParams = { requestOptions: {} },
+  options: DataGetPartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/crop/{minx},{miny},{maxx},{maxy}.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,color_formula,dst%2Dcrs,coord%2Dcrs,resampling,max_size,height,width,rescale*,colormap_name,colormap,return_mask}",
@@ -1649,6 +1590,8 @@ export function _getPartSend(
       "coord%2Dcrs": options?.coordinateReferenceSystem,
       resampling: options?.resampling,
       max_size: options?.maxSize,
+      height: options?.height,
+      width: options?.width,
       rescale: !options?.rescale
         ? options?.rescale
         : options?.rescale.map((p: any) => {
@@ -1659,12 +1602,12 @@ export function _getPartSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
-    .get({ ...operationOptionsToRequestParameters(optionalParams) });
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getPartDeserialize(
@@ -1688,8 +1631,7 @@ export async function getPart(
   maxx: number,
   maxy: number,
   format: string,
-  options: GetPartOptions,
-  optionalParams: DataGetPartOptionalParams = { requestOptions: {} },
+  options: DataGetPartOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _getPartSend(
     context,
@@ -1701,7 +1643,6 @@ export async function getPart(
     maxy,
     format,
     options,
-    optionalParams,
   );
   return _getPartDeserialize(result);
 }
@@ -1830,11 +1771,8 @@ export function _getGeoJsonStatisticsSend(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetGeoJsonStatisticsOptions,
   body: Feature,
-  optionalParams: DataGetGeoJsonStatisticsOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetGeoJsonStatisticsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/statistics{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,coord%2Dcrs,resampling,max_size,categorical,c,p,histogram_bins,histogram_range}",
@@ -1852,6 +1790,7 @@ export function _getGeoJsonStatisticsSend(
       asset_as_band: options?.assetAsBand,
       nodata: options?.noData,
       unscale: options?.unscale,
+      "coord%2Dcrs": options?.coordinateReferenceSystem,
       resampling: options?.resampling,
       max_size: options?.maxSize,
       categorical: options?.categorical,
@@ -1869,17 +1808,17 @@ export function _getGeoJsonStatisticsSend(
       histogram_range: options?.histogramRange,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .post({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
         accept: "application/json",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
       body: featureSerializer(body),
     });
@@ -1901,19 +1840,15 @@ export async function getGeoJsonStatistics(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetGeoJsonStatisticsOptions,
   body: Feature,
-  optionalParams: DataGetGeoJsonStatisticsOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataGetGeoJsonStatisticsOptionalParams = { requestOptions: {} },
 ): Promise<StacItemStatisticsGeoJson> {
   const result = await _getGeoJsonStatisticsSend(
     context,
     collectionId,
     itemId,
-    options,
     body,
-    optionalParams,
+    options,
   );
   return _getGeoJsonStatisticsDeserialize(result);
 }
@@ -1925,11 +1860,8 @@ export function _cropGeoJsonWithDimensionsSend(
   width: number,
   height: number,
   format: string,
-  options: CropGeoJsonOptions,
   body: Feature,
-  optionalParams: DataCropGeoJsonWithDimensionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataCropGeoJsonWithDimensionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/crop/{width}x{height}.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,color_formula,coord%2Dcrs,resampling,max_size,rescale*,colormap_name,colormap,return_mask}",
@@ -1966,13 +1898,13 @@ export function _cropGeoJsonWithDimensionsSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .post({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       body: featureSerializer(body),
     });
@@ -1997,11 +1929,8 @@ export async function cropGeoJsonWithDimensions(
   width: number,
   height: number,
   format: string,
-  options: CropGeoJsonOptions,
   body: Feature,
-  optionalParams: DataCropGeoJsonWithDimensionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: DataCropGeoJsonWithDimensionsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _cropGeoJsonWithDimensionsSend(
     context,
@@ -2010,9 +1939,8 @@ export async function cropGeoJsonWithDimensions(
     width,
     height,
     format,
-    options,
     body,
-    optionalParams,
+    options,
   );
   return _cropGeoJsonWithDimensionsDeserialize(result);
 }
@@ -2022,9 +1950,8 @@ export function _cropGeoJsonSend(
   collectionId: string,
   itemId: string,
   format: string,
-  options: CropGeoJsonOptions,
   body: Feature,
-  optionalParams: DataCropGeoJsonOptionalParams = { requestOptions: {} },
+  options: DataCropGeoJsonOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/crop.{format}{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,algorithm,algorithm_params,color_formula,coord%2Dcrs,resampling,max_size,height,width,rescale*,colormap_name,colormap,return_mask}",
@@ -2049,6 +1976,8 @@ export function _cropGeoJsonSend(
       "coord%2Dcrs": options?.coordinateReferenceSystem,
       resampling: options?.resampling,
       max_size: options?.maxSize,
+      height: options?.height,
+      width: options?.width,
       rescale: !options?.rescale
         ? options?.rescale
         : options?.rescale.map((p: any) => {
@@ -2059,13 +1988,13 @@ export function _cropGeoJsonSend(
       return_mask: options?.returnMask,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .post({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       body: featureSerializer(body),
     });
@@ -2088,18 +2017,16 @@ export async function cropGeoJson(
   collectionId: string,
   itemId: string,
   format: string,
-  options: CropGeoJsonOptions,
   body: Feature,
-  optionalParams: DataCropGeoJsonOptionalParams = { requestOptions: {} },
+  options: DataCropGeoJsonOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
   const result = await _cropGeoJsonSend(
     context,
     collectionId,
     itemId,
     format,
-    options,
     body,
-    optionalParams,
+    options,
   );
   return _cropGeoJsonDeserialize(result);
 }
@@ -2215,8 +2142,7 @@ export function _getAssetStatisticsSend(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetAssetStatisticsOptions,
-  optionalParams: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
+  options: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/data/collections/{collectionId}/items/{itemId}/asset_statistics{?api%2Dversion,assets*,expression,asset_bidx,asset_as_band,nodata,unscale,resampling,max_size,categorical,c,p,histogram_bins,histogram_range}",
@@ -2251,16 +2177,16 @@ export function _getAssetStatisticsSend(
       histogram_range: options?.histogramRange,
     },
     {
-      allowReserved: optionalParams?.requestOptions?.skipUrlEncoding,
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(optionalParams),
+      ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
-        ...optionalParams.requestOptions?.headers,
+        ...options.requestOptions?.headers,
       },
     });
 }
@@ -2281,15 +2207,13 @@ export async function getAssetStatistics(
   context: Client,
   collectionId: string,
   itemId: string,
-  options: GetAssetStatisticsOptions,
-  optionalParams: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
+  options: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
 ): Promise<Record<string, Record<string, BandStatistics>>> {
   const result = await _getAssetStatisticsSend(
     context,
     collectionId,
     itemId,
     options,
-    optionalParams,
   );
   return _getAssetStatisticsDeserialize(result);
 }

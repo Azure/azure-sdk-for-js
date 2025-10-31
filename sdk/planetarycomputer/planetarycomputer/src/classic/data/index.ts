@@ -70,32 +70,20 @@ import {
 } from "../../api/data/options.js";
 import {
   TileMatrixSet,
-  GetAssetStatisticsOptions,
   BandStatistics,
   StacItemBounds,
-  CropGeoJsonOptions,
   Feature,
-  GetGeoJsonStatisticsOptions,
   StacItemStatisticsGeoJson,
   TilerInfoGeoJsonFeature,
   TilerInfo,
-  GetPartOptions,
   TilerCoreModelsResponsesPoint,
-  GetPreviewOptions,
   ImageParameters,
   ImageResponse,
-  GetStatisticsOptions,
   TilerStacItemStatistics,
-  GetTileJsonOptions,
   TileJsonMetadata,
-  GetTileOptions,
-  GetWmtsCapabilitiesOptions,
   StacItemPointAsset,
   TilerStacSearchRegistration,
   TilerMosaicSearchRegistrationResponse,
-  GetMosaicTileJsonOptions,
-  GetMosaicTileOptions,
-  GetMosaicWmtsCapabilitiesOptions,
   IntervalLegendsElement,
 } from "../../models/models.js";
 
@@ -105,8 +93,7 @@ export interface DataOperations {
   getMosaicsWmtsCapabilities: (
     searchId: string,
     tileMatrixSetId: string,
-    options: GetMosaicWmtsCapabilitiesOptions,
-    optionalParams?: DataGetMosaicsWmtsCapabilitiesOptionalParams,
+    options?: DataGetMosaicsWmtsCapabilitiesOptionalParams,
   ) => Promise<Uint8Array>;
   /** Create map tile. */
   getMosaicsTile: (
@@ -117,15 +104,13 @@ export interface DataOperations {
     y: number,
     scale: number,
     format: string,
-    options: GetMosaicTileOptions,
-    optionalParams?: DataGetMosaicsTileOptionalParams,
+    options?: DataGetMosaicsTileOptionalParams,
   ) => Promise<Uint8Array>;
   /** Return TileJSON document for a searchId. */
   getMosaicsTileJson: (
     searchId: string,
     tileMatrixSetId: string,
-    options: GetMosaicTileJsonOptions,
-    optionalParams?: DataGetMosaicsTileJsonOptionalParams,
+    options?: DataGetMosaicsTileJsonOptionalParams,
   ) => Promise<TileJsonMetadata>;
   /** Register a Search query */
   registerMosaicsSearch: (
@@ -179,8 +164,7 @@ export interface DataOperations {
     collectionId: string,
     itemId: string,
     tileMatrixSetId: string,
-    options: GetWmtsCapabilitiesOptions,
-    optionalParams?: DataGetWmtsCapabilitiesOptionalParams,
+    options?: DataGetWmtsCapabilitiesOptionalParams,
   ) => Promise<Uint8Array>;
   /** Create map tile from a dataset. */
   getTile: (
@@ -192,23 +176,20 @@ export interface DataOperations {
     y: number,
     scale: number,
     format: string,
-    options: GetTileOptions,
-    optionalParams?: DataGetTileOptionalParams,
+    options?: DataGetTileOptionalParams,
   ) => Promise<Uint8Array>;
   /** Return the TileJson Tilematrixsetid As a path */
   getTileJson: (
     collectionId: string,
     itemId: string,
     tileMatrixSetId: string,
-    options: GetTileJsonOptions,
-    optionalParams?: DataGetTileJsonOptionalParams,
+    options?: DataGetTileJsonOptionalParams,
   ) => Promise<TileJsonMetadata>;
   /** Merged assets statistics. */
   listStatistics: (
     collectionId: string,
     itemId: string,
-    options: GetStatisticsOptions,
-    optionalParams?: DataListStatisticsOptionalParams,
+    options?: DataListStatisticsOptionalParams,
   ) => Promise<TilerStacItemStatistics>;
   /** Fetch an existing image export by ID */
   getStaticImage: (
@@ -227,15 +208,13 @@ export interface DataOperations {
     collectionId: string,
     itemId: string,
     format: string,
-    options: GetPreviewOptions,
-    optionalParams?: DataGetPreviewWithFormatOptionalParams,
+    options?: DataGetPreviewWithFormatOptionalParams,
   ) => Promise<Uint8Array>;
   /** Create preview of a dataset. */
   getPreview: (
     collectionId: string,
     itemId: string,
-    options: GetPreviewOptions,
-    optionalParams?: DataGetPreviewOptionalParams,
+    options?: DataGetPreviewOptionalParams,
   ) => Promise<Uint8Array>;
   /** Get Point value for a dataset. */
   getPoint: (
@@ -256,8 +235,7 @@ export interface DataOperations {
     width: number,
     height: number,
     format: string,
-    options: GetPartOptions,
-    optionalParams?: DataGetPartWithDimensionsOptionalParams,
+    options?: DataGetPartWithDimensionsOptionalParams,
   ) => Promise<Uint8Array>;
   /** Create image from part of a dataset. */
   getPart: (
@@ -268,8 +246,7 @@ export interface DataOperations {
     maxx: number,
     maxy: number,
     format: string,
-    options: GetPartOptions,
-    optionalParams?: DataGetPartOptionalParams,
+    options?: DataGetPartOptionalParams,
   ) => Promise<Uint8Array>;
   /** Return dataset's basic info. */
   getItemAssetDetails: (
@@ -287,9 +264,8 @@ export interface DataOperations {
   getGeoJsonStatistics: (
     collectionId: string,
     itemId: string,
-    options: GetGeoJsonStatisticsOptions,
     body: Feature,
-    optionalParams?: DataGetGeoJsonStatisticsOptionalParams,
+    options?: DataGetGeoJsonStatisticsOptionalParams,
   ) => Promise<StacItemStatisticsGeoJson>;
   /** Create image from a geojson feature. */
   cropGeoJsonWithDimensions: (
@@ -298,18 +274,16 @@ export interface DataOperations {
     width: number,
     height: number,
     format: string,
-    options: CropGeoJsonOptions,
     body: Feature,
-    optionalParams?: DataCropGeoJsonWithDimensionsOptionalParams,
+    options?: DataCropGeoJsonWithDimensionsOptionalParams,
   ) => Promise<Uint8Array>;
   /** Create image from a geojson feature. */
   cropGeoJson: (
     collectionId: string,
     itemId: string,
     format: string,
-    options: CropGeoJsonOptions,
     body: Feature,
-    optionalParams?: DataCropGeoJsonOptionalParams,
+    options?: DataCropGeoJsonOptionalParams,
   ) => Promise<Uint8Array>;
   /** Return all Bounds */
   getBounds: (
@@ -327,8 +301,7 @@ export interface DataOperations {
   getAssetStatistics: (
     collectionId: string,
     itemId: string,
-    options: GetAssetStatisticsOptions,
-    optionalParams?: DataGetAssetStatisticsOptionalParams,
+    options?: DataGetAssetStatisticsOptionalParams,
   ) => Promise<Record<string, Record<string, BandStatistics>>>;
   /** Return Matrix List */
   listTileMatrices: (
@@ -346,16 +319,9 @@ function _getData(context: PlanetaryComputerProContext) {
     getMosaicsWmtsCapabilities: (
       searchId: string,
       tileMatrixSetId: string,
-      options: GetMosaicWmtsCapabilitiesOptions,
-      optionalParams?: DataGetMosaicsWmtsCapabilitiesOptionalParams,
+      options?: DataGetMosaicsWmtsCapabilitiesOptionalParams,
     ) =>
-      getMosaicsWmtsCapabilities(
-        context,
-        searchId,
-        tileMatrixSetId,
-        options,
-        optionalParams,
-      ),
+      getMosaicsWmtsCapabilities(context, searchId, tileMatrixSetId, options),
     getMosaicsTile: (
       searchId: string,
       tileMatrixSetId: string,
@@ -364,8 +330,7 @@ function _getData(context: PlanetaryComputerProContext) {
       y: number,
       scale: number,
       format: string,
-      options: GetMosaicTileOptions,
-      optionalParams?: DataGetMosaicsTileOptionalParams,
+      options?: DataGetMosaicsTileOptionalParams,
     ) =>
       getMosaicsTile(
         context,
@@ -377,21 +342,12 @@ function _getData(context: PlanetaryComputerProContext) {
         scale,
         format,
         options,
-        optionalParams,
       ),
     getMosaicsTileJson: (
       searchId: string,
       tileMatrixSetId: string,
-      options: GetMosaicTileJsonOptions,
-      optionalParams?: DataGetMosaicsTileJsonOptionalParams,
-    ) =>
-      getMosaicsTileJson(
-        context,
-        searchId,
-        tileMatrixSetId,
-        options,
-        optionalParams,
-      ),
+      options?: DataGetMosaicsTileJsonOptionalParams,
+    ) => getMosaicsTileJson(context, searchId, tileMatrixSetId, options),
     registerMosaicsSearch: (
       options?: DataRegisterMosaicsSearchOptionalParams,
     ) => registerMosaicsSearch(context, options),
@@ -439,8 +395,7 @@ function _getData(context: PlanetaryComputerProContext) {
       collectionId: string,
       itemId: string,
       tileMatrixSetId: string,
-      options: GetWmtsCapabilitiesOptions,
-      optionalParams?: DataGetWmtsCapabilitiesOptionalParams,
+      options?: DataGetWmtsCapabilitiesOptionalParams,
     ) =>
       getWmtsCapabilities(
         context,
@@ -448,7 +403,6 @@ function _getData(context: PlanetaryComputerProContext) {
         itemId,
         tileMatrixSetId,
         options,
-        optionalParams,
       ),
     getTile: (
       collectionId: string,
@@ -459,8 +413,7 @@ function _getData(context: PlanetaryComputerProContext) {
       y: number,
       scale: number,
       format: string,
-      options: GetTileOptions,
-      optionalParams?: DataGetTileOptionalParams,
+      options?: DataGetTileOptionalParams,
     ) =>
       getTile(
         context,
@@ -473,29 +426,18 @@ function _getData(context: PlanetaryComputerProContext) {
         scale,
         format,
         options,
-        optionalParams,
       ),
     getTileJson: (
       collectionId: string,
       itemId: string,
       tileMatrixSetId: string,
-      options: GetTileJsonOptions,
-      optionalParams?: DataGetTileJsonOptionalParams,
-    ) =>
-      getTileJson(
-        context,
-        collectionId,
-        itemId,
-        tileMatrixSetId,
-        options,
-        optionalParams,
-      ),
+      options?: DataGetTileJsonOptionalParams,
+    ) => getTileJson(context, collectionId, itemId, tileMatrixSetId, options),
     listStatistics: (
       collectionId: string,
       itemId: string,
-      options: GetStatisticsOptions,
-      optionalParams?: DataListStatisticsOptionalParams,
-    ) => listStatistics(context, collectionId, itemId, options, optionalParams),
+      options?: DataListStatisticsOptionalParams,
+    ) => listStatistics(context, collectionId, itemId, options),
     getStaticImage: (
       collectionId: string,
       id: string,
@@ -510,23 +452,13 @@ function _getData(context: PlanetaryComputerProContext) {
       collectionId: string,
       itemId: string,
       format: string,
-      options: GetPreviewOptions,
-      optionalParams?: DataGetPreviewWithFormatOptionalParams,
-    ) =>
-      getPreviewWithFormat(
-        context,
-        collectionId,
-        itemId,
-        format,
-        options,
-        optionalParams,
-      ),
+      options?: DataGetPreviewWithFormatOptionalParams,
+    ) => getPreviewWithFormat(context, collectionId, itemId, format, options),
     getPreview: (
       collectionId: string,
       itemId: string,
-      options: GetPreviewOptions,
-      optionalParams?: DataGetPreviewOptionalParams,
-    ) => getPreview(context, collectionId, itemId, options, optionalParams),
+      options?: DataGetPreviewOptionalParams,
+    ) => getPreview(context, collectionId, itemId, options),
     getPoint: (
       collectionId: string,
       itemId: string,
@@ -544,8 +476,7 @@ function _getData(context: PlanetaryComputerProContext) {
       width: number,
       height: number,
       format: string,
-      options: GetPartOptions,
-      optionalParams?: DataGetPartWithDimensionsOptionalParams,
+      options?: DataGetPartWithDimensionsOptionalParams,
     ) =>
       getPartWithDimensions(
         context,
@@ -559,7 +490,6 @@ function _getData(context: PlanetaryComputerProContext) {
         height,
         format,
         options,
-        optionalParams,
       ),
     getPart: (
       collectionId: string,
@@ -569,8 +499,7 @@ function _getData(context: PlanetaryComputerProContext) {
       maxx: number,
       maxy: number,
       format: string,
-      options: GetPartOptions,
-      optionalParams?: DataGetPartOptionalParams,
+      options?: DataGetPartOptionalParams,
     ) =>
       getPart(
         context,
@@ -582,7 +511,6 @@ function _getData(context: PlanetaryComputerProContext) {
         maxy,
         format,
         options,
-        optionalParams,
       ),
     getItemAssetDetails: (
       collectionId: string,
@@ -597,27 +525,17 @@ function _getData(context: PlanetaryComputerProContext) {
     getGeoJsonStatistics: (
       collectionId: string,
       itemId: string,
-      options: GetGeoJsonStatisticsOptions,
       body: Feature,
-      optionalParams?: DataGetGeoJsonStatisticsOptionalParams,
-    ) =>
-      getGeoJsonStatistics(
-        context,
-        collectionId,
-        itemId,
-        options,
-        body,
-        optionalParams,
-      ),
+      options?: DataGetGeoJsonStatisticsOptionalParams,
+    ) => getGeoJsonStatistics(context, collectionId, itemId, body, options),
     cropGeoJsonWithDimensions: (
       collectionId: string,
       itemId: string,
       width: number,
       height: number,
       format: string,
-      options: CropGeoJsonOptions,
       body: Feature,
-      optionalParams?: DataCropGeoJsonWithDimensionsOptionalParams,
+      options?: DataCropGeoJsonWithDimensionsOptionalParams,
     ) =>
       cropGeoJsonWithDimensions(
         context,
@@ -626,27 +544,16 @@ function _getData(context: PlanetaryComputerProContext) {
         width,
         height,
         format,
-        options,
         body,
-        optionalParams,
+        options,
       ),
     cropGeoJson: (
       collectionId: string,
       itemId: string,
       format: string,
-      options: CropGeoJsonOptions,
       body: Feature,
-      optionalParams?: DataCropGeoJsonOptionalParams,
-    ) =>
-      cropGeoJson(
-        context,
-        collectionId,
-        itemId,
-        format,
-        options,
-        body,
-        optionalParams,
-      ),
+      options?: DataCropGeoJsonOptionalParams,
+    ) => cropGeoJson(context, collectionId, itemId, format, body, options),
     getBounds: (
       collectionId: string,
       itemId: string,
@@ -660,16 +567,8 @@ function _getData(context: PlanetaryComputerProContext) {
     getAssetStatistics: (
       collectionId: string,
       itemId: string,
-      options: GetAssetStatisticsOptions,
-      optionalParams?: DataGetAssetStatisticsOptionalParams,
-    ) =>
-      getAssetStatistics(
-        context,
-        collectionId,
-        itemId,
-        options,
-        optionalParams,
-      ),
+      options?: DataGetAssetStatisticsOptionalParams,
+    ) => getAssetStatistics(context, collectionId, itemId, options),
     listTileMatrices: (options?: DataListTileMatricesOptionalParams) =>
       listTileMatrices(context, options),
     getTileMatrixDefinitions: (

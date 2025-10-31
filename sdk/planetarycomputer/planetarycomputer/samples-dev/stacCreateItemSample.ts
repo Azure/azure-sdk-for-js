@@ -34,12 +34,14 @@ async function stacItemsCreate(): Promise<void> {
     properties: {
       gsd: 0.6,
       datetime: "2021-11-14T16:00:00Z",
-      "naip:year": "2021",
-      "proj:bbox": [737334, 3723324, 743706, 3730800],
-      "proj:epsg": 26916,
-      "naip:state": "ga",
-      "proj:shape": [12460, 10620],
-      "proj:transform": [0.6, 0, 737334, 0, -0.6, 3730800, 0, 0, 1],
+      additionalProperties: {
+        "naip:year": "2021",
+        "proj:bbox": [737334, 3723324, 743706, 3730800],
+        "proj:epsg": 26916,
+        "naip:state": "ga",
+        "proj:shape": [12460, 10620],
+        "proj:transform": [0.6, 0, 737334, 0, -0.6, 3730800, 0, 0, 1],
+      },
     },
     links: [
       {
