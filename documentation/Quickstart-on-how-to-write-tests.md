@@ -52,7 +52,7 @@ To be able to leverage the asset-sync workflow
 
 # How to run test
 
-This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `pnpm test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `pnpm test:node` and `pnpm test:browser`. Let's take `purview-scanning-rest` as an example.
+This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `pnpm test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `pnpm test:node` and `pnpm test:browser`. Let's take `purview-datamap-rest` as an example.
 
 If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
 
@@ -98,7 +98,7 @@ _Note: the structure of the `test` folder has slight differences between high-le
 ```
 sdk/
 ├─ purview/
-│  ├─ purview-scanning-rest/
+│  ├─ purview-datamap-rest/
 │  │  ├─ src/
 │  │  │  ├─ ...
 │  │  ├─ recordings/
@@ -121,14 +121,14 @@ Before running tests, it's advised to update the dependencies and build our proj
 
 ```Shell
 > pnpm install
-> pnpm build --filter=@azure-rest/purview-scanning...
+> pnpm build --filter=@azure-rest/purview-datamap...
 ```
 
 Then, we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
 
 ```Shell
-> cd sdk/purview/purview-scanning-rest
-sdk/purview/purview-scanning-rest> pnpm test
+> cd sdk/purview/purview-datamap-rest
+sdk/purview/purview-datamap-rest> pnpm test
 ```
 
 If you are the first time to run tests you may fail with below message because there is no any recordings found.
@@ -161,7 +161,7 @@ After running the test cases, you need to push your recordings into assets repo.
 > pnpm test
 ```
 
-This time we could get following similar logs. Go to the folder `purview-scanning-rest/recordings` to view recording files.
+This time we could get following similar logs. Go to the folder `purview-datamap-rest/recordings` to view recording files.
 
 ```
 [test-info] ===TEST_MODE="record"===
@@ -343,10 +343,10 @@ API key authentication would hit the service's endpoint directly so these traffi
 
 At the code structure [section](#code-structure), we described we'll generate sample file for you. If you are the first time to write test cases, you could grow up your own based on them.
 
-This simple test creates a resource and checks that the service handles it correctly in the project `purview-scanning-rest`. Below are the steps:
+This simple test creates a resource and checks that the service handles it correctly in the project `purview-datamap-rest`. Below are the steps:
 
-- Step 1: Create your test file and add one test case with resource creation, here we have purview catalog glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
-- Step 2: Add the utility method `createClient` in `public/utils/recordedClient.ts` to share the `PurviewCatalogClient` creation.
+- Step 1: Create your test file and add one test case with resource creation, here we have purview datamap glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
+- Step 2: Add the utility method `createClient` in `public/utils/recordedClient.ts` to share the `PurviewDataMapClient` creation.
   - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#azure-toolstest-credential-package-and-the-noopcredential) for more details.
   - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`.
 - Step 3: In `glossary.spec.ts` file, call `createClient` to prepare the client and call `client.path("/atlas/v2/glossary").post()` to create our glossary resource under our case `Should create a glossary`.
@@ -359,13 +359,13 @@ This simple test creates a resource and checks that the service handles it corre
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { PurviewCatalogClient } from "../../src";
+import { PurviewDataMapClient } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 describe("My test", () => {
   let recorder: Recorder;
   // Step 3: Declare your own variables
-  let client: PurviewCatalogClient;
+  let client: PurviewDataMapClient;
   let glossaryName: string;
 
   beforeEach(async function () {
@@ -405,7 +405,7 @@ describe("My test", () => {
 ```typescript
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import PurviewCatalog, { PurviewCatalogClient } from "../../../src";
+import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 
@@ -416,7 +416,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
   // Step 4: Add environment variables you'd like to mask the values in recordings
-  PURVIEW_CATALOG_GLOSSARY_ENV: "glossary_custom_env",
+  PURVIEW_DATAMAP_GLOSSARY_ENV: "glossary_custom_env",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -434,11 +434,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 }
 
 // Step 2: Add your client creation factory
-export function createClient(recorder: Recorder, options?: ClientOptions): PurviewCatalogClient {
+export function createClient(recorder: Recorder, options?: ClientOptions): PurviewDataMapClient {
   // Use createTestCredential to record AAD traffic so it could work in playback mode
   const credential = createTestCredential();
   // Use recorder.configureClientOptions to add the recording policy in the client options
-  const client = PurviewCatalog("<endpoint>", credential, recorder.configureClientOptions(options));
+  const client = PurviewDataMap("<endpoint>", credential, recorder.configureClientOptions(options));
   return client;
 }
 ```
