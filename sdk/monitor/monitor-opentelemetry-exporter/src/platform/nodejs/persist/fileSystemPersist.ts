@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { tmpdir } from "node:os";
-import { basename, join } from "node:path";
+import { tmpdir, userInfo } from "node:os";
+import { basename, join, dirname } from "node:path";
+import { createHash } from "node:crypto";
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
@@ -57,11 +58,9 @@ export class FileSystemPersist implements PersistentStorage {
       );
     }
     if (this._enabled) {
-      this._tempDirectory = join(
-        this._options?.storageDirectory || tmpdir(),
-        "Microsoft",
-        "AzureMonitor",
-        FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
+      this._tempDirectory = getStorageDirectory(
+        this._instrumentationKey,
+        this._options?.storageDirectory,
       );
 
       // Starts file cleanup task
@@ -235,4 +234,58 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
   }
+}
+
+/**
+ * Return the deterministic local storage path for a given instrumentation key.
+ *
+ * On shared Linux hosts the first user to create `/tmp/Microsoft/AzureMonitor` can
+ * block others because the directory inherits that user's `umask`. This is avoided by
+ * inserting a hash of the instrumentation key, user name, process name, and
+ * application directory, giving each user their own subdirectory, e.g.
+ * `/tmp/Microsoft-AzureMonitor-1234...../ot-azure-exporter-<ikey>`.
+ *
+ * @param instrumentationKey - Application Insights instrumentation key.
+ * @param storageDirectory - Optional custom storage directory path. If not provided, system temp directory is used.
+ * @returns Absolute path to the storage directory.
+ * @internal
+ */
+export function getStorageDirectory(
+  instrumentationKey: string,
+  storageDirectory: string | undefined,
+): string {
+  let userSegment: string;
+  let processName: string;
+  let applicationDirectory: string;
+  try {
+    const user = userInfo();
+    userSegment = user.username;
+  } catch (error) {
+    // Fallback to a default value when userInfo() fails
+    userSegment = "";
+  }
+  if (process.title.length > 0) {
+    processName = process.title;
+  } else {
+    processName = "";
+  }
+  const applicationDir = dirname(process.cwd() || process.argv[1]);
+  if (applicationDir) {
+    applicationDirectory = applicationDir;
+  } else {
+    applicationDirectory = "";
+  }
+  const hash_input = `${instrumentationKey}|${userSegment}|${processName}|${applicationDirectory}`;
+  const subDirectory = createHash("sha256").update(hash_input).digest("hex");
+  let sharedRoot: string;
+  if (storageDirectory) {
+    sharedRoot = storageDirectory;
+  } else {
+    sharedRoot = tmpdir();
+  }
+  return join(
+    sharedRoot,
+    "Microsoft-AzureMonitor-" + subDirectory,
+    FileSystemPersist.TEMPDIR_PREFIX + instrumentationKey,
+  );
 }
