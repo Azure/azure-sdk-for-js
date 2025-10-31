@@ -58,13 +58,7 @@ export class FileSystemPersist implements PersistentStorage {
       );
     }
     if (this._enabled) {
-      this._tempDirectory = //join(
-        //this._options?.storageDirectory || tmpdir(),
-        getStorageDirectory(this._instrumentationKey, this._options?.storageDirectory)
-        //"Microsoft",
-        //"AzureMonitor",
-        //FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
-      //);
+      this._tempDirectory = getStorageDirectory(this._instrumentationKey, this._options?.storageDirectory)
 
       // Starts file cleanup task
       if (!this._fileCleanupTimer) {
