@@ -39,14 +39,14 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     // The pending key can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, keyName);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
     assert.equal(deletedKey.name, keyName);
-    assert.ok(poller.getOperationState().isCompleted);
+    assert.isTrue(poller.getOperationState().isCompleted);
 
     // The final key can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, keyName);
@@ -61,10 +61,10 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
-      assert.ok(e.name === "PollerStoppedError");
+      assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
     });
@@ -72,8 +72,8 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await poller.poll(); // Making sure it has some data
 
     poller.stopPolling();
-    assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    assert.isTrue(poller.isStopped());
+    assert.isUndefined(poller.getOperationState().isCompleted);
 
     const serialized = poller.toString();
 
@@ -82,10 +82,10 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
       ...testPollerProperties,
     });
 
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
     assert.equal(deletedKey.name, keyName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+    assert.isTrue(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushKey(keyName);
   });
