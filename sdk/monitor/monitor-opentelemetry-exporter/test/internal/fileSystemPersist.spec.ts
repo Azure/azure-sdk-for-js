@@ -51,7 +51,7 @@ const assertFirstFile = async (tempDirectory: string, expectation: unknown): Pro
   const files = origFiles.filter((f) =>
     path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
   );
-  assert.ok(files.length > 0);
+  assert.isTrue(files.length > 0);
 
   // Assert file matches expectation
   const firstFile = files[0];

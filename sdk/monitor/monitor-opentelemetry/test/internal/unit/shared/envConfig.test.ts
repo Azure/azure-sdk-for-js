@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
-import * as path from "node:path";
-import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
-import { afterAll, afterEach, beforeEach, describe, it, vi } from "vitest";
+import { EnvConfig } from "../../../../src/shared/envConfig.js";
+import { afterAll, afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 
 describe("Env Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(() => {
     originalEnv = process.env;
-    (EnvConfig["_instance"] as any) = undefined;
+    (EnvConfig["instance"] as any) = undefined;
   });
 
   afterEach(() => {
@@ -20,7 +18,7 @@ describe("Env Config", () => {
   });
 
   afterAll(() => {
-    (EnvConfig["_instance"] as any) = undefined;
+    (EnvConfig["instance"] as any) = undefined;
   });
 
   describe("configuration values", () => {
@@ -53,6 +51,5 @@ describe("Env Config", () => {
       assert.deepStrictEqual(config.samplingRatio, undefined, "Wrong samplingRatio");
       assert.deepStrictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
     });
-
   });
 });

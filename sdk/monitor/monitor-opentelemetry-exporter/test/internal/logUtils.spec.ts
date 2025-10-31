@@ -63,9 +63,9 @@ function assertEnvelope(
   assert.deepStrictEqual(envelope?.data?.baseType, baseType);
 
   assert.strictEqual(envelope?.instrumentationKey, "ikey");
-  assert.ok(envelope?.time);
-  assert.ok(envelope?.version);
-  assert.ok(envelope?.data);
+  assert.isDefined(envelope?.time);
+  assert.isDefined(envelope?.version);
+  assert.isDefined(envelope?.data);
 
   if (expectedTime) {
     assert.deepStrictEqual(envelope?.time, expectedTime);
