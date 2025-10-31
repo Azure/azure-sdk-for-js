@@ -12,8 +12,14 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts"
     },
-    "dialects": ["esm", "commonjs"],
-    "esmDialects": ["browser", "react-native"],
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
     "selfLink": false,
     "project": "../../../tsconfig.src.build.json"
   },
@@ -47,7 +53,12 @@
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -65,9 +76,9 @@
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
-    "@azure/abort-controller": "workspace:*",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "workspace:*",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
