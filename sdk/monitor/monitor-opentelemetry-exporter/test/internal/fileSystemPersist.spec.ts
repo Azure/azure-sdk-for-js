@@ -261,4 +261,51 @@ describe("FileSystemPersist", () => {
       mockConfirmDirExists.mockRestore();
     });
   });
+
+  describe("#getStorageDirectory", () => {
+    it("should handle userInfo failure and use empty string for user segment", async () => {
+      const originalUserInfo = os.userInfo;
+
+      vi.spyOn(os, "userInfo").mockImplementation(() => {
+        throw new Error("Unable to get user info");
+      });
+
+      const testInstrumentationKey = "test-ikey";
+      const customStorageDir = os.tmpdir();
+      
+      try {
+        const result = getStorageDirectory(testInstrumentationKey, customStorageDir);
+
+        expect(result).toBeDefined();
+        expect(typeof result).toBe("string");
+        expect(result.length).toBeGreaterThan(0);
+
+        expect(result).toContain(customStorageDir);
+
+        expect(result).toContain("Microsoft-AzureMonitor-");
+
+        expect(result).toContain(FileSystemPersist.TEMPDIR_PREFIX + testInstrumentationKey);
+
+        const result2 = getStorageDirectory(testInstrumentationKey, customStorageDir);
+        expect(result).toBe(result2);
+        
+      } finally {
+        os.userInfo = originalUserInfo;
+        vi.restoreAllMocks();
+      }
+    });
+
+    it("should create different paths for different instrumentation keys", () => {
+      const storageDir = os.tmpdir();
+      const path1 = getStorageDirectory("ikey1", storageDir);
+      const path2 = getStorageDirectory("ikey2", storageDir);
+
+      expect(path1).not.toBe(path2);
+
+      expect(path1).toContain("Microsoft-AzureMonitor-");
+      expect(path2).toContain("Microsoft-AzureMonitor-");
+      expect(path1).toContain(FileSystemPersist.TEMPDIR_PREFIX + "ikey1");
+      expect(path2).toContain(FileSystemPersist.TEMPDIR_PREFIX + "ikey2");
+    });
+  });
 });

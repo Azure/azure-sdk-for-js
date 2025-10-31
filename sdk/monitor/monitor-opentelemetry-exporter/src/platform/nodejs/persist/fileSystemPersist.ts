@@ -240,7 +240,18 @@ export class FileSystemPersist implements PersistentStorage {
 }
 
 /**
- * getStorageDirectory
+ * Return the deterministic local storage path for a given instrumentation key.
+ * 
+ * On shared Linux hosts the first user to create `/tmp/Microsoft/AzureMonitor` can
+ * block others because the directory inherits that user's `umask`. This is avoided by
+ * inserting a hash of the instrumentation key, user name, process name, and
+ * application directory, giving each user their own subdirectory, e.g.
+ * `/tmp/Microsoft-AzureMonitor-1234...../ot-azure-exporter-<ikey>`.
+ * 
+ * @param instrumentationKey - Application Insights instrumentation key.
+ * @param storageDirectory - Optional custom storage directory path. If not provided, system temp directory is used.
+ * @returns Absolute path to the storage directory.
+ * @internal
  */
 export function getStorageDirectory(instrumentationKey: string, storageDirectory: string | undefined): string {
   let userSegment: string;
