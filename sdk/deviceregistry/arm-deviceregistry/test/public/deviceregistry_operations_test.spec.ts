@@ -20,10 +20,6 @@ describe("DeviceRegistry test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DeviceRegistryManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let assetEndpointProfileName: string;
-  let customlocationsName: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -36,58 +32,16 @@ describe("DeviceRegistry test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "";
-    resourceGroup = "";
-    assetEndpointProfileName = "";
-    customlocationsName = "";
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
-
   it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
-  });
-
-  it.only("assetEndpointProfiles createOrReplace test", async () => {
-    const result = await client.assetEndpointProfiles.createOrReplace(
-      resourceGroup,
-      assetEndpointProfileName,
-      {
-        location: location,
-        extendedLocation: {
-          type: "CustomLocation",
-          name: `/subscriptions/${subscriptionId}/resourcegroups/${resourceGroup}/providers/microsoft.extendedlocation/customlocations/${customlocationsName}`,
-        },
-        tags: { },
-        properties: {
-
-        },
-      },
-      testPollingOptions,
-    );
-    assert.equal(result.name, assetEndpointProfileName);
-  });
-
-  it.only("assetEndpointProfiles update test", async () => {
-    const poller = client.assetEndpointProfiles.update(
-      resourceGroup,
-      assetEndpointProfileName,
-      {
-        tags: { },
-        properties: {
-          
-        },
-      },
-      testPollingOptions,
-    );
-
-    const result = await poller.pollUntilDone();
-    assert.equal(result.name, assetEndpointProfileName);
   });
 });
