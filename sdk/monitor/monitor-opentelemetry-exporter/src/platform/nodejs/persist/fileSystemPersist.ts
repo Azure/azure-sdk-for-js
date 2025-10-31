@@ -3,7 +3,7 @@
 
 import { tmpdir, userInfo } from "node:os";
 import { basename, join, dirname } from "node:path";
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
