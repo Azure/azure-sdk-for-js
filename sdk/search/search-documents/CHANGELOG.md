@@ -1,5 +1,20 @@
 # Release History
 
+## 12.3.0-beta.0 (2025-11-17)
+
+### Features Added
+
+- Add support for elevated read for document retrieval operations [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for new facet results: avvg, min, max, cardinality [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new knowledge source kinds [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for indexers runtime [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add support for purview in search indexes [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+- Add new property in service limits [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
+
+### Breaking Changes
+
+- Renamed KnowledgeAgent* -> KnowledgeBase*
+
 ## 12.2.0-beta.3 (2025-10-07)
 
 ### Features Added
