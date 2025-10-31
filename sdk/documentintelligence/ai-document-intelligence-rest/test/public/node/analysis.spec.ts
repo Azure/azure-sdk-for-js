@@ -78,12 +78,11 @@ describe("DocumentIntelligenceClient", () => {
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
-      assert.ok(pages && pages.length > 0, `Expected non-empty pages but got ${pages}`);
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
 
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0]);
+      assert.isDefined(table.boundingRegions?.[0]);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -115,12 +114,9 @@ describe("DocumentIntelligenceClient", () => {
       const pages = analyzeResult?.pages;
       const paragraphs = analyzeResult?.paragraphs;
 
-      assert.ok(
-        paragraphs && paragraphs.length > 0,
-        `Expected non-empty paragraphs but got ${paragraphs}.`,
-      );
+      assert.isNotEmpty(paragraphs);
 
-      assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+      assert.isNotEmpty(pages);
     });
 
     it("jpeg file stream", async () => {
@@ -152,7 +148,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -184,7 +180,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -217,7 +213,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -248,7 +244,7 @@ describe("DocumentIntelligenceClient", () => {
 
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -296,7 +292,7 @@ describe("DocumentIntelligenceClient", () => {
         await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        assert.ok((ex as Error).message.includes("Invalid argument."));
+        assert.include((ex as Error).message, "Invalid argument.");
       }
     });
 
@@ -464,7 +460,7 @@ describe("DocumentIntelligenceClient", () => {
           throw response.body.error;
         }
         _model = response.body as DocumentModelDetailsOutput;
-        assert.ok(_model.modelId);
+        assert.isDefined(_model.modelId);
       }
 
       return _model;
@@ -497,14 +493,14 @@ describe("DocumentIntelligenceClient", () => {
 
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
-      assert.ok(documents);
+      assert.isDefined(documents);
       assert.equal(documents?.[0].docType, `${modelName}:${modelName}`);
-      assert.ok(pages?.[0]);
+      assert.isDefined(pages?.[0]);
 
       /* There should be a table in the response, but it isn't recognized (maybe because it's too small or sparse)
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].boundingBox);
+      assert.isDefined(table.boundingRegions?.[0].boundingBox);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
       assert.equal(pages?.[0].pageNumber, 1);
@@ -663,7 +659,7 @@ describe("DocumentIntelligenceClient", () => {
 
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        assert.ok((ex as Error).message.includes("Invalid argument."));
+        assert.include((ex as Error).message, "Invalid argument.");
       }
     });
   });
@@ -699,7 +695,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -731,7 +727,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -755,7 +751,7 @@ describe("DocumentIntelligenceClient", () => {
 
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        assert.ok((ex as Error).message.includes("Invalid argument."));
+        assert.include((ex as Error).message, "Invalid argument.");
       }
     });
   });
@@ -936,7 +932,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(response)) {
         throw response.body.error;
       }
-      assert.ok(response.body);
+      assert.isDefined(response.body);
       assert.equal(response.body.resultId, batchResultId);
       assert.equal(response.body.status, "succeeded");
       assert.equal(response.body.percentCompleted, 100);
