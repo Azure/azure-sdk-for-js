@@ -949,7 +949,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           const maxDegreeOfParallelism =
             this.options.maxDegreeOfParallelism === undefined ||
             this.options.maxDegreeOfParallelism < 1
-              ? this.unfilledDocumentProducersQueue.size()
+              ? this.unfilledDocumentProducersQueue.size() // number of partitions
               : Math.min(
                   this.options.maxDegreeOfParallelism,
                   this.unfilledDocumentProducersQueue.size(),
