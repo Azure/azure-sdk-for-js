@@ -2,18 +2,30 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import { AgentsClient } from "@azure/ai-agents";
-import type { AzureOpenAI } from "openai";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
-import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
-import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
-import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
+import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
-import { InferenceOperations, _getInferenceOperations } from "./classic/inference/index.js";
-import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
-import { GetAzureOpenAIClientOptions } from "./api/inference/options.js";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
+import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import {
+  EvaluationRulesOperations,
+  _getEvaluationRulesOperations,
+} from "./classic/evaluationRules/index.js";
+import {
+  EvaluationTaxonomiesOperations,
+  _getEvaluationTaxonomiesOperations,
+} from "./classic/evaluationTaxonomies/index.js";
+import { EvaluatorsOperations, _getEvaluatorsOperations } from "./classic/evaluators/index.js";
+import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
+import { InsightsOperations, _getInsightsOperations } from "./classic/insights/index.js";
+import {
+  MemoryStoresOperations,
+  _getMemoryStoresOperations,
+} from "./classic/memoryStores/index.js";
+import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
+import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -26,21 +38,20 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @param {string} endpoint - The endpoint to use
  * @param {TokenCredential} credential - The credential to use
  * @param {AIProjectClientOptionalParams} [options] - Optional parameters for the client.
+ * @property {RedTeamsOperations} redTeams - The operation groups for redTeams
  * @property {DeploymentsOperations} deployments - The operation groups for deployments
  * @property {IndexesOperations} indexes - The operation groups for indexes
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
- * @method {getAzureOpenAIClient} getAzureOpenAIClient - get the Azure OpenAI client for the project
- * @property {TelemetryOperations} telemetry - The operation groups for telemetry
+ * @property {MemoryStoresOperations} memoryStores - The operation groups for memoryStores
+ * @property {AgentsOperations} agents - The operation groups for agents
  */
 export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
   private _azureScopeClient: AIProjectContext;
   private _endpoint: string;
   private _credential: TokenCredential;
-  private _agents: AgentsClient | undefined;
   private _options: AIProjectClientOptionalParams;
-  private readonly _inference: InferenceOperations;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -56,29 +67,46 @@ export class AIProjectClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._cognitiveScopeClient = createAIProject(endpointParam, credential, {
+    this._cognitiveScopeClient = createAIProject(endpointParam, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
-    });
-
-    this._azureScopeClient = createAIProject(endpointParam, credential, {
-      ...options,
       credentials: {
         ...options.credentials,
         scopes: ["https://ai.azure.com/.default"],
       },
+    });
+    this._azureScopeClient = createAIProject(endpointParam, credential, {
+      ...options,
       userAgentOptions: { userAgentPrefix },
     });
 
     this.pipeline = this._cognitiveScopeClient.pipeline;
+    this.schedules = _getSchedulesOperations(this._cognitiveScopeClient);
+    this.insights = _getInsightsOperations(this._cognitiveScopeClient);
+    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
+    this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._cognitiveScopeClient);
+    this.evaluationRules = _getEvaluationRulesOperations(this._cognitiveScopeClient);
+    this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
-    this._inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
-    this.telemetry = _getTelemetryOperations(this.connections);
+    this.memoryStores = _getMemoryStoresOperations(this._cognitiveScopeClient);
+    this.agents = _getAgentsOperations(this._azureScopeClient);
   }
 
+  /** The operation groups for schedules */
+  public readonly schedules: SchedulesOperations;
+  /** The operation groups for insights */
+  public readonly insights: InsightsOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
+  /** The operation groups for evaluationTaxonomies */
+  public readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
+  /** The operation groups for evaluationRules */
+  public readonly evaluationRules: EvaluationRulesOperations;
+  /** The operation groups for redTeams */
+  public readonly redTeams: RedTeamsOperations;
   /** The operation groups for deployments */
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for indexes */
@@ -87,54 +115,15 @@ export class AIProjectClient {
   public readonly datasets: DatasetsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
-  /** The operation groups for inference */
-  /** The operation groups for telemetry */
-  public readonly telemetry: TelemetryOperations;
+  /** The operation groups for memoryStores */
+  public readonly memoryStores: MemoryStoresOperations;
+  /** The operation groups for agents */
+  public readonly agents: AgentsOperations;
   /**
    * gets the endpoint of the client
    * @returns the endpoint of the client
    */
   public getEndpointUrl(): string {
     return this._endpoint;
-  }
-
-  /**
-   * Gets the Azure OpenAI client for the project.
-   * @returns The Azure OpenAI client for the project.
-   */
-  public getAzureOpenAIClient(options?: GetAzureOpenAIClientOptions): Promise<AzureOpenAI> {
-    return this._inference.azureOpenAI(options);
-  }
-
-  /**
-   * Creates a new instance of AzureAIProjectClient
-   * @param endpoint - The endpoint to use
-   * @param credential - The credential to use
-   * @param options - The parameter for all optional parameters
-   */
-  static fromEndpoint(
-    endpoint: string,
-    credential: TokenCredential,
-    options: AIProjectClientOptionalParams = {},
-  ): AIProjectClient {
-    return new AIProjectClient(endpoint, credential, options);
-  }
-
-  /**
-   * Get the AgentsClient associated with this AIProjectClient.
-   *
-   * @returns The AgentsClient associated with this AIProjectClient
-   */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
-  public get agents(): AgentsClient {
-    const { apiVersion, ...clientOptions } = this._options;
-
-    if (!this._agents) {
-      this._agents = new AgentsClient(this._endpoint, this._credential, {
-        ...clientOptions,
-        userAgentOptions: this._cognitiveScopeClient.getUserAgent(),
-      });
-    }
-    return this._agents;
   }
 }

@@ -1,5 +1,13 @@
 # Release History
 
+## 2.0.0-beta.1 (2025-10-24)
+
+### Breaking changes
+
+- add `agents` route 
+- remove `inference` route
+- remove `telemetry` route
+
 ## 1.0.1 (2025-10-15)
 
 ### Other Changes

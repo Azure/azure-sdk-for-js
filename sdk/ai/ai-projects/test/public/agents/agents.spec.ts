@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsClient } from "@azure/ai-agents";
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { AIProjectClient } from "../../../src/index.js";
+import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
+
+const firstAgentName = "firstAgent";
+const agentInstructions = "You are a helpful agent";
 
 describe("agents - basic", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
-  let agents: AgentsClient;
+  let agents: AgentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
@@ -22,16 +24,20 @@ describe("agents - basic", () => {
     await recorder.stop();
   });
 
-  it("should create and delete an agent", async () => {
-    const agent = await agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
+  it("should create and delete an agent version", async () => {
+    const agent = await agents.createAgentVersion(firstAgentName, {
+      kind: "prompt",
+      model: "gpt-5-mini",
+      instructions: agentInstructions,
     });
 
     assert.isNotNull(agent);
-    assert.equal(agent.name, "my-agent");
-    assert.equal(agent.instructions, "You are a helpful agent");
+    assert.isNotNull(agent.id);
+    assert.equal(agent.name, firstAgentName);
+    console.log(`Created agent, agent ID: ${agent.id}`);
 
-    await agents.deleteAgent(agent.id);
+    const deleted = await agents.deleteAgent(agent.name);
+    assert.isNotNull(deleted);
+    console.log(`Deleted agent, agent name: ${agent.name}`);
   });
 });
