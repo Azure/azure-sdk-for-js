@@ -39,14 +39,14 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     // The pending secret properties can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
 
     const secretProperties: SecretProperties = await poller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
-    assert.ok(poller.getOperationState().isCompleted);
+    assert.isTrue(poller.getOperationState().isCompleted);
 
     // The final secret can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
@@ -59,10 +59,10 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e: PollerStoppedError | Error) => {
-      assert.ok(e instanceof PollerStoppedError);
+      assert.instanceOf(e, PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
     });
@@ -70,8 +70,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await poller.poll(); // Making sure it has some data
 
     poller.stopPolling();
-    assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    assert.isTrue(poller.isStopped());
+    assert.isUndefined(poller.getOperationState().isCompleted);
 
     const serialized = poller.toString();
 
@@ -80,9 +80,9 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
       ...testPollerProperties,
     });
 
-    assert.ok(poller.getOperationState().isStarted);
+    assert.isTrue(poller.getOperationState().isStarted);
     const secretProperties: SecretProperties = await resumePoller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+    assert.isTrue(resumePoller.getOperationState().isCompleted);
   });
 });
