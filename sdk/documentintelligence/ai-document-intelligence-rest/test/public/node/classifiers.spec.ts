@@ -54,7 +54,7 @@ describe("classifiers", () => {
       throw initialResponse.body.error;
     }
 
-    const response = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);
@@ -86,7 +86,7 @@ describe("classifiers", () => {
       throw initialResponse.body.error;
     }
 
-    const response = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
     assert.isNotEmpty(analyzeResult?.documents);

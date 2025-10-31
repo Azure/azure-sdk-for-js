@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { testPollingOptions } from "@azure-tools/test-recorder";
-import { createRecorder } from "../utils/recorderUtils.js";
+import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "../utils/utils.js";
@@ -76,7 +75,7 @@ describe("model management", () => {
           if (isUnexpected(initialResponse)) {
             throw initialResponse.body.error;
           }
-          const response = await getLongRunningPoller(client, initialResponse);
+          const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
           const result = response.body as DocumentModelDetailsOutput;
           _model = result;
 
@@ -130,9 +129,7 @@ describe("model management", () => {
             throw initialResponse.body.error;
           }
 
-          const response = await getLongRunningPoller(client, initialResponse, {
-            intervalInMs: testPollingOptions.updateIntervalInMs,
-          });
+          const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
           const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
           const documents = analyzeResult?.documents;
@@ -240,7 +237,7 @@ describe("model management", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const response = await getLongRunningPoller(client, initialResponse);
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const { modelId, docTypes } = response.body as DocumentModelDetailsOutput;
 
       assert.equal(modelId, testModelId);
@@ -270,7 +267,7 @@ describe("model management", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const response = await getLongRunningPoller(client, initialResponse);
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
 
     const composedModel = response.body as DocumentModelDetailsOutput;
     assert.ok(composedModel.modelId);
@@ -296,7 +293,7 @@ describe("model management", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const response = await getLongRunningPoller(client, initialResponse);
+    const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const sourceModel = response.body as DocumentModelDetailsOutput;
 
     assert.equal(sourceModel.modelId, modelId);
@@ -320,7 +317,7 @@ describe("model management", () => {
     if (isUnexpected(copyInitResponse)) {
       throw copyInitResponse.body.error;
     }
-    const copyResponse = await getLongRunningPoller(client, copyInitResponse);
+    const copyResponse = await getLongRunningPoller(client, copyInitResponse, testPollingOptions);
     const copyResult = copyResponse.body as DocumentModelDetailsOutput;
 
     assert.ok(copyResult, "Expecting valid copy result");
