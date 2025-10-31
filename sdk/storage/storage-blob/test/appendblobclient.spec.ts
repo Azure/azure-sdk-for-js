@@ -76,11 +76,11 @@ describe("AppendBlobClient", () => {
 
   it("createIfNotExists", async () => {
     const res = await appendBlobClient.createIfNotExists();
-    assert.ok(res.succeeded);
-    assert.ok(res.etag);
+    assert.isDefined(res.succeeded);
+    assert.isDefined(res.etag);
 
     const res2 = await appendBlobClient.createIfNotExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
@@ -175,7 +175,7 @@ describe("AppendBlobClient", () => {
       );
     }
 
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("Seal append blob", async () => {
@@ -189,7 +189,7 @@ describe("AppendBlobClient", () => {
     assert.deepStrictEqual(response.isSealed, true);
 
     for await (const item of containerClient.listBlobsFlat()) {
-      assert.ok(item.properties.isSealed);
+      assert.isDefined(item.properties.isSealed);
     }
   });
 

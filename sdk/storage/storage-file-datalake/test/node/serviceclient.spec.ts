@@ -90,6 +90,6 @@ describe("DataLakeServiceClient", () => {
 
     const listIter = newClient.listFileSystems();
     await listIter.next();
-    assert.ok(newClient.url.includes("dfs"));
+    assert.include(newClient.url, "dfs");
   });
 });

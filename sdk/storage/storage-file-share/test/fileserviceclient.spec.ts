@@ -34,19 +34,19 @@ describe("FileServiceClient", () => {
 
     const result = (await serviceClient.listShares().byPage().next()).value;
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.shareItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
 
     if (result.shareItems!.length > 0) {
       const share = result.shareItems![0];
-      assert.ok(share.name.length > 0);
-      assert.ok(share.properties.etag.length > 0);
-      assert.ok(share.properties.lastModified);
+      assert.isAbove(share.name.length, 0);
+      assert.isAbove(share.properties.etag.length, 0);
+      assert.isDefined(share.properties.lastModified);
     }
   });
 
@@ -55,19 +55,19 @@ describe("FileServiceClient", () => {
 
     const result = (await serviceClient.listShares({ prefix: "" }).byPage().next()).value;
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.shareItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
 
     if (result.shareItems!.length > 0) {
       const share = result.shareItems![0];
-      assert.ok(share.name.length > 0);
-      assert.ok(share.properties.etag.length > 0);
-      assert.ok(share.properties.lastModified);
+      assert.isAbove(share.name.length, 0);
+      assert.isAbove(share.properties.etag.length, 0);
+      assert.isDefined(share.properties.lastModified);
     }
   });
 
@@ -96,12 +96,12 @@ describe("FileServiceClient", () => {
       res = await iter.next();
       result1 = res.value;
     }
-    assert.ok(result1.shareItems);
-    assert.ok(result1.continuationToken);
+    assert.isDefined(result1.shareItems);
+    assert.isDefined(result1.continuationToken);
     assert.equal(result1.shareItems!.length, 1);
-    assert.ok(result1.shareItems![0].name.startsWith(shareNamePrefix));
-    assert.ok(result1.shareItems![0].properties.etag.length > 0);
-    assert.ok(result1.shareItems![0].properties.lastModified);
+    assert.isTrue(result1.shareItems![0].name.startsWith(shareNamePrefix));
+    assert.isAbove(result1.shareItems![0].properties.etag.length, 0);
+    assert.isDefined(result1.shareItems![0].properties.lastModified);
     assert.deepEqual(result1.shareItems![0].metadata!.key, "val");
 
     const result2 = (
@@ -115,11 +115,11 @@ describe("FileServiceClient", () => {
         .next()
     ).value;
 
-    assert.ok(!result2.continuationToken);
+    assert.equal(result2.continuationToken, "");
     assert.equal(result2.shareItems!.length, 1);
-    assert.ok(result2.shareItems![0].name.startsWith(shareNamePrefix));
-    assert.ok(result2.shareItems![0].properties.etag.length > 0);
-    assert.ok(result2.shareItems![0].properties.lastModified);
+    assert.isTrue(result2.shareItems![0].name.startsWith(shareNamePrefix));
+    assert.isAbove(result2.shareItems![0].properties.etag.length, 0);
+    assert.isDefined(result2.shareItems![0].properties.lastModified);
     assert.deepEqual(result2.shareItems![0].metadata!.key, "val");
 
     await shareClient1.delete();
@@ -141,9 +141,9 @@ describe("FileServiceClient", () => {
       includeSnapshots: true,
       prefix: shareNamePrefix,
     })) {
-      assert.ok(item.name.startsWith(shareNamePrefix));
-      assert.ok(item.properties.etag.length > 0);
-      assert.ok(item.properties.lastModified);
+      assert.isTrue(item.name.startsWith(shareNamePrefix));
+      assert.isAbove(item.properties.etag.length, 0);
+      assert.isDefined(item.properties.lastModified);
       assert.deepEqual(item.metadata!.key, "val");
     }
 
@@ -168,15 +168,15 @@ describe("FileServiceClient", () => {
       prefix: shareNamePrefix,
     });
     let shareItem = getYieldedValue(await iter.next());
-    assert.ok(shareItem.name.startsWith(shareNamePrefix));
-    assert.ok(shareItem.properties.etag.length > 0);
-    assert.ok(shareItem.properties.lastModified);
+    assert.isTrue(shareItem.name.startsWith(shareNamePrefix));
+    assert.isAbove(shareItem.properties.etag.length, 0);
+    assert.isDefined(shareItem.properties.lastModified);
     assert.deepEqual(shareItem.metadata!.key, "val");
 
     shareItem = getYieldedValue(await iter.next());
-    assert.ok(shareItem.name.startsWith(shareNamePrefix));
-    assert.ok(shareItem.properties.etag.length > 0);
-    assert.ok(shareItem.properties.lastModified);
+    assert.isTrue(shareItem.name.startsWith(shareNamePrefix));
+    assert.isAbove(shareItem.properties.etag.length, 0);
+    assert.isDefined(shareItem.properties.lastModified);
     assert.deepEqual(shareItem.metadata!.key, "val");
 
     await shareClient1.delete();
@@ -202,9 +202,9 @@ describe("FileServiceClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const item of response.shareItems!) {
-        assert.ok(item.name.startsWith(shareNamePrefix));
-        assert.ok(item.properties.etag.length > 0);
-        assert.ok(item.properties.lastModified);
+        assert.isTrue(item.name.startsWith(shareNamePrefix));
+        assert.isAbove(item.properties.etag.length, 0);
+        assert.isDefined(item.properties.lastModified);
         assert.deepEqual(item.metadata!.key, "val");
       }
     }
@@ -238,12 +238,12 @@ describe("FileServiceClient", () => {
       res = await iter.next();
       response = res.value;
     }
-    assert.ok(response.shareItems);
+    assert.isDefined(response.shareItems);
     // Gets 2 shares
     for (const item of response.shareItems!) {
-      assert.ok(item.name.startsWith(shareNamePrefix));
-      assert.ok(item.properties.etag.length > 0);
-      assert.ok(item.properties.lastModified);
+      assert.isTrue(item.name.startsWith(shareNamePrefix));
+      assert.isAbove(item.properties.etag.length, 0);
+      assert.isDefined(item.properties.lastModified);
       assert.deepEqual(item.metadata!.key, "val");
     }
     // Gets next marker
@@ -258,9 +258,9 @@ describe("FileServiceClient", () => {
     response = (await iter.next()).value;
     // Gets 2 shares
     for (const item of response.shareItems!) {
-      assert.ok(item.name.startsWith(shareNamePrefix));
-      assert.ok(item.properties.etag.length > 0);
-      assert.ok(item.properties.lastModified);
+      assert.isTrue(item.name.startsWith(shareNamePrefix));
+      assert.isAbove(item.properties.etag.length, 0);
+      assert.isDefined(item.properties.lastModified);
       assert.deepEqual(item.metadata!.key, "val");
     }
 
@@ -273,17 +273,17 @@ describe("FileServiceClient", () => {
     const serviceClient = getBSU(recorder);
     const result = await serviceClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
     if (result.cors && result.cors!.length > 0) {
-      assert.ok(result.cors![0].allowedHeaders.length > 0);
-      assert.ok(result.cors![0].allowedMethods.length > 0);
-      assert.ok(result.cors![0].allowedOrigins.length > 0);
-      assert.ok(result.cors![0].exposedHeaders.length > 0);
-      assert.ok(result.cors![0].maxAgeInSeconds >= 0);
+      assert.isAbove(result.cors![0].allowedHeaders.length, 0);
+      assert.isAbove(result.cors![0].allowedMethods.length, 0);
+      assert.isAbove(result.cors![0].allowedOrigins.length, 0);
+      assert.isAbove(result.cors![0].exposedHeaders.length, 0);
+      assert.isAtLeast(result.cors![0].maxAgeInSeconds, 0);
     }
   });
 
@@ -336,10 +336,10 @@ describe("FileServiceClient", () => {
     await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
@@ -359,7 +359,7 @@ describe("FileServiceClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
@@ -371,8 +371,8 @@ describe("FileServiceClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("can be created from a sas connection string and an option bag", async () => {
@@ -388,8 +388,8 @@ describe("FileServiceClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 });
 
@@ -424,11 +424,11 @@ describe("FileServiceClient - soft delete", () => {
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
       if (share.name === shareClient.name) {
         found = true;
-        assert.ok(share.version);
-        assert.ok(share.deleted);
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
       }
     }
-    assert.ok(found);
+    assert.isDefined(found);
   });
 
   it("Undelete share positive", async () => {
@@ -443,16 +443,16 @@ describe("FileServiceClient - soft delete", () => {
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
       if (share.name === shareClient.name) {
         found = true;
-        assert.ok(share.version);
-        assert.ok(share.deleted);
-        assert.ok(share.properties.deletedTime);
-        assert.ok(share.properties.remainingRetentionDays);
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
+        assert.isDefined(share.properties.deletedTime);
+        assert.isDefined(share.properties.remainingRetentionDays);
 
         shareDeleted = share;
       }
     }
-    assert.ok(found);
-    assert.ok(shareDeleted);
+    assert.isDefined(found);
+    assert.isDefined(shareDeleted);
 
     // Await share to be deleted.
     await delay(30 * 1000);
@@ -476,7 +476,7 @@ describe("FileServiceClient - soft delete", () => {
       await serviceClient.undeleteShare(shareClient.name, invalidVersion);
       assert.fail("Expecting an error in undelete share with invalid version.");
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 });
@@ -507,7 +507,7 @@ describe("FileServiceClient Premium", () => {
       protocol: { smb: { multichannel: { enabled: true } } },
     });
     const propertiesSet = await serviceClient.getProperties();
-    assert.ok(propertiesSet.protocol?.smb?.multichannel);
+    assert.isDefined(propertiesSet.protocol?.smb?.multichannel);
   });
 
   it.skip("Share Enable Protocol & Share Squash Root", async function () {
@@ -530,7 +530,7 @@ describe("FileServiceClient Premium", () => {
     const getRes = await shareClient.getProperties();
     assert.deepStrictEqual(getRes.protocols, expectedProtocols);
     assert.deepStrictEqual(getRes.rootSquash, rootSquash);
-    assert.ok(getRes.enableSnapshotVirtualDirectoryAccess);
+    assert.isDefined(getRes.enableSnapshotVirtualDirectoryAccess);
 
     // set properties
     rootSquash = "AllSquash";
@@ -547,7 +547,7 @@ describe("FileServiceClient Premium", () => {
       if (share.name === shareName) {
         assert.deepStrictEqual(share.properties.protocols, expectedProtocols);
         assert.deepStrictEqual(share.properties.rootSquash, rootSquash);
-        assert.ok(share.properties.enableSnapshotVirtualDirectoryAccess);
+        assert.isDefined(share.properties.enableSnapshotVirtualDirectoryAccess);
       } else if (share.name === shareName1) {
         assert.deepStrictEqual(share.properties.protocols, protocols);
       }
@@ -563,7 +563,7 @@ describe("FileServiceClient Premium", () => {
     await shareClient.create();
 
     const getRes = await shareClient.getProperties();
-    assert.ok(getRes.provisionedBandwidthMibps);
-    assert.ok(getRes.quota);
+    assert.isDefined(getRes.provisionedBandwidthMibps);
+    assert.isDefined(getRes.quota);
   });
 });

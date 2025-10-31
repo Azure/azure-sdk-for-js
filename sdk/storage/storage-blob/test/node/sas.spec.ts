@@ -153,7 +153,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
@@ -186,7 +186,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
@@ -225,7 +225,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should work with encryption scope", async (ctx) => {
@@ -318,7 +318,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
@@ -1050,7 +1050,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
@@ -1099,7 +1099,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
     await containerClient.delete();
   });
@@ -1577,7 +1577,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1623,7 +1623,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1685,7 +1685,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1747,7 +1747,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1808,7 +1808,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1861,7 +1861,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blobClientWithSAS.setTags(tags);
 
     await blobClientWithSAS.delete();
-    assert.ok(!(await blobClientWithSAS.exists()));
+    assert.isFalse(await blobClientWithSAS.exists());
 
     await containerClient.delete();
   });
@@ -1978,7 +1978,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.delete();
-    assert.ok(!(await blobVersionClient.exists()));
+    assert.isFalse(await blobVersionClient.exists());
 
     await containerClient.delete();
   });
@@ -2180,13 +2180,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerClientWithSAS = new ContainerClient(sasURL);
     configureBlobStorageClient(recorder, containerClientWithSAS);
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
 
     try {
       await containerClientWithSAS.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
     }
 
     await containerClient.delete();
@@ -2491,8 +2491,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // delete version
     await blobClientWithVersionIdAndSAS.delete();
-    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
-    assert.ok(await blockBlobClient.exists());
+    assert.isFalse(await blobClientWithVersionIdAndSAS.exists());
+    assert.isTrue(await blockBlobClient.exists());
     await containerClient.delete();
   });
 
@@ -2577,8 +2577,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // delete version
     await blobClientWithVersionIdAndSAS.delete();
-    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
-    assert.ok(await blockBlobClient.exists());
+    assert.isFalse(await blobClientWithVersionIdAndSAS.exists());
+    assert.isTrue(await blockBlobClient.exists());
     await containerClient.delete();
   });
 
@@ -2699,8 +2699,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage !== "");
-      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.notStrictEqual(resp.subResponses[i].statusMessage, "");
+      assert.isTrue(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
     }
 
@@ -2741,7 +2741,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await containerClient.create();
     } catch (err) {
-      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+      assert.isTrue(
+        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+      );
     }
   });
 });
@@ -2939,23 +2941,23 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
 
     const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
-    assert.ok(setLegalHoldResult.legalHold);
+    assert.isDefined(setLegalHoldResult.legalHold);
 
     const propertiesResult = await blobClient.getProperties();
 
-    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
     assert.equal(
       propertiesResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
-    assert.ok(propertiesResult.legalHold);
+    assert.isDefined(propertiesResult.legalHold);
   });
 
   it("Container sas - set immutability policy and legalhold with container SAS should work", async () => {
@@ -2990,23 +2992,23 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
 
     const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
-    assert.ok(setLegalHoldResult.legalHold);
+    assert.isDefined(setLegalHoldResult.legalHold);
 
     const propertiesResult = await blobClient.getProperties();
 
-    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
     assert.equal(
       propertiesResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
-    assert.ok(propertiesResult.legalHold);
+    assert.isDefined(propertiesResult.legalHold);
   });
 
   it("Blob sas - set immutability policy and legalhold with blob SAS should work", async () => {
@@ -3036,23 +3038,23 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       policyMode: "Unlocked",
     });
 
-    assert.ok(result.immutabilityPolicyExpiry);
+    assert.isDefined(result.immutabilityPolicyExpiry);
     assert.equal(
       result.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
 
     const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
-    assert.ok(setLegalHoldResult.legalHold);
+    assert.isDefined(setLegalHoldResult.legalHold);
 
     const propertiesResult = await blobClient.getProperties();
 
-    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.isDefined(propertiesResult.immutabilityPolicyExpiresOn);
     assert.equal(
       propertiesResult.immutabilityPolicyMode,
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
-    assert.ok(propertiesResult.legalHold);
+    assert.isDefined(propertiesResult.legalHold);
   });
 });
 
@@ -3118,7 +3120,7 @@ describe("Generation for user delegation SAS against container Node.js only", ()
     configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
 
     const stringToSign = containerClient.generateUserDelegationSasStringToSign(
@@ -3152,7 +3154,7 @@ describe("Generation for user delegation SAS against container Node.js only", ()
     configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
 
     const stringToSign = containerClient.generateUserDelegationSasStringToSign(

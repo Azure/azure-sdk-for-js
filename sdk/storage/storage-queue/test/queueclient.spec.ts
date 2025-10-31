@@ -62,11 +62,12 @@ describe("QueueClient", () => {
 
   it("getProperties with default/all parameters", async () => {
     const result = await queueClient.getProperties();
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.clientRequestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("getProperties negative", async () => {
@@ -78,12 +79,12 @@ describe("QueueClient", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error);
-    assert.ok(error!.statusCode);
+    assert.isDefined(error);
+    assert.isDefined(error!.statusCode);
     assert.deepEqual(error!.statusCode, 404);
-    assert.ok(error!.response);
-    assert.ok(error!.response!.bodyAsText);
-    assert.ok(error!.response!.bodyAsText!.includes("QueueNotFound"));
+    assert.isDefined(error!.response);
+    assert.isDefined(error!.response!.bodyAsText);
+    assert.include(error!.response!.bodyAsText!, "QueueNotFound");
   });
 
   it("create with default parameters", () => {
@@ -109,7 +110,7 @@ describe("QueueClient", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(
       error.message,
       "Unable to extract queueName with provided information.",
@@ -118,28 +119,28 @@ describe("QueueClient", () => {
   });
 
   it("exists", async () => {
-    assert.ok(await queueClient.exists());
+    assert.isTrue(await queueClient.exists());
 
     const qClient = queueServiceClient.getQueueClient(
       recorder.variable(queueName, getUniqueName(queueName)),
     );
-    assert.ok(!(await qClient.exists()));
+    assert.isFalse(await qClient.exists());
   });
 
   it("createIfNotExists", async () => {
     const res = await queueClient.createIfNotExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
 
     const metadata = { key: "value" };
     const res2 = await queueClient.createIfNotExists({ metadata });
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "QueueAlreadyExists");
 
     queueClient = queueServiceClient.getQueueClient(
       recorder.variable("queue2", getUniqueName("queue2")),
     );
     const res3 = await queueClient.createIfNotExists();
-    assert.ok(res3.succeeded);
+    assert.isDefined(res3.succeeded);
   });
 
   it("deleteIfExists", async () => {
@@ -147,12 +148,12 @@ describe("QueueClient", () => {
       recorder.variable(queueName, getUniqueName(queueName)),
     );
     const res = await qClient.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "QueueNotFound");
 
     await qClient.create();
     const res2 = await qClient.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isDefined(res2.succeeded);
   });
 
   it("delete", () => {
@@ -178,7 +179,7 @@ describe("QueueClient", () => {
     } catch (err: any) {
       error = err;
     }
-    assert.ok(error); // For browser, permission denied; For node, invalid permission
+    assert.isDefined(error); // For browser, permission denied; For node, invalid permission
   });
 
   it("can be created with a sas connection string and a queue name", async () => {
@@ -187,9 +188,9 @@ describe("QueueClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
@@ -202,9 +203,9 @@ describe("QueueClient", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("throws error if constructor queueName parameter is empty", async () => {
@@ -322,7 +323,7 @@ describe("QueueClient", () => {
     try {
       await queueClient.create();
     } catch (err) {
-      assert.ok(
+      assert.isTrue(
         (err as any).message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
