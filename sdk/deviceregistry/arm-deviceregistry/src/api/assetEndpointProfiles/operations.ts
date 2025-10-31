@@ -250,7 +250,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, assetEndpointProfileName, properties, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
 }
 
