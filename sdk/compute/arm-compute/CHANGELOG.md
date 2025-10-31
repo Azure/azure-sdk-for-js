@@ -3,48 +3,24 @@
 ## 23.1.0 (2025-09-16)
 
 ### Features Added
-  - Added operation VirtualMachineScaleSets.beginScaleOut
-  - Added operation VirtualMachineScaleSets.beginScaleOutAndWait
-  - Added Interface AllInstancesDown
-  - Added Interface MaxInstancePercentPerZonePolicy
-  - Added Interface ScheduleProfile
-  - Added Interface VirtualMachineScaleSetsScaleOutHeaders
-  - Added Interface VirtualMachineScaleSetsScaleOutOptionalParams
-  - Added Interface VMScaleSetScaleOutInput
-  - Added Interface VMScaleSetScaleOutInputProperties
-  - Added Interface ZoneAllocationPolicy
-  - Interface CapacityReservation has a new optional parameter scheduleProfile
-  - Interface CapacityReservationGroup has a new optional parameter reservationType
-  - Interface CapacityReservationGroupUpdate has a new optional parameter reservationType
-  - Interface CapacityReservationUpdate has a new optional parameter scheduleProfile
-  - Interface EventGridAndResourceGraph has a new optional parameter scheduledEventsApiVersion
-  - Interface OrchestrationServiceSummary has a new optional parameter lastStatusChangeTime
-  - Interface OrchestrationServiceSummary has a new optional parameter latestOperationStatus
-  - Interface ProxyAgentSettings has a new optional parameter addProxyAgentExtension
-  - Interface ResiliencyPolicy has a new optional parameter zoneAllocationPolicy
-  - Interface ScheduledEventsPolicy has a new optional parameter allInstancesDown
-  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter tags
-  - Interface VirtualMachinePublicIPAddressConfiguration has a new optional parameter tags
-  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter galleryScriptReferenceId
-  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter scriptShell
-  - Interface VirtualMachineScaleSet has a new optional parameter highSpeedInterconnectPlacement
-  - Interface VirtualMachineScaleSet has a new optional parameter placement
-  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter tags
-  - Interface VirtualMachineScaleSetPublicIPAddressConfiguration has a new optional parameter tags
-  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter tags
-  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter tags
-  - Interface WindowsParameters has a new optional parameter patchNameMasksToExclude
-  - Interface WindowsParameters has a new optional parameter patchNameMasksToInclude
-  - Added Type Alias HighSpeedInterconnectPlacement
-  - Added Type Alias OrchestrationServiceOperationStatus
-  - Added Type Alias ReservationType
-  - Added Type Alias ScriptShellTypes
-  - Added Enum KnownHighSpeedInterconnectPlacement
-  - Added Enum KnownOrchestrationServiceOperationStatus
-  - Added Enum KnownReservationType
-  - Added Enum KnownScriptShellTypes
-  - Enum KnownOrchestrationServiceNames has a new value AutomaticZoneRebalancing
-  - Enum KnownZonePlacementPolicyType has a new value Auto
+  - **VM Scale Set Enhancements**:
+    - New scale-out operations with flexible zone allocation policies and per-zone instance management
+    - High-speed interconnect placement support for optimized network performance
+    - Enhanced orchestration services with automatic zone rebalancing capabilities
+  - **Capacity Reservation Improvements**:
+    - Schedule-based capacity reservations with configurable profiles
+    - Support for different reservation types (Capacity, Shared)
+  - **Enhanced Network Configuration**:
+    - Tag support for VM and VM Scale Set network interfaces and public IP configurations
+    - Improved proxy agent settings with extension management capabilities
+  - **Script Execution Enhancements**:
+    - Gallery-based script references for VM run commands
+    - Multiple script shell type support (PowerShell, Bash)
+  - **Resilience and Availability Features**:
+    - Advanced zone allocation policies for better fault tolerance
+    - All-instances-down handling in scheduled events policies
+  - **Patch Management Improvements**:
+    - Fine-grained patch name filtering with include/exclude masks for Windows VMs
 
 ## 23.0.0 (2025-07-21)
 
