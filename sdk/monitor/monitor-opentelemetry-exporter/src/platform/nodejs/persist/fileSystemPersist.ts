@@ -263,8 +263,9 @@ export function getStorageDirectory(instrumentationKey: string, storageDirectory
   } else {
     processName = '';
   }
-  if (dirname(process.cwd() || process.argv[1])) {
-    applicationDirectory = dirname(process.cwd() || process.argv[1]);
+  const applicationDir = dirname(process.cwd() || process.argv[1]);
+  if (applicationDir) {
+    applicationDirectory = applicationDir;
   } else {
     applicationDirectory = '';
   }
