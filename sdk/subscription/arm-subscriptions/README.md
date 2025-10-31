@@ -65,7 +65,7 @@ import { SubscriptionClient } from "@azure/arm-subscriptions";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
- });
+});
 const client = new SubscriptionClient(credential);
 ```
 
