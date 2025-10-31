@@ -137,21 +137,21 @@ describe("DataLakeServiceClient", () => {
     const serviceClient = getDataLakeServiceClient(recorder);
     const result = (await serviceClient.listFileSystems().byPage().next())
       .value as ServiceListFileSystemsSegmentResponse;
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
-    assert.ok(typeof result.clientRequestId);
-    assert.ok(result.clientRequestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+    assert.isDefined(result.clientRequestId);
+    assert.isAbove(result.clientRequestId!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.fileSystemItems.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.fileSystemItems.length, 0);
 
     if (result.fileSystemItems.length > 0) {
       const filesystem = result.fileSystemItems[0];
-      assert.ok(filesystem.name.length > 0);
-      assert.ok(filesystem.properties.etag.length > 0);
-      assert.ok(filesystem.properties.lastModified);
+      assert.isAbove(filesystem.name.length, 0);
+      assert.isAbove(filesystem.properties.etag.length, 0);
+      assert.isDefined(filesystem.properties.lastModified);
     }
   });
 
@@ -174,7 +174,7 @@ describe("DataLakeServiceClient", () => {
     });
 
     const result = (await serviceClient.listFileSystems().byPage().next()).value;
-    assert.ok(result.fileSystemItems.length >= 0);
+    assert.isAtLeast(result.fileSystemItems.length, 0);
 
     let foundTheOne = false;
     result.fileSystemItems.forEach((element: FileSystemItem) => {
@@ -184,7 +184,7 @@ describe("DataLakeServiceClient", () => {
       }
     });
 
-    assert.ok(foundTheOne, "Should have found the created file system");
+    assert.isTrue(foundTheOne, "Should have found the created file system");
     await cClient.delete();
   });
 
@@ -215,7 +215,7 @@ describe("DataLakeServiceClient", () => {
       }
     }
 
-    assert.ok(foundTheOne, "Should have found the created file system");
+    assert.isTrue(foundTheOne, "Should have found the created file system");
     await cClient.delete();
   });
 
@@ -223,13 +223,13 @@ describe("DataLakeServiceClient", () => {
     const serviceClient = getDataLakeServiceClient(recorder);
     const result = (await serviceClient.listFileSystems({ prefix: "" }).byPage().next()).value;
 
-    assert.ok(result.fileSystemItems.length >= 0);
+    assert.isAtLeast(result.fileSystemItems.length, 0);
 
     if (result.fileSystemItems.length > 0) {
       const filesystem = result.fileSystemItems[0];
-      assert.ok(filesystem.name.length > 0);
-      assert.ok(filesystem.properties.etag.length > 0);
-      assert.ok(filesystem.properties.lastModified);
+      assert.isAbove(filesystem.name.length, 0);
+      assert.isAbove(filesystem.properties.etag.length, 0);
+      assert.isDefined(filesystem.properties.lastModified);
     }
   });
 
@@ -259,13 +259,13 @@ describe("DataLakeServiceClient", () => {
         .next()
     ).value as ServiceListFileSystemsSegmentResponse; // TODO: Why no intelligence?
 
-    assert.ok(result1.continuationToken);
+    assert.isDefined(result1.continuationToken);
     assert.equal(result1.fileSystemItems.length, 1);
-    assert.ok(result1.fileSystemItems[0].name.startsWith(fileSystemNamePrefix));
-    assert.ok(result1.fileSystemItems[0].properties.etag.length > 0);
-    assert.ok(result1.fileSystemItems[0].properties.lastModified);
-    assert.ok(!result1.fileSystemItems[0].properties.leaseDuration);
-    assert.ok(!result1.fileSystemItems[0].properties.publicAccess);
+    assert.isTrue(result1.fileSystemItems[0].name.startsWith(fileSystemNamePrefix));
+    assert.isAbove(result1.fileSystemItems[0].properties.etag.length, 0);
+    assert.isDefined(result1.fileSystemItems[0].properties.lastModified);
+    assert.isUndefined(result1.fileSystemItems[0].properties.leaseDuration);
+    assert.isUndefined(result1.fileSystemItems[0].properties.publicAccess);
     assert.deepEqual(result1.fileSystemItems[0].properties.leaseState, "available");
     assert.deepEqual(result1.fileSystemItems[0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.fileSystemItems[0].metadata!.key, "val");
@@ -280,13 +280,13 @@ describe("DataLakeServiceClient", () => {
         .next()
     ).value as ServiceListFileSystemsSegmentResponse;
 
-    assert.ok(!result2.continuationToken);
+    assert.equal(result2.continuationToken, "");
     assert.equal(result2.fileSystemItems.length, 1);
-    assert.ok(result2.fileSystemItems[0].name.startsWith(fileSystemNamePrefix));
-    assert.ok(result2.fileSystemItems[0].properties.etag.length > 0);
-    assert.ok(result2.fileSystemItems[0].properties.lastModified);
-    assert.ok(!result2.fileSystemItems[0].properties.leaseDuration);
-    assert.ok(!result2.fileSystemItems[0].properties.publicAccess);
+    assert.isTrue(result2.fileSystemItems[0].name.startsWith(fileSystemNamePrefix));
+    assert.isAbove(result2.fileSystemItems[0].properties.etag.length, 0);
+    assert.isDefined(result2.fileSystemItems[0].properties.lastModified);
+    assert.isUndefined(result2.fileSystemItems[0].properties.leaseDuration);
+    assert.isUndefined(result2.fileSystemItems[0].properties.publicAccess);
     assert.deepEqual(result2.fileSystemItems[0].properties.leaseState, "available");
     assert.deepEqual(result2.fileSystemItems[0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.fileSystemItems[0].metadata!.key, "val");
@@ -312,11 +312,11 @@ describe("DataLakeServiceClient", () => {
       includeMetadata: true,
       prefix: fileSystemNamePrefix,
     })) {
-      assert.ok(filesystem.name.startsWith(fileSystemNamePrefix));
-      assert.ok(filesystem.properties.etag.length > 0);
-      assert.ok(filesystem.properties.lastModified);
-      assert.ok(!filesystem.properties.leaseDuration);
-      assert.ok(!filesystem.properties.publicAccess);
+      assert.isTrue(filesystem.name.startsWith(fileSystemNamePrefix));
+      assert.isAbove(filesystem.properties.etag.length, 0);
+      assert.isDefined(filesystem.properties.lastModified);
+      assert.isUndefined(filesystem.properties.leaseDuration);
+      assert.isUndefined(filesystem.properties.publicAccess);
       assert.deepEqual(filesystem.properties.leaseState, "available");
       assert.deepEqual(filesystem.properties.leaseStatus, "unlocked");
       assert.deepEqual(filesystem.metadata!.key, "val");
@@ -344,21 +344,21 @@ describe("DataLakeServiceClient", () => {
     });
 
     let fileSystemItem = getYieldedValue(await iterator.next());
-    assert.ok(fileSystemItem.name.startsWith(fileSystemNamePrefix));
-    assert.ok(fileSystemItem.properties.etag.length > 0);
-    assert.ok(fileSystemItem.properties.lastModified);
-    assert.ok(!fileSystemItem.properties.leaseDuration);
-    assert.ok(!fileSystemItem.properties.publicAccess);
+    assert.isTrue(fileSystemItem.name.startsWith(fileSystemNamePrefix));
+    assert.isAbove(fileSystemItem.properties.etag.length, 0);
+    assert.isDefined(fileSystemItem.properties.lastModified);
+    assert.isUndefined(fileSystemItem.properties.leaseDuration);
+    assert.isUndefined(fileSystemItem.properties.publicAccess);
     assert.deepEqual(fileSystemItem.properties.leaseState, "available");
     assert.deepEqual(fileSystemItem.properties.leaseStatus, "unlocked");
     assert.deepEqual(fileSystemItem.metadata!.key, "val");
 
     fileSystemItem = getYieldedValue(await iterator.next());
-    assert.ok(fileSystemItem.name.startsWith(fileSystemNamePrefix));
-    assert.ok(fileSystemItem.properties.etag.length > 0);
-    assert.ok(fileSystemItem.properties.lastModified);
-    assert.ok(!fileSystemItem.properties.leaseDuration);
-    assert.ok(!fileSystemItem.properties.publicAccess);
+    assert.isTrue(fileSystemItem.name.startsWith(fileSystemNamePrefix));
+    assert.isAbove(fileSystemItem.properties.etag.length, 0);
+    assert.isDefined(fileSystemItem.properties.lastModified);
+    assert.isUndefined(fileSystemItem.properties.leaseDuration);
+    assert.isUndefined(fileSystemItem.properties.publicAccess);
     assert.deepEqual(fileSystemItem.properties.leaseState, "available");
     assert.deepEqual(fileSystemItem.properties.leaseStatus, "unlocked");
     assert.deepEqual(fileSystemItem.metadata!.key, "val");
@@ -392,11 +392,11 @@ describe("DataLakeServiceClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const filesystem of response.fileSystemItems) {
-        assert.ok(filesystem.name.startsWith(fileSystemNamePrefix));
-        assert.ok(filesystem.properties.etag.length > 0);
-        assert.ok(filesystem.properties.lastModified);
-        assert.ok(!filesystem.properties.leaseDuration);
-        assert.ok(!filesystem.properties.publicAccess);
+        assert.isTrue(filesystem.name.startsWith(fileSystemNamePrefix));
+        assert.isAbove(filesystem.properties.etag.length, 0);
+        assert.isDefined(filesystem.properties.lastModified);
+        assert.isUndefined(filesystem.properties.leaseDuration);
+        assert.isUndefined(filesystem.properties.publicAccess);
         assert.deepEqual(filesystem.properties.leaseState, "available");
         assert.deepEqual(filesystem.properties.leaseStatus, "unlocked");
         assert.deepEqual(filesystem.metadata!.key, "val");
@@ -434,11 +434,11 @@ describe("DataLakeServiceClient", () => {
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
     for (const filesystem of response.fileSystemItems) {
-      assert.ok(filesystem.name.startsWith(fileSystemNamePrefix));
-      assert.ok(filesystem.properties.etag.length > 0);
-      assert.ok(filesystem.properties.lastModified);
-      assert.ok(!filesystem.properties.leaseDuration);
-      assert.ok(!filesystem.properties.publicAccess);
+      assert.isTrue(filesystem.name.startsWith(fileSystemNamePrefix));
+      assert.isAbove(filesystem.properties.etag.length, 0);
+      assert.isDefined(filesystem.properties.lastModified);
+      assert.isUndefined(filesystem.properties.leaseDuration);
+      assert.isUndefined(filesystem.properties.publicAccess);
       assert.deepEqual(filesystem.properties.leaseState, "available");
       assert.deepEqual(filesystem.properties.leaseStatus, "unlocked");
       assert.deepEqual(filesystem.metadata!.key, "val");
@@ -455,11 +455,11 @@ describe("DataLakeServiceClient", () => {
     response = (await iter.next()).value;
     // Gets 2 containers
     for (const filesystem of response.fileSystemItems) {
-      assert.ok(filesystem.name.startsWith(fileSystemNamePrefix));
-      assert.ok(filesystem.properties.etag.length > 0);
-      assert.ok(filesystem.properties.lastModified);
-      assert.ok(!filesystem.properties.leaseDuration);
-      assert.ok(!filesystem.properties.publicAccess);
+      assert.isTrue(filesystem.name.startsWith(fileSystemNamePrefix));
+      assert.isAbove(filesystem.properties.etag.length, 0);
+      assert.isDefined(filesystem.properties.lastModified);
+      assert.isUndefined(filesystem.properties.leaseDuration);
+      assert.isUndefined(filesystem.properties.publicAccess);
       assert.deepEqual(filesystem.properties.leaseState, "available");
       assert.deepEqual(filesystem.properties.leaseStatus, "unlocked");
       assert.deepEqual(filesystem.metadata!.key, "val");
@@ -491,7 +491,7 @@ describe("DataLakeServiceClient", () => {
   //       "Expecting an error in getting properties from a deleted block blob but didn't get one."
   //     );
   //   } catch (error) {
-  //     assert.ok((error.statusCode as number) === 404);
+  //     assert.strictEqual(error.statusCode as number, 404);
   //   }
   // });
 
@@ -538,7 +538,7 @@ describe("DataLakeServiceClient", () => {
 
     const listIter = newClient.listFileSystems();
     await listIter.next();
-    assert.ok(newClient.url.includes("dfs"));
+    assert.include(newClient.url, "dfs");
   });
 
   it("renameFileSystem should work", async (ctx) => {
@@ -615,10 +615,10 @@ describe("DataLakeServiceClient", () => {
       if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
         listed = true;
         // verify list container response
-        assert.ok(fileSystemItem.versionId);
-        assert.ok(fileSystemItem.deleted);
-        assert.ok(fileSystemItem.properties.deletedOn);
-        assert.ok(fileSystemItem.properties.remainingRetentionDays);
+        assert.isDefined(fileSystemItem.versionId);
+        assert.isDefined(fileSystemItem.deleted);
+        assert.isDefined(fileSystemItem.properties.deletedOn);
+        assert.isDefined(fileSystemItem.properties.remainingRetentionDays);
         assert.deepStrictEqual(fileSystemItem.metadata, metadata);
 
         const restoreRes = await serviceClient.undeleteFileSystem(
@@ -630,6 +630,6 @@ describe("DataLakeServiceClient", () => {
         break;
       }
     }
-    assert.ok(listed);
+    assert.isDefined(listed);
   });
 });

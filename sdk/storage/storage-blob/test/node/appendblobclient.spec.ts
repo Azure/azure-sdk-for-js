@@ -376,7 +376,7 @@ describe("AppendBlobClient Node.js only", () => {
       assert.equal(err.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
       conditions: { tagConditions: "tag = 'val'" },

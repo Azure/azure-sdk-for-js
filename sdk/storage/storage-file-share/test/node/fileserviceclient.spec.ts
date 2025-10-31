@@ -35,10 +35,10 @@ describe("FileServiceClient Node.js only", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -51,10 +51,10 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -66,10 +66,10 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created from a connection string", async () => {
@@ -78,8 +78,8 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("can be created from a connection string and an option bag", async () => {
@@ -96,8 +96,8 @@ describe("FileServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 });
 
@@ -121,19 +121,19 @@ describe("FileServiceClient Node.js only - OAuth", () => {
 
     const result = (await serviceClient.listShares().byPage().next()).value;
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(result.shareItems!.length >= 0);
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
 
     if (result.shareItems!.length > 0) {
       const share = result.shareItems![0];
-      assert.ok(share.name.length > 0);
-      assert.ok(share.properties.etag.length > 0);
-      assert.ok(share.properties.lastModified);
+      assert.isAbove(share.name.length, 0);
+      assert.isAbove(share.properties.etag.length, 0);
+      assert.isDefined(share.properties.lastModified);
     }
   });
 
@@ -152,16 +152,16 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     for await (const share of serviceClient.listShares({ includeDeleted: true })) {
       if (share.name === shareClient.name) {
         found = true;
-        assert.ok(share.version);
-        assert.ok(share.deleted);
-        assert.ok(share.properties.deletedTime);
-        assert.ok(share.properties.remainingRetentionDays);
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
+        assert.isDefined(share.properties.deletedTime);
+        assert.isDefined(share.properties.remainingRetentionDays);
 
         shareDeleted = share;
       }
     }
-    assert.ok(found);
-    assert.ok(shareDeleted);
+    assert.isDefined(found);
+    assert.isDefined(shareDeleted);
 
     // Await share to be deleted.
     await delay(30 * 1000);
@@ -181,17 +181,17 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     });
     const result = await serviceClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
 
     if (result.cors && result.cors!.length > 0) {
-      assert.ok(result.cors![0].allowedHeaders.length > 0);
-      assert.ok(result.cors![0].allowedMethods.length > 0);
-      assert.ok(result.cors![0].allowedOrigins.length > 0);
-      assert.ok(result.cors![0].exposedHeaders.length > 0);
-      assert.ok(result.cors![0].maxAgeInSeconds >= 0);
+      assert.isAbove(result.cors![0].allowedHeaders.length, 0);
+      assert.isAbove(result.cors![0].allowedMethods.length, 0);
+      assert.isAbove(result.cors![0].allowedOrigins.length, 0);
+      assert.isAbove(result.cors![0].exposedHeaders.length, 0);
+      assert.isAtLeast(result.cors![0].maxAgeInSeconds, 0);
     }
   });
 
@@ -246,10 +246,10 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     await delay(5 * 1000);
 
     const result = await serviceClient.getProperties();
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 });

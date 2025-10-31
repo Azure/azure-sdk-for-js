@@ -27,7 +27,7 @@ describe("Aborter", () => {
 
   it("should not abort after calling abort()", async () => {
     const cResp = await queueClient.create();
-    assert.ok(cResp.date);
+    assert.isDefined(cResp.date);
     await queueClient.delete();
   });
 
