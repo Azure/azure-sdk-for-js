@@ -1,48 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext as Client } from "../index.js";
-import type {
-  TileMatrixSet,
-  BandStatistics,
-  StacItemBounds,
-  Feature,
-  StacItemStatisticsGeoJson,
-  TilerInfoGeoJsonFeature,
-  TilerInfo,
-  TilerCoreModelsResponsesPoint,
-  ImageParameters,
-  ImageResponse,
-  TilerStacItemStatistics,
-  TileJsonMetadata,
-  StacItemPointAsset,
-  TilerStacSearchRegistration,
-  TilerMosaicSearchRegistrationResponse,
-  IntervalLegendsElement,
-} from "../../models/models.js";
+import { PlanetaryComputerProContext as Client } from "../index.js";
 import {
   geometryUnionSerializer,
   stacSortExtensionArraySerializer,
+  TileMatrixSet,
   tileMatrixSetDeserializer,
+  BandStatistics,
+  StacItemBounds,
   stacItemBoundsDeserializer,
+  Feature,
   featureSerializer,
+  StacItemStatisticsGeoJson,
   stacItemStatisticsGeoJsonDeserializer,
+  TilerInfoGeoJsonFeature,
   tilerInfoGeoJsonFeatureDeserializer,
   tilerInfoRecordDeserializer,
+  TilerInfo,
+  TilerCoreModelsResponsesPoint,
   tilerCoreModelsResponsesPointDeserializer,
+  ImageParameters,
   imageParametersSerializer,
+  ImageResponse,
   imageResponseDeserializer,
+  TilerStacItemStatistics,
   tilerStacItemStatisticsDeserializer,
+  TileJsonMetadata,
   tileJsonMetadataDeserializer,
+  StacItemPointAsset,
+  TilerStacSearchRegistration,
   tilerStacSearchRegistrationDeserializer,
   mosaicMetadataSerializer,
+  TilerMosaicSearchRegistrationResponse,
   tilerMosaicSearchRegistrationResponseDeserializer,
+  IntervalLegendsElement,
   bandStatisticsRecordRecordDeserializer,
   intervalLegendsElementArrayArrayDeserializer,
   stacItemPointAssetArrayDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DataGetMosaicsWmtsCapabilitiesOptionalParams,
   DataGetMosaicsTileOptionalParams,
   DataGetMosaicsTileJsonOptionalParams,
@@ -75,8 +73,12 @@ import type {
   DataListTileMatricesOptionalParams,
   DataGetTileMatrixDefinitionsOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 import { stringToUint8Array } from "@azure/core-util";
 
 export function _getMosaicsWmtsCapabilitiesSend(

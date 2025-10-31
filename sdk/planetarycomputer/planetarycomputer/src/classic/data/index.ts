@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
+import { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
 import {
   getMosaicsWmtsCapabilities,
   getMosaicsTile,
@@ -35,7 +35,7 @@ import {
   listTileMatrices,
   getTileMatrixDefinitions,
 } from "../../api/data/operations.js";
-import type {
+import {
   DataGetMosaicsWmtsCapabilitiesOptionalParams,
   DataGetMosaicsTileOptionalParams,
   DataGetMosaicsTileJsonOptionalParams,
@@ -68,7 +68,7 @@ import type {
   DataListTileMatricesOptionalParams,
   DataGetTileMatrixDefinitionsOptionalParams,
 } from "../../api/data/options.js";
-import type {
+import {
   TileMatrixSet,
   BandStatistics,
   StacItemBounds,

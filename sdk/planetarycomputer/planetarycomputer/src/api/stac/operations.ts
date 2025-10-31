@@ -1,55 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext as Client } from "../index.js";
-import type {
-  StacAssetData,
-  StacCollection,
-  UserCollectionSettings,
-  TileSettings,
-  StacMosaic,
-  RenderOption,
-  StacCatalogCollections,
-  PartitionType,
-  StacConformanceClasses,
-  StacLandingPage,
-  StacItemOrStacItemCollectionUnion,
-  StacItemCollection,
-  StacItem,
-  StacQueryable,
-  StacSearchParameters,
-} from "../../models/models.js";
+import { PlanetaryComputerProContext as Client } from "../index.js";
 import {
+  StacAssetData,
   stacAssetDataSerializer,
+  StacCollection,
   stacCollectionSerializer,
   stacCollectionDeserializer,
+  UserCollectionSettings,
   userCollectionSettingsDeserializer,
+  TileSettings,
   tileSettingsSerializer,
   tileSettingsDeserializer,
   stacMosaicArrayDeserializer,
+  StacMosaic,
   stacMosaicSerializer,
   stacMosaicDeserializer,
   renderOptionArrayDeserializer,
+  RenderOption,
   renderOptionSerializer,
   renderOptionDeserializer,
+  StacCatalogCollections,
   stacCatalogCollectionsDeserializer,
+  PartitionType,
   partitionTypeSerializer,
   partitionTypeDeserializer,
+  StacConformanceClasses,
   stacConformanceClassesDeserializer,
+  StacLandingPage,
   stacLandingPageDeserializer,
   stacItemOrStacItemCollectionUnionSerializer,
+  StacItemOrStacItemCollectionUnion,
+  StacItemCollection,
   stacItemCollectionDeserializer,
+  StacItem,
   stacItemSerializer,
   stacItemDeserializer,
+  StacQueryable,
   stacQueryableSerializer,
   stacQueryableDeserializer,
+  StacSearchParameters,
   stacSearchParametersSerializer,
   stacQueryableArraySerializer,
   stacQueryableArrayDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StacSearchOptionalParams,
   StacGetCollectionQueryablesOptionalParams,
   StacListQueryablesOptionalParams,
@@ -89,9 +87,13 @@ import type {
   StacReplaceCollectionAssetOptionalParams,
   StacCreateCollectionAssetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _searchSend(
   context: Client,

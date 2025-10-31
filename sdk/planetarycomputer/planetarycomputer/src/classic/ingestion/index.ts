@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
+import { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
 import {
   listManagedIdentities,
   listSources,
@@ -22,7 +22,7 @@ import {
   cancelAllOperations,
   cancelOperation,
 } from "../../api/ingestion/operations.js";
-import type {
+import {
   IngestionListManagedIdentitiesOptionalParams,
   IngestionListSourcesOptionalParams,
   IngestionGetSourceOptionalParams,
@@ -42,7 +42,7 @@ import type {
   IngestionCancelAllOperationsOptionalParams,
   IngestionCancelOperationOptionalParams,
 } from "../../api/ingestion/options.js";
-import type {
+import {
   Operation,
   IngestionRun,
   IngestionDefinition,
@@ -50,8 +50,8 @@ import type {
   IngestionSourceSummary,
   ManagedIdentityMetadata,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Ingestion operations. */
 export interface IngestionOperations {

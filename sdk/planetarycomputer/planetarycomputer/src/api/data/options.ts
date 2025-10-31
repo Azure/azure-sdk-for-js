@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GeometryUnion,
   StacSortExtension,
   FilterLanguage,
@@ -12,7 +12,7 @@ import type {
   TilerImageFormat,
   PixelSelection,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DataGetMosaicsWmtsCapabilitiesOptionalParams extends OperationOptions {

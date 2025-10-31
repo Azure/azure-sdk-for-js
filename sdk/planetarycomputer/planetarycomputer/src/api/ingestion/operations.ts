@@ -1,38 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext as Client } from "../index.js";
-import type {
-  Operation,
-  _PageOperation,
-  IngestionRun,
-  _PageIngestionRun,
-  IngestionDefinition,
-  _PageIngestionDefinition,
-  IngestionSourceUnion,
-  _PageIngestionSourceSummary,
-  IngestionSourceSummary,
-  _PageManagedIdentityMetadata,
-  ManagedIdentityMetadata,
-} from "../../models/models.js";
+import { PlanetaryComputerProContext as Client } from "../index.js";
 import {
+  Operation,
   operationDeserializer,
+  _PageOperation,
   _pageOperationDeserializer,
+  IngestionRun,
   ingestionRunDeserializer,
+  _PageIngestionRun,
   _pageIngestionRunDeserializer,
+  IngestionDefinition,
   ingestionDefinitionSerializer,
   ingestionDefinitionDeserializer,
+  _PageIngestionDefinition,
   _pageIngestionDefinitionDeserializer,
   ingestionSourceUnionSerializer,
   ingestionSourceUnionDeserializer,
+  IngestionSourceUnion,
+  _PageIngestionSourceSummary,
   _pageIngestionSourceSummaryDeserializer,
+  IngestionSourceSummary,
+  _PageManagedIdentityMetadata,
   _pageManagedIdentityMetadataDeserializer,
+  ManagedIdentityMetadata,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   IngestionListManagedIdentitiesOptionalParams,
   IngestionListSourcesOptionalParams,
   IngestionGetSourceOptionalParams,
@@ -52,9 +52,13 @@ import type {
   IngestionCancelAllOperationsOptionalParams,
   IngestionCancelOperationOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listManagedIdentitiesSend(
   context: Client,

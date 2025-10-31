@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
+import { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
 import {
   search,
   getCollectionQueryables,
@@ -42,7 +42,7 @@ import {
   replaceCollectionAsset,
   createCollectionAsset,
 } from "../../api/stac/operations.js";
-import type {
+import {
   StacSearchOptionalParams,
   StacGetCollectionQueryablesOptionalParams,
   StacListQueryablesOptionalParams,
@@ -82,7 +82,7 @@ import type {
   StacReplaceCollectionAssetOptionalParams,
   StacCreateCollectionAssetOptionalParams,
 } from "../../api/stac/options.js";
-import type {
+import {
   StacAssetData,
   StacCollection,
   UserCollectionSettings,
@@ -99,7 +99,7 @@ import type {
   StacQueryable,
   StacSearchParameters,
 } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Stac operations. */
 export interface StacOperations {
