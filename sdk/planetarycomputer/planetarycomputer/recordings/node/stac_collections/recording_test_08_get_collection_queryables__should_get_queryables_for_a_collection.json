@@ -25,12 +25,12 @@
         "Content-Encoding": "gzip",
         "Content-Length": "813",
         "Content-Type": "application/schema+json",
-        "Date": "Sat, 01 Nov 2025 02:37:50 GMT",
+        "Date": "Sat, 01 Nov 2025 02:45:43 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "f8519d7826ec4a9da368bf67d4e8db72"
+        "X-Request-ID": "12d7b69509c140cbb4e5bbc7869eb413"
       },
       "ResponseBody": {
         "$id": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",

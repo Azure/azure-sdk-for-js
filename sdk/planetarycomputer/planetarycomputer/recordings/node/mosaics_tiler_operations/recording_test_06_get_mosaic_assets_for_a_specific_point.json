@@ -65,12 +65,12 @@
         "Connection": "keep-alive",
         "Content-Length": "711",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:36:39 GMT",
-        "Server-Timing": "total;dur=36.53",
+        "Date": "Sat, 01 Nov 2025 02:44:30 GMT",
+        "Server-Timing": "total;dur=35.59",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "db07605866e548b59d42acff9b5bd0d7"
+        "X-Request-ID": "ac9a86b4cf0a41378ad0f30298a78e87"
       },
       "ResponseBody": {
         "searchid": "ba13fc7947b9b585690d84ee61aaa653",
@@ -121,12 +121,12 @@
         "Connection": "keep-alive",
         "Content-Length": "3071",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:36:39 GMT",
-        "Server-Timing": "total;dur=51.46",
+        "Date": "Sat, 01 Nov 2025 02:44:32 GMT",
+        "Server-Timing": "total;dur=885.88",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "1ae2877631f24efba2578ed40128bde2"
+        "X-Request-ID": "2e8ddd1f3ae14d4ca4ce42ba9f4b0fcf"
       },
       "ResponseBody": "[{\"id\":\"Sanitized\",\"bbox\":[-84.44157,33.621853,-84.370894,33.690654],\"assets\":{\"image\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif\",\"type\":\"image/tiff; application=geotiff; profile=cloud-optimized\",\"roles\":[\"data\"],\"title\":\"RGBIR COG tile\"}},\"collection\":\"naip-atl-00000000\"},{\"id\":\"Sanitized\",\"bbox\":[-84.44157,33.621853,-84.370894,33.690654],\"assets\":{\"image\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/230/fake-item-id_replace_test/image.tif\",\"type\":\"image/tiff; application=geotiff; profile=cloud-optimized\",\"roles\":[\"data\"],\"title\":\"RGBIR COG tile\"}},\"collection\":\"naip-atl-00000000\"},{\"id\":\"Sanitized\",\"bbox\":[-84.44157,33.621853,-84.370894,33.690654],\"assets\":{\"image\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/4eb/fake-item-id_replace_demo/image.tif\",\"type\":\"image/tiff; application=geotiff; profile=cloud-optimized\",\"roles\":[\"data\"],\"title\":\"RGBIR COG tile\",\"eo:bands\":[{\"name\":\"Sanitized\",\"common_name\":\"red\"},{\"name\":\"Sanitized\",\"common_name\":\"green\"},{\"name\":\"Sanitized\",\"common_name\":\"blue\"},{\"name\":\"Sanitized\",\"common_name\":\"nir\",\"description\":\"near-infrared\"}]},\"tilejson\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/4eb/fake-item-id_replace_demo/tilejson.json\",\"type\":\"application/json\",\"roles\":[\"tiles\"],\"title\":\"TileJSON with default rendering\"},\"thumbnail\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/4eb/fake-item-id_replace_demo/thumbnail.jpg\",\"type\":\"image/jpeg\",\"roles\":[\"thumbnail\"],\"title\":\"Thumbnail\"},\"rendered_preview\":{\"rel\":\"preview\",\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/4eb/fake-item-id_replace_demo/rendered_preview.png\",\"type\":\"image/png\",\"roles\":[\"overview\"],\"title\":\"Rendered preview\"}},\"collection\":\"naip-atl-00000000\"},{\"id\":\"Sanitized\",\"bbox\":[-84.44157,33.621853,-84.370894,33.690654],\"assets\":{\"image\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/234/fake-item-id/image.tif\",\"type\":\"image/tiff; application=geotiff; profile=cloud-optimized\",\"roles\":[\"data\"],\"title\":\"RGBIR COG tile\",\"eo:bands\":[{\"name\":\"Sanitized\",\"common_name\":\"red\"},{\"name\":\"Sanitized\",\"common_name\":\"green\"},{\"name\":\"Sanitized\",\"common_name\":\"blue\"},{\"name\":\"Sanitized\",\"common_name\":\"nir\",\"description\":\"near-infrared\"}]},\"tilejson\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/234/fake-item-id/tilejson.json\",\"type\":\"application/json\",\"roles\":[\"tiles\"],\"title\":\"TileJSON with default rendering\"},\"thumbnail\":{\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/234/fake-item-id/thumbnail.jpg\",\"type\":\"image/jpeg\",\"roles\":[\"thumbnail\"],\"title\":\"Thumbnail\"},\"rendered_preview\":{\"rel\":\"preview\",\"href\":\"https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/234/fake-item-id/rendered_preview.png\",\"type\":\"image/png\",\"roles\":[\"overview\"],\"title\":\"Rendered preview\"}},\"collection\":\"naip-atl-00000000\"}]"
     }

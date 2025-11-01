@@ -170,19 +170,14 @@ describe("STAC Item Tiler Operations", () => {
     });
 
     console.log(`Response type: ${typeof response}`);
+    console.log(`Response constructor: ${response?.constructor?.name}`);
+    console.log(`Response is Uint8Array: ${response instanceof Uint8Array}`);
+    console.log(
+      `Response has Symbol.asyncIterator: ${(response as any)?.[Symbol.asyncIterator] !== undefined}`,
+    );
 
-    // Collect the streaming response
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    // Response comes as a string (binary data encoded as string), convert to Buffer
+    const imageBytes = Buffer.from(response as any, 'binary');
     console.log(`Image size: ${imageBytes.length} bytes`);
     console.log(`First 16 bytes (hex): ${imageBytes.subarray(0, 16).toString("hex")}`);
 
