@@ -8,7 +8,6 @@ Key links:
 - [Package (NPM)][npm_link]
 - [API reference documentation][api_ref]
 - [Product documentation][service_overview]
-- [Samples][samples_folder]
 
 ## Getting started
 
@@ -89,7 +88,7 @@ STAC is an open specification for organizing and describing geospatial data. Mic
 
 ## Examples
 
-This section provides examples of using the features of Microsoft Planetary Computer Pro. For additional examples, check out the [samples folder][samples_folder].
+This section provides examples of using the features of Microsoft Planetary Computer Pro. For additional examples, check out the samples folder.
 
 ### List STAC Collections
 
@@ -254,13 +253,13 @@ This project has adopted the [Microsoft Open Source Code of Conduct][code_of_con
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer
-[npm_link]: https://www.npmjs.com/package/@azure/planetarycomputer
-[api_ref]: https://learn.microsoft.com/javascript/api/@azure/planetarycomputer
+[npm_link]: https://www.npmjs.com/search?q=azure/planetarycomputer
+[api_ref]: https://learn.microsoft.com/search/?terms=planetarycomputer%20javascript
 [samples_folder]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer/samples
-[service_overview]: https://learn.microsoft.com/azure/orbital/microsoft-planetary-computer-pro-overview
+[service_overview]: https://learn.microsoft.com/azure/planetary-computer/microsoft-planetary-computer-pro-overview
 [stac_spec]: https://stacspec.org/
-[deploy_geocatalog]: https://learn.microsoft.com/azure/orbital/deploy-geocatalog-resource
-[manage_access]: https://learn.microsoft.com/azure/orbital/manage-access-planetary-computer-pro
+[deploy_geocatalog]: https://learn.microsoft.com/azure/planetary-computer/deploy-geocatalog-resource
+[manage_access]: https://learn.microsoft.com/azure/planetary-computer/manage-access
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
