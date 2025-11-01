@@ -65,12 +65,12 @@
         "Connection": "keep-alive",
         "Content-Length": "711",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:10:13 GMT",
-        "Server-Timing": "total;dur=28.77",
+        "Date": "Sat, 01 Nov 2025 02:36:19 GMT",
+        "Server-Timing": "total;dur=72.34",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "e78a8428edf6430cb619601af20cffee"
+        "X-Request-ID": "b484019d5b7242afa5a390b3b7195169"
       },
       "ResponseBody": {
         "searchid": "ba13fc7947b9b585690d84ee61aaa653",
@@ -121,12 +121,12 @@
         "Connection": "keep-alive",
         "Content-Length": "1279",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:10:13 GMT",
-        "Server-Timing": "total;dur=23.26",
+        "Date": "Sat, 01 Nov 2025 02:36:19 GMT",
+        "Server-Timing": "total;dur=32.3",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "09f52583c57f4d55afc18260acb97700"
+        "X-Request-ID": "787987f27877428db33ff89edf807fbd"
       },
       "ResponseBody": {
         "search": {
@@ -174,8 +174,8 @@
           },
           "_where": "(collection = 'naip-atl-00000000' AND datetime >= '2021-01-01T00:00:00Z' AND datetime <= '2022-12-31T23:59:59Z')",
           "orderby": "datetime DESC, id DESC",
-          "lastused": "2025-11-01T02:10:13.808797Z",
-          "usecount": 170,
+          "lastused": "2025-11-01T02:36:19.018740Z",
+          "usecount": 184,
           "metadata": {
             "type": "mosaic"
           }

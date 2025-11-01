@@ -24,11 +24,11 @@
         "Connection": "keep-alive",
         "Content-Length": "299",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 01:58:06 GMT",
+        "Date": "Sat, 01 Nov 2025 02:37:45 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "611320575d654af3aa08b331ac48e4a1"
+        "X-Request-ID": "e08ac163ac9e463c88b07fdc440270c3"
       },
       "ResponseBody": "[{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"\",\"cql\":[]},{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"Most recent available imagery in this collection\",\"cql\":[]},{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"Most recent available imagery in this collection - updated\",\"cql\":[]}]"
     }

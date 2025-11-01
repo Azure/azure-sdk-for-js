@@ -26,14 +26,14 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
-        "Connection": "keep-alive",
+        "Connection": "close",
         "Content-Length": "57",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:01:13 GMT",
+        "Date": "Sat, 01 Nov 2025 02:40:15 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "154d561f80014689a6e34c237090dbf2"
+        "X-Request-ID": "b7b78f431cc8400ea828dd9563e0314d"
       },
       "ResponseBody": {
         "minZoom": 6,

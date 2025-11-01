@@ -65,12 +65,12 @@
         "Connection": "keep-alive",
         "Content-Length": "711",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:10:21 GMT",
-        "Server-Timing": "total;dur=30.41",
+        "Date": "Sat, 01 Nov 2025 02:36:23 GMT",
+        "Server-Timing": "total;dur=36.34",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "db17734bb947408ca0d93d3e282f454f"
+        "X-Request-ID": "24e11c9afc3e42eaa1dcefc13edcb12b"
       },
       "ResponseBody": {
         "searchid": "ba13fc7947b9b585690d84ee61aaa653",
@@ -121,12 +121,12 @@
         "Connection": "keep-alive",
         "Content-Length": "482",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:10:21 GMT",
-        "Server-Timing": "total;dur=30.24",
+        "Date": "Sat, 01 Nov 2025 02:36:23 GMT",
+        "Server-Timing": "total;dur=34.95",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "020a0ac861954aa6b9e5288f831ab957"
+        "X-Request-ID": "fd73e4e317484081911c4bc3b82dba2e"
       },
       "ResponseBody": {
         "tilejson": "2.2.0",

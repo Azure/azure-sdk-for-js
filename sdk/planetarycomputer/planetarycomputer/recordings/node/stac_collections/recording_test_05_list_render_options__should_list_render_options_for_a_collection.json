@@ -24,11 +24,11 @@
         "Connection": "keep-alive",
         "Content-Length": "327",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 01:57:57 GMT",
+        "Date": "Sat, 01 Nov 2025 02:37:36 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "cc3b455cf1b245a59e806ccf684e3fde"
+        "X-Request-ID": "05dc9904c16545eb95112b769f19a5fe"
       },
       "ResponseBody": "[{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"RGB from visual assets\",\"type\":\"raster-tile\",\"options\":\"assets=image&asset_bidx=image|1,2,3\",\"minZoom\":6},{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"RGB from visual assets - updated\",\"type\":\"raster-tile\",\"options\":\"assets=image&asset_bidx=image|1,2,3\",\"minZoom\":6}]"
     }

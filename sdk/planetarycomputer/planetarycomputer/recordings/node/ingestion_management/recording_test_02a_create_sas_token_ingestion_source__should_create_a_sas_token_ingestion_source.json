@@ -32,19 +32,19 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:02:59 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/44708cbe-2663-4dbe-a125-bf928568a95c?api-version=2025-04-30-preview",
-        "mise-correlation-id": "40b6e2d1-9f38-4ec1-90af-813c7b8d5141",
+        "Date": "Sat, 01 Nov 2025 02:40:58 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/035d4085-336d-4d9b-b6dc-16f2947a3448?api-version=2025-04-30-preview",
+        "mise-correlation-id": "c12d61f3-6719-45f6-8375-6234aec2c92a",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "d95358e920da9af4163f8c4c5e0aa208"
+        "X-Request-ID": "1be9e631d9855cd99b5ce0cd137f5f14"
       },
       "ResponseBody": {
         "id": "Sanitized",
         "kind": "SasToken",
-        "created": "2025-11-01T02:02:59.243343Z",
+        "created": "2025-11-01T02:40:58.0385911Z",
         "connectionInfo": {
           "containerUrl": "Sanitized",
           "expiration": "2099-12-31T23:59:59.0000000Z"
@@ -52,7 +52,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/44708cbe-2663-4dbe-a125-bf928568a95c?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/035d4085-336d-4d9b-b6dc-16f2947a3448?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -73,12 +73,12 @@
         "Access-Control-Max-Age": "1728000",
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
-        "Date": "Sat, 01 Nov 2025 02:02:59 GMT",
-        "mise-correlation-id": "bcfa7c51-94aa-4110-9bee-fd45d9730213",
+        "Date": "Sat, 01 Nov 2025 02:40:58 GMT",
+        "mise-correlation-id": "aac64f72-e8f4-4dfe-a936-eb11c871c5c7",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "9d44216dca595ec2579734a12b562b55"
+        "X-Request-ID": "0e3ca2d3c6fd2ddec5296e2a0f7f65e0"
       },
       "ResponseBody": null
     }

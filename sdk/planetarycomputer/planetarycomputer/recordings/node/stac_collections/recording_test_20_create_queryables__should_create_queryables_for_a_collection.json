@@ -25,12 +25,12 @@
         "Content-Encoding": "gzip",
         "Content-Length": "813",
         "Content-Type": "application/schema+json",
-        "Date": "Sat, 01 Nov 2025 02:01:17 GMT",
+        "Date": "Sat, 01 Nov 2025 02:40:22 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "7ffcc70ec3134754a5025500ade7569f"
+        "X-Request-ID": "4bf97889b3064823be287ca901967638"
       },
       "ResponseBody": {
         "$id": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
@@ -88,11 +88,11 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Sat, 01 Nov 2025 02:01:17 GMT",
+        "Date": "Sat, 01 Nov 2025 02:40:22 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "c7712e18fbcd4c95a0f2fb4556401f53"
+        "X-Request-ID": "52eb3f09df7840ccabbd1e1f4c26d96e"
       },
       "ResponseBody": null
     },
@@ -121,11 +121,11 @@
         "Connection": "keep-alive",
         "Content-Length": "99",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:01:17 GMT",
+        "Date": "Sat, 01 Nov 2025 02:40:22 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "6d56b7c7f3d348249d0e5227fed250e3"
+        "X-Request-ID": "840c396840634496b7440a4b2e23a154"
       },
       "ResponseBody": "[{\"name\":\"Sanitized\",\"definition\":{\"dataType\":\"number\"},\"create_index\":false,\"data_type\":\"number\"}]"
     }

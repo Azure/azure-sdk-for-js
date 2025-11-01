@@ -65,12 +65,12 @@
         "Connection": "keep-alive",
         "Content-Length": "711",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:10:45 GMT",
-        "Server-Timing": "total;dur=60.55",
+        "Date": "Sat, 01 Nov 2025 02:36:34 GMT",
+        "Server-Timing": "total;dur=32.52",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "54f0a624d6fb4b1e9dca864e14d0f271"
+        "X-Request-ID": "55d4d0118b12495da3cd82b6fe929cde"
       },
       "ResponseBody": {
         "searchid": "ba13fc7947b9b585690d84ee61aaa653",
@@ -121,12 +121,12 @@
         "Connection": "keep-alive",
         "Content-Length": "7771",
         "Content-Type": "application/xml",
-        "Date": "Sat, 01 Nov 2025 02:10:45 GMT",
-        "Server-Timing": "total;dur=93.4",
+        "Date": "Sat, 01 Nov 2025 02:36:34 GMT",
+        "Server-Timing": "total;dur=53.56",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "fa0c1e7a0d26426e9e1564f6af24a2c9"
+        "X-Request-ID": "60ae8972043f48a38608e57be23c4a56"
       },
       "ResponseBody": [
         "<Capabilities xmlns=\"http://www.opengis.net/wmts/1.0\" xmlns:ows=\"http://www.opengis.net/ows/1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:gml=\"http://www.opengis.net/gml\" xsi:schemaLocation=\"http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd\" version=\"1.0.0\">\n",

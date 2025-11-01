@@ -65,12 +65,12 @@
         "Connection": "keep-alive",
         "Content-Length": "711",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:10:09 GMT",
-        "Server-Timing": "total;dur=77.4",
+        "Date": "Sat, 01 Nov 2025 02:36:14 GMT",
+        "Server-Timing": "total;dur=94.49",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "3bf2edb2d6024af7a38718d02f01f508"
+        "X-Request-ID": "c63c283b06a34ebfa0e5c18c4ae262e8"
       },
       "ResponseBody": {
         "searchid": "ba13fc7947b9b585690d84ee61aaa653",
