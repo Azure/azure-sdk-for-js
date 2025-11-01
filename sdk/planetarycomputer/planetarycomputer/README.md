@@ -234,7 +234,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-- Explore the [samples folder][samples_folder] for detailed examples
+- Explore the samples folder for detailed examples
 - Learn more about [Microsoft Planetary Computer Pro][service_overview]
 - Read the [STAC Specification][stac_spec]
 - See how to [Deploy a GeoCatalog resource][deploy_geocatalog]
@@ -255,7 +255,6 @@ This project has adopted the [Microsoft Open Source Code of Conduct][code_of_con
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer
 [npm_link]: https://www.npmjs.com/search?q=azure/planetarycomputer
 [api_ref]: https://learn.microsoft.com/search/?terms=planetarycomputer%20javascript
-[samples_folder]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer/samples
 [service_overview]: https://learn.microsoft.com/azure/planetary-computer/microsoft-planetary-computer-pro-overview
 [stac_spec]: https://stacspec.org/
 [deploy_geocatalog]: https://learn.microsoft.com/azure/planetary-computer/deploy-geocatalog-resource
