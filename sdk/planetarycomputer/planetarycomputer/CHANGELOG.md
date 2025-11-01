@@ -4,4 +4,4 @@
 
 ### Features Added
 
-Initial release of the @azure-rest/planetarycomputer package
+Initial release of the @azure/planetarycomputer package
