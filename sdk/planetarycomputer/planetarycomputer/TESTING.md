@@ -127,7 +127,7 @@ The test utilities are organized as follows:
 
 Example test structure:
 
-```typescript
+```ts snippet:listCollections
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
