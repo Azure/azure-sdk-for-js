@@ -7,14 +7,20 @@ import { createTestClient } from "./createClient.js";
 import type { PlanetaryComputerProClient } from "../../../src/index.js";
 
 const replaceableVariables: Record<string, string> = {
-  PLANETARYCOMPUTER_ENDPOINT: "https://fakeendpoint.geocatalogs.azure.com",
-  PLANETARYCOMPUTER_COLLECTION_ID: "fake-collection-id",
+  PLANETARYCOMPUTER_ENDPOINT:
+    "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com",
+  PLANETARYCOMPUTER_SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
+  PLANETARYCOMPUTER_TENANT_ID: "00000000-0000-0000-0000-000000000000",
+  PLANETARYCOMPUTER_CLIENT_ID: "00000000-0000-0000-0000-000000000000",
+  PLANETARYCOMPUTER_CLIENT_SECRET: "00000000-0000-0000-0000-000000000000",
+  PLANETARYCOMPUTER_COLLECTION_ID: "naip-atl-00000000",
   PLANETARYCOMPUTER_ITEM_ID: "fake-item-id",
-  PLANETARYCOMPUTER_INGESTION_CONTAINER_URI: "https://fakestorage.blob.core.windows.net/container",
+  PLANETARYCOMPUTER_INGESTION_CONTAINER_URI:
+    "https://SANITIZED.blob.core.windows.net/sample-container",
   PLANETARYCOMPUTER_INGESTION_CATALOG_URL: "https://fake.example.com/catalog.json",
   PLANETARYCOMPUTER_MANAGED_IDENTITY_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   PLANETARYCOMPUTER_INGESTION_SAS_CONTAINER_URI:
-    "https://fakestorage.blob.core.windows.net/container",
+    "https://SANITIZED.blob.core.windows.net/sample-container",
   PLANETARYCOMPUTER_INGESTION_SAS_TOKEN: "fake-sas-token",
 };
 
