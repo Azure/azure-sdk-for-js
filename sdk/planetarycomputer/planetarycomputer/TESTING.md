@@ -128,29 +128,18 @@ The test utilities are organized as follows:
 Example test structure:
 
 ```ts snippet:listCollections
-import type { Recorder } from "@azure-tools/test-recorder";
-import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
-import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { PlanetaryComputerProClient } from "../../src/index.js";
+import { DefaultAzureCredential } from "@azure/identity";
+import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 
-describe("My Feature", () => {
-  let recorder: Recorder;
-  let client: PlanetaryComputerProClient;
-
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(ctx);
-    client = createRecordedClient(recorder);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
-  it("should do something", async function () {
-    const result = await client.stac.listCollections();
-    assert.isDefined(result);
-  });
-});
+// [START listCollections]
+const credential = new DefaultAzureCredential();
+const catalogUri = "<your-geocatalog-endpoint>";
+const client = new PlanetaryComputerProClient(catalogUri, credential);
+const collections = await client.stac.listCollections();
+console.log(`Found ${collections.collections.length} collections`);
+for (const collection of collections.collections) {
+  console.log(`- ${collection.id}: ${collection.description}`);
+}
 ```
 
 ## Best Practices
