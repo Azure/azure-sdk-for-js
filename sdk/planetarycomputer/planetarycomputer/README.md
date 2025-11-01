@@ -53,6 +53,7 @@ There are several ways to authenticate with the Microsoft Planetary Computer Pro
    import { DefaultAzureCredential } from "@azure/identity";
    import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 
+   // [START ReadmeSampleCreateClient]
    const credential = new DefaultAzureCredential();
    const catalogUri = "<your-geocatalog-endpoint>"; // e.g., "https://your-geocatalog.geocatalogs.azure.com"
    const client = new PlanetaryComputerProClient(catalogUri, credential);
@@ -98,10 +99,10 @@ List all collections in your GeoCatalog:
 import { DefaultAzureCredential } from "@azure/identity";
 import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 
+// [START ReadmeSampleListCollections]
 const credential = new DefaultAzureCredential();
 const catalogUri = "<your-geocatalog-endpoint>";
 const client = new PlanetaryComputerProClient(catalogUri, credential);
-
 const collections = await client.stac.listCollections();
 console.log(`Found ${collections.collections.length} collections`);
 for (const collection of collections.collections) {
@@ -117,18 +118,34 @@ Search for geospatial data within a geographic bounding box and time range:
 import { DefaultAzureCredential } from "@azure/identity";
 import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 
+// [START ReadmeSampleSearchItems]
 const credential = new DefaultAzureCredential();
 const catalogUri = "<your-geocatalog-endpoint>";
 const client = new PlanetaryComputerProClient(catalogUri, credential);
-
 const searchResult = await client.stac.search({
-  body: {
-    bbox: [-122.5, 47.0, -122.0, 47.5], // [west, south, east, north]
-    datetime: "2024-01-01T00:00:00Z/2024-12-31T23:59:59Z",
-    limit: 10,
+  collections: ["naip-atl"],
+  filterLang: "cql2-json",
+  filter: {
+    op: "s_intersects",
+    args: [
+      { property: "geometry" },
+      {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-122.5, 47.0],
+            [-122.0, 47.0],
+            [-122.0, 47.5],
+            [-122.5, 47.5],
+            [-122.5, 47.0],
+          ],
+        ],
+      },
+    ],
   },
-});
-
+  datetime: "2024-01-01T00:00:00Z/2024-12-31T23:59:59Z",
+  limit: 10,
+} as any);
 if (searchResult.type === "FeatureCollection") {
   console.log(`Found ${searchResult.features.length} items`);
   for (const item of searchResult.features) {
@@ -145,30 +162,28 @@ Organize your geospatial datasets by creating STAC Collections:
 import { DefaultAzureCredential } from "@azure/identity";
 import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 
+// [START ReadmeSampleCreateCollection]
 const credential = new DefaultAzureCredential();
 const catalogUri = "<your-geocatalog-endpoint>";
 const client = new PlanetaryComputerProClient(catalogUri, credential);
-
 const collectionId = "my-satellite-imagery";
-const collection = await client.stac.createCollection(collectionId, {
-  body: {
-    id: collectionId,
-    type: "Collection",
-    stac_version: "1.0.0",
-    description: "My satellite imagery collection",
-    license: "proprietary",
-    extent: {
-      spatial: {
-        bbox: [[-180, -90, 180, 90]],
-      },
-      temporal: {
-        interval: [["2024-01-01T00:00:00Z", null]],
-      },
+await client.stac.createCollection({
+  id: collectionId,
+  type: "Collection",
+  stacVersion: "1.0.0",
+  description: "My satellite imagery collection",
+  license: "proprietary",
+  extent: {
+    spatial: {
+      boundingBox: [[-180, -90, 180, 90]],
+    },
+    temporal: {
+      interval: [[new Date("2024-01-01T00:00:00Z"), null]],
     },
   },
-});
-
-console.log(`Collection '${collection.id}' created successfully`);
+  links: [],
+} as any);
+console.log(`Collection '${collectionId}' created successfully`);
 ```
 
 ### Ingest a STAC Item
@@ -179,43 +194,36 @@ Upload geospatial data to your GeoCatalog by creating STAC Items:
 import { DefaultAzureCredential } from "@azure/identity";
 import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 
+// [START ReadmeSampleCreateItem]
 const credential = new DefaultAzureCredential();
 const catalogUri = "<your-geocatalog-endpoint>";
 const client = new PlanetaryComputerProClient(catalogUri, credential);
-
 const collectionId = "my-satellite-imagery";
-const itemId = "scene-20240101";
-
-const item = await client.stac.createItem(collectionId, itemId, {
-  body: {
-    type: "Feature",
-    stac_version: "1.0.0",
-    id: itemId,
-    geometry: {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-122.5, 47.0],
-          [-122.0, 47.0],
-          [-122.0, 47.5],
-          [-122.5, 47.5],
-          [-122.5, 47.0],
-        ],
+const itemId = "my-item-001";
+await client.stac.createItem(collectionId, {
+  id: itemId,
+  type: "Feature",
+  stacVersion: "1.0.0",
+  geometry: {
+    type: "Polygon",
+    coordinates: [
+      [
+        [-122.5, 47.0],
+        [-122.0, 47.0],
+        [-122.0, 47.5],
+        [-122.5, 47.5],
+        [-122.5, 47.0],
       ],
-    },
-    properties: {
-      datetime: "2024-01-01T12:00:00Z",
-    },
-    assets: {
-      data: {
-        href: "https://mystorageaccount.blob.core.windows.net/data/scene.tif",
-        type: "image/tiff; application=geotiff; profile=cloud-optimized",
-      },
-    },
+    ],
   },
-});
-
-console.log(`Item '${item.id}' created successfully`);
+  properties: {
+    datetime: "2024-01-01T00:00:00Z",
+  },
+  assets: {},
+  links: [],
+  collection: collectionId,
+} as any);
+console.log(`Item '${itemId}' created successfully in collection '${collectionId}'`);
 ```
 
 ## Troubleshooting
