@@ -177,7 +177,7 @@ describe("STAC Item Tiler Operations", () => {
     );
 
     // Response comes as a string (binary data encoded as string), convert to Buffer
-    const imageBytes = Buffer.from(response as any, 'binary');
+    const imageBytes = Buffer.from(response as any, "binary");
     console.log(`Image size: ${imageBytes.length} bytes`);
     console.log(`First 16 bytes (hex): ${imageBytes.subarray(0, 16).toString("hex")}`);
 

@@ -50,7 +50,11 @@ describe("Map Legend Operations", () => {
     for (const [classValue, color] of Object.entries(response)) {
       // Each color should be an array of 4 RGBA values
       assert.isArray(color, `Color for class '${classValue}' should be an array`);
-      assert.strictEqual(color.length, 4, `Color for class '${classValue}' should have 4 RGBA values, got ${color.length}`);
+      assert.strictEqual(
+        color.length,
+        4,
+        `Color for class '${classValue}' should have 4 RGBA values, got ${color.length}`,
+      );
 
       // Each RGBA component should be an integer 0-255
       const componentNames = ["R", "G", "B", "A"];
@@ -60,11 +64,11 @@ describe("Map Legend Operations", () => {
         assert.isNumber(component, `${componentName} for class '${classValue}' should be a number`);
         assert.isTrue(
           Number.isInteger(component),
-          `${componentName} for class '${classValue}' should be an integer`
+          `${componentName} for class '${classValue}' should be an integer`,
         );
         assert.isTrue(
           component >= 0 && component <= 255,
-          `${componentName} for class '${classValue}' should be 0-255, got ${component}`
+          `${componentName} for class '${classValue}' should be 0-255, got ${component}`,
         );
       }
     }
@@ -74,7 +78,11 @@ describe("Map Legend Operations", () => {
     assert.deepEqual(response["0"], [0, 0, 0, 0], "Class 0 should be transparent black");
 
     // Class 4: Red (high severity)
-    assert.strictEqual(response["4"][0], 255, "Class 4 (high severity) should have high red component");
+    assert.strictEqual(
+      response["4"][0],
+      255,
+      "Class 4 (high severity) should have high red component",
+    );
 
     console.log("Test PASSED\n");
   });
@@ -101,7 +109,11 @@ describe("Map Legend Operations", () => {
       const interval = response[idx];
       // Each interval should be an array with 2 elements: [range, color]
       assert.isArray(interval, `Interval ${idx} should be an array`);
-      assert.strictEqual(interval.length, 2, `Interval ${idx} should have 2 elements: [[min, max], [R, G, B, A]]`);
+      assert.strictEqual(
+        interval.length,
+        2,
+        `Interval ${idx} should have 2 elements: [[min, max], [R, G, B, A]]`,
+      );
 
       // Validate range component
       const valueRange = interval[0] as any;
@@ -111,7 +123,10 @@ describe("Map Legend Operations", () => {
       const maxVal = valueRange[1] as number;
       assert.isNumber(minVal, `Interval ${idx} min should be numeric`);
       assert.isNumber(maxVal, `Interval ${idx} max should be numeric`);
-      assert.isTrue(minVal <= maxVal, `Interval ${idx} min (${minVal}) should be <= max (${maxVal})`);
+      assert.isTrue(
+        minVal <= maxVal,
+        `Interval ${idx} min (${minVal}) should be <= max (${maxVal})`,
+      );
 
       // Validate color component
       const color = interval[1] as any;
@@ -125,11 +140,11 @@ describe("Map Legend Operations", () => {
         assert.isNumber(component, `Interval ${idx} ${componentName} should be a number`);
         assert.isTrue(
           Number.isInteger(component),
-          `Interval ${idx} ${componentName} should be an integer`
+          `Interval ${idx} ${componentName} should be an integer`,
         );
         assert.isTrue(
           component >= 0 && component <= 255,
-          `Interval ${idx} ${componentName} should be 0-255`
+          `Interval ${idx} ${componentName} should be 0-255`,
         );
       }
     }
@@ -141,7 +156,7 @@ describe("Map Legend Operations", () => {
       // Allow some tolerance for continuous intervals
       assert.isTrue(
         Math.abs(currentMax - nextMin) <= 1,
-        `Interval ${i} max (${currentMax}) should connect to interval ${i + 1} min (${nextMin})`
+        `Interval ${i} max (${currentMax}) should connect to interval ${i + 1} min (${nextMin})`,
       );
     }
 
@@ -160,18 +175,8 @@ describe("Map Legend Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Collect the streaming response into bytes
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const legendBytes = Buffer.concat(chunks);
+    // Response comes as a string (binary data encoded as string), convert to Buffer
+    const legendBytes = Buffer.from(response as any, "binary");
     console.log(`Legend size: ${legendBytes.length} bytes`);
     console.log(`First 16 bytes (hex): ${legendBytes.subarray(0, 16).toString("hex")}`);
 
@@ -184,11 +189,11 @@ describe("Map Legend Operations", () => {
     assert.isTrue(legendBytes.length > 0, "Legend bytes should not be empty");
     assert.isTrue(
       legendBytes.length > 100,
-      `Legend should be substantial image, got only ${legendBytes.length} bytes`
+      `Legend should be substantial image, got only ${legendBytes.length} bytes`,
     );
     assert.isTrue(
       legendBytes.subarray(0, 8).equals(pngMagic),
-      "Response should be a valid PNG image (magic bytes mismatch)"
+      "Response should be a valid PNG image (magic bytes mismatch)",
     );
 
     console.log("Test PASSED\n");
@@ -206,18 +211,8 @@ describe("Map Legend Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Collect the streaming response into bytes
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const legendBytes = Buffer.concat(chunks);
+    // Response comes as a string (binary data encoded as string), convert to Buffer
+    const legendBytes = Buffer.from(response as any, "binary");
     console.log(`Legend size: ${legendBytes.length} bytes`);
 
     // Verify PNG magic bytes
@@ -225,9 +220,12 @@ describe("Map Legend Operations", () => {
     assert.isTrue(legendBytes.length > 0, "Legend bytes should not be empty");
     assert.isTrue(
       legendBytes.length > 100,
-      `Legend should be substantial image, got only ${legendBytes.length} bytes`
+      `Legend should be substantial image, got only ${legendBytes.length} bytes`,
     );
-    assert.isTrue(legendBytes.subarray(0, 8).equals(pngMagic), "Response should be a valid PNG image");
+    assert.isTrue(
+      legendBytes.subarray(0, 8).equals(pngMagic),
+      "Response should be a valid PNG image",
+    );
 
     console.log("Test PASSED\n");
   });
@@ -259,7 +257,7 @@ describe("Map Legend Operations", () => {
       assert.strictEqual(color.length, 4, "All colors should have RGBA format");
       assert.isTrue(
         color.every((c: any) => Number.isInteger(c) && c >= 0 && c <= 255),
-        "All color components should be integers 0-255"
+        "All color components should be integers 0-255",
       );
     }
 
@@ -269,7 +267,9 @@ describe("Map Legend Operations", () => {
     const uniqueColors = new Set(nonTransparentColors.map((c) => JSON.stringify(c)));
     assert.isTrue(uniqueColors.size > 1, "Non-transparent classes should have different colors");
 
-    console.log(`Found ${Object.keys(response).length} classes with ${uniqueColors.size} unique non-transparent colors`);
+    console.log(
+      `Found ${Object.keys(response).length} classes with ${uniqueColors.size} unique non-transparent colors`,
+    );
     console.log("Test PASSED\n");
   });
 });

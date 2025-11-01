@@ -214,7 +214,7 @@ describe("Mosaics Tiler Operations", () => {
     }
 
     // Response comes as a string (binary data encoded as string), convert to Buffer
-    const imageBytes = Buffer.from(response as any, 'binary');
+    const imageBytes = Buffer.from(response as any, "binary");
     console.log(`Image size: ${imageBytes.length} bytes`);
     console.log(`First 16 bytes (hex): ${imageBytes.subarray(0, 16).toString("hex")}`);
 
@@ -266,7 +266,7 @@ describe("Mosaics Tiler Operations", () => {
     console.log(`Response type: ${typeof response}`);
 
     // Response comes as a string (binary data encoded as string), convert to Buffer
-    const xmlBytes = Buffer.from(response as any, 'binary');
+    const xmlBytes = Buffer.from(response as any, "binary");
     console.log(`XML size: ${xmlBytes.length} bytes`);
 
     // Decode to string
