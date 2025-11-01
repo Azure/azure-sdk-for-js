@@ -1,0 +1,101 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/assets/test-asset?api-version=2025-04-30-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "Connection": "keep-alive",
+        "Content-Length": "179",
+        "Content-Type": "application/json",
+        "Date": "Sat, 01 Nov 2025 02:12:39 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-error-code": "ResourceNotFound",
+        "X-Request-ID": "12af7052eb0b4149b45bf8a0ac9d874c"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "Asset key 'test-asset' not found in collection 'naip-atl-00000000'. Please verify the asset key and collection ID, and try again."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/assets?api-version=2025-04-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "376",
+        "Content-Type": "multipart/form-data; boundary=--RecordedTestMultipartBoundary",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": [
+        "----RecordedTestMultipartBoundary\r\n",
+        "content-type: application/json\r\n",
+        "content-disposition: form-data; name=\"data\"\r\n",
+        "\r\n",
+        "{\"key\":\"Sanitized\",\"type\":\"text/plain\",\"roles\":[\"metadata\"],\"title\":\"Test Asset\"}",
+        "\r\n",
+        "----RecordedTestMultipartBoundary\r\n",
+        "content-type: application/octet-stream\r\n",
+        "content-disposition: form-data; name=\"file\"\r\n",
+        "\r\n",
+        "b64:VGVzdCBhc3NldCBjb250ZW50",
+        "\r\n",
+        "----RecordedTestMultipartBoundary--\r\n"
+      ],
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "Connection": "keep-alive",
+        "Content-Length": "193",
+        "Content-Type": "application/json",
+        "Date": "Sat, 01 Nov 2025 02:12:39 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-error-code": "ValidationError",
+        "X-Request-ID": "45519fc06bde4a1a9283fa1a6c52c2ac"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ValidationError",
+          "message": "Validation Error Occurred",
+          "details": [
+            {
+              "code": "ValidationError",
+              "message": "body.file Value error, Expected UploadFile, received: <class 'str'>"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

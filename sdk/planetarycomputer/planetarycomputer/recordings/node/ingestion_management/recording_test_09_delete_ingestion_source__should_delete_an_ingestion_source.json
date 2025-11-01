@@ -1,0 +1,168 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/managed-identities?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:06:59 GMT",
+        "mise-correlation-id": "9c80b1ae-8213-4b8d-992a-9ca4bd89ed6e",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "2f8ca4cf739c47453032c19d3694fe19"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "objectId": "00000000-0000-0000-0000-000000000000",
+            "resourceId": "/subscriptions/fcdfe1b7-8458-44e1-be61-1422e03cb202/resourcegroups/devasingh-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/devasingh-test-identity"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources?api-version=2025-04-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "143",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "id": "Sanitized",
+        "kind": "BlobManagedIdentity",
+        "connectionInfo": {
+          "containerUrl": "Sanitized",
+          "objectId": "00000000-0000-0000-0000-000000000000"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:06:59 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/e082e638-0ce7-4f0f-b92d-b785e4588a4b?api-version=2025-04-30-preview",
+        "mise-correlation-id": "cb8de9ae-1ba9-4e5b-9215-7b99136ef737",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "0c2ab060d6417a600a7e8faef0cc6872"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "kind": "BlobManagedIdentity",
+        "created": "2025-11-01T02:06:59.9850842Z",
+        "connectionInfo": {
+          "containerUrl": "Sanitized",
+          "objectId": "00000000-0000-0000-0000-000000000000"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/e082e638-0ce7-4f0f-b92d-b785e4588a4b?api-version=2025-04-30-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Date": "Sat, 01 Nov 2025 02:07:00 GMT",
+        "mise-correlation-id": "59b1513a-f45d-47fa-b0a3-a8a6546248b9",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "2bff6d25ca37c78cca305c62b2a35d5f"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:07:00 GMT",
+        "mise-correlation-id": "87c0f176-df89-4836-8734-e7c30ef2d0bb",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "1ccda925169d09d013aa6e36194a8d1f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "Sanitized",
+            "kind": "BlobManagedIdentity",
+            "created": "2025-11-01T02:02:44.4084446Z"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

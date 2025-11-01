@@ -1,0 +1,43 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/test-collection-lifecycle?api-version=2025-04-30-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/problem+json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:12:35 GMT",
+        "mise-correlation-id": "813ebd0d-5948-4356-9ecf-1a4f38cc3d8c",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "c032a7fb5f2af7721280f744ce525adc"
+      },
+      "ResponseBody": {
+        "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+        "title": "Not Found",
+        "status": 404,
+        "traceId": "00-201488bcaa8b865ae2f37e789969a9e8-c09369d41542cab8-01"
+      }
+    }
+  ],
+  "Variables": {}
+}

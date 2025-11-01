@@ -1,0 +1,170 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "185",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "importType": "StaticCatalog",
+        "displayName": "Ingestion for List Runs Test",
+        "sourceCatalogUrl": "https://fake.example.com/catalog.json",
+        "skipExistingItems": true,
+        "keepOriginalAssets": true
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:07:42 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/91d2a792-1ef1-4cb5-af1d-a34cb4cf56fb?api-version=2025-04-30-preview",
+        "mise-correlation-id": "09492790-3a95-444e-87d9-8872dad5de2c",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "75ba5a80230fef77ad9e83fcfa467282"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "creationTime": "2025-11-01T02:07:42.6169064Z",
+        "importType": "StaticCatalog",
+        "displayName": "Ingestion for List Runs Test",
+        "sourceCatalogUrl": "https://fake.example.com/catalog.json",
+        "skipExistingItems": true,
+        "keepOriginalAssets": true,
+        "status": "Ready"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/91d2a792-1ef1-4cb5-af1d-a34cb4cf56fb/runs?api-version=2025-04-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:07:42 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/91d2a792-1ef1-4cb5-af1d-a34cb4cf56fb/runs/9af887ea-9180-45ad-825d-0b88dda0bdfb?api-version=2025-04-30-preview",
+        "mise-correlation-id": "168b9275-1629-4aef-96cf-f4e5352c66bf",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "a7db36b65af25bfb7ef4809c13fc8994"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "creationTime": "2025-11-01T02:07:42.7010427Z",
+        "sourceCatalogUrl": "https://fake.example.com/catalog.json",
+        "skipExistingItems": true,
+        "keepOriginalAssets": true,
+        "operation": {
+          "id": "Sanitized",
+          "status": "Pending",
+          "statusHistory": [
+            {
+              "status": "Pending",
+              "timestamp": "2025-11-01T02:07:42.668429Z"
+            }
+          ],
+          "creationTime": "2025-11-01T02:07:42.6684262Z",
+          "totalItems": 0,
+          "totalPendingItems": 0,
+          "totalSuccessfulItems": 0,
+          "totalFailedItems": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/91d2a792-1ef1-4cb5-af1d-a34cb4cf56fb/runs?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:07:42 GMT",
+        "mise-correlation-id": "91c2c0f7-c8d5-430d-ab73-a8da852dc967",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "51e613932ae62cb63e078b4c1d546cbe"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "Sanitized",
+            "creationTime": "2025-11-01T02:07:42.7010427Z",
+            "sourceCatalogUrl": "https://fake.example.com/catalog.json",
+            "skipExistingItems": true,
+            "keepOriginalAssets": true,
+            "operation": {
+              "id": "Sanitized",
+              "status": "Pending",
+              "statusHistory": [
+                {
+                  "status": "Pending",
+                  "timestamp": "2025-11-01T02:07:42.668429Z"
+                }
+              ],
+              "creationTime": "2025-11-01T02:07:42.6684262Z",
+              "totalItems": 0,
+              "totalPendingItems": 0,
+              "totalSuccessfulItems": 0,
+              "totalFailedItems": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

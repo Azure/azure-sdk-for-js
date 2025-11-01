@@ -1,0 +1,466 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1663",
+        "Content-Type": "application/geo+json",
+        "Date": "Sat, 01 Nov 2025 02:02:15 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceparent": "00-7e3b6746985668dc96251580940ba2da-f63234f7401e33f9-01",
+        "Vary": "Accept-Encoding",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "124314f8db164f679edf43c2ace9ded1"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "bbox": [
+          -84.44157,
+          33.621853,
+          -84.370894,
+          33.690654
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test"
+          }
+        ],
+        "assets": {
+          "image": {
+            "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "RGBIR COG tile"
+          }
+        },
+        "_msft:ts": "2025-10-29T01:07:28.191887Z",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -84.372943,
+                33.621853
+              ],
+              [
+                -84.370894,
+                33.689211
+              ],
+              [
+                -84.439575,
+                33.690654
+              ],
+              [
+                -84.44157,
+                33.623293
+              ],
+              [
+                -84.372943,
+                33.621853
+              ]
+            ]
+          ]
+        },
+        "_msft:etag": "c3525071-c639-4b74-a31b-dec3a594d2b8",
+        "collection": "naip-atl-00000000",
+        "properties": {
+          "gsd": 0.6,
+          "datetime": "2021-11-14T16:00:00Z",
+          "naip:year": "2021",
+          "proj:bbox": [
+            737334.0,
+            3723324.0,
+            743706.0,
+            3730800.0
+          ],
+          "proj:epsg": 26916,
+          "naip:state": "ga",
+          "proj:shape": [
+            12460,
+            10620
+          ],
+          "proj:transform": [
+            0.6,
+            0.0,
+            737334.0,
+            0.0,
+            -0.6,
+            3730800.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test?api-version=2025-04-30-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "1662",
+        "Content-Type": "application/merge-patch+json",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": {
+        "type": "Feature",
+        "stac_version": "1.0.0",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test"
+          }
+        ],
+        "stac_extensions": [
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+        ],
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -84.372943,
+                33.621853
+              ],
+              [
+                -84.370894,
+                33.689211
+              ],
+              [
+                -84.439575,
+                33.690654
+              ],
+              [
+                -84.44157,
+                33.623293
+              ],
+              [
+                -84.372943,
+                33.621853
+              ]
+            ]
+          ]
+        },
+        "id": "Sanitized",
+        "collection": "naip-atl-00000000",
+        "bbox": [
+          -84.44157,
+          33.621853,
+          -84.370894,
+          33.690654
+        ],
+        "properties": {
+          "naip:year": "2021",
+          "proj:bbox": [
+            737334,
+            3723324,
+            743706,
+            3730800
+          ],
+          "proj:epsg": 26916,
+          "naip:state": "ga",
+          "proj:shape": [
+            12460,
+            10620
+          ],
+          "proj:transform": [
+            0.6,
+            0,
+            737334,
+            0,
+            -0.6,
+            3730800,
+            0,
+            0,
+            1
+          ],
+          "platform": "Imagery",
+          "gsd": 0.6,
+          "datetime": "2021-11-14T16:00:00Z"
+        },
+        "assets": {
+          "image": {
+            "title": "RGBIR COG tile",
+            "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ]
+          }
+        },
+        "_msft:ts": "2025-10-29T01:07:28.191887Z",
+        "_msft:etag": "c3525071-c639-4b74-a31b-dec3a594d2b8"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:02:15 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+        "mise-correlation-id": "2cccc0b4-3514-43cc-b2de-4cb87e47b45c",
+        "operation-location": "https://example.com",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "7ed3a756c2d632e1802d72ce89a33ef9"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "status": "Pending",
+        "statusHistory": [
+          {
+            "status": "Pending",
+            "timestamp": "2025-11-01T02:02:15.6115324Z"
+          }
+        ],
+        "type": "UpdateItem",
+        "creationTime": "2025-11-01T02:02:15.6115305Z",
+        "collectionId": "naip-atl-00000000"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:02:15 GMT",
+        "mise-correlation-id": "05bcd754-56f8-406f-9b14-298304f29a4b",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "2515956b98b15345168e388cd93f2544"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "status": "Pending",
+        "statusHistory": [
+          {
+            "status": "Pending",
+            "timestamp": "2025-11-01T02:02:15.6115324Z"
+          }
+        ],
+        "type": "UpdateItem",
+        "creationTime": "2025-11-01T02:02:15.6115305Z",
+        "collectionId": "naip-atl-00000000"
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:02:17 GMT",
+        "mise-correlation-id": "d07cc559-bb05-44ab-a682-3c95931628e1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "e6187c98a2e153976c0b6543d898611d"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "status": "Running",
+        "statusHistory": [
+          {
+            "status": "Pending",
+            "timestamp": "2025-11-01T02:02:15.61153Z"
+          },
+          {
+            "status": "Running",
+            "timestamp": "2025-11-01T02:02:16.487884Z"
+          }
+        ],
+        "type": "UpdateItem",
+        "creationTime": "2025-11-01T02:02:15.61153Z",
+        "startTime": "2025-11-01T02:02:15.61153Z",
+        "collectionId": "naip-atl-00000000",
+        "additionalInformation": {
+          "TotalFailedItems": "0",
+          "TotalItems": "1",
+          "TotalPendingItems": "1",
+          "TotalSuccessfulItems": "0"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 01 Nov 2025 02:02:20 GMT",
+        "mise-correlation-id": "5ef15fad-b3ad-4348-8b99-48d51bc1c4e5",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "38f15ab493aff0a7df6100f98e3d2fc4"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "status": "Failed",
+        "statusHistory": [
+          {
+            "status": "Pending",
+            "timestamp": "2025-11-01T02:02:15.61153Z"
+          },
+          {
+            "status": "Running",
+            "timestamp": "2025-11-01T02:02:16.487884Z"
+          },
+          {
+            "status": "Failed",
+            "timestamp": "2025-11-01T02:02:18.351025Z",
+            "errorCode": "PublicAccessRestricted",
+            "errorMessage": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
+          }
+        ],
+        "type": "UpdateItem",
+        "creationTime": "2025-11-01T02:02:15.61153Z",
+        "startTime": "2025-11-01T02:02:15.61153Z",
+        "finishTime": "2025-11-01T02:02:18.351025Z",
+        "collectionId": "naip-atl-00000000",
+        "additionalInformation": {
+          "TotalFailedItems": "1",
+          "TotalItems": "1",
+          "TotalPendingItems": "0",
+          "TotalSuccessfulItems": "0"
+        },
+        "error": {
+          "error": {
+            "code": "PublicAccessRestricted",
+            "message": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

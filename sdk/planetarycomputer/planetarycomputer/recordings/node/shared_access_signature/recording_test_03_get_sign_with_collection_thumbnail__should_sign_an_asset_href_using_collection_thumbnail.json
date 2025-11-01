@@ -1,0 +1,236 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000?api-version=2025-04-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Length": "2731",
+        "Content-Type": "application/json",
+        "Date": "Sat, 01 Nov 2025 02:11:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "traceparent": "00-3fc9df14abcc11b1fb1000af0e835d58-e5c6b80c406995be-01",
+        "Vary": "Accept-Encoding",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "483adf7d83cf408685850e05e81f6257"
+      },
+      "ResponseBody": {
+        "id": "Sanitized",
+        "type": "Collection",
+        "links": [
+          {
+            "rel": "items",
+            "type": "application/geo+json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/"
+          },
+          {
+            "rel": "self",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000"
+          }
+        ],
+        "title": "NAIP Atlanta (MPC Pro Sample Datasets)",
+        "assets": {
+          "thumbnail": {
+            "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png",
+            "type": "image/png",
+            "roles": [
+              "thumbnail"
+            ],
+            "title": "NAIP thumbnail"
+          }
+        },
+        "extent": {
+          "spatial": {
+            "bbox": [
+              [
+                -85.605165,
+                30.357851,
+                -80.839729,
+                35.000659
+              ]
+            ]
+          },
+          "temporal": {
+            "interval": [
+              [
+                "2010-01-01T00:00:00Z",
+                "2023-12-31T00:00:00Z"
+              ]
+            ]
+          }
+        },
+        "license": "proprietary",
+        "providers": [
+          {
+            "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
+            "name": "Sanitized",
+            "roles": [
+              "producer",
+              "licensor"
+            ]
+          },
+          {
+            "url": "https://www.esri.com/",
+            "name": "Sanitized",
+            "roles": [
+              "processor"
+            ]
+          },
+          {
+            "url": "https://planetarycomputer.microsoft.com",
+            "name": "Sanitized",
+            "roles": [
+              "host",
+              "processor"
+            ]
+          }
+        ],
+        "summaries": {
+          "gsd": [
+            0.3,
+            0.6,
+            1
+          ],
+          "eo:bands": [
+            {
+              "name": "Sanitized",
+              "common_name": "red",
+              "description": "visible red"
+            },
+            {
+              "name": "Sanitized",
+              "common_name": "green",
+              "description": "visible green"
+            },
+            {
+              "name": "Sanitized",
+              "common_name": "blue",
+              "description": "visible blue"
+            },
+            {
+              "name": "Sanitized",
+              "common_name": "nir",
+              "description": "near-infrared"
+            }
+          ]
+        },
+        "description": "A Subset of NAIP imagery for sample MPC Pro GeoCatalog deployments. Includes multiple city and national park focus areas, useful for quick product evaluation. - Updated for testing",
+        "item_assets": {
+          "image": {
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "RGBIR COG tile",
+            "eo:bands": [
+              {
+                "name": "Sanitized",
+                "common_name": "red"
+              },
+              {
+                "name": "Sanitized",
+                "common_name": "green"
+              },
+              {
+                "name": "Sanitized",
+                "common_name": "blue"
+              },
+              {
+                "name": "Sanitized",
+                "common_name": "nir",
+                "description": "near-infrared"
+              }
+            ]
+          },
+          "metadata": {
+            "type": "text/plain",
+            "roles": [
+              "metadata"
+            ],
+            "title": "FGDC Metdata"
+          },
+          "thumbnail": {
+            "type": "image/jpeg",
+            "roles": [
+              "thumbnail"
+            ],
+            "title": "Thumbnail"
+          }
+        },
+        "stac_version": "1.0.0",
+        "msft:_created": "2025-10-22T11:14:31.811918Z",
+        "msft:_updated": "2025-10-31T02:30:09.036472Z",
+        "stac_extensions": [
+          "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/sas/sign?api-version=2025-04-30-preview&href=https%3A%2F%2Fvojrtgdatasa.blob.core.windows.net%2Fnaip-atl-00000000-bde3e846%2Fcollection-assets%2Fthumbnail%2Fthumbnail.png",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Location",
+        "Access-Control-Max-Age": "1728000",
+        "Connection": "keep-alive",
+        "Content-Length": "418",
+        "Content-Type": "application/json",
+        "Date": "Sat, 01 Nov 2025 02:11:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-azure-ref": "Sanitized",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Request-ID": "b3945eb6727c4261b87187cf4b6938d3"
+      },
+      "ResponseBody": {
+        "msft:expiry": "2025-11-02T02:11:47Z",
+        "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png?st=2025-10-31T02%3A11%3A47Z&se=2025-11-02T02%3A11%3A47Z&sp=rl&sv=Sanitized&sr=c&skoid=f3267c15-016e-4c75-af2c-24daf0bc92e4&sktid=33e01921-4d64-4f8c-a055-5bdaffd5e33d&skt=2025-10-31T11%3A47%3A55Z&ske=2025-11-07T11%3A46%3A55Z&sks=b&skv=2025-01-05&sig=Sanitized"
+      }
+    }
+  ],
+  "Variables": {}
+}
