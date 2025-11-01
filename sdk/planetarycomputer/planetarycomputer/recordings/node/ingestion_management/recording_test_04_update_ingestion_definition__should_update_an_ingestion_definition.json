@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "181",
+        "Content-Length": "213",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
@@ -17,7 +17,7 @@
         "importType": "StaticCatalog",
         "displayName": "Sample Dataset Ingestion",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "skipExistingItems": true,
+        "00000000-0000-0000-0000-000000000000ExistingItems": true,
         "keepOriginalAssets": true
       },
       "StatusCode": 201,
@@ -31,28 +31,28 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:06:14 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/2815afc9-eeef-4f72-998e-010b42e6b3a8?api-version=2025-04-30-preview",
-        "mise-correlation-id": "b7cc47f7-e0a6-4171-b5c0-f6df25b5fe94",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "2a7cedd985b3b2de2cc73827c1c0106f"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "creationTime": "2025-11-01T02:06:14.9668639Z",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "creationTime": "2025-11-01T03:17:46.7632379Z",
         "importType": "StaticCatalog",
         "displayName": "Sample Dataset Ingestion",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "skipExistingItems": true,
+        "00000000-0000-0000-0000-000000000000ExistingItems": true,
         "keepOriginalAssets": true,
         "status": "Ready"
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/2815afc9-eeef-4f72-998e-010b42e6b3a8?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -79,21 +79,21 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:06:15 GMT",
-        "mise-correlation-id": "f50739ac-f75e-4dbd-84cc-d8e40a379a06",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "aa2f0078846b40c01753bd17833b85ff"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "creationTime": "2025-11-01T02:06:14.9668639Z",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "creationTime": "2025-11-01T03:17:46.7632379Z",
         "importType": "StaticCatalog",
         "displayName": "Updated Ingestion Name",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "skipExistingItems": true,
+        "00000000-0000-0000-0000-000000000000ExistingItems": true,
         "keepOriginalAssets": true,
         "status": "Ready"
       }

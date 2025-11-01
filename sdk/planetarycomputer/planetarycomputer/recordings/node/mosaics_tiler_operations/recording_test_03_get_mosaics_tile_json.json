@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/data/mosaic/register?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/data/mosaic/register?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -65,12 +65,12 @@
         "Connection": "keep-alive",
         "Content-Length": "711",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:44:15 GMT",
-        "Server-Timing": "total;dur=35.65",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Server-Timing": "total;dur=0.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "cf5555fef71c4ef5991c019c33620194"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "searchid": "ba13fc7947b9b585690d84ee61aaa653",
@@ -97,7 +97,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/data/mosaic/ba13fc7947b9b585690d84ee61aaa653/WebMercatorQuad/tilejson.json?api-version=2025-04-30-preview&assets=image&asset_bidx=image%7C1%2C2%2C3&minzoom=9&tile_format=png&tile_scale=1&collection=naip-atl-00000000",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/data/mosaic/ba13fc7947b9b585690d84ee61aaa653/WebMercatorQuad/tilejson.json?api-version=2025-04-30-preview&assets=image&asset_bidx=image%7C1%2C2%2C3&minzoom=9&tile_format=png&tile_scale=1&collection=naip-atl-00000000",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -119,18 +119,18 @@
         "Access-Control-Max-Age": "1728000",
         "Cache-Control": "public, max-age=3600",
         "Connection": "keep-alive",
-        "Content-Length": "482",
+        "Content-Length": "505",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:44:15 GMT",
-        "Server-Timing": "total;dur=17.07",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Server-Timing": "total;dur=0.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "a1a9eb5c4186435580857d63ec46907b"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "tilejson": "2.2.0",
-        "name": "Sanitized",
+        "name": "ba13fc7947b9b585690d84ee61aaa653",
         "version": "1.0.0",
         "scheme": "xyz",
         "tiles": [
@@ -145,7 +145,7 @@
           85.0511287798066
         ],
         "center": [
-          4.263256414560601E-14,
+          4.263256414560601e-14,
           0.0,
           9
         ]

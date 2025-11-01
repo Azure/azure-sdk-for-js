@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/test-collection-lifecycle?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/test-collection-lifecycle?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -23,19 +23,19 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/problem+json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:12:35 GMT",
-        "mise-correlation-id": "813ebd0d-5948-4356-9ecf-1a4f38cc3d8c",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "c032a7fb5f2af7721280f744ce525adc"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
         "title": "Not Found",
         "status": 404,
-        "traceId": "00-201488bcaa8b865ae2f37e789969a9e8-c09369d41542cab8-01"
+        "traceId": "00-19087a849b6d48f3d9989e46c622dc2b-fc26c33c68c657ff-01"
       }
     }
   ],

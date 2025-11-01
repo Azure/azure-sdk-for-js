@@ -1,23 +1,23 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "182",
+        "Content-Length": "258",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
           "sasToken": "sv=2021-01-01&st=2020-01-01T00:00:00Z&se=2099-12-31T23:59:59Z&sr=c&sp=rl&sig=Sanitized"
         }
       },
@@ -32,27 +32,27 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:40:58 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/035d4085-336d-4d9b-b6dc-16f2947a3448?api-version=2025-04-30-preview",
-        "mise-correlation-id": "c12d61f3-6719-45f6-8375-6234aec2c92a",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "1be9e631d9855cd99b5ce0cd137f5f14"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
-        "created": "2025-11-01T02:40:58.0385911Z",
+        "created": "2025-11-01T03:14:23.8618716Z",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
           "expiration": "2099-12-31T23:59:59.0000000Z"
         }
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/035d4085-336d-4d9b-b6dc-16f2947a3448?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -73,12 +73,12 @@
         "Access-Control-Max-Age": "1728000",
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
-        "Date": "Sat, 01 Nov 2025 02:40:58 GMT",
-        "mise-correlation-id": "aac64f72-e8f4-4dfe-a936-eb11c871c5c7",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "0e3ca2d3c6fd2ddec5296e2a0f7f65e0"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": null
     }

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/test-collection-lifecycle?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/test-collection-lifecycle?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -23,13 +23,13 @@
         "Connection": "keep-alive",
         "Content-Length": "146",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:12:30 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "traceparent": "00-82c811ce8c0b5c717d3fa42a7fa91bad-425dfc5ae3bca39a-01",
+        "traceparent": "00-00000000000000000000000000000000-0000000000000000-00",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Ms-Error-Code": "ResourceNotFound",
-        "X-Request-ID": "15199aa6b79a4a4c90c550feb997f034"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "error": {

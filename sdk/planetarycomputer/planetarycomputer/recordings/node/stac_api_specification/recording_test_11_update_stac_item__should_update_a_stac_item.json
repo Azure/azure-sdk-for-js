@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -23,18 +23,18 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
-        "Content-Length": "1663",
+        "Content-Length": "1668",
         "Content-Type": "application/geo+json",
-        "Date": "Sat, 01 Nov 2025 02:02:15 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "traceparent": "00-7e3b6746985668dc96251580940ba2da-f63234f7401e33f9-01",
+        "traceparent": "00-00000000000000000000000000000000-0000000000000000-00",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "124314f8db164f679edf43c2ace9ded1"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "fake-item-id_test",
         "bbox": [
           -84.44157,
           33.621853,
@@ -66,7 +66,7 @@
         ],
         "assets": {
           "image": {
-            "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif",
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif",
             "type": "image/tiff; application=geotiff; profile=cloud-optimized",
             "roles": [
               "data"
@@ -139,14 +139,14 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/fake-item-id_test?api-version=2025-04-30-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "1662",
+        "Content-Length": "1667",
         "Content-Type": "application/merge-patch+json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
@@ -206,7 +206,7 @@
             ]
           ]
         },
-        "id": "Sanitized",
+        "id": "fake-item-id_test",
         "collection": "naip-atl-00000000",
         "bbox": [
           -84.44157,
@@ -246,7 +246,7 @@
         "assets": {
           "image": {
             "title": "RGBIR COG tile",
-            "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif",
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif",
             "type": "image/tiff; application=geotiff; profile=cloud-optimized",
             "roles": [
               "data"
@@ -267,32 +267,32 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:02:15 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
-        "mise-correlation-id": "2cccc0b4-3514-43cc-b2de-4cb87e47b45c",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/569cbc7e-6844-4c13-acfa-94441fed2ae7?api-version=2025-04-30-preview",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "operation-location": "https://example.com",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "7ed3a756c2d632e1802d72ce89a33ef9"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "status": "Pending",
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T02:02:15.6115324Z"
+            "timestamp": "2025-11-01T03:19:35.4567778Z"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T02:02:15.6115305Z",
+        "creationTime": "2025-11-01T03:19:35.4567758Z",
         "collectionId": "naip-atl-00000000"
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -314,30 +314,30 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:02:15 GMT",
-        "mise-correlation-id": "05bcd754-56f8-406f-9b14-298304f29a4b",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "2515956b98b15345168e388cd93f2544"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "status": "Pending",
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T02:02:15.6115324Z"
+            "timestamp": "2025-11-01T03:19:35.4567778Z"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T02:02:15.6115305Z",
+        "creationTime": "2025-11-01T03:19:35.4567758Z",
         "collectionId": "naip-atl-00000000"
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -359,30 +359,30 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:02:17 GMT",
-        "mise-correlation-id": "d07cc559-bb05-44ab-a682-3c95931628e1",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "e6187c98a2e153976c0b6543d898611d"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "status": "Running",
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T02:02:15.61153Z"
+            "timestamp": "2025-11-01T03:19:35.456775Z"
           },
           {
             "status": "Running",
-            "timestamp": "2025-11-01T02:02:16.487884Z"
+            "timestamp": "2025-11-01T03:19:36.951124Z"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T02:02:15.61153Z",
-        "startTime": "2025-11-01T02:02:15.61153Z",
+        "creationTime": "2025-11-01T03:19:35.456775Z",
+        "startTime": "2025-11-01T03:19:35.456775Z",
         "collectionId": "naip-atl-00000000",
         "additionalInformation": {
           "TotalFailedItems": "0",
@@ -393,7 +393,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/operations/8bba9c0d-4fa2-46d7-89bb-2cdc0aed8cb2?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -415,37 +415,37 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:02:20 GMT",
-        "mise-correlation-id": "5ef15fad-b3ad-4348-8b99-48d51bc1c4e5",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "38f15ab493aff0a7df6100f98e3d2fc4"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "status": "Failed",
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T02:02:15.61153Z"
+            "timestamp": "2025-11-01T03:19:35.456775Z"
           },
           {
             "status": "Running",
-            "timestamp": "2025-11-01T02:02:16.487884Z"
+            "timestamp": "2025-11-01T03:19:36.951124Z"
           },
           {
             "status": "Failed",
-            "timestamp": "2025-11-01T02:02:18.351025Z",
+            "timestamp": "2025-11-01T03:19:39.036998Z",
             "errorCode": "PublicAccessRestricted",
-            "errorMessage": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
+            "errorMessage": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T02:02:15.61153Z",
-        "startTime": "2025-11-01T02:02:15.61153Z",
-        "finishTime": "2025-11-01T02:02:18.351025Z",
+        "creationTime": "2025-11-01T03:19:35.456775Z",
+        "startTime": "2025-11-01T03:19:35.456775Z",
+        "finishTime": "2025-11-01T03:19:39.036998Z",
         "collectionId": "naip-atl-00000000",
         "additionalInformation": {
           "TotalFailedItems": "1",
@@ -456,7 +456,7 @@
         "error": {
           "error": {
             "code": "PublicAccessRestricted",
-            "message": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
+            "message": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
           }
         }
       }

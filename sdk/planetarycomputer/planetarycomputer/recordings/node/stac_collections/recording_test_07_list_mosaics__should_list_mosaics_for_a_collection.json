@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -22,15 +22,15 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "299",
+        "Content-Length": "323",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:45:38 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "906627c605084b54b41298b1e84ad4fc"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
-      "ResponseBody": "[{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"\",\"cql\":[]},{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"Most recent available imagery in this collection\",\"cql\":[]},{\"id\":\"Sanitized\",\"name\":\"Sanitized\",\"description\":\"Most recent available imagery in this collection - updated\",\"cql\":[]}]"
+      "ResponseBody": "[{\"id\":\"default\",\"name\":\"Default\",\"description\":\"\",\"cql\":[]},{\"id\":\"mos1\",\"name\":\"Most recent available\",\"description\":\"Most recent available imagery in this collection\",\"cql\":[]},{\"id\":\"test-mosaic-1\",\"name\":\"Test Most recent available\",\"description\":\"Most recent available imagery in this collection - updated\",\"cql\":[]}]"
     }
   ],
   "Variables": {}

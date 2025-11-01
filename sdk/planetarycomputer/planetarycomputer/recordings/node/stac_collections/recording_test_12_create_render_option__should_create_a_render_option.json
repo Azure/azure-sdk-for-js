@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/render-options/test-natural-color?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/render-options/test-natural-color?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -22,17 +22,17 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "167",
+        "Content-Length": "193",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:46:03 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "e0fb7503d6814761bd3bd17a7b8e6180"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "name": "Sanitized",
+        "id": "test-natural-color",
+        "name": "Test Natural color updated",
         "description": "RGB from visual assets - updated",
         "type": "raster-tile",
         "options": "assets=image&asset_bidx=image|1,2,3",
@@ -40,7 +40,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/render-options/test-natural-color?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/render-options/test-natural-color?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -62,30 +62,30 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Sat, 01 Nov 2025 02:46:03 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "9bbea1d655ac4512b82a06f6a5d5a27d"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/render-options?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/render-options?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "118",
+        "Content-Length": "136",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "id": "Sanitized",
-        "name": "Sanitized",
+        "id": "test-natural-color",
+        "name": "Test Natural color",
         "type": "raster-tile",
         "options": "assets=image&asset_bidx=image|1,2,3",
         "minZoom": 6
@@ -99,17 +99,17 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "118",
+        "Content-Length": "136",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:46:03 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "77b6ee7fbd524f209579d624df346d77"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "name": "Sanitized",
+        "id": "test-natural-color",
+        "name": "Test Natural color",
         "type": "raster-tile",
         "options": "assets=image&asset_bidx=image|1,2,3",
         "minZoom": 6

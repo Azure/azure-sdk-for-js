@@ -1,21 +1,21 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "46",
+        "Content-Length": "78",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "id": "Sanitized",
-        "name": "Sanitized",
+        "id": "test-mosaic-to-be-deleted",
+        "name": "Test Mosaic To Be Deleted",
         "cql": []
       },
       "StatusCode": 201,
@@ -27,23 +27,23 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "65",
+        "Content-Length": "97",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:46:09 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "70a2e5cf04ea43a9b54be1371646d2fe"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "name": "Sanitized",
+        "id": "test-mosaic-to-be-deleted",
+        "name": "Test Mosaic To Be Deleted",
         "description": null,
         "cql": []
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics/test-mosaic-to-be-deleted?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics/test-mosaic-to-be-deleted?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -64,23 +64,23 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "65",
+        "Content-Length": "97",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:46:09 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "856418219f7f4c1e8a295088086e14e0"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "name": "Sanitized",
+        "id": "test-mosaic-to-be-deleted",
+        "name": "Test Mosaic To Be Deleted",
         "description": null,
         "cql": []
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics/test-mosaic-to-be-deleted?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics/test-mosaic-to-be-deleted?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -102,16 +102,16 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Sat, 01 Nov 2025 02:46:09 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "4efea0137b7e4aa2a51a2e2fd86170ac"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics/test-mosaic-to-be-deleted?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/configurations/mosaics/test-mosaic-to-be-deleted?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -133,12 +133,12 @@
         "Connection": "keep-alive",
         "Content-Length": "129",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:46:09 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-error-code": "ResourceNotFound",
-        "X-Request-ID": "9118da1c5f90451f8c8e9458d193762a"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "error": {

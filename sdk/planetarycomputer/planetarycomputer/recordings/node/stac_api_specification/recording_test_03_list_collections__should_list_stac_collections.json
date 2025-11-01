@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -23,20 +23,20 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
-        "Content-Length": "33521",
+        "Content-Length": "33302",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:01:38 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "traceparent": "00-6a71daaeaf969e089925576dec70a23b-db33a4d0f8a5261d-01",
+        "traceparent": "00-00000000000000000000000000000000-0000000000000000-00",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "7d02726c49454f62b9ee08eeb5da88ea"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "collections": [
           {
-            "id": "Sanitized",
+            "id": "example-collection",
             "type": "Collection",
             "links": [
               {
@@ -89,7 +89,7 @@
             "msft:short_description": "An example collection"
           },
           {
-            "id": "Sanitized",
+            "id": "example-collection1",
             "type": "Collection",
             "links": [
               {
@@ -142,7 +142,7 @@
             "msft:short_description": "An example collection"
           },
           {
-            "id": "Sanitized",
+            "id": "naip-sample-datasets",
             "type": "Collection",
             "links": [
               {
@@ -169,7 +169,7 @@
             "title": "NAIP (MPC Pro Sample Datasets)",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/naip-sample-datasets-83498858/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-sample-datasets-83498858/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -219,7 +219,7 @@
             "providers": [
               {
                 "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
-                "name": "Sanitized",
+                "name": "USDA Farm Service Agency",
                 "roles": [
                   "producer",
                   "licensor"
@@ -227,14 +227,14 @@
               },
               {
                 "url": "https://www.esri.com/",
-                "name": "Sanitized",
+                "name": "Esri",
                 "roles": [
                   "processor"
                 ]
               },
               {
                 "url": "https://planetarycomputer.microsoft.com",
-                "name": "Sanitized",
+                "name": "Microsoft",
                 "roles": [
                   "host",
                   "processor"
@@ -249,22 +249,22 @@
               ],
               "eo:bands": [
                 {
-                  "name": "Sanitized",
+                  "name": "Red",
                   "common_name": "red",
                   "description": "visible red"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Green",
                   "common_name": "green",
                   "description": "visible green"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Blue",
                   "common_name": "blue",
                   "description": "visible blue"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "NIR",
                   "common_name": "nir",
                   "description": "near-infrared"
                 }
@@ -280,19 +280,19 @@
                 "title": "RGBIR COG tile",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "Red",
                     "common_name": "red"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Green",
                     "common_name": "green"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Blue",
                     "common_name": "blue"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "NIR",
                     "common_name": "nir",
                     "description": "near-infrared"
                   }
@@ -322,7 +322,7 @@
             ]
           },
           {
-            "id": "Sanitized",
+            "id": "example-collection6",
             "type": "Collection",
             "links": [
               {
@@ -375,7 +375,7 @@
             "msft:short_description": "An example collection"
           },
           {
-            "id": "Sanitized",
+            "id": "impact-observatory",
             "type": "Collection",
             "links": [
               {
@@ -428,7 +428,7 @@
             "msft:short_description": "impact-observatory"
           },
           {
-            "id": "Sanitized",
+            "id": "tutorial-collection-20250527170217",
             "type": "Collection",
             "links": [
               {
@@ -455,7 +455,7 @@
             "title": "Tutorial Collection",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/tutorial-collection-20250527170217-34b2cde8/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/tutorial-collection-20250527170217-34b2cde8/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -507,7 +507,7 @@
             "msft:_updated": "2025-05-27T21:51:00.527167Z"
           },
           {
-            "id": "Sanitized",
+            "id": "naip-atl-00000000-sample-dataset",
             "type": "Collection",
             "links": [
               {
@@ -534,7 +534,7 @@
             "title": "NAIP Atlanta (MPC Pro Sample Datasets)",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-sample-dataset-b943876c/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-sample-dataset-b943876c/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -566,7 +566,7 @@
             "providers": [
               {
                 "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
-                "name": "Sanitized",
+                "name": "USDA Farm Service Agency",
                 "roles": [
                   "producer",
                   "licensor"
@@ -574,14 +574,14 @@
               },
               {
                 "url": "https://www.esri.com/",
-                "name": "Sanitized",
+                "name": "Esri",
                 "roles": [
                   "processor"
                 ]
               },
               {
                 "url": "https://planetarycomputer.microsoft.com",
-                "name": "Sanitized",
+                "name": "Microsoft",
                 "roles": [
                   "host",
                   "processor"
@@ -596,22 +596,22 @@
               ],
               "eo:bands": [
                 {
-                  "name": "Sanitized",
+                  "name": "Red",
                   "common_name": "red",
                   "description": "visible red"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Green",
                   "common_name": "green",
                   "description": "visible green"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Blue",
                   "common_name": "blue",
                   "description": "visible blue"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "NIR",
                   "common_name": "nir",
                   "description": "near-infrared"
                 }
@@ -627,19 +627,19 @@
                 "title": "RGBIR COG tile",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "Red",
                     "common_name": "red"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Green",
                     "common_name": "green"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Blue",
                     "common_name": "blue"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "NIR",
                     "common_name": "nir",
                     "description": "near-infrared"
                   }
@@ -669,7 +669,7 @@
             ]
           },
           {
-            "id": "Sanitized",
+            "id": "sentinel-2-l2a-tutorial-372",
             "type": "Collection",
             "links": [
               {
@@ -696,7 +696,7 @@
             "title": "sentinel-2-l2a-tutorial-372",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/sentinel-2-l2a-tutorial-372-f4d2f1d8/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/sentinel-2-l2a-tutorial-372-f4d2f1d8/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -737,7 +737,7 @@
             "providers": [
               {
                 "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
-                "name": "Sanitized",
+                "name": "ESA",
                 "roles": [
                   "producer",
                   "licensor"
@@ -745,14 +745,14 @@
               },
               {
                 "url": "https://www.esri.com/",
-                "name": "Sanitized",
+                "name": "Esri",
                 "roles": [
                   "processor"
                 ]
               },
               {
                 "url": "https://planetarycomputer.microsoft.com",
-                "name": "Sanitized",
+                "name": "Microsoft",
                 "roles": [
                   "host",
                   "processor"
@@ -767,12 +767,12 @@
               ],
               "eo:bands": [
                 {
-                  "name": "Sanitized",
+                  "name": "AOT",
                   "description": "aerosol optical thickness"
                 },
                 {
                   "gsd": 60,
-                  "name": "Sanitized",
+                  "name": "B01",
                   "common_name": "coastal",
                   "description": "coastal aerosol",
                   "center_wavelength": 0.443,
@@ -780,7 +780,7 @@
                 },
                 {
                   "gsd": 10,
-                  "name": "Sanitized",
+                  "name": "B02",
                   "common_name": "blue",
                   "description": "visible blue",
                   "center_wavelength": 0.49,
@@ -788,7 +788,7 @@
                 },
                 {
                   "gsd": 10,
-                  "name": "Sanitized",
+                  "name": "B03",
                   "common_name": "green",
                   "description": "visible green",
                   "center_wavelength": 0.56,
@@ -796,7 +796,7 @@
                 },
                 {
                   "gsd": 10,
-                  "name": "Sanitized",
+                  "name": "B04",
                   "common_name": "red",
                   "description": "visible red",
                   "center_wavelength": 0.665,
@@ -804,7 +804,7 @@
                 },
                 {
                   "gsd": 20,
-                  "name": "Sanitized",
+                  "name": "B05",
                   "common_name": "rededge",
                   "description": "vegetation classification red edge",
                   "center_wavelength": 0.704,
@@ -812,7 +812,7 @@
                 },
                 {
                   "gsd": 20,
-                  "name": "Sanitized",
+                  "name": "B06",
                   "common_name": "rededge",
                   "description": "vegetation classification red edge",
                   "center_wavelength": 0.74,
@@ -820,7 +820,7 @@
                 },
                 {
                   "gsd": 20,
-                  "name": "Sanitized",
+                  "name": "B07",
                   "common_name": "rededge",
                   "description": "vegetation classification red edge",
                   "center_wavelength": 0.783,
@@ -828,7 +828,7 @@
                 },
                 {
                   "gsd": 10,
-                  "name": "Sanitized",
+                  "name": "B08",
                   "common_name": "nir",
                   "description": "near infrared",
                   "center_wavelength": 0.842,
@@ -836,7 +836,7 @@
                 },
                 {
                   "gsd": 20,
-                  "name": "Sanitized",
+                  "name": "B8A",
                   "common_name": "rededge",
                   "description": "vegetation classification red edge",
                   "center_wavelength": 0.865,
@@ -844,14 +844,14 @@
                 },
                 {
                   "gsd": 60,
-                  "name": "Sanitized",
+                  "name": "B09",
                   "description": "water vapor",
                   "center_wavelength": 0.945,
                   "full_width_half_max": 0.026
                 },
                 {
                   "gsd": 20,
-                  "name": "Sanitized",
+                  "name": "B11",
                   "common_name": "swir16",
                   "description": "short-wave infrared, snow/ice/cloud classification",
                   "center_wavelength": 1.61,
@@ -859,7 +859,7 @@
                 },
                 {
                   "gsd": 20,
-                  "name": "Sanitized",
+                  "name": "B12",
                   "common_name": "swir22",
                   "description": "short-wave infrared, snow/ice/cloud classification",
                   "center_wavelength": 2.19,
@@ -899,7 +899,7 @@
                 "title": "Band 1 - Coastal aerosol - 60m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B01",
                     "common_name": "coastal",
                     "description": "Band 1 - Coastal aerosol",
                     "center_wavelength": 0.443,
@@ -916,7 +916,7 @@
                 "title": "Band 2 - Blue - 10m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B02",
                     "common_name": "blue",
                     "description": "Band 2 - Blue",
                     "center_wavelength": 0.49,
@@ -933,7 +933,7 @@
                 "title": "Band 3 - Green - 10m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B03",
                     "common_name": "green",
                     "description": "Band 3 - Green",
                     "center_wavelength": 0.56,
@@ -950,7 +950,7 @@
                 "title": "Band 4 - Red - 10m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B04",
                     "common_name": "red",
                     "description": "Band 4 - Red",
                     "center_wavelength": 0.665,
@@ -967,7 +967,7 @@
                 "title": "Band 5 - Vegetation red edge 1 - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B05",
                     "common_name": "rededge",
                     "description": "Band 5 - Vegetation red edge 1",
                     "center_wavelength": 0.704,
@@ -984,7 +984,7 @@
                 "title": "Band 6 - Vegetation red edge 2 - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B06",
                     "common_name": "rededge",
                     "description": "Band 6 - Vegetation red edge 2",
                     "center_wavelength": 0.74,
@@ -1001,7 +1001,7 @@
                 "title": "Band 7 - Vegetation red edge 3 - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B07",
                     "common_name": "rededge",
                     "description": "Band 7 - Vegetation red edge 3",
                     "center_wavelength": 0.783,
@@ -1018,7 +1018,7 @@
                 "title": "Band 8 - NIR - 10m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B08",
                     "common_name": "nir",
                     "description": "Band 8 - NIR",
                     "center_wavelength": 0.842,
@@ -1035,7 +1035,7 @@
                 "title": "Band 9 - Water vapor - 60m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B09",
                     "description": "Band 9 - Water vapor",
                     "center_wavelength": 0.945,
                     "full_width_half_max": 0.026
@@ -1051,7 +1051,7 @@
                 "title": "Band 11 - SWIR (1.6) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B11",
                     "common_name": "swir16",
                     "description": "Band 11 - SWIR (1.6)",
                     "center_wavelength": 1.61,
@@ -1068,7 +1068,7 @@
                 "title": "Band 12 - SWIR (2.2) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B12",
                     "common_name": "swir22",
                     "description": "Band 12 - SWIR (2.2)",
                     "center_wavelength": 2.19,
@@ -1085,7 +1085,7 @@
                 "title": "Band 8A - Vegetation red edge 4 - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B8A",
                     "common_name": "rededge",
                     "description": "Band 8A - Vegetation red edge 4",
                     "center_wavelength": 0.865,
@@ -1118,21 +1118,21 @@
                 "title": "True color image",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "B04",
                     "common_name": "red",
                     "description": "Band 4 - Red",
                     "center_wavelength": 0.665,
                     "full_width_half_max": 0.038
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "B03",
                     "common_name": "green",
                     "description": "Band 3 - Green",
                     "center_wavelength": 0.56,
                     "full_width_half_max": 0.045
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "B02",
                     "common_name": "blue",
                     "description": "Band 2 - Blue",
                     "center_wavelength": 0.49,
@@ -1194,7 +1194,7 @@
             "msft:short_description": "The Sentinel-2 program provides global imagery in thirteen spectral bands at 10m-60m resolution and a revisit time of approximately five days.  This dataset contains the global Sentinel-2 archive, from 2016 to the present, processed to L2A (bottom-of-atmosphere)."
           },
           {
-            "id": "Sanitized",
+            "id": "naip-sample-dataset-1.0.0",
             "type": "Collection",
             "links": [
               {
@@ -1221,7 +1221,7 @@
             "title": "NAIP Atlanta (MPC Pro Sample Datasets)",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/naip-sample-dataset-100-a161ce8d/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-sample-dataset-100-a161ce8d/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -1253,7 +1253,7 @@
             "providers": [
               {
                 "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
-                "name": "Sanitized",
+                "name": "USDA Farm Service Agency",
                 "roles": [
                   "producer",
                   "licensor"
@@ -1261,14 +1261,14 @@
               },
               {
                 "url": "https://www.esri.com/",
-                "name": "Sanitized",
+                "name": "Esri",
                 "roles": [
                   "processor"
                 ]
               },
               {
                 "url": "https://planetarycomputer.microsoft.com",
-                "name": "Sanitized",
+                "name": "Microsoft",
                 "roles": [
                   "host",
                   "processor"
@@ -1283,22 +1283,22 @@
               ],
               "eo:bands": [
                 {
-                  "name": "Sanitized",
+                  "name": "Red",
                   "common_name": "red",
                   "description": "visible red"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Green",
                   "common_name": "green",
                   "description": "visible green"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Blue",
                   "common_name": "blue",
                   "description": "visible blue"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "NIR",
                   "common_name": "nir",
                   "description": "near-infrared"
                 }
@@ -1314,19 +1314,19 @@
                 "title": "RGBIR COG tile",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "Red",
                     "common_name": "red"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Green",
                     "common_name": "green"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Blue",
                     "common_name": "blue"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "NIR",
                     "common_name": "nir",
                     "description": "near-infrared"
                   }
@@ -1356,7 +1356,7 @@
             ]
           },
           {
-            "id": "Sanitized",
+            "id": "maxar-sample-dataset",
             "type": "Collection",
             "links": [
               {
@@ -1383,7 +1383,7 @@
             "title": "NAIP Atlanta (MPC Pro Sample Datasets)",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/maxar-sample-dataset-e4eaa3d3/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/maxar-sample-dataset-e4eaa3d3/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -1415,7 +1415,7 @@
             "providers": [
               {
                 "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
-                "name": "Sanitized",
+                "name": "USDA Farm Service Agency",
                 "roles": [
                   "producer",
                   "licensor"
@@ -1423,14 +1423,14 @@
               },
               {
                 "url": "https://www.esri.com/",
-                "name": "Sanitized",
+                "name": "Esri",
                 "roles": [
                   "processor"
                 ]
               },
               {
                 "url": "https://planetarycomputer.microsoft.com",
-                "name": "Sanitized",
+                "name": "Microsoft",
                 "roles": [
                   "host",
                   "processor"
@@ -1445,22 +1445,22 @@
               ],
               "eo:bands": [
                 {
-                  "name": "Sanitized",
+                  "name": "Red",
                   "common_name": "red",
                   "description": "visible red"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Green",
                   "common_name": "green",
                   "description": "visible green"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Blue",
                   "common_name": "blue",
                   "description": "visible blue"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "NIR",
                   "common_name": "nir",
                   "description": "near-infrared"
                 }
@@ -1476,19 +1476,19 @@
                 "title": "RGBIR COG tile",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "Red",
                     "common_name": "red"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Green",
                     "common_name": "green"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Blue",
                     "common_name": "blue"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "NIR",
                     "common_name": "nir",
                     "description": "near-infrared"
                   }
@@ -1518,7 +1518,7 @@
             ]
           },
           {
-            "id": "Sanitized",
+            "id": "naip-atl-00000000",
             "type": "Collection",
             "links": [
               {
@@ -1545,7 +1545,7 @@
             "title": "NAIP Atlanta (MPC Pro Sample Datasets)",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -1577,7 +1577,7 @@
             "providers": [
               {
                 "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
-                "name": "Sanitized",
+                "name": "USDA Farm Service Agency",
                 "roles": [
                   "producer",
                   "licensor"
@@ -1585,14 +1585,14 @@
               },
               {
                 "url": "https://www.esri.com/",
-                "name": "Sanitized",
+                "name": "Esri",
                 "roles": [
                   "processor"
                 ]
               },
               {
                 "url": "https://planetarycomputer.microsoft.com",
-                "name": "Sanitized",
+                "name": "Microsoft",
                 "roles": [
                   "host",
                   "processor"
@@ -1607,22 +1607,22 @@
               ],
               "eo:bands": [
                 {
-                  "name": "Sanitized",
+                  "name": "Red",
                   "common_name": "red",
                   "description": "visible red"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Green",
                   "common_name": "green",
                   "description": "visible green"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "Blue",
                   "common_name": "blue",
                   "description": "visible blue"
                 },
                 {
-                  "name": "Sanitized",
+                  "name": "NIR",
                   "common_name": "nir",
                   "description": "near-infrared"
                 }
@@ -1638,19 +1638,19 @@
                 "title": "RGBIR COG tile",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "Red",
                     "common_name": "red"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Green",
                     "common_name": "green"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "Blue",
                     "common_name": "blue"
                   },
                   {
-                    "name": "Sanitized",
+                    "name": "NIR",
                     "common_name": "nir",
                     "description": "near-infrared"
                   }
@@ -1680,7 +1680,7 @@
             ]
           },
           {
-            "id": "Sanitized",
+            "id": "python-sdk-sentinel-3",
             "type": "Collection",
             "links": [
               {
@@ -1707,7 +1707,7 @@
             "title": "Collection python-sdk-sentinel-3",
             "assets": {
               "thumbnail": {
-                "href": "https://vojrtgdatasa.blob.core.windows.net/python-sdk-sentinel-3-f616ab54/collection-assets/thumbnail/thumbnail.png",
+                "href": "https://SANITIZED.blob.core.windows.net/python-sdk-sentinel-3-f616ab54/collection-assets/thumbnail/thumbnail.png",
                 "type": "image/png",
                 "roles": [
                   "thumbnail"
@@ -1748,7 +1748,7 @@
                 "title": "Red (band 4) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "red",
                     "common_name": "red",
                     "description": "Red (band 4)",
                     "center_wavelength": 0.665,
@@ -1766,7 +1766,7 @@
                 "title": "Blue (band 2) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "blue",
                     "common_name": "blue",
                     "description": "Blue (band 2)",
                     "center_wavelength": 0.49,
@@ -1784,7 +1784,7 @@
                 "title": "Green (band 3) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "green",
                     "common_name": "green",
                     "description": "Green (band 3)",
                     "center_wavelength": 0.56,
@@ -1798,7 +1798,7 @@
             "msft:_updated": "2025-10-15T22:13:03.410106Z"
           },
           {
-            "id": "Sanitized",
+            "id": "python-sdk-sentinel-2",
             "type": "Collection",
             "links": [
               {
@@ -1856,7 +1856,7 @@
                 "title": "Red (band 4) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "red",
                     "common_name": "red",
                     "description": "Red (band 4)",
                     "center_wavelength": 0.665,
@@ -1874,7 +1874,7 @@
                 "title": "Blue (band 2) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "blue",
                     "common_name": "blue",
                     "description": "Blue (band 2)",
                     "center_wavelength": 0.49,
@@ -1892,7 +1892,7 @@
                 "title": "Green (band 3) - 20m",
                 "eo:bands": [
                   {
-                    "name": "Sanitized",
+                    "name": "green",
                     "common_name": "green",
                     "description": "Green (band 3)",
                     "center_wavelength": 0.56,

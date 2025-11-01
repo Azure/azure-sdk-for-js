@@ -5,6 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
+import { assertEnvironmentVariable, EnvironmentVariableNames } from "./utils/envVars.js";
 
 /**
  * Test suite for Mosaics Tiler operations.
@@ -18,7 +19,9 @@ describe("Mosaics Tiler Operations", () => {
   beforeEach(async function (ctx) {
     recorder = await createRecorder(ctx);
     client = await createRecordedClient(recorder);
-    collectionId = "naip-atl";
+    collectionId = assertEnvironmentVariable(
+      EnvironmentVariableNames.PLANETARYCOMPUTER_COLLECTION_ID,
+    );
   });
 
   afterEach(async () => {

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -23,18 +23,18 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
-        "Content-Length": "2731",
+        "Content-Length": "2704",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:45:18 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "traceparent": "00-45aa82bbc4b497d5944579eb11eb825b-a374f9ba4f7f69c9-01",
+        "traceparent": "00-00000000000000000000000000000000-0000000000000000-00",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "eb9c5cb27ef341909b0b224f3aae915d"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "naip-atl-00000000",
         "type": "Collection",
         "links": [
           {
@@ -61,7 +61,7 @@
         "title": "NAIP Atlanta (MPC Pro Sample Datasets)",
         "assets": {
           "thumbnail": {
-            "href": "https://vojrtgdatasa.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png",
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png",
             "type": "image/png",
             "roles": [
               "thumbnail"
@@ -93,7 +93,7 @@
         "providers": [
           {
             "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
-            "name": "Sanitized",
+            "name": "USDA Farm Service Agency",
             "roles": [
               "producer",
               "licensor"
@@ -101,14 +101,14 @@
           },
           {
             "url": "https://www.esri.com/",
-            "name": "Sanitized",
+            "name": "Esri",
             "roles": [
               "processor"
             ]
           },
           {
             "url": "https://planetarycomputer.microsoft.com",
-            "name": "Sanitized",
+            "name": "Microsoft",
             "roles": [
               "host",
               "processor"
@@ -123,22 +123,22 @@
           ],
           "eo:bands": [
             {
-              "name": "Sanitized",
+              "name": "Red",
               "common_name": "red",
               "description": "visible red"
             },
             {
-              "name": "Sanitized",
+              "name": "Green",
               "common_name": "green",
               "description": "visible green"
             },
             {
-              "name": "Sanitized",
+              "name": "Blue",
               "common_name": "blue",
               "description": "visible blue"
             },
             {
-              "name": "Sanitized",
+              "name": "NIR",
               "common_name": "nir",
               "description": "near-infrared"
             }
@@ -154,19 +154,19 @@
             "title": "RGBIR COG tile",
             "eo:bands": [
               {
-                "name": "Sanitized",
+                "name": "Red",
                 "common_name": "red"
               },
               {
-                "name": "Sanitized",
+                "name": "Green",
                 "common_name": "green"
               },
               {
-                "name": "Sanitized",
+                "name": "Blue",
                 "common_name": "blue"
               },
               {
-                "name": "Sanitized",
+                "name": "NIR",
                 "common_name": "nir",
                 "description": "near-infrared"
               }

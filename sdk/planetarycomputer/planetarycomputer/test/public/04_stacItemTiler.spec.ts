@@ -5,6 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
+import { assertEnvironmentVariable, EnvironmentVariableNames } from "./utils/envVars.js";
 
 /**
  * Test suite for STAC Item Tiler operations.
@@ -19,8 +20,10 @@ describe("STAC Item Tiler Operations", () => {
   beforeEach(async function (ctx) {
     recorder = await createRecorder(ctx);
     client = await createRecordedClient(recorder);
-    collectionId = "naip-atl";
-    itemId = "ga_m_3308421_se_16_060_20211114";
+    collectionId = assertEnvironmentVariable(
+      EnvironmentVariableNames.PLANETARYCOMPUTER_COLLECTION_ID,
+    );
+    itemId = assertEnvironmentVariable(EnvironmentVariableNames.PLANETARYCOMPUTER_ITEM_ID);
   });
 
   afterEach(async () => {

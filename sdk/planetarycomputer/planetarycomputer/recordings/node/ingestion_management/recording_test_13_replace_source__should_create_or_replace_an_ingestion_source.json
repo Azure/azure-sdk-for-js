@@ -1,24 +1,24 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "181",
+        "Content-Length": "257",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
-          "sasToken": "sp=rl&st=2025-11-01T02:07:24Z&se=2025-11-08T02:07:24Z&sv=Sanitized&sr=c&sig=Sanitized"
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
+          "sasToken": "sp=rl&st=2025-11-01T03:18:26Z&se=2025-11-08T03:18:26Z&sv=Sanitized&sr=c&sig=Sanitized"
         }
       },
       "StatusCode": 201,
@@ -32,44 +32,44 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:07:29 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/6df36461-36f3-4641-97a5-ae6e6fff99f8?api-version=2025-04-30-preview",
-        "mise-correlation-id": "8d747cb9-2f39-4571-bc28-2206285cc393",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "6cbc138983404c7b5897fdc6c6427f3c"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
-        "created": "2025-11-01T02:07:29.3789567Z",
+        "created": "2025-11-01T03:18:30.6997187Z",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
-          "expiration": "2025-11-08T02:07:24.0000000Z"
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
+          "expiration": "2025-11-08T03:18:26.0000000Z"
         }
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/6df36461-36f3-4641-97a5-ae6e6fff99f8?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "181",
+        "Content-Length": "257",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
-          "sasToken": "sp=rl&st=2025-11-01T02:07:24Z&se=2025-11-08T02:07:24Z&sv=Sanitized&sr=c&sig=Sanitized"
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
+          "sasToken": "sp=rl&st=2025-11-01T03:18:26Z&se=2025-11-08T03:18:26Z&sv=Sanitized&sr=c&sig=Sanitized"
         }
       },
       "StatusCode": 200,
@@ -83,42 +83,42 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:07:29 GMT",
-        "mise-correlation-id": "9c3e1b38-4ad5-4053-bd3f-3014f539533d",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "4f3728c7975dd5c7bddb9164722c1192"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
-          "expiration": "2025-11-08T02:07:24.0000000Z"
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
+          "expiration": "2025-11-08T03:18:26.0000000Z"
         }
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/6df36461-36f3-4641-97a5-ae6e6fff99f8?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "181",
+        "Content-Length": "257",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
-          "sasToken": "sp=rl&st=2025-11-01T02:07:24Z&se=2025-11-08T02:07:24Z&sv=Sanitized&sr=c&sig=Sanitized"
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
+          "sasToken": "sp=rl&st=2025-11-01T03:18:26Z&se=2025-11-08T03:18:26Z&sv=Sanitized&sr=c&sig=Sanitized"
         }
       },
       "StatusCode": 200,
@@ -132,25 +132,25 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:07:29 GMT",
-        "mise-correlation-id": "2e63ac11-7f7a-41d3-a19a-0ccf3fdf4478",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "74655923a2220c7f7a3f95b5544e489f"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
+        "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
         "connectionInfo": {
-          "containerUrl": "Sanitized",
-          "expiration": "2025-11-08T02:07:24.0000000Z"
+          "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
+          "expiration": "2025-11-08T03:18:26.0000000Z"
         }
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/ingestion-sources/6df36461-36f3-4641-97a5-ae6e6fff99f8?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/ingestion-sources/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -171,12 +171,12 @@
         "Access-Control-Max-Age": "1728000",
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
-        "Date": "Sat, 01 Nov 2025 02:07:29 GMT",
-        "mise-correlation-id": "fd62d1a6-0faf-4123-9eaf-2eb1f4d4baaa",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "7dfb65b042bf9231f5d1d59f5f52c416"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": null
     }

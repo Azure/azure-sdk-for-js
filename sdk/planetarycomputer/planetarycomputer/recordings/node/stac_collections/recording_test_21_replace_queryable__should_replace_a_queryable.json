@@ -1,20 +1,20 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables/test%3Aproperty?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables/test%3Aproperty?api-version=2025-04-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "117",
+        "Content-Length": "121",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
       "RequestBody": {
-        "name": "Sanitized",
+        "name": "test:property",
         "definition": {
           "description": "Test property - updated"
         },
@@ -31,16 +31,16 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "113",
+        "Content-Length": "117",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:40:27 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "4e3d24fc4c8349e3b5a3e06b26edd1bc"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "name": "Sanitized",
+        "name": "test:property",
         "definition": {
           "description": "Test property - updated"
         },

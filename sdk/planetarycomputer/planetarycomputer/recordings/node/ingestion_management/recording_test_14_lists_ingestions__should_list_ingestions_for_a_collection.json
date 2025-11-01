@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "181",
+        "Content-Length": "213",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
@@ -17,7 +17,7 @@
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Lists Test",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "skipExistingItems": true,
+        "00000000-0000-0000-0000-000000000000ExistingItems": true,
         "keepOriginalAssets": true
       },
       "StatusCode": 201,
@@ -31,28 +31,28 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:07:33 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/98d274ab-f253-438f-9f13-5e83e9075259?api-version=2025-04-30-preview",
-        "mise-correlation-id": "daf8a69d-eecd-4bfd-b21b-c76dd53cb6de",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "18b66727d72b060d61caa376bcb196b5"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "id": "Sanitized",
-        "creationTime": "2025-11-01T02:07:33.8939225Z",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "creationTime": "2025-11-01T03:18:34.8637867Z",
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Lists Test",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-        "skipExistingItems": true,
+        "00000000-0000-0000-0000-000000000000ExistingItems": true,
         "keepOriginalAssets": true,
         "status": "Ready"
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -74,83 +74,83 @@
         "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 01 Nov 2025 02:07:33 GMT",
-        "mise-correlation-id": "06bc7f61-4c8d-445e-b760-b508efd91fb7",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "cd4f039a9bab6942186b6cf1ea9a487a"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:06:07.5134512Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:17:41.473578Z",
             "importType": "StaticCatalog",
             "displayName": "Ingestion",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           },
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:06:14.9668639Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:17:46.7632379Z",
             "importType": "StaticCatalog",
             "displayName": "Updated Ingestion Name",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           },
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:06:20.1049694Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:17:50.7740468Z",
             "importType": "StaticCatalog",
             "displayName": "Ingestion for Run",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           },
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:06:28.093313Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:17:58.0935454Z",
             "importType": "StaticCatalog",
             "displayName": "Ingestion for Status Check",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           },
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:06:51.7379395Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:18:09.431394Z",
             "importType": "StaticCatalog",
             "displayName": "Ingestion for Operation",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           },
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:07:09.9678689Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:18:17.6104919Z",
             "importType": "StaticCatalog",
             "displayName": "Ingestion for Cancel Test",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           },
           {
-            "id": "Sanitized",
-            "creationTime": "2025-11-01T02:07:33.8939225Z",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "creationTime": "2025-11-01T03:18:34.8637867Z",
             "importType": "StaticCatalog",
             "displayName": "Ingestion for Lists Test",
             "sourceCatalogUrl": "https://fake.example.com/catalog.json",
-            "skipExistingItems": true,
+            "00000000-0000-0000-0000-000000000000ExistingItems": true,
             "keepOriginalAssets": true,
             "status": "Ready"
           }

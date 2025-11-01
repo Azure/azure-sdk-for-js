@@ -1,19 +1,19 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "122",
+        "Content-Length": "140",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
       },
-      "RequestBody": "[{\"name\":\"Sanitized\",\"definition\":{\"description\":\"Test property for deletion\"},\"create_index\":false,\"data_type\":\"number\"}]",
+      "RequestBody": "[{\"name\":\"test:property_to_be_deleted\",\"definition\":{\"description\":\"Test property for deletion\"},\"create_index\":false,\"data_type\":\"number\"}]",
       "StatusCode": 201,
       "ResponseHeaders": {
         "Access-Control-Allow-Credentials": "true",
@@ -23,18 +23,18 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "122",
+        "Content-Length": "140",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:40:32 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "5d1d17a1c1fd4091867239844de04196"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
-      "ResponseBody": "[{\"name\":\"Sanitized\",\"definition\":{\"description\":\"Test property for deletion\"},\"create_index\":false,\"data_type\":\"number\"}]"
+      "ResponseBody": "[{\"name\":\"test:property_to_be_deleted\",\"definition\":{\"description\":\"Test property for deletion\"},\"create_index\":false,\"data_type\":\"number\"}]"
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -58,12 +58,12 @@
         "Content-Encoding": "gzip",
         "Content-Length": "888",
         "Content-Type": "application/schema+json",
-        "Date": "Sat, 01 Nov 2025 02:40:32 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "9b01ecea6358488b83e7f1810de3277a"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "$id": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
@@ -102,7 +102,7 @@
       }
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables/test%3Aproperty_to_be_deleted?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables/test%3Aproperty_to_be_deleted?api-version=2025-04-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -124,16 +124,16 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Sat, 01 Nov 2025 02:40:32 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "5efdb24f8d804c94b223fcae1b69843f"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -157,12 +157,12 @@
         "Content-Encoding": "gzip",
         "Content-Length": "813",
         "Content-Type": "application/schema+json",
-        "Date": "Sat, 01 Nov 2025 02:40:32 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "24174f87a38b4b2cafbd9d6a87ad3f1e"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "$id": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/queryables?api-version=2025-04-30-preview",

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/data/collections/naip-atl-00000000/items/fake-item-id/WebMercatorQuad/WMTSCapabilities.xml?api-version=2025-04-30-preview&assets=image&asset_bidx=image%7C1%2C2%2C3&tile_format=png&tile_scale=1&minzoom=7&maxzoom=14",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/data/collections/naip-atl-00000000/items/fake-item-id/WebMercatorQuad/WMTSCapabilities.xml?api-version=2025-04-30-preview&assets=image&asset_bidx=image%7C1%2C2%2C3&tile_format=png&tile_scale=1&minzoom=7&maxzoom=14",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/xml",
@@ -25,12 +25,12 @@
         "Connection": "keep-alive",
         "Content-Length": "8382",
         "Content-Type": "application/xml",
-        "Date": "Sat, 01 Nov 2025 02:08:44 GMT",
-        "Server-Timing": "total;dur=45.39",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Server-Timing": "total;dur=0.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "382b6aaa8c6b4b65bbe0808b3d4cb120"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": [
         "<Capabilities xmlns=\"http://www.opengis.net/wmts/1.0\" xmlns:ows=\"http://www.opengis.net/ows/1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:gml=\"http://www.opengis.net/gml\" xsi:schemaLocation=\"http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd\" version=\"1.0.0\">\n",

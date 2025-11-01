@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/data/legend/colormap/viridis?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/data/legend/colormap/viridis?api-version=2025-04-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "image/png",
@@ -25,12 +25,12 @@
         "Connection": "keep-alive",
         "Content-Length": "533",
         "Content-Type": "image/jpg",
-        "Date": "Sat, 01 Nov 2025 02:12:16 GMT",
-        "Server-Timing": "total;dur=53.41",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
+        "Server-Timing": "total;dur=0.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "1d91d3f925054d359ed11eba41f702db"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": "iVBORw0KGgoAAAANSUhEUgAAAYMAAAALCAYAAACd8OETAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjAsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvlHJYcgAAAAlwSFlzAAAPYQAAD2EBqD+naQAAAYFJREFUeJztldtx5DAMBHtAh3YhXP6ZWPAHwZekdQKe3lIZBQ6GINda6J/+JxIIIJAE0eORl1Tx+WjUSaDY4noQRHnw5sGhgWc+2Tz3WLd8tZx37yPPmRdkaK0NdPPRM5/c8nWG2W+RsXS559st/9i/P6Pf1K7ng36da/Vyizf9m98Zn3f70XOv3c/9tv6iHf6/+R17AiiX39u9jNy9Xr320Dy+46rUWbv0+dhn9HTW5FlfGm3xtIis92Qklk6jF+X2mnyKh0cizdPTpianXlutjnyuIyuJrTY2TazbJcZa5Xsf2Z973fQfcde0D3mAoK+HrunTuB6ewTX3D1UMSFf3hfLoNeMMAr70vXrh3CfGObj6qzA1Q5+b5/Jv2x196Zug7mfTxjxzj5eG2eO4l6Zceuq1rP+TBgSizZ8t0eqvpNJH+YroK/Wpn31jjDF/Gw8DY4wxHgbGGGM8DIwxxuBhYIwxBg8DY4wxeBgYY4zBw8AYYwweBsYYY/AwMMYYA/wA1kaRFZ+hF4YAAAAASUVORK5CYII="
     }

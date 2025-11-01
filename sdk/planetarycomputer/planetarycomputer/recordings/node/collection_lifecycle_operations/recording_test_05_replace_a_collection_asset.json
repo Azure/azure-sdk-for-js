@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://Sanitized.h5d5a9crhnc8deaz.uksouth.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/assets/test-asset?api-version=2025-04-30-preview",
+      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/assets/test-asset?api-version=2025-04-30-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -39,12 +39,12 @@
         "Connection": "keep-alive",
         "Content-Length": "193",
         "Content-Type": "application/json",
-        "Date": "Sat, 01 Nov 2025 02:12:43 GMT",
+        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-error-code": "ValidationError",
-        "X-Request-ID": "75aedd12b86c49a0b57c862bbc45ae04"
+        "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
         "error": {
