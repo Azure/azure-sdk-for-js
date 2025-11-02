@@ -7,7 +7,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/app-configuration)
-- [Azure App Configuration documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
+- [Product documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
 
 ## Choose the right package
