@@ -30,12 +30,6 @@ import { AvatarManager } from './avatar/avatarManager.js';
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
   connectionTimeoutMs?: number;
-  /** Maximum number of reconnection attempts */
-  maxReconnectAttempts?: number;
-  /** Base delay for reconnection attempts in milliseconds */
-  reconnectDelayMs?: number;
-  /** Whether to automatically reconnect on connection loss */
-  autoReconnect?: boolean;
   /** Enable debug logging for development */
   enableDebugLogging?: boolean;
 }
@@ -163,8 +157,6 @@ export class VoiceLiveSession {
         {
           endpoint: wsUrl,
           //protocols: ['voice-live-realtime'],
-          reconnectAttempts: this._options.autoReconnect ? this._options.maxReconnectAttempts : 0,
-          reconnectDelay: this._options.reconnectDelayMs,
           connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs
         }
       );
@@ -429,9 +421,6 @@ export class VoiceLiveSession {
   private _buildDefaultOptions(options: VoiceLiveSessionOptions): Required<VoiceLiveSessionOptions> {
     return {
       connectionTimeoutMs: options.connectionTimeoutMs || 30000,
-      maxReconnectAttempts: options.maxReconnectAttempts || 5,
-      reconnectDelayMs: options.reconnectDelayMs || 1000,
-      autoReconnect: options.autoReconnect ?? true,
       enableDebugLogging: options.enableDebugLogging ?? false
     };
   }
@@ -452,17 +441,44 @@ export class VoiceLiveSession {
     this._connectionManager.updateEventHandlers({
       onStateChange: (state, previousState) => {
         logger.info('Connection state changed', { state, previousState });
+        
+        // Fail fast: any disconnection marks session as permanently dead
+        if (state === ConnectionState.Disconnected && previousState === ConnectionState.Connected) {
+          this._markSessionAsDead('Connection lost during session - session is permanently unusable');
+        }
       },
       onMessage: (data) => {
         this._handleIncomingMessage(data);
       },
       onError: (error) => {
-        logger.error('Connection error', { error });
-      },
-      onReconnectAttempt: (attempt, maxAttempts) => {
-        logger.info('Reconnection attempt', { attempt, maxAttempts });
+        logger.error('Connection error - marking session as dead', { error });
+        this._markSessionAsDead(`Connection error: ${error.message}`);
       }
     });
+  }
+
+  private _markSessionAsDead(reason: string): void {
+    if (this._disposed) return;
+    
+    logger.error('Session marked as permanently dead', { reason });
+    
+    // Mark as disposed to prevent further use
+    this._disposed = true;
+    
+    // Clean up connection manager
+    this._connectionManager = undefined;
+    this._sessionId = undefined;
+    this._activeTurnId = undefined;
+    
+    // Emit a final error event for applications to handle
+    this._eventEmitter.emitServerEvent({
+      type: 'error',
+      error: {
+        type: 'connection_lost',
+        message: `Session permanently dead: ${reason}`,
+        code: 'SESSION_DEAD'
+      }
+    } as any);
   }
 
   private _handleIncomingMessage(data: string | ArrayBuffer): void {
@@ -530,8 +546,8 @@ export class VoiceLiveSession {
   private _ensureNotDisposed(): void {
     if (this._disposed) {
       throw new VoiceLiveConnectionError(
-        'Session has been disposed',
-        'INVALID_STATE'
+        'Session is permanently dead and cannot be used. Create a new session to continue.',
+        'SESSION_DEAD'
       );
     }
   }

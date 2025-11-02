@@ -11,8 +11,8 @@ export enum ConnectionState {
   Disconnected = 'disconnected',
   Connecting = 'connecting',
   Connected = 'connected',
-  Reconnecting = 'reconnecting',
   Disconnecting = 'disconnecting'
+  // Removed: Reconnecting - no reconnection in fail-fast model
 }
 
 /**
@@ -23,16 +23,9 @@ export interface ConnectionOptions {
   endpoint: string;
   /** WebSocket protocols to use */
   protocols?: string[];
-  /** Maximum number of reconnection attempts */
-  reconnectAttempts?: number;
-  /** Initial delay before reconnection attempt in milliseconds */
-  reconnectDelay?: number;
   /** Connection timeout in milliseconds */
   connectionTimeout?: number;
-  /** Maximum delay between reconnection attempts in milliseconds */
-  maxReconnectDelay?: number;
-  /** Multiplier for exponential backoff */
-  backoffMultiplier?: number;
+  // Removed all reconnection options - fail fast model
 }
 
 /**
@@ -43,37 +36,26 @@ export interface ConnectionEventHandlers {
   onStateChange?: (state: ConnectionState, previousState: ConnectionState) => void;
   /** Called when a message is received */
   onMessage?: (data: string | ArrayBuffer) => void;
-  /** Called when an error occurs */
+  /** Called when an error occurs or connection is lost */
   onError?: (error: VoiceLiveConnectionError) => void;
-  /** Called when a reconnection attempt is made */
-  onReconnectAttempt?: (attempt: number, maxAttempts: number) => void;
+  // Removed: onReconnectAttempt - no reconnection in fail-fast model
 }
 
 /**
- * Manages WebSocket connection lifecycle including reconnection logic
+ * Manages WebSocket connection lifecycle with fail-fast semantics
  */
 export class ConnectionManager {
   private _state: ConnectionState = ConnectionState.Disconnected;
   private _previousState: ConnectionState = ConnectionState.Disconnected;
   private _websocket?: VoiceLiveWebSocketLike;
-  private _reconnectAttempts = 0;
-  private _reconnectTimeoutId?: NodeJS.Timeout;
   private _abortController?: AbortController;
-  
-  private readonly _maxReconnectAttempts: number;
-  private readonly _reconnectDelay: number;
-  private readonly _maxReconnectDelay: number;
-  private readonly _backoffMultiplier: number;
   
   constructor(
     private _websocketFactory: () => VoiceLiveWebSocketLike,
     private _options: ConnectionOptions,
     private _eventHandlers: ConnectionEventHandlers = {}
   ) {
-    this._maxReconnectAttempts = _options.reconnectAttempts ?? 5;
-    this._reconnectDelay = _options.reconnectDelay ?? 1000;
-    this._maxReconnectDelay = _options.maxReconnectDelay ?? 30000;
-    this._backoffMultiplier = _options.backoffMultiplier ?? 2.0;
+    // No reconnection setup needed - fail fast model
   }
   
   /**
@@ -118,7 +100,6 @@ export class ConnectionManager {
       );
       
       this._setState(ConnectionState.Connected);
-      this._reconnectAttempts = 0;
       
     } catch (error) {
       this._setState(ConnectionState.Disconnected);
@@ -144,9 +125,6 @@ export class ConnectionManager {
     if (this._state === ConnectionState.Disconnected) {
       return;
     }
-    
-    // Cancel any pending reconnection
-    this._cancelReconnection();
     
     // Abort any ongoing connection attempt
     this._abortController?.abort();
@@ -201,24 +179,35 @@ export class ConnectionManager {
   }
   
   /**
-   * Handles unexpected connection loss
+   * Handles any connection loss - always fatal in fail-fast model
    */
   private _handleConnectionLost(code: number, reason: string): void {
+    // Check if this was an expected disconnection before changing state
     if (this._state === ConnectionState.Disconnecting) {
-      return; // Expected disconnection
+      // This was an expected disconnection, don't treat as error
+      this._setState(ConnectionState.Disconnected);
+      return;
     }
     
-    const wasConnected = this._state === ConnectionState.Connected;
     this._setState(ConnectionState.Disconnected);
     
-    // Classify the close event to determine if we should reconnect
-    const error = VoiceLiveErrorClassifier.classifyWebSocketClose(code, reason);
-    this._eventHandlers.onError?.(error);
+    // In fail-fast model, ANY unexpected connection loss is fatal
+    let error: VoiceLiveConnectionError;
     
-    // Attempt reconnection if appropriate and we were previously connected
-    if (wasConnected && this._shouldReconnect(code)) {
-      this._scheduleReconnection();
+    if (code === 1000) {
+      // Normal close, but unexpected
+      error = new VoiceLiveConnectionError(
+        'WebSocket connection closed unexpectedly',
+        VoiceLiveErrorCodes.CONNECTION_LOST,
+        'connection_lost'
+      );
+    } else {
+      // Use classifier for other codes
+      error = VoiceLiveErrorClassifier.classifyWebSocketClose(code, reason);
     }
+    
+    // Always notify of fatal error for unexpected disconnections
+    this._eventHandlers.onError?.(error);
   }
   
   /**
@@ -234,70 +223,6 @@ export class ConnectionManager {
     );
     
     this._eventHandlers.onError?.(connectionError);
-  }
-  
-  /**
-   * Determines if reconnection should be attempted based on close code
-   */
-  private _shouldReconnect(code: number): boolean {
-    // Don't reconnect on authentication failure (1008) or normal closure (1000)
-    const nonRecoverableCodes = [1000, 1008, 1003]; // Normal, Policy violation, Unsupported data
-    
-    return !nonRecoverableCodes.includes(code) && 
-           this._reconnectAttempts < this._maxReconnectAttempts;
-  }
-  
-  /**
-   * Schedules a reconnection attempt with exponential backoff
-   */
-  private _scheduleReconnection(): void {
-    if (this._reconnectTimeoutId) {
-      return; // Already scheduled
-    }
-    
-    this._reconnectAttempts++;
-    this._setState(ConnectionState.Reconnecting);
-    
-    // Calculate delay with exponential backoff
-    const baseDelay = this._reconnectDelay * Math.pow(this._backoffMultiplier, this._reconnectAttempts - 1);
-    const delay = Math.min(baseDelay, this._maxReconnectDelay);
-    
-    this._eventHandlers.onReconnectAttempt?.(this._reconnectAttempts, this._maxReconnectAttempts);
-    
-    this._reconnectTimeoutId = setTimeout(async () => {
-      this._reconnectTimeoutId = undefined;
-      
-      try {
-        await this.connect();
-      } catch (error) {
-        if (this._reconnectAttempts >= this._maxReconnectAttempts) {
-          this._setState(ConnectionState.Disconnected);
-          
-          const finalError = new VoiceLiveConnectionError(
-            `Failed to reconnect after ${this._maxReconnectAttempts} attempts`,
-            VoiceLiveErrorCodes.CONNECTION_FAILED,
-            "reconnection_failed",
-            false,
-            error instanceof Error ? error : new Error(String(error))
-          );
-          
-          this._eventHandlers.onError?.(finalError);
-        } else {
-          // Schedule next reconnection attempt
-          this._scheduleReconnection();
-        }
-      }
-    }, delay);
-  }
-  
-  /**
-   * Cancels any pending reconnection attempt
-   */
-  private _cancelReconnection(): void {
-    if (this._reconnectTimeoutId) {
-      clearTimeout(this._reconnectTimeoutId);
-      this._reconnectTimeoutId = undefined;
-    }
   }
   
   /**
@@ -325,20 +250,6 @@ export class ConnectionManager {
    */
   get isConnected(): boolean {
     return this._state === ConnectionState.Connected;
-  }
-  
-  /**
-   * Gets the current number of reconnection attempts
-   */
-  get reconnectAttempts(): number {
-    return this._reconnectAttempts;
-  }
-  
-  /**
-   * Gets the maximum number of reconnection attempts
-   */
-  get maxReconnectAttempts(): number {
-    return this._maxReconnectAttempts;
   }
   
   /**

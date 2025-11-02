@@ -62,13 +62,12 @@ export class VoiceAssistant {
       // Create client options for session
       const sessionOptions: any = {
         connectionTimeoutMs: 30000,
-        autoReconnect: true,
-        maxReconnectAttempts: 3,
         enableDebugLogging: config.debugMode !== false // Enable by default
       };
 
       console.log(`🔧 Creating Voice Live client with debug mode: ${sessionOptions.enableDebugLogging}`);
       console.log(`🔑 Using credential type: ${config.useTokenCredential ? 'TokenCredential' : 'API Key'}`);
+      console.log('⚡ Using fail-fast connection policy - any disconnection will terminate session');
       
       if (sessionOptions.enableDebugLogging) {
         console.log('🐛 Debug mode enabled - you will see detailed SDK logs');

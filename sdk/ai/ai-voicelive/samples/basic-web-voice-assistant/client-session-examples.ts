@@ -10,7 +10,6 @@ async function basicClientSessionExample() {
     {
       apiVersion: '2025-10-01',
       defaultSessionOptions: {
-        autoReconnect: true,
         enableDebugLogging: true
       }
     }
@@ -18,8 +17,7 @@ async function basicClientSessionExample() {
 
   // 2. Create and connect a session with model
   const session = await client.startSession('gpt-4o-realtime-preview', {
-    connectionTimeoutMs: 30000,
-    maxReconnectAttempts: 3
+    connectionTimeoutMs: 30000
   });
 
   try {

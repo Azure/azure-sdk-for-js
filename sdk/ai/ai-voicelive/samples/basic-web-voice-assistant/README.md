@@ -104,6 +104,41 @@ await session.dispose();
 - ✅ **Multiple Sessions**: One client can create multiple sessions
 - ✅ **Cleaner APIs**: More intuitive interaction patterns
 - ✅ **C# SDK Alignment**: Consistent architecture across languages
+- ✅ **Fail-Fast Reliability**: No false promises about connection recovery
+
+## ⚡ **Fail-Fast Connection Policy**
+
+**Why No Auto-Retry?** Real-time conversational AI sessions have complex state that cannot be recovered:
+- **Conversation context** is lost when WebSocket drops
+- **Audio streams** cannot be resumed mid-conversation  
+- **Turn state** and response flows are interrupted
+- **Auto-retry gives false hope** of seamless recovery
+
+**Our Approach:**
+```typescript
+// ❌ No auto-retry options - they give false confidence
+// ❌ No maxReconnectAttempts 
+// ❌ No autoReconnect flag
+
+// ✅ Fail fast and be honest about session death
+const session = await client.startSession('gpt-4o-realtime-preview', {
+  connectionTimeoutMs: 30000 // Only configure initial connection
+});
+
+// ✅ Handle session death explicitly  
+session.events.on('error', (error) => {
+  if (error.code === 'SESSION_DEAD') {
+    console.log('Session permanently dead:', error.message);
+    // App decides: show error, start new session, etc.
+  }
+});
+```
+
+**Benefits:**
+- **Honest about limitations**: No illusion of seamless recovery
+- **Explicit error handling**: Apps must handle session death
+- **Better UX**: Fail fast rather than ghost connections
+- **Simpler logic**: No complex retry state management
 
 ## 🎤 **Voice Configuration**
 

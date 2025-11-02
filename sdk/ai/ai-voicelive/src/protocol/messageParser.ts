@@ -5,6 +5,7 @@ import type {
   ServerEventUnion, 
   ClientEventUnion 
 } from '../models/index.js';
+import { clientEventUnionSerializer } from '../models/models.js';
 
 /**
  * Parsed message containing event data and metadata
@@ -66,7 +67,8 @@ export class VoiceLiveMessageParser {
    * Serializes outgoing client events for WebSocket transmission
    */
   serializeOutgoingMessage(event: ClientEventUnion): string {
-    return JSON.stringify(event);
+    //return JSON.stringify(clientEventUnionSerializer(event));
+    return clientEventUnionSerializer(event);
   }
   
   /**
