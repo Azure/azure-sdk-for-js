@@ -182,12 +182,18 @@ export {
 // Main client export
 export {
   VoiceLiveClient,
-  VoiceLiveClientOptions,
+  VoiceLiveClientOptions
+} from "./voiceLiveClient.js";
+
+// Session export
+export {
+  VoiceLiveSession,
+  VoiceLiveSessionOptions,
   ConnectOptions,
   SendEventOptions,
   AudioStreamOptions,
   TurnOptions
-} from "./voiceLiveClient.js";
+} from "./voiceLiveSession.js";
 
 // WebSocket and connection exports
 export {

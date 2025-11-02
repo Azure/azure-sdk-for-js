@@ -2,92 +2,27 @@
 // Licensed under the MIT License.
 
 import type { KeyCredential, TokenCredential } from '@azure/core-auth';
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type {
-  RequestSession,
-  ClientEventSessionUpdate,
-  ClientEventUnion,
-  ClientEventInputAudioBufferAppend,
-  ClientEventInputAudioTurnStart,
-  ClientEventInputAudioTurnAppend,
-  ClientEventInputAudioTurnEnd,
-  ConversationRequestItem,
-  ClientEventConversationItemCreate
-} from './models/index.js';
-import { ConnectionManager, ConnectionState } from './websocket/connectionManager.js';
-import { VoiceLiveWebSocketFactory } from './websocket/websocketFactory.js';
-import { VoiceLiveMessageParser } from './protocol/messageParser.js';
-import { CredentialHandler } from './auth/credentialHandler.js';
-import { VoiceLiveConnectionError, VoiceLiveErrorClassifier } from './errors/index.js';
+import type { RequestSession } from './models/index.js';
+import { VoiceLiveSession, VoiceLiveSessionOptions } from './voiceLiveSession.js';
 import { logger } from './logger.js';
-import { EnhancedVoiceLiveEventEmitter } from './events/enhancedEventEmitter.js';
-import { ResponseStreamer } from './streaming/responseStreamer.js';
-import { VoiceLiveAsyncIterators } from './streaming/asyncIterators.js';
-import { AudioProcessor } from './media/audioProcessor.js';
-import { VideoProcessor } from './media/videoProcessor.js';
-import { AvatarManager } from './avatar/avatarManager.js';
 
 export interface VoiceLiveClientOptions {
   /** API version to use for the Voice Live service */
   apiVersion?: string;
-  /** Connection timeout in milliseconds */
-  connectionTimeoutMs?: number;
-  /** Maximum number of reconnection attempts */
-  maxReconnectAttempts?: number;
-  /** Base delay for reconnection attempts in milliseconds */
-  reconnectDelayMs?: number;
-  /** Whether to automatically reconnect on connection loss */
-  autoReconnect?: boolean;
-  /** Enable debug logging for development */
-  enableDebugLogging?: boolean;
-}
-
-export interface ConnectOptions {
-  /** Abort signal to cancel connection attempt */
-  abortSignal?: AbortSignalLike;
-  /** Override connection timeout for this operation */
-  timeoutMs?: number;
-}
-
-export interface SendEventOptions {
-  /** Abort signal to cancel send operation */
-  abortSignal?: AbortSignalLike;
-  /** Timeout for send operation */
-  timeoutMs?: number;
-}
-
-export interface AudioStreamOptions extends SendEventOptions {
-  /** Turn ID for turn-based audio (if not provided, uses buffer mode) */
-  turnId?: string;
-}
-
-export interface TurnOptions extends SendEventOptions {
-  /** Custom turn ID (if not provided, one will be generated) */
-  turnId?: string;
+  /** Default session options to apply to all created sessions */
+  defaultSessionOptions?: VoiceLiveSessionOptions;
 }
 
 /**
- * The VoiceLive client provides real-time conversational AI capabilities
- * with support for audio, text, and avatar features through WebSocket connections.
+ * The VoiceLive client provides session management for real-time conversational AI capabilities.
  * 
- * Built on Azure SDK patterns with comprehensive error handling and reconnection logic.
+ * This client acts as a factory for creating VoiceLiveSession instances, which handle the actual
+ * WebSocket connections and real-time interactions with the service.
  */
 export class VoiceLiveClient {
   private readonly _endpoint: string;
-  private readonly _credentialHandler: CredentialHandler;
+  private readonly _credential: TokenCredential | KeyCredential;
   private readonly _options: Required<VoiceLiveClientOptions>;
-  private readonly _messageParser: VoiceLiveMessageParser;
-  private _connectionManager?: ConnectionManager;
-  private _sessionId?: string;
-  private _activeTurnId?: string;
-
-  // Real-time features
-  private readonly _eventEmitter: EnhancedVoiceLiveEventEmitter;
-  private readonly _responseStreamer: ResponseStreamer;
-  private readonly _asyncIterators: VoiceLiveAsyncIterators;
-  private readonly _audioProcessor: AudioProcessor;
-  private readonly _videoProcessor: VideoProcessor;
-  private readonly _avatarManager: AvatarManager;
 
   /**
    * Creates an instance of VoiceLiveClient with endpoint and credential.
@@ -102,249 +37,111 @@ export class VoiceLiveClient {
     options: VoiceLiveClientOptions = {}
   ) {
     this._endpoint = this._normalizeEndpoint(endpoint);
-    this._credentialHandler = new CredentialHandler(credential);
+    this._credential = credential;
     this._options = this._buildDefaultOptions(options);
-    this._messageParser = new VoiceLiveMessageParser();
-
-    // Initialize real-time features
-    this._eventEmitter = new EnhancedVoiceLiveEventEmitter();
-    this._responseStreamer = new ResponseStreamer(this._eventEmitter);
-    this._asyncIterators = new VoiceLiveAsyncIterators(this._eventEmitter);
-    this._audioProcessor = new AudioProcessor();
-    this._videoProcessor = new VideoProcessor();
-    this._avatarManager = new AvatarManager(this._eventEmitter, this._videoProcessor);
 
     logger.info('VoiceLiveClient created', {
       endpoint: this._endpoint,
-      apiVersion: this._options.apiVersion,
-      enableDebugLogging: this._options.enableDebugLogging
+      apiVersion: this._options.apiVersion
     });
   }
 
   /**
-   * Establishes connection to the Voice Live service with authentication.
+   * Creates a new VoiceLiveSession for real-time voice communication.
+   * 
+   * @param model - The model name to use for the session (e.g., "gpt-4o-realtime-preview")
+   * @param sessionOptions - Optional configuration specific to this session
+   * @returns A new VoiceLiveSession instance ready to connect
    */
-  async connect(options: ConnectOptions = {}): Promise<void> {
-    if (this.isConnected) {
-      logger.info('VoiceLiveClient already connected');
-      return;
-    }
-
-    try {
-      logger.info('Connecting to Voice Live service', { endpoint: this._endpoint });
-
-      // Get WebSocket URL with authentication
-      const wsUrl = await this._credentialHandler.getWebSocketUrl(
-        this._endpoint,
-        this._options.apiVersion
-      );
-      const authHeaders = await this._credentialHandler.getAuthHeaders();
-
-      // Create connection manager with Phase 2 integration
-      const websocketFactory = new VoiceLiveWebSocketFactory();
-      this._connectionManager = new ConnectionManager(
-        () => websocketFactory.create({
-          headers: { ...authHeaders },
-          connectionTimeoutMs: this._options.connectionTimeoutMs,
-          compression: true
-        }),
-        {
-          endpoint: wsUrl,
-          protocols: ['voice-live-realtime'],
-          reconnectAttempts: this._options.autoReconnect ? this._options.maxReconnectAttempts : 0,
-          reconnectDelay: this._options.reconnectDelayMs,
-          connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs
-        }
-      );
-
-      // Setup connection event handlers
-      this._setupConnectionEventHandlers();
-
-      // Connect with proper error handling
-      await this._connectionManager.connect(options.abortSignal as AbortSignal);
-
-      logger.info('Successfully connected to Voice Live service');
-
-    } catch (error) {
-      logger.error('Failed to connect to Voice Live service', { error });
-
-      // Use Phase 2 error classification
-      if (error instanceof VoiceLiveConnectionError) {
-        throw error;
-      } else {
-        throw VoiceLiveErrorClassifier.classifyConnectionError(error);
-      }
-    }
-  }
-
+  createSession(model: string, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
+  
   /**
-   * Disconnects from the Voice Live service and cleans up resources.
+   * Creates a new VoiceLiveSession for real-time voice communication with session configuration.
+   * 
+   * @param sessionConfig - Session configuration including model and other settings
+   * @returns A new VoiceLiveSession instance ready to connect
    */
-  async disconnect(): Promise<void> {
-    if (!this._connectionManager) {
-      return;
+  createSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
+  
+  createSession(
+    modelOrConfig: string | RequestSession,
+    sessionOptions?: VoiceLiveSessionOptions
+  ): VoiceLiveSession {
+    // Extract model name from the parameter
+    const model = typeof modelOrConfig === 'string' ? modelOrConfig : modelOrConfig.model;
+    if (!model) {
+      throw new Error('Model name is required. Provide either a model string or RequestSession with model property.');
     }
 
-    logger.info('Disconnecting from Voice Live service');
-
-    try {
-      await this._connectionManager.disconnect();
-    } catch (error) {
-      logger.error('Error during disconnect', { error });
-    } finally {
-      this._connectionManager = undefined;
-      this._sessionId = undefined;
-      this._activeTurnId = undefined;
-      logger.info('Disconnected from Voice Live service');
-    }
-  }
-
-  /**
-   * Updates the session configuration with the service.
-   */
-  async updateSession(
-    session: RequestSession,
-    options: SendEventOptions = {}
-  ): Promise<void> {
-    this._ensureConnected();
-
-    const updateEvent: ClientEventSessionUpdate = {
-      type: 'session.update',
-      session: session,
-      eventId: this._generateEventId()
+    // Merge default session options with provided options
+    const mergedOptions: VoiceLiveSessionOptions = {
+      ...this._options.defaultSessionOptions,
+      ...sessionOptions
     };
 
-    await this._sendEvent(updateEvent, options);
-  }
+    const session = new VoiceLiveSession(
+      this._endpoint,
+      this._credential,
+      this._options.apiVersion,
+      model,
+      mergedOptions
+    );
 
-  /**
-   * Sends a custom client event to the service.
-   */
-  async sendEvent(event: ClientEventUnion, options: SendEventOptions = {}): Promise<void> {
-    this._ensureConnected();
-    await this._sendEvent(event, options);
-  }
-
-  /**
-   * Sends audio data to the service using turn-based or buffer-based approach.
-   */
-  async sendAudio(
-    audioData: ArrayBuffer | Uint8Array,
-    options: AudioStreamOptions = {}
-  ): Promise<void> {
-    this._ensureConnected();
-
-    const audioBase64 = this._arrayBufferToBase64(audioData);
-
-    if (options.turnId) {
-      // Turn-based audio
-      const appendEvent: ClientEventInputAudioTurnAppend = {
-        type: 'input_audio.turn.append',
-        audio: audioBase64,
-        turnId: options.turnId,
-        eventId: this._generateEventId()
-      };
-      await this._sendEvent(appendEvent, options);
-    } else {
-      // Buffer-based audio (VAD mode)
-      const bufferEvent: ClientEventInputAudioBufferAppend = {
-        type: 'input_audio_buffer.append',
-        audio: audioBase64,
-        eventId: this._generateEventId()
-      };
-      await this._sendEvent(bufferEvent, options);
-    }
-  }
-
-  /**
-   * Starts a new audio turn for turn-based audio input.
-   */
-  async startAudioTurn(options: TurnOptions = {}): Promise<string> {
-    this._ensureConnected();
-
-    const turnId = options.turnId || this._generateTurnId();
-    this._activeTurnId = turnId;
-
-    const startEvent: ClientEventInputAudioTurnStart = {
-      type: 'input_audio.turn.start',
-      turnId: turnId,
-      eventId: this._generateEventId()
-    };
-
-    await this._sendEvent(startEvent, options);
-    return turnId;
-  }
-
-  /**
-   * Ends the current audio turn.
-   */
-  async endAudioTurn(turnId?: string, options: SendEventOptions = {}): Promise<void> {
-    this._ensureConnected();
-
-    const targetTurnId = turnId || this._activeTurnId;
-    if (!targetTurnId) {
-      throw new VoiceLiveConnectionError(
-        'No active audio turn to end',
-        'INVALID_STATE'
-      );
+    // If full session config was provided, store it for later use
+    if (typeof modelOrConfig !== 'string') {
+      (session as any)._initialSessionConfig = modelOrConfig;
     }
 
-    const endEvent: ClientEventInputAudioTurnEnd = {
-      type: 'input_audio.turn.end',
-      turnId: targetTurnId,
-      eventId: this._generateEventId()
-    };
-
-    await this._sendEvent(endEvent, options);
-
-    if (targetTurnId === this._activeTurnId) {
-      this._activeTurnId = undefined;
-    }
+    logger.info('VoiceLiveSession created', { model });
+    return session;
   }
 
   /**
-   * Adds a conversation item (message) to the conversation.
+   * Creates and immediately connects a new VoiceLiveSession.
+   * 
+   * @param model - The model name to use for the session (e.g., "gpt-4o-realtime-preview")
+   * @param sessionOptions - Optional configuration specific to this session
+   * @returns A connected VoiceLiveSession instance
    */
-  async addConversationItem(
-    item: ConversationRequestItem,
-    options: SendEventOptions = {}
-  ): Promise<void> {
-    this._ensureConnected();
-
-    const createEvent: ClientEventConversationItemCreate = {
-      type: 'conversation.item.create',
-      item: item,
-      eventId: this._generateEventId()
-    };
-
-    await this._sendEvent(createEvent, options);
+  async startSession(model: string, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
+  
+  /**
+   * Creates and immediately connects a new VoiceLiveSession with session configuration.
+   * 
+   * @param sessionConfig - Session configuration including model and other settings
+   * @param sessionOptions - Optional configuration specific to this session
+   * @returns A connected VoiceLiveSession instance
+   */
+  async startSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
+  
+  async startSession(
+    modelOrConfig: string | RequestSession,
+    sessionOptions?: VoiceLiveSessionOptions
+  ): Promise<VoiceLiveSession> {
+    const session = this.createSession(modelOrConfig as any, sessionOptions);
+    await session.connect();
+    
+    // If full session config was provided, send it after connection
+    if (typeof modelOrConfig !== 'string') {
+      await session.updateSession(modelOrConfig);
+    }
+    
+    return session;
   }
 
   // Properties
-  get isConnected(): boolean {
-    return this._connectionManager?.isConnected || false;
+  get endpoint(): string {
+    return this._endpoint;
   }
 
-  get connectionState(): ConnectionState {
-    return this._connectionManager?.state || ConnectionState.Disconnected;
-  }
-
-  get sessionId(): string | undefined {
-    return this._sessionId;
-  }
-
-  get activeTurnId(): string | undefined {
-    return this._activeTurnId;
+  get apiVersion(): string {
+    return this._options.apiVersion;
   }
 
   private _buildDefaultOptions(options: VoiceLiveClientOptions): Required<VoiceLiveClientOptions> {
     return {
       apiVersion: options.apiVersion || '2025-10-01',
-      connectionTimeoutMs: options.connectionTimeoutMs || 30000,
-      maxReconnectAttempts: options.maxReconnectAttempts || 5,
-      reconnectDelayMs: options.reconnectDelayMs || 1000,
-      autoReconnect: options.autoReconnect ?? true,
-      enableDebugLogging: options.enableDebugLogging ?? false
+      defaultSessionOptions: options.defaultSessionOptions || {}
     };
   }
 
@@ -356,157 +153,5 @@ export class VoiceLiveClient {
 
     // Remove trailing slash
     return endpoint.replace(/\/$/, '');
-  }
-
-  private _setupConnectionEventHandlers(): void {
-    if (!this._connectionManager) return;
-
-    this._connectionManager.updateEventHandlers({
-      onStateChange: (state, previousState) => {
-        logger.info('Connection state changed', { state, previousState });
-      },
-      onMessage: (data) => {
-        this._handleIncomingMessage(data);
-      },
-      onError: (error) => {
-        logger.error('Connection error', { error });
-      },
-      onReconnectAttempt: (attempt, maxAttempts) => {
-        logger.info('Reconnection attempt', { attempt, maxAttempts });
-      }
-    });
-  }
-
-  private _handleIncomingMessage(data: string | ArrayBuffer): void {
-    try {
-      logger.info('Message received', {
-        type: typeof data,
-        size: typeof data === 'string' ? data.length : data.byteLength
-      });
-
-      // Parse and process the message using Phase 2 message parser
-      const parsed = this._messageParser.parseIncomingMessage(data);
-      if (parsed && parsed.type === 'server') {
-        // Handle server events
-        this._handleServerEvent(parsed.event);
-      }
-    } catch (error) {
-      logger.error('Error handling incoming message', { error });
-    }
-  }
-
-  private _handleServerEvent(event: any): void {
-    // Extract session information from events
-    if (event.type === 'session.created' && event.session?.id) {
-      this._sessionId = event.session.id;
-      logger.info('Session created', { sessionId: this._sessionId });
-    }
-
-    // Emit through enhanced event emitter for real-time features
-    this._eventEmitter.emitServerEvent(event);
-  }
-
-  // Real-time feature accessors
-
-  /**
-   * Access to enhanced event system with async iteration and filtering
-   */
-  get events(): EnhancedVoiceLiveEventEmitter {
-    return this._eventEmitter;
-  }
-
-  /**
-   * Access to response streaming capabilities
-   */
-  get streaming(): ResponseStreamer {
-    return this._responseStreamer;
-  }
-
-  /**
-   * Access to async iteration patterns for data streaming
-   */
-  get asyncIterators(): VoiceLiveAsyncIterators {
-    return this._asyncIterators;
-  }
-
-  /**
-   * Access to audio processing capabilities
-   */
-  get audioProcessor(): AudioProcessor {
-    return this._audioProcessor;
-  }
-
-  /**
-   * Access to video and avatar processing capabilities
-   */
-  get videoProcessor(): VideoProcessor {
-    return this._videoProcessor;
-  }
-
-  /**
-   * Access to avatar management and animation handling
-   */
-  get avatarManager(): AvatarManager {
-    return this._avatarManager;
-  }
-
-  /**
-   * Wait for a specific event with optional filtering and timeout
-   */
-  async waitForEvent<K extends keyof import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap>(
-    event: K,
-    filter?: (eventData: import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]) => boolean,
-    timeoutMs = 30000
-  ): Promise<import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]> {
-    return this._eventEmitter.waitForEvent(event, filter, timeoutMs);
-  }
-
-  private async _sendEvent(event: ClientEventUnion, options: SendEventOptions): Promise<void> {
-    if (!this._connectionManager?.isConnected) {
-      throw new VoiceLiveConnectionError(
-        'Not connected to Voice Live service',
-        'NOT_CONNECTED'
-      );
-    }
-
-    try {
-      const serialized = this._messageParser.serializeOutgoingMessage(event);
-      await this._connectionManager.send(serialized, options.abortSignal as AbortSignal);
-
-      logger.info('Sent event', { type: event.type, eventId: (event as any).eventId });
-
-    } catch (error) {
-      if (error instanceof VoiceLiveConnectionError) {
-        throw error;
-      }
-
-      throw VoiceLiveErrorClassifier.classifyConnectionError(error);
-    }
-  }
-
-  private _ensureConnected(): void {
-    if (!this.isConnected) {
-      throw new VoiceLiveConnectionError(
-        'Must be connected to Voice Live service',
-        'NOT_CONNECTED'
-      );
-    }
-  }
-
-  private _generateEventId(): string {
-    return `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  private _generateTurnId(): string {
-    return `turn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  private _arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
-    const bytes = buffer instanceof ArrayBuffer ? new Uint8Array(buffer) : buffer;
-    let binary = '';
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
   }
 }

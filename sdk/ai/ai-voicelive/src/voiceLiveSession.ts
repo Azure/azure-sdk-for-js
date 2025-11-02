@@ -4,6 +4,8 @@
 import type { KeyCredential, TokenCredential } from '@azure/core-auth';
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type {
+  RequestSession,
+  ClientEventSessionUpdate,
   ClientEventUnion,
   ClientEventInputAudioBufferAppend,
   ClientEventInputAudioTurnStart,
@@ -73,6 +75,7 @@ export class VoiceLiveSession {
   private readonly _credentialHandler: CredentialHandler;
   private readonly _options: Required<VoiceLiveSessionOptions>;
   private readonly _messageParser: VoiceLiveMessageParser;
+  private readonly _model: string;
   private _connectionManager?: ConnectionManager;
   private _sessionId?: string;
   private _activeTurnId?: string;
@@ -92,18 +95,21 @@ export class VoiceLiveSession {
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
    * @param apiVersion - API version to use for the Voice Live service
+   * @param model - The model name to use for the session
    * @param options - Optional configuration for the session
    */
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
     apiVersion: string,
+    model: string,
     options: VoiceLiveSessionOptions = {}
   ) {
     this._endpoint = this._normalizeEndpoint(endpoint);
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
+    this._model = model;
 
     // Initialize real-time features
     this._eventEmitter = new EnhancedVoiceLiveEventEmitter();
@@ -115,6 +121,7 @@ export class VoiceLiveSession {
 
     logger.info('VoiceLiveSession created', {
       endpoint: this._endpoint,
+      model: this._model,
       apiVersion: apiVersion,
       enableDebugLogging: this._options.enableDebugLogging
     });
@@ -132,12 +139,16 @@ export class VoiceLiveSession {
     }
 
     try {
-      logger.info('Connecting to Voice Live service', { endpoint: this._endpoint });
+      logger.info('Connecting to Voice Live service', { 
+        endpoint: this._endpoint, 
+        model: this._model 
+      });
 
-      // Get WebSocket URL with authentication
+      // Get WebSocket URL with authentication and model
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
         this._endpoint,
-        '2025-10-01' // TODO: make this configurable through constructor
+        '2025-10-01', // TODO: make this configurable through constructor
+        this._model
       );
       const authHeaders = await this._credentialHandler.getAuthHeaders();
 
@@ -151,7 +162,7 @@ export class VoiceLiveSession {
         }),
         {
           endpoint: wsUrl,
-          protocols: ['voice-live-realtime'],
+          //protocols: ['voice-live-realtime'],
           reconnectAttempts: this._options.autoReconnect ? this._options.maxReconnectAttempts : 0,
           reconnectDelay: this._options.reconnectDelayMs,
           connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs
@@ -206,6 +217,24 @@ export class VoiceLiveSession {
   async sendEvent(event: ClientEventUnion, options: SendEventOptions = {}): Promise<void> {
     this._ensureConnected();
     await this._sendEvent(event, options);
+  }
+
+  /**
+   * Updates the session configuration with the service.
+   */
+  async updateSession(
+    session: RequestSession,
+    options: SendEventOptions = {}
+  ): Promise<void> {
+    this._ensureConnected();
+
+    const updateEvent: ClientEventSessionUpdate = {
+      type: 'session.update',
+      session: session,
+      eventId: this._generateEventId()
+    };
+
+    await this._sendEvent(updateEvent, options);
   }
 
   /**

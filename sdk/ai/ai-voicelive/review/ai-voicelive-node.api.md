@@ -601,7 +601,7 @@ export class CredentialHandler {
     get credentialType(): 'key' | 'token';
     getAccessToken(): Promise<string>;
     getAuthHeaders(): Promise<Record<string, string>>;
-    getWebSocketUrl(baseEndpoint: string, apiVersion: string): Promise<string>;
+    getWebSocketUrl(baseEndpoint: string, apiVersion: string, model?: string): Promise<string>;
     get isApiKey(): boolean;
     updateApiKey(newKey: string): void;
 }
@@ -1864,38 +1864,19 @@ export class VoiceLiveAuthenticationError extends VoiceLiveConnectionError {
 export class VoiceLiveClient {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: VoiceLiveClientOptions);
     // (undocumented)
-    get activeTurnId(): string | undefined;
-    addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
-    get asyncIterators(): VoiceLiveAsyncIterators;
-    get audioProcessor(): AudioProcessor;
-    get avatarManager(): AvatarManager;
-    connect(options?: ConnectOptions): Promise<void>;
+    get apiVersion(): string;
+    createSession(model: string, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
+    createSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
     // (undocumented)
-    get connectionState(): ConnectionState;
-    disconnect(): Promise<void>;
-    endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
-    get events(): EnhancedVoiceLiveEventEmitter;
-    // (undocumented)
-    get isConnected(): boolean;
-    sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
-    sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
-    // (undocumented)
-    get sessionId(): string | undefined;
-    startAudioTurn(options?: TurnOptions): Promise<string>;
-    get streaming(): ResponseStreamer;
-    updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
-    get videoProcessor(): VideoProcessor;
-    waitForEvent<K extends keyof VoiceLiveEventMap>(event: K, filter?: (eventData: VoiceLiveEventMap[K]) => boolean, timeoutMs?: number): Promise<VoiceLiveEventMap[K]>;
+    get endpoint(): string;
+    startSession(model: string, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
+    startSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
 }
 
 // @public (undocumented)
 export interface VoiceLiveClientOptions {
     apiVersion?: string;
-    autoReconnect?: boolean;
-    connectionTimeoutMs?: number;
-    enableDebugLogging?: boolean;
-    maxReconnectAttempts?: number;
-    reconnectDelayMs?: number;
+    defaultSessionOptions?: VoiceLiveSessionOptions;
 }
 
 // @public
@@ -2085,6 +2066,44 @@ export interface VoiceLiveEventMap {
 // @public
 export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
     constructor(message: string, code: string, cause?: Error);
+}
+
+// @public
+export class VoiceLiveSession {
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
+    // (undocumented)
+    get activeTurnId(): string | undefined;
+    addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
+    get asyncIterators(): VoiceLiveAsyncIterators;
+    get audioProcessor(): AudioProcessor;
+    get avatarManager(): AvatarManager;
+    connect(options?: ConnectOptions): Promise<void>;
+    // (undocumented)
+    get connectionState(): ConnectionState;
+    disconnect(): Promise<void>;
+    dispose(): Promise<void>;
+    endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
+    get events(): EnhancedVoiceLiveEventEmitter;
+    // (undocumented)
+    get isConnected(): boolean;
+    sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
+    sendEvent(event: ClientEventUnion, options?: SendEventOptions): Promise<void>;
+    // (undocumented)
+    get sessionId(): string | undefined;
+    startAudioTurn(options?: TurnOptions): Promise<string>;
+    get streaming(): ResponseStreamer;
+    updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
+    get videoProcessor(): VideoProcessor;
+    waitForEvent<K extends keyof VoiceLiveEventMap>(event: K, filter?: (eventData: VoiceLiveEventMap[K]) => boolean, timeoutMs?: number): Promise<VoiceLiveEventMap[K]>;
+}
+
+// @public (undocumented)
+export interface VoiceLiveSessionOptions {
+    autoReconnect?: boolean;
+    connectionTimeoutMs?: number;
+    enableDebugLogging?: boolean;
+    maxReconnectAttempts?: number;
+    reconnectDelayMs?: number;
 }
 
 // (No @packageDocumentation comment for this package)

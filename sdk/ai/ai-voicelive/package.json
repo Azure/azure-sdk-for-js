@@ -97,7 +97,7 @@
     "generate:client": "echo skipped",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "build": "dev-tool run build-package && dev-tool run extract-api",
-    "fastbuild": "npm run clean && dev-tool run build-package",
+    "fastbuild": "dev-tool run build-package",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",

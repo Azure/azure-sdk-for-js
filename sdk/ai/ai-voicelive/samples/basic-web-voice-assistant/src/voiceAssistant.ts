@@ -1,5 +1,5 @@
 // Main Voice Assistant implementation using Voice Live SDK
-import { VoiceLiveClient } from '@azure/ai-voicelive';
+import { VoiceLiveClient, VoiceLiveSession } from '@azure/ai-voicelive';
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { TokenCredential, KeyCredential } from '@azure/core-auth';
 import { SimpleAudioCapture } from './audioCapture.js';
@@ -36,6 +36,7 @@ export interface VoiceAssistantCallbacks {
 
 export class VoiceAssistant {
   private client?: VoiceLiveClient;
+  private session?: VoiceLiveSession;
   private audioCapture: SimpleAudioCapture;
   private callbacks?: VoiceAssistantCallbacks;
   private isConnected = false;
@@ -58,31 +59,34 @@ export class VoiceAssistant {
       // Create appropriate credential based on configuration
       const credential = this._createCredential(config);
       
-      // Create client options (using any for now since types aren't exported properly)
-      const clientOptions: any = {
+      // Create client options for session
+      const sessionOptions: any = {
         connectionTimeoutMs: 30000,
         autoReconnect: true,
         maxReconnectAttempts: 3,
         enableDebugLogging: config.debugMode !== false // Enable by default
       };
 
-      console.log(`🔧 Creating Voice Live client with debug mode: ${clientOptions.enableDebugLogging}`);
+      console.log(`🔧 Creating Voice Live client with debug mode: ${sessionOptions.enableDebugLogging}`);
       console.log(`🔑 Using credential type: ${config.useTokenCredential ? 'TokenCredential' : 'API Key'}`);
       
-      if (clientOptions.enableDebugLogging) {
+      if (sessionOptions.enableDebugLogging) {
         console.log('🐛 Debug mode enabled - you will see detailed SDK logs');
         console.log('🔍 Check Network tab for WebSocket messages');
         console.log('📡 Watch Events panel for real-time SDK events');
       }
 
-      // Create Voice Live client
-      this.client = new VoiceLiveClient(config.endpoint, credential, clientOptions);
+      // Create Voice Live client (now a session factory)
+      this.client = new VoiceLiveClient(config.endpoint, credential, {
+        apiVersion: '2025-10-01',
+        defaultSessionOptions: sessionOptions
+      });
       
-      // Setup event handlers to showcase Phase 4 features
+      // Create and connect a session with model
+      this.session = await this.client.startSession('gpt-4o', sessionOptions);
+      
+      // Setup event handlers on the session
       this.setupEventHandlers();
-      
-      // Connect to service
-      await this.client.connect();
       
       // Configure session
       await this.configureSession(config);
@@ -90,7 +94,7 @@ export class VoiceAssistant {
       this.isConnected = true;
       this.callbacks?.onConnectionStatusChange('connected');
       
-      console.log('Connected to Voice Live service');
+      console.log('Connected to Voice Live service via session');
       
     } catch (error) {
       this.callbacks?.onConnectionStatusChange('disconnected');
@@ -118,8 +122,10 @@ export class VoiceAssistant {
     try {
       this.stopConversation();
       
-      if (this.client && this.isConnected) {
-        await this.client.disconnect();
+      if (this.session && this.isConnected) {
+        await this.session.disconnect();
+        await this.session.dispose();
+        this.session = undefined;
       }
       
       this.isConnected = false;
@@ -133,7 +139,7 @@ export class VoiceAssistant {
   }
 
   async startConversation(): Promise<void> {
-    if (!this.client || !this.isConnected) {
+    if (!this.session || !this.isConnected) {
       throw new Error('Not connected to Voice Live service');
     }
 
@@ -208,11 +214,11 @@ export class VoiceAssistant {
   }
 
   private async configureSession(config: VoiceAssistantConfig): Promise<void> {
-    if (!this.client) return;
+    if (!this.session) return;
 
     try {
       // Update session configuration using convenience methods
-      await this.client.updateSession({
+      await this.session.updateSession({
         modalities: ['audio', 'text'],
         instructions: config.instructions,
         voice: config.voice,
@@ -235,10 +241,10 @@ export class VoiceAssistant {
   }
 
   private setupEventHandlers(): void {
-    if (!this.client) return;
+    if (!this.session) return;
 
-    // Demonstrate Phase 4 enhanced event system
-    const events = this.client.events;
+    // Now use session.events instead of client.events
+    const events = this.session.events;
 
     // Add debug logging for all events when debug mode is on
     const logEvent = (eventName: string, data: any) => {
@@ -327,11 +333,11 @@ export class VoiceAssistant {
   }
 
   private async setupTextStreaming(): Promise<void> {
-    if (!this.client) return;
+    if (!this.session) return;
 
     try {
-      // Demonstrate Phase 4 async iteration for text streaming
-      const textStream = this.client.asyncIterators.streamText({
+      // Now use session.asyncIterators instead of client.asyncIterators
+      const textStream = this.session.asyncIterators.streamText({
         bufferChunks: true,
         chunkTimeoutMs: 100
       });
@@ -360,11 +366,11 @@ export class VoiceAssistant {
   }
 
   private async setupAudioStreaming(): Promise<void> {
-    if (!this.client) return;
+    if (!this.session) return;
 
     try {
-      // Demonstrate Phase 4 audio streaming
-      const audioStream = this.client.streaming.createAudioStream();
+      // Now use session.streaming instead of client.streaming
+      const audioStream = this.session.streaming.createAudioStream();
 
       // Process audio stream asynchronously
       (async () => {
@@ -381,12 +387,12 @@ export class VoiceAssistant {
   }
 
   private async sendAudioData(audioData: ArrayBuffer): Promise<void> {
-    if (!this.client || !this.isConversationActive) return;
+    if (!this.session || !this.isConversationActive) return;
 
     try {
       // Convert ArrayBuffer to Uint8Array for sending
       const audioBytes = new Uint8Array(audioData);
-      await this.client.sendAudio(audioBytes);
+      await this.session.sendAudio(audioBytes);
       
     } catch (error) {
       console.error('Failed to send audio data:', error);

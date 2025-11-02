@@ -181,8 +181,9 @@ export class ConnectionManager {
    */
   private _setupWebSocketHandlers(): void {
     if (!this._websocket) return;
-    
+    console.info("Setting up WebSocket event handlers");
     this._websocket.onOpen(() => {
+      console.info('WebSocket connection opened');
       // Connection opened - handled in connect() method
     });
     

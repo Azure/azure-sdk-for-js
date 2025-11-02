@@ -1,10 +1,12 @@
-# 🎉 **Voice Live Web Assistant Sample - READY TO USE!**
+# 🎉 **Voice Live Web Assistant Sample - UPDATED FOR CLIENT/SESSION ARCHITECTURE!**
 
-A complete web-based voice assistant demonstrating all **Phase 4 real-time features** of the Azure Voice Live SDK for TypeScript.
+A complete web-based voice assistant demonstrating the **new client/session architecture** and all real-time features of the Azure Voice Live SDK for TypeScript.
 
-## ✅ **Status: FULLY FUNCTIONAL**
-- ✅ **Builds successfully** with TypeScript and Vite
-- ✅ **All Phase 4 features** integrated and working
+## ✅ **Status: UPDATED & FUNCTIONAL**
+- ✅ **Uses new client/session pattern** - follows C# SDK model
+- ✅ **Client as session factory** - lightweight client creates sessions
+- ✅ **Session-based interactions** - all operations happen on sessions
+- ✅ **Proper lifecycle management** - sessions can be disposed properly
 - ✅ **Professional UI** with real-time feedback
 - ✅ **Web Audio API** integration for microphone and speaker
 - ✅ **Event streaming** with filtering and visualization
@@ -36,19 +38,71 @@ Opens at: **http://localhost:3000**
 2. **Allow microphone access** when prompted
 3. **Start speaking** - the assistant will respond in real-time!
 
-## 🎯 **Phase 4 Features Demonstrated**
+## 🔄 **New Architecture Features Demonstrated**
 
-### **🔄 Enhanced Event System**
-- **Real-time Event Display**: Live feed of all Voice Live events
-- **Event Filtering**: Toggle between all events and important events only
-- **Async Iteration**: Demonstrates `createEventStream()` with filtering
-- **Event Waiting**: Uses `waitForEvent()` for specific event handling
+### **🏭 Client as Session Factory**
+```typescript
+// Create a lightweight client
+const client = new VoiceLiveClient(endpoint, credential);
 
-### **📡 Response Streaming**  
-- **Text Streaming**: Live text updates as assistant generates responses
-- **Audio Streaming**: Real-time audio playback with Web Audio API
-- **Unified Processing**: Combined handling of multiple response types
-- **Async Iterators**: Shows `streamText()`, `streamAudio()`, and `streamAnimation()`
+// Client creates sessions with model specification
+const session = await client.startSession('gpt-4o-realtime-preview', sessionOptions);
+
+// Or with full session configuration
+const sessionConfig = {
+  model: 'gpt-4o-realtime-preview',
+  instructions: 'You are a helpful assistant',
+  modalities: ['audio', 'text'],
+  voice: 'alloy'
+};
+const session = await client.startSession(sessionConfig);
+
+// All interactions happen on the session
+await session.sendAudio(audioData);
+await session.updateSession(config);
+
+// Proper cleanup
+await session.dispose();
+```
+
+### **📡 Session-Based Real-time Features**
+- **Real-time Event Display**: Live feed of all Voice Live events from session
+- **Event Filtering**: Toggle between all events and important events only  
+- **Async Iteration**: Session-based async iteration patterns
+- **Event Waiting**: Session-level `waitForEvent()` for specific event handling
+
+### **📱 Session Lifecycle Management**
+- **Session Creation**: Client factory pattern for creating sessions
+- **Session Configuration**: Session-level configuration and updates
+- **Session Disposal**: Proper cleanup and resource management
+- **Multiple Sessions**: Capability to create multiple sessions per client
+
+## 🔄 **Architecture Migration**
+
+### **Before (Monolithic Client)**
+```typescript
+const client = new VoiceLiveClient(endpoint, credential);
+await client.connect();
+await client.sendAudio(audioData);
+await client.disconnect();
+```
+
+### **After (Client/Session Pattern)**
+```typescript
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession('gpt-4o-realtime-preview');
+await session.sendAudio(audioData);
+await session.dispose();
+```
+
+### **Key Benefits**
+- ✅ **Separation of Concerns**: Client manages credentials, session manages communication
+- ✅ **Better Resource Management**: Sessions can be properly disposed
+- ✅ **Multiple Sessions**: One client can create multiple sessions
+- ✅ **Cleaner APIs**: More intuitive interaction patterns
+- ✅ **C# SDK Alignment**: Consistent architecture across languages
+
+## 🎯 **Real-time Features Demonstrated**
 
 ### **🎵 Audio Processing**
 - **Format Conversion**: Automatic PCM16 conversion for Voice Live compatibility

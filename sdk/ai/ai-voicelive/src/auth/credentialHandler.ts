@@ -101,13 +101,18 @@ export class CredentialHandler {
   /**
    * Builds the WebSocket URL with authentication
    */
-  async getWebSocketUrl(baseEndpoint: string, apiVersion: string): Promise<string> {
+  async getWebSocketUrl(baseEndpoint: string, apiVersion: string, model?: string): Promise<string> {
     const authValue = await this.getAccessToken();
     
     const url = new URL(baseEndpoint);
     url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
     url.pathname = '/voice-live/realtime'; // Voice Live WebSocket endpoint path
     url.searchParams.set('api-version', apiVersion);
+    
+    // Add model parameter if provided
+    if (model) {
+      url.searchParams.set('model', model);
+    }
     
     // For API keys, add as query parameter
     if (this._isApiKey) {
