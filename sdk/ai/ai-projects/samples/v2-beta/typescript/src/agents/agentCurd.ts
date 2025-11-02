@@ -51,14 +51,7 @@ async function main(): Promise<void> {
   const allAgents = projectClient.agents.listVersions(agent1.name);
   console.log("List all agents:");
   for await (const item of allAgents) {
-    console.log(
-      "Agent id:",
-      item.id,
-      "name:",
-      item.name,
-      "version:",
-      item.version,
-    );
+    console.log("Agent id:", item.id, "name:", item.name, "version:", item.version);
   }
 
   // Delete agent1

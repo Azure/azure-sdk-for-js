@@ -19,8 +19,8 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const _dirname = path.dirname(fileURLToPath(import.meta.url));
-const assetFilePath = path.resolve(_dirname, "assets", "product_info.md");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
 
 export async function main(): Promise<void> {
   // Create AI Project client
@@ -38,7 +38,10 @@ export async function main(): Promise<void> {
   // Upload file to vector store
   try {
     const fileStream = fs.createReadStream(assetFilePath);
-    const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(vectorStore.id, fileStream);
+    const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(
+      vectorStore.id,
+      fileStream,
+    );
     console.log(`File uploaded to vector store (id: ${uploadedFile.id})`);
     console.log("File processing completed");
   } catch (error: any) {

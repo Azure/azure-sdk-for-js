@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const projectClient = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await projectClient.getOpenAIClient();
   const agentsClient = projectClient.agents;
-  
+
   const agent = await agentsClient.createVersion("bg-container-app-agent", {
     kind: "container_app",
     containerProtocolVersions: [
@@ -76,11 +76,13 @@ async function main(): Promise<void> {
 
   // Add a follow-up user message to the conversation
   await openAIClient.conversations.items.create(conversation.id, {
-    items: [{
-      type: "message",
-      role: "user",
-      content: [{ type: "input_text", text: "And what is the capital city?" }],
-    }],
+    items: [
+      {
+        type: "message",
+        role: "user",
+        content: [{ type: "input_text", text: "And what is the capital city?" }],
+      },
+    ],
   });
 
   console.log("Added follow-up user message to conversation.");

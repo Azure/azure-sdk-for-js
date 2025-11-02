@@ -16,7 +16,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agents/agentBasic.ts][agents_agentbasic]                                 | This sample demonstrates how to create an agent, create a conversation, generate responses using the agent, and clean up resources.                                                                    |
 | [agents/agentCodeInterpreter.ts][agents_agentcodeinterpreter]             | This sample demonstrates how to create a response with code interpreter tool to solve mathematical equations.                                                                                          |
 | [agents/agentFileSearch.ts][agents_agentfilesearch]                       | This sample demonstrates how to create an agent with file search capabilities, upload documents to a vector store, and stream responses that include file search results.                              |
-| [files/filesBasic.ts][files_filesbasic]                                   | This sample demonstrates how to upload, retrieve, list, get content, and delete files using the OpenAI client.                                                                                         |
 | [responses/responseBasic.ts][responses_responsebasic]                     | This sample demonstrates how to create responses with and without conversation context.                                                                                                                |
 | [responses/responseStream.ts][responses_responsestream]                   | This sample demonstrates how to create a non-streaming response and then use streaming for a follow-up response with conversation context.                                                             |
 | [agents/agentFunctionTool.ts][agents_agentfunctiontool]                   | Demonstrates how to create an agent with function tools, handle function calls, and provide function results to get the final response.                                                                |
@@ -27,6 +26,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [conversations/conversationsBasics.ts][conversations_conversationsbasics] | This sample demonstrates how to create, retrieve, update, list, and delete conversations using the OpenAI client.                                                                                      |
 | [datasets/datasetsBasics.ts][datasets_datasetsbasics]                     | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                   |
 | [deployments/deploymentsBasics.ts][deployments_deploymentsbasics]         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
+| [files/filesBasic.ts][files_filesbasic]                                   | Using an OpenAI client, this sample demonstrates how to perform files operations: create, retrieve, content, list, and delete.                                                                         |
 | [indexes/indexesBasics.ts][indexes_indexesbasics]                         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                    |
 | [redTeam/redTeamBasic.ts][redteam_redteambasic]                           | Given an AIProjectClient, this sample demonstrates how to create, get, and list Red Team scans.                                                                                                        |
 
@@ -83,7 +83,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentBasic.ts
 [agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentCodeInterpreter.ts
 [agents_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentFileSearch.ts
-[files_filesbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/files/filesBasic.ts
 [responses_responsebasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/responses/responseBasic.ts
 [responses_responsestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/responses/responseStream.ts
 [agents_agentfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentFunctionTool.ts
@@ -94,6 +93,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [conversations_conversationsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/conversations/conversationsBasics.ts
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/datasets/datasetsBasics.ts
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/deployments/deploymentsBasics.ts
+[files_filesbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/files/filesBasic.ts
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/indexes/indexesBasics.ts
 [redteam_redteambasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/redTeam/redTeamBasic.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
