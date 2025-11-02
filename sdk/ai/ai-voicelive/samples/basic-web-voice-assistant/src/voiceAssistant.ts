@@ -1,5 +1,15 @@
 // Main Voice Assistant implementation using Voice Live SDK
-import { VoiceLiveClient, VoiceLiveSession } from '@azure/ai-voicelive';
+import { 
+  VoiceLiveClient, 
+  VoiceLiveSession,
+  type VoiceLiveSessionHandlers,
+  type VoiceLiveSubscription,
+  type ConnectedEventArgs,
+  type DisconnectedEventArgs,
+  type ErrorEventArgs,
+  type ConnectionContext,
+  type SessionContext
+} from '@azure/ai-voicelive';
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { TokenCredential, KeyCredential } from '@azure/core-auth';
 import { SimpleAudioCapture } from './audioCapture.js';
@@ -37,12 +47,21 @@ export interface VoiceAssistantCallbacks {
 export class VoiceAssistant {
   private client?: VoiceLiveClient;
   private session?: VoiceLiveSession;
+  private subscription?: VoiceLiveSubscription;
   private audioCapture: SimpleAudioCapture;
   private callbacks?: VoiceAssistantCallbacks;
   private isConnected = false;
   private isConversationActive = false;
   private currentResponseId?: string;
   private audioContext?: AudioContext;
+  
+  // Track ongoing text responses for proper conversation display
+  private currentAssistantMessage = '';
+  private messageStartTime?: Date;
+  
+  // Track ongoing transcription for user speech
+  private currentUserTranscription = '';
+  private userSpeechStartTime?: Date;
 
   constructor() {
     this.audioCapture = new SimpleAudioCapture();
@@ -84,8 +103,8 @@ export class VoiceAssistant {
       // Create and connect a session with model
       this.session = await this.client.startSession('gpt-4o', sessionOptions);
       
-      // Setup event handlers on the session
-      this.setupEventHandlers();
+      // Setup handler-based event subscription (Azure SDK pattern)
+      this.subscription = this.session.subscribe(this.createEventHandlers());
       
       // Configure session
       await this.configureSession(config);
@@ -121,6 +140,12 @@ export class VoiceAssistant {
     try {
       this.stopConversation();
       
+      // Close subscription first
+      if (this.subscription) {
+        await this.subscription.close();
+        this.subscription = undefined;
+      }
+      
       if (this.session && this.isConnected) {
         await this.session.disconnect();
         await this.session.dispose();
@@ -135,6 +160,180 @@ export class VoiceAssistant {
     } catch (error) {
       this.callbacks?.onError(`Disconnect failed: ${error}`);
     }
+  }
+
+  private createEventHandlers(): VoiceLiveSessionHandlers {
+    return {
+      processConnected: async (args: ConnectedEventArgs, context: ConnectionContext) => {
+        console.log('🔔 Connected:', args);
+        this.callbacks?.onEventReceived({
+          type: 'connected',
+          data: args,
+          timestamp: new Date()
+        });
+      },
+
+      processDisconnected: async (args: DisconnectedEventArgs, context: ConnectionContext) => {
+        console.log('🔔 Disconnected:', args);
+        this.isConnected = false;
+        this.callbacks?.onConnectionStatusChange('disconnected');
+        this.callbacks?.onEventReceived({
+          type: 'disconnected',
+          data: args,
+          timestamp: new Date()
+        });
+      },
+
+      processError: async (args: ErrorEventArgs, context: ConnectionContext) => {
+        console.log('🔔 Error:', args);
+        this.callbacks?.onError(`Service error: ${args.error.message}`);
+        this.callbacks?.onEventReceived({
+          type: 'error',
+          data: args,
+          timestamp: new Date()
+        });
+      },
+
+      processResponseCreated: async (event, context: SessionContext) => {
+        console.log('🔔 Response Created:', event);
+        this.currentResponseId = event.response.id;
+        this.currentAssistantMessage = ''; // Reset for new response
+        this.messageStartTime = new Date();
+        this.callbacks?.onAssistantStatusChange('thinking');
+        this.callbacks?.onEventReceived({
+          type: 'response.created',
+          data: event,
+          timestamp: new Date()
+        });
+      },
+
+      processResponseDone: async (event, context: SessionContext) => {
+        console.log('🔔 Response Done:', event);
+        console.log('🔔 Final accumulated message:', this.currentAssistantMessage);
+        
+        // Add the complete assistant message to conversation
+        if (this.currentAssistantMessage.trim()) {
+          console.log('🔔 Adding assistant message to conversation:', this.currentAssistantMessage.trim());
+          this.callbacks?.onConversationMessage({
+            role: 'assistant',
+            content: this.currentAssistantMessage.trim(),
+            timestamp: this.messageStartTime || new Date()
+          });
+        } else {
+          console.log('🔔 No text content to add to conversation');
+        }
+        
+        // Reset for next response
+        this.currentAssistantMessage = '';
+        this.messageStartTime = undefined;
+        
+        this.callbacks?.onAssistantStatusChange('listening');
+        this.callbacks?.onEventReceived({
+          type: 'response.done',
+          data: event,
+          timestamp: new Date()
+        });
+      },
+
+      processSpeechStarted: async (event, context: SessionContext) => {
+        console.log('🔔 Speech Started:', event);
+        this.currentUserTranscription = ''; // Reset transcription
+        this.userSpeechStartTime = new Date();
+        this.callbacks?.onAssistantStatusChange('listening (speech detected)');
+        this.callbacks?.onEventReceived({
+          type: 'speech.started',
+          data: event,
+          timestamp: new Date()
+        });
+      },
+
+      processSpeechStopped: async (event, context: SessionContext) => {
+        console.log('🔔 Speech Stopped:', event);
+        this.callbacks?.onAssistantStatusChange('processing');
+        
+        // Don't add a message here - wait for transcription
+        // The transcription handlers will add the actual user message
+        
+        this.callbacks?.onEventReceived({
+          type: 'speech.stopped',
+          data: event,
+          timestamp: new Date()
+        });
+      },
+
+      processTextReceived: async (event, context: SessionContext) => {
+        console.log('🔔 Text Received:', event.delta);
+        console.log('🔔 Current message so far:', this.currentAssistantMessage);
+        
+        // Accumulate text deltas for complete response
+        this.currentAssistantMessage += event.delta;
+        
+        // Debug: show current accumulated text
+        console.log('🔔 Updated message:', this.currentAssistantMessage);
+        
+        // Don't send individual deltas to conversation - wait for complete response
+        // But we could show live typing indicator or streaming text if desired
+      },
+
+      processAudioReceived: async (event, context: SessionContext) => {
+        console.log('🔔 Audio Received:', event.delta?.byteLength, 'bytes');
+        // Handle streaming audio
+        if (event.delta) {
+          // delta is already a Uint8Array, convert to ArrayBuffer
+          const audioBuffer = new ArrayBuffer(event.delta.byteLength);
+          const view = new Uint8Array(audioBuffer);
+          view.set(event.delta);
+          await this.playAudioChunk(audioBuffer);
+        }
+      },
+
+      // Catch-all for any server events not handled specifically
+      processServerEvent: async (event, context: SessionContext) => {
+        console.log('🔔 Server Event:', event.type, event);
+        
+        // Handle transcription events specifically
+        if (event.type === 'conversation.item.input_audio_transcription.delta') {
+          const transcriptEvent = event as any;
+          this.currentUserTranscription += transcriptEvent.delta;
+          console.log('🔔 Transcription Delta:', transcriptEvent.delta);
+          
+        } else if (event.type === 'conversation.item.input_audio_transcription.completed') {
+          const transcriptEvent = event as any;
+          console.log('🔔 Transcription Completed:', transcriptEvent.transcript);
+          
+          // Add the complete user transcription to conversation
+          this.callbacks?.onConversationMessage({
+            role: 'user',
+            content: transcriptEvent.transcript || this.currentUserTranscription || '[Audio input]',
+            timestamp: this.userSpeechStartTime || new Date()
+          });
+          
+          // Reset transcription tracking
+          this.currentUserTranscription = '';
+          this.userSpeechStartTime = undefined;
+          
+        } else if (event.type === 'conversation.item.input_audio_transcription.failed') {
+          console.log('🔔 Transcription Failed:', event);
+          
+          // Add failed transcription indicator
+          this.callbacks?.onConversationMessage({
+            role: 'user',
+            content: '[Audio input - transcription unavailable]',
+            timestamp: this.userSpeechStartTime || new Date()
+          });
+          
+          // Reset transcription tracking
+          this.currentUserTranscription = '';
+          this.userSpeechStartTime = undefined;
+        }
+        
+        this.callbacks?.onEventReceived({
+          type: event.type,
+          data: event,
+          timestamp: new Date()
+        });
+      }
+    };
   }
 
   async startConversation(): Promise<void> {
@@ -160,7 +359,7 @@ export class VoiceAssistant {
       
       this.callbacks?.onConversationMessage({
         role: 'system',
-        content: 'Conversation started. Start speaking!',
+        content: 'Conversation started. Start speaking to the assistant!',
         timestamp: new Date()
       });
       
@@ -226,6 +425,9 @@ export class VoiceAssistant {
         voice: voice, // Now using proper voice object
         inputAudioFormat: 'pcm16',
         outputAudioFormat: 'pcm16',
+        inputAudioTranscription: {
+          model: 'whisper-1' // Enable transcription to get user speech text
+        },
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
@@ -258,152 +460,6 @@ export class VoiceAssistant {
       type: 'azure-standard',
       name: voiceName
     };
-  }
-
-  private setupEventHandlers(): void {
-    if (!this.session) return;
-
-    // Now use session.events instead of client.events
-    const events = this.session.events;
-
-    // Add debug logging for all events when debug mode is on
-    const logEvent = (eventName: string, data: any) => {
-      console.log(`🔔 SDK Event: ${eventName}`, data);
-    };
-
-    // Connection events
-    events.on('connected', (args) => {
-      logEvent('connected', args);
-      this.callbacks?.onEventReceived({
-        type: 'connected',
-        data: args,
-        timestamp: new Date()
-      });
-    });
-
-    events.on('disconnected', (args) => {
-      logEvent('disconnected', args);
-      this.isConnected = false;
-      this.callbacks?.onConnectionStatusChange('disconnected');
-      this.callbacks?.onEventReceived({
-        type: 'disconnected',
-        data: args,
-        timestamp: new Date()
-      });
-    });
-
-    events.on('error', (args) => {
-      logEvent('error', args);
-      this.callbacks?.onError(`Service error: ${args.error.message}`);
-      this.callbacks?.onEventReceived({
-        type: 'error',
-        data: args,
-        timestamp: new Date()
-      });
-    });
-
-    // Response events - demonstrate streaming
-    events.on('server.response.created', (event) => {
-      logEvent('server.response.created', event);
-      this.currentResponseId = event.response.id;
-      this.callbacks?.onAssistantStatusChange('thinking');
-      this.callbacks?.onEventReceived({
-        type: 'response.created',
-        data: event,
-        timestamp: new Date()
-      });
-    });
-
-    events.on('server.response.done', (event) => {
-      logEvent('server.response.done', event);
-      this.callbacks?.onAssistantStatusChange('listening');
-      this.callbacks?.onEventReceived({
-        type: 'response.done',
-        data: event,
-        timestamp: new Date()
-      });
-    });
-
-    // Text streaming - demonstrate real-time text updates
-    this.setupTextStreaming();
-
-    // Audio streaming - demonstrate real-time audio playback
-    this.setupAudioStreaming();
-
-    // Input audio events
-    events.on('server.input_audio_buffer.speech_started', (event) => {
-      logEvent('server.input_audio_buffer.speech_started', event);
-      this.callbacks?.onAssistantStatusChange('listening (speech detected)');
-      this.callbacks?.onEventReceived({
-        type: 'speech.started',
-        data: event,
-        timestamp: new Date()
-      });
-    });
-
-    events.on('server.input_audio_buffer.speech_stopped', (event) => {
-      logEvent('server.input_audio_buffer.speech_stopped', event);
-      this.callbacks?.onAssistantStatusChange('processing');
-      this.callbacks?.onEventReceived({
-        type: 'speech.stopped',
-        data: event,
-        timestamp: new Date()
-      });
-    });
-  }
-
-  private async setupTextStreaming(): Promise<void> {
-    if (!this.session) return;
-
-    try {
-      // Now use session.asyncIterators instead of client.asyncIterators
-      const textStream = this.session.asyncIterators.streamText({
-        bufferChunks: true,
-        chunkTimeoutMs: 100
-      });
-
-      // Process text stream asynchronously
-      (async () => {
-        let currentMessage = '';
-        
-        for await (const textChunk of textStream) {
-          currentMessage += textChunk;
-          
-          // Update conversation with streaming text
-          this.callbacks?.onConversationMessage({
-            role: 'assistant',
-            content: currentMessage,
-            timestamp: new Date()
-          });
-        }
-      })().catch(error => {
-        console.error('Text streaming error:', error);
-      });
-
-    } catch (error) {
-      console.error('Failed to setup text streaming:', error);
-    }
-  }
-
-  private async setupAudioStreaming(): Promise<void> {
-    if (!this.session) return;
-
-    try {
-      // Now use session.streaming instead of client.streaming
-      const audioStream = this.session.streaming.createAudioStream();
-
-      // Process audio stream asynchronously
-      (async () => {
-        for await (const audioChunk of audioStream) {
-          await this.playAudioChunk(audioChunk.data);
-        }
-      })().catch(error => {
-        console.error('Audio streaming error:', error);
-      });
-
-    } catch (error) {
-      console.error('Failed to setup audio streaming:', error);
-    }
   }
 
   private async sendAudioData(audioData: ArrayBuffer): Promise<void> {

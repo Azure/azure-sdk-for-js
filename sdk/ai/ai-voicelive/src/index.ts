@@ -195,6 +195,18 @@ export {
   TurnOptions
 } from "./voiceLiveSession.js";
 
+// Handler-based subscription exports (Azure SDK pattern)
+export type {
+  VoiceLiveSessionHandlers,
+  VoiceLiveSubscription,
+  SubscribeOptions,
+  ConnectionContext,
+  SessionContext,
+  ConnectedEventArgs,
+  DisconnectedEventArgs,
+  ErrorEventArgs
+} from "./handlers/sessionHandlers.js";
+
 // WebSocket and connection exports
 export {
   ConnectionState
@@ -221,11 +233,8 @@ export {
   VoiceLiveEventEmitter,
   VoiceLiveEventMap,
   EventListener,
-  ConnectedEventArgs,
-  DisconnectedEventArgs,
   ReconnectingEventArgs,
   ReconnectedEventArgs,
-  ErrorEventArgs,
   RawMessageEventArgs,
   RawSentEventArgs
 } from "./events/voiceLiveEventEmitter.js";

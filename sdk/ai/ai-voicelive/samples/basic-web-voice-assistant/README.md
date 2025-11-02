@@ -1,15 +1,16 @@
-# 🎉 **Voice Live Web Assistant Sample - UPDATED FOR CLIENT/SESSION ARCHITECTURE!**
+# 🎉 **Voice Live Web Assistant Sample - UPDATED FOR AZURE SDK HANDLER PATTERN!**
 
-A complete web-based voice assistant demonstrating the **new client/session architecture** and all real-time features of the Azure Voice Live SDK for TypeScript.
+A complete web-based voice assistant demonstrating the **Azure SDK handler-based pattern** and all real-time features of the Azure Voice Live SDK for TypeScript.
 
 ## ✅ **Status: UPDATED & FUNCTIONAL**
-- ✅ **Uses new client/session pattern** - follows C# SDK model
+- ✅ **Uses Azure SDK handler pattern** - follows EventHub/Service Bus model
+- ✅ **Type-safe event handling** - no more fragile string-based events
+- ✅ **Strongly-typed handlers** - compile-time validation of event handlers
 - ✅ **Client as session factory** - lightweight client creates sessions
 - ✅ **Session-based interactions** - all operations happen on sessions
 - ✅ **Proper lifecycle management** - sessions can be disposed properly
 - ✅ **Professional UI** with real-time feedback
 - ✅ **Web Audio API** integration for microphone and speaker
-- ✅ **Event streaming** with filtering and visualization
 - ✅ **Production ready** with error handling and cleanup
 
 ## 🚀 **Quick Start**
@@ -68,34 +69,86 @@ await session.updateSession(config);
 await session.dispose();
 ```
 
-### **📡 Session-Based Real-time Features**
-- **Real-time Event Display**: Live feed of all Voice Live events from session
-- **Event Filtering**: Toggle between all events and important events only  
-- **Async Iteration**: Session-based async iteration patterns
-- **Event Waiting**: Session-level `waitForEvent()` for specific event handling
+### **🎯 Complete Conversation Flow**
 
-### **📱 Session Lifecycle Management**
-- **Session Creation**: Client factory pattern for creating sessions
-- **Session Configuration**: Session-level configuration and updates
-- **Session Disposal**: Proper cleanup and resource management
-- **Multiple Sessions**: Capability to create multiple sessions per client
+The sample now properly displays the full conversation flow:
 
-## 🔄 **Architecture Migration**
-
-### **Before (Monolithic Client)**
 ```typescript
-const client = new VoiceLiveClient(endpoint, credential);
-await client.connect();
-await client.sendAudio(audioData);
-await client.disconnect();
+// ✅ What you'll see in the Conversation area:
+// 1. System message when conversation starts
+// 2. User speech transcribed to text (via Whisper-1)
+// 3. Complete assistant responses (accumulated from deltas)
+// 4. Proper timestamps and role indicators
+
+const subscription = session.subscribe({
+  processSpeechStarted: async (args, context) => {
+    // User starts speaking - no message yet
+  },
+  
+  // Real-time transcription as user speaks
+  processServerEvent: async (event, context) => {
+    if (event.type === 'conversation.item.input_audio_transcription.completed') {
+      // ✅ Add user's transcribed speech to conversation
+      addMessage('user', event.transcript);
+    }
+  },
+  
+  processTextReceived: async (event, context) => {
+    // ✅ Accumulate assistant text (don't show deltas)
+    currentResponse += event.delta;
+  },
+  
+  processResponseDone: async (event, context) => {
+    // ✅ Add complete assistant response to conversation
+    addMessage('assistant', currentResponse);
+  }
+});
 ```
 
-### **After (Client/Session Pattern)**
+**Conversation Display Features:**
+- ✅ **User Speech Transcription**: Real-time transcription via Whisper-1
+- ✅ **Complete Assistant Responses**: Accumulated from text deltas
+- ✅ **Proper Message Flow**: User → Assistant → User → Assistant
+- ✅ **Timestamps**: When each message was sent/received
+- ✅ **Role Indicators**: Clear visual distinction between user/assistant/system
+- ✅ **Transcription Fallback**: Graceful handling when transcription fails
+
+## 🔄 **Azure SDK Handler Pattern**
+
+**Why Handler-Based Events?** Following Azure SDK conventions used by EventHub, Service Bus, etc:
+- **Type Safety**: Handler signatures are enforced by TypeScript
+- **No String Fragility**: No more `events.on('spelling-error-prone-strings')`
+- **Compile-Time Validation**: Wrong handler signatures caught at build time
+- **Familiar Pattern**: Consistent with other Azure SDKs
+
+**Our Approach:**
 ```typescript
-const client = new VoiceLiveClient(endpoint, credential);
-const session = await client.startSession('gpt-4o-realtime-preview');
-await session.sendAudio(audioData);
-await session.dispose();
+// ✅ Azure SDK handler pattern - type-safe and robust
+const subscription = session.subscribe({
+  processConnected: async (args, context) => {
+    console.log('Connected:', context.sessionId);
+  },
+  processError: async (error, context) => {
+    console.log('Session error:', error.error.message);
+  },
+  processResponseDone: async (event, context) => {
+    console.log('Assistant finished response');
+  },
+  processAudioReceived: async (event, context) => {
+    // Stream audio in real-time
+    await playAudio(event.delta);
+  }
+});
+
+// ✅ Proper cleanup
+await subscription.close();
+```
+
+**vs. Old String-Based Pattern:**
+```typescript
+// ❌ Fragile string-based events (old way)
+events.on('server.response.done', handler); // Typo-prone
+events.on('erorr', handler); // Whoops! Typo not caught
 ```
 
 ### **Key Benefits**

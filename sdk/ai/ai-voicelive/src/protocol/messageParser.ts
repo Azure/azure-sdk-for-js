@@ -67,8 +67,7 @@ export class VoiceLiveMessageParser {
    * Serializes outgoing client events for WebSocket transmission
    */
   serializeOutgoingMessage(event: ClientEventUnion): string {
-    //return JSON.stringify(clientEventUnionSerializer(event));
-    return clientEventUnionSerializer(event);
+    return JSON.stringify(clientEventUnionSerializer(event));
   }
   
   /**

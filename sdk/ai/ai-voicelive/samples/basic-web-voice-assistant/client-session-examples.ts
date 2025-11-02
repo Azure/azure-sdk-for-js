@@ -2,7 +2,15 @@
 import { VoiceLiveClient, VoiceLiveSession } from '@azure/ai-voicelive';
 import { AzureKeyCredential } from '@azure/core-auth';
 
-async function basicClientSessionExample() {
+// Basic example of the new VoiceLive Azure SDK Handler Pattern
+import { 
+  VoiceLiveClient, 
+  VoiceLiveSession,
+  type VoiceLiveSessionHandlers 
+} from '@azure/ai-voicelive';
+import { AzureKeyCredential } from '@azure/core-auth';
+
+async function basicHandlerPatternExample() {
   // 1. Create client (session factory)
   const client = new VoiceLiveClient(
     'https://your-voicelive-endpoint.com',
@@ -21,7 +29,43 @@ async function basicClientSessionExample() {
   });
 
   try {
-    // 3. Configure the session
+    // 3. Setup Azure SDK handler-based event subscription
+    const subscription = session.subscribe({
+      processConnected: async (args, context) => {
+        console.log('🟢 Connected to session:', context.sessionId);
+      },
+
+      processError: async (error, context) => {
+        console.log('🔴 Session error:', error.error.message);
+      },
+
+      processResponseCreated: async (event, context) => {
+        console.log('🤔 Assistant started thinking...');
+      },
+
+      processResponseDone: async (event, context) => {
+        console.log('✅ Assistant finished response');
+      },
+
+      processTextReceived: async (event, context) => {
+        console.log('📝 Text received:', event.delta);
+      },
+
+      processAudioReceived: async (event, context) => {
+        console.log('🔊 Audio received:', event.delta.byteLength, 'bytes');
+        // Handle real-time audio streaming
+      },
+
+      processSpeechStarted: async (event, context) => {
+        console.log('🎤 Speech detected');
+      },
+
+      processSpeechStopped: async (event, context) => {
+        console.log('⏸️ Speech stopped');
+      }
+    });
+
+    // 4. Configure the session
     await session.updateSession({
       model: 'gpt-4o-realtime-preview',
       modalities: ['audio', 'text'],
@@ -38,15 +82,6 @@ async function basicClientSessionExample() {
       }
     });
 
-    // 4. Set up event handlers
-    session.events.on('server.response.text.delta', (event) => {
-      console.log('Received text:', event.delta);
-    });
-
-    session.events.on('server.response.audio.delta', (event) => {
-      console.log('Received audio chunk:', event.delta.length, 'bytes');
-    });
-
     // 5. Send audio data
     const audioData = new Uint8Array(1024); // Your audio data
     await session.sendAudio(audioData);
@@ -61,12 +96,14 @@ async function basicClientSessionExample() {
       }]
     });
 
-    // 7. Wait for specific events
-    const response = await session.waitForEvent('server.response.done', undefined, 30000);
-    console.log('Response completed:', response);
+    // 7. Wait for some interaction...
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    // 8. Clean up subscription
+    await subscription.close();
 
   } finally {
-    // 8. Always dispose the session
+    // 9. Always dispose the session
     await session.dispose();
   }
 }

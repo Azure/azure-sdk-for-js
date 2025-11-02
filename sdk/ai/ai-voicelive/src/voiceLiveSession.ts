@@ -12,7 +12,8 @@ import type {
   ClientEventInputAudioTurnAppend,
   ClientEventInputAudioTurnEnd,
   ConversationRequestItem,
-  ClientEventConversationItemCreate
+  ClientEventConversationItemCreate,
+  ServerEventUnion
 } from './models/index.js';
 import { ConnectionManager, ConnectionState } from './websocket/connectionManager.js';
 import { VoiceLiveWebSocketFactory } from './websocket/websocketFactory.js';
@@ -26,6 +27,17 @@ import { VoiceLiveAsyncIterators } from './streaming/asyncIterators.js';
 import { AudioProcessor } from './media/audioProcessor.js';
 import { VideoProcessor } from './media/videoProcessor.js';
 import { AvatarManager } from './avatar/avatarManager.js';
+import type {
+  VoiceLiveSessionHandlers,
+  VoiceLiveSubscription,
+  SubscribeOptions,
+  ConnectionContext,
+  SessionContext,
+  ConnectedEventArgs,
+  DisconnectedEventArgs,
+  ErrorEventArgs
+} from './handlers/sessionHandlers.js';
+import { SubscriptionManager } from './handlers/subscriptionManager.js';
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
@@ -83,6 +95,9 @@ export class VoiceLiveSession {
   private readonly _videoProcessor: VideoProcessor;
   private readonly _avatarManager: AvatarManager;
 
+  // Handler-based subscription management
+  private readonly _subscriptionManager: SubscriptionManager;
+
   /**
    * Creates an instance of VoiceLiveSession.
    * 
@@ -112,6 +127,9 @@ export class VoiceLiveSession {
     this._audioProcessor = new AudioProcessor();
     this._videoProcessor = new VideoProcessor();
     this._avatarManager = new AvatarManager(this._eventEmitter, this._videoProcessor);
+
+    // Initialize handler-based subscription management
+    this._subscriptionManager = new SubscriptionManager();
 
     logger.info('VoiceLiveSession created', {
       endpoint: this._endpoint,
@@ -201,6 +219,24 @@ export class VoiceLiveSession {
       this._activeTurnId = undefined;
       logger.info('Disconnected from Voice Live service');
     }
+  }
+
+  /**
+   * Subscribe to VoiceLive session events using strongly-typed handlers.
+   * This follows the Azure SDK pattern used by EventHub, Service Bus, etc.
+   * 
+   * @param handlers - Handler functions for different types of events
+   * @param options - Optional configuration for the subscription
+   * @returns A subscription object that can be used to stop receiving events
+   */
+  subscribe(
+    handlers: VoiceLiveSessionHandlers,
+    _options: SubscribeOptions = {}
+  ): VoiceLiveSubscription {
+    this._ensureNotDisposed();
+    
+    logger.info('Creating VoiceLive session subscription');
+    return this._subscriptionManager.createSubscription(handlers);
   }
 
   /**
@@ -407,6 +443,10 @@ export class VoiceLiveSession {
     logger.info('Disposing VoiceLiveSession');
 
     try {
+      // Close all subscriptions first
+      await this._subscriptionManager.closeAll();
+      
+      // Then disconnect
       await this.disconnect();
     } catch (error) {
       logger.error('Error during session disposal', { error });
@@ -442,8 +482,19 @@ export class VoiceLiveSession {
       onStateChange: (state, previousState) => {
         logger.info('Connection state changed', { state, previousState });
         
-        // Fail fast: any disconnection marks session as permanently dead
-        if (state === ConnectionState.Disconnected && previousState === ConnectionState.Connected) {
+        // Handle connection state changes for handler-based subscriptions
+        if (state === ConnectionState.Connected && previousState === ConnectionState.Connecting) {
+          this._notifyConnectionEvent('connected', {
+            connectionId: `conn_${Date.now()}`,
+            timestamp: new Date()
+          });
+        } else if (state === ConnectionState.Disconnected && previousState === ConnectionState.Connected) {
+          this._notifyConnectionEvent('disconnected', {
+            code: 1006, // Abnormal closure
+            reason: 'Connection lost during session',
+            wasClean: false,
+            timestamp: new Date()
+          });
           this._markSessionAsDead('Connection lost during session - session is permanently unusable');
         }
       },
@@ -452,6 +503,12 @@ export class VoiceLiveSession {
       },
       onError: (error) => {
         logger.error('Connection error - marking session as dead', { error });
+        this._notifyConnectionEvent('error', {
+          error: error,
+          context: 'WebSocket connection error',
+          recoverable: false,
+          timestamp: new Date()
+        });
         this._markSessionAsDead(`Connection error: ${error.message}`);
       }
     });
@@ -506,8 +563,48 @@ export class VoiceLiveSession {
       logger.info('Session created', { sessionId: this._sessionId });
     }
 
-    // Emit through enhanced event emitter for real-time features
+    // Emit through enhanced event emitter for backward compatibility
     this._eventEmitter.emitServerEvent(event);
+    
+    // Notify handler-based subscriptions
+    this._notifyServerEvent(event);
+  }
+
+  private _notifyConnectionEvent(
+    eventType: 'connected' | 'disconnected' | 'error',
+    args: ConnectedEventArgs | DisconnectedEventArgs | ErrorEventArgs
+  ): void {
+    const context: ConnectionContext = {
+      endpoint: this._endpoint,
+      sessionId: this._sessionId,
+      timestamp: new Date(),
+      model: this._model
+    };
+
+    // Fire and forget - don't await to avoid blocking
+    this._subscriptionManager.processConnectionEvent(eventType, args, context).catch(error => {
+      logger.error('Error processing connection event in handlers', { eventType, error });
+    });
+  }
+
+  private _notifyServerEvent(event: ServerEventUnion): void {
+    if (!this._sessionId) {
+      // Can't notify server events without a session ID
+      return;
+    }
+
+    const context: SessionContext = {
+      endpoint: this._endpoint,
+      sessionId: this._sessionId,
+      timestamp: new Date(),
+      model: this._model,
+      conversationId: undefined // Could extract from event if available
+    };
+
+    // Fire and forget - don't await to avoid blocking
+    this._subscriptionManager.processServerEvent(event, context).catch(error => {
+      logger.error('Error processing server event in handlers', { eventType: event.type, error });
+    });
   }
 
   private async _sendEvent(event: ClientEventUnion, options: SendEventOptions): Promise<void> {
