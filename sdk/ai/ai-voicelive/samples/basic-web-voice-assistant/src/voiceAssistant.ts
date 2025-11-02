@@ -217,11 +217,14 @@ export class VoiceAssistant {
     if (!this.session) return;
 
     try {
+      // Create proper voice object based on the voice name
+      const voice = this.createVoiceObject(config.voice);
+
       // Update session configuration using convenience methods
       await this.session.updateSession({
         modalities: ['audio', 'text'],
         instructions: config.instructions,
-        voice: config.voice,
+        voice: voice, // Now using proper voice object
         inputAudioFormat: 'pcm16',
         outputAudioFormat: 'pcm16',
         turnDetection: {
@@ -238,6 +241,24 @@ export class VoiceAssistant {
       console.error('Failed to configure session:', error);
       throw error;
     }
+  }
+
+  private createVoiceObject(voiceName: string): any {
+    // Check if it's an OpenAI voice (simple names like 'alloy', 'echo', etc.)
+    const openAIVoices = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse'];
+    
+    if (openAIVoices.includes(voiceName.toLowerCase())) {
+      return {
+        type: 'openai',
+        name: voiceName.toLowerCase()
+      };
+    }
+    
+    // Assume it's an Azure voice (contains locale patterns like en-US)
+    return {
+      type: 'azure-standard',
+      name: voiceName
+    };
   }
 
   private setupEventHandlers(): void {

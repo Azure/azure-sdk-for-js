@@ -53,7 +53,10 @@ const sessionConfig = {
   model: 'gpt-4o-realtime-preview',
   instructions: 'You are a helpful assistant',
   modalities: ['audio', 'text'],
-  voice: 'alloy'
+  voice: {
+    type: 'openai',
+    name: 'alloy'
+  }
 };
 const session = await client.startSession(sessionConfig);
 
@@ -101,6 +104,37 @@ await session.dispose();
 - ✅ **Multiple Sessions**: One client can create multiple sessions
 - ✅ **Cleaner APIs**: More intuitive interaction patterns
 - ✅ **C# SDK Alignment**: Consistent architecture across languages
+
+## 🎤 **Voice Configuration**
+
+The SDK supports multiple voice providers with proper object structures (not strings):
+
+```typescript
+// OpenAI Voices
+const openAIVoice = {
+  type: 'openai',
+  name: 'alloy' // Options: alloy, echo, shimmer, ash, ballad, coral, sage, verse
+};
+
+// Azure Standard Voices  
+const azureVoice = {
+  type: 'azure-standard',
+  name: 'en-US-AriaNeural'
+};
+
+// Azure Custom Voices
+const customVoice = {
+  type: 'azure-custom',
+  name: 'my-custom-voice',
+  endpointId: 'your-endpoint-id'
+};
+
+// Usage in session configuration
+await session.updateSession({
+  voice: openAIVoice, // Use voice object, not string
+  // ... other config
+});
+```
 
 ## 🎯 **Real-time Features Demonstrated**
 

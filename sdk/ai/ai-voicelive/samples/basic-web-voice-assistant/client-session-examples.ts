@@ -28,7 +28,10 @@ async function basicClientSessionExample() {
       model: 'gpt-4o-realtime-preview',
       modalities: ['audio', 'text'],
       instructions: 'You are a helpful assistant.',
-      voice: 'alloy',
+      voice: {
+        type: 'openai',
+        name: 'alloy'
+      },
       inputAudioFormat: 'pcm16',
       outputAudioFormat: 'pcm16',
       turnDetection: {
@@ -92,7 +95,11 @@ async function multipleSessionsExample() {
     await audioSession.updateSession({
       model: 'gpt-4o-realtime-preview',
       modalities: ['audio'],
-      instructions: 'You are a voice-only assistant.'
+      instructions: 'You are a voice-only assistant.',
+      voice: {
+        type: 'openai',
+        name: 'echo'
+      }
     });
 
     // Use sessions independently
