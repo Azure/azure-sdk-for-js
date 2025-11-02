@@ -2,6 +2,16 @@
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/app-configuration)
+- [Azure App Configuration documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
+
+## Choose the right package
+
 Use _@azure/app-configuration_ (this library) to:
 
 - Manage configuration settings and snapshots in Azure App Configuration
@@ -16,15 +26,7 @@ Most applications should start with the [_@azure/app-configuration-provider_](ht
 - Key vault reference resolution and auto-refresh
 - Feature flag integration for [@microsoft/feature-management](https://www.npmjs.com/package/@microsoft/feature-management) library
 
-For more information, please go to [configuration provider](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview).
-
-Key links:
-
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/app-configuration)
-- [Product documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
+For more information, please go to [configuration provider overview](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview).
 
 ## Getting started
 
@@ -33,6 +35,8 @@ Key links:
 ```bash
 npm install @azure/app-configuration
 ```
+
+**Note:** For applications that **only need to read configuration values**, we suggest using the [_@azure/app-configuration-provider_](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
 
 ### Currently supported environments
 
@@ -176,6 +180,8 @@ setting = await client.getConfigurationSetting(setting);
 The `2022-11-01-preview` API version supports configuration snapshots: immutable, point-in-time copies of a configuration store. Snapshots can be created with filters that determine which key-value pairs are contained within the snapshot, creating an immutable, composed view of the configuration store. This feature enables applications to hold a consistent view of configuration, ensuring that there are no version mismatches to individual settings due to reading as updates were made. For example, this feature can be used to create "release configuration snapshots" within an App Configuration. See [the _create and get a snapshot_ section](#create-and-get-a-setting) in the example below.
 
 ## Examples
+
+**Note:** If your application only needs to retrieve configuration values and does not require performing create, update, or delete operations on configuration settings, consider using the [_@azure/app-configuration-provider_](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead. The provider library offers a simplified experience for loading configuration data at runtime and [additional features](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview#feature-development-status). You can find lots of code samples in the Azure App Configuration documentation on [Microsoft Learn](https://learn.microsoft.com/azure/azure-app-configuration/quickstart-javascript-provider).
 
 ### Create and get a setting
 
