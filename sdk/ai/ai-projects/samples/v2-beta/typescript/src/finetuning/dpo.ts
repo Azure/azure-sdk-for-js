@@ -34,7 +34,7 @@ async function createOpenAI() {
   });
 }
 
-async function uploadFileAndWait(openAiClient, filePath) {
+async function uploadFileAndWait(openAiClient: any, filePath: string) {
   const pollMs = 2000;
   const timeoutMs = 5 * 60 * 1000; // 5 minutes
   const start = Date.now();
@@ -79,7 +79,7 @@ async function main() {
   const validationFile = await uploadFileAndWait(openAI, validationFilePath);
   console.log("Validation file processed successfully.");
 
-  // Create a DPO fine-tuning job
+  // 2) Create a DPO fine-tuning job
   const fineTuningJob = await openAI.fineTuning.jobs.create({
     training_file: trainingFile.id,
     validation_file: validationFile.id,

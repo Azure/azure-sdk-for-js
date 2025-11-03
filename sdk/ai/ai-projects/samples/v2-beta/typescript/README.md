@@ -28,6 +28,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [deployments/deploymentsBasics.ts][deployments_deploymentsbasics]         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
 | [files/filesBasic.ts][files_filesbasic]                                   | Using an OpenAI client, this sample demonstrates how to perform files operations: create, retrieve, content, list, and delete.                                                                         |
 | [finetuning/dpo.ts][finetuning_dpo]                                       | Using an OpenAI client, this sample shows how to upload training and validation files and perform fine-tuning operations: create, retrieve, list, and cancel.                                          |
+| [finetuning/rft.ts][finetuning_rft]                                       | Using an OpenAI client, this sample shows how to upload training and validation files and perform fine-tuning operations: create, retrieve, list, and cancel.                                          |
 | [finetuning/sft.ts][finetuning_sft]                                       | Using an OpenAI client, this sample shows how to upload training and validation files and perform fine-tuning operations: create, retrieve, list, and cancel.                                          |
 | [indexes/indexesBasics.ts][indexes_indexesbasics]                         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                    |
 | [redTeam/redTeamBasic.ts][redteam_redteambasic]                           | Given an AIProjectClient, this sample demonstrates how to create, get, and list Red Team scans.                                                                                                        |
@@ -97,6 +98,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/deployments/deploymentsBasics.ts
 [files_filesbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/files/filesBasic.ts
 [finetuning_dpo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/finetuning/dpo.ts
+[finetuning_rft]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/finetuning/rft.ts
 [finetuning_sft]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/finetuning/sft.ts
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/indexes/indexesBasics.ts
 [redteam_redteambasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/redTeam/redTeamBasic.ts

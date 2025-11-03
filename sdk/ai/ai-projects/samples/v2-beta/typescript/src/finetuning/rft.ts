@@ -17,9 +17,12 @@ require("dotenv/config");
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const openAiBaseUrl = `${endpoint}/openai`;
 
-const modelName = process.env["MODEL_NAME"] || "gpt-4o";
-const trainingFilePath = path.join(__dirname, "data", "dpo_training_set.jsonl");
-const validationFilePath = path.join(__dirname, "data", "dpo_validation_set.jsonl");
+const modelName = process.env["MODEL_NAME"] || "gpt-4.1";
+const trainingFilePath = path.join(__dirname, "data", "countdown_train_100.jsonl");
+const validationFilePath = path.join(__dirname, "data", "countdown_valid_50.jsonl");
+
+type WaitForJobTarget = "trainingStarted" | "paused" | "running";
+type JobStatusPredicate = (job: any) => Promise<boolean | void>;
 
 async function createOpenAI() {
   const credential = new DefaultAzureCredential();
@@ -65,6 +68,53 @@ async function uploadFileAndWait(openAiClient: any, filePath: string) {
   }
 }
 
+async function waitForJob(
+  client: any,
+  jobId: string,
+  target: WaitForJobTarget,
+  {
+    timeoutMs = 24 * 60 * 60_000, // 24 hours default; bump higher for busy regions/large jobs
+    pollMs = 60_000, // poll every 1 minute
+  }: { timeoutMs?: number; pollMs?: number } = {},
+): Promise<void> {
+  // Target-specific predicates
+  const predicates: Record<WaitForJobTarget, JobStatusPredicate> = {
+    trainingStarted: async (job) => {
+      if (job.status === "trainingStarted") return true;
+    },
+
+    paused: async (job) => {
+      if (job.status === "paused") return true;
+    },
+
+    running: async (job) => {
+      if (job.status === "running") return true;
+    },
+  };
+  if (!predicates[target]) {
+    throw new Error(
+      `Unsupported target '${target}'. Use 'trainingStarted' | 'paused' | 'running'.`,
+    );
+  }
+
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const job = await client.fineTuning.jobs.retrieve(jobId);
+
+    console.log(`[waitForJob] job=${jobId} status=${job.status} target=${target}`);
+
+    if (await predicates[target](job)) {
+      return;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, pollMs));
+  }
+
+  throw new Error(
+    `Timed out after ${Math.round(timeoutMs / 1000)}s waiting for '${target}' on job ${jobId}.`,
+  );
+}
+
 async function main() {
   console.log("Getting Azure OpenAI client from AI Project (via AAD token)...");
   const openAI = await createOpenAI();
@@ -79,23 +129,41 @@ async function main() {
   const validationFile = await uploadFileAndWait(openAI, validationFilePath);
   console.log("Validation file processed successfully.");
 
-  // 2) Create a DPO fine-tuning job
+  // 2) Create a reinforcement fine-tuning job
+  const grader = {
+    name: "dummy",
+    type: "score_model",
+    model: "o3-mini",
+    input: [
+      {
+        role: "user",
+        content:
+          "Evaluate the model's response based on correctness and quality. Rate from 0 to 10.",
+      },
+    ],
+    range: [0.0, 10.0],
+  };
+
   const fineTuningJob = await openAI.fineTuning.jobs.create({
     training_file: trainingFile.id,
     validation_file: validationFile.id,
     model: modelName,
     method: {
-      type: "dpo",
-      dpo: {
+      type: "reinforcement",
+      reinforcement: {
+        grader,
         hyperparameters: {
-          n_epochs: 3,
-          batch_size: 1,
-          learning_rate_multiplier: 1.0,
+          n_epochs: 1,
+          batch_size: 4,
+          learning_rate_multiplier: 2,
+          eval_interval: 5,
+          eval_samples: 2,
+          reasoning_effort: "medium",
         },
       },
     },
   });
-  console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
+  console.log("Created reinforcement fine-tuning job:\n", JSON.stringify(fineTuningJob, null, 2));
 
   // 3) Retrieve the fine-tuning job by ID
   console.log(`\nRetrieving fine-tuning job with ID: ${fineTuningJob.id}`);
@@ -109,12 +177,43 @@ async function main() {
     console.log(JSON.stringify(job, null, 2));
   }
 
-  // 5) Cancel the fine-tuning job
+  console.log("\n-- Waiting for training to start --");
+  await waitForJob(openAI, fineTuningJob.id, "trainingStarted");
+  console.log("-- Training started --");
+
+  // 4) Pause the fine-tuning job
+  console.log(`\nPausing fine-tuning job with ID: ${fineTuningJob.id}`);
+  const pausedJob = await openAI.fineTuning.jobs.pause(fineTuningJob.id);
+  console.log("Paused job:\n", JSON.stringify(pausedJob, null, 2));
+
+  await waitForJob(openAI, fineTuningJob.id, "paused");
+
+  // 5) Resume the fine-tuning job
+  console.log(`\nResuming fine-tuning job with ID: ${fineTuningJob.id}`);
+  const resumedJob = await openAI.fineTuning.jobs.resume(fineTuningJob.id);
+  console.log("Resumed job:\n", JSON.stringify(resumedJob, null, 2));
+
+  await waitForJob(openAI, fineTuningJob.id, "running");
+
+  // 6) List events for the fine-tuning job (limit 10)
+  console.log(`\nListing events for fine-tuning job: ${fineTuningJob.id}`);
+  const events = await openAI.fineTuning.jobs.listEvents(fineTuningJob.id, { limit: 10 });
+  console.log(JSON.stringify(events, null, 2));
+
+  // 7) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
   const cancelledJob = await openAI.fineTuning.jobs.cancel(fineTuningJob.id);
   console.log(
     `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
   );
+
+  // 8) List checkpoints for the fine-tuning job (limit 10)
+  // Note: job typically needs to be in a terminal state to have checkpoints.
+  console.log(`\nListing checkpoints for fine-tuning job: ${fineTuningJob.id}`);
+  const checkpoints = await openAI.fineTuning.jobs.checkpoints.list(fineTuningJob.id, {
+    limit: 10,
+  });
+  console.log(JSON.stringify(checkpoints, null, 2));
 }
 
 main().catch((err) => {

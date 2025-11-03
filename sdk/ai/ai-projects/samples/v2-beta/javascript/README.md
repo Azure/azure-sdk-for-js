@@ -28,6 +28,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [deployments/deploymentsBasics.js][deployments_deploymentsbasics]         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
 | [files/filesBasic.js][files_filesbasic]                                   | Using an OpenAI client, this sample demonstrates how to perform files operations: create, retrieve, content, list, and delete.                                                                         |
 | [finetuning/dpo.js][finetuning_dpo]                                       | Using an OpenAI client, this sample shows how to upload training and validation files and perform fine-tuning operations: create, retrieve, list, and cancel.                                          |
+| [finetuning/rft.js][finetuning_rft]                                       | Using an OpenAI client, this sample shows how to upload training and validation files and perform fine-tuning operations: create, retrieve, list, and cancel.                                          |
 | [finetuning/sft.js][finetuning_sft]                                       | Using an OpenAI client, this sample shows how to upload training and validation files and perform fine-tuning operations: create, retrieve, list, and cancel.                                          |
 | [indexes/indexesBasics.js][indexes_indexesbasics]                         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                    |
 | [redTeam/redTeamBasic.js][redteam_redteambasic]                           | Given an AIProjectClient, this sample demonstrates how to create, get, and list Red Team scans.                                                                                                        |
@@ -85,6 +86,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/deployments/deploymentsBasics.js
 [files_filesbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/files/filesBasic.js
 [finetuning_dpo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/finetuning/dpo.js
+[finetuning_rft]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/finetuning/rft.js
 [finetuning_sft]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/finetuning/sft.js
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/indexes/indexesBasics.js
 [redteam_redteambasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/redTeam/redTeamBasic.js

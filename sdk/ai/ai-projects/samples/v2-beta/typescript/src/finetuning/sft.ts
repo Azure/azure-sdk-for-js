@@ -34,7 +34,7 @@ async function createOpenAI() {
   });
 }
 
-async function uploadFileAndWait(openAiClient, filePath) {
+async function uploadFileAndWait(openAiClient: any, filePath: string) {
   const pollMs = 2000;
   const timeoutMs = 5 * 60 * 1000; // 5 minutes
   const start = Date.now();
