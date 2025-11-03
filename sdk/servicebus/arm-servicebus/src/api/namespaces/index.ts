@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  checkNameAvailability,
+  regenerateKeys,
+  listKeys,
+  listAuthorizationRules,
+  deleteAuthorizationRule,
+  createOrUpdateAuthorizationRule,
+  getAuthorizationRule,
+  listNetworkRuleSets,
+  createOrUpdateNetworkRuleSet,
+  getNetworkRuleSet,
+  failover,
+  list,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export {
+  NamespacesCheckNameAvailabilityOptionalParams,
+  NamespacesRegenerateKeysOptionalParams,
+  NamespacesListKeysOptionalParams,
+  NamespacesListAuthorizationRulesOptionalParams,
+  NamespacesDeleteAuthorizationRuleOptionalParams,
+  NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
+  NamespacesGetAuthorizationRuleOptionalParams,
+  NamespacesListNetworkRuleSetsOptionalParams,
+  NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
+  NamespacesGetNetworkRuleSetOptionalParams,
+  NamespacesFailoverOptionalParams,
+  NamespacesListOptionalParams,
+  NamespacesListByResourceGroupOptionalParams,
+  NamespacesDeleteOptionalParams,
+  NamespacesUpdateOptionalParams,
+  NamespacesCreateOrUpdateOptionalParams,
+  NamespacesGetOptionalParams,
+} from "./options.js";

@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessKeys {
@@ -33,19 +36,28 @@ export interface Action {
 
 // @public
 export interface ArmDisasterRecovery extends ProxyResource {
+    readonly location?: string;
+    properties?: ArmDisasterRecoveryProperties;
+}
+
+// @public
+export interface ArmDisasterRecoveryProperties {
     alternateName?: string;
     partnerNamespace?: string;
     readonly pendingReplicationOperationsCount?: number;
     readonly provisioningState?: ProvisioningStateDR;
     readonly role?: RoleDisasterRecovery;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface ArmDisasterRecoveryListResult {
-    readonly nextLink?: string;
-    value?: ArmDisasterRecovery[];
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckNameAvailability {
@@ -60,10 +72,20 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
+export interface ConfidentialCompute {
+    mode?: Mode;
+}
+
+// @public
 export interface ConnectionState {
     description?: string;
     status?: PrivateLinkConnectionStatus;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CorrelationFilter {
@@ -71,9 +93,7 @@ export interface CorrelationFilter {
     correlationId?: string;
     label?: string;
     messageId?: string;
-    properties?: {
-        [propertyName: string]: string;
-    };
+    properties?: Record<string, string>;
     replyTo?: string;
     replyToSessionId?: string;
     requiresPreprocessing?: boolean;
@@ -88,94 +108,59 @@ export type CreatedByType = string;
 export type DefaultAction = string;
 
 // @public
-export interface DisasterRecoveryConfigs {
-    breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsBreakPairingOptionalParams): Promise<void>;
-    checkNameAvailability(resourceGroupName: string, namespaceName: string, parameters: CheckNameAvailability, options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse>;
-    createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: ArmDisasterRecovery, options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams): Promise<DisasterRecoveryConfigsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsDeleteOptionalParams): Promise<void>;
-    failOver(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsFailOverOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsGetOptionalParams): Promise<DisasterRecoveryConfigsGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
-    list(resourceGroupName: string, namespaceName: string, options?: DisasterRecoveryConfigsListOptionalParams): PagedAsyncIterableIterator<ArmDisasterRecovery>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<SBAuthorizationRule>;
-    listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsListKeysOptionalParams): Promise<DisasterRecoveryConfigsListKeysResponse>;
+export interface DisasterRecoveryConfigsBreakPairingOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DisasterRecoveryConfigsBreakPairingOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface DisasterRecoveryConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsCreateOrUpdateResponse = ArmDisasterRecovery;
-
-// @public
-export interface DisasterRecoveryConfigsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DisasterRecoveryConfigsFailOverOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsFailOverOptionalParams extends OperationOptions {
     parameters?: FailoverProperties;
 }
 
 // @public
-export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface DisasterRecoveryConfigsGetOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsGetResponse = ArmDisasterRecovery;
-
-// @public
-export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface DisasterRecoveryConfigsListKeysOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DisasterRecoveryConfigsListKeysResponse = AccessKeys;
-
-// @public
-export interface DisasterRecoveryConfigsListNextOptionalParams extends coreClient.OperationOptions {
+export interface DisasterRecoveryConfigsOperations {
+    breakPairing: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsBreakPairingOptionalParams) => Promise<void>;
+    checkNameAvailability: (resourceGroupName: string, namespaceName: string, parameters: CheckNameAvailability, options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, alias: string, parameters: ArmDisasterRecovery, options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams) => Promise<ArmDisasterRecovery>;
+    delete: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsDeleteOptionalParams) => Promise<void>;
+    failOver: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsFailOverOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsGetOptionalParams) => Promise<ArmDisasterRecovery>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    list: (resourceGroupName: string, namespaceName: string, options?: DisasterRecoveryConfigsListOptionalParams) => PagedAsyncIterableIterator<ArmDisasterRecovery>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, alias: string, options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<SBAuthorizationRule>;
+    listKeys: (resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: DisasterRecoveryConfigsListKeysOptionalParams) => Promise<AccessKeys>;
 }
-
-// @public
-export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListResult;
-
-// @public
-export interface DisasterRecoveryConfigsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
 
 // @public
 export interface Encryption {
@@ -192,7 +177,7 @@ export type EntityStatus = "Active" | "Disabled" | "Restoring" | "SendDisabled" 
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -211,7 +196,24 @@ export interface ErrorResponseError {
 }
 
 // @public
+export interface FailOver {
+    // (undocumented)
+    properties?: FailOverProperties;
+}
+
+// @public
+export interface FailOverProperties {
+    force?: boolean;
+    primaryLocation?: string;
+}
+
+// @public
 export interface FailoverProperties {
+    properties?: FailoverPropertiesProperties;
+}
+
+// @public
+export interface FailoverPropertiesProperties {
     isSafeFailover?: boolean;
 }
 
@@ -219,16 +221,20 @@ export interface FailoverProperties {
 export type FilterType = "SqlFilter" | "CorrelationFilter";
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GeoDataReplicationProperties {
+    locations?: NamespaceReplicaLocation[];
+    maxReplicationLagDurationInSeconds?: number;
+}
+
+// @public
+export type GeoDRRoleType = string;
 
 // @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -268,13 +274,46 @@ export enum KnownEndPointProvisioningState {
 }
 
 // @public
+export enum KnownGeoDRRoleType {
+    Primary = "Primary",
+    Secondary = "Secondary"
+}
+
+// @public
 export enum KnownMigrationConfigurationName {
     Default = "$default"
 }
 
 // @public
+export enum KnownMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownNetworkRuleIPAction {
     Allow = "Allow"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InvalidResponse = "InvalidResponse",
+    Succeeded = "Succeeded",
+    SucceededWithIssues = "SucceededWithIssues",
+    Unknown = "Unknown",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -299,10 +338,24 @@ export enum KnownPublicNetworkAccessFlag {
 }
 
 // @public
+export enum KnownResourceAssociationAccessMode {
+    AuditMode = "AuditMode",
+    EnforcedMode = "EnforcedMode",
+    LearningMode = "LearningMode",
+    NoAssociationMode = "NoAssociationMode",
+    UnspecifiedMode = "UnspecifiedMode"
+}
+
+// @public
 export enum KnownTlsVersion {
-    One0 = "1.0",
-    One1 = "1.1",
-    One2 = "1.2"
+    _10 = "1.0",
+    _11 = "1.1",
+    _12 = "1.2"
+}
+
+// @public
+export enum KnownVersions {
+    V20250501Preview = "2025-05-01-preview"
 }
 
 // @public
@@ -318,254 +371,266 @@ export interface MessageCountDetails {
 }
 
 // @public
-export interface MigrationConfigListResult {
-    readonly nextLink?: string;
-    value?: MigrationConfigProperties[];
+export interface MigrationConfigProperties extends ProxyResource {
+    readonly location?: string;
+    properties?: MigrationConfigPropertiesProperties;
 }
 
 // @public
-export interface MigrationConfigProperties extends ProxyResource {
+export interface MigrationConfigPropertiesProperties {
     readonly migrationState?: string;
     readonly pendingReplicationOperationsCount?: number;
-    postMigrationName?: string;
+    postMigrationName: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
-    targetNamespace?: string;
+    targetNamespace: string;
 }
 
 // @public
-export interface MigrationConfigs {
-    beginCreateAndStartMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<PollerLike<PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>, MigrationConfigsCreateAndStartMigrationResponse>>;
-    beginCreateAndStartMigrationAndWait(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<MigrationConfigsCreateAndStartMigrationResponse>;
-    completeMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsCompleteMigrationOptionalParams): Promise<void>;
-    delete(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsGetOptionalParams): Promise<MigrationConfigsGetResponse>;
-    list(resourceGroupName: string, namespaceName: string, options?: MigrationConfigsListOptionalParams): PagedAsyncIterableIterator<MigrationConfigProperties>;
-    revert(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsRevertOptionalParams): Promise<void>;
+export interface MigrationConfigsCompleteMigrationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MigrationConfigsCompleteMigrationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface MigrationConfigsCreateAndStartMigrationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MigrationConfigsCreateAndStartMigrationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MigrationConfigsCreateAndStartMigrationResponse = MigrationConfigProperties;
-
-// @public
-export interface MigrationConfigsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface MigrationConfigsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MigrationConfigsGetOptionalParams extends coreClient.OperationOptions {
+export interface MigrationConfigsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationConfigsGetResponse = MigrationConfigProperties;
-
-// @public
-export interface MigrationConfigsListNextOptionalParams extends coreClient.OperationOptions {
+export interface MigrationConfigsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationConfigsListNextResponse = MigrationConfigListResult;
-
-// @public
-export interface MigrationConfigsListOptionalParams extends coreClient.OperationOptions {
+export interface MigrationConfigsOperations {
+    completeMigration: (resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsCompleteMigrationOptionalParams) => Promise<void>;
+    createAndStartMigration: (resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams) => PollerLike<OperationState<MigrationConfigProperties>, MigrationConfigProperties>;
+    delete: (resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsGetOptionalParams) => Promise<MigrationConfigProperties>;
+    list: (resourceGroupName: string, namespaceName: string, options?: MigrationConfigsListOptionalParams) => PagedAsyncIterableIterator<MigrationConfigProperties>;
+    revert: (resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsRevertOptionalParams) => Promise<void>;
 }
 
 // @public
-export type MigrationConfigsListResponse = MigrationConfigListResult;
-
-// @public
-export interface MigrationConfigsRevertOptionalParams extends coreClient.OperationOptions {
+export interface MigrationConfigsRevertOptionalParams extends OperationOptions {
 }
 
 // @public
 export type MigrationConfigurationName = string;
 
 // @public
-export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
-    checkNameAvailability(parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
-    createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams): Promise<NamespacesGetAuthorizationRuleResponse>;
-    getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams): Promise<NamespacesGetNetworkRuleSetResponse>;
-    list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<SBNamespace>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<SBAuthorizationRule>;
-    listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SBNamespace>;
-    listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams): Promise<NamespacesListKeysResponse>;
-    listNetworkRuleSets(resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetsOptionalParams): PagedAsyncIterableIterator<NetworkRuleSet>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
-    update(resourceGroupName: string, namespaceName: string, parameters: SBNamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
+export type Mode = string;
+
+// @public
+export interface NamespaceReplicaLocation {
+    clusterArmId?: string;
+    locationName?: string;
+    roleType?: GeoDRRoleType;
 }
 
 // @public
-export interface NamespacesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
-
-// @public
-export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NamespacesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NamespacesCreateOrUpdateResponse = SBNamespace;
-
-// @public
-export interface NamespacesDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NamespacesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesFailoverOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type NamespacesGetAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface NamespacesGetNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
-
-// @public
-export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetNetworkRuleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetResponse = SBNamespace;
-
-// @public
-export interface NamespacesListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface NamespacesListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface NamespacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListByResourceGroupNextResponse = SBNamespaceListResult;
-
-// @public
-export interface NamespacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListByResourceGroupResponse = SBNamespaceListResult;
-
-// @public
-export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListNetworkRuleSetsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListKeysResponse = AccessKeys;
-
-// @public
-export interface NamespacesListNetworkRuleSetsNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListNetworkRuleSetsNextResponse = NetworkRuleSetListResult;
-
-// @public
-export interface NamespacesListNetworkRuleSetsOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesOperations {
+    checkNameAvailability: (parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SBNamespace>, SBNamespace>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    createOrUpdateNetworkRuleSet: (resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams) => Promise<NetworkRuleSet>;
+    delete: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    failover: (resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams) => PollerLike<OperationState<FailOver>, FailOver>;
+    get: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams) => Promise<SBNamespace>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    getNetworkRuleSet: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams) => Promise<NetworkRuleSet>;
+    list: (options?: NamespacesListOptionalParams) => PagedAsyncIterableIterator<SBNamespace>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<SBAuthorizationRule>;
+    listByResourceGroup: (resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SBNamespace>;
+    listKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams) => Promise<AccessKeys>;
+    listNetworkRuleSets: (resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetsOptionalParams) => PagedAsyncIterableIterator<NetworkRuleSet>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams) => Promise<AccessKeys>;
+    update: (resourceGroupName: string, namespaceName: string, parameters: SBNamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams) => Promise<SBNamespace | null>;
 }
 
 // @public
-export type NamespacesListNetworkRuleSetsResponse = NetworkRuleSetListResult;
-
-// @public
-export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesRegenerateKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListNextResponse = SBNamespaceListResult;
-
-// @public
-export interface NamespacesListOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type NamespacesListResponse = SBNamespaceListResult;
-
-// @public
-export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesRegenerateKeysResponse = AccessKeys;
-
-// @public
-export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesUpdateResponse = SBNamespace;
 
 // @public
 export type NetworkRuleIPAction = string;
 
 // @public
 export interface NetworkRuleSet extends ProxyResource {
+    readonly location?: string;
+    properties?: NetworkRuleSetProperties;
+}
+
+// @public
+export interface NetworkRuleSetProperties {
     defaultAction?: DefaultAction;
     ipRules?: NWRuleSetIpRules[];
     publicNetworkAccess?: PublicNetworkAccessFlag;
-    readonly systemData?: SystemData;
     trustedServiceAccessEnabled?: boolean;
     virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
 }
 
 // @public
-export interface NetworkRuleSetListResult {
-    nextLink?: string;
-    value?: NetworkRuleSet[];
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    readonly location?: string;
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationOperations {
+    list: (resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationListOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    readonly applicableFeatures?: string[];
+    readonly isBackingResource?: boolean;
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly parentAssociationName?: string;
+    readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+    provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+    readonly sourceResourceId?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: string;
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsOperations {
+    getResourceAssociationName: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
+    reconcile: (resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NspAccessRule {
+    id?: string;
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+    type?: string;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
 }
 
 // @public
@@ -586,7 +651,7 @@ export interface Operation {
     isDataAction?: boolean;
     readonly name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -598,29 +663,31 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PlatformCapabilities {
+    // (undocumented)
+    confidentialCompute?: ConfidentialCompute;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -629,102 +696,93 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    readonly location?: string;
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    nextLink?: string;
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateLinkConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource {
-    // (undocumented)
-    groupId?: string;
     id?: string;
     name?: string;
-    requiredMembers?: string[];
-    requiredZoneNames?: string[];
+    properties?: PrivateLinkResourceProperties;
     type?: string;
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, namespaceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+export interface PrivateLinkResourceProperties {
+    // (undocumented)
+    groupId?: string;
+    requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult;
 
 // @public
 export interface PrivateLinkResourcesListResult {
     nextLink?: string;
-    value?: PrivateLinkResource[];
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, namespaceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResourcesListResult>;
+}
+
+// @public
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
 }
 
 // @public
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -734,98 +792,60 @@ export type PublicNetworkAccess = string;
 export type PublicNetworkAccessFlag = string;
 
 // @public
-export interface Queues {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: SBQueue, options?: QueuesCreateOrUpdateOptionalParams): Promise<QueuesCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<QueuesCreateOrUpdateAuthorizationRuleResponse>;
-    delete(resourceGroupName: string, namespaceName: string, queueName: string, options?: QueuesDeleteOptionalParams): Promise<void>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, options?: QueuesDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, queueName: string, options?: QueuesGetOptionalParams): Promise<QueuesGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, options?: QueuesGetAuthorizationRuleOptionalParams): Promise<QueuesGetAuthorizationRuleResponse>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, queueName: string, options?: QueuesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<SBAuthorizationRule>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: QueuesListByNamespaceOptionalParams): PagedAsyncIterableIterator<SBQueue>;
-    listKeys(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, options?: QueuesListKeysOptionalParams): Promise<QueuesListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: QueuesRegenerateKeysOptionalParams): Promise<QueuesRegenerateKeysResponse>;
+export interface QueuesCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QueuesCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface QueuesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueuesCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface QueuesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface QueuesDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueuesCreateOrUpdateResponse = SBQueue;
-
-// @public
-export interface QueuesDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface QueuesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QueuesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface QueuesGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QueuesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface QueuesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueuesGetAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface QueuesGetOptionalParams extends coreClient.OperationOptions {
+export interface QueuesListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueuesGetResponse = SBQueue;
-
-// @public
-export interface QueuesListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QueuesListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface QueuesListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QueuesListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface QueuesListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QueuesListByNamespaceNextResponse = SBQueueListResult;
-
-// @public
-export interface QueuesListByNamespaceOptionalParams extends coreClient.OperationOptions {
+export interface QueuesListByNamespaceOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type QueuesListByNamespaceResponse = SBQueueListResult;
-
-// @public
-export interface QueuesListKeysOptionalParams extends coreClient.OperationOptions {
+export interface QueuesListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type QueuesListKeysResponse = AccessKeys;
-
-// @public
-export interface QueuesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+export interface QueuesOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, queueName: string, parameters: SBQueue, options?: QueuesCreateOrUpdateOptionalParams) => Promise<SBQueue>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    delete: (resourceGroupName: string, namespaceName: string, queueName: string, options?: QueuesDeleteOptionalParams) => Promise<void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, options?: QueuesDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, queueName: string, options?: QueuesGetOptionalParams) => Promise<SBQueue>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, options?: QueuesGetAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, queueName: string, options?: QueuesListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<SBAuthorizationRule>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: QueuesListByNamespaceOptionalParams) => PagedAsyncIterableIterator<SBQueue>;
+    listKeys: (resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, options?: QueuesListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, queueName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: QueuesRegenerateKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export type QueuesRegenerateKeysResponse = AccessKeys;
+export interface QueuesRegenerateKeysOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface RegenerateAccessKeyParameters {
@@ -837,15 +857,27 @@ export interface RegenerateAccessKeyParameters {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
 export interface ResourceNamespacePatch extends Resource {
     location?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceBusManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -853,71 +885,53 @@ export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Second
 
 // @public
 export interface Rule extends ProxyResource {
+    readonly location?: string;
+    properties?: Ruleproperties;
+}
+
+// @public
+export interface Ruleproperties {
     action?: Action;
     correlationFilter?: CorrelationFilter;
     filterType?: FilterType;
     sqlFilter?: SqlFilter;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface RuleListResult {
-    nextLink?: string;
-    value?: Rule[];
+export interface RulesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Rules {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Rule, options?: RulesCreateOrUpdateOptionalParams): Promise<RulesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: RulesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: RulesGetOptionalParams): Promise<RulesGetResponse>;
-    listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: RulesListBySubscriptionsOptionalParams): PagedAsyncIterableIterator<Rule>;
+export interface RulesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RulesCreateOrUpdateResponse = Rule;
-
-// @public
-export interface RulesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface RulesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RulesGetResponse = Rule;
-
-// @public
-export interface RulesListBySubscriptionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RulesListBySubscriptionsNextResponse = RuleListResult;
-
-// @public
-export interface RulesListBySubscriptionsOptionalParams extends coreClient.OperationOptions {
+export interface RulesListBySubscriptionsOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type RulesListBySubscriptionsResponse = RuleListResult;
-
-// @public
-export interface SBAuthorizationRule extends ProxyResource {
-    rights?: AccessRights[];
-    readonly systemData?: SystemData;
+export interface RulesOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Rule, options?: RulesCreateOrUpdateOptionalParams) => Promise<Rule>;
+    delete: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: RulesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: RulesGetOptionalParams) => Promise<Rule>;
+    listBySubscriptions: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: RulesListBySubscriptionsOptionalParams) => PagedAsyncIterableIterator<Rule>;
 }
 
 // @public
-export interface SBAuthorizationRuleListResult {
-    nextLink?: string;
-    value?: SBAuthorizationRule[];
+export interface SBAuthorizationRule extends ProxyResource {
+    readonly location?: string;
+    properties?: SBAuthorizationRuleProperties;
+}
+
+// @public
+export interface SBAuthorizationRuleProperties {
+    rights: AccessRights[];
 }
 
 // @public
@@ -929,49 +943,61 @@ export interface SBClientAffineProperties {
 
 // @public
 export interface SBNamespace extends TrackedResource {
+    identity?: Identity;
+    properties?: SBNamespaceProperties;
+    sku?: SBSku;
+}
+
+// @public
+export interface SBNamespaceProperties {
     alternateName?: string;
     readonly createdAt?: Date;
     disableLocalAuth?: boolean;
     encryption?: Encryption;
-    identity?: Identity;
+    geoDataReplication?: GeoDataReplicationProperties;
     readonly metricId?: string;
     minimumTlsVersion?: TlsVersion;
+    // (undocumented)
+    platformCapabilities?: PlatformCapabilities;
     premiumMessagingPartitions?: number;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceBusEndpoint?: string;
-    sku?: SBSku;
     readonly status?: string;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
     zoneRedundant?: boolean;
 }
 
 // @public
-export interface SBNamespaceListResult {
-    nextLink?: string;
-    value?: SBNamespace[];
+export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
+    identity?: Identity;
+    properties?: SBNamespaceUpdateProperties;
+    sku?: SBSku;
 }
 
 // @public
-export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
+export interface SBNamespaceUpdateProperties {
     alternateName?: string;
     readonly createdAt?: Date;
     disableLocalAuth?: boolean;
     encryption?: Encryption;
-    identity?: Identity;
     readonly metricId?: string;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     readonly serviceBusEndpoint?: string;
-    sku?: SBSku;
     readonly status?: string;
     readonly updatedAt?: Date;
 }
 
 // @public
 export interface SBQueue extends ProxyResource {
+    readonly location?: string;
+    properties?: SBQueueProperties;
+}
+
+// @public
+export interface SBQueueProperties {
     readonly accessedAt?: Date;
     autoDeleteOnIdle?: string;
     readonly countDetails?: MessageCountDetails;
@@ -993,14 +1019,8 @@ export interface SBQueue extends ProxyResource {
     requiresSession?: boolean;
     readonly sizeInBytes?: number;
     status?: EntityStatus;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
-}
-
-// @public
-export interface SBQueueListResult {
-    nextLink?: string;
-    value?: SBQueue[];
+    userMetadata?: string;
 }
 
 // @public
@@ -1012,6 +1032,12 @@ export interface SBSku {
 
 // @public
 export interface SBSubscription extends ProxyResource {
+    readonly location?: string;
+    properties?: SBSubscriptionProperties;
+}
+
+// @public
+export interface SBSubscriptionProperties {
     readonly accessedAt?: Date;
     autoDeleteOnIdle?: string;
     clientAffineProperties?: SBClientAffineProperties;
@@ -1030,18 +1056,18 @@ export interface SBSubscription extends ProxyResource {
     readonly messageCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
-}
-
-// @public
-export interface SBSubscriptionListResult {
-    nextLink?: string;
-    value?: SBSubscription[];
+    userMetadata?: string;
 }
 
 // @public
 export interface SBTopic extends ProxyResource {
+    readonly location?: string;
+    properties?: SBTopicProperties;
+}
+
+// @public
+export interface SBTopicProperties {
     readonly accessedAt?: Date;
     autoDeleteOnIdle?: string;
     readonly countDetails?: MessageCountDetails;
@@ -1058,52 +1084,32 @@ export interface SBTopic extends ProxyResource {
     status?: EntityStatus;
     readonly subscriptionCount?: number;
     supportOrdering?: boolean;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
-}
-
-// @public
-export interface SBTopicListResult {
-    nextLink?: string;
-    value?: SBTopic[];
+    userMetadata?: string;
 }
 
 // @public (undocumented)
-export class ServiceBusManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ServiceBusManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    disasterRecoveryConfigs: DisasterRecoveryConfigs;
-    // (undocumented)
-    migrationConfigs: MigrationConfigs;
-    // (undocumented)
-    namespaces: Namespaces;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    queues: Queues;
-    // (undocumented)
-    rules: Rules;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    subscriptions: Subscriptions;
-    // (undocumented)
-    topics: Topics;
+export class ServiceBusManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ServiceBusManagementClientOptionalParams);
+    readonly disasterRecoveryConfigs: DisasterRecoveryConfigsOperations;
+    readonly migrationConfigs: MigrationConfigsOperations;
+    readonly namespaces: NamespacesOperations;
+    readonly networkSecurityPerimeterConfiguration: NetworkSecurityPerimeterConfigurationOperations;
+    readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly queues: QueuesOperations;
+    readonly rules: RulesOperations;
+    readonly subscriptions: SubscriptionsOperations;
+    readonly topics: TopicsOperations;
 }
 
 // @public
-export interface ServiceBusManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ServiceBusManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -1120,55 +1126,35 @@ export interface SqlFilter {
 }
 
 // @public
-export interface SqlRuleAction extends Action {
-}
-
-// @public
 export interface Subnet {
     id: string;
 }
 
 // @public
-export interface Subscriptions {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, parameters: SBSubscription, options?: SubscriptionsCreateOrUpdateOptionalParams): Promise<SubscriptionsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: SubscriptionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: SubscriptionsGetOptionalParams): Promise<SubscriptionsGetResponse>;
-    listByTopic(resourceGroupName: string, namespaceName: string, topicName: string, options?: SubscriptionsListByTopicOptionalParams): PagedAsyncIterableIterator<SBSubscription>;
+export interface SubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SubscriptionsCreateOrUpdateResponse = SBSubscription;
-
-// @public
-export interface SubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SubscriptionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionsGetResponse = SBSubscription;
-
-// @public
-export interface SubscriptionsListByTopicNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionsListByTopicNextResponse = SBSubscriptionListResult;
-
-// @public
-export interface SubscriptionsListByTopicOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionsListByTopicOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type SubscriptionsListByTopicResponse = SBSubscriptionListResult;
+export interface SubscriptionsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, parameters: SBSubscription, options?: SubscriptionsCreateOrUpdateOptionalParams) => Promise<SBSubscription>;
+    delete: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: SubscriptionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: SubscriptionsGetOptionalParams) => Promise<SBSubscription>;
+    listByTopic: (resourceGroupName: string, namespaceName: string, topicName: string, options?: SubscriptionsListByTopicOptionalParams) => PagedAsyncIterableIterator<SBSubscription>;
+}
 
 // @public
 export interface SystemData {
@@ -1184,105 +1170,65 @@ export interface SystemData {
 export type TlsVersion = string;
 
 // @public
-export interface Topics {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, parameters: SBTopic, options?: TopicsCreateOrUpdateOptionalParams): Promise<TopicsCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams): Promise<TopicsCreateOrUpdateAuthorizationRuleResponse>;
-    delete(resourceGroupName: string, namespaceName: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<void>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, options?: TopicsDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, topicName: string, options?: TopicsGetOptionalParams): Promise<TopicsGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, options?: TopicsGetAuthorizationRuleOptionalParams): Promise<TopicsGetAuthorizationRuleResponse>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, topicName: string, options?: TopicsListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<SBAuthorizationRule>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: TopicsListByNamespaceOptionalParams): PagedAsyncIterableIterator<SBTopic>;
-    listKeys(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, options?: TopicsListKeysOptionalParams): Promise<TopicsListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: TopicsRegenerateKeysOptionalParams): Promise<TopicsRegenerateKeysResponse>;
+export interface TopicsCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TopicsCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface TopicsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TopicsCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface TopicsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TopicsDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TopicsCreateOrUpdateResponse = SBTopic;
-
-// @public
-export interface TopicsDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface TopicsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TopicsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TopicsGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TopicsGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface TopicsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TopicsGetAuthorizationRuleResponse = SBAuthorizationRule;
-
-// @public
-export interface TopicsGetOptionalParams extends coreClient.OperationOptions {
+export interface TopicsListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TopicsGetResponse = SBTopic;
-
-// @public
-export interface TopicsListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopicsListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface TopicsListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopicsListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
-
-// @public
-export interface TopicsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopicsListByNamespaceNextResponse = SBTopicListResult;
-
-// @public
-export interface TopicsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+export interface TopicsListByNamespaceOptionalParams extends OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export type TopicsListByNamespaceResponse = SBTopicListResult;
-
-// @public
-export interface TopicsListKeysOptionalParams extends coreClient.OperationOptions {
+export interface TopicsListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TopicsListKeysResponse = AccessKeys;
-
-// @public
-export interface TopicsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+export interface TopicsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, topicName: string, parameters: SBTopic, options?: TopicsCreateOrUpdateOptionalParams) => Promise<SBTopic>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    delete: (resourceGroupName: string, namespaceName: string, topicName: string, options?: TopicsDeleteOptionalParams) => Promise<void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, options?: TopicsDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, topicName: string, options?: TopicsGetOptionalParams) => Promise<SBTopic>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, options?: TopicsGetAuthorizationRuleOptionalParams) => Promise<SBAuthorizationRule>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, topicName: string, options?: TopicsListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<SBAuthorizationRule>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: TopicsListByNamespaceOptionalParams) => PagedAsyncIterableIterator<SBTopic>;
+    listKeys: (resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, options?: TopicsListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, topicName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: TopicsRegenerateKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export type TopicsRegenerateKeysResponse = AccessKeys;
+export interface TopicsRegenerateKeysOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1294,7 +1240,7 @@ export interface UserAssignedIdentity {
     readonly principalId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentityProperties {
     userAssignedIdentity?: string;
 }
