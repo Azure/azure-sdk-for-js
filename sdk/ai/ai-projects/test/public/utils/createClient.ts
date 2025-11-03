@@ -126,7 +126,7 @@ export async function createOpenAI(): Promise<OpenAI> {
   return new OpenAI({
     apiKey: azureADTokenProvider,
     baseURL: projectEndpoint,
-    defaultQuery: { "api-version": "2025-05-15-preview" },
+    defaultQuery: { "api-version": "2025-11-15-preview" },
     defaultHeaders: { "accept-encoding": "deflate" },
     dangerouslyAllowBrowser: true,
   });
