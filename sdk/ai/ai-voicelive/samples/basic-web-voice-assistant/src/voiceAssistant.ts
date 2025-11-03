@@ -39,6 +39,7 @@ export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
   onAssistantStatusChange: (status: string) => void;
   onConversationMessage: (message: { role: string; content: string; timestamp: Date }) => void;
+  onConversationMessageUpdate: (message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean }) => void;
   onEventReceived: (event: { type: string; data: any; timestamp: Date }) => void;
   onError: (error: string) => void;
   onAudioLevel: (level: number) => void;
@@ -58,6 +59,7 @@ export class VoiceAssistant {
   // Track ongoing text responses for proper conversation display
   private currentAssistantMessage = '';
   private messageStartTime?: Date;
+  private currentAssistantMessageId?: string;
   
   // Track ongoing transcription for user speech
   private currentUserTranscription = '';
@@ -94,21 +96,18 @@ export class VoiceAssistant {
         console.log('📡 Watch Events panel for real-time SDK events');
       }
 
-      // Create Voice Live client (now a session factory)
+      // Create Voice Live client
       this.client = new VoiceLiveClient(config.endpoint, credential, {
         apiVersion: '2025-10-01',
         defaultSessionOptions: sessionOptions
       });
       
       // Create and connect a session with model
-      this.session = await this.client.startSession('gpt-4o', sessionOptions);
+      this.session = await this.client.startSession(config, sessionOptions);
       
       // Setup handler-based event subscription (Azure SDK pattern)
       this.subscription = this.session.subscribe(this.createEventHandlers());
-      
-      // Configure session
-      await this.configureSession(config);
-      
+        
       this.isConnected = true;
       this.callbacks?.onConnectionStatusChange('connected');
       
@@ -199,6 +198,17 @@ export class VoiceAssistant {
         this.currentResponseId = event.response.id;
         this.currentAssistantMessage = ''; // Reset for new response
         this.messageStartTime = new Date();
+        this.currentAssistantMessageId = `response_${event.response.id}_${Date.now()}`;
+        
+        // Add initial empty message that we'll update as deltas come in
+        this.callbacks?.onConversationMessageUpdate({
+          role: 'assistant',
+          content: '', // Start empty
+          timestamp: this.messageStartTime,
+          messageId: this.currentAssistantMessageId,
+          isStreaming: true
+        });
+        
         this.callbacks?.onAssistantStatusChange('thinking');
         this.callbacks?.onEventReceived({
           type: 'response.created',
@@ -211,21 +221,21 @@ export class VoiceAssistant {
         console.log('🔔 Response Done:', event);
         console.log('🔔 Final accumulated message:', this.currentAssistantMessage);
         
-        // Add the complete assistant message to conversation
-        if (this.currentAssistantMessage.trim()) {
-          console.log('🔔 Adding assistant message to conversation:', this.currentAssistantMessage.trim());
-          this.callbacks?.onConversationMessage({
+        // Finalize the streaming message
+        if (this.currentAssistantMessageId && this.currentAssistantMessage.trim()) {
+          this.callbacks?.onConversationMessageUpdate({
             role: 'assistant',
             content: this.currentAssistantMessage.trim(),
-            timestamp: this.messageStartTime || new Date()
+            timestamp: this.messageStartTime || new Date(),
+            messageId: this.currentAssistantMessageId,
+            isStreaming: false // Mark as complete
           });
-        } else {
-          console.log('🔔 No text content to add to conversation');
         }
         
         // Reset for next response
         this.currentAssistantMessage = '';
         this.messageStartTime = undefined;
+        this.currentAssistantMessageId = undefined;
         
         this.callbacks?.onAssistantStatusChange('listening');
         this.callbacks?.onEventReceived({
@@ -235,7 +245,7 @@ export class VoiceAssistant {
         });
       },
 
-      processSpeechStarted: async (event, context: SessionContext) => {
+      processInputAudioBufferSpeechStarted: async (event, context: SessionContext) => {
         console.log('🔔 Speech Started:', event);
         this.currentUserTranscription = ''; // Reset transcription
         this.userSpeechStartTime = new Date();
@@ -247,7 +257,7 @@ export class VoiceAssistant {
         });
       },
 
-      processSpeechStopped: async (event, context: SessionContext) => {
+      processInputAudioBufferSpeechStopped: async (event, context: SessionContext) => {
         console.log('🔔 Speech Stopped:', event);
         this.callbacks?.onAssistantStatusChange('processing');
         
@@ -261,21 +271,89 @@ export class VoiceAssistant {
         });
       },
 
-      processTextReceived: async (event, context: SessionContext) => {
-        console.log('🔔 Text Received:', event.delta);
+      // Handle actual text responses from the assistant
+      processResponseTextDelta: async (event, context: SessionContext) => {
+        console.log('🔔 Response Text Delta:', event.delta);
         console.log('🔔 Current message so far:', this.currentAssistantMessage);
         
         // Accumulate text deltas for complete response
         this.currentAssistantMessage += event.delta;
         
-        // Debug: show current accumulated text
-        console.log('🔔 Updated message:', this.currentAssistantMessage);
+        // Stream the update to the conversation UI in real-time
+        if (this.currentAssistantMessageId) {
+          this.callbacks?.onConversationMessageUpdate({
+            role: 'assistant',
+            content: this.currentAssistantMessage,
+            timestamp: this.messageStartTime || new Date(),
+            messageId: this.currentAssistantMessageId,
+            isStreaming: true
+          });
+        }
         
-        // Don't send individual deltas to conversation - wait for complete response
-        // But we could show live typing indicator or streaming text if desired
+        console.log('🔔 Updated message:', this.currentAssistantMessage);
       },
 
-      processAudioReceived: async (event, context: SessionContext) => {
+      // Handle audio transcript (what the assistant said as text)
+      processResponseAudioTranscriptDelta: async (event, context: SessionContext) => {
+        console.log('🔔 Audio Transcript Delta:', event.delta);
+        console.log('🔔 Current transcript so far:', this.currentAssistantMessage);
+        
+        // Accumulate audio transcript deltas
+        this.currentAssistantMessage += event.delta;
+        
+        // Stream the transcript update to the conversation UI in real-time
+        if (this.currentAssistantMessageId) {
+          this.callbacks?.onConversationMessageUpdate({
+            role: 'assistant',
+            content: this.currentAssistantMessage,
+            timestamp: this.messageStartTime || new Date(),
+            messageId: this.currentAssistantMessageId,
+            isStreaming: true
+          });
+        }
+        
+        console.log('🔔 Updated transcript:', this.currentAssistantMessage);
+      },
+
+      // Handle user transcription deltas
+      processConversationItemInputAudioTranscriptionDelta: async (event, context: SessionContext) => {
+        console.log('🔔 User Transcription Delta:', event.delta);
+        this.currentUserTranscription += event.delta;
+      },
+
+      // Handle completed user transcription
+      processConversationItemInputAudioTranscriptionCompleted: async (event, context: SessionContext) => {
+        console.log('🔔 User Transcription Completed:', event.transcript);
+        
+        // Add the complete user transcription to conversation
+        this.callbacks?.onConversationMessage({
+          role: 'user',
+          content: event.transcript || this.currentUserTranscription || '[Audio input]',
+          timestamp: this.userSpeechStartTime || new Date()
+        });
+        
+        // Reset transcription tracking
+        this.currentUserTranscription = '';
+        this.userSpeechStartTime = undefined;
+      },
+
+      // Handle failed user transcription
+      processConversationItemInputAudioTranscriptionFailed: async (event, context: SessionContext) => {
+        console.log('🔔 User Transcription Failed:', event);
+        
+        // Add failed transcription indicator
+        this.callbacks?.onConversationMessage({
+          role: 'user',
+          content: '[Audio input - transcription unavailable]',
+          timestamp: this.userSpeechStartTime || new Date()
+        });
+        
+        // Reset transcription tracking
+        this.currentUserTranscription = '';
+        this.userSpeechStartTime = undefined;
+      },
+
+      processResponseAudioDelta: async (event, context: SessionContext) => {
         console.log('🔔 Audio Received:', event.delta?.byteLength, 'bytes');
         // Handle streaming audio
         if (event.delta) {
@@ -291,42 +369,7 @@ export class VoiceAssistant {
       processServerEvent: async (event, context: SessionContext) => {
         console.log('🔔 Server Event:', event.type, event);
         
-        // Handle transcription events specifically
-        if (event.type === 'conversation.item.input_audio_transcription.delta') {
-          const transcriptEvent = event as any;
-          this.currentUserTranscription += transcriptEvent.delta;
-          console.log('🔔 Transcription Delta:', transcriptEvent.delta);
-          
-        } else if (event.type === 'conversation.item.input_audio_transcription.completed') {
-          const transcriptEvent = event as any;
-          console.log('🔔 Transcription Completed:', transcriptEvent.transcript);
-          
-          // Add the complete user transcription to conversation
-          this.callbacks?.onConversationMessage({
-            role: 'user',
-            content: transcriptEvent.transcript || this.currentUserTranscription || '[Audio input]',
-            timestamp: this.userSpeechStartTime || new Date()
-          });
-          
-          // Reset transcription tracking
-          this.currentUserTranscription = '';
-          this.userSpeechStartTime = undefined;
-          
-        } else if (event.type === 'conversation.item.input_audio_transcription.failed') {
-          console.log('🔔 Transcription Failed:', event);
-          
-          // Add failed transcription indicator
-          this.callbacks?.onConversationMessage({
-            role: 'user',
-            content: '[Audio input - transcription unavailable]',
-            timestamp: this.userSpeechStartTime || new Date()
-          });
-          
-          // Reset transcription tracking
-          this.currentUserTranscription = '';
-          this.userSpeechStartTime = undefined;
-        }
-        
+        // Just log all events for debugging - specific handlers above handle the processing
         this.callbacks?.onEventReceived({
           type: event.type,
           data: event,

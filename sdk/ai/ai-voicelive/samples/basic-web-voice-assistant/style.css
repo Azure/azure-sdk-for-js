@@ -320,6 +320,24 @@ header p {
     display: block;
 }
 
+/* Streaming message styles */
+.message .content.streaming {
+    position: relative;
+}
+
+.typing-cursor {
+    display: inline-block;
+    color: #9c27b0;
+    animation: blink 1s infinite;
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
 .conversation-controls {
     display: flex;
     gap: 10px;

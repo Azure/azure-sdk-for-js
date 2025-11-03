@@ -69,49 +69,43 @@ await session.updateSession(config);
 await session.dispose();
 ```
 
-### **🎯 Complete Conversation Flow**
+### **🎯 Complete Conversation Flow with Real-Time Streaming**
 
-The sample now properly displays the full conversation flow:
+The sample now provides fluid, real-time conversation updates:
 
 ```typescript
 // ✅ What you'll see in the Conversation area:
 // 1. System message when conversation starts
 // 2. User speech transcribed to text (via Whisper-1)
-// 3. Complete assistant responses (accumulated from deltas)
-// 4. Proper timestamps and role indicators
+// 3. Assistant responses streaming in real-time character by character
+// 4. Typing cursor animation during streaming
+// 5. Proper timestamps and role indicators
 
 const subscription = session.subscribe({
-  processSpeechStarted: async (args, context) => {
-    // User starts speaking - no message yet
+  processResponseCreated: async (event, context) => {
+    // ✅ Create empty message that will be updated as deltas arrive
+    startStreamingMessage(event.response.id);
   },
   
-  // Real-time transcription as user speaks
-  processServerEvent: async (event, context) => {
-    if (event.type === 'conversation.item.input_audio_transcription.completed') {
-      // ✅ Add user's transcribed speech to conversation
-      addMessage('user', event.transcript);
-    }
-  },
-  
-  processTextReceived: async (event, context) => {
-    // ✅ Accumulate assistant text (don't show deltas)
-    currentResponse += event.delta;
+  processResponseTextDelta: async (event, context) => {
+    // ✅ Update the streaming message in real-time
+    updateStreamingMessage(event.delta);
   },
   
   processResponseDone: async (event, context) => {
-    // ✅ Add complete assistant response to conversation
-    addMessage('assistant', currentResponse);
+    // ✅ Finalize the message (remove typing cursor)
+    finalizeStreamingMessage();
   }
 });
 ```
 
-**Conversation Display Features:**
-- ✅ **User Speech Transcription**: Real-time transcription via Whisper-1
-- ✅ **Complete Assistant Responses**: Accumulated from text deltas
-- ✅ **Proper Message Flow**: User → Assistant → User → Assistant
-- ✅ **Timestamps**: When each message was sent/received
-- ✅ **Role Indicators**: Clear visual distinction between user/assistant/system
-- ✅ **Transcription Fallback**: Graceful handling when transcription fails
+**Real-Time Streaming Features:**
+- ✅ **Live Text Updates**: Characters appear as they're generated
+- ✅ **Typing Cursor**: Animated cursor shows active generation
+- ✅ **Smooth Experience**: No waiting for complete responses
+- ✅ **Auto-Scroll**: Conversation view follows the streaming text
+- ✅ **Message Persistence**: Streaming updates modify the same message element
+- ✅ **Visual Feedback**: Clear indication when response is complete
 
 ## 🔄 **Azure SDK Handler Pattern**
 
