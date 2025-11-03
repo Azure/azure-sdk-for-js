@@ -74,11 +74,7 @@ describe("elasticSan test", () => {
   });
 
   it("elasticSan create test", async () => {
-    const res = await client.elasticSans.create(
-      resourceGroup,
-      elasticSanName,
-      parameters,
-    );
+    const res = await client.elasticSans.create(resourceGroup, elasticSanName, parameters);
     assert.equal(res.name, elasticSanName);
   });
 
