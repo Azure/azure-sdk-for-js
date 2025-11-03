@@ -275,6 +275,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     query: "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC",
     queryOptions: { maxItemCount: 3, enableQueryControl: true },
     expectedTokenStructure: {
+      expectNoContinuationToken: true, // TODO: remove it once the queryplan marks this query as ordered distinct, currently query plan considers as unordered distinct
       hasCompositeToken: true,
       hasOrderByItems: true,
       hasSkipCount: true,
