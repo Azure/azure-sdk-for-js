@@ -6072,6 +6072,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
@@ -6151,6 +6154,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
@@ -7267,6 +7273,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
@@ -29745,6 +29754,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
@@ -29891,6 +29903,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
@@ -32933,6 +32948,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
