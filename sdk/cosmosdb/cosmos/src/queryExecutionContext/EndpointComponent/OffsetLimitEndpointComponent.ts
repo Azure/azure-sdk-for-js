@@ -44,8 +44,10 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const initialLimit = this.limit;
 
     console.log(`[OFFSET-LIMIT-DEBUG] Processing ${dataToProcess.length} items`);
-    console.log(`[OFFSET-LIMIT-DEBUG] Initial state: offset=${initialOffset}, limit=${initialLimit}`);
-    console.log(`[OFFSET-LIMIT-DEBUG] orderByItems.length: ${orderByItems?.length || 'undefined'}`);
+    console.log(
+      `[OFFSET-LIMIT-DEBUG] Initial state: offset=${initialOffset}, limit=${initialLimit}`,
+    );
+    console.log(`[OFFSET-LIMIT-DEBUG] orderByItems.length: ${orderByItems?.length || "undefined"}`);
 
     const filteredOrderByItems: any[] = [];
     let itemIndex = 0;

@@ -611,7 +611,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           }
           totalResults += result.resources.length;
           continuationToken = result.continuationToken;
-          console.log(`Fetched ${result.resources.length} items. Continuation Token: ${continuationToken}`);
+          console.log(
+            `Fetched ${result.resources.length} items. Continuation Token: ${continuationToken}`,
+          );
           attempts++;
           if (continuationToken) {
             break;
@@ -856,8 +858,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         console.log(`Query completed: ${items} items, ${tokens} tokens`);
       }
     });
-
-
   });
 
   describe("Multi-Partition Scenarios", () => {
@@ -1553,7 +1553,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
         console.log(
           `OFFSET>maxItemCount Iteration ${iterationCount}: ${itemsInThisPage} items returned, ` +
-          `${totalItemsProcessed} total so far, token: ${result.continuationToken ? "YES" : "NO"}`,
+            `${totalItemsProcessed} total so far, token: ${result.continuationToken ? "YES" : "NO"}`,
         );
 
         // Log the continuation token structure for debugging
@@ -1561,9 +1561,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           try {
             const parsedToken = JSON.parse(result.continuationToken);
             console.log(
-              `  Token details: offset=${parsedToken.offset || 'undefined'}, ` +
-              `limit=${parsedToken.limit || 'undefined'}, ` +
-              `hasOrderByItems=${parsedToken.orderByItems ? 'YES' : 'NO'}`,
+              `  Token details: offset=${parsedToken.offset || "undefined"}, ` +
+                `limit=${parsedToken.limit || "undefined"}, ` +
+                `hasOrderByItems=${parsedToken.orderByItems ? "YES" : "NO"}`,
             );
           } catch (e) {
             console.log(`  Token parsing failed: ${e.message}`);
@@ -1590,11 +1590,8 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       console.log(
         `OFFSET>maxItemCount: ${allResults.length} items (≤10) across ${iterationCount} iterations`,
       );
-      console.log(
-        `Successfully handled offset (25) > maxItemCount (5) scenario`,
-      );
+      console.log(`Successfully handled offset (25) > maxItemCount (5) scenario`);
     });
-
 
     it("should handle TOP queries with continuation", async () => {
       const query = "SELECT TOP 15 * FROM c ORDER BY c.amount DESC";
@@ -2395,7 +2392,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           }
           break;
         }
-
       }
 
       console.log(`\n=== Fuzzy ORDER BY Test Results ===`);
@@ -2418,7 +2414,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       expect(allCollectedIds.size).toBe(25000);
 
       // 3. Verify complete ORDER BY correctness across all items
-      console.log(`Validating ORDER BY correctness across all ${allCollectedItems.length} items...`);
+      console.log(
+        `Validating ORDER BY correctness across all ${allCollectedItems.length} items...`,
+      );
       for (let i = 1; i < allCollectedItems.length; i++) {
         const current = allCollectedItems[i];
         const previous = allCollectedItems[i - 1];
@@ -2429,7 +2427,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             `ORDER BY VIOLATION at index ${i}: amount ${current.amount} < ${previous.amount}`,
           );
         }
-
       }
       console.log(`✓ ORDER BY correctness validated across all items`);
 
@@ -2490,10 +2487,14 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       // 6. Validate amount distribution makes sense
       const amountStats = {
-        min: Math.min(...allCollectedItems.map(item => item.amount)),
-        max: Math.max(...allCollectedItems.map(item => item.amount)),
-        first10: allCollectedItems.slice(0, 10).map(item => ({ id: item.id, amount: item.amount, category: item.category })),
-        last10: allCollectedItems.slice(-10).map(item => ({ id: item.id, amount: item.amount, category: item.category })),
+        min: Math.min(...allCollectedItems.map((item) => item.amount)),
+        max: Math.max(...allCollectedItems.map((item) => item.amount)),
+        first10: allCollectedItems
+          .slice(0, 10)
+          .map((item) => ({ id: item.id, amount: item.amount, category: item.category })),
+        last10: allCollectedItems
+          .slice(-10)
+          .map((item) => ({ id: item.id, amount: item.amount, category: item.category })),
       };
 
       console.log(`Amount statistics:`, amountStats);
@@ -2503,7 +2504,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       // Log token history for analysis
       console.log(`\n=== Continuation Token History ===`);
       tokenHistory.slice(0, 5).forEach((entry, index) => {
-        console.log(`Token ${index + 1}: position=${entry.position}, lastAmount=${entry.lastAmount}, preview=${entry.token}...`);
+        console.log(
+          `Token ${index + 1}: position=${entry.position}, lastAmount=${entry.lastAmount}, preview=${entry.token}...`,
+        );
       });
       if (tokenHistory.length > 5) {
         console.log(`... and ${tokenHistory.length - 5} more tokens`);
