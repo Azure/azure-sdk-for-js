@@ -16,6 +16,7 @@ import type { AuthenticationResult } from "@azure/msal-node";
 import { env } from "@azure-tools/test-recorder";
 import path from "node:path";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { readFileSync } from "node:fs";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -171,7 +172,9 @@ describe("WorkloadIdentityCredential", function () {
 
   it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=true with env vars", async function () {
     vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
-    vi.stubEnv("AZURE_KUBERNETES_CA_DATA", "testdata");
+
+    const TEST_CERT_PATH = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
+    vi.stubEnv("AZURE_KUBERNETES_CA_DATA", readFileSync(TEST_CERT_PATH, "utf8"));
 
     const credential = new WorkloadIdentityCredential({
       tenantId,

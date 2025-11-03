@@ -41,26 +41,15 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
       vi.stubEnv("AZURE_KUBERNETES_CA_DATA", "invalid-certificate-data");
 
-      const credential = new WorkloadIdentityCredential({
-        tenantId,
-        clientId,
-        tokenFilePath,
-        enableAzureKubernetesTokenProxy: true,
-      });
-
-      assert.equal((credential as any).caData, "invalid-certificate-data");
-
-      let error: Error | undefined;
-      try {
-        await (credential as any).getTlsSettings();
-      } catch (e) {
-        error = e as Error;
-      }
-
-      assert.isDefined(error);
-      assert.match(error!.message, /no valid PEM certificates found/);
+      assert.throws(() => {
+        new WorkloadIdentityCredential({
+          tenantId,
+          clientId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+      }, /no valid PEM certificates found/);
     });
-
     it("should validate CA file changes and cache invalidation", async function () {
       const invalidCaContent = "invalid-certificate-data";
       const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cert-test-"));
@@ -138,27 +127,23 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
 
       // Simulate CA rotation by emptying the file
       await fs.writeFile(tempCaFile, "", "utf8");
+
       await new Promise((resolve) => setTimeout(resolve, 10));
 
-      // Call with empty file should return cached settings
+      // Call with empty file should return cached settings from the same credential instance
       const tlsSettings2 = await (credential as any).getTlsSettings();
       assert.strictEqual(tlsSettings1, tlsSettings2);
 
-      const credential2 = new WorkloadIdentityCredential({
-        tenantId,
-        clientId,
-        tokenFilePath,
-        enableAzureKubernetesTokenProxy: true,
-      });
+      // But creating a new credential with empty CA file should fail
+      assert.throws(() => {
+        new WorkloadIdentityCredential({
+          tenantId,
+          clientId,
+          tokenFilePath,
+          enableAzureKubernetesTokenProxy: true,
+        });
+      }, /CA certificate file is empty/);
 
-      let rejectionError: Error | undefined;
-      try {
-        await (credential2 as any).getTlsSettings();
-      } catch (error) {
-        rejectionError = error as Error;
-      }
-      assert.isDefined(rejectionError);
-      assert.match(rejectionError!.message, /CA certificate file is empty/);
       await fs.unlink(tempCaFile);
       await fs.rmdir(tempDir);
     });
@@ -183,7 +168,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "proxy url with / path; request path has no leading slash",
         proxyUrl: "https://proxy.example.com/",
         requestUrl: "https://orig.example.com/login?a=1&b=2",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/login",
         wantQuery: "?a=1&b=2",
@@ -192,7 +176,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "proxy url with / path; request path has no path",
         proxyUrl: "https://proxy.example.com/",
         requestUrl: "https://orig.example.com?a=1&b=2",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/",
         wantQuery: "?a=1&b=2",
@@ -201,7 +184,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "no trailing slash on proxy; add slash between",
         proxyUrl: "https://proxy.example.com/base",
         requestUrl: "https://orig.example.com/login?a=1&b=2",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/base/login",
         wantQuery: "?a=1&b=2",
@@ -210,7 +192,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "trailing slash on proxy; collapse double slash",
         proxyUrl: "https://proxy.example.com/v1/",
         requestUrl: "https://orig.example.com/oauth2/token?x=1",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/v1/oauth2/token",
         wantQuery: "?x=1",
@@ -219,7 +200,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "with encoded path segments; maintain encoding",
         proxyUrl: "https://proxy.example.com/base/",
         requestUrl: "https://orig.example.com/a%20b?q=1",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/base/a%20b",
         wantQuery: "?q=1",
@@ -228,7 +208,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "both sides no slashes; insert slash",
         proxyUrl: "https://proxy.example.com/api",
         requestUrl: "https://orig.example.com/v1",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/api/v1",
         wantQuery: "",
@@ -237,7 +216,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "preserve query and fragment",
         proxyUrl: "https://proxy.example.com/base",
         requestUrl: "https://orig.example.com/path?query=value#fragment",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/base/path",
         wantQuery: "?query=value",
@@ -247,7 +225,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         name: "empty request path becomes root",
         proxyUrl: "https://proxy.example.com/api",
         requestUrl: "https://orig.example.com",
-        wantScheme: "https",
         wantHost: "proxy.example.com",
         wantPath: "/api/",
         wantQuery: "",
@@ -293,7 +270,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         assert.isDefined(capturedRequest, "Request should have been captured");
 
         const rewrittenUrl = new URL(capturedRequest.url);
-        assert.equal(rewrittenUrl.protocol, `${testCase.wantScheme}:`);
+        assert.equal(rewrittenUrl.protocol, "https:");
         assert.equal(rewrittenUrl.host, testCase.wantHost);
         assert.equal(rewrittenUrl.pathname, testCase.wantPath);
         assert.equal(rewrittenUrl.search, testCase.wantQuery);
@@ -356,7 +333,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         expectError: false,
         expectedPath: "/",
         expectedHost: "example.com",
-        expectedScheme: "https",
       },
       {
         name: "valid https endpoint with path",
@@ -394,7 +370,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
         expectError: false,
         expectedPath: "/token%20path",
         expectedHost: "example.com",
-        expectedScheme: "https",
       },
     ];
 
@@ -409,9 +384,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           const result = parseAndValidateCustomTokenProxy(testCase.endpoint);
           const url = new URL(result);
 
-          if (testCase.expectedScheme) {
-            assert.equal(url.protocol, `${testCase.expectedScheme}:`);
-          }
+          assert.equal(url.protocol, "https:");
           if (testCase.expectedHost) {
             assert.equal(url.host, testCase.expectedHost);
           }
@@ -474,18 +447,16 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
           AZURE_KUBERNETES_CA_FILE: "/non/existent/path/to/custom-ca-file.pem",
         },
-        expectError: false, // Credential created successfully, validation in getTlsSettings should fail
-        expectCustomHttpClient: true,
-        expectRuntimeError: true,
+        expectError: true,
+        expectErrorMessage: /Failed to read CA certificate file/,
       },
       {
         name: "custom endpoint enabled with CA file contains invalid CA data",
         envs: {
           AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
         },
-        expectError: false, // Credential created successfully, validation in getTlsSettings should fail
-        expectCustomHttpClient: true,
-        expectRuntimeError: true,
+        expectError: true,
+        expectErrorMessage: /no valid PEM certificates found/,
         useInvalidCAFile: true,
       },
       {
@@ -504,9 +475,8 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           AZURE_KUBERNETES_TOKEN_PROXY: "https://custom-endpoint.com",
           AZURE_KUBERNETES_CA_DATA: "invalid-ca-cert",
         },
-        expectError: false, // Construction succeeds, but validation in getTlsSettings should fail
-        expectCustomHttpClient: true,
-        expectRuntimeError: true,
+        expectError: true,
+        expectErrorMessage: /no valid PEM certificates found/,
       },
       {
         name: "custom endpoint enabled with SNI",
@@ -595,16 +565,6 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.isTrue(hasCustomHttpClient, "Expected custom httpClient to be set");
         } else {
           assert.isFalse(hasCustomHttpClient, "Expected no custom httpClient");
-        }
-
-        if (testCase.expectRuntimeError) {
-          let runtimeError: Error | undefined;
-          try {
-            await (credential as any).getTlsSettings();
-          } catch (error) {
-            runtimeError = error as Error;
-          }
-          assert.isDefined(runtimeError, "Expected runtime error during CA validation");
         }
       });
     });

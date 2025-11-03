@@ -13,6 +13,7 @@ import type { PipelineRequest, PipelineResponse, HttpClient } from "@azure/core-
 import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import type { TlsSettings } from "@azure/core-rest-pipeline";
 import { validatePemCertificates } from "../util/certificatesUtils.js";
+import { readFileSync } from "node:fs";
 
 const credentialName = "WorkloadIdentityCredential";
 /**
@@ -234,6 +235,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   private createAksProxyClient(tokenEndpoint: string): HttpClient {
     const defaultClient = createDefaultHttpClient();
+    const tlsSettings = this.getTlsSettings();
 
     return {
       sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
@@ -242,7 +244,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
         logger.info(
           `${credentialName}: Redirecting request to Kubernetes endpoint: ${tokenEndpoint}`,
         );
-        const tlsSettings = await this.getTlsSettings();
 
         const proxyUrl = new URL(tokenEndpoint);
 
@@ -272,7 +273,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    * Gets TLS settings for the request.
    * Handles a few scenarios with CA data or CA file provided.
    */
-  private async getTlsSettings(): Promise<TlsSettings & { servername?: string }> {
+  private getTlsSettings(): TlsSettings & { servername?: string } {
     // No CA overrides, use default transport
     if (!this.caData && !this.caFile) {
       if (!this.cachedTlsSettings) {
@@ -298,7 +299,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     // Host provided the CA bytes in a file whose contents it can change,
     let fileContent: Buffer;
     try {
-      fileContent = await readFile(this.caFile);
+      fileContent = readFileSync(this.caFile);
     } catch (error) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. ${ErrorMessages.FAILED_TO_READ_CA_FILE(this.caFile!, error)}`,

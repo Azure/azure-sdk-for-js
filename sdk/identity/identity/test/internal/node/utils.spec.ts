@@ -67,6 +67,11 @@ Invalid base64 data here!!!
 -----END CERTIFICATE-----`;
         assert.isFalse(validatePemCertificates(invalidPemData));
       });
+
+      it("should return false for regular string", () => {
+        assert.isFalse(validatePemCertificates(""));
+        assert.isFalse(validatePemCertificates("non-cert data"));
+      });
     });
   });
 });
