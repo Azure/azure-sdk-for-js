@@ -7,7 +7,7 @@
  */
 
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
-import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { MySQLManagementFlexibleServerClient } from "../src/mySQLManagementFlexibleServerClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -39,7 +39,7 @@ describe("mysql test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
+    subscriptionId = "2941a09d-7bcf-42fe-91ca-1765f521c829";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MySQLManagementFlexibleServerClient(
@@ -79,12 +79,63 @@ describe("mysql test", () => {
       },
       testPollingOptions,
     );
-    assert.equal(res.name, resourcename);
+    assert.equal(res.name, "czwtestserver");
   });
 
-  it("servers get test", async () => {
-    const res = await client.servers.get(resourceGroup, resourcename);
-    assert.equal(res.name, resourcename);
+  it.only("servers update test", async () => {
+    const res1 = await client.servers.get("czwjstest",
+      "czwtestserver");
+    console.log("Public Network Access:", res1.network!.publicNetworkAccess);
+
+    const res = await client.servers.beginUpdateAndWait(
+      "czwjstest",
+      "czwtestserver",
+      {
+       network:{
+        publicNetworkAccess:"Disabled"
+       }
+      },
+      testPollingOptions,
+    );
+    console.log("Public Network Access:", res.network!.publicNetworkAccess);
+    assert.equal(res.name, "czwtestserver");
+  });
+
+  it.only("servers get test", async () => {
+    const res = await client.servers.get("czwjstest",
+      "czwtestserver");
+    assert.equal(res.name, "czwtestserver");
+    console.log("Public Network Access:", res.network!.publicNetworkAccess);
+
+  });
+
+  
+  it.only("configurations beginCreateOrUpdateAndWait test", async () => {
+    const res = await client.configurations.beginCreateOrUpdateAndWait(
+      "czwjstest",
+      "czwtestserver",
+      "max_connections",
+      {
+        value: "150",
+        source: "user-override",
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "max_connections");
+  });
+
+  it.only("configurations beginUpdateAndWait test", async () => {
+    const res = await client.configurations.beginUpdateAndWait(
+      "czwjstest",
+      "czwtestserver",
+      "max_connections",
+      {
+        value: "200",
+        source: "user-override",
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "max_connections");
   });
 
   it("servers list test", async () => {
