@@ -192,7 +192,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
           );
         }
         logger.info(
-          `enableAzureKubernetesTokenProxy is set but AZURE_KUBERNETES_TOKEN_PROXY is not configured, using normal authentication flow`,
+          `enableAzureKubernetesTokenProxy is true but AZURE_KUBERNETES_TOKEN_PROXY is not set, using normal authentication flow`,
         );
       } else {
         const tokenProxy = parseAndValidateCustomTokenProxy(kubernetesTokenProxy);
@@ -212,7 +212,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
         // Configure client options with AKS proxy client
         const proxyClient = this.createAksProxyClient(tokenProxy);
         workloadIdentityCredentialOptions.httpClient = proxyClient;
-        logger.info(`${credentialName}: Using AKS proxy client for token requests`);
+        logger.info(`${credentialName}: Using proxy client for token requests`);
       }
     }
 
