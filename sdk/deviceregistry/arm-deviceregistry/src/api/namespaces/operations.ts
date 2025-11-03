@@ -300,7 +300,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, namespaceName, properties, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<Namespace>, Namespace>;
 }
 

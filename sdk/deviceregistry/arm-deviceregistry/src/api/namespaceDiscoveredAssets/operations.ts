@@ -219,7 +219,7 @@ export function update(
         properties,
         options,
       ),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
 }
 
