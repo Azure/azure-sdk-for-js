@@ -14,7 +14,7 @@ export {
 } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-client";
-export type { Delivery, WebSocketImpl } from "rhea-promise";
+export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers.js";
 export { CorrelationRuleFilter } from "./core/managementClient.js";
 export {
