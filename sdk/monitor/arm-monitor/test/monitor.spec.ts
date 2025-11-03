@@ -240,12 +240,12 @@ describe("Monitor test", () => {
 
   it("diagnosticSettings list test", async () => {
     const res = await client.diagnosticSettings.list(workflowsId);
-    assert.ok(res);
+    assert.isDefined(res);
   });
 
   it("diagnosticSettings delete test", async () => {
     const res = await client.diagnosticSettings.delete(workflowsId, diagnosticName);
-    assert.ok(res);
+    assert.isDefined(res);
   });
 
   it("logProfiles create test", async () => {
