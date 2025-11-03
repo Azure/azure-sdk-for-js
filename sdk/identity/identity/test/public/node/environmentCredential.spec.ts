@@ -174,10 +174,9 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "CredentialUnavailableError");
-    assert.isTrue(
-      error.message.indexOf(
-        "EnvironmentCredential is unavailable. No underlying credential could be used.",
-      ) > -1,
+    assert.include(
+      error.message,
+      "EnvironmentCredential is unavailable. No underlying credential could be used.",
     );
   });
 
@@ -189,6 +188,6 @@ describe("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AuthenticationError");
-    assert.isTrue(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);
+    assert.include(error.message, "EnvironmentCredential authentication failed.");
   });
 });

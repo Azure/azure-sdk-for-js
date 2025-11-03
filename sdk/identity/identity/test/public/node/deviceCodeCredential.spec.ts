@@ -135,7 +135,8 @@ describe("DeviceCodeCredential", function () {
     }
 
     assert.equal(error?.name, "AbortError");
-    assert.isTrue(error?.message.match("The authentication has been aborted by the caller."));
+    assert.isDefined(error);
+    assert.match(error.message, /The authentication has been aborted by the caller\./);
   });
 
   it("allows setting disableAutomaticAuthentication", async function (ctx) {
