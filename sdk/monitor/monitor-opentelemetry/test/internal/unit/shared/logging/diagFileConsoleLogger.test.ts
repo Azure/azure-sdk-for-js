@@ -92,7 +92,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       expect(appendStub).not.toHaveBeenCalled();
       expect(writeStub).toHaveBeenCalledTimes(2);
       // assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
-      assert.ok(
+      assert.isTrue(
         writeStub.mock.calls[0][0].toString().indexOf(".applicationinsights.log") > 0,
         ".applicationinsights.log present in backup file name",
       ); // First call is for backup file
@@ -130,7 +130,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       const setIntervalSpy = vi.spyOn(global, "setInterval");
       logger = new DiagFileConsoleLogger();
       expect(setIntervalSpy).toHaveBeenCalled();
-      assert.ok(logger["_fileCleanupTimer"]);
+      assert.isDefined(logger["_fileCleanupTimer"]);
     });
 
     it("should remove backup files", async () => {
@@ -165,7 +165,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
       await logger["_fileCleanupTask"]();
       expect(unlinkStub).toHaveBeenCalledTimes(1);
-      assert.ok(
+      assert.isTrue(
         unlinkStub.mock.calls[0][0].toString().indexOf("123.applicationinsights.log") > 0,
         "Oldest file is deleted",
       );
