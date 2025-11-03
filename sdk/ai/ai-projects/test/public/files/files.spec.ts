@@ -4,8 +4,6 @@
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createOpenAI } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { createReadStream } from "node:fs";
-import { join } from "node:path";
 
 const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
 const isLive = testMode === "live";
@@ -23,12 +21,14 @@ describe("files - basic", () => {
     await recorder.stop();
   });
 
-  async function uploadFileAndWait(
-    filePath: string,
-  ): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
-    console.log(`Uploading file from path: ${filePath}`);
+  async function uploadFileAndWait(): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
+    const dataUrl = new URL("../data/training_set.jsonl", import.meta.url);
+    const response = await fetch(dataUrl);
+    const fileBlob = await response.blob();
+
+    console.log(`Uploading file`);
     const created = await openai.files.create({
-      file: createReadStream(filePath),
+      file: new File([fileBlob], "training_set.jsonl", { type: "application/jsonl" }),
       purpose: "fine-tune",
     });
     console.log(`Uploaded file with ID: ${created.id}`);
@@ -64,16 +64,15 @@ describe("files - basic", () => {
   }
 
   it.skipIf(!isLive)("should upload, get, read content, list, and delete a file", async () => {
-    const dataPath = join(__dirname, "data", "training_set.jsonl");
-    console.log(`Starting test with file: ${dataPath}`);
-
     // Create (upload) and wait until processed
-    const uploadedFile = await uploadFileAndWait(dataPath);
+    console.log(`Starting file upload.`);
+    const uploadedFile = await uploadFileAndWait();
     assert.isNotNull(uploadedFile);
     assert.isString(uploadedFile.id);
     console.log(`Uploaded and processed file ID: ${uploadedFile.id}`);
 
     // Retrieve metadata
+    console.log(`Retrieving metadata for file ID: ${uploadedFile.id}`);
     const got = await openai.files.retrieve(uploadedFile.id);
     assert.isNotNull(got);
     assert.equal(got.id, uploadedFile.id);
@@ -81,6 +80,7 @@ describe("files - basic", () => {
     console.log(`Retrieved metadata for file ID: ${got.id}`);
 
     // Retrieve content
+    console.log(`Retrieving content for file ID: ${uploadedFile.id}`);
     const contentResponse = await openai.files.content(uploadedFile.id);
     const buf = Buffer.from(await (contentResponse as any).arrayBuffer());
     const text = buf.toString("utf-8");
@@ -90,6 +90,7 @@ describe("files - basic", () => {
     assert.include(text, `"assistant"`);
 
     // List
+    console.log(`Listing files to verify presence of file ID: ${uploadedFile.id}`);
     const listed = await openai.files.list();
     assert.isArray(listed.data);
     const found = listed.data.find((f: any) => f.id === uploadedFile.id);
@@ -97,6 +98,7 @@ describe("files - basic", () => {
     console.log(`Verified uploaded file ID ${uploadedFile.id} appears in list.`);
 
     // Delete
+    console.log(`Deleting file ID: ${uploadedFile.id}`);
     const deleted = await openai.files.delete(uploadedFile.id);
     assert.isTrue(deleted?.deleted === true, "expected file to be deleted");
     console.log(`Deleted file with ID: ${uploadedFile.id}`);
