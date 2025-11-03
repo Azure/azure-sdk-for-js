@@ -40,16 +40,16 @@ catalogs:
     '@rollup/plugin-inject': ^5.0.5
     '@types/chai': ^5.2.1
     '@types/chai-as-promised': ^8.0.2
-    '@vitest/coverage-istanbul': ^4.0.0
+    '@vitest/coverage-istanbul': ^4.0.6
     '@vitest/browser-playwright': ^4.0.0
-    '@vitest/expect': ^4.0.0
+    '@vitest/expect': ^4.0.6
     chai: ^6.2.0
     chai-as-promised: ^8.0.1
     chai-exclude: ^3.0.0
     dotenv: ^16.0.0
     nock: ^13.5.4
     playwright: ^1.50.1
-    vitest: ^4.0.0
+    vitest: ^4.0.6
 
 linkWorkspacePackages: true
 
