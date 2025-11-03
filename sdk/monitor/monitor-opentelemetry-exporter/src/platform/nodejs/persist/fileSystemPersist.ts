@@ -276,7 +276,20 @@ export function getStorageDirectory(
     applicationDirectory = "";
   }
   const hash_input = `${instrumentationKey}|${userSegment}|${processName}|${applicationDirectory}`;
-  const subDirectory = createHash("sha256").update(hash_input).digest("hex");
+
+  let subDirectory: string;
+  try {
+    subDirectory = createHash("sha256").update(hash_input).digest("hex");
+  } catch (e: any) {
+      let hash = 5381;
+      for (let i = 0; i < hash_input.length; i++) {
+        const char = hash_input.charCodeAt(i);
+        hash = ((hash << 5) + hash) + char;
+        hash = hash & hash;
+      }
+      subDirectory = Math.abs(hash).toString(16);
+  }
+  
   let sharedRoot: string;
   if (storageDirectory) {
     sharedRoot = storageDirectory;
