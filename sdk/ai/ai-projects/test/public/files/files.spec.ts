@@ -46,13 +46,11 @@ describe("files - basic", () => {
         console.log(`File ${created.id} processed successfully.`);
         return retrieved;
       }
-
       if (status === "failed") {
         throw new Error(
           `File ${created.id} import failed: ${(retrieved as any).status_details || "Unknown reason"}`,
         );
       }
-
       if (Date.now() - start > timeoutMs) {
         throw new Error(
           `File ${created.id} import did not complete within ${timeoutMs / 1000}s. Last status: ${status}`,
