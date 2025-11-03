@@ -67,13 +67,13 @@ describe(
         if (i++ === 0) {
           assert.isDefined(event.eventType);
           assert.isDefined(event.data.blobType);
-          assert.isAtLeast(event.eventTime, startRounded);
+          assert.isTrue(event.eventTime >= startRounded);
         }
         lastEvent = event;
       }
 
       if (lastEvent) {
-        assert.isBelow(lastEvent.eventTime, endRounded);
+        assert.isTrue(lastEvent.eventTime < endRounded);
       }
     });
 
@@ -124,7 +124,7 @@ describe(
 
       if (lastEventPage) {
         const lastEvent = lastEventPage.events[lastEventPage.events.length - 1];
-        assert.isBelow(lastEvent.eventTime, endRounded);
+        assert.isTrue(lastEvent.eventTime < endRounded);
       }
     });
 
