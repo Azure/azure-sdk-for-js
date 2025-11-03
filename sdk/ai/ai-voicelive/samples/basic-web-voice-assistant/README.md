@@ -108,6 +108,35 @@ const subscription = session.subscribe({
 - ✅ **Visual Feedback**: Clear indication when response is complete
 - ✅ **Real-Time Audio Playback**: Assistant voice plays as audio streams in
 - ✅ **PCM16 Audio Support**: Proper handling of raw audio data from VoiceLive
+- ✅ **Sequential Audio Queue**: Prevents overlapping audio chunks
+- ✅ **Barge-In Support**: User can interrupt assistant responses naturally
+
+### **🛑 Barge-In Functionality**
+
+Natural conversation flow with interruption support:
+
+```typescript
+// When user starts speaking during assistant response:
+processInputAudioBufferSpeechStarted: async (event, context) => {
+  if (this.isPlayingAudio) {
+    // 🛑 Immediately stop audio playback
+    this.clearAudioQueue();
+    
+    // 📝 Show barge-in indicator in conversation
+    showMessage('system', '[Conversation interrupted by user]');
+    
+    // 🎙️ Switch to listening for new user input
+    this.callbacks?.onAssistantStatusChange('interrupted');
+  }
+}
+```
+
+**Barge-In Features:**
+- ✅ **Instant Audio Stop**: Currently playing audio stops immediately
+- ✅ **Queue Clearing**: Pending audio chunks are discarded
+- ✅ **Visual Feedback**: Clear indication of interruption in conversation
+- ✅ **Service Integration**: VoiceLive service handles the protocol-level interruption
+- ✅ **Natural Flow**: New assistant response generated based on interruption
 
 ## 🔄 **Azure SDK Handler Pattern**
 

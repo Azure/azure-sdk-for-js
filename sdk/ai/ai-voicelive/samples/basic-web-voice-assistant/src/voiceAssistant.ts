@@ -69,6 +69,7 @@ export class VoiceAssistant {
   private audioQueue: AudioBuffer[] = [];
   private isPlayingAudio = false;
   private nextAudioStartTime = 0;
+  private currentAudioSources: AudioBufferSourceNode[] = [];
 
   constructor() {
     this.audioCapture = new SimpleAudioCapture();
@@ -203,6 +204,13 @@ export class VoiceAssistant {
 
       processResponseCreated: async (event, context: SessionContext) => {
         console.log('🔔 Response Created:', event);
+        
+        // If this is a new response while another is in progress, it's likely due to barge-in
+        if (this.currentResponseId && this.currentResponseId !== event.response.id) {
+          console.log('🛑 New response started - previous response interrupted (likely barge-in)');
+          this.clearAudioQueue();
+        }
+        
         this.currentResponseId = event.response.id;
         this.currentAssistantMessage = ''; // Reset for new response
         this.messageStartTime = new Date();
@@ -260,6 +268,23 @@ export class VoiceAssistant {
         console.log('🔔 Speech Started:', event);
         this.currentUserTranscription = ''; // Reset transcription
         this.userSpeechStartTime = new Date();
+        
+        // BARGE-IN: If audio is currently playing, stop it immediately
+        if (this.isPlayingAudio) {
+          console.log('🛑 BARGE-IN: User started speaking during agent response - stopping audio playback');
+          this.clearAudioQueue();
+          this.callbacks?.onAssistantStatusChange('interrupted');
+          
+          // Add barge-in indicator to conversation
+          this.callbacks?.onConversationMessageUpdate({
+            role: 'system',
+            content: '[Conversation interrupted by user]',
+            timestamp: new Date(),
+            messageId: 'barge_in_' + Date.now(),
+            isStreaming: false
+          });
+        }
+        
         this.callbacks?.onAssistantStatusChange('listening (speech detected)');
         this.callbacks?.onEventReceived({
           type: 'speech.started',
@@ -613,6 +638,9 @@ export class VoiceAssistant {
     source.buffer = audioBuffer;
     source.connect(this.audioContext.destination);
     
+    // Track this source for potential barge-in interruption
+    this.currentAudioSources.push(source);
+    
     // Schedule this chunk to start exactly when the previous one ends
     source.start(this.nextAudioStartTime);
     
@@ -624,14 +652,37 @@ export class VoiceAssistant {
     
     // Schedule the next chunk to play when this one ends
     source.onended = () => {
+      // Remove this source from tracking
+      const index = this.currentAudioSources.indexOf(source);
+      if (index > -1) {
+        this.currentAudioSources.splice(index, 1);
+      }
       this.playNextAudioChunk();
     };
   }
 
   private clearAudioQueue(): void {
+    // Stop all currently playing audio sources immediately
+    this.currentAudioSources.forEach(source => {
+      try {
+        source.stop();
+      } catch (error) {
+        // Source might already be stopped, ignore the error
+      }
+    });
+    this.currentAudioSources = [];
+    
+    // Clear the queue
     this.audioQueue = [];
+    
+    // Reset playback state
     this.isPlayingAudio = false;
-    this.nextAudioStartTime = 0;
-    console.log('🔊 Audio queue cleared');
+    
+    // Reset timing for next playback
+    if (this.audioContext) {
+      this.nextAudioStartTime = this.audioContext.currentTime;
+    }
+    
+    console.log('🛑 Audio queue cleared and all sources stopped (barge-in or response change)');
   }
 }
