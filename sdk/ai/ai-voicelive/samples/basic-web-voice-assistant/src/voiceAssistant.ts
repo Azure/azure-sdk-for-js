@@ -64,6 +64,11 @@ export class VoiceAssistant {
   // Track ongoing transcription for user speech
   private currentUserTranscription = '';
   private userSpeechStartTime?: Date;
+  
+  // Audio playback queue management
+  private audioQueue: AudioBuffer[] = [];
+  private isPlayingAudio = false;
+  private nextAudioStartTime = 0;
 
   constructor() {
     this.audioCapture = new SimpleAudioCapture();
@@ -103,11 +108,14 @@ export class VoiceAssistant {
       });
       
       // Create and connect a session with model
-      this.session = await this.client.startSession(config, sessionOptions);
+      this.session = await this.client.startSession('gpt-4o', sessionOptions);
       
       // Setup handler-based event subscription (Azure SDK pattern)
       this.subscription = this.session.subscribe(this.createEventHandlers());
-        
+      
+      // Configure session
+      await this.configureSession(config);
+      
       this.isConnected = true;
       this.callbacks?.onConnectionStatusChange('connected');
       
@@ -199,6 +207,9 @@ export class VoiceAssistant {
         this.currentAssistantMessage = ''; // Reset for new response
         this.messageStartTime = new Date();
         this.currentAssistantMessageId = `response_${event.response.id}_${Date.now()}`;
+        
+        // Clear any previous audio queue when starting new response
+        this.clearAudioQueue();
         
         // Add initial empty message that we'll update as deltas come in
         this.callbacks?.onConversationMessageUpdate({
@@ -355,13 +366,22 @@ export class VoiceAssistant {
 
       processResponseAudioDelta: async (event, context: SessionContext) => {
         console.log('🔔 Audio Received:', event.delta?.byteLength, 'bytes');
-        // Handle streaming audio
-        if (event.delta) {
-          // delta is already a Uint8Array, convert to ArrayBuffer
+        
+        // Add debugging for audio format
+        if (event.delta && event.delta.byteLength > 0) {
+          console.log('🔊 Audio chunk details:', {
+            byteLength: event.delta.byteLength,
+            samples: event.delta.byteLength / 2,
+            durationMs: (event.delta.byteLength / 2 / 24000) * 1000
+          });
+          
+          // Handle streaming audio
           const audioBuffer = new ArrayBuffer(event.delta.byteLength);
           const view = new Uint8Array(audioBuffer);
           view.set(event.delta);
           await this.playAudioChunk(audioBuffer);
+        } else {
+          console.warn('🔊 Empty or invalid audio chunk received');
         }
       },
 
@@ -416,6 +436,9 @@ export class VoiceAssistant {
 
   stopConversation(): void {
     try {
+      // Clear any playing audio first
+      this.clearAudioQueue();
+      
       this.audioCapture.stopCapture();
       
       if (this.audioContext) {
@@ -468,9 +491,6 @@ export class VoiceAssistant {
         voice: voice, // Now using proper voice object
         inputAudioFormat: 'pcm16',
         outputAudioFormat: 'pcm16',
-        inputAudioTranscription: {
-          model: 'whisper-1' // Enable transcription to get user speech text
-        },
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
@@ -519,22 +539,99 @@ export class VoiceAssistant {
   }
 
   private async playAudioChunk(audioData: ArrayBuffer): Promise<void> {
-    if (!this.audioContext) return;
+    if (!this.audioContext) {
+      console.warn('AudioContext not available for audio playback');
+      return;
+    }
 
     try {
-      // Decode and play audio using Web Audio API
-      const audioBuffer = await this.audioContext.decodeAudioData(audioData.slice(0));
-      const source = this.audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(this.audioContext.destination);
-      source.start();
+      // VoiceLive sends raw PCM16 data, not encoded audio
+      const sampleRate = 24000; // VoiceLive default output sample rate
+      const numberOfChannels = 1; // Mono audio
+      const byteLength = audioData.byteLength;
+      const numberOfSamples = byteLength / 2; // 16-bit = 2 bytes per sample
       
-      this.callbacks?.onAssistantStatusChange('speaking');
+      if (numberOfSamples === 0) {
+        console.warn('Empty audio chunk received');
+        return;
+      }
+      
+      // Create AudioBuffer for the PCM data
+      const audioBuffer = this.audioContext.createBuffer(
+        numberOfChannels,
+        numberOfSamples,
+        sampleRate
+      );
+      
+      // Convert Int16 PCM data to Float32 for Web Audio API
+      const pcm16Data = new Int16Array(audioData);
+      const float32Data = audioBuffer.getChannelData(0);
+      
+      for (let i = 0; i < numberOfSamples; i++) {
+        // Convert from Int16 (-32768 to 32767) to Float32 (-1.0 to 1.0)
+        float32Data[i] = pcm16Data[i] / 32768.0;
+      }
+      
+      // Add to audio queue instead of playing immediately
+      this.audioQueue.push(audioBuffer);
+      
+      console.log(`🔊 Queued audio chunk: ${numberOfSamples} samples, ${byteLength} bytes (queue length: ${this.audioQueue.length})`);
+      
+      // Start playing if not already playing
+      if (!this.isPlayingAudio) {
+        this.startAudioPlayback();
+      }
       
     } catch (error) {
-      // Audio might be in a format we can't directly play
-      // For demo purposes, we'll just log it
-      console.log('Received audio chunk:', audioData.byteLength, 'bytes');
+      console.error('Failed to process audio chunk:', error);
     }
+  }
+
+  private startAudioPlayback(): void {
+    if (!this.audioContext || this.isPlayingAudio || this.audioQueue.length === 0) {
+      return;
+    }
+
+    this.isPlayingAudio = true;
+    this.nextAudioStartTime = this.audioContext.currentTime;
+    this.callbacks?.onAssistantStatusChange('speaking');
+    
+    console.log('🔊 Starting sequential audio playback');
+    this.playNextAudioChunk();
+  }
+
+  private playNextAudioChunk(): void {
+    if (!this.audioContext || this.audioQueue.length === 0) {
+      this.isPlayingAudio = false;
+      this.callbacks?.onAssistantStatusChange('listening');
+      console.log('🔊 Audio playback completed');
+      return;
+    }
+
+    const audioBuffer = this.audioQueue.shift()!;
+    const source = this.audioContext.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(this.audioContext.destination);
+    
+    // Schedule this chunk to start exactly when the previous one ends
+    source.start(this.nextAudioStartTime);
+    
+    // Calculate when this chunk will end
+    const chunkDuration = audioBuffer.length / audioBuffer.sampleRate;
+    this.nextAudioStartTime += chunkDuration;
+    
+    console.log(`🔊 Playing chunk (duration: ${(chunkDuration * 1000).toFixed(1)}ms, queue remaining: ${this.audioQueue.length})`);
+    
+    // Schedule the next chunk to play when this one ends
+    source.onended = () => {
+      this.playNextAudioChunk();
+    };
+  }
+
+  private clearAudioQueue(): void {
+    this.audioQueue = [];
+    this.isPlayingAudio = false;
+    this.nextAudioStartTime = 0;
+    console.log('🔊 Audio queue cleared');
   }
 }

@@ -5,7 +5,7 @@ import type {
   ServerEventUnion, 
   ClientEventUnion 
 } from '../models/index.js';
-import { clientEventUnionSerializer } from '../models/models.js';
+import { clientEventUnionSerializer, serverEventUnionDeserializer } from '../models/models.js';
 
 /**
  * Parsed message containing event data and metadata
@@ -42,7 +42,7 @@ export class VoiceLiveMessageParser {
       if (this._isServerEvent(parsedData)) {
         return {
           type: 'server',
-          event: parsedData as ServerEventUnion,
+          event: serverEventUnionDeserializer(parsedData),
           raw: data
         };
       }

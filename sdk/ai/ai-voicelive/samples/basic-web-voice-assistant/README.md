@@ -106,6 +106,8 @@ const subscription = session.subscribe({
 - ✅ **Auto-Scroll**: Conversation view follows the streaming text
 - ✅ **Message Persistence**: Streaming updates modify the same message element
 - ✅ **Visual Feedback**: Clear indication when response is complete
+- ✅ **Real-Time Audio Playback**: Assistant voice plays as audio streams in
+- ✅ **PCM16 Audio Support**: Proper handling of raw audio data from VoiceLive
 
 ## 🔄 **Azure SDK Handler Pattern**
 
