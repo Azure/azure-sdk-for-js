@@ -74,11 +74,7 @@ describe("elasticSan test", () => {
   });
 
   it("elasticSan create test", async () => {
-    const res = await client.elasticSans.beginCreateAndWait(
-      resourceGroup,
-      elasticSanName,
-      parameters,
-    );
+    const res = await client.elasticSans.create(resourceGroup, elasticSanName, parameters);
     assert.equal(res.name, elasticSanName);
   });
 
@@ -92,7 +88,7 @@ describe("elasticSan test", () => {
 
   it("elasticSan delete test", async () => {
     const resArray = new Array();
-    await client.elasticSans.beginDeleteAndWait(resourceGroup, elasticSanName);
+    await client.elasticSans.delete(resourceGroup, elasticSanName);
     for await (const item of client.elasticSans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
