@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
- *
- * @summary Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
- * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/CheckAvailability.json
- */
-
-import type { CheckAvailabilityParameters } from "@azure/arm-notificationhubs";
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
+ *
+ * @summary checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
+ * x-ms-original-file: 2023-10-01-preview/Namespaces/CheckAvailability.json
+ */
 async function namespacesCheckAvailability(): Promise<void> {
-  const subscriptionId =
-    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
-  const parameters: CheckAvailabilityParameters = {
-    name: "sdk-Namespace-2924",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.checkAvailability(parameters);
+  const result = await client.namespaces.checkAvailability({
+    name: "sdk-Namespace-2924",
+  });
   console.log(result);
 }
 
