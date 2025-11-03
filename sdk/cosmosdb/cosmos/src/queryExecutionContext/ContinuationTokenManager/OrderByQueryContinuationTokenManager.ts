@@ -174,6 +174,16 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       }
     }
 
+    // If we don't have valid ORDER BY items, we cannot create a proper continuation token
+    // This can happen when the response doesn't contain ORDER BY metadata or when there are no results
+    if (!lastOrderByItems || lastOrderByItems.length === 0) {
+      this.continuationToken = undefined;
+      return {
+        endIndex: rangeProcessingResult.endIndex,
+        processedRanges: rangeProcessingResult.processedRanges,
+      };
+    }
+
     const rangeMappings = [queryRange];
 
     // Create new ORDER BY continuation token

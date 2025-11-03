@@ -31,9 +31,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      const result = createParallelQueryResult([], new Map(), {}, undefined);
-
-      return { result, headers: response.headers };
+      return { result: response.result, headers: response.headers };
     }
 
     const parallelResult = response.result as ParallelQueryResult;
@@ -45,13 +43,26 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const initialOffset = this.offset;
     const initialLimit = this.limit;
 
+    console.log(`[OFFSET-LIMIT-DEBUG] Processing ${dataToProcess.length} items`);
+    console.log(`[OFFSET-LIMIT-DEBUG] Initial state: offset=${initialOffset}, limit=${initialLimit}`);
+    console.log(`[OFFSET-LIMIT-DEBUG] orderByItems.length: ${orderByItems?.length || 'undefined'}`);
+
+    const filteredOrderByItems: any[] = [];
+    let itemIndex = 0;
+
     for (const item of dataToProcess) {
       if (this.offset > 0) {
         this.offset--;
+        // Skip this item AND its corresponding orderByItems entry
       } else if (this.limit > 0) {
         buffer.push(item);
+        // Include the corresponding orderByItems entry
+        if (orderByItems && itemIndex < orderByItems.length) {
+          filteredOrderByItems.push(orderByItems[itemIndex]);
+        }
         this.limit--;
       }
+      itemIndex++;
     }
 
     // Process offset/limit logic and update partition key range map
@@ -68,7 +79,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       buffer,
       updatedPartitionKeyRangeMap,
       updatedContinuationRanges,
-      orderByItems,
+      filteredOrderByItems.length > 0 ? filteredOrderByItems : undefined,
     );
 
     return {

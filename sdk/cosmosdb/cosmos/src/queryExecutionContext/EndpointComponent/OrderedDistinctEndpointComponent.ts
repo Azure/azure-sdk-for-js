@@ -31,9 +31,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      const result = createParallelQueryResult([], new Map(), {}, undefined);
-
-      return { result, headers: response.headers };
+      return { result: response.result, headers: response.headers };
     }
 
     const parallelResult = response.result as ParallelQueryResult;
