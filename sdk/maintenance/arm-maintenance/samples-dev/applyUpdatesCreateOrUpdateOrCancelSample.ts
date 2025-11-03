@@ -1,64 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Apply maintenance updates to resource
- *
- * @summary Apply maintenance updates to resource
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_CreateOrUpdateOnly_NoCancellation.json
- */
-
-import type { ApplyUpdate } from "@azure/arm-maintenance";
 import { MaintenanceManagementClient } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to apply maintenance updates to resource
+ *
+ * @summary apply maintenance updates to resource
+ * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_CreateOrUpdateOnly_NoCancellation.json
+ */
 async function applyUpdatesCreateOrUpdateOnlyNoCancellation(): Promise<void> {
-  const subscriptionId =
-    process.env["MAINTENANCE_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = process.env["MAINTENANCE_RESOURCE_GROUP"] || "examplerg";
-  const providerName = "Microsoft.Compute";
-  const resourceType = "virtualMachineScaleSets";
-  const resourceName = "smdtest1";
-  const applyUpdateName = "20230901121200";
-  const applyUpdate: ApplyUpdate = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const result = await client.applyUpdates.createOrUpdateOrCancel(
-    resourceGroupName,
-    providerName,
-    resourceType,
-    resourceName,
-    applyUpdateName,
-    applyUpdate,
+    "examplerg",
+    "Microsoft.Compute",
+    "virtualMachineScaleSets",
+    "smdtest1",
+    "20230901121200",
+    {},
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Apply maintenance updates to resource
+ * This sample demonstrates how to apply maintenance updates to resource
  *
- * @summary Apply maintenance updates to resource
- * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_CreateOrUpdate_CancelMaintenance.json
+ * @summary apply maintenance updates to resource
+ * x-ms-original-file: 2023-10-01-preview/ApplyUpdates_CreateOrUpdate_CancelMaintenance.json
  */
 async function applyUpdatesCreateOrUpdateOrCancel(): Promise<void> {
-  const subscriptionId =
-    process.env["MAINTENANCE_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = process.env["MAINTENANCE_RESOURCE_GROUP"] || "examplerg";
-  const providerName = "Microsoft.Maintenance";
-  const resourceType = "maintenanceConfigurations";
-  const resourceName = "maintenanceConfig1";
-  const applyUpdateName = "20230901121200";
-  const applyUpdate: ApplyUpdate = { status: "Cancel" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const result = await client.applyUpdates.createOrUpdateOrCancel(
-    resourceGroupName,
-    providerName,
-    resourceType,
-    resourceName,
-    applyUpdateName,
-    applyUpdate,
+    "examplerg",
+    "Microsoft.Maintenance",
+    "maintenanceConfigurations",
+    "maintenanceConfig1",
+    "20230901121200",
+    { properties: { status: "Cancel" } },
   );
   console.log(result);
 }
