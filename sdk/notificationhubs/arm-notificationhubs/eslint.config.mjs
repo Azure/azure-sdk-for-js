@@ -2,13 +2,13 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default azsdkEslint.config([
   {
-    files: ["src/**/*.ts", "samples-dev/**/*.ts", "test/**/*.ts"],
     rules: {
-      "@azure/azure-sdk/github-source-headers": "off",
-      "@typescript-eslint/no-use-before-define": "warn",
-      eqeqeq: "warn",
-      "prefer-const": "warn",
-      "tsdoc/syntax": "off",
+      "@azure/azure-sdk/ts-modules-only-named": "warn",
+      "@azure/azure-sdk/ts-package-json-types": "warn",
+      "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
+      "@azure/azure-sdk/ts-package-json-files-required": "off",
+      "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
+      "tsdoc/syntax": "warn",
     },
   },
 ]);
