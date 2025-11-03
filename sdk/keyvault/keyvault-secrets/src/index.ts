@@ -7,7 +7,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
 import { KeyVaultClient } from "./keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
