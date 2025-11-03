@@ -428,7 +428,7 @@ describe("FileServiceClient - soft delete", () => {
         assert.isDefined(share.deleted);
       }
     }
-    assert.isDefined(found);
+    assert.isTrue(found);
   });
 
   it("Undelete share positive", async () => {
@@ -451,7 +451,7 @@ describe("FileServiceClient - soft delete", () => {
         shareDeleted = share;
       }
     }
-    assert.isDefined(found);
+    assert.isTrue(found);
     assert.isDefined(shareDeleted);
 
     // Await share to be deleted.

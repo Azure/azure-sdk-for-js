@@ -160,7 +160,7 @@ describe("DataLakeFileSystemClient", () => {
     const metadata = { key: "value" };
     const access = "filesystem";
     const createRes = await cClient.createIfNotExists({ metadata, access });
-    assert.isDefined(createRes.succeeded);
+    assert.isTrue(createRes.succeeded);
     assert.isDefined(createRes.etag);
 
     const createRes2 = await cClient.createIfNotExists({ metadata, access });
@@ -178,7 +178,7 @@ describe("DataLakeFileSystemClient", () => {
 
     await cClient.create();
     const res2 = await cClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("delete", () => {

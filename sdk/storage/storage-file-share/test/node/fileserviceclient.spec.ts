@@ -160,7 +160,7 @@ describe("FileServiceClient Node.js only - OAuth", () => {
         shareDeleted = share;
       }
     }
-    assert.isDefined(found);
+    assert.isTrue(found);
     assert.isDefined(shareDeleted);
 
     // Await share to be deleted.

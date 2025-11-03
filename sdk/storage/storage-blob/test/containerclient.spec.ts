@@ -112,7 +112,7 @@ describe("ContainerClient", () => {
     const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient2.create();
     const res = await containerClient2.deleteIfExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const containerName3 = recorder.variable("container3", getUniqueName("container3"));
     const containerClient3 = blobServiceClient.getContainerClient(containerName3);

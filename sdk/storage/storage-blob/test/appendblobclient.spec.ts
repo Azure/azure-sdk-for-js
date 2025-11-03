@@ -76,7 +76,7 @@ describe("AppendBlobClient", () => {
 
   it("createIfNotExists", async () => {
     const res = await appendBlobClient.createIfNotExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
     assert.isDefined(res.etag);
 
     const res2 = await appendBlobClient.createIfNotExists();

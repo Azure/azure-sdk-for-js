@@ -282,7 +282,7 @@ describe("DirectoryClient", () => {
       recorder.variable(dirName, getUniqueName(dirName)),
     );
     const res2 = await dirClient2.createIfNotExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
 
     await dirClient2.delete();
   });
@@ -297,7 +297,7 @@ describe("DirectoryClient", () => {
 
     await dirClient2.create();
     const res2 = await dirClient2.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("deleteIfExists when parent not exists ", async () => {
@@ -1738,7 +1738,7 @@ describe("DirectoryClient - OAuth", () => {
       recorder.variable(dirName, getUniqueName(dirName)),
     );
     const res2 = await dirClient2.createIfNotExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
 
     await dirClient2.delete();
   });
@@ -1753,7 +1753,7 @@ describe("DirectoryClient - OAuth", () => {
 
     await dirClient2.create();
     const res2 = await dirClient2.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {

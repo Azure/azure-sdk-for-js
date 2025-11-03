@@ -333,7 +333,7 @@ describe("BlobClient", () => {
 
   it("deleteIfExists", async () => {
     const res = await blobClient.deleteIfExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const blobName2 = recorder.variable("blob2", getUniqueName("blob2"));
     const blobClient2 = containerClient.getBlobClient(blobName2);

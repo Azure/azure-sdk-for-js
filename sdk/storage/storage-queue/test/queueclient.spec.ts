@@ -140,7 +140,7 @@ describe("QueueClient", () => {
       recorder.variable("queue2", getUniqueName("queue2")),
     );
     const res3 = await queueClient.createIfNotExists();
-    assert.isDefined(res3.succeeded);
+    assert.isTrue(res3.succeeded);
   });
 
   it("deleteIfExists", async () => {
@@ -153,7 +153,7 @@ describe("QueueClient", () => {
 
     await qClient.create();
     const res2 = await qClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("delete", () => {

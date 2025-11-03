@@ -98,7 +98,7 @@ describe("PageBlobClient", () => {
 
   it("createIfNotExists", async () => {
     const res = await pageBlobClient.createIfNotExists(512);
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
     assert.isDefined(res.etag);
 
     const res2 = await pageBlobClient.createIfNotExists(512);

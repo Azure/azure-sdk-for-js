@@ -313,7 +313,7 @@ describe("ShareClient Node.js only - OAuth", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await shareClient2.createIfNotExists();
     assert.isFalse(res2.succeeded);
@@ -330,7 +330,7 @@ describe("ShareClient Node.js only - OAuth", () => {
     );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
       recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
@@ -380,7 +380,8 @@ describe("ShareClient Node.js only - OAuth", () => {
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
     assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.notStrictEqual(getPermissionResp.permission && getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
     assert.isDefined(getPermissionResp.requestId!);
     assert.isDefined(getPermissionResp.version!);
 

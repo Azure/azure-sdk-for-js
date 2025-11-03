@@ -547,7 +547,7 @@ describe("FileClient", () => {
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("deleteIfExists when parent not exists", async () => {
@@ -727,7 +727,7 @@ describe("FileClient", () => {
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.isDefined(true);
+      // Expected - test passes if exception is thrown
     }
   });
 
@@ -1969,7 +1969,7 @@ describe("FileClient - OAuth", () => {
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {
@@ -2025,7 +2025,7 @@ describe("FileClient - OAuth", () => {
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
-      assert.isDefined(true);
+      // Expected - test passes if exception is thrown
     }
   });
 
@@ -2286,7 +2286,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {
@@ -2661,7 +2661,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
 
     await fileClient.create(content.length);
     const res2 = await fileClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {

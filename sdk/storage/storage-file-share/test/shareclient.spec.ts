@@ -94,7 +94,7 @@ describe("ShareClient", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await shareClient2.createIfNotExists();
     assert.isFalse(res2.succeeded);
@@ -116,14 +116,14 @@ describe("ShareClient", () => {
     const snapshotResult = await shareClient2.createSnapshot();
     const snapshotClient = shareClient2.withSnapshot(snapshotResult.snapshot!);
     let snapshotDeleteResult = await snapshotClient.deleteIfExists();
-    assert.isDefined(snapshotDeleteResult.succeeded);
+    assert.isTrue(snapshotDeleteResult.succeeded);
 
     snapshotDeleteResult = await snapshotClient.deleteIfExists();
     assert.isFalse(snapshotDeleteResult.succeeded);
     assert.equal(snapshotDeleteResult.errorCode, "ShareSnapshotNotFound");
 
     const res = await shareClient2.deleteIfExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
       recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
@@ -257,7 +257,8 @@ describe("ShareClient", () => {
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
     assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.notStrictEqual(getPermissionResp.permission && getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
     assert.isDefined(getPermissionResp.requestId!);
     assert.isDefined(getPermissionResp.version!);
 
@@ -379,7 +380,8 @@ describe("ShareClient - OAuth", () => {
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
     assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.notStrictEqual(getPermissionResp.permission && getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
     assert.isDefined(getPermissionResp.requestId!);
     assert.isDefined(getPermissionResp.version!);
 
@@ -520,7 +522,7 @@ describe("ShareClient", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await shareClient2.createIfNotExists();
     assert.isFalse(res2.succeeded);
@@ -539,7 +541,7 @@ describe("ShareClient", () => {
     );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
       recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
@@ -673,7 +675,8 @@ describe("ShareClient", () => {
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
     assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.notStrictEqual(getPermissionResp.permission && getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
     assert.isDefined(getPermissionResp.requestId!);
     assert.isDefined(getPermissionResp.version!);
 
@@ -704,7 +707,8 @@ describe("ShareClient", () => {
     });
     assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.notStrictEqual(getPermissionResp.permission && getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
     assert.isDefined(getPermissionResp.requestId!);
     assert.isDefined(getPermissionResp.version!);
   });
@@ -909,7 +913,7 @@ describe("ShareClient Provisioned", () => {
       assert.isDefined(item.properties.includedBurstIops);
     }
 
-    assert.isDefined(found);
+    assert.isTrue(found);
     const deleteResult = await shareClient.delete();
     assert.isDefined(deleteResult.usageBytes);
     assert.isDefined(deleteResult.snapshotUsageBytes);
@@ -944,7 +948,7 @@ describe("ShareClient Provisioned", () => {
         shareDeleted = share;
       }
     }
-    assert.isDefined(found);
+    assert.isTrue(found);
     assert.isDefined(shareDeleted);
     await delay(60000);
 

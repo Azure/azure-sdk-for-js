@@ -630,6 +630,6 @@ describe("DataLakeServiceClient", () => {
         break;
       }
     }
-    assert.isDefined(listed);
+    assert.isTrue(listed);
   });
 });

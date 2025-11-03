@@ -1365,7 +1365,7 @@ describe("DataLakePathClient", () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
     const res = await directoryClient.createIfNotExists();
-    assert.isDefined(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await directoryClient.createIfNotExists();
     assert.isFalse(res2.succeeded);
@@ -1387,7 +1387,7 @@ describe("DataLakePathClient", () => {
 
     await directoryClient.create();
     const res2 = await directoryClient.deleteIfExists();
-    assert.isDefined(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("DataLakePathClient-deleteIfExists when parent not exists", async () => {

@@ -617,7 +617,7 @@ describe("BlobServiceClient", () => {
         break;
       }
     }
-    assert.isDefined(listed);
+    assert.isTrue(listed);
   });
 
   // need feature to record test
