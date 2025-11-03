@@ -19,7 +19,7 @@ import type { TelemetryItem as Envelope } from "../../../generated/index.js";
  * @internal
  */
 export class FileSystemPersist implements PersistentStorage {
-  static TEMPDIR_PREFIX = "ot-azure-exporter-";
+  static TEMPDIR_PREFIX = "opentelemetry-nodejs-";
   static FILENAME_SUFFIX = ".ai.json";
 
   fileRetemptionPeriod = 2 * 24 * 60 * 60 * 1000; // 2 days
@@ -243,7 +243,7 @@ export class FileSystemPersist implements PersistentStorage {
  * block others because the directory inherits that user's `umask`. This is avoided by
  * inserting a hash of the instrumentation key, user name, process name, and
  * application directory, giving each user their own subdirectory, e.g.
- * `/tmp/Microsoft-AzureMonitor-1234...../ot-azure-exporter-<ikey>`.
+ * `/tmp/Microsoft-AzureMonitor-1234...../opentelemetry-nodejs-<ikey>`.
  *
  * @param instrumentationKey - Application Insights instrumentation key.
  * @param storageDirectory - Optional custom storage directory path. If not provided, system temp directory is used.
