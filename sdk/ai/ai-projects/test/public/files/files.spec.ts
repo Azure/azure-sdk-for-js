@@ -26,51 +26,65 @@ describe("files - basic", () => {
   async function uploadFileAndWait(
     filePath: string,
   ): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
+    console.log(`Uploading file from path: ${filePath}`);
     const created = await openai.files.create({
       file: createReadStream(filePath),
       purpose: "fine-tune",
     });
+    console.log(`Uploaded file with ID: ${created.id}`);
 
-    // Poll until the file is processed (as per sample)
     const pollMs = 2000;
     const timeoutMs = 5 * 60 * 1000;
     const start = Date.now();
 
     while (true) {
       const retrieved = await openai.files.retrieve(created.id);
-      if ((retrieved as any).status === "processed") return retrieved;
-      if ((retrieved as any).status === "failed") {
+      const status = (retrieved as any).status;
+      console.log(`File ${created.id} current status: ${status}`);
+
+      if (status === "processed") {
+        console.log(`File ${created.id} processed successfully.`);
+        return retrieved;
+      }
+
+      if (status === "failed") {
         throw new Error(
-          `File ${retrieved.id} import failed: ${(retrieved as any).status_details || "Unknown reason"}`,
+          `File ${created.id} import failed: ${(retrieved as any).status_details || "Unknown reason"}`,
         );
       }
+
       if (Date.now() - start > timeoutMs) {
         throw new Error(
-          `File ${retrieved.id} import did not complete within ${timeoutMs / 1000}s. Last status: ${(retrieved as any).status}`,
+          `File ${created.id} import did not complete within ${timeoutMs / 1000}s. Last status: ${status}`,
         );
       }
+
       await new Promise((resolve) => setTimeout(resolve, pollMs));
     }
   }
 
   it.skipIf(!isLive)("should upload, get, read content, list, and delete a file", async () => {
     const dataPath = join(__dirname, "data", "training_set.jsonl");
+    console.log(`Starting test with file: ${dataPath}`);
 
     // Create (upload) and wait until processed
     const uploadedFile = await uploadFileAndWait(dataPath);
     assert.isNotNull(uploadedFile);
     assert.isString(uploadedFile.id);
+    console.log(`Uploaded and processed file ID: ${uploadedFile.id}`);
 
     // Retrieve metadata
     const got = await openai.files.retrieve(uploadedFile.id);
     assert.isNotNull(got);
     assert.equal(got.id, uploadedFile.id);
     assert.equal((got as any).status, "processed");
+    console.log(`Retrieved metadata for file ID: ${got.id}`);
 
     // Retrieve content
     const contentResponse = await openai.files.content(uploadedFile.id);
     const buf = Buffer.from(await (contentResponse as any).arrayBuffer());
     const text = buf.toString("utf-8");
+    console.log(`Retrieved file content (first 200 chars):\n${text.slice(0, 200)}...`);
     assert.include(text, `"messages":`);
     assert.include(text, `"system"`);
     assert.include(text, `"assistant"`);
@@ -80,9 +94,11 @@ describe("files - basic", () => {
     assert.isArray(listed.data);
     const found = listed.data.find((f: any) => f.id === uploadedFile.id);
     assert.isNotNull(found);
+    console.log(`Verified uploaded file ID ${uploadedFile.id} appears in list.`);
 
     // Delete
     const deleted = await openai.files.delete(uploadedFile.id);
     assert.isTrue(deleted?.deleted === true, "expected file to be deleted");
+    console.log(`Deleted file with ID: ${uploadedFile.id}`);
   });
 });
