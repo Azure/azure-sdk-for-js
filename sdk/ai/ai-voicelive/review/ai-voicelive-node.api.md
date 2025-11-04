@@ -419,17 +419,6 @@ export interface ConversationRequestItem {
 export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | ConversationRequestItem;
 
 // @public
-export class CredentialHandler {
-    constructor(credential: VoiceLiveCredential, scope?: string);
-    get credentialType(): 'key' | 'token';
-    getAccessToken(): Promise<string>;
-    getAuthHeaders(): Promise<Record<string, string>>;
-    getWebSocketUrl(baseEndpoint: string, apiVersion: string, model?: string): Promise<string>;
-    get isApiKey(): boolean;
-    updateApiKey(newKey: string): void;
-}
-
-// @public
 export interface DisconnectedEventArgs {
     code: number;
     reason: string;
@@ -1532,9 +1521,6 @@ export class VoiceLiveConnectionError extends Error {
     readonly timestamp: Date;
     toJSON(): Record<string, any>;
 }
-
-// @public
-export type VoiceLiveCredential = TokenCredential | KeyCredential;
 
 // @public
 export class VoiceLiveError extends VoiceLiveConnectionError {
