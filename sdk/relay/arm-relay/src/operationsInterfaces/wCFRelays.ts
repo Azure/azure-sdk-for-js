@@ -6,27 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   WcfRelay,
   WCFRelaysListByNamespaceOptionalParams,
   AuthorizationRule,
   WCFRelaysListAuthorizationRulesOptionalParams,
+  WCFRelaysGetOptionalParams,
+  WCFRelaysGetResponse,
   WCFRelaysCreateOrUpdateOptionalParams,
   WCFRelaysCreateOrUpdateResponse,
   WCFRelaysDeleteOptionalParams,
-  WCFRelaysGetOptionalParams,
-  WCFRelaysGetResponse,
+  WCFRelaysGetAuthorizationRuleOptionalParams,
+  WCFRelaysGetAuthorizationRuleResponse,
   WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   WCFRelaysCreateOrUpdateAuthorizationRuleResponse,
   WCFRelaysDeleteAuthorizationRuleOptionalParams,
-  WCFRelaysGetAuthorizationRuleOptionalParams,
-  WCFRelaysGetAuthorizationRuleResponse,
   WCFRelaysListKeysOptionalParams,
   WCFRelaysListKeysResponse,
   RegenerateAccessKeyParameters,
   WCFRelaysRegenerateKeysOptionalParams,
-  WCFRelaysRegenerateKeysResponse
+  WCFRelaysRegenerateKeysResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,18 +34,18 @@ import {
 export interface WCFRelays {
   /**
    * Lists the WCF relays within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: WCFRelaysListByNamespaceOptionalParams
+    options?: WCFRelaysListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<WcfRelay>;
   /**
    * Authorization rules for a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param options The options parameters.
@@ -54,11 +54,24 @@ export interface WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysListAuthorizationRulesOptionalParams
+    options?: WCFRelaysListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule>;
   /**
+   * Returns the description for the specified WCF relay.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param relayName The relay name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    relayName: string,
+    options?: WCFRelaysGetOptionalParams,
+  ): Promise<WCFRelaysGetResponse>;
+  /**
    * Creates or updates a WCF relay. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param parameters Parameters supplied to create a WCF relay.
@@ -69,11 +82,11 @@ export interface WCFRelays {
     namespaceName: string,
     relayName: string,
     parameters: WcfRelay,
-    options?: WCFRelaysCreateOrUpdateOptionalParams
+    options?: WCFRelaysCreateOrUpdateOptionalParams,
   ): Promise<WCFRelaysCreateOrUpdateResponse>;
   /**
    * Deletes a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param options The options parameters.
@@ -82,24 +95,26 @@ export interface WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysDeleteOptionalParams
+    options?: WCFRelaysDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Returns the description for the specified WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * Get authorizationRule for a WCF relay by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The options parameters.
    */
-  get(
+  getAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysGetOptionalParams
-  ): Promise<WCFRelaysGetResponse>;
+    authorizationRuleName: string,
+    options?: WCFRelaysGetAuthorizationRuleOptionalParams,
+  ): Promise<WCFRelaysGetAuthorizationRuleResponse>;
   /**
    * Creates or updates an authorization rule for a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -112,11 +127,11 @@ export interface WCFRelays {
     relayName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<WCFRelaysCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a WCF relay authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -127,26 +142,11 @@ export interface WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysDeleteAuthorizationRuleOptionalParams
+    options?: WCFRelaysDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
-   * Get authorizationRule for a WCF relay by name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param relayName The relay name.
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    relayName: string,
-    authorizationRuleName: string,
-    options?: WCFRelaysGetAuthorizationRuleOptionalParams
-  ): Promise<WCFRelaysGetAuthorizationRuleResponse>;
-  /**
    * Primary and secondary connection strings to the WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -157,11 +157,11 @@ export interface WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysListKeysOptionalParams
+    options?: WCFRelaysListKeysOptionalParams,
   ): Promise<WCFRelaysListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings to the WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -174,6 +174,6 @@ export interface WCFRelays {
     relayName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: WCFRelaysRegenerateKeysOptionalParams
+    options?: WCFRelaysRegenerateKeysOptionalParams,
   ): Promise<WCFRelaysRegenerateKeysResponse>;
 }

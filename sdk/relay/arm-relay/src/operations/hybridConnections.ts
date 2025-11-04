@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { HybridConnections } from "../operationsInterfaces/index.js";
+import type { HybridConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { RelayAPI } from "../relayAPI.js";
-import {
+import type { RelayAPI } from "../relayAPI.js";
+import type {
   HybridConnection,
   HybridConnectionsListByNamespaceNextOptionalParams,
   HybridConnectionsListByNamespaceOptionalParams,
@@ -22,23 +22,23 @@ import {
   HybridConnectionsListAuthorizationRulesNextOptionalParams,
   HybridConnectionsListAuthorizationRulesOptionalParams,
   HybridConnectionsListAuthorizationRulesResponse,
+  HybridConnectionsGetOptionalParams,
+  HybridConnectionsGetResponse,
   HybridConnectionsCreateOrUpdateOptionalParams,
   HybridConnectionsCreateOrUpdateResponse,
   HybridConnectionsDeleteOptionalParams,
-  HybridConnectionsGetOptionalParams,
-  HybridConnectionsGetResponse,
+  HybridConnectionsGetAuthorizationRuleOptionalParams,
+  HybridConnectionsGetAuthorizationRuleResponse,
   HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   HybridConnectionsCreateOrUpdateAuthorizationRuleResponse,
   HybridConnectionsDeleteAuthorizationRuleOptionalParams,
-  HybridConnectionsGetAuthorizationRuleOptionalParams,
-  HybridConnectionsGetAuthorizationRuleResponse,
   HybridConnectionsListKeysOptionalParams,
   HybridConnectionsListKeysResponse,
   RegenerateAccessKeyParameters,
   HybridConnectionsRegenerateKeysOptionalParams,
   HybridConnectionsRegenerateKeysResponse,
   HybridConnectionsListByNamespaceNextResponse,
-  HybridConnectionsListAuthorizationRulesNextResponse
+  HybridConnectionsListAuthorizationRulesNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,19 +56,19 @@ export class HybridConnectionsImpl implements HybridConnections {
 
   /**
    * Lists the hybrid connection within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: HybridConnectionsListByNamespaceOptionalParams
+    options?: HybridConnectionsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<HybridConnection> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +85,9 @@ export class HybridConnectionsImpl implements HybridConnections {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     options?: HybridConnectionsListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridConnection[]> {
     let result: HybridConnectionsListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,9 +103,9 @@ export class HybridConnectionsImpl implements HybridConnections {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -115,10 +115,10 @@ export class HybridConnectionsImpl implements HybridConnections {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -127,12 +127,12 @@ export class HybridConnectionsImpl implements HybridConnections {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: HybridConnectionsListByNamespaceOptionalParams
+    options?: HybridConnectionsListByNamespaceOptionalParams,
   ): AsyncIterableIterator<HybridConnection> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,7 +140,7 @@ export class HybridConnectionsImpl implements HybridConnections {
 
   /**
    * Authorization rules for a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param options The options parameters.
@@ -149,13 +149,13 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsListAuthorizationRulesOptionalParams
+    options?: HybridConnectionsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
       hybridConnectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -173,9 +173,9 @@ export class HybridConnectionsImpl implements HybridConnections {
           namespaceName,
           hybridConnectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -184,7 +184,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     options?: HybridConnectionsListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationRule[]> {
     let result: HybridConnectionsListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -193,9 +193,9 @@ export class HybridConnectionsImpl implements HybridConnections {
         resourceGroupName,
         namespaceName,
         hybridConnectionName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -206,10 +206,10 @@ export class HybridConnectionsImpl implements HybridConnections {
         namespaceName,
         hybridConnectionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -219,13 +219,13 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsListAuthorizationRulesOptionalParams
+    options?: HybridConnectionsListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<AuthorizationRule> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
       hybridConnectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -233,24 +233,43 @@ export class HybridConnectionsImpl implements HybridConnections {
 
   /**
    * Lists the hybrid connection within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: HybridConnectionsListByNamespaceOptionalParams
+    options?: HybridConnectionsListByNamespaceOptionalParams,
   ): Promise<HybridConnectionsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the description for the specified hybrid connection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param hybridConnectionName The hybrid connection name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: HybridConnectionsGetOptionalParams,
+  ): Promise<HybridConnectionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, hybridConnectionName, options },
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates a service hybrid connection. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param parameters Parameters supplied to create a hybrid connection.
@@ -261,7 +280,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     parameters: HybridConnection,
-    options?: HybridConnectionsCreateOrUpdateOptionalParams
+    options?: HybridConnectionsCreateOrUpdateOptionalParams,
   ): Promise<HybridConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -269,15 +288,15 @@ export class HybridConnectionsImpl implements HybridConnections {
         namespaceName,
         hybridConnectionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Deletes a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param options The options parameters.
@@ -286,36 +305,17 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsDeleteOptionalParams
+    options?: HybridConnectionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, hybridConnectionName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Returns the description for the specified hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param hybridConnectionName The hybrid connection name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    hybridConnectionName: string,
-    options?: HybridConnectionsGetOptionalParams
-  ): Promise<HybridConnectionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, hybridConnectionName, options },
-      getOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Authorization rules for a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param options The options parameters.
@@ -324,17 +324,44 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsListAuthorizationRulesOptionalParams
+    options?: HybridConnectionsListAuthorizationRulesOptionalParams,
   ): Promise<HybridConnectionsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, hybridConnectionName, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
+    );
+  }
+
+  /**
+   * Hybrid connection authorization rule for a hybrid connection by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param hybridConnectionName The hybrid connection name.
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: HybridConnectionsGetAuthorizationRuleOptionalParams,
+  ): Promise<HybridConnectionsGetAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        hybridConnectionName,
+        authorizationRuleName,
+        options,
+      },
+      getAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Creates or updates an authorization rule for a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -347,7 +374,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     hybridConnectionName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<HybridConnectionsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -356,15 +383,15 @@ export class HybridConnectionsImpl implements HybridConnections {
         hybridConnectionName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateAuthorizationRuleOperationSpec
+      createOrUpdateAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Deletes a hybrid connection authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -375,7 +402,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     authorizationRuleName: string,
-    options?: HybridConnectionsDeleteAuthorizationRuleOptionalParams
+    options?: HybridConnectionsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -383,42 +410,15 @@ export class HybridConnectionsImpl implements HybridConnections {
         namespaceName,
         hybridConnectionName,
         authorizationRuleName,
-        options
+        options,
       },
-      deleteAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Hybrid connection authorization rule for a hybrid connection by name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param hybridConnectionName The hybrid connection name.
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    hybridConnectionName: string,
-    authorizationRuleName: string,
-    options?: HybridConnectionsGetAuthorizationRuleOptionalParams
-  ): Promise<HybridConnectionsGetAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        hybridConnectionName,
-        authorizationRuleName,
-        options
-      },
-      getAuthorizationRuleOperationSpec
+      deleteAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Primary and secondary connection strings to the hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -429,7 +429,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     authorizationRuleName: string,
-    options?: HybridConnectionsListKeysOptionalParams
+    options?: HybridConnectionsListKeysOptionalParams,
   ): Promise<HybridConnectionsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -437,15 +437,15 @@ export class HybridConnectionsImpl implements HybridConnections {
         namespaceName,
         hybridConnectionName,
         authorizationRuleName,
-        options
+        options,
       },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
    * Regenerates the primary or secondary connection strings to the hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -458,7 +458,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     hybridConnectionName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: HybridConnectionsRegenerateKeysOptionalParams
+    options?: HybridConnectionsRegenerateKeysOptionalParams,
   ): Promise<HybridConnectionsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -467,15 +467,15 @@ export class HybridConnectionsImpl implements HybridConnections {
         hybridConnectionName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
   /**
    * ListByNamespaceNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
    * @param options The options parameters.
@@ -484,17 +484,17 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: HybridConnectionsListByNamespaceNextOptionalParams
+    options?: HybridConnectionsListByNamespaceNextOptionalParams,
   ): Promise<HybridConnectionsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 
   /**
    * ListAuthorizationRulesNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
@@ -505,7 +505,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     nextLink: string,
-    options?: HybridConnectionsListAuthorizationRulesNextOptionalParams
+    options?: HybridConnectionsListAuthorizationRulesNextOptionalParams,
   ): Promise<HybridConnectionsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -513,9 +513,9 @@ export class HybridConnectionsImpl implements HybridConnections {
         namespaceName,
         hybridConnectionName,
         nextLink,
-        options
+        options,
       },
-      listAuthorizationRulesNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 }
@@ -523,85 +523,81 @@ export class HybridConnectionsImpl implements HybridConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridConnectionListResult
+      bodyMapper: Mappers.HybridConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HybridConnection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
-  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.hybridConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridConnection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.hybridConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridConnection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.hybridConnectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HybridConnection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -609,22 +605,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.hybridConnectionName
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
+      bodyMapper: Mappers.AuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -632,22 +627,44 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.hybridConnectionName
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.hybridConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.AuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -657,46 +674,21 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.hybridConnectionName
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.hybridConnectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -705,22 +697,21 @@ const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.hybridConnectionName
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -729,22 +720,21 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.hybridConnectionName
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -754,43 +744,22 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.hybridConnectionName
+    Parameters.hybridConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridConnectionListResult
+      bodyMapper: Mappers.HybridConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
@@ -798,8 +767,29 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.hybridConnectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.hybridConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

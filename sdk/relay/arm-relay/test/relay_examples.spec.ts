@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { RelayAPI } from "../src/relayAPI.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -84,7 +85,7 @@ describe("Relay test", () => {
 
   it("namespaces list test", async () => {
     const resArray = new Array();
-    for await (let item of client.namespaces.list()) {
+    for await (const item of client.namespaces.list()) {
       resArray.push(item);
     }
   });
@@ -137,7 +138,7 @@ describe("Relay test", () => {
 
   it("wCFRelays list test", async () => {
     const resArray = new Array();
-    for await (let item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
+    for await (const item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -145,7 +146,7 @@ describe("Relay test", () => {
 
   it("wCFRelays listAuthorizationRules test", async () => {
     const resArray = new Array();
-    for await (let item of client.wCFRelays.listAuthorizationRules(
+    for await (const item of client.wCFRelays.listAuthorizationRules(
       resourceGroup,
       namespaceName,
       relayName,
@@ -163,7 +164,7 @@ describe("Relay test", () => {
       relayName,
       authorizationRuleName,
     );
-    for await (let item of client.wCFRelays.listAuthorizationRules(
+    for await (const item of client.wCFRelays.listAuthorizationRules(
       resourceGroup,
       namespaceName,
       relayName,
@@ -176,7 +177,7 @@ describe("Relay test", () => {
   it("wCFRelays delete test", async () => {
     const resArray = new Array();
     await client.wCFRelays.delete(resourceGroup, namespaceName, relayName);
-    for await (let item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
+    for await (const item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -185,7 +186,7 @@ describe("Relay test", () => {
   it("namespaces delete test", async () => {
     const resArray = new Array();
     await client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
-    for await (let item of client.namespaces.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.namespaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

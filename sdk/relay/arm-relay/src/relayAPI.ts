@@ -8,25 +8,29 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   NamespacesImpl,
   HybridConnectionsImpl,
-  WCFRelaysImpl
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
+  WCFRelaysImpl,
 } from "./operations/index.js";
-import {
+import type {
   Operations,
   Namespaces,
   HybridConnections,
-  WCFRelays
+  PrivateEndpointConnections,
+  PrivateLinkResources,
+  WCFRelays,
 } from "./operationsInterfaces/index.js";
-import { RelayAPIOptionalParams } from "./models/index.js";
+import type { RelayAPIOptionalParams } from "./models/index.js";
 
 export class RelayAPI extends coreClient.ServiceClient {
   $host: string;
@@ -36,14 +40,13 @@ export class RelayAPI extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the RelayAPI class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify the Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: RelayAPIOptionalParams
+    options?: RelayAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -58,10 +61,10 @@ export class RelayAPI extends coreClient.ServiceClient {
     }
     const defaults: RelayAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-relay/3.1.3`;
+    const packageDetails = `azsdk-js-arm-relay/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -71,20 +74,21 @@ export class RelayAPI extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -94,7 +98,7 @@ export class RelayAPI extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -104,9 +108,9 @@ export class RelayAPI extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -114,10 +118,12 @@ export class RelayAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2017-04-01";
+    this.apiVersion = options.apiVersion || "2024-01-01";
     this.operations = new OperationsImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.hybridConnections = new HybridConnectionsImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.wCFRelays = new WCFRelaysImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -131,7 +137,7 @@ export class RelayAPI extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -145,7 +151,7 @@ export class RelayAPI extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -153,5 +159,7 @@ export class RelayAPI extends coreClient.ServiceClient {
   operations: Operations;
   namespaces: Namespaces;
   hybridConnections: HybridConnections;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
   wCFRelays: WCFRelays;
 }

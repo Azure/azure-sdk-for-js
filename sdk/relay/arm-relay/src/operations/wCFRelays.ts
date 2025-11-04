@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { WCFRelays } from "../operationsInterfaces/index.js";
+import type { WCFRelays } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { RelayAPI } from "../relayAPI.js";
-import {
+import type { RelayAPI } from "../relayAPI.js";
+import type {
   WcfRelay,
   WCFRelaysListByNamespaceNextOptionalParams,
   WCFRelaysListByNamespaceOptionalParams,
@@ -22,23 +22,23 @@ import {
   WCFRelaysListAuthorizationRulesNextOptionalParams,
   WCFRelaysListAuthorizationRulesOptionalParams,
   WCFRelaysListAuthorizationRulesResponse,
+  WCFRelaysGetOptionalParams,
+  WCFRelaysGetResponse,
   WCFRelaysCreateOrUpdateOptionalParams,
   WCFRelaysCreateOrUpdateResponse,
   WCFRelaysDeleteOptionalParams,
-  WCFRelaysGetOptionalParams,
-  WCFRelaysGetResponse,
+  WCFRelaysGetAuthorizationRuleOptionalParams,
+  WCFRelaysGetAuthorizationRuleResponse,
   WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   WCFRelaysCreateOrUpdateAuthorizationRuleResponse,
   WCFRelaysDeleteAuthorizationRuleOptionalParams,
-  WCFRelaysGetAuthorizationRuleOptionalParams,
-  WCFRelaysGetAuthorizationRuleResponse,
   WCFRelaysListKeysOptionalParams,
   WCFRelaysListKeysResponse,
   RegenerateAccessKeyParameters,
   WCFRelaysRegenerateKeysOptionalParams,
   WCFRelaysRegenerateKeysResponse,
   WCFRelaysListByNamespaceNextResponse,
-  WCFRelaysListAuthorizationRulesNextResponse
+  WCFRelaysListAuthorizationRulesNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,19 +56,19 @@ export class WCFRelaysImpl implements WCFRelays {
 
   /**
    * Lists the WCF relays within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: WCFRelaysListByNamespaceOptionalParams
+    options?: WCFRelaysListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<WcfRelay> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +85,9 @@ export class WCFRelaysImpl implements WCFRelays {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     options?: WCFRelaysListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WcfRelay[]> {
     let result: WCFRelaysListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,9 +103,9 @@ export class WCFRelaysImpl implements WCFRelays {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -115,10 +115,10 @@ export class WCFRelaysImpl implements WCFRelays {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -127,12 +127,12 @@ export class WCFRelaysImpl implements WCFRelays {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: WCFRelaysListByNamespaceOptionalParams
+    options?: WCFRelaysListByNamespaceOptionalParams,
   ): AsyncIterableIterator<WcfRelay> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,7 +140,7 @@ export class WCFRelaysImpl implements WCFRelays {
 
   /**
    * Authorization rules for a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param options The options parameters.
@@ -149,13 +149,13 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysListAuthorizationRulesOptionalParams
+    options?: WCFRelaysListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
       relayName,
-      options
+      options,
     );
     return {
       next() {
@@ -173,9 +173,9 @@ export class WCFRelaysImpl implements WCFRelays {
           namespaceName,
           relayName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -184,7 +184,7 @@ export class WCFRelaysImpl implements WCFRelays {
     namespaceName: string,
     relayName: string,
     options?: WCFRelaysListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationRule[]> {
     let result: WCFRelaysListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -193,9 +193,9 @@ export class WCFRelaysImpl implements WCFRelays {
         resourceGroupName,
         namespaceName,
         relayName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -206,10 +206,10 @@ export class WCFRelaysImpl implements WCFRelays {
         namespaceName,
         relayName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -219,13 +219,13 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysListAuthorizationRulesOptionalParams
+    options?: WCFRelaysListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<AuthorizationRule> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
       relayName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -233,24 +233,43 @@ export class WCFRelaysImpl implements WCFRelays {
 
   /**
    * Lists the WCF relays within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: WCFRelaysListByNamespaceOptionalParams
+    options?: WCFRelaysListByNamespaceOptionalParams,
   ): Promise<WCFRelaysListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the description for the specified WCF relay.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param relayName The relay name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    relayName: string,
+    options?: WCFRelaysGetOptionalParams,
+  ): Promise<WCFRelaysGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, relayName, options },
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates a WCF relay. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param parameters Parameters supplied to create a WCF relay.
@@ -261,17 +280,17 @@ export class WCFRelaysImpl implements WCFRelays {
     namespaceName: string,
     relayName: string,
     parameters: WcfRelay,
-    options?: WCFRelaysCreateOrUpdateOptionalParams
+    options?: WCFRelaysCreateOrUpdateOptionalParams,
   ): Promise<WCFRelaysCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, relayName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Deletes a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param options The options parameters.
@@ -280,36 +299,17 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysDeleteOptionalParams
+    options?: WCFRelaysDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, relayName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Returns the description for the specified WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param relayName The relay name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WCFRelaysGetOptionalParams
-  ): Promise<WCFRelaysGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, relayName, options },
-      getOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Authorization rules for a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param options The options parameters.
@@ -318,17 +318,44 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysListAuthorizationRulesOptionalParams
+    options?: WCFRelaysListAuthorizationRulesOptionalParams,
   ): Promise<WCFRelaysListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, relayName, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
+    );
+  }
+
+  /**
+   * Get authorizationRule for a WCF relay by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param relayName The relay name.
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    relayName: string,
+    authorizationRuleName: string,
+    options?: WCFRelaysGetAuthorizationRuleOptionalParams,
+  ): Promise<WCFRelaysGetAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        relayName,
+        authorizationRuleName,
+        options,
+      },
+      getAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Creates or updates an authorization rule for a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -341,7 +368,7 @@ export class WCFRelaysImpl implements WCFRelays {
     relayName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<WCFRelaysCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -350,15 +377,15 @@ export class WCFRelaysImpl implements WCFRelays {
         relayName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateAuthorizationRuleOperationSpec
+      createOrUpdateAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Deletes a WCF relay authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -369,7 +396,7 @@ export class WCFRelaysImpl implements WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysDeleteAuthorizationRuleOptionalParams
+    options?: WCFRelaysDeleteAuthorizationRuleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -377,42 +404,15 @@ export class WCFRelaysImpl implements WCFRelays {
         namespaceName,
         relayName,
         authorizationRuleName,
-        options
+        options,
       },
-      deleteAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Get authorizationRule for a WCF relay by name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param relayName The relay name.
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    relayName: string,
-    authorizationRuleName: string,
-    options?: WCFRelaysGetAuthorizationRuleOptionalParams
-  ): Promise<WCFRelaysGetAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        relayName,
-        authorizationRuleName,
-        options
-      },
-      getAuthorizationRuleOperationSpec
+      deleteAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Primary and secondary connection strings to the WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -423,7 +423,7 @@ export class WCFRelaysImpl implements WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysListKeysOptionalParams
+    options?: WCFRelaysListKeysOptionalParams,
   ): Promise<WCFRelaysListKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -431,15 +431,15 @@ export class WCFRelaysImpl implements WCFRelays {
         namespaceName,
         relayName,
         authorizationRuleName,
-        options
+        options,
       },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
    * Regenerates the primary or secondary connection strings to the WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param authorizationRuleName The authorization rule name.
@@ -452,7 +452,7 @@ export class WCFRelaysImpl implements WCFRelays {
     relayName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: WCFRelaysRegenerateKeysOptionalParams
+    options?: WCFRelaysRegenerateKeysOptionalParams,
   ): Promise<WCFRelaysRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -461,15 +461,15 @@ export class WCFRelaysImpl implements WCFRelays {
         relayName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
   /**
    * ListByNamespaceNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
    * @param options The options parameters.
@@ -478,17 +478,17 @@ export class WCFRelaysImpl implements WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: WCFRelaysListByNamespaceNextOptionalParams
+    options?: WCFRelaysListByNamespaceNextOptionalParams,
   ): Promise<WCFRelaysListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 
   /**
    * ListAuthorizationRulesNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param relayName The relay name.
    * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
@@ -499,11 +499,11 @@ export class WCFRelaysImpl implements WCFRelays {
     namespaceName: string,
     relayName: string,
     nextLink: string,
-    options?: WCFRelaysListAuthorizationRulesNextOptionalParams
+    options?: WCFRelaysListAuthorizationRulesNextOptionalParams,
   ): Promise<WCFRelaysListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, relayName, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 }
@@ -511,86 +511,82 @@ export class WCFRelaysImpl implements WCFRelays {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WcfRelaysListResult
+      bodyMapper: Mappers.WcfRelaysListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WcfRelay
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
-  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.relayName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WcfRelay,
+    },
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.relayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WcfRelay,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.relayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WcfRelay
+      bodyMapper: Mappers.ErrorResponse,
     },
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -598,19 +594,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.relayName
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
-    }
+      bodyMapper: Mappers.AuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -618,22 +616,44 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.relayName
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.relayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.AuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -643,46 +663,21 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.relayName
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.relayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -691,22 +686,21 @@ const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.relayName
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -715,22 +709,21 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.relayName
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -740,40 +733,22 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.relayName
+    Parameters.relayName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WcfRelaysListResult
+      bodyMapper: Mappers.WcfRelaysListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -781,8 +756,29 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.relayName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.relayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

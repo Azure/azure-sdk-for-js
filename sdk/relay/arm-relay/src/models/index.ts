@@ -6,58 +6,119 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
-/** Result of the request to list Relay operations. It contains a list of operations and a URL link to get the next set of results. */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
-   * List of Relay operations supported by resource provider.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: Operation[];
   /**
-   * URL to get the next set of operation list results if there are any.
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** A Relay REST API operation. */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /**
-   * Operation name: {provider}/{resource}/{operation}
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The object that represents the operation. */
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
   display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** The object that represents the operation. */
+/** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /**
-   * Service provider: Relay.
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * Resource on which the operation is performed: Invoice, etc.
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * Operation type: Read, write, delete, etc.
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
-/** Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message. */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Description of the check name availability request properties. */
@@ -79,46 +140,81 @@ export interface CheckNameAvailabilityResult {
   reason?: UnavailableReason;
 }
 
-/** The response from the list namespace operation. */
+/** The response of a RelayNamespace list operation. */
 export interface RelayNamespaceListResult {
-  /** Result of the list namespace operation. */
-  value?: RelayNamespace[];
-  /** Link to the next set of results. Not empty if value contains incomplete list of namespaces. */
+  /** The RelayNamespace items on this page */
+  value: RelayNamespace[];
+  /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** PrivateEndpoint information. */
+export interface PrivateEndpoint {
+  /** The ARM identifier for Private Endpoint. */
+  id?: string;
+}
+
+/** ConnectionState information. */
+export interface ConnectionState {
+  /** Status of the connection. */
+  status?: PrivateLinkConnectionStatus;
+  /** Description of the connection state. */
+  description?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** SKU of the namespace. */
 export interface Sku {
   /** Name of this SKU. */
-  name: "Standard";
+  name: SkuName;
   /** The tier of this SKU. */
-  tier?: "Standard";
+  tier?: SkuTier;
 }
 
-/** The resource definition. */
-export interface Resource {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
-/** The response from the list namespace operation. */
+/** The response of a AuthorizationRule list operation. */
 export interface AuthorizationRuleListResult {
-  /** Result of the list authorization rules operation. */
-  value?: AuthorizationRule[];
-  /** Link to the next set of results. Not empty if value contains incomplete list of authorization rules. */
+  /** The AuthorizationRule items on this page */
+  value: AuthorizationRule[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -136,7 +232,7 @@ export interface AccessKeys {
   keyName?: string;
 }
 
-/** Parameters supplied to the regenerate authorization rule operation, specifies which key neeeds to be reset. */
+/** Parameters supplied to the regenerate authorization rule operation, specifies which key needs to be reset. */
 export interface RegenerateAccessKeyParameters {
   /** The access key to regenerate. */
   keyType: KeyType;
@@ -144,28 +240,55 @@ export interface RegenerateAccessKeyParameters {
   key?: string;
 }
 
-/** The response of the list hybrid connection operation. */
+/** The response of a HybridConnection list operation. */
 export interface HybridConnectionListResult {
-  /** Result of the list hybrid connections. */
-  value?: HybridConnection[];
-  /** Link to the next set of results. Not empty if value contains incomplete list hybrid connection operation. */
+  /** The HybridConnection items on this page */
+  value: HybridConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response from the List namespace operation. */
+export interface NWRuleSetIpRules {
+  /** IP Mask */
+  ipMask?: string;
+  /** The IP Filter Action */
+  action?: NetworkRuleIPAction;
+}
+
+/** The response of a PrivateEndpointConnection list operation. */
+export interface PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Result of the List private link resources operation. */
+export interface PrivateLinkResourcesListResult {
+  /** A collection of private link resources */
+  value: PrivateLinkResource[];
+  /** A link for the next page of private link resources. */
   nextLink?: string;
 }
 
 /** The response of the list WCF relay operation. */
 export interface WcfRelaysListResult {
-  /** Result of the list WCF relay operation. */
-  value?: WcfRelay[];
-  /** Link to the next set of results. Not empty if value contains incomplete list of WCF relays. */
+  /** The WcfRelay items on this page */
+  value: WcfRelay[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Definition of resource. */
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
-  /** Resource location. */
-  location: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
 /** Definition of resource. */
@@ -174,14 +297,39 @@ export interface ResourceNamespacePatch extends Resource {
   tags?: { [propertyName: string]: string };
 }
 
-/** Description of a namespace authorization rule. */
-export interface AuthorizationRule extends Resource {
+/** Properties of the PrivateEndpointConnection. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** The Private Endpoint resource for this Connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** Details about the state of the connection. */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /** Provisioning state of the Private Endpoint Connection. */
+  provisioningState?: EndPointProvisioningState;
+}
+
+/** Single item in a List or Get AuthorizationRule operation */
+export interface AuthorizationRule extends ProxyResource {
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
   /** The rights associated with the rule. */
-  rights: AccessRights[];
+  rights?: AccessRights[];
 }
 
 /** Description of hybrid connection resource. */
-export interface HybridConnection extends Resource {
+export interface HybridConnection extends ProxyResource {
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
   /**
    * The time the hybrid connection was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -203,8 +351,35 @@ export interface HybridConnection extends Resource {
   userMetadata?: string;
 }
 
+/** Description of topic resource. */
+export interface NetworkRuleSet extends ProxyResource {
+  /** Value that indicates whether Trusted Service Access is Enabled or not. */
+  trustedServiceAccessEnabled?: boolean;
+  /** Default Action for Network Rule Set */
+  defaultAction?: DefaultAction;
+  /** This determines if traffic is allowed over public network. By default it is enabled */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** List of IpRules */
+  ipRules?: NWRuleSetIpRules[];
+}
+
+/** A resource that supports private link capabilities. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** The private link resource group id. */
+  groupId?: string;
+  /** The private link resource required member names. */
+  requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
 /** Description of the WCF relay resource. */
-export interface WcfRelay extends Resource {
+export interface WcfRelay extends ProxyResource {
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
   /**
    * Returns true if the relay is dynamic; otherwise, false.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -239,8 +414,16 @@ export interface WcfRelay extends Resource {
 export interface RelayNamespace extends TrackedResource {
   /** SKU of the namespace. */
   sku?: Sku;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * Provisioning state of the Namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * Status of the Namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
   /**
    * The time the namespace was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -261,14 +444,26 @@ export interface RelayNamespace extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
+  /** List of private endpoint connections. */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** This determines if traffic is allowed over public network. By default it is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Description of a namespace resource. */
 export interface RelayUpdateParameters extends ResourceNamespacePatch {
   /** SKU of the namespace. */
   sku?: Sku;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * Provisioning state of the Namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * Status of the Namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
   /**
    * The time the namespace was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -289,28 +484,302 @@ export interface RelayUpdateParameters extends ResourceNamespacePatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
+  /** List of private endpoint connections. */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** This determines if traffic is allowed over public network. By default it is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/** Defines values for UnavailableReason. */
-export type UnavailableReason =
-  | "None"
-  | "InvalidName"
-  | "SubscriptionIsDisabled"
-  | "NameInUse"
-  | "NameInLockdown"
-  | "TooManyNamespaceInCurrentSubscription";
-/** Defines values for ProvisioningStateEnum. */
-export type ProvisioningStateEnum =
-  | "Created"
-  | "Succeeded"
-  | "Deleted"
-  | "Failed"
-  | "Updating"
-  | "Unknown";
-/** Defines values for AccessRights. */
-export type AccessRights = "Manage" | "Send" | "Listen";
-/** Defines values for KeyType. */
-export type KeyType = "PrimaryKey" | "SecondaryKey";
+/** Defines headers for Namespaces_createOrUpdate operation. */
+export interface NamespacesCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Namespaces_delete operation. */
+export interface NamespacesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
+/** Known values of {@link UnavailableReason} that the service accepts. */
+export enum KnownUnavailableReason {
+  /** None */
+  None = "None",
+  /** InvalidName */
+  InvalidName = "InvalidName",
+  /** SubscriptionIsDisabled */
+  SubscriptionIsDisabled = "SubscriptionIsDisabled",
+  /** NameInUse */
+  NameInUse = "NameInUse",
+  /** NameInLockdown */
+  NameInLockdown = "NameInLockdown",
+  /** TooManyNamespaceInCurrentSubscription */
+  TooManyNamespaceInCurrentSubscription = "TooManyNamespaceInCurrentSubscription",
+}
+
+/**
+ * Defines values for UnavailableReason. \
+ * {@link KnownUnavailableReason} can be used interchangeably with UnavailableReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **InvalidName** \
+ * **SubscriptionIsDisabled** \
+ * **NameInUse** \
+ * **NameInLockdown** \
+ * **TooManyNamespaceInCurrentSubscription**
+ */
+export type UnavailableReason = string;
+
+/** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
+export enum KnownPrivateLinkConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Disconnected */
+  Disconnected = "Disconnected",
+}
+
+/**
+ * Defines values for PrivateLinkConnectionStatus. \
+ * {@link KnownPrivateLinkConnectionStatus} can be used interchangeably with PrivateLinkConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected** \
+ * **Disconnected**
+ */
+export type PrivateLinkConnectionStatus = string;
+
+/** Known values of {@link EndPointProvisioningState} that the service accepts. */
+export enum KnownEndPointProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for EndPointProvisioningState. \
+ * {@link KnownEndPointProvisioningState} can be used interchangeably with EndPointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type EndPointProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter",
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **SecuredByPerimeter**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Standard */
+  Standard = "Standard",
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**
+ */
+export type SkuName = string;
+
+/** Known values of {@link SkuTier} that the service accepts. */
+export enum KnownSkuTier {
+  /** Standard */
+  Standard = "Standard",
+}
+
+/**
+ * Defines values for SkuTier. \
+ * {@link KnownSkuTier} can be used interchangeably with SkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**
+ */
+export type SkuTier = string;
+
+/** Known values of {@link AccessRights} that the service accepts. */
+export enum KnownAccessRights {
+  /** Manage */
+  Manage = "Manage",
+  /** Send */
+  Send = "Send",
+  /** Listen */
+  Listen = "Listen",
+}
+
+/**
+ * Defines values for AccessRights. \
+ * {@link KnownAccessRights} can be used interchangeably with AccessRights,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manage** \
+ * **Send** \
+ * **Listen**
+ */
+export type AccessRights = string;
+
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  /** PrimaryKey */
+  PrimaryKey = "PrimaryKey",
+  /** SecondaryKey */
+  SecondaryKey = "SecondaryKey",
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrimaryKey** \
+ * **SecondaryKey**
+ */
+export type KeyType = string;
+
+/** Known values of {@link DefaultAction} that the service accepts. */
+export enum KnownDefaultAction {
+  /** Allow */
+  Allow = "Allow",
+  /** Deny */
+  Deny = "Deny",
+}
+
+/**
+ * Defines values for DefaultAction. \
+ * {@link KnownDefaultAction} can be used interchangeably with DefaultAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type DefaultAction = string;
+
+/** Known values of {@link NetworkRuleIPAction} that the service accepts. */
+export enum KnownNetworkRuleIPAction {
+  /** Allow */
+  Allow = "Allow",
+}
+
+/**
+ * Defines values for NetworkRuleIPAction. \
+ * {@link KnownNetworkRuleIPAction} can be used interchangeably with NetworkRuleIPAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**
+ */
+export type NetworkRuleIPAction = string;
 /** Defines values for Relaytype. */
 export type Relaytype = "NetTcp" | "Http";
 
@@ -333,7 +802,8 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+export type NamespacesCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface NamespacesListOptionalParams
@@ -350,6 +820,13 @@ export interface NamespacesListByResourceGroupOptionalParams
 export type NamespacesListByResourceGroupResponse = RelayNamespaceListResult;
 
 /** Optional parameters. */
+export interface NamespacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NamespacesGetResponse = RelayNamespace;
+
+/** Optional parameters. */
 export interface NamespacesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -362,6 +839,13 @@ export interface NamespacesCreateOrUpdateOptionalParams
 export type NamespacesCreateOrUpdateResponse = RelayNamespace;
 
 /** Optional parameters. */
+export interface NamespacesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type NamespacesUpdateResponse = RelayNamespace;
+
+/** Optional parameters. */
 export interface NamespacesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -371,36 +855,12 @@ export interface NamespacesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface NamespacesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type NamespacesGetResponse = RelayNamespace;
-
-/** Optional parameters. */
-export interface NamespacesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type NamespacesUpdateResponse = RelayNamespace;
-
-/** Optional parameters. */
 export interface NamespacesListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type NamespacesListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-/** Optional parameters. */
-export interface NamespacesDeleteAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export type NamespacesListAuthorizationRulesResponse =
+  AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface NamespacesGetAuthorizationRuleOptionalParams
@@ -408,6 +868,18 @@ export interface NamespacesGetAuthorizationRuleOptionalParams
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
+
+/** Optional parameters. */
+export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAuthorizationRule operation. */
+export type NamespacesCreateOrUpdateAuthorizationRuleResponse =
+  AuthorizationRule;
+
+/** Optional parameters. */
+export interface NamespacesDeleteAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface NamespacesListKeysOptionalParams
@@ -424,6 +896,20 @@ export interface NamespacesRegenerateKeysOptionalParams
 export type NamespacesRegenerateKeysResponse = AccessKeys;
 
 /** Optional parameters. */
+export interface NamespacesGetNetworkRuleSetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNetworkRuleSet operation. */
+export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
+
+/** Optional parameters. */
+export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateNetworkRuleSet operation. */
+export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
+
+/** Optional parameters. */
 export interface NamespacesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -435,21 +921,31 @@ export interface NamespacesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NamespacesListByResourceGroupNextResponse = RelayNamespaceListResult;
+export type NamespacesListByResourceGroupNextResponse =
+  RelayNamespaceListResult;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesNextResponse =
+  AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface HybridConnectionsListByNamespaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespace operation. */
-export type HybridConnectionsListByNamespaceResponse = HybridConnectionListResult;
+export type HybridConnectionsListByNamespaceResponse =
+  HybridConnectionListResult;
+
+/** Optional parameters. */
+export interface HybridConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HybridConnectionsGetResponse = HybridConnection;
 
 /** Optional parameters. */
 export interface HybridConnectionsCreateOrUpdateOptionalParams
@@ -463,29 +959,12 @@ export interface HybridConnectionsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HybridConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type HybridConnectionsGetResponse = HybridConnection;
-
-/** Optional parameters. */
 export interface HybridConnectionsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type HybridConnectionsListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type HybridConnectionsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-/** Optional parameters. */
-export interface HybridConnectionsDeleteAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export type HybridConnectionsListAuthorizationRulesResponse =
+  AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface HybridConnectionsGetAuthorizationRuleOptionalParams
@@ -493,6 +972,18 @@ export interface HybridConnectionsGetAuthorizationRuleOptionalParams
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type HybridConnectionsGetAuthorizationRuleResponse = AuthorizationRule;
+
+/** Optional parameters. */
+export interface HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAuthorizationRule operation. */
+export type HybridConnectionsCreateOrUpdateAuthorizationRuleResponse =
+  AuthorizationRule;
+
+/** Optional parameters. */
+export interface HybridConnectionsDeleteAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface HybridConnectionsListKeysOptionalParams
@@ -513,14 +1004,70 @@ export interface HybridConnectionsListByNamespaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
-export type HybridConnectionsListByNamespaceNextResponse = HybridConnectionListResult;
+export type HybridConnectionsListByNamespaceNextResponse =
+  HybridConnectionListResult;
 
 /** Optional parameters. */
 export interface HybridConnectionsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type HybridConnectionsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
+export type HybridConnectionsListAuthorizationRulesNextResponse =
+  AuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourcesListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
 export interface WCFRelaysListByNamespaceOptionalParams
@@ -528,6 +1075,13 @@ export interface WCFRelaysListByNamespaceOptionalParams
 
 /** Contains response data for the listByNamespace operation. */
 export type WCFRelaysListByNamespaceResponse = WcfRelaysListResult;
+
+/** Optional parameters. */
+export interface WCFRelaysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WCFRelaysGetResponse = WcfRelay;
 
 /** Optional parameters. */
 export interface WCFRelaysCreateOrUpdateOptionalParams
@@ -541,29 +1095,12 @@ export interface WCFRelaysDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WCFRelaysGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WCFRelaysGetResponse = WcfRelay;
-
-/** Optional parameters. */
 export interface WCFRelaysListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type WCFRelaysListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type WCFRelaysCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-/** Optional parameters. */
-export interface WCFRelaysDeleteAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export type WCFRelaysListAuthorizationRulesResponse =
+  AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface WCFRelaysGetAuthorizationRuleOptionalParams
@@ -571,6 +1108,18 @@ export interface WCFRelaysGetAuthorizationRuleOptionalParams
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type WCFRelaysGetAuthorizationRuleResponse = AuthorizationRule;
+
+/** Optional parameters. */
+export interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAuthorizationRule operation. */
+export type WCFRelaysCreateOrUpdateAuthorizationRuleResponse =
+  AuthorizationRule;
+
+/** Optional parameters. */
+export interface WCFRelaysDeleteAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WCFRelaysListKeysOptionalParams
@@ -598,7 +1147,8 @@ export interface WCFRelaysListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type WCFRelaysListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
+export type WCFRelaysListAuthorizationRulesNextResponse =
+  AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface RelayAPIOptionalParams

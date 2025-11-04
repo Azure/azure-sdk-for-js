@@ -1,8 +1,9 @@
 {
-  "commit": "0cd7b3e83d5e7e21222dcc4bdde4565562da0cdf",
-  "readme": "specification\\relay\\resource-manager\\readme.md",
-  "autorest_command": "autorest --version=3.9.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=F:\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\relay\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.7  --generate-sample=true",
+  "commit": "8a34a1be47eeb4ccc185d5961bb4b53a27ebb98c",
+  "readme": "specification/relay/resource-manager/Microsoft.Relay/Relay/readme.md",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/relay/resource-manager/Microsoft.Relay/Relay/readme.md --tag=package-2024-01 --use=@autorest/typescript@6.0.45",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.6.0",
-  "use": "@autorest/typescript@6.0.0-rc.7"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.14.9",
+  "tag": "package-2024-01",
+  "use": "@autorest/typescript@6.0.45"
 }

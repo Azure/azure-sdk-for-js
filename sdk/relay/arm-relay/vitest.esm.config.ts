@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations.js";
-export * from "./namespaces.js";
-export * from "./hybridConnections.js";
-export * from "./privateEndpointConnections.js";
-export * from "./privateLinkResources.js";
-export * from "./wCFRelays.js";
+import { mergeConfig } from "vitest/config";
+import vitestConfig from "./vitest.config.ts";
+import vitestEsmConfig from "../../../vitest.esm.shared.config.ts";
+
+export default mergeConfig(vitestConfig, vitestEsmConfig);

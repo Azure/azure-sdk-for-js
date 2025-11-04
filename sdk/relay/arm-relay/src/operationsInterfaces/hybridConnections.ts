@@ -6,27 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   HybridConnection,
   HybridConnectionsListByNamespaceOptionalParams,
   AuthorizationRule,
   HybridConnectionsListAuthorizationRulesOptionalParams,
+  HybridConnectionsGetOptionalParams,
+  HybridConnectionsGetResponse,
   HybridConnectionsCreateOrUpdateOptionalParams,
   HybridConnectionsCreateOrUpdateResponse,
   HybridConnectionsDeleteOptionalParams,
-  HybridConnectionsGetOptionalParams,
-  HybridConnectionsGetResponse,
+  HybridConnectionsGetAuthorizationRuleOptionalParams,
+  HybridConnectionsGetAuthorizationRuleResponse,
   HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   HybridConnectionsCreateOrUpdateAuthorizationRuleResponse,
   HybridConnectionsDeleteAuthorizationRuleOptionalParams,
-  HybridConnectionsGetAuthorizationRuleOptionalParams,
-  HybridConnectionsGetAuthorizationRuleResponse,
   HybridConnectionsListKeysOptionalParams,
   HybridConnectionsListKeysResponse,
   RegenerateAccessKeyParameters,
   HybridConnectionsRegenerateKeysOptionalParams,
-  HybridConnectionsRegenerateKeysResponse
+  HybridConnectionsRegenerateKeysResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,18 +34,18 @@ import {
 export interface HybridConnections {
   /**
    * Lists the hybrid connection within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: HybridConnectionsListByNamespaceOptionalParams
+    options?: HybridConnectionsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<HybridConnection>;
   /**
    * Authorization rules for a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param options The options parameters.
@@ -54,11 +54,24 @@ export interface HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsListAuthorizationRulesOptionalParams
+    options?: HybridConnectionsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule>;
   /**
+   * Returns the description for the specified hybrid connection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param hybridConnectionName The hybrid connection name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: HybridConnectionsGetOptionalParams,
+  ): Promise<HybridConnectionsGetResponse>;
+  /**
    * Creates or updates a service hybrid connection. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param parameters Parameters supplied to create a hybrid connection.
@@ -69,11 +82,11 @@ export interface HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     parameters: HybridConnection,
-    options?: HybridConnectionsCreateOrUpdateOptionalParams
+    options?: HybridConnectionsCreateOrUpdateOptionalParams,
   ): Promise<HybridConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param options The options parameters.
@@ -82,24 +95,26 @@ export interface HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsDeleteOptionalParams
+    options?: HybridConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Returns the description for the specified hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * Hybrid connection authorization rule for a hybrid connection by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
+   * @param authorizationRuleName The authorization rule name.
    * @param options The options parameters.
    */
-  get(
+  getAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsGetOptionalParams
-  ): Promise<HybridConnectionsGetResponse>;
+    authorizationRuleName: string,
+    options?: HybridConnectionsGetAuthorizationRuleOptionalParams,
+  ): Promise<HybridConnectionsGetAuthorizationRuleResponse>;
   /**
    * Creates or updates an authorization rule for a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -112,11 +127,11 @@ export interface HybridConnections {
     hybridConnectionName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a hybrid connection authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -127,26 +142,11 @@ export interface HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     authorizationRuleName: string,
-    options?: HybridConnectionsDeleteAuthorizationRuleOptionalParams
+    options?: HybridConnectionsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
-   * Hybrid connection authorization rule for a hybrid connection by name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param hybridConnectionName The hybrid connection name.
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    hybridConnectionName: string,
-    authorizationRuleName: string,
-    options?: HybridConnectionsGetAuthorizationRuleOptionalParams
-  ): Promise<HybridConnectionsGetAuthorizationRuleResponse>;
-  /**
    * Primary and secondary connection strings to the hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -157,11 +157,11 @@ export interface HybridConnections {
     namespaceName: string,
     hybridConnectionName: string,
     authorizationRuleName: string,
-    options?: HybridConnectionsListKeysOptionalParams
+    options?: HybridConnectionsListKeysOptionalParams,
   ): Promise<HybridConnectionsListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings to the hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param authorizationRuleName The authorization rule name.
@@ -174,6 +174,6 @@ export interface HybridConnections {
     hybridConnectionName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: HybridConnectionsRegenerateKeysOptionalParams
+    options?: HybridConnectionsRegenerateKeysOptionalParams,
   ): Promise<HybridConnectionsRegenerateKeysResponse>;
 }

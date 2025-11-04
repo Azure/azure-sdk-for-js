@@ -9,4 +9,6 @@
 export * from "./operations.js";
 export * from "./namespaces.js";
 export * from "./hybridConnections.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
 export * from "./wCFRelays.js";
