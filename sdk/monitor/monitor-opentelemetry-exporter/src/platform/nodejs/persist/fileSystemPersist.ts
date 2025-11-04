@@ -62,10 +62,6 @@ export class FileSystemPersist implements PersistentStorage {
         this._instrumentationKey,
         this._options?.storageDirectory,
       );
-      this._tempDirectory = getStorageDirectory(
-        this._instrumentationKey,
-        this._options?.storageDirectory,
-      );
 
       // Starts file cleanup task
       if (!this._fileCleanupTimer) {
@@ -265,7 +261,6 @@ export function getStorageDirectory(
     const user = userInfo();
     userSegment = user.username;
   } catch (error) {
-    // Fallback to a default value when userInfo() fails
     userSegment = "";
   }
   if (process.title.length > 0) {
@@ -293,7 +288,7 @@ export function getStorageDirectory(
       }
       subDirectory = Math.abs(hash).toString(16);
   }
-  
+
   let sharedRoot: string;
   if (storageDirectory) {
     sharedRoot = storageDirectory;
