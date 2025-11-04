@@ -25307,6 +25307,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-network':
+        specifier: ^32.2.0
+        version: 32.2.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
