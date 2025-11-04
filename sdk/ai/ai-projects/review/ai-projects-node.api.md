@@ -275,10 +275,10 @@ export class AIProjectClient {
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
+    get endpoint(): string;
     readonly evaluationRules: EvaluationRulesOperations;
     readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
     readonly evaluators: EvaluatorsOperations;
-    getEndpointUrl(): string;
     getOpenAIClient(): Promise<OpenAI>;
     readonly indexes: IndexesOperations;
     readonly insights: InsightsOperations;
@@ -289,7 +289,7 @@ export class AIProjectClient {
 
 // @public
 export interface AIProjectClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    apiVersion?: KnownApiVersions;
 }
 
 // @public
@@ -352,7 +352,7 @@ export interface ApiError {
 
 // @public
 export interface ApiKeyCredentials extends BaseCredentials {
-    readonly apiKey?: string;
+    readonly apiKey: string;
     readonly type: "ApiKey";
 }
 
@@ -492,14 +492,8 @@ export interface BingGroundingSearchToolParameters {
 // @public
 export interface BlobReference {
     blobUri: string;
-    credential: BlobReferenceSasCredential;
+    credential: SasCredential;
     storageAccountArmId: string;
-}
-
-// @public
-export interface BlobReferenceSasCredential {
-    readonly sasUri: string;
-    readonly type: "SAS";
 }
 
 // @public
@@ -740,7 +734,7 @@ export interface ComputerToolCallSafetyCheck {
 export interface ComputerUsePreviewTool extends Tool {
     displayHeight: number;
     displayWidth: number;
-    environment: "windows" | "mac" | "linux" | "ubuntu" | "browser";
+    environment: "windows" | "mac" | "linux" | "browser";
     type: "computer_use_preview";
 }
 
@@ -1297,13 +1291,13 @@ export interface FileSearchTool extends Tool {
 // @public
 export interface FileSearchToolCallItemParam extends ItemParam {
     queries: string[];
-    results?: {
+    results?: Array<{
         fileId?: string;
         text?: string;
         filename?: string;
         attributes?: VectorStoreFileAttributes;
         score?: number;
-    }[] | null;
+    }>;
     // (undocumented)
     type: "file_search_call";
 }
@@ -1318,10 +1312,10 @@ export interface FolderDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FunctionTool extends Tool {
-    description?: string | null;
+    description?: string;
     name: string;
-    parameters: any | null;
-    strict: boolean | null;
+    parameters?: any;
+    strict?: boolean;
     type: "function";
 }
 
@@ -1348,7 +1342,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     cpu: string;
     environmentVariables?: Record<string, string>;
     // (undocumented)
-    kind: "hosted" | "hosted";
+    kind: "hosted";
     memory: string;
     tools?: ToolUnion[];
 }
@@ -1635,7 +1629,7 @@ export interface ItemReferenceItemParam extends ItemParam {
 export type ItemType = "message" | "file_search_call" | "function_call" | "function_call_output" | "computer_call" | "computer_call_output" | "web_search_call" | "reasoning" | "item_reference" | "image_generation_call" | "code_interpreter_call" | "local_shell_call" | "local_shell_call_output" | "mcp_list_tools" | "mcp_approval_request" | "mcp_approval_response" | "mcp_call" | "structured_inputs" | "structured_outputs" | "semantic_event" | "workflow_action" | "memory_search_call" | "oauth_consent_request";
 
 // @public
-export enum KnownVersions {
+export enum KnownApiVersions {
     V20250501 = "2025-05-01",
     V20250515Preview = "2025-05-15-preview",
     V20251115Preview = "2025-11-15-preview"
@@ -1750,19 +1744,19 @@ export interface MCPListToolsTool {
 
 // @public
 export interface MCPTool extends Tool {
-    allowedTools?: (string[] | {
+    allowedTools?: string[] | {
         toolNames?: string[];
-    }) | null;
+    };
     headers?: Record<string, string> | null;
     projectConnectionId?: string;
-    requireApproval?: ({
+    requireApproval?: {
         always?: {
             toolNames?: string[];
         };
         never?: {
             toolNames?: string[];
         };
-    } | "always" | "never") | null;
+    } | "always" | "never";
     serverLabel: string;
     serverUrl: string;
     type: "mcp";
@@ -2110,19 +2104,19 @@ export type PendingUploadType = "None" | "BlobReference";
 
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
-    instructions?: string | null;
+    instructions?: string;
     // (undocumented)
     kind: "prompt";
     model: string;
     // (undocumented)
-    reasoning?: Reasoning | null;
+    reasoning?: Reasoning;
     structuredInputs?: Record<string, StructuredInputDefinition>;
-    temperature?: number | null;
+    temperature?: number;
     text?: {
         format?: ResponseTextFormatConfigurationUnion;
     };
     tools?: ToolUnion[];
-    topP?: number | null;
+    topP?: number;
 }
 
 // @public
@@ -2152,9 +2146,9 @@ export interface RankingOptions {
 // @public
 export interface Reasoning {
     // (undocumented)
-    effort?: ReasoningEffort | null;
-    generateSummary?: ("auto" | "concise" | "detailed") | null;
-    summary?: ("auto" | "concise" | "detailed") | null;
+    effort?: ReasoningEffort;
+    generateSummary?: "auto" | "concise" | "detailed";
+    summary?: "auto" | "concise" | "detailed";
 }
 
 // @public
@@ -2304,7 +2298,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
     name: string;
     // (undocumented)
     schema: ResponseFormatJsonSchemaSchema;
-    strict?: boolean | null;
+    strict?: boolean;
     type: "json_schema";
 }
 
@@ -2337,8 +2331,14 @@ export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm"
 export type SampleType = "EvaluationResultSample";
 
 // @public
+export interface SasCredential {
+    readonly sasUri: string;
+    readonly type: "SAS";
+}
+
+// @public
 export interface SASCredentials extends BaseCredentials {
-    readonly sasToken?: string;
+    readonly sasToken: string;
     readonly type: "SAS";
 }
 
@@ -2594,7 +2594,7 @@ export type WebSearchActionUnion = WebSearchActionFind | WebSearchActionOpenPage
 export interface WebSearchPreviewTool extends Tool {
     searchContextSize?: "low" | "medium" | "high";
     type: "web_search_preview";
-    userLocation?: LocationUnion | null;
+    userLocation?: LocationUnion;
 }
 
 // @public

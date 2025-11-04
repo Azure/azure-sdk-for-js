@@ -150,7 +150,7 @@ export class AIProjectClient {
    * gets the endpoint of the client
    * @returns the endpoint of the client
    */
-  public getEndpointUrl(): string {
+  public get endpoint(): string {
     return this._endpoint;
   }
 }

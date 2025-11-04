@@ -182,7 +182,7 @@ export function workflowDefinitionDeserializer(item: any): WorkflowDefinition {
 
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
-  kind: "hosted" | "hosted";
+  kind: "hosted";
   /**
    * An array of tools the hosted agent's model may call while generating a response. You
    * can specify which tool to use by setting the `tool_choice` parameter.
@@ -367,12 +367,12 @@ export interface PromptAgentDefinition extends AgentDefinition {
   /** The model deployment to use for this agent. */
   model: string;
   /** A system (or developer) message inserted into the model's context. */
-  instructions?: string | null;
+  instructions?: string;
   /**
    * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
    * We generally recommend altering this or `top_p` but not both.
    */
-  temperature?: number | null;
+  temperature?: number;
   /**
    * An alternative to sampling with temperature, called nucleus sampling,
    * where the model considers the results of the tokens with top_p probability
@@ -381,8 +381,8 @@ export interface PromptAgentDefinition extends AgentDefinition {
    *
    * We generally recommend altering this or `temperature` but not both.
    */
-  topP?: number | null;
-  reasoning?: Reasoning | null;
+  topP?: number;
+  reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
    * can specify which tool to use by setting the `tool_choice` parameter.
@@ -437,13 +437,13 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
-  effort?: ReasoningEffort | null;
+  effort?: ReasoningEffort;
   /**
    * A summary of the reasoning performed by the model. This can be
    * useful for debugging and understanding the model's reasoning process.
    * One of `auto`, `concise`, or `detailed`.
    */
-  summary?: ("auto" | "concise" | "detailed") | null;
+  summary?: "auto" | "concise" | "detailed";
   /**
    * **Deprecated:** use `summary` instead.
    *
@@ -451,7 +451,7 @@ export interface Reasoning {
    * useful for debugging and understanding the model's reasoning process.
    * One of `auto`, `concise`, or `detailed`.
    */
-  generateSummary?: ("auto" | "concise" | "detailed") | null;
+  generateSummary?: "auto" | "concise" | "detailed";
 }
 
 export function reasoningSerializer(item: Reasoning): any {
@@ -696,11 +696,11 @@ export interface FunctionTool extends Tool {
   /** The name of the function to call. */
   name: string;
   /** A description of the function. Used by the model to determine whether or not to call the function. */
-  description?: string | null;
+  description?: string;
   /** A JSON schema object describing the parameters of the function. */
-  parameters: any | null;
+  parameters?: any;
   /** Whether to enforce strict parameter validation. Default `true`. */
-  strict: boolean | null;
+  strict?: boolean;
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -892,7 +892,7 @@ export interface ComputerUsePreviewTool extends Tool {
   /** The type of the computer use tool. Always `computer_use_preview`. */
   type: "computer_use_preview";
   /** The type of computer environment to control. */
-  environment: "windows" | "mac" | "linux" | "ubuntu" | "browser";
+  environment: "windows" | "mac" | "linux" | "browser";
   /** The width of the computer display. */
   displayWidth: number;
   /** The height of the computer display. */
@@ -922,7 +922,7 @@ export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
   /** The user's location. */
-  userLocation?: LocationUnion | null;
+  userLocation?: LocationUnion;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   searchContextSize?: "low" | "medium" | "high";
 }
@@ -1217,28 +1217,22 @@ export interface MCPTool extends Tool {
   headers?: Record<string, string> | null;
   /** List of allowed tool names or a filter object. */
   allowedTools?:
-    | (
-        | string[]
-        | {
-            toolNames?: string[];
-          }
-      )
-    | null;
+  | string[]
+  | {
+      toolNames?: string[];
+    };
   /** Specify which of the MCP server's tools require approval. */
   requireApproval?:
-    | (
-        | {
-            always?: {
-              toolNames?: string[];
-            };
-            never?: {
-              toolNames?: string[];
-            };
-          }
-        | "always"
-        | "never"
-      )
-    | null;
+  | {
+      always?: {
+        toolNames?: string[];
+      };
+      never?: {
+        toolNames?: string[];
+      };
+    }
+  | "always"
+  | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   projectConnectionId?: string;
 }
@@ -2789,7 +2783,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
    * `strict` is `true`. To learn more, read the [Structured Outputs
    * guide](/docs/guides/structured-outputs).
    */
-  strict?: boolean | null;
+  strict?: boolean;
 }
 
 export function responseTextFormatConfigurationJsonSchemaSerializer(
@@ -4006,15 +4000,13 @@ export interface FileSearchToolCallItemParam extends ItemParam {
   /** The queries used to search for files. */
   queries: string[];
   /** The results of the file search tool call. */
-  results?:
-    | {
+  results?: Array<{
         fileId?: string;
         text?: string;
         filename?: string;
         attributes?: VectorStoreFileAttributes;
         score?: number;
-      }[]
-    | null;
+      }>;
 }
 
 export function fileSearchToolCallItemParamSerializer(item: FileSearchToolCallItemParam): any {
@@ -5381,7 +5373,7 @@ export interface ApiKeyCredentials extends BaseCredentials {
   /** The credential type */
   readonly type: "ApiKey";
   /** API Key */
-  readonly apiKey?: string;
+  readonly apiKey: string;
 }
 
 export function apiKeyCredentialsDeserializer(item: any): ApiKeyCredentials {
@@ -5423,7 +5415,7 @@ export interface SASCredentials extends BaseCredentials {
   /** The credential type */
   readonly type: "SAS";
   /** SAS token */
-  readonly sasToken?: string;
+  readonly sasToken: string;
 }
 
 export function sasCredentialsDeserializer(item: any): SASCredentials {
@@ -5678,7 +5670,7 @@ export interface BlobReference {
   /** ARM ID of the storage account to use. */
   storageAccountArmId: string;
   /** Credential info to access the storage account. */
-  credential: BlobReferenceSasCredential;
+  credential: SasCredential;
 }
 
 export function blobReferenceDeserializer(item: any): BlobReference {
@@ -5690,14 +5682,14 @@ export function blobReferenceDeserializer(item: any): BlobReference {
 }
 
 /** SAS Credential definition */
-export interface BlobReferenceSasCredential {
+export interface SasCredential {
   /** SAS uri */
   readonly sasUri: string;
   /** Type of credential */
   readonly type: "SAS";
 }
 
-export function blobReferenceSasCredentialDeserializer(item: any): BlobReferenceSasCredential {
+export function blobReferenceSasCredentialDeserializer(item: any): SasCredential {
   return {
     sasUri: item["sasUri"],
     type: item["type"],
@@ -8342,7 +8334,7 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
 export type PendingUploadType = "None" | "BlobReference";
 
 /** Azure AI Projects API versions */
-export enum KnownVersions {
+export enum KnownApiVersions {
   /** Azure AI API version 2025-05-01. */
   V20250501 = "2025-05-01",
   /** Azure AI API version 2025-05-15-preview. */
