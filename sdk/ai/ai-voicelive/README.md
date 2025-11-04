@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-voicelive)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-voicelive)
-- [API reference documentation]()
+- [API reference documentation](https://azure.github.io/azure-sdk-for-js/)
 
 ## Getting started
 
