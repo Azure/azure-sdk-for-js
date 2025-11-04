@@ -288,15 +288,16 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     tokenParser: (token) => JSON.parse(token),
     validator: (parsed) => {
       return (
-        parsed.compositeToken &&
+        parsed.rangeMappings &&
         parsed.orderByItems &&
+        parsed.hashedLastResult &&
         Array.isArray(parsed.orderByItems) &&
         typeof parsed.skipCount === "number"
       );
     },
     requiresMultiPartition: true,
     description:
-      "DISTINCT with ORDER BY should support continuation tokens using OrderByQueryContinuationToken",
+      "DISTINCT with ORDER BY should support continuation tokens",
   },
 
   // ============= AGGREGATE QUERIES =============
