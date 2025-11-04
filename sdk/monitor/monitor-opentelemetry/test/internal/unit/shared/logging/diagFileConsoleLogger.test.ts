@@ -137,12 +137,11 @@ describe("Library/DiagFileConsoleLogger", () => {
       vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           [
             "applicationinsights.log",
             "123.applicationinsights.log",
             "456.applicationinsights.log",
-          ] as any,
+          ] as never,
       );
       logger["_maxHistory"] = 0;
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
@@ -154,12 +153,11 @@ describe("Library/DiagFileConsoleLogger", () => {
       vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           [
             "applicationinsights.log",
             "123.applicationinsights.log",
             "456.applicationinsights.log",
-          ] as any,
+          ] as never,
       );
       logger["_maxHistory"] = 1;
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
