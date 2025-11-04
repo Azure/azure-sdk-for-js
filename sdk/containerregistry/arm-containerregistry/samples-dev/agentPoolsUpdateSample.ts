@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates an agent pool with the specified parameters.
- *
- * @summary Updates an agent pool with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/AgentPoolsUpdate.json
- */
-
+import type {
+  AgentPoolUpdateParameters} from "@azure/arm-containerregistry";
 import {
-  AgentPoolUpdateParameters,
   ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Updates an agent pool with the specified parameters.
+ *
+ * @summary Updates an agent pool with the specified parameters.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/AgentPoolsUpdate.json
+ */
 async function agentPoolsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||

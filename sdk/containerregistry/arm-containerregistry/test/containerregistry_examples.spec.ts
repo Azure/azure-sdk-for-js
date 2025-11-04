@@ -85,41 +85,36 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks create test", async () => {
-    const res = await client.tasks.create(
-      resourceGroup,
-      registryName,
-      taskName,
-      {
-        location: location,
-        tags: {
-          testkey: "value",
-        },
-        status: "Enabled",
-        platform: {
-          os: "Linux",
-          architecture: "amd64",
-        },
-        agentConfiguration: {
-          cpu: 2,
-        },
-        step: {
-          type: "Docker",
-          contextPath: "https://github.com/SteveLasker/node-helloworld",
-          imageNames: ["testtask:v1"],
-          dockerFilePath: "DockerFile",
-          isPushEnabled: true,
-          noCache: false,
-        },
-        trigger: {
-          baseImageTrigger: {
-            name: "myBaseImageTrigger",
-            baseImageTriggerType: "Runtime",
-            updateTriggerPayloadType: "Default",
-            status: "Enabled",
-          },
+    const res = await client.tasks.beginCreateAndWait(resourceGroup, registryName, taskName, {
+      location: location,
+      tags: {
+        testkey: "value",
+      },
+      status: "Enabled",
+      platform: {
+        os: "Linux",
+        architecture: "amd64",
+      },
+      agentConfiguration: {
+        cpu: 2,
+      },
+      step: {
+        type: "Docker",
+        contextPath: "https://github.com/SteveLasker/node-helloworld",
+        imageNames: ["testtask:v1"],
+        dockerFilePath: "DockerFile",
+        isPushEnabled: true,
+        noCache: false,
+      },
+      trigger: {
+        baseImageTrigger: {
+          name: "myBaseImageTrigger",
+          baseImageTriggerType: "Runtime",
+          updateTriggerPayloadType: "Default",
+          status: "Enabled",
         },
       },
-    );
+    });
     assert.equal(res.name, taskName);
   });
 
@@ -137,49 +132,40 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks update test", async () => {
-    const res = await client.tasks.update(
-      resourceGroup,
-      registryName,
-      taskName,
-      {
-        tags: {
-          testkey: "value",
-        },
-        status: "Enabled",
-        platform: {
-          os: "Linux",
-          architecture: "amd64",
-        },
-        agentConfiguration: {
-          cpu: 2,
-        },
-        step: {
-          type: "Docker",
-          contextPath: "https://github.com/SteveLasker/node-helloworld",
-          imageNames: ["testtask:v1"],
-          dockerFilePath: "DockerFile",
-          isPushEnabled: true,
-          noCache: false,
-        },
-        trigger: {
-          baseImageTrigger: {
-            name: "myBaseImageTrigger",
-            baseImageTriggerType: "Runtime",
-            updateTriggerPayloadType: "Default",
-            status: "Enabled",
-          },
+    const res = await client.tasks.beginUpdateAndWait(resourceGroup, registryName, taskName, {
+      tags: {
+        testkey: "value",
+      },
+      status: "Enabled",
+      platform: {
+        os: "Linux",
+        architecture: "amd64",
+      },
+      agentConfiguration: {
+        cpu: 2,
+      },
+      step: {
+        type: "Docker",
+        contextPath: "https://github.com/SteveLasker/node-helloworld",
+        imageNames: ["testtask:v1"],
+        dockerFilePath: "DockerFile",
+        isPushEnabled: true,
+        noCache: false,
+      },
+      trigger: {
+        baseImageTrigger: {
+          name: "myBaseImageTrigger",
+          baseImageTriggerType: "Runtime",
+          updateTriggerPayloadType: "Default",
+          status: "Enabled",
         },
       },
-    );
+    });
     assert.equal(res.type, "Microsoft.ContainerRegistry/registries/tasks");
   });
 
   it("tasks delete test", async () => {
-    await client.tasks.delete(
-      resourceGroup,
-      registryName,
-      taskName,
-    );
+    await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName);
     const resArray = new Array();
     for await (const item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);

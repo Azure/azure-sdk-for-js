@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes a specified task run resource.
- *
- * @summary Deletes a specified task run resource.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TaskRunsDelete.json
- */
-
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Deletes a specified task run resource.
+ *
+ * @summary Deletes a specified task run resource.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TaskRunsDelete.json
+ */
 async function taskRunsDelete(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
@@ -25,7 +24,7 @@ async function taskRunsDelete(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.taskRuns.delete(
+  const result = await client.taskRuns.beginDeleteAndWait(
     resourceGroupName,
     registryName,
     taskRunName,
