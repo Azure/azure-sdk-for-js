@@ -7,11 +7,10 @@
 export type JsonFeatureFlagValue = {
   conditions: {
     client_filters: { name: string; parameters?: Record<string, unknown> }[];
-    requirement_type?: "All" | "Any";
   };
   description?: string;
   enabled: boolean;
-  id: string;
+  id?: string;
   display_name?: string;
 };
 
