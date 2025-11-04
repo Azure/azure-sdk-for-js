@@ -209,10 +209,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               skipCount: processedContinuationResponse.skipCount,
               sortOrders: this.sortOrders || [],
             };
-          } else {
-            console.log(
-              `[ParallelQueryExecutionContextBase] ✗ NOT creating filter context - missing required fields`,
-            );
           }
 
           console.log(`[ParallelQueryExecutionContextBase] *** DOCUMENT PRODUCER CREATION ***`);

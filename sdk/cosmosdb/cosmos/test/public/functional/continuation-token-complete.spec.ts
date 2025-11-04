@@ -250,7 +250,6 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     requiresMultiPartition: false,
     description: "OFFSET LIMIT combination should maintain both offset and limit state",
   },
-  // TODO: add test case of offset + limit with order by
 
   // ============= DISTINCT QUERIES =============
   {
@@ -272,10 +271,9 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
 
   {
     name: "DISTINCT with ORDER BY (Ordered - Supports Continuation)",
-    query: "SELECT DISTINCT c.category FROM c ORDER BY c.category ASC",
+    query: "SELECT DISTINCT VALUE c.category FROM c ORDER BY c.category ASC",
     queryOptions: { maxItemCount: 3, enableQueryControl: true },
     expectedTokenStructure: {
-      expectNoContinuationToken: true, // TODO: remove it once the queryplan marks this query as ordered distinct, currently query plan considers as unordered distinct
       hasCompositeToken: true,
       hasOrderByItems: true,
       hasSkipCount: true,
@@ -1553,7 +1551,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
         console.log(
           `OFFSET>maxItemCount Iteration ${iterationCount}: ${itemsInThisPage} items returned, ` +
-            `${totalItemsProcessed} total so far, token: ${result.continuationToken ? "YES" : "NO"}`,
+          `${totalItemsProcessed} total so far, token: ${result.continuationToken ? "YES" : "NO"}`,
         );
 
         // Log the continuation token structure for debugging
@@ -1562,8 +1560,8 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             const parsedToken = JSON.parse(result.continuationToken);
             console.log(
               `  Token details: offset=${parsedToken.offset || "undefined"}, ` +
-                `limit=${parsedToken.limit || "undefined"}, ` +
-                `hasOrderByItems=${parsedToken.orderByItems ? "YES" : "NO"}`,
+              `limit=${parsedToken.limit || "undefined"}, ` +
+              `hasOrderByItems=${parsedToken.orderByItems ? "YES" : "NO"}`,
             );
           } catch (e) {
             console.log(`  Token parsing failed: ${e.message}`);
@@ -2334,10 +2332,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           // Store the latest continuation token
           if (response.continuationToken) {
             sessionToken = response.continuationToken;
-            console.log(
-              `  Continuation token available from fetch ${fetchIndex + 1}, last amount: ${lastAmountInSession}`,
-            );
           }
+          console.log(
+            `  Continuation token available from fetch ${fetchIndex + 1}, last amount: ${lastAmountInSession}`,
+          );
         }
 
         console.log(
