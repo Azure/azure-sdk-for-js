@@ -17,7 +17,7 @@ require("dotenv/config");
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const openAiBaseUrl = `${endpoint}/openai`;
 
-const modelName = process.env["MODEL_NAME"] || "gpt-4.1";
+const modelName = process.env["MODEL_NAME"] || "o4-mini";
 const trainingFilePath = path.join(__dirname, "data", "countdown_train_100.jsonl");
 const validationFilePath = path.join(__dirname, "data", "countdown_valid_50.jsonl");
 
