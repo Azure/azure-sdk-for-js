@@ -231,7 +231,7 @@ You may meet the merge conflicts of `pnpm-lock.yaml` file when merging the PR, s
 
 1. checkout to main branch and pull the latest code
 2. checkout the PR's branch
-3. run `git merge main {target branch}` 
+3. run `git merge main` 
 4. run `git checkout origin/main pnpm-lock.yaml` 
 5. run `pnpm install`
 6. push your changes into your PR
