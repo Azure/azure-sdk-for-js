@@ -236,7 +236,7 @@ You may meet the merge conflicts of `pnpm-lock.yaml` file when merging the PR, s
 5. run `pnpm install`
 6. push your changes into your PR
 
-if you meet other files' conflicts, you need to resolve them case by case.
+If you meet other files' conflicts, you need to resolve them case by case.
 
 ## CC dpg-devs for review
 
