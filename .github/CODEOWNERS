@@ -169,10 +169,10 @@
 # AzureSdkOwners:  @KarishmaGhiya @maorleger @minhanh-phan
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @maorleger @timovv @Azure/azure-sdk-write-keyvault
+/sdk/keyvault/ @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %KeyVault
-# AzureSdkOwners:  @maorleger @timovv @Azure/azure-sdk-write-keyvault
+# AzureSdkOwners:  @Azure/azure-sdk-write-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger
@@ -331,18 +331,9 @@
 # ServiceLabel: %Azure Load Testing
 /sdk/loadtesting/ @azure/testing-services
 
-# API review files
-/sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
-
-# Cosmos API review files
-/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
-
 ####################
 # Management Libraries
 ####################
-
-# Managment API review files
-/sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
@@ -1342,7 +1333,7 @@
 # ServiceOwners:          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-# ServiceOwners:          @cheathamb36 @chen-karen @vickm @Azure/azure-sdk-write-keyvault
+# ServiceOwners:          @chen-karen @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 # ServiceOwners:          @NarayanThiru

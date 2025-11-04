@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get properties of specified deleted account resource.
  *
  * @summary Get properties of specified deleted account resource.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/DeletedAccountGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/DeletedAccountGet.json
  */
 async function deletedAccountGet(): Promise<void> {
   const subscriptionId =

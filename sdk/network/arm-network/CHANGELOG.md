@@ -1,4 +1,46 @@
 # Release History
+
+## 34.1.0 (2025-10-16)
+
+### Features Added
+  - Added operation group NetworkSecurityPerimeterServiceTags
+  - Added operation AzureFirewalls.beginPacketCaptureOperation
+  - Added operation AzureFirewalls.beginPacketCaptureOperationAndWait
+  - Added operation VirtualNetworkGateways.listRadiusSecrets
+  - Added operation VpnServerConfigurations.listRadiusSecrets
+  - Added Interface AzureFirewallPacketCaptureResponse
+  - Added Interface AzureFirewallsPacketCaptureOperationHeaders
+  - Added Interface AzureFirewallsPacketCaptureOperationOptionalParams
+  - Added Interface NetworkSecurityPerimeterServiceTagsListOptionalParams
+  - Added Interface NspServiceTagsListResult
+  - Added Interface NspServiceTagsResource
+  - Added Interface NvaInterfaceConfigurationsProperties
+  - Added Interface NvaInVnetSubnetReferenceProperties
+  - Added Interface RadiusAuthServer
+  - Added Interface RadiusAuthServerListResult
+  - Added Interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams
+  - Added Interface VpnServerConfigurationsListRadiusSecretsOptionalParams
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter dedicatedBackendConnection
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter sniName
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter validateCertChainAndExpiry
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter validateSNI
+  - Interface AzureFirewall has a new optional parameter extendedLocation
+  - Interface FirewallPacketCaptureParameters has a new optional parameter operation
+  - Interface NetworkVirtualAppliance has a new optional parameter nvaInterfaceConfigurations
+  - Interface NetworkVirtualAppliance has a new optional parameter privateIpAddress
+  - Added Type Alias AzureFirewallPacketCaptureOperationType
+  - Added Type Alias AzureFirewallPacketCaptureResponseCode
+  - Added Type Alias AzureFirewallsPacketCaptureOperationResponse
+  - Added Type Alias NetworkSecurityPerimeterServiceTagsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterServiceTagsListResponse
+  - Added Type Alias NvaNicType
+  - Added Type Alias VirtualNetworkGatewaysListRadiusSecretsResponse
+  - Added Type Alias VpnServerConfigurationsListRadiusSecretsResponse
+  - Added Enum KnownAzureFirewallPacketCaptureOperationType
+  - Added Enum KnownAzureFirewallPacketCaptureResponseCode
+  - Added Enum KnownNvaNicType
+  - Enum KnownTransportProtocol has a new value Quic
+
     
 ## 34.0.0 (2025-05-22)
     

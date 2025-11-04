@@ -1,5 +1,17 @@
 # Release History
 
+## 1.22.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix invalid format of "User-Agent" header value [Issue #36383](https://github.com/Azure/azure-sdk-for-js/issues/36383)
+
+### Other Changes
+
 ## 1.22.1 (2025-09-11)
 
 ### Other Changes

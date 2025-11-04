@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- *
- * @summary Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseCreate.json
- */
-
+import type {
+  Cluster} from "@azure/arm-redisenterprisecache";
 import {
-  Cluster,
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+ *
+ * @summary Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-07-01/examples/RedisEnterpriseCreate.json
+ */
 async function redisEnterpriseCreate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
@@ -43,6 +43,7 @@ async function redisEnterpriseCreate(): Promise<void> {
     },
     location: "West US",
     minimumTlsVersion: "1.2",
+    publicNetworkAccess: "Disabled",
     sku: { name: "EnterpriseFlash_F300", capacity: 3 },
     tags: { tag1: "value1" },
     zones: ["1", "2", "3"],

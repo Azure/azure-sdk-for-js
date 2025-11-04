@@ -27,6 +27,7 @@ import {
   LoadBalancersImpl,
   IdentityBindingsImpl,
   JWTAuthenticatorsImpl,
+  MeshMembershipsImpl,
 } from "./operations/index.js";
 import type {
   Operations,
@@ -47,6 +48,7 @@ import type {
   LoadBalancers,
   IdentityBindings,
   JWTAuthenticators,
+  MeshMemberships,
 } from "./operationsInterfaces/index.js";
 import type { ContainerServiceClientOptionalParams } from "./models/index.js";
 
@@ -82,7 +84,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/23.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-containerservice/24.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +134,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-07-02-preview";
+    this.apiVersion = options.apiVersion || "2025-08-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.containerService = new ContainerServiceImpl(this);
@@ -151,6 +153,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     this.loadBalancers = new LoadBalancersImpl(this);
     this.identityBindings = new IdentityBindingsImpl(this);
     this.jWTAuthenticators = new JWTAuthenticatorsImpl(this);
+    this.meshMemberships = new MeshMembershipsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -197,4 +200,5 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   loadBalancers: LoadBalancers;
   identityBindings: IdentityBindings;
   jWTAuthenticators: JWTAuthenticators;
+  meshMemberships: MeshMemberships;
 }
