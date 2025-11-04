@@ -27,6 +27,7 @@ import {
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -127,13 +128,25 @@ export class AIProjectClient {
     const scope = "https://ai.azure.com/.default";
     const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
 
-    return new OpenAI({
+    const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-05-15-preview" },
       defaultHeaders: { "accept-encoding": "deflate" },
       dangerouslyAllowBrowser: true,
-    });
+    };
+
+    // Check if logging should be enabled via environment variable
+    if (process.env["ENABLE_OPENAI_HTTP_CLIENT"] === "true") {
+      openAIOptions.fetch = (url: string | URL | globalThis.Request, init?: RequestInit) => {
+        console.log("Sending request...", url, JSON.stringify(init, null, 2));
+        return fetch(url, init);
+      }
+    }
+
+
+    const openaiClient = new OpenAI(openAIOptions);
+    return overwriteOpenAIClient(openaiClient);
   }
   /**
    * gets the endpoint of the client
