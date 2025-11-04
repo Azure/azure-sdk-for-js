@@ -64,11 +64,7 @@ export async function main(): Promise<void> {
   const response2 = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-<<<<<<< HEAD
-      input: [{ role: "user", content: "", type: "message" }], // TODO: Remove 'input' once service is fixed
-=======
       input: "", // TODO: Remove 'input' once service is fixed
->>>>>>> e187aea04b82834c352b9f42c91bc9d59ad8fade
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
