@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  ConnectedEnvironmentPatchResource} from "@azure/arm-appcontainers";
+import {
+  ContainerAppsAPIClient,
+} from "@azure/arm-appcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Patches a Managed Environment. Only patching of tags is supported currently
  *
  * @summary Patches a Managed Environment. Only patching of tags is supported currently
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ConnectedEnvironments_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ConnectedEnvironments_Patch.json
  */
-
-import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function patchManagedEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -19,11 +22,15 @@ async function patchManagedEnvironment(): Promise<void> {
   const resourceGroupName =
     process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const connectedEnvironmentName = "testenv";
+  const environmentEnvelope: ConnectedEnvironmentPatchResource = {
+    tags: { tag1: "value1", tag2: "value2" },
+  };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironments.update(
     resourceGroupName,
     connectedEnvironmentName,
+    environmentEnvelope,
   );
   console.log(result);
 }

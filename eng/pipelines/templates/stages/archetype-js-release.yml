@@ -13,7 +13,7 @@ parameters:
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
       - ${{ each artifact in parameters.Artifacts }}:
-          - stage:
+          - stage: 'Release_${{artifact.safename}}'
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
@@ -173,12 +173,14 @@ stages:
                           pnpm install --no-frozen-lockfile
                         displayName: "Install dependencies"
 
-                      # Disabled until packages can be updated to support ES2019 syntax.
-                      # - bash: |
-                      #     npm install -g ./common/tools/dev-tool
-                      #     npm install ./eng/tools/eng-package-utils
-                      #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                      #   displayName: Update samples
+                      - bash: |
+                          npm link
+                        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/dev-tool
+                        displayName: Link dev-tool globally
+
+                      - bash: |
+                          node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
+                        displayName: Publish samples for ${{ artifact.name }}
 
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
@@ -206,6 +208,8 @@ stages:
           Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
+        # Wait for publishing job to complete before running
+        dependsOn: 'PublishPackage'
         condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
         pool:
           name: $(LINUXPOOL)

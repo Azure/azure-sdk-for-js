@@ -1,5 +1,11 @@
 # Release History
 
+## 4.7.0 (2025-10-23)
+
+### Features Added
+
+Dynamic Enablement for PPAF(Per Partition Automatic Failover): Added support to dynamically enable or disable PPAF based on the `enablePartitionLevelFailover` flag retrieved from the database account properties removing the need of SDK restart. 
+
 ## 4.6.0 (2025-10-08)
 
 ### Features Added

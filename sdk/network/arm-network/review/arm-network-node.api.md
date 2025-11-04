@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AadAuthenticationParameters {
@@ -411,6 +411,7 @@ export interface ApplicationGatewayBackendHttpSettings extends SubResource {
     authenticationCertificates?: SubResource[];
     connectionDraining?: ApplicationGatewayConnectionDraining;
     cookieBasedAffinity?: ApplicationGatewayCookieBasedAffinity;
+    dedicatedBackendConnection?: boolean;
     readonly etag?: string;
     hostName?: string;
     name?: string;
@@ -422,8 +423,11 @@ export interface ApplicationGatewayBackendHttpSettings extends SubResource {
     protocol?: ApplicationGatewayProtocol;
     readonly provisioningState?: ProvisioningState;
     requestTimeout?: number;
+    sniName?: string;
     trustedRootCertificates?: SubResource[];
     readonly type?: string;
+    validateCertChainAndExpiry?: boolean;
+    validateSNI?: boolean;
 }
 
 // @public
@@ -1609,6 +1613,7 @@ export interface AzureFirewall extends Resource {
     applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
     autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
     readonly etag?: string;
+    extendedLocation?: ExtendedLocation;
     firewallPolicy?: SubResource;
     hubIPAddresses?: HubIPAddresses;
     ipConfigurations?: AzureFirewallIPConfiguration[];
@@ -1781,6 +1786,18 @@ export interface AzureFirewallPacketCaptureFlags {
 export type AzureFirewallPacketCaptureFlagsType = string;
 
 // @public
+export type AzureFirewallPacketCaptureOperationType = string;
+
+// @public
+export interface AzureFirewallPacketCaptureResponse {
+    message?: string;
+    statusCode?: AzureFirewallPacketCaptureResponseCode;
+}
+
+// @public
+export type AzureFirewallPacketCaptureResponseCode = string;
+
+// @public
 export interface AzureFirewallPacketCaptureRule {
     destinationPorts?: string[];
     destinations?: string[];
@@ -1810,6 +1827,8 @@ export interface AzureFirewalls {
     beginListLearnedPrefixesAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<AzureFirewallsListLearnedPrefixesResponse>;
     beginPacketCapture(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsPacketCaptureResponse>, AzureFirewallsPacketCaptureResponse>>;
     beginPacketCaptureAndWait(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<AzureFirewallsPacketCaptureResponse>;
+    beginPacketCaptureOperation(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOperationOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsPacketCaptureOperationResponse>, AzureFirewallsPacketCaptureOperationResponse>>;
+    beginPacketCaptureOperationAndWait(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOperationOptionalParams): Promise<AzureFirewallsPacketCaptureOperationResponse>;
     beginUpdateTags(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<AzureFirewallsUpdateTagsResponse>, AzureFirewallsUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<AzureFirewallsUpdateTagsResponse>;
     get(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsGetOptionalParams): Promise<AzureFirewallsGetResponse>;
@@ -1893,6 +1912,21 @@ export interface AzureFirewallsPacketCaptureHeaders {
     // (undocumented)
     location?: string;
 }
+
+// @public
+export interface AzureFirewallsPacketCaptureOperationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AzureFirewallsPacketCaptureOperationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureFirewallsPacketCaptureOperationResponse = AzureFirewallPacketCaptureResponse;
 
 // @public
 export interface AzureFirewallsPacketCaptureOptionalParams extends coreClient.OperationOptions {
@@ -4942,6 +4976,7 @@ export interface FirewallPacketCaptureParameters {
     filters?: AzureFirewallPacketCaptureRule[];
     flags?: AzureFirewallPacketCaptureFlags[];
     numberOfPacketsToCapture?: number;
+    operation?: AzureFirewallPacketCaptureOperationType;
     protocol?: AzureFirewallNetworkRuleProtocol;
     sasUrl?: string;
 }
@@ -6890,6 +6925,27 @@ export enum KnownAzureFirewallPacketCaptureFlagsType {
 }
 
 // @public
+export enum KnownAzureFirewallPacketCaptureOperationType {
+    Start = "Start",
+    Status = "Status",
+    Stop = "Stop"
+}
+
+// @public
+export enum KnownAzureFirewallPacketCaptureResponseCode {
+    AzureFirewallPacketCaptureCompleted = "AzureFirewallPacketCaptureCompleted",
+    AzureFirewallPacketCaptureFailed = "AzureFirewallPacketCaptureFailed",
+    AzureFirewallPacketCaptureInProgress = "AzureFirewallPacketCaptureInProgress",
+    AzureFirewallPacketCaptureNotInProgress = "AzureFirewallPacketCaptureNotInProgress",
+    AzureFirewallPacketCaptureStartFailed = "AzureFirewallPacketCaptureStartFailed",
+    AzureFirewallPacketCaptureStartFailedToUpload = "AzureFirewallPacketCaptureStartFailedToUpload",
+    AzureFirewallPacketCaptureStartFailure = "AzureFirewallPacketCaptureStartFailure",
+    AzureFirewallPacketCaptureStartSucceeded = "AzureFirewallPacketCaptureStartSucceeded",
+    AzureFirewallPacketCaptureStopSucceeded = "AzureFirewallPacketCaptureStopSucceeded",
+    NotImplemented = "NotImplemented"
+}
+
+// @public
 export enum KnownAzureFirewallRCActionType {
     Allow = "Allow",
     Deny = "Deny"
@@ -7733,6 +7789,14 @@ export enum KnownNspProvisioningState {
 }
 
 // @public
+export enum KnownNvaNicType {
+    AdditionalPrivateNic = "AdditionalPrivateNic",
+    AdditionalPublicNic = "AdditionalPublicNic",
+    PrivateNic = "PrivateNic",
+    PublicNic = "PublicNic"
+}
+
+// @public
 export enum KnownOfficeTrafficCategory {
     All = "All",
     None = "None",
@@ -8115,6 +8179,7 @@ export enum KnownSyncRemoteAddressSpace {
 // @public
 export enum KnownTransportProtocol {
     All = "All",
+    Quic = "Quic",
     Tcp = "Tcp",
     Udp = "Udp"
 }
@@ -10114,6 +10179,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     networkSecurityPerimeters: NetworkSecurityPerimeters;
     // (undocumented)
+    networkSecurityPerimeterServiceTags: NetworkSecurityPerimeterServiceTags;
+    // (undocumented)
     networkVirtualApplianceConnections: NetworkVirtualApplianceConnections;
     // (undocumented)
     networkVirtualAppliances: NetworkVirtualAppliances;
@@ -11092,6 +11159,25 @@ export interface NetworkSecurityPerimetersDeleteOptionalParams extends coreClien
 }
 
 // @public
+export interface NetworkSecurityPerimeterServiceTags {
+    list(location: string, options?: NetworkSecurityPerimeterServiceTagsListOptionalParams): PagedAsyncIterableIterator<NspServiceTagsResource>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterServiceTagsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterServiceTagsListNextResponse = NspServiceTagsListResult;
+
+// @public
+export interface NetworkSecurityPerimeterServiceTagsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterServiceTagsListResponse = NspServiceTagsListResult;
+
+// @public
 export interface NetworkSecurityPerimetersGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -11161,8 +11247,10 @@ export interface NetworkVirtualAppliance extends Resource {
     readonly inboundSecurityRules?: SubResource[];
     internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
     networkProfile?: NetworkVirtualAppliancePropertiesFormatNetworkProfile;
+    nvaInterfaceConfigurations?: NvaInterfaceConfigurationsProperties[];
     nvaSku?: VirtualApplianceSkuProperties;
     partnerManagedResource?: PartnerManagedResourceProperties;
+    readonly privateIpAddress?: string;
     readonly provisioningState?: ProvisioningState;
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
@@ -11751,6 +11839,32 @@ export interface NspProfileListResult {
 
 // @public
 export type NspProvisioningState = string;
+
+// @public
+export interface NspServiceTagsListResult {
+    nextLink?: string;
+    value?: NspServiceTagsResource[];
+}
+
+// @public
+export interface NspServiceTagsResource {
+    serviceTags?: string[];
+}
+
+// @public
+export interface NvaInterfaceConfigurationsProperties {
+    name?: string;
+    subnet?: NvaInVnetSubnetReferenceProperties;
+    type?: NvaNicType[];
+}
+
+// @public
+export interface NvaInVnetSubnetReferenceProperties {
+    id?: string;
+}
+
+// @public
+export type NvaNicType = string;
 
 // @public
 export interface O365BreakOutCategoryPolicies {
@@ -13261,6 +13375,18 @@ export interface QueryResults {
 // @public
 export interface QueryTroubleshootingParameters {
     targetResourceId: string;
+}
+
+// @public
+export interface RadiusAuthServer {
+    radiusServerAddress?: string;
+    radiusServerSecret?: string;
+}
+
+// @public
+export interface RadiusAuthServerListResult {
+    nextLink?: string;
+    value?: RadiusAuthServer[];
 }
 
 // @public
@@ -16661,6 +16787,7 @@ export interface VirtualNetworkGateways {
     get(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetOptionalParams): Promise<VirtualNetworkGatewaysGetResponse>;
     list(resourceGroupName: string, options?: VirtualNetworkGatewaysListOptionalParams): PagedAsyncIterableIterator<VirtualNetworkGateway>;
     listConnections(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysListConnectionsOptionalParams): PagedAsyncIterableIterator<VirtualNetworkGatewayConnectionListEntity>;
+    listRadiusSecrets(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysListRadiusSecretsOptionalParams): Promise<VirtualNetworkGatewaysListRadiusSecretsResponse>;
     supportedVpnDevices(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams): Promise<VirtualNetworkGatewaysSupportedVpnDevicesResponse>;
     vpnDeviceConfigurationScript(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnDeviceScriptParameters, options?: VirtualNetworkGatewaysVpnDeviceConfigurationScriptOptionalParams): Promise<VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse>;
 }
@@ -16931,6 +17058,13 @@ export type VirtualNetworkGatewaysListNextResponse = VirtualNetworkGatewayListRe
 // @public
 export interface VirtualNetworkGatewaysListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkGatewaysListRadiusSecretsResponse = RadiusAuthServerListResult;
 
 // @public
 export type VirtualNetworkGatewaysListResponse = VirtualNetworkGatewayListResult;
@@ -18197,6 +18331,7 @@ export interface VpnServerConfigurations {
     get(resourceGroupName: string, vpnServerConfigurationName: string, options?: VpnServerConfigurationsGetOptionalParams): Promise<VpnServerConfigurationsGetResponse>;
     list(options?: VpnServerConfigurationsListOptionalParams): PagedAsyncIterableIterator<VpnServerConfiguration>;
     listByResourceGroup(resourceGroupName: string, options?: VpnServerConfigurationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VpnServerConfiguration>;
+    listRadiusSecrets(resourceGroupName: string, vpnServerConfigurationName: string, options?: VpnServerConfigurationsListRadiusSecretsOptionalParams): Promise<VpnServerConfigurationsListRadiusSecretsResponse>;
     updateTags(resourceGroupName: string, vpnServerConfigurationName: string, vpnServerConfigurationParameters: TagsObject, options?: VpnServerConfigurationsUpdateTagsOptionalParams): Promise<VpnServerConfigurationsUpdateTagsResponse>;
 }
 
@@ -18261,6 +18396,13 @@ export type VpnServerConfigurationsListNextResponse = ListVpnServerConfiguration
 // @public
 export interface VpnServerConfigurationsListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface VpnServerConfigurationsListRadiusSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnServerConfigurationsListRadiusSecretsResponse = RadiusAuthServerListResult;
 
 // @public
 export type VpnServerConfigurationsListResponse = ListVpnServerConfigurationsResult;

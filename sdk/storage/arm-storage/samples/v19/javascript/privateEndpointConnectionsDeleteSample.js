@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the storage account.
  *
  * @summary Deletes the specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountDeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountDeletePrivateEndpointConnection.json
  */
 async function storageAccountDeletePrivateEndpointConnection() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
