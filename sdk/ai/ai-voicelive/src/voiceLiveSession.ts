@@ -21,7 +21,6 @@ import { VoiceLiveMessageParser } from './protocol/messageParser.js';
 import { CredentialHandler } from './auth/credentialHandler.js';
 import { VoiceLiveConnectionError, VoiceLiveErrorClassifier } from './errors/index.js';
 import { logger } from './logger.js';
-import { EnhancedVoiceLiveEventEmitter } from './events/enhancedEventEmitter.js';
 import type {
   VoiceLiveSessionHandlers,
   VoiceLiveSubscription,
@@ -82,9 +81,6 @@ export class VoiceLiveSession {
   private _activeTurnId?: string;
   private _disposed = false;
 
-  // Real-time features
-  private readonly _eventEmitter: EnhancedVoiceLiveEventEmitter;
-
   // Handler-based subscription management
   private readonly _subscriptionManager: SubscriptionManager;
 
@@ -109,9 +105,6 @@ export class VoiceLiveSession {
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
     this._model = model;
-
-    // Initialize real-time features
-    this._eventEmitter = new EnhancedVoiceLiveEventEmitter();
 
     // Initialize handler-based subscription management
     this._subscriptionManager = new SubscriptionManager();
@@ -362,26 +355,6 @@ export class VoiceLiveSession {
     return this._activeTurnId;
   }
 
-  // Real-time feature accessors
-
-  /**
-   * Access to enhanced event system with async iteration and filtering
-   */
-  get events(): EnhancedVoiceLiveEventEmitter {
-    return this._eventEmitter;
-  }
-
-  /**
-   * Wait for a specific event with optional filtering and timeout
-   */
-  async waitForEvent<K extends keyof import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap>(
-    event: K,
-    filter?: (eventData: import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]) => boolean,
-    timeoutMs = 30000
-  ): Promise<import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]> {
-    return this._eventEmitter.waitForEvent(event, filter, timeoutMs);
-  }
-
   /**
    * Disposes the session and cleans up resources.
    */
@@ -476,16 +449,6 @@ export class VoiceLiveSession {
     this._connectionManager = undefined;
     this._sessionId = undefined;
     this._activeTurnId = undefined;
-    
-    // Emit a final error event for applications to handle
-    this._eventEmitter.emitServerEvent({
-      type: 'error',
-      error: {
-        type: 'connection_lost',
-        message: `Session permanently dead: ${reason}`,
-        code: 'SESSION_DEAD'
-      }
-    } as any);
   }
 
   private _handleIncomingMessage(data: string | ArrayBuffer): void {
@@ -513,9 +476,6 @@ export class VoiceLiveSession {
       logger.info('Session created', { sessionId: this._sessionId });
     }
 
-    // Emit through enhanced event emitter for backward compatibility
-    this._eventEmitter.emitServerEvent(event);
-    
     // Notify handler-based subscriptions
     this._notifyServerEvent(event);
   }

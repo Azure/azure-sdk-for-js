@@ -221,28 +221,3 @@ export {
   VoiceLiveErrorCodes,
   VoiceLiveErrorClassifier
 } from "./errors/index.js";
-
-// Authentication exports
-export {
-  CredentialHandler,
-  VoiceLiveCredential
-} from "./auth/credentialHandler.js";
-
-// Enhanced event system exports
-export {
-  VoiceLiveEventEmitter,
-  VoiceLiveEventMap,
-  EventListener,
-  ReconnectingEventArgs,
-  ReconnectedEventArgs,
-  RawMessageEventArgs,
-  RawSentEventArgs
-} from "./events/voiceLiveEventEmitter.js";
-
-export {
-  EnhancedVoiceLiveEventEmitter,
-  EventFilter,
-  EventTransform,
-  EventStreamOptions
-} from "./events/enhancedEventEmitter.js";
-

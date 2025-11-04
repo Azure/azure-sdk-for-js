@@ -26,61 +26,15 @@ export interface Animation {
 // @public
 export type AnimationOutputType = string;
 
-// @public (undocumented)
-export interface AnimationStreamChunk {
-    // (undocumented)
-    frameIndex?: number;
-    // (undocumented)
-    frames?: number[][] | string;
-    // (undocumented)
-    responseId: string;
-    // (undocumented)
-    timestamp: number;
-    // (undocumented)
-    type: 'animation';
-}
-
 // @public
 export interface AssistantMessageItem extends MessageItem {
     // (undocumented)
     role: "assistant";
 }
 
-// @public (undocumented)
-export interface AsyncIterableWithPages<T> extends AsyncIterable<T> {
-    // (undocumented)
-    byPage(settings?: {
-        maxPageSize?: number;
-    }): AsyncIterableIterator<PagedResult<T>>;
-}
-
-// @public (undocumented)
-export interface AudioChunk {
-    // (undocumented)
-    data: ArrayBuffer;
-    // (undocumented)
-    duration: number;
-    // (undocumented)
-    format: AudioFormat;
-    // (undocumented)
-    timestamp: number;
-}
-
 // @public
 export interface AudioEchoCancellation {
     type: "server_echo_cancellation";
-}
-
-// @public (undocumented)
-export interface AudioFormat {
-    // (undocumented)
-    bitDepth: number;
-    // (undocumented)
-    channels: number;
-    // (undocumented)
-    encoding: 'pcm' | 'opus' | 'aac';
-    // (undocumented)
-    sampleRate: number;
 }
 
 // @public
@@ -94,38 +48,6 @@ export interface AudioInputTranscriptionOptions {
 // @public
 export interface AudioNoiseReduction {
     type: string;
-}
-
-// @public (undocumented)
-export interface AudioProcessingOptions {
-    echoCancellation?: boolean;
-    gain?: number;
-    noiseReduction?: boolean;
-    targetFormat?: AudioFormat;
-}
-
-// @public
-export class AudioProcessor {
-    audioToBase64(chunk: AudioChunk): string;
-    base64ToAudio(base64: string, format: AudioFormat): AudioChunk;
-    get defaultFormat(): AudioFormat;
-    processIncomingAudio(data: ArrayBuffer, format: AudioFormat, options?: AudioProcessingOptions): AudioChunk;
-}
-
-// @public (undocumented)
-export interface AudioStreamChunk {
-    // (undocumented)
-    data: ArrayBuffer;
-    // (undocumented)
-    format?: string;
-    // (undocumented)
-    itemId?: string;
-    // (undocumented)
-    responseId: string;
-    // (undocumented)
-    timestamp: number;
-    // (undocumented)
-    type: 'audio';
 }
 
 // @public (undocumented)
@@ -143,80 +65,6 @@ export interface AvatarConfig {
     iceServers?: IceServer[];
     style?: string;
     video?: VideoParams;
-}
-
-// @public (undocumented)
-export interface AvatarConfiguration {
-    id: string;
-    name?: string;
-    settings?: Record<string, any>;
-}
-
-// @public (undocumented)
-export interface AvatarEventHandlers {
-    // (undocumented)
-    onAvatarStateChange?: (state: AvatarState) => void;
-    // (undocumented)
-    onBlendshapeUpdate?: (blendshapes: Record<string, number>) => void;
-    // (undocumented)
-    onConnectionStatusChange?: (status: AvatarState['connectionStatus']) => void;
-    // (undocumented)
-    onVisemeUpdate?: (visemes: Array<{
-        id: string;
-        weight: number;
-    }>) => void;
-}
-
-// @public (undocumented)
-export interface AvatarFrame {
-    // (undocumented)
-    blendshapes: Record<string, number>;
-    // (undocumented)
-    timestamp: number;
-    // (undocumented)
-    visemes: Array<{
-        id: string;
-        weight: number;
-    }>;
-}
-
-// @public
-export class AvatarManager {
-    constructor(_eventEmitter: EnhancedVoiceLiveEventEmitter, _videoProcessor: VideoProcessor);
-    get connectionStatus(): AvatarState['connectionStatus'];
-    createCurrentAvatarFrame(): AvatarFrame;
-    get currentState(): AvatarState;
-    getActiveVisemes(targetTime: number): Array<{
-        id: string;
-        weight: number;
-    }>;
-    getInterpolatedAvatarFrame(targetTime: number): AvatarFrame;
-    getInterpolatedBlendshapes(targetTime: number): Record<string, number>;
-    handleAvatarConnecting(_event: ServerEventSessionAvatarConnecting): void;
-    handleBlendshapeUpdate(event: ServerEventResponseAnimationBlendshapeDelta): void;
-    handleVisemeUpdate(event: ServerEventResponseAnimationVisemeDelta): void;
-    setAvatarConfig(config: AvatarConfiguration): void;
-    setEventHandlers(handlers: AvatarEventHandlers): void;
-}
-
-// @public (undocumented)
-export interface AvatarState {
-    // (undocumented)
-    config?: AvatarConfiguration;
-    // (undocumented)
-    connectionStatus: 'disconnected' | 'connecting' | 'connected' | 'error';
-    // (undocumented)
-    currentBlendshapes: Record<string, number>;
-    // (undocumented)
-    currentVisemes: Array<{
-        id: string;
-        weight: number;
-        timestamp: number;
-    }>;
-    // (undocumented)
-    isConnected: boolean;
-    // (undocumented)
-    lastUpdate: number;
 }
 
 // @public
@@ -390,25 +238,6 @@ export interface Background {
     imageUrl?: string;
 }
 
-// @public (undocumented)
-export interface BlendshapeConfig {
-    defaults: Record<string, number>;
-    ranges: Record<string, {
-        min: number;
-        max: number;
-    }>;
-}
-
-// @public (undocumented)
-export interface BlendshapeFrame {
-    // (undocumented)
-    data: Record<string, number>;
-    // (undocumented)
-    frameIndex: number;
-    // (undocumented)
-    timestamp: number;
-}
-
 // @public
 export interface CachedTokenDetails {
     audioTokens: number;
@@ -532,12 +361,16 @@ export type ClientEventUnion = ClientEventSessionUpdate | ClientEventSessionAvat
 
 // @public
 export interface ConnectedEventArgs {
-    // (undocumented)
     connectionId: string;
-    // (undocumented)
-    sessionId?: string;
-    // (undocumented)
     timestamp: Date;
+}
+
+// @public
+export interface ConnectionContext {
+    readonly endpoint: string;
+    readonly model: string;
+    readonly sessionId?: string;
+    readonly timestamp: Date;
 }
 
 // @public
@@ -549,9 +382,7 @@ export enum ConnectionState {
     // (undocumented)
     Disconnected = "disconnected",
     // (undocumented)
-    Disconnecting = "disconnecting",
-    // (undocumented)
-    Reconnecting = "reconnecting"
+    Disconnecting = "disconnecting"
 }
 
 // @public (undocumented)
@@ -571,14 +402,6 @@ export type ContentPartType = string;
 
 // @public
 export type ContentPartUnion = RequestTextContentPart | RequestAudioContentPart | ResponseTextContentPart | ResponseAudioContentPart | ContentPart;
-
-// @public (undocumented)
-export interface ConversationHistoryOptions {
-    itemType?: string;
-    maxPageSize?: number;
-    participantIds?: string[];
-    startFromId?: string;
-}
 
 // @public
 export interface ConversationItemBase {
@@ -606,27 +429,12 @@ export class CredentialHandler {
     updateApiKey(newKey: string): void;
 }
 
-// @public (undocumented)
-export interface DisconnectedEventArgs {
-    // (undocumented)
-    code: number;
-    // (undocumented)
-    reason: string;
-    // (undocumented)
-    timestamp: Date;
-    // (undocumented)
-    wasClean: boolean;
-}
-
 // @public
-export class EnhancedVoiceLiveEventEmitter extends VoiceLiveEventEmitter {
-    createEventStream<K extends keyof VoiceLiveEventMap>(event: K, options?: EventStreamOptions): AsyncIterableIterator<VoiceLiveEventMap[K]>;
-    createFilteredEventStream<K extends keyof VoiceLiveEventMap>(event: K, filter: EventFilter<VoiceLiveEventMap[K]>, options?: EventStreamOptions): AsyncIterableIterator<VoiceLiveEventMap[K]>;
-    createTransformedEventStream<K extends keyof VoiceLiveEventMap, TOutput>(event: K, transform: EventTransform<VoiceLiveEventMap[K], TOutput>, options?: EventStreamOptions): AsyncIterableIterator<TOutput>;
-    waitForEvent<K extends keyof VoiceLiveEventMap>(event: K, filter?: EventFilter<VoiceLiveEventMap[K]>, timeoutMs?: number): Promise<VoiceLiveEventMap[K]>;
-    waitForEvents<K extends keyof VoiceLiveEventMap>(events: K[], timeoutMs?: number): Promise<{
-        [P in K]: VoiceLiveEventMap[P];
-    }>;
+export interface DisconnectedEventArgs {
+    code: number;
+    reason: string;
+    timestamp: Date;
+    wasClean: boolean;
 }
 
 // @public
@@ -641,44 +449,17 @@ export type EouDetectionUnion = AzureSemanticDetection | AzureSemanticDetectionE
 // @public
 export type EouThresholdLevel = string;
 
-// @public (undocumented)
+// @public
 export interface ErrorEventArgs {
-    // (undocumented)
     context: string;
-    // (undocumented)
     error: Error;
-    // (undocumented)
     recoverable: boolean;
-    // (undocumented)
     timestamp: Date;
 }
 
 // @public
 export interface ErrorResponse {
     error: VoiceLiveErrorDetails;
-}
-
-// @public (undocumented)
-export interface EventFilter<T> {
-    // (undocumented)
-    (event: T): boolean;
-}
-
-// @public
-export type EventListener<T> = (args: T) => void;
-
-// @public (undocumented)
-export interface EventStreamOptions {
-    abortSignal?: AbortSignal;
-    bufferSize?: number;
-    filter?: EventFilter<any>;
-    timeoutMs?: number;
-}
-
-// @public (undocumented)
-export interface EventTransform<TInput, TOutput> {
-    // (undocumented)
-    (event: TInput): TOutput;
 }
 
 // @public
@@ -1009,56 +790,8 @@ export interface OutputTokenDetails {
     textTokens: number;
 }
 
-// @public (undocumented)
-export interface PagedResult<T> {
-    // (undocumented)
-    hasMore: boolean;
-    // (undocumented)
-    items: T[];
-    // (undocumented)
-    nextPageId?: string;
-}
-
 // @public
 export type PersonalVoiceModels = string;
-
-// @public (undocumented)
-export interface RawMessageEventArgs {
-    // (undocumented)
-    data: string | ArrayBuffer;
-    // (undocumented)
-    timestamp: Date;
-}
-
-// @public (undocumented)
-export interface RawSentEventArgs {
-    // (undocumented)
-    data: string | ArrayBuffer;
-    // (undocumented)
-    timestamp: Date;
-}
-
-// @public (undocumented)
-export interface ReconnectedEventArgs {
-    // (undocumented)
-    attempt: number;
-    // (undocumented)
-    connectionId: string;
-    // (undocumented)
-    timestamp: Date;
-}
-
-// @public (undocumented)
-export interface ReconnectingEventArgs {
-    // (undocumented)
-    attempt: number;
-    // (undocumented)
-    delayMs: number;
-    // (undocumented)
-    maxAttempts: number;
-    // (undocumented)
-    timestamp: Date;
-}
 
 // @public
 export interface RequestAudioContentPart extends ContentPart {
@@ -1250,15 +983,6 @@ export interface ResponseStatusDetails {
 
 // @public
 export type ResponseStatusDetailsUnion = ResponseCancelledDetails | ResponseIncompleteDetails | ResponseFailedDetails | ResponseStatusDetails;
-
-// @public
-export class ResponseStreamer {
-    constructor(_eventEmitter: EnhancedVoiceLiveEventEmitter);
-    createAnimationStream(responseId?: string): AsyncIterableIterator<AnimationStreamChunk>;
-    createAudioStream(responseId?: string): AsyncIterableIterator<AudioStreamChunk>;
-    createResponseStream(options?: StreamingOptions): AsyncIterableIterator<StreamChunk>;
-    createTextStream(responseId?: string): AsyncIterableIterator<TextStreamChunk>;
-}
 
 // @public
 export interface ResponseTextContentPart extends ContentPart {
@@ -1662,44 +1386,24 @@ export interface ServerVad extends TurnDetection {
 export interface SessionBase {
 }
 
-// @public (undocumented)
-export type StreamChunk = TextStreamChunk | AudioStreamChunk | AnimationStreamChunk;
-
-// @public (undocumented)
-export interface StreamingOptions {
-    abortSignal?: AbortSignal;
-    audioBufferSize?: number;
-    includeAnimation?: boolean;
-    includeAudio?: boolean;
-    includeText?: boolean;
-    targetLatencyMs?: number;
+// @public
+export interface SessionContext extends ConnectionContext {
+    readonly conversationId?: string;
+    readonly sessionId: string;
 }
 
-// @public (undocumented)
-export interface StreamingTextOptions {
-    bufferChunks?: boolean;
-    chunkTimeoutMs?: number;
-    responseId?: string;
+// @public
+export interface SubscribeOptions {
+    abortSignal?: AbortSignal;
+    includeAudioEvents?: boolean;
+    includeServerEvents?: boolean;
+    includeTextEvents?: boolean;
 }
 
 // @public
 export interface SystemMessageItem extends MessageItem {
     // (undocumented)
     role: "system";
-}
-
-// @public (undocumented)
-export interface TextStreamChunk {
-    // (undocumented)
-    delta: string;
-    // (undocumented)
-    itemId?: string;
-    // (undocumented)
-    responseId: string;
-    // (undocumented)
-    timestamp: number;
-    // (undocumented)
-    type: 'text';
 }
 
 // @public
@@ -1775,20 +1479,6 @@ export interface VideoCrop {
     topLeft: number[];
 }
 
-// @public (undocumented)
-export interface VideoFrame {
-    // (undocumented)
-    data: ArrayBuffer;
-    // (undocumented)
-    format: 'rgba' | 'rgb' | 'yuv420p';
-    // (undocumented)
-    height: number;
-    // (undocumented)
-    timestamp: number;
-    // (undocumented)
-    width: number;
-}
-
 // @public
 export interface VideoParams {
     background?: Background;
@@ -1800,60 +1490,13 @@ export interface VideoParams {
 }
 
 // @public
-export class VideoProcessor {
-    base64ToFrame(base64: string, width: number, height: number, format: VideoFrame['format']): VideoFrame;
-    frameToBase64(frame: VideoFrame): string;
-    interpolateAvatarFrames(frameA: AvatarFrame, frameB: AvatarFrame, factor: number): AvatarFrame;
-    processAvatarFrame(blendshapes: any, visemes: any, timestamp: number): AvatarFrame;
-    validateAvatarFrame(frame: AvatarFrame): {
-        isValid: boolean;
-        errors: string[];
-    };
-}
-
-// @public
 export interface VideoResolution {
     height: number;
     width: number;
 }
 
-// @public (undocumented)
-export interface VisemeConfig {
-    defaultWeights: Record<string, number>;
-    supportedVisemes: string[];
-}
-
-// @public (undocumented)
-export interface VisemeFrame {
-    // (undocumented)
-    data: Array<{
-        id: string;
-        weight: number;
-    }>;
-    // (undocumented)
-    timestamp: number;
-}
-
 // @public
 export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
-
-// @public
-export class VoiceLiveAsyncIterators {
-    constructor(_eventEmitter: EnhancedVoiceLiveEventEmitter);
-    listConversationHistory(options?: ConversationHistoryOptions): AsyncIterableWithPages<any>;
-    streamAnimation(responseId?: string): AsyncIterableIterator<{
-        frames?: number[][] | string;
-        frameIndex?: number;
-        timestamp: number;
-    }>;
-    streamAudio(responseId?: string): AsyncIterableIterator<ArrayBuffer>;
-    streamResponse(responseId: string): AsyncIterableIterator<{
-        type: 'text' | 'audio' | 'animation';
-        data: any;
-        timestamp: number;
-    }>;
-    streamText(options?: StreamingTextOptions): AsyncIterableIterator<string>;
-}
 
 // @public
 export class VoiceLiveAuthenticationError extends VoiceLiveConnectionError {
@@ -1951,119 +1594,6 @@ export interface VoiceLiveErrorDetails {
 }
 
 // @public
-export class VoiceLiveEventEmitter {
-    emit<K extends keyof VoiceLiveEventMap>(event: K, args: VoiceLiveEventMap[K]): void;
-    emitConnected(connectionId: string, sessionId?: string): void;
-    // (undocumented)
-    emitDisconnected(code: number, reason: string, wasClean: boolean): void;
-    // (undocumented)
-    emitError(error: Error, context: string, recoverable: boolean): void;
-    // (undocumented)
-    emitRawMessage(data: string | ArrayBuffer): void;
-    // (undocumented)
-    emitRawSent(data: string | ArrayBuffer): void;
-    // (undocumented)
-    emitReconnected(connectionId: string, attempt: number): void;
-    // (undocumented)
-    emitReconnecting(attempt: number, maxAttempts: number, delayMs: number): void;
-    emitServerEvent(event: ServerEventUnion): void;
-    eventNames(): Array<keyof VoiceLiveEventMap>;
-    listenerCount(event: keyof VoiceLiveEventMap): number;
-    off<K extends keyof VoiceLiveEventMap>(event: K, listener: EventListener<VoiceLiveEventMap[K]>): void;
-    on<K extends keyof VoiceLiveEventMap>(event: K, listener: EventListener<VoiceLiveEventMap[K]>): void;
-    once<K extends keyof VoiceLiveEventMap>(event: K, listener: EventListener<VoiceLiveEventMap[K]>): void;
-    removeAllListeners(event?: keyof VoiceLiveEventMap): void;
-}
-
-// @public
-export interface VoiceLiveEventMap {
-    // (undocumented)
-    'raw.message': RawMessageEventArgs;
-    // (undocumented)
-    'raw.sent': RawSentEventArgs;
-    // (undocumented)
-    'server.conversation.item.created': ServerEventConversationItemCreated;
-    // (undocumented)
-    'server.conversation.item.deleted': ServerEventConversationItemDeleted;
-    // (undocumented)
-    'server.conversation.item.input_audio_transcription.completed': ServerEventConversationItemInputAudioTranscriptionCompleted;
-    // (undocumented)
-    'server.conversation.item.input_audio_transcription.delta': ServerEventConversationItemInputAudioTranscriptionDelta;
-    // (undocumented)
-    'server.conversation.item.input_audio_transcription.failed': ServerEventConversationItemInputAudioTranscriptionFailed;
-    // (undocumented)
-    'server.conversation.item.retrieved': ServerEventConversationItemRetrieved;
-    // (undocumented)
-    'server.conversation.item.truncated': ServerEventConversationItemTruncated;
-    // (undocumented)
-    'server.error': ServerEventError;
-    // (undocumented)
-    'server.input_audio_buffer.cleared': ServerEventInputAudioBufferCleared;
-    // (undocumented)
-    'server.input_audio_buffer.committed': ServerEventInputAudioBufferCommitted;
-    // (undocumented)
-    'server.input_audio_buffer.speech_started': ServerEventInputAudioBufferSpeechStarted;
-    // (undocumented)
-    'server.input_audio_buffer.speech_stopped': ServerEventInputAudioBufferSpeechStopped;
-    // (undocumented)
-    'server.response.animation.blendshape.delta': ServerEventResponseAnimationBlendshapeDelta;
-    // (undocumented)
-    'server.response.animation.blendshape.done': ServerEventResponseAnimationBlendshapeDone;
-    // (undocumented)
-    'server.response.animation.viseme.delta': ServerEventResponseAnimationVisemeDelta;
-    // (undocumented)
-    'server.response.animation.viseme.done': ServerEventResponseAnimationVisemeDone;
-    // (undocumented)
-    'server.response.audio.delta': ServerEventResponseAudioDelta;
-    // (undocumented)
-    'server.response.audio.done': ServerEventResponseAudioDone;
-    // (undocumented)
-    'server.response.audio.timestamp.delta': ServerEventResponseAudioTimestampDelta;
-    // (undocumented)
-    'server.response.audio.timestamp.done': ServerEventResponseAudioTimestampDone;
-    // (undocumented)
-    'server.response.audio_transcript.delta': ServerEventResponseAudioTranscriptDelta;
-    // (undocumented)
-    'server.response.audio_transcript.done': ServerEventResponseAudioTranscriptDone;
-    // (undocumented)
-    'server.response.content_part.added': ServerEventResponseContentPartAdded;
-    // (undocumented)
-    'server.response.content_part.done': ServerEventResponseContentPartDone;
-    // (undocumented)
-    'server.response.created': ServerEventResponseCreated;
-    // (undocumented)
-    'server.response.done': ServerEventResponseDone;
-    // (undocumented)
-    'server.response.function_call_arguments.delta': ServerEventResponseFunctionCallArgumentsDelta;
-    // (undocumented)
-    'server.response.function_call_arguments.done': ServerEventResponseFunctionCallArgumentsDone;
-    // (undocumented)
-    'server.response.output_item.added': ServerEventResponseOutputItemAdded;
-    // (undocumented)
-    'server.response.output_item.done': ServerEventResponseOutputItemDone;
-    // (undocumented)
-    'server.response.text.delta': ServerEventResponseTextDelta;
-    // (undocumented)
-    'server.response.text.done': ServerEventResponseTextDone;
-    // (undocumented)
-    'server.session.avatar.connecting': ServerEventSessionAvatarConnecting;
-    // (undocumented)
-    'server.session.created': ServerEventSessionCreated;
-    // (undocumented)
-    'server.session.updated': ServerEventSessionUpdated;
-    // (undocumented)
-    'connected': ConnectedEventArgs;
-    // (undocumented)
-    'disconnected': DisconnectedEventArgs;
-    // (undocumented)
-    'error': ErrorEventArgs;
-    // (undocumented)
-    'reconnected': ReconnectedEventArgs;
-    // (undocumented)
-    'reconnecting': ReconnectingEventArgs;
-}
-
-// @public
 export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
     constructor(message: string, code: string, cause?: Error);
 }
@@ -2074,16 +1604,12 @@ export class VoiceLiveSession {
     // (undocumented)
     get activeTurnId(): string | undefined;
     addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
-    get asyncIterators(): VoiceLiveAsyncIterators;
-    get audioProcessor(): AudioProcessor;
-    get avatarManager(): AvatarManager;
     connect(options?: ConnectOptions): Promise<void>;
     // (undocumented)
     get connectionState(): ConnectionState;
     disconnect(): Promise<void>;
     dispose(): Promise<void>;
     endAudioTurn(turnId?: string, options?: SendEventOptions): Promise<void>;
-    get events(): EnhancedVoiceLiveEventEmitter;
     // (undocumented)
     get isConnected(): boolean;
     sendAudio(audioData: ArrayBuffer | Uint8Array, options?: AudioStreamOptions): Promise<void>;
@@ -2091,19 +1617,64 @@ export class VoiceLiveSession {
     // (undocumented)
     get sessionId(): string | undefined;
     startAudioTurn(options?: TurnOptions): Promise<string>;
-    get streaming(): ResponseStreamer;
+    subscribe(handlers: VoiceLiveSessionHandlers, _options?: SubscribeOptions): VoiceLiveSubscription;
     updateSession(session: RequestSession, options?: SendEventOptions): Promise<void>;
-    get videoProcessor(): VideoProcessor;
-    waitForEvent<K extends keyof VoiceLiveEventMap>(event: K, filter?: (eventData: VoiceLiveEventMap[K]) => boolean, timeoutMs?: number): Promise<VoiceLiveEventMap[K]>;
+}
+
+// @public
+export interface VoiceLiveSessionHandlers {
+    processConnected?: (args: ConnectedEventArgs, context: ConnectionContext) => Promise<void>;
+    processConversationItemCreated?: (event: ServerEventConversationItemCreated, context: SessionContext) => Promise<void>;
+    processConversationItemDeleted?: (event: ServerEventConversationItemDeleted, context: SessionContext) => Promise<void>;
+    processConversationItemInputAudioTranscriptionCompleted?: (event: ServerEventConversationItemInputAudioTranscriptionCompleted, context: SessionContext) => Promise<void>;
+    processConversationItemInputAudioTranscriptionDelta?: (event: ServerEventConversationItemInputAudioTranscriptionDelta, context: SessionContext) => Promise<void>;
+    processConversationItemInputAudioTranscriptionFailed?: (event: ServerEventConversationItemInputAudioTranscriptionFailed, context: SessionContext) => Promise<void>;
+    processConversationItemRetrieved?: (event: ServerEventConversationItemRetrieved, context: SessionContext) => Promise<void>;
+    processConversationItemTruncated?: (event: ServerEventConversationItemTruncated, context: SessionContext) => Promise<void>;
+    processDisconnected?: (args: DisconnectedEventArgs, context: ConnectionContext) => Promise<void>;
+    processError?: (args: ErrorEventArgs, context: ConnectionContext) => Promise<void>;
+    processInputAudioBufferCleared?: (event: ServerEventInputAudioBufferCleared, context: SessionContext) => Promise<void>;
+    processInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
+    processInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
+    processInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
+    processResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
+    processResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
+    processResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
+    processResponseAnimationVisemeDone?: (event: ServerEventResponseAnimationVisemeDone, context: SessionContext) => Promise<void>;
+    processResponseAudioDelta?: (event: ServerEventResponseAudioDelta, context: SessionContext) => Promise<void>;
+    processResponseAudioDone?: (event: ServerEventResponseAudioDone, context: SessionContext) => Promise<void>;
+    processResponseAudioTimestampDelta?: (event: ServerEventResponseAudioTimestampDelta, context: SessionContext) => Promise<void>;
+    processResponseAudioTimestampDone?: (event: ServerEventResponseAudioTimestampDone, context: SessionContext) => Promise<void>;
+    processResponseAudioTranscriptDelta?: (event: ServerEventResponseAudioTranscriptDelta, context: SessionContext) => Promise<void>;
+    processResponseAudioTranscriptDone?: (event: ServerEventResponseAudioTranscriptDone, context: SessionContext) => Promise<void>;
+    processResponseContentPartAdded?: (event: ServerEventResponseContentPartAdded, context: SessionContext) => Promise<void>;
+    processResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
+    processResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
+    processResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
+    processResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
+    processResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
+    processResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
+    processResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
+    processResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;
+    processResponseTextDone?: (event: ServerEventResponseTextDone, context: SessionContext) => Promise<void>;
+    processServerError?: (event: ServerEventError, context: SessionContext) => Promise<void>;
+    processServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;
+    processSessionAvatarConnecting?: (event: ServerEventSessionAvatarConnecting, context: SessionContext) => Promise<void>;
+    processSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
+    processSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
 }
 
 // @public (undocumented)
 export interface VoiceLiveSessionOptions {
-    autoReconnect?: boolean;
     connectionTimeoutMs?: number;
     enableDebugLogging?: boolean;
-    maxReconnectAttempts?: number;
-    reconnectDelayMs?: number;
+}
+
+// @public
+export interface VoiceLiveSubscription {
+    close(): Promise<void>;
+    readonly isActive: boolean;
+    readonly subscriptionId: string;
 }
 
 // (No @packageDocumentation comment for this package)
