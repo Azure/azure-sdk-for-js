@@ -19,7 +19,6 @@ require("dotenv/config");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
 
 async function main() {

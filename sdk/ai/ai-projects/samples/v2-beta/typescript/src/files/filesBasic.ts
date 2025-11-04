@@ -25,14 +25,17 @@ async function createOpenAI(): Promise<OpenAI> {
   const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
 
   return new OpenAI({
-    apiKey: azureADTokenProvider as any,
+    apiKey: azureADTokenProvider,
     baseURL: openAiBaseUrl,
     defaultQuery: { "api-version": "2025-11-15-preview" },
     defaultHeaders: { "accept-encoding": "deflate" },
   });
 }
 
-async function uploadFileAndWait(openAiClient: OpenAI, uploadPath: string): Promise<any> {
+async function uploadFileAndWait(
+  openAiClient: OpenAI,
+  uploadPath: string,
+): Promise<OpenAI.Files.FileObject> {
   const pollMs = 2000;
   const timeoutMs = 5 * 60 * 1000; // 5 minutes
   const start = Date.now();

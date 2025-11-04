@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { createRecorder, createOpenAI } from "../utils/createClient.js";
+import { createRecorder, createFoundryOpenAI } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
@@ -10,11 +10,11 @@ const isLive = testMode === "live";
 
 describe("files - basic", () => {
   let recorder: Recorder;
-  let openai: Awaited<ReturnType<typeof createOpenAI>>;
+  let openai: Awaited<ReturnType<typeof createFoundryOpenAI>>;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
-    openai = await createOpenAI();
+    openai = await createFoundryOpenAI();
   });
 
   afterEach(async function () {
@@ -22,9 +22,10 @@ describe("files - basic", () => {
   });
 
   async function uploadFileAndWait(): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
-    const dataUrl = new URL("../data/training_set.jsonl", import.meta.url);
-    const response = await fetch(dataUrl);
-    const fileBlob = await response.blob();
+    const dataUrl = new URL("./data/training_set.jsonl", import.meta.url);
+    const fs = await import("fs/promises");
+    const buffer = await fs.readFile(dataUrl);
+    const fileBlob = new Blob([buffer], { type: "application/jsonl" });
 
     console.log(`Uploading file`);
     const created = await openai.files.create({
@@ -39,16 +40,16 @@ describe("files - basic", () => {
 
     while (true) {
       const retrieved = await openai.files.retrieve(created.id);
-      const status = (retrieved as any).status;
+      const status = retrieved.status;
       console.log(`File ${created.id} current status: ${status}`);
 
       if (status === "processed") {
         console.log(`File ${created.id} processed successfully.`);
         return retrieved;
       }
-      if (status === "failed") {
+      if (status === "error") {
         throw new Error(
-          `File ${created.id} import failed: ${(retrieved as any).status_details || "Unknown reason"}`,
+          `File ${created.id} import failed: ${retrieved.status_details || "Unknown reason"}`,
         );
       }
       if (Date.now() - start > timeoutMs) {
@@ -74,13 +75,13 @@ describe("files - basic", () => {
     const got = await openai.files.retrieve(uploadedFile.id);
     assert.isNotNull(got);
     assert.equal(got.id, uploadedFile.id);
-    assert.equal((got as any).status, "processed");
+    assert.equal(got.status, "processed");
     console.log(`Retrieved metadata for file ID: ${got.id}`);
 
     // Retrieve content
     console.log(`Retrieving content for file ID: ${uploadedFile.id}`);
     const contentResponse = await openai.files.content(uploadedFile.id);
-    const buf = Buffer.from(await (contentResponse as any).arrayBuffer());
+    const buf = Buffer.from(await contentResponse.arrayBuffer());
     const text = buf.toString("utf-8");
     console.log(`Retrieved file content (first 200 chars):\n${text.slice(0, 200)}...`);
     assert.include(text, `"messages":`);
@@ -91,7 +92,7 @@ describe("files - basic", () => {
     console.log(`Listing files to verify presence of file ID: ${uploadedFile.id}`);
     const listed = await openai.files.list();
     assert.isArray(listed.data);
-    const found = listed.data.find((f: any) => f.id === uploadedFile.id);
+    const found = listed.data.find((f) => f.id === uploadedFile.id);
     assert.isNotNull(found);
     console.log(`Verified uploaded file ID ${uploadedFile.id} appears in list.`);
 

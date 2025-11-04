@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
 
   // Create agent
   console.log("Creating agent...");
-  const agent = await project.agents.createVersion("MyAgent", {
+  const agent = await project.agents.createVersion("my-agent-basic", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that answers general questions",
@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
   const response = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-      input: [{ role: "user", content: "", type: "message" }], // TODO: Remove 'input' once service is fixed
+      input: "", // TODO: Remove 'input' once service is fixed
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -66,7 +66,7 @@ export async function main(): Promise<void> {
   const response2 = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-      input: [{ role: "user", content: "", type: "message" }], // TODO: Remove 'input' once service is fixed
+      input: "", // TODO: Remove 'input' once service is fixed
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
