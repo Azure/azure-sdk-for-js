@@ -13,12 +13,10 @@
  *
  * @summary This sample demonstrates how to create a Computer Use Agent that can interact
  * with computer interfaces through simulated actions and screenshots.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient,  } from "@azure/ai-projects";
 import "dotenv/config";
 import {
   SearchState,
@@ -30,8 +28,7 @@ import {
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName =
-  process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+const modelDeploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Initialize state machine
@@ -95,7 +92,7 @@ Be direct and efficient. When you reach the search results page, read and descri
           ],
         },
       ],
-      truncation: "auto",
+      truncation: "auto"
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -155,7 +152,7 @@ Be direct and efficient. When you reach the search results page, read and descri
             },
           },
         ],
-        truncation: "auto",
+        truncation: "auto"
       },
       {
         body: { agent: { name: agent.name, type: "agent_reference" } },

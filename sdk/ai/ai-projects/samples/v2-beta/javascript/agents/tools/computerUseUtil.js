@@ -6,20 +6,18 @@
  * Shared helper functions and classes for Computer Use Agent samples.
  */
 
-import * as fs from "fs";
-import * as path from "path";
-import { fileURLToPath } from "url";
+const fs = require("fs");
+const path = require("path");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 /**
  * Enum for tracking the state of the simulated web search workflow.
  */
-export enum SearchState {
-  INITIAL = "initial", // Browser search page
-  TYPED = "typed", // Text entered in search box
-  PRESSED_ENTER = "pressed_enter", // Enter key pressed, transitioning to results
-}
+var SearchState;
+(function (SearchState) {
+  SearchState["INITIAL"] = "initial";
+  SearchState["TYPED"] = "typed";
+  SearchState["PRESSED_ENTER"] = "pressed_enter";
+})(SearchState || (SearchState = {}));
 
 /**
  * Convert an image file to a Base64-encoded string.
@@ -28,7 +26,7 @@ export enum SearchState {
  * @returns A Base64-encoded string representing the image.
  * @throws Error if the provided file path does not exist or if there's an error reading the file.
  */
-export function imageToBase64(imagePath: string): string {
+function imageToBase64(imagePath) {
   if (!fs.existsSync(imagePath)) {
     throw new Error(`File not found at: ${imagePath}`);
   }
@@ -42,29 +40,12 @@ export function imageToBase64(imagePath: string): string {
 }
 
 /**
- * Screenshot information containing filename and data URL.
- */
-export interface ScreenshotInfo {
-  filename: string;
-  url: string;
-}
-
-/**
- * Dictionary mapping state names to screenshot information.
- */
-export interface Screenshots {
-  browser_search: ScreenshotInfo;
-  search_typed: ScreenshotInfo;
-  search_results: ScreenshotInfo;
-}
-
-/**
  * Load and convert screenshot images to base64 data URLs.
  *
  * @returns Dictionary mapping state names to screenshot info with filename and data URL
  * @throws Error if any required screenshot asset files are missing
  */
-export function loadScreenshotAssets(): Screenshots {
+function loadScreenshotAssets() {
   // Load demo screenshot images from assets directory
   // Flow: search page -> typed search -> search results
   const screenshotPaths = {
@@ -74,7 +55,7 @@ export function loadScreenshotAssets(): Screenshots {
   };
 
   // Convert images to base64 data URLs with filenames
-  const screenshots: Screenshots = {} as Screenshots;
+  const screenshots = {};
   const filenameMap = {
     browser_search: "cua_browser_search.png",
     search_typed: "cua_search_typed.png",
@@ -84,8 +65,8 @@ export function loadScreenshotAssets(): Screenshots {
   for (const [key, filePath] of Object.entries(screenshotPaths)) {
     try {
       const imageBase64 = imageToBase64(filePath);
-      screenshots[key as keyof Screenshots] = {
-        filename: filenameMap[key as keyof typeof filenameMap],
+      screenshots[key] = {
+        filename: filenameMap[key],
         url: `data:image/png;base64,${imageBase64}`,
       };
     } catch (error) {
@@ -95,18 +76,6 @@ export function loadScreenshotAssets(): Screenshots {
   }
 
   return screenshots;
-}
-
-/**
- * Computer action interface representing various action types.
- */
-export interface ComputerAction {
-  type: string;
-  text?: string;
-  keys?: string;
-  x?: number;
-  y?: number;
-  path?: Array<{ x: number; y: number }>;
 }
 
 /**
@@ -120,11 +89,7 @@ export interface ComputerAction {
  * @param screenshots - Dictionary of screenshot data
  * @returns Tuple of [screenshot_info, updated_current_state]
  */
-export function handleComputerActionAndTakeScreenshot(
-  action: ComputerAction,
-  currentState: SearchState,
-  screenshots: Screenshots,
-): [ScreenshotInfo, SearchState] {
+function handleComputerActionAndTakeScreenshot(action, currentState, screenshots) {
   console.log(`Executing computer action: ${action.type}`);
 
   // Track state transitions locally
@@ -173,7 +138,7 @@ export function handleComputerActionAndTakeScreenshot(
   console.log(`  -> Action processed: ${action.type}`);
 
   // Determine screenshot based on current state
-  let screenshotInfo: ScreenshotInfo;
+  let screenshotInfo;
   if (updatedState === SearchState.PRESSED_ENTER) {
     screenshotInfo = screenshots.search_results;
   } else if (updatedState === SearchState.TYPED) {
@@ -187,27 +152,11 @@ export function handleComputerActionAndTakeScreenshot(
 }
 
 /**
- * Response item interface for agent output.
- */
-export interface ResponseItem {
-  type: string;
-  content?: Array<{ text?: string; refusal?: string }>;
-}
-
-/**
- * Response interface from the agent.
- */
-export interface AgentResponse {
-  status: string;
-  output: ResponseItem[];
-}
-
-/**
  * Print the final output when the agent completes the task.
  *
  * @param response - The response object containing the agent's final output
  */
-export function printFinalOutput(response: AgentResponse): void {
+function printFinalOutput(response) {
   console.log("No computer calls found. Agent completed the task:");
   let finalOutput = "";
 
@@ -222,3 +171,16 @@ export function printFinalOutput(response: AgentResponse): void {
   console.log(`Final status: ${response.status}`);
   console.log(`Final output: ${finalOutput.trim()}`);
 }
+
+module.exports = {
+  SearchState,
+  imageToBase64,
+  ScreenshotInfo,
+  Screenshots,
+  loadScreenshotAssets,
+  ComputerAction,
+  handleComputerActionAndTakeScreenshot,
+  ResponseItem,
+  AgentResponse,
+  printFinalOutput,
+};

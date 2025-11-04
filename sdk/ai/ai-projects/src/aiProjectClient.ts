@@ -141,9 +141,8 @@ export class AIProjectClient {
       openAIOptions.fetch = (url: string | URL | globalThis.Request, init?: RequestInit) => {
         console.log("Sending request...", url, JSON.stringify(init, null, 2));
         return fetch(url, init);
-      }
+      };
     }
-
 
     const openaiClient = new OpenAI(openAIOptions);
     return overwriteOpenAIClient(openaiClient);

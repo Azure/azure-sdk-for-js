@@ -13,32 +13,28 @@
  *
  * @summary This sample demonstrates how to create a Computer Use Agent that can interact
  * with computer interfaces through simulated actions and screenshots.
- *
- * @azsdk-weight 100
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
-import "dotenv/config";
-import {
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+require("dotenv/config");
+const {
   SearchState,
   loadScreenshotAssets,
   handleComputerActionAndTakeScreenshot,
   printFinalOutput,
-  type Screenshots,
-  type ComputerAction,
-} from "./computerUseUtil.js";
+} = require("./computerUseUtil.js");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName =
   process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
 
-export async function main(): Promise<void> {
+async function main() {
   // Initialize state machine
   let currentState = SearchState.INITIAL;
 
   // Load screenshot assets
-  let screenshots: Screenshots;
+  let screenshots;
   try {
     screenshots = loadScreenshotAssets();
     console.log("Successfully loaded screenshot assets");
@@ -55,10 +51,13 @@ export async function main(): Promise<void> {
 
   console.log("Creating Computer Use Agent...");
   const agent = await project.agents.createVersion("ComputerUseAgent", {
-    kind: "prompt" as const,
+    kind: "prompt",
     model: modelDeploymentName,
     instructions: `
 You are a computer automation assistant.
+
+
+
 
 Be direct and efficient. When you reach the search results page, read and describe the actual search result titles and descriptions you can see.
     `.trim(),
@@ -67,7 +66,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         type: "computer_use_preview",
         displayWidth: 1026,
         displayHeight: 769,
-        environment: "windows" as const,
+        environment: "windows",
       },
     ],
   });
@@ -81,7 +80,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     {
       input: [
         {
-          role: "user" as const,
+          role: "user",
           content: [
             {
               type: "input_text",
@@ -118,17 +117,17 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log(`\n--- Iteration ${iteration} ---`);
 
     // Check for computer calls in the response
-    const computerCalls = response.output.filter((item: any) => item.type === "computer_call");
+    const computerCalls = response.output.filter((item) => item.type === "computer_call");
 
     if (computerCalls.length === 0) {
-      printFinalOutput(response as any);
+      printFinalOutput(response);
       break;
     }
 
     // Process the first computer call
-    const computerCall = computerCalls[0] as any;
-    const action: ComputerAction = computerCall.action;
-    const callId: string = computerCall.call_id;
+    const computerCall = computerCalls[0];
+    const action = computerCall.action;
+    const callId = computerCall.call_id;
 
     console.log(`Processing computer call (ID: ${callId})`);
 
@@ -176,3 +175,5 @@ Be direct and efficient. When you reach the search results page, read and descri
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

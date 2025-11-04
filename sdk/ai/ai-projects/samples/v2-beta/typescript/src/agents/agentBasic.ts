@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
 
   // Create agent
   console.log("Creating agent...");
-  const agent = await project.agents.createVersion("MyAgent", {
+  const agent = await project.agents.createVersion("my-agent-basic", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that answers general questions",
@@ -33,18 +33,23 @@ export async function main(): Promise<void> {
   // Create conversation with initial user message
   console.log("\nCreating conversation with initial user message...");
   const conversation = await openAIClient.conversations.create({
-    items: [{ type: "message", role: "user", content: "What is the size of France in square miles?" }],
+    items: [
+      { type: "message", role: "user", content: "What is the size of France in square miles?" },
+    ],
   });
   console.log(`Created conversation with initial user message (id: ${conversation.id})`);
 
   // Generate response using the agent
   console.log("\nGenerating response...");
-  const response = await openAIClient.responses.create({
-    conversation: conversation.id,
-    input: [{ role: "user", content: "", type: "message"}], // TODO: Remove 'input' once service is fixed
-  }, {
-    body: { agent: { name: agent.name, type: "agent_reference" } },
-  });
+  const response = await openAIClient.responses.create(
+    {
+      conversation: conversation.id,
+      input: "", // TODO: Remove 'input' once service is fixed
+    },
+    {
+      body: { agent: { name: agent.name, type: "agent_reference" } },
+    },
+  );
   console.log(`Response output: ${response.output_text}`);
 
   // Add a second user message to the conversation
@@ -56,12 +61,15 @@ export async function main(): Promise<void> {
 
   // Generate second response
   console.log("\nGenerating second response...");
-  const response2 = await openAIClient.responses.create({
-    conversation: conversation.id,
-    input: [{ role: "user", content: "", type: "message" }], // TODO: Remove 'input' once service is fixed
-  }, {
-    body: { agent: { name: agent.name, type: "agent_reference" } },
-  });
+  const response2 = await openAIClient.responses.create(
+    {
+      conversation: conversation.id,
+      input: "", // TODO: Remove 'input' once service is fixed
+    },
+    {
+      body: { agent: { name: agent.name, type: "agent_reference" } },
+    },
+  );
   console.log(`Response output: ${response2.output_text}`);
 
   // Clean up
