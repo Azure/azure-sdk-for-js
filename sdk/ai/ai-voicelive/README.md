@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-voicelive)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-voicelive)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-voicelive?view=azure-node-preview)
+- [API reference documentation]()
 
 ## Getting started
 
@@ -65,7 +65,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://www.azure.com/free
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
