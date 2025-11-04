@@ -152,6 +152,7 @@ describe("Iothub test", () => {
   });
 
   it("iotHubResource delete test", async () => {
+    await client.iotHubResource.beginDeleteAndWait(resourceGroup, iothubName, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
