@@ -28,7 +28,6 @@ async function createOpenAI(): Promise<OpenAI> {
     apiKey: azureADTokenProvider,
     baseURL: openAiBaseUrl,
     defaultQuery: { "api-version": "2025-11-15-preview" },
-    defaultHeaders: { "accept-encoding": "deflate" },
   });
 }
 
