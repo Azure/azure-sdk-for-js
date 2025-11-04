@@ -65,11 +65,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     namespaceName: string,
     options?: HybridConnectionsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<HybridConnection> {
-    const iter = this.listByNamespacePagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listByNamespacePagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -81,12 +77,7 @@ export class HybridConnectionsImpl implements HybridConnections {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByNamespacePagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listByNamespacePagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -100,11 +91,7 @@ export class HybridConnectionsImpl implements HybridConnections {
     let result: HybridConnectionsListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByNamespace(
-        resourceGroupName,
-        namespaceName,
-        options,
-      );
+      result = await this._listByNamespace(resourceGroupName, namespaceName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

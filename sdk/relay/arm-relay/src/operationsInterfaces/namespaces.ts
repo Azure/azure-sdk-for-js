@@ -49,9 +49,7 @@ export interface Namespaces {
    * Lists all the available namespaces within the subscription regardless of the resourceGroups.
    * @param options The options parameters.
    */
-  list(
-    options?: NamespacesListOptionalParams,
-  ): PagedAsyncIterableIterator<RelayNamespace>;
+  list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<RelayNamespace>;
   /**
    * Lists all the available namespaces within the ResourceGroup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

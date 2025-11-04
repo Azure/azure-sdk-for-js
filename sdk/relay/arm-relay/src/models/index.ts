@@ -784,15 +784,13 @@ export type NetworkRuleIPAction = string;
 export type Relaytype = "NetTcp" | "Http";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -802,33 +800,28 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NamespacesCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResult;
+export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface NamespacesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NamespacesListResponse = RelayNamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type NamespacesListByResourceGroupResponse = RelayNamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NamespacesGetResponse = RelayNamespace;
 
 /** Optional parameters. */
-export interface NamespacesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -839,15 +832,13 @@ export interface NamespacesCreateOrUpdateOptionalParams
 export type NamespacesCreateOrUpdateResponse = RelayNamespace;
 
 /** Optional parameters. */
-export interface NamespacesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type NamespacesUpdateResponse = RelayNamespace;
 
 /** Optional parameters. */
-export interface NamespacesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -859,12 +850,10 @@ export interface NamespacesListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type NamespacesListAuthorizationRulesResponse =
-  AuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface NamespacesGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
@@ -874,30 +863,26 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse =
-  AuthorizationRule;
+export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
 export interface NamespacesDeleteAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface NamespacesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type NamespacesListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface NamespacesRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKeys operation. */
 export type NamespacesRegenerateKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface NamespacesGetNetworkRuleSetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetNetworkRuleSetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNetworkRuleSet operation. */
 export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
@@ -910,8 +895,7 @@ export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
 export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
 
 /** Optional parameters. */
-export interface NamespacesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NamespacesListNextResponse = RelayNamespaceListResult;
@@ -921,28 +905,24 @@ export interface NamespacesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NamespacesListByResourceGroupNextResponse =
-  RelayNamespaceListResult;
+export type NamespacesListByResourceGroupNextResponse = RelayNamespaceListResult;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type NamespacesListAuthorizationRulesNextResponse =
-  AuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface HybridConnectionsListByNamespaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespace operation. */
-export type HybridConnectionsListByNamespaceResponse =
-  HybridConnectionListResult;
+export type HybridConnectionsListByNamespaceResponse = HybridConnectionListResult;
 
 /** Optional parameters. */
-export interface HybridConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HybridConnectionsGetResponse = HybridConnection;
@@ -955,16 +935,14 @@ export interface HybridConnectionsCreateOrUpdateOptionalParams
 export type HybridConnectionsCreateOrUpdateResponse = HybridConnection;
 
 /** Optional parameters. */
-export interface HybridConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridConnectionsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface HybridConnectionsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type HybridConnectionsListAuthorizationRulesResponse =
-  AuthorizationRuleListResult;
+export type HybridConnectionsListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface HybridConnectionsGetAuthorizationRuleOptionalParams
@@ -978,16 +956,14 @@ export interface HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type HybridConnectionsCreateOrUpdateAuthorizationRuleResponse =
-  AuthorizationRule;
+export type HybridConnectionsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
 export interface HybridConnectionsDeleteAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HybridConnectionsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridConnectionsListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type HybridConnectionsListKeysResponse = AccessKeys;
@@ -1004,28 +980,23 @@ export interface HybridConnectionsListByNamespaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
-export type HybridConnectionsListByNamespaceNextResponse =
-  HybridConnectionListResult;
+export type HybridConnectionsListByNamespaceNextResponse = HybridConnectionListResult;
 
 /** Optional parameters. */
 export interface HybridConnectionsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type HybridConnectionsListAuthorizationRulesNextResponse =
-  AuthorizationRuleListResult;
+export type HybridConnectionsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -1035,8 +1006,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1052,59 +1022,50 @@ export interface PrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateEndpointConnectionsListNextResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResourcesListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface WCFRelaysListByNamespaceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysListByNamespaceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespace operation. */
 export type WCFRelaysListByNamespaceResponse = WcfRelaysListResult;
 
 /** Optional parameters. */
-export interface WCFRelaysGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WCFRelaysGetResponse = WcfRelay;
 
 /** Optional parameters. */
-export interface WCFRelaysCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type WCFRelaysCreateOrUpdateResponse = WcfRelay;
 
 /** Optional parameters. */
-export interface WCFRelaysDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WCFRelaysListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type WCFRelaysListAuthorizationRulesResponse =
-  AuthorizationRuleListResult;
+export type WCFRelaysListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface WCFRelaysGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type WCFRelaysGetAuthorizationRuleResponse = AuthorizationRule;
@@ -1114,30 +1075,26 @@ export interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type WCFRelaysCreateOrUpdateAuthorizationRuleResponse =
-  AuthorizationRule;
+export type WCFRelaysCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
 export interface WCFRelaysDeleteAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WCFRelaysListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type WCFRelaysListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface WCFRelaysRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysRegenerateKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKeys operation. */
 export type WCFRelaysRegenerateKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface WCFRelaysListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WCFRelaysListByNamespaceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
 export type WCFRelaysListByNamespaceNextResponse = WcfRelaysListResult;
@@ -1147,12 +1104,10 @@ export interface WCFRelaysListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type WCFRelaysListAuthorizationRulesNextResponse =
-  AuthorizationRuleListResult;
+export type WCFRelaysListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface RelayAPIOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface RelayAPIOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

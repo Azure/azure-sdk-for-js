@@ -65,11 +65,7 @@ export class WCFRelaysImpl implements WCFRelays {
     namespaceName: string,
     options?: WCFRelaysListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<WcfRelay> {
-    const iter = this.listByNamespacePagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listByNamespacePagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -81,12 +77,7 @@ export class WCFRelaysImpl implements WCFRelays {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByNamespacePagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listByNamespacePagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -100,11 +91,7 @@ export class WCFRelaysImpl implements WCFRelays {
     let result: WCFRelaysListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByNamespace(
-        resourceGroupName,
-        namespaceName,
-        options,
-      );
+      result = await this._listByNamespace(resourceGroupName, namespaceName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
