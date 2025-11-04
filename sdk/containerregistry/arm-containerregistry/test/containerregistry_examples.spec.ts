@@ -54,7 +54,7 @@ describe("ContainerRegistry test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     registryName = "myregistryxxxyya";
     // importPipelineName = "myimportpipelinexxx";
     // exportPipelineName = 'myexportpipelinexxx';
