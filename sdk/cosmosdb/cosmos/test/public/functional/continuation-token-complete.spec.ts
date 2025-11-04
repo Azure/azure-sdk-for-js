@@ -296,8 +296,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
       );
     },
     requiresMultiPartition: true,
-    description:
-      "DISTINCT with ORDER BY should support continuation tokens",
+    description: "DISTINCT with ORDER BY should support continuation tokens",
   },
 
   // ============= AGGREGATE QUERIES =============
@@ -1552,7 +1551,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
         console.log(
           `OFFSET>maxItemCount Iteration ${iterationCount}: ${itemsInThisPage} items returned, ` +
-          `${totalItemsProcessed} total so far, token: ${result.continuationToken ? "YES" : "NO"}`,
+            `${totalItemsProcessed} total so far, token: ${result.continuationToken ? "YES" : "NO"}`,
         );
 
         // Log the continuation token structure for debugging
@@ -1561,8 +1560,8 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             const parsedToken = JSON.parse(result.continuationToken);
             console.log(
               `  Token details: offset=${parsedToken.offset || "undefined"}, ` +
-              `limit=${parsedToken.limit || "undefined"}, ` +
-              `hasOrderByItems=${parsedToken.orderByItems ? "YES" : "NO"}`,
+                `limit=${parsedToken.limit || "undefined"}, ` +
+                `hasOrderByItems=${parsedToken.orderByItems ? "YES" : "NO"}`,
             );
           } catch (e) {
             console.log(`  Token parsing failed: ${e.message}`);

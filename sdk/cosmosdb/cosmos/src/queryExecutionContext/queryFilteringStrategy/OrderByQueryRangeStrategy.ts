@@ -139,43 +139,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
   }
 
   /**
-   * Creates a filter condition for the target range that includes both ORDER BY conditions and _rid check
-   * This ensures proper continuation from the exact document position
-   * @param orderByItems - Array of order by items from the continuation token
-   * @param rid - The resource ID from the continuation token
-   * @param queryInfo - Query information containing sort orders and other metadata
-   * @returns SQL filter condition string for the target range
-   */
-  // private createTargetRangeFilterCondition(
-  //   orderByItems: any[],
-  //   rid: string | undefined,
-  //   queryInfo: Record<string, unknown> | undefined,
-  // ): string {
-  //   // Create the left filter condition (documents greater than continuation point)
-  //   const leftFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "left");
-
-  //   // If we have ORDER BY items and a RID, create the optimal filter
-  //   if (leftFilter && rid) {
-  //     const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
-
-  //     // Create equality condition for documents with same ORDER BY values
-  //     // This should always succeed if leftFilter succeeded since they use the same data
-  //     const equalityFilter = this.createEqualityFilterCondition(orderByItems, queryInfo);
-
-  //     // Combine ORDER BY filter with RID filter using OR logic
-  //     // This ensures we get documents that:
-  //     // 1. Have ORDER BY values greater than the continuation point, OR
-  //     // 2. Have the same ORDER BY values but RID greater than continuation point
-  //     // This prevents duplicates while ensuring proper continuation
-  //     const finalFilter = `${leftFilter} OR (${equalityFilter} AND ${ridCondition})`;
-  //     return finalFilter;
-  //   }
-
-  //   // If no RID available, return just the left filter (could be empty string)
-  //   return leftFilter || "";
-  // }
-
-  /**
    * Creates a filter condition for ranges based on ORDER BY items and sort orders
    * This filter ensures that ranges only return documents based on their position relative to the continuation point
    * @param orderByItems - Array of order by items from the continuation token
@@ -425,66 +388,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         return `'${value.toString().replace(/'/g, "''")}'`;
     }
   }
-
-  /**
-   * Creates an equality filter condition for documents that have the same ORDER BY values
-   * This is used in combination with RID checks to ensure proper continuation without duplicates
-   * @param orderByItems - Array of order by items from the continuation token
-   * @param queryInfo - Query information containing sort orders and other metadata
-   * @returns SQL filter condition string for equality matching
-   */
-  // private createEqualityFilterCondition(
-  //   orderByItems: any[],
-  //   queryInfo: Record<string, unknown> | undefined,
-  // ): string {
-  //   if (!orderByItems || orderByItems.length === 0) {
-  //     return "";
-  //   }
-
-  //   // Extract sort orders and expressions from query info
-  //   const sortOrders = this.extractSortOrders(queryInfo);
-
-  //   let orderByExpressions: any[] | undefined;
-  //   if (
-  //     queryInfo &&
-  //     queryInfo.quereyInfo &&
-  //     typeof queryInfo.quereyInfo === "object" &&
-  //     (queryInfo.quereyInfo as any).queryInfo &&
-  //     (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-  //     Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
-  //   ) {
-  //     orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
-  //   }
-
-  //   if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
-  //     return "";
-  //   }
-
-  //   const equalityConditions: string[] = [];
-
-  //   // Create equality conditions for each ORDER BY field
-  //   for (
-  //     let i = 0;
-  //     i < orderByItems.length && i < sortOrders.length && i < orderByExpressions.length;
-  //     i++
-  //   ) {
-  //     const orderByItem = orderByItems[i];
-
-  //     if (!orderByItem || orderByItem.item === undefined) {
-  //       continue;
-  //     }
-
-  //     // Get the field path for this ORDER BY item
-  //     const fieldPath = this.extractFieldPath(queryInfo, i);
-  //     const formattedValue = this.formatValueForSQL(orderByItem.item);
-
-  //     // Create equality condition: field = value
-  //     equalityConditions.push(`${fieldPath} = ${formattedValue}`);
-  //   }
-
-  //   // Combine all equality conditions with AND
-  //   return equalityConditions.length > 0 ? equalityConditions.join(" AND ") : "";
-  // }
 
   /**
    * Compares partition key range boundaries with proper handling for inclusive/exclusive semantics

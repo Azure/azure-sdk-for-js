@@ -387,7 +387,7 @@ describe("parallelQueryExecutionContextBase", () => {
 
     it("should return an empty array if buffer is empty", async () => {
       const result = await (context as any).drainBufferedItems();
-      assert.deepEqual(result.result, []);
+      assert.deepEqual(result.result.buffer, []);
     });
 
     it("should return buffered items and clear the buffer", async () => {
@@ -489,7 +489,7 @@ describe("parallelQueryExecutionContextBase", () => {
       await (tempContext as any).fillBufferFromBufferQueue();
       const result = await (tempContext as any).drainBufferedItems();
 
-      assert.equal(result.result.length, 0);
+      assert.equal(result.result.buffer.length, 0);
       assert.equal(result.headers["x-ms-request-charge"], "7.0");
 
       await (tempContext as any).bufferDocumentProducers(createDummyDiagnosticNode());
