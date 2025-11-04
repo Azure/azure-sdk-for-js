@@ -30,7 +30,12 @@ export function generateSendMessageRequest(
     smsSendOptions: {
       enableDeliveryReport: options.enableDeliveryReport ?? false,
       ...(options.tag && { tag: options.tag }),
-      ...(options.messagingConnect && { messagingConnect: options.messagingConnect }),
+      ...(options.deliveryReportTimeoutInSeconds && {
+        deliveryReportTimeoutInSeconds: options.deliveryReportTimeoutInSeconds,
+      }),
+      ...(options.messagingConnect && {
+        messagingConnect: options.messagingConnect,
+      }),
     },
   };
 }

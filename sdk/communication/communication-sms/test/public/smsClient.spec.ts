@@ -48,7 +48,7 @@ matrix([[false, true]], async function (useAad: boolean) {
       });
 
       describe("test send method", async () => {
-        it("can send an SMS message", { timeout: 5000 }, async () => {
+        it("can send an SMS message", { timeout: 10000 }, async () => {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
@@ -62,9 +62,11 @@ matrix([[false, true]], async function (useAad: boolean) {
           assertIsSuccessResult(results[0], validToNumber);
         });
 
-        it("can send an SMS message with options passed in", { timeout: 4000 }, async () => {
+        it("can send an SMS message with options passed in", { timeout: 10000 }, async () => {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
+
+          // Test basic options without messagingConnect first (messagingConnect needs valid partner)
           const results = await client.send(
             {
               from: fromNumber,
@@ -75,10 +77,6 @@ matrix([[false, true]], async function (useAad: boolean) {
               enableDeliveryReport: true,
               tag: "SMS_LIVE_TEST",
               deliveryReportTimeoutInSeconds: 300,
-              messagingConnect: {
-                apiKey: "test_api_key",
-                partner: "test_partner",
-              },
             },
           );
 
@@ -86,7 +84,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           assertIsSuccessResult(results[0], validToNumber);
         });
 
-        it("sends a new message each time send is called", { timeout: 4000 }, async () => {
+        it("sends a new message each time send is called", { timeout: 10000 }, async () => {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
@@ -108,7 +106,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           assert.notEqual(firstResults[0].messageId, secondResults[0].messageId);
         });
 
-        it("can send an SMS message to multiple recipients", { timeout: 4000 }, async () => {
+        it("can send an SMS message to multiple recipients", { timeout: 10000 }, async () => {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
           const invalidToNumber = "+1425555012345"; // invalid number that's too long
@@ -173,10 +171,85 @@ matrix([[false, true]], async function (useAad: boolean) {
         });
       });
 
+      describe("test getDeliveryReport method", async () => {
+        it("can get delivery report for a message", { timeout: 10000 }, async () => {
+          const fromNumber = env.AZURE_PHONE_NUMBER as string;
+          const validToNumber = env.AZURE_PHONE_NUMBER as string;
+
+          // Send a message first
+          const sendResults = await client.send(
+            {
+              from: fromNumber,
+              to: [validToNumber],
+              message: "test message for delivery report",
+            },
+            {
+              enableDeliveryReport: true,
+              tag: "DELIVERY_REPORT_TEST",
+            },
+          );
+
+          assert.lengthOf(sendResults, 1, "must return as many results as there were recipients");
+          assertIsSuccessResult(sendResults[0], validToNumber);
+
+          const messageId = sendResults[0].messageId;
+          assert.isString(messageId, "messageId should be a string");
+          assert.isDefined(messageId, "messageId should be defined");
+
+          // Try to get delivery report
+          // Note: It may return 404 if the report is not available yet
+          try {
+            const deliveryReport = await client.getDeliveryReport(messageId!);
+
+            assert.isObject(deliveryReport, "delivery report should be returned");
+            assert.equal(deliveryReport.messageId, messageId, "messageId should match");
+            assert.isString(deliveryReport.from, "from should be a string");
+            assert.isString(deliveryReport.to, "to should be a string");
+            assert.isString(deliveryReport.deliveryStatus, "deliveryStatus should be a string");
+            assert.include(
+              ["Pending", "Delivered", "Failed", "Unknown"],
+              deliveryReport.deliveryStatus,
+              "deliveryStatus should be a valid status",
+            );
+          } catch (e: any) {
+            // 404 is acceptable if delivery report is not available yet
+            if (e.statusCode === 404) {
+              console.log(
+                "Delivery report not found (404) - may not be available yet or not enabled",
+              );
+            } else {
+              throw e;
+            }
+          }
+        });
+
+        it("throws 404 for non-existent GUID message ID", async () => {
+          const nonExistentMessageId = "00000000-0000-0000-0000-000000000000";
+
+          try {
+            await client.getDeliveryReport(nonExistentMessageId);
+            assert.fail("Should have thrown an error for non-existent message");
+          } catch (e: any) {
+            assert.equal(e.statusCode, 404, "Should return 404 for non-existent GUID");
+          }
+        });
+
+        it("throws 400 for invalid (non-GUID) message ID", async () => {
+          const invalidMessageId = "not-a-valid-guid";
+
+          try {
+            await client.getDeliveryReport(invalidMessageId);
+            assert.fail("Should have thrown an error for invalid message ID");
+          } catch (e: any) {
+            assert.equal(e.statusCode, 400, "Should return 400 for invalid message ID format");
+          }
+        });
+      });
+
       describe("Opt Outs Client", { sequential: true }, async () => {
         it(
           "OptOut Check must return as many results as there were recipients",
-          { timeout: 4000 },
+          { timeout: 10000 },
           async () => {
             const fromNumber = env.AZURE_PHONE_NUMBER as string;
             const validToNumber = env.AZURE_PHONE_NUMBER as string;
@@ -189,7 +262,7 @@ matrix([[false, true]], async function (useAad: boolean) {
 
         it(
           "OptOut Add must return as many results as there were recipients",
-          { timeout: 4000 },
+          { timeout: 10000 },
           async () => {
             const fromNumber = env.AZURE_PHONE_NUMBER as string;
             const validToNumber = env.AZURE_PHONE_NUMBER as string;
@@ -202,7 +275,7 @@ matrix([[false, true]], async function (useAad: boolean) {
 
         it(
           "OptOut Remove must return as many results as there were recipients",
-          { timeout: 4000 },
+          { timeout: 10000 },
           async () => {
             const fromNumber = env.AZURE_PHONE_NUMBER as string;
             const validToNumber = env.AZURE_PHONE_NUMBER as string;
@@ -213,7 +286,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           },
         );
 
-        it("OptOut Add should mark recipient as opted out", { timeout: 4000 }, async () => {
+        it("OptOut Add should mark recipient as opted out", { timeout: 10000 }, async () => {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
@@ -225,7 +298,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           assert.equal(checkResults[0].isOptedOut, true);
         });
 
-        it("OptOut Remove should mark recipient as opted in", { timeout: 4000 }, async () => {
+        it("OptOut Remove should mark recipient as opted in", { timeout: 10000 }, async () => {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 

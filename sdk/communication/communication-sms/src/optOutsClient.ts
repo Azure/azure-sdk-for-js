@@ -82,10 +82,9 @@ export interface AddOptions extends OperationOptions {}
 export interface RemoveOptions extends OperationOptions {}
 
 /**
- * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
- * to call Opt Out Management Api methods.
+ * A sub-client for managing opt-out operations.
  */
-export interface OptOutsClient {
+export interface OptOuts {
   /**
    * Adds phone numbers to the optouts list.
    *
@@ -113,10 +112,9 @@ export interface OptOutsClient {
 }
 
 /**
- * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
- * to call Opt Out Management Api methods.
+ * Implementation of the OptOuts sub-client.
  */
-export class OptOutsClientImpl implements OptOutsClient {
+export class OptOutsClientImpl implements OptOuts {
   private readonly api: SmsApiClient;
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

@@ -85,4 +85,47 @@ describe("[mocked] SmsClient", async function () {
       vi.useRealTimers();
     });
   });
+
+  describe("when getting delivery reports", function () {
+    let smsClient: SmsClient;
+    beforeEach(function () {
+      sendRequestSpy = vi.spyOn(mockHttpClient, "sendRequest");
+      smsClient = new SmsClient(connectionString, {
+        httpClient: mockHttpClient,
+      } as SmsClientOptions);
+    });
+
+    it("can get delivery report for existing message", async function () {
+      const messageId = "test-message-id-123";
+      const result = await smsClient.getDeliveryReport(messageId);
+
+      assert.equal(result.messageId, messageId);
+      assert.equal(result.from, "+14255550123");
+      assert.equal(result.to, TEST_NUMBER);
+      assert.equal(result.deliveryStatus, "Delivered");
+      assert.equal(result.deliveryStatusDetails, "Message delivered successfully");
+      assert.isArray(result.deliveryAttempts);
+      assert.equal(result.deliveryAttempts?.length, 1);
+      assert.equal(result.deliveryAttempts?.[0].segmentsSucceeded, 1);
+      assert.equal(result.deliveryAttempts?.[0].segmentsFailed, 0);
+      assert.equal(result.tag, "test-tag");
+      assert.equal(result.httpStatusCode, 200);
+    });
+
+    it("handles delivery report not found", async function () {
+      const messageId = "00000000-0000-0000-0000-000000000000";
+
+      try {
+        await smsClient.getDeliveryReport(messageId);
+        assert.fail("Expected error to be thrown for non-existent message ID");
+      } catch (error: any) {
+        assert.equal(error.statusCode, 404);
+        assert.include(error.message, "Not Found");
+      }
+    });
+
+    afterEach(function () {
+      vi.restoreAllMocks();
+    });
+  });
 });

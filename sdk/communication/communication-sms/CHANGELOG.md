@@ -1,5 +1,27 @@
 # Release History
 
+## 2.0.0 (Unreleased)
+
+### Features Added
+
+- Added `getDeliveryReport` method to `SmsClient` for retrieving delivery reports directly
+- Added delivery report types: `SmsDeliveryReportResult`, `GetDeliveryReportOptions`
+- Re-exported generated types used in public API: `DeliveryReportDeliveryStatus`, `DeliveryAttempt`
+
+### Breaking Changes
+
+- Removed `TelcoMessagingClient` (was not publicly released, existed only in beta versions)
+- Removed `DeliveryReportsClient` as a separate client - functionality moved to `SmsClient.getDeliveryReport()`
+- Renamed `OptOutsClient` type to `OptOuts` to align with Azure SDK guidelines for sub-clients
+- Changed `SmsClient.optOuts` property type from `OptOutsClient` to `OptOuts`
+- Modified `MessagingConnectOptions.partnerParams` to `Record<string, unknown>` (breaking change to the API structure)
+
+### Other Changes
+
+- Removed all deprecation warnings from `SmsClient` - it is now the primary and recommended client
+- Updated all documentation to remove references to `TelcoMessagingClient`
+- Consolidated SMS functionality, opt-out management, and delivery reports into a single `SmsClient` class
+
 ## 1.2.0-beta.5 (2025-09-01)
 
 ### Features Added

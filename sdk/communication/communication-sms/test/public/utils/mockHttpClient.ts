@@ -35,20 +35,21 @@ export class MockHttpClient implements HttpClient {
     // Delivery Reports endpoint
     if (url.includes("/deliveryReports/") && method === "GET") {
       const messageId = url.split("/deliveryReports/")[1].split("?")[0];
-      
-      if (messageId === "non-existent-message-id") {
+
+      // Return 404 for GUID with all zeros or "non-existent-message-id"
+      if (
+        messageId === "non-existent-message-id" ||
+        messageId === "00000000-0000-0000-0000-000000000000"
+      ) {
         return {
-          status: 200,
+          status: 404,
           headers: createHttpHeaders(),
           request: httpRequest,
           bodyAsText: JSON.stringify({
-            messageId: messageId,
-            from: "",
-            to: "",
-            deliveryStatus: "Unknown",
-            deliveryStatusDetails: "Delivery report not found for the specified message ID",
-            httpStatusCode: 404,
-            errorMessage: "Delivery report not found for the specified message ID",
+            type: "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+            title: "Not Found",
+            status: 404,
+            traceId: "test-trace-id",
           }),
         };
       }
@@ -72,8 +73,6 @@ export class MockHttpClient implements HttpClient {
           ],
           receivedTimestamp: new Date().toISOString(),
           tag: "test-tag",
-          httpStatusCode: 200,
-          errorMessage: null,
         }),
       };
     }

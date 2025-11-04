@@ -126,18 +126,19 @@ export const MessagingConnectOptions: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MessagingConnectOptions",
     modelProperties: {
-      apiKey: {
-        serializedName: "apiKey",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
       partner: {
         serializedName: "partner",
         required: true,
         type: {
           name: "String",
+        },
+      },
+      partnerParams: {
+        serializedName: "partnerParams",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
         },
       },
     },
@@ -371,6 +372,12 @@ export const DeliveryReport: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      messagingConnectPartnerMessageId: {
+        serializedName: "messagingConnectPartnerMessageId",
+        type: {
+          name: "String",
+        },
+      },
       messageId: {
         serializedName: "messageId",
         required: true,
@@ -462,6 +469,101 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "traceId",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const BadRequestErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BadRequestErrorResponse",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Number",
+        },
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Sequence", element: { type: { name: "String" } } },
+          },
+        },
+      },
+      traceId: {
+        serializedName: "traceId",
+        type: {
+          name: "String",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      innerError: {
+        serializedName: "innerError",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const StandardErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StandardErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
     },

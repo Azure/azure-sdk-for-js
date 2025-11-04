@@ -49,10 +49,15 @@ export interface SmsSendOptions extends OperationOptions {
 
 /** Defines optional parameters for connecting with the Messaging Connect Partner to deliver SMS. */
 export interface MessagingConnectOptions {
-  /** Represents the API key associated with the customer's account in the Messaging Connect Partner portal. */
-  apiKey: string;
-  /** Specifies the partner associated with the API key. */
+  /**
+   * Specifies the partner name for message delivery.
+   */
   partner: string;
+  /**
+   * Partner-specific parameters as key-value pairs. Must contain at least one parameter
+   * required by the messaging connect partner (e.g., apiKey, servicePlanId, authToken, etc.).
+   */
+  partnerParams: Record<string, unknown>;
 }
 
 /**

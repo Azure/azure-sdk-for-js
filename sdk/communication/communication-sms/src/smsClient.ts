@@ -16,13 +16,20 @@ import { extractOperationOptions } from "./extractOperationOptions.js";
 import { generateSendMessageRequest } from "./utils/smsUtils.js";
 import { logger } from "./logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { OptOutsClientImpl, type OptOutsClient } from "./optOutsClient.js";
+import { OptOutsClientImpl, type OptOuts } from "./optOutsClient.js";
+import { ServiceVersion, DEFAULT_API_VERSION } from "./constants.js";
+import type { DeliveryAttempt, DeliveryReportDeliveryStatus } from "./generated/src/index.js";
 
 /**
  * Client options used to configure SMS Client API requests.
- * @deprecated SmsClientOptions will be deprecated along with SmsClient. Please migrate to TelcoMessagingClientOptions.
  */
-export interface SmsClientOptions extends CommonClientOptions {}
+export interface SmsClientOptions extends CommonClientOptions {
+  /**
+   * The API version to use when making requests to the service.
+   * Defaults to "2026-01-23" if not specified.
+   */
+  apiVersion?: ServiceVersion;
+}
 
 /**
  * Values used to configure Sms message
@@ -66,10 +73,15 @@ export interface SmsSendOptions extends OperationOptions {
 
 /** Defines optional parameters for connecting with the Messaging Connect Partner to deliver SMS. */
 export interface MessagingConnectOptions {
-  /** Represents the API key associated with the customer's account in the Messaging Connect Partner portal. */
-  apiKey: string;
-  /** Specifies the partner associated with the API key. */
+  /**
+   * Specifies the partner name for message delivery.
+   */
   partner: string;
+  /**
+   * Partner-specific parameters as key-value pairs. Must contain at least one parameter
+   * required by the messaging connect partner (e.g., apiKey, servicePlanId, authToken, etc.).
+   */
+  partnerParams: Record<string, unknown>;
 }
 
 /**
@@ -99,6 +111,58 @@ export interface SmsSendResult {
 }
 
 /**
+ * The result of Delivery Report Get request.
+ */
+export interface SmsDeliveryReportResult {
+  /**
+   * The delivery status of the message.
+   */
+  deliveryStatus: DeliveryReportDeliveryStatus;
+  /**
+   * Detailed information about the delivery status.
+   */
+  deliveryStatusDetails?: string;
+  /**
+   * Array of delivery attempts made for this message.
+   */
+  deliveryAttempts?: DeliveryAttempt[];
+  /**
+   * The timestamp when the delivery report was received.
+   */
+  receivedTimestamp?: Date;
+  /**
+   * Custom tag provided when sending the message.
+   */
+  tag?: string;
+  /**
+   * The identifier of the outgoing message.
+   */
+  messageId: string;
+  /**
+   * The sender's phone number in E.164 format.
+   */
+  from: string;
+  /**
+   * The recipient's phone number in E.164 format.
+   */
+  to: string;
+  /**
+   * HTTP Status code.
+   */
+  httpStatusCode?: number;
+  /**
+   * Optional messaging connect partner-specific message identifier for tracking across messaging connect partners.
+   * This field is populated when messages are sent through messaging connect partners.
+   */
+  messagingConnectPartnerMessageId?: string;
+}
+
+/**
+ * Options to configure delivery report requests.
+ */
+export interface GetDeliveryReportOptions extends OperationOptions {}
+
+/**
  * Checks whether the type of a value is SmsClientOptions or not.
  *
  * @param options - The value being checked.
@@ -108,23 +172,21 @@ const isSmsClientOptions = (options: any): options is SmsClientOptions =>
 
 /**
  * A SmsClient represents a Client to the Azure Communication Sms service allowing you
- * to send SMS messages.
- * 
- * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient 
- * which provides the same functionality through its `sms` sub-client along with additional features 
- * like opt-out management and delivery reports. For migration guidance, see the documentation.
+ * to send SMS messages, retrieve delivery reports, and manage opt-outs.
  */
 export class SmsClient {
   private readonly api: SmsApiClient;
   /**
-   * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
-   * to call Opt Out Management Api methods.
+   * A sub-client for managing opt-out operations.
    */
-  public optOuts: OptOutsClient;
+  public optOuts: OptOuts;
+  /**
+   * The API version being used by this client.
+   */
+  public readonly apiVersion: ServiceVersion;
 
   /**
    * Initializes a new instance of the SmsClient class.
-   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -133,7 +195,6 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
-   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -142,7 +203,6 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class using a TokenCredential.
-   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
@@ -157,6 +217,9 @@ export class SmsClient {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSmsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
 
+    // Set the API version, defaulting to the latest version
+    this.apiVersion = options.apiVersion ?? DEFAULT_API_VERSION;
+
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       ...{
@@ -167,7 +230,7 @@ export class SmsClient {
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.api = new SmsApiClient(url, internalPipelineOptions);
+    this.api = new SmsApiClient(url, { ...internalPipelineOptions, apiVersion: this.apiVersion });
     this.api.pipeline.addPolicy(authPolicy);
     this.optOuts = new OptOutsClientImpl(this.api);
   }
@@ -175,8 +238,6 @@ export class SmsClient {
   /**
    * Sends an SMS from a phone number that is acquired by the authenticated account, to another phone number.
    *
-   * @deprecated SmsClient will be deprecated in a future release. Please migrate to TelcoMessagingClient 
-   * and use `telcoMessagingClient.sms.send()` instead.
    * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options - Additional request options
    */
@@ -192,5 +253,38 @@ export class SmsClient {
       );
       return response.value;
     });
+  }
+
+  /**
+   * Gets delivery report for a specific outgoing message.
+   *
+   * @param messageId - The identifier of the outgoing message
+   * @param options - Additional request options
+   */
+  public async getDeliveryReport(
+    messageId: string,
+    options: GetDeliveryReportOptions = {},
+  ): Promise<SmsDeliveryReportResult> {
+    const { operationOptions } = extractOperationOptions(options);
+    return tracingClient.withSpan(
+      "SmsClient-GetDeliveryReport",
+      operationOptions,
+      async (updatedOptions) => {
+        const response = await this.api.deliveryReports.get(messageId, updatedOptions);
+
+        return {
+          deliveryStatus: response.deliveryStatus,
+          deliveryStatusDetails: response.deliveryStatusDetails,
+          deliveryAttempts: response.deliveryAttempts,
+          receivedTimestamp: response.receivedTimestamp,
+          tag: response.tag,
+          messageId: response.messageId,
+          from: response.from,
+          to: response.to,
+          messagingConnectPartnerMessageId: response.messagingConnectPartnerMessageId,
+          httpStatusCode: 200, // Success case
+        };
+      },
+    );
   }
 }

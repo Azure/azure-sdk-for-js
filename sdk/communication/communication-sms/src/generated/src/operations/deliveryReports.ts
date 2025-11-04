@@ -60,9 +60,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.DeliveryReport,
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.outgoingMessageId],

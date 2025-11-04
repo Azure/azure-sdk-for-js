@@ -20,9 +20,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [optOutCheck.ts][optoutcheck]                                                  | Check if recipients opted out of receiving messages          |
 | [optOutAdd.ts][optoutadd]                                                      | Opt out recipients from receiving messages                   |
 | [optOutRemove.ts][optoutremove]                                                | Remove recipients from Opt Out list                          |
-| [sendSmsWithTelcoMessagingClient.ts][sendsmswithtelco]                         | Send SMS using TelcoMessagingClient (recommended)            |
-| [optOutCheckWithTelcoMessagingClient.ts][optoutcheckwithtelco]                 | Check opt-out status using TelcoMessagingClient              |
-| [smsWithDeliveryReportsUsingTelcoMessagingClient.ts][deliveryreportswithtelco] | Send SMS and get delivery reports using TelcoMessagingClient |
 
 ## Prerequisites
 
@@ -82,9 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [optoutcheck]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutCheck.ts
 [optoutadd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutAdd.ts
 [optoutremove]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutRemove.ts
-[sendsmswithtelco]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/sendSmsWithTelcoMessagingClient.ts
-[optoutcheckwithtelco]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutCheckWithTelcoMessagingClient.ts
-[deliveryreportswithtelco]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/smsWithDeliveryReportsUsingTelcoMessagingClient.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-sms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

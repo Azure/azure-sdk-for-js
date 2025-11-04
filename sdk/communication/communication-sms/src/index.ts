@@ -3,7 +3,29 @@
 
 // Export SmsClient and its specific types
 export { SmsClient } from "./smsClient.js";
-export type { SmsClientOptions } from "./smsClient.js";
+export type {
+  SmsClientOptions,
+  SmsSendRequest,
+  SmsSendOptions,
+  SmsSendResult,
+  SmsDeliveryReportResult,
+  GetDeliveryReportOptions,
+  MessagingConnectOptions,
+} from "./smsClient.js";
 
-// Export TelcoMessagingClient and all the types it re-exports 
-export * from "./telcoMessagingClient.js";
+// Export OptOuts sub-client and its types
+export type { OptOuts } from "./optOutsClient.js";
+export type {
+  OptOutCheckResult,
+  OptOutAddResult,
+  OptOutRemoveResult,
+  CheckOptions,
+  AddOptions,
+  RemoveOptions,
+} from "./optOutsClient.js";
+
+// Export ServiceVersion enum for API versioning
+export { ServiceVersion } from "./constants.js";
+
+// Re-export generated types that are used in the public API
+export type { DeliveryReportDeliveryStatus, DeliveryAttempt } from "./generated/src/index.js";

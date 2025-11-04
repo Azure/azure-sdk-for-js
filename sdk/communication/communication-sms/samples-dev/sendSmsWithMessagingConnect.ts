@@ -6,7 +6,7 @@
  */
 
 import type { SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
-import { SmsClient } from "@azure/communication-sms";
+import { SmsClient, ServiceVersion } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -21,6 +21,10 @@ export async function main(): Promise<void> {
 
   // create new client
   const client = new SmsClient(connectionString);
+
+  // To use a specific API version, you can specify it in the options:
+  // const client = new SmsClient(connectionString, { apiVersion: ServiceVersion.V2021_03_07 });
+  // console.log(`Using API version: ${client.apiVersion}`); // Will show the selected version
 
   // construct send request
   let phoneNumbers: string[];
@@ -41,10 +45,15 @@ export async function main(): Promise<void> {
   // construct send options
   const sendOptions: SmsSendOptions = {
     messagingConnect: {
-      // Represents the API key associated with the customer's account in the Messaging Connect Partner portal.
-      apiKey: "<messaging-connect-api-key>",
-      // Specifies the partner associated with the API key.
+      // Specifies the partner name for message delivery
       partner: "<messaging-connect-partner>",
+      // Partner-specific parameters including API key and other required parameters
+      partnerParams: {
+        apiKey: "<messaging-connect-api-key>",
+        // Additional partner-specific parameters can be added here
+        // servicePlanId: "<service-plan-id>",
+        // authToken: "<auth-token>",
+      },
     },
   };
 
