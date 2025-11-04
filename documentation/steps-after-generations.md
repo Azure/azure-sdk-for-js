@@ -225,6 +225,19 @@ After [writing and running test cases](#how-to-write-test-for-dpgrlc), you need 
 
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
 
+## Resolve conflicts for PR
+
+You may meet the merge conflicts of `pnpm-lock.yaml` file when merging the PR, so please try to follow these steps to resolve conflicts:
+
+1. checkout to main branch and pull the latest code
+2. checkout the PR's branch
+3. run `git merge main {target branch}` 
+4. run `git checkout origin/main pnpm-lock.yaml` 
+5. run `pnpm install`
+6. push your changes into your PR
+
+if you meet other files' conflicts, you need to resolve them case by case.
+
 ## CC dpg-devs for review
 
 Please add below comment in your PR to include `dpg-devs` to review your PR timely.
