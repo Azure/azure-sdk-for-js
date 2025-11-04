@@ -1,4 +1,192 @@
 # Release History
+
+## 2.0.0-beta.1 (2025-11-04)
+Compared with version 1.2.0
+
+### Features Added
+  - Added operation DnsForwardingRulesetsOperations.createOrUpdate
+  - Added operation DnsForwardingRulesetsOperations.delete
+  - Added operation DnsForwardingRulesetsOperations.update
+  - Added operation DnsResolverDomainListsOperations.bulk
+  - Added operation DnsResolverDomainListsOperations.createOrUpdate
+  - Added operation DnsResolverDomainListsOperations.delete
+  - Added operation DnsResolverDomainListsOperations.update
+  - Added operation DnsResolverPoliciesOperations.createOrUpdate
+  - Added operation DnsResolverPoliciesOperations.delete
+  - Added operation DnsResolverPoliciesOperations.update
+  - Added operation DnsResolverPolicyVirtualNetworkLinksOperations.createOrUpdate
+  - Added operation DnsResolverPolicyVirtualNetworkLinksOperations.delete
+  - Added operation DnsResolverPolicyVirtualNetworkLinksOperations.update
+  - Added operation DnsResolversOperations.createOrUpdate
+  - Added operation DnsResolversOperations.delete
+  - Added operation DnsResolversOperations.update
+  - Added operation DnsSecurityRulesOperations.createOrUpdate
+  - Added operation DnsSecurityRulesOperations.delete
+  - Added operation DnsSecurityRulesOperations.update
+  - Added operation InboundEndpointsOperations.createOrUpdate
+  - Added operation InboundEndpointsOperations.delete
+  - Added operation InboundEndpointsOperations.update
+  - Added operation OutboundEndpointsOperations.createOrUpdate
+  - Added operation OutboundEndpointsOperations.delete
+  - Added operation OutboundEndpointsOperations.update
+  - Added operation VirtualNetworkLinksOperations.createOrUpdate
+  - Added operation VirtualNetworkLinksOperations.delete
+  - Added operation VirtualNetworkLinksOperations.update
+  - Added Interface DnsForwardingRulesetProperties
+  - Added Interface DnsResolverDomainListBulkProperties
+  - Added Interface DnsResolverDomainListPatchProperties
+  - Added Interface DnsResolverDomainListProperties
+  - Added Interface DnsResolverPolicyProperties
+  - Added Interface DnsResolverPolicyVirtualNetworkLinkProperties
+  - Added Interface DnsResolverProperties
+  - Added Interface DnsSecurityRulePatchProperties
+  - Added Interface DnsSecurityRuleProperties
+  - Added Interface ForwardingRulePatchProperties
+  - Added Interface ForwardingRuleProperties
+  - Added Interface InboundEndpointProperties
+  - Added Interface OutboundEndpointProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface VirtualNetworkLinkPatchProperties
+  - Added Interface VirtualNetworkLinkProperties
+  - Added Interface VirtualNetworkLinkSubResourceProperties
+  - Interface DnsResolverDomainList has a new optional parameter properties
+  - Interface DnsResolverDomainListPatch has a new optional parameter properties
+  - Interface DnsResolverPolicy has a new optional parameter properties
+  - Interface DnsSecurityRulePatch has a new optional parameter properties
+  - Interface ForwardingRulePatch has a new optional parameter properties
+  - Interface VirtualNetworkDnsForwardingRuleset has a new optional parameter properties
+  - Interface VirtualNetworkLinkPatch has a new optional parameter properties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ManagedDomainList
+  - Added Enum AzureClouds
+  - Added Enum KnownManagedDomainList
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation DnsForwardingRulesets.beginCreateOrUpdate
+  - Removed operation DnsForwardingRulesets.beginCreateOrUpdateAndWait
+  - Removed operation DnsForwardingRulesets.beginDelete
+  - Removed operation DnsForwardingRulesets.beginDeleteAndWait
+  - Removed operation DnsForwardingRulesets.beginUpdate
+  - Removed operation DnsForwardingRulesets.beginUpdateAndWait
+  - Removed operation DnsResolverDomainLists.beginBulk
+  - Removed operation DnsResolverDomainLists.beginBulkAndWait
+  - Removed operation DnsResolverDomainLists.beginCreateOrUpdate
+  - Removed operation DnsResolverDomainLists.beginCreateOrUpdateAndWait
+  - Removed operation DnsResolverDomainLists.beginDelete
+  - Removed operation DnsResolverDomainLists.beginDeleteAndWait
+  - Removed operation DnsResolverDomainLists.beginUpdate
+  - Removed operation DnsResolverDomainLists.beginUpdateAndWait
+  - Removed operation DnsResolverPolicies.beginCreateOrUpdate
+  - Removed operation DnsResolverPolicies.beginCreateOrUpdateAndWait
+  - Removed operation DnsResolverPolicies.beginDelete
+  - Removed operation DnsResolverPolicies.beginDeleteAndWait
+  - Removed operation DnsResolverPolicies.beginUpdate
+  - Removed operation DnsResolverPolicies.beginUpdateAndWait
+  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginCreateOrUpdate
+  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginCreateOrUpdateAndWait
+  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginDelete
+  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginDeleteAndWait
+  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginUpdate
+  - Removed operation DnsResolverPolicyVirtualNetworkLinks.beginUpdateAndWait
+  - Removed operation DnsResolvers.beginCreateOrUpdate
+  - Removed operation DnsResolvers.beginCreateOrUpdateAndWait
+  - Removed operation DnsResolvers.beginDelete
+  - Removed operation DnsResolvers.beginDeleteAndWait
+  - Removed operation DnsResolvers.beginUpdate
+  - Removed operation DnsResolvers.beginUpdateAndWait
+  - Removed operation DnsSecurityRules.beginCreateOrUpdate
+  - Removed operation DnsSecurityRules.beginCreateOrUpdateAndWait
+  - Removed operation DnsSecurityRules.beginDelete
+  - Removed operation DnsSecurityRules.beginDeleteAndWait
+  - Removed operation DnsSecurityRules.beginUpdate
+  - Removed operation DnsSecurityRules.beginUpdateAndWait
+  - Removed operation InboundEndpoints.beginCreateOrUpdate
+  - Removed operation InboundEndpoints.beginCreateOrUpdateAndWait
+  - Removed operation InboundEndpoints.beginDelete
+  - Removed operation InboundEndpoints.beginDeleteAndWait
+  - Removed operation InboundEndpoints.beginUpdate
+  - Removed operation InboundEndpoints.beginUpdateAndWait
+  - Removed operation OutboundEndpoints.beginCreateOrUpdate
+  - Removed operation OutboundEndpoints.beginCreateOrUpdateAndWait
+  - Removed operation OutboundEndpoints.beginDelete
+  - Removed operation OutboundEndpoints.beginDeleteAndWait
+  - Removed operation OutboundEndpoints.beginUpdate
+  - Removed operation OutboundEndpoints.beginUpdateAndWait
+  - Removed operation VirtualNetworkLinks.beginCreateOrUpdate
+  - Removed operation VirtualNetworkLinks.beginCreateOrUpdateAndWait
+  - Removed operation VirtualNetworkLinks.beginDelete
+  - Removed operation VirtualNetworkLinks.beginDeleteAndWait
+  - Removed operation VirtualNetworkLinks.beginUpdate
+  - Removed operation VirtualNetworkLinks.beginUpdateAndWait
+  - Operation DnsForwardingRulesets.get has a new signature
+  - Operation DnsResolverPolicyVirtualNetworkLinks.get has a new signature
+  - Operation DnsResolvers.get has a new signature
+  - Operation DnsSecurityRules.get has a new signature
+  - Operation ForwardingRules.createOrUpdate has a new signature
+  - Operation ForwardingRules.get has a new signature
+  - Operation ForwardingRules.update has a new signature
+  - Operation InboundEndpoints.get has a new signature
+  - Operation OutboundEndpoints.get has a new signature
+  - Operation VirtualNetworkLinks.get has a new signature
+  - Interface DnsForwardingRuleset has a new required parameter properties
+  - Interface DnsResolver has a new required parameter properties
+  - Interface DnsResolverDomainListBulk has a new required parameter properties
+  - Interface DnsResolverPolicyVirtualNetworkLink has a new required parameter properties
+  - Interface DnsSecurityRule has a new required parameter properties
+  - Interface ForwardingRule has a new required parameter properties
+  - Interface InboundEndpoint has a new required parameter properties
+  - Interface OutboundEndpoint has a new required parameter properties
+  - Interface VirtualNetworkLink has a new required parameter properties
+  - Interface DnsForwardingRuleset no longer has parameter dnsResolverOutboundEndpoints
+  - Interface DnsForwardingRuleset no longer has parameter provisioningState
+  - Interface DnsForwardingRuleset no longer has parameter resourceGuid
+  - Interface DnsResolver no longer has parameter dnsResolverState
+  - Interface DnsResolver no longer has parameter provisioningState
+  - Interface DnsResolver no longer has parameter resourceGuid
+  - Interface DnsResolver no longer has parameter virtualNetwork
+  - Interface DnsResolverDomainList no longer has parameter domains
+  - Interface DnsResolverDomainList no longer has parameter domainsUrl
+  - Interface DnsResolverDomainList no longer has parameter provisioningState
+  - Interface DnsResolverDomainList no longer has parameter resourceGuid
+  - Interface DnsResolverDomainListBulk no longer has parameter action
+  - Interface DnsResolverDomainListBulk no longer has parameter storageUrl
+  - Interface DnsResolverDomainListPatch no longer has parameter domains
+  - Interface DnsResolverPolicy no longer has parameter provisioningState
+  - Interface DnsResolverPolicy no longer has parameter resourceGuid
+  - Interface DnsResolverPolicyVirtualNetworkLink no longer has parameter provisioningState
+  - Interface DnsResolverPolicyVirtualNetworkLink no longer has parameter virtualNetwork
+  - Interface DnsSecurityRule no longer has parameter action
+  - Interface DnsSecurityRule no longer has parameter dnsResolverDomainLists
+  - Interface DnsSecurityRule no longer has parameter dnsSecurityRuleState
+  - Interface DnsSecurityRule no longer has parameter priority
+  - Interface DnsSecurityRule no longer has parameter provisioningState
+  - Interface DnsSecurityRulePatch no longer has parameter action
+  - Interface DnsSecurityRulePatch no longer has parameter dnsResolverDomainLists
+  - Interface DnsSecurityRulePatch no longer has parameter dnsSecurityRuleState
+  - Interface DnsSecurityRulePatch no longer has parameter priority
+  - Interface ForwardingRule no longer has parameter domainName
+  - Interface ForwardingRule no longer has parameter forwardingRuleState
+  - Interface ForwardingRule no longer has parameter metadata
+  - Interface ForwardingRule no longer has parameter provisioningState
+  - Interface ForwardingRule no longer has parameter targetDnsServers
+  - Interface ForwardingRulePatch no longer has parameter forwardingRuleState
+  - Interface ForwardingRulePatch no longer has parameter metadata
+  - Interface ForwardingRulePatch no longer has parameter targetDnsServers
+  - Interface InboundEndpoint no longer has parameter ipConfigurations
+  - Interface InboundEndpoint no longer has parameter provisioningState
+  - Interface InboundEndpoint no longer has parameter resourceGuid
+  - Interface OutboundEndpoint no longer has parameter provisioningState
+  - Interface OutboundEndpoint no longer has parameter resourceGuid
+  - Interface OutboundEndpoint no longer has parameter subnet
+  - Interface VirtualNetworkDnsForwardingRuleset no longer has parameter virtualNetworkLink
+  - Interface VirtualNetworkLink no longer has parameter metadata
+  - Interface VirtualNetworkLink no longer has parameter provisioningState
+  - Interface VirtualNetworkLink no longer has parameter virtualNetwork
+  - Interface VirtualNetworkLinkPatch no longer has parameter metadata
+
     
 ## 1.2.0 (2025-06-11)
     
