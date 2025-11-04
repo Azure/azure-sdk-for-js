@@ -279,7 +279,7 @@ export function getStorageDirectory(
   let subDirectory: string;
   try {
     subDirectory = createHash("sha256").update(hash_input).digest("hex");
-  } catch (e: any) {
+  } catch (error) {
       let hash = 5381;
       for (let i = 0; i < hash_input.length; i++) {
         const char = hash_input.charCodeAt(i);
