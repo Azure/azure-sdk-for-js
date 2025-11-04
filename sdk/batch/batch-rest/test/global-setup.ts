@@ -46,9 +46,7 @@ export async function setup(): Promise<void> {
     getAzureBatchServicePrincipalObjectId(),
     "ServicePrincipal",
   );
-  console.log(
-    "[global-setup] granted Key Vault Secrets Officer role to Batch Service Principal",
-  );
+  console.log("[global-setup] granted Key Vault Secrets Officer role to Batch Service Principal");
 
   await createByosBatchAccount(
     getByosBatchAccountName(),

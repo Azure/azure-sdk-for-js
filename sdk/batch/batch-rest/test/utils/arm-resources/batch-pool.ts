@@ -65,7 +65,7 @@ export async function waitForPoolSteady(accountName: string, poolName: string): 
   const checkPoolStable = async (): Promise<Pool | null> => {
     const client = new BatchManagementClient(createTestCredential(), subscriptionId);
     const pool = await client.poolOperations.get(resourceGroupName, accountName, poolName);
-    
+
     if (pool.allocationState === "Steady") {
       return pool;
     }

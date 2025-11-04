@@ -84,7 +84,7 @@ export async function deleteVmAccessProfileVersion(
 
   // Wait a bit to ensure the version deletion has fully propagated before deleting the profile
   await wait(10000);
-  
+
   await client.galleryInVMAccessControlProfiles.beginDeleteAndWait(
     getResourceGroupName(),
     galleryName,
