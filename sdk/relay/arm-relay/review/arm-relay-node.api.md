@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessKeys {
@@ -20,18 +23,31 @@ export interface AccessKeys {
 }
 
 // @public
-export type AccessRights = "Manage" | "Send" | "Listen";
+export type AccessRights = string;
 
 // @public
-export interface AuthorizationRule extends Resource {
+export type ActionType = string;
+
+// @public
+export interface AuthorizationRule extends ProxyResource {
+    readonly location?: string;
+    properties?: AuthorizationRuleProperties;
+}
+
+// @public
+export interface AuthorizationRuleProperties {
     rights: AccessRights[];
 }
 
 // @public
-export interface AuthorizationRuleListResult {
-    nextLink?: string;
-    value?: AuthorizationRule[];
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckNameAvailability {
@@ -46,16 +62,53 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export interface ErrorResponse {
-    code?: string;
-    message?: string;
+export interface ConnectionState {
+    description?: string;
+    status?: PrivateLinkConnectionStatus;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
-export interface HybridConnection extends Resource {
+export type CreatedByType = string;
+
+// @public
+export type DefaultAction = string;
+
+// @public
+export type EndPointProvisioningState = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface HybridConnection extends ProxyResource {
+    readonly location?: string;
+    properties?: HybridConnectionProperties;
+}
+
+// @public
+export interface HybridConnectionProperties {
     readonly createdAt?: Date;
     readonly listenerCount?: number;
     requiresClientAuthorization?: boolean;
@@ -64,275 +117,384 @@ export interface HybridConnection extends Resource {
 }
 
 // @public
-export interface HybridConnectionListResult {
-    nextLink?: string;
-    value?: HybridConnection[];
+export interface HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HybridConnections {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: HybridConnection, options?: HybridConnectionsCreateOrUpdateOptionalParams): Promise<HybridConnectionsCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams): Promise<HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>;
-    delete(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: HybridConnectionsDeleteOptionalParams): Promise<void>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: HybridConnectionsDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: HybridConnectionsGetOptionalParams): Promise<HybridConnectionsGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: HybridConnectionsGetAuthorizationRuleOptionalParams): Promise<HybridConnectionsGetAuthorizationRuleResponse>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: HybridConnectionsListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: HybridConnectionsListByNamespaceOptionalParams): PagedAsyncIterableIterator<HybridConnection>;
-    listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: HybridConnectionsListKeysOptionalParams): Promise<HybridConnectionsListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: HybridConnectionsRegenerateKeysOptionalParams): Promise<HybridConnectionsRegenerateKeysResponse>;
+export interface HybridConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HybridConnectionsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface HybridConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HybridConnectionsCreateOrUpdateResponse = HybridConnection;
-
-// @public
-export interface HybridConnectionsDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HybridConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HybridConnectionsGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HybridConnectionsGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface HybridConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HybridConnectionsGetResponse = HybridConnection;
-
-// @public
-export interface HybridConnectionsListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HybridConnectionsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
-
-// @public
-export interface HybridConnectionsListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: HybridConnection, options?: HybridConnectionsCreateOrUpdateOptionalParams) => Promise<HybridConnection>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    delete: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: HybridConnectionsDeleteOptionalParams) => Promise<void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: HybridConnectionsDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: HybridConnectionsGetOptionalParams) => Promise<HybridConnection>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: HybridConnectionsGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: HybridConnectionsListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: HybridConnectionsListByNamespaceOptionalParams) => PagedAsyncIterableIterator<HybridConnection>;
+    listKeys: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: HybridConnectionsListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: HybridConnectionsRegenerateKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export type HybridConnectionsListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-// @public
-export interface HybridConnectionsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+export interface HybridConnectionsRegenerateKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HybridConnectionsListByNamespaceNextResponse = HybridConnectionListResult;
+export type KeyType = string;
 
 // @public
-export interface HybridConnectionsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+export enum KnownAccessRights {
+    Listen = "Listen",
+    Manage = "Manage",
+    Send = "Send"
 }
 
 // @public
-export type HybridConnectionsListByNamespaceResponse = HybridConnectionListResult;
-
-// @public
-export interface HybridConnectionsListKeysOptionalParams extends coreClient.OperationOptions {
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
-export type HybridConnectionsListKeysResponse = AccessKeys;
-
-// @public
-export interface HybridConnectionsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
-export type HybridConnectionsRegenerateKeysResponse = AccessKeys;
-
-// @public
-export type KeyType = "PrimaryKey" | "SecondaryKey";
-
-// @public
-export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: RelayNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: RelayNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
-    checkNameAvailability(parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams): Promise<NamespacesGetAuthorizationRuleResponse>;
-    list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<RelayNamespace>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
-    listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<RelayNamespace>;
-    listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams): Promise<NamespacesListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
-    update(resourceGroupName: string, namespaceName: string, parameters: RelayUpdateParameters, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
+export enum KnownDefaultAction {
+    Allow = "Allow",
+    Deny = "Deny"
 }
 
 // @public
-export interface NamespacesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export enum KnownEndPointProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export enum KnownKeyType {
+    PrimaryKey = "PrimaryKey",
+    SecondaryKey = "SecondaryKey"
 }
 
 // @public
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
+export enum KnownNetworkRuleIPAction {
+    Allow = "Allow"
+}
 
 // @public
-export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrivateLinkConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
+export enum KnownSkuName {
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownSkuTier {
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownUnavailableReason {
+    InvalidName = "InvalidName",
+    NameInLockdown = "NameInLockdown",
+    NameInUse = "NameInUse",
+    None = "None",
+    SubscriptionIsDisabled = "SubscriptionIsDisabled",
+    TooManyNamespaceInCurrentSubscription = "TooManyNamespaceInCurrentSubscription"
+}
+
+// @public
+export enum KnownVersions {
+    V20240101 = "2024-01-01"
+}
+
+// @public
+export interface NamespacesCheckNameAvailabilityOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NamespacesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NamespacesCreateOrUpdateResponse = RelayNamespace;
-
-// @public
-export interface NamespacesDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NamespacesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetNetworkRuleSetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesGetResponse = RelayNamespace;
-
-// @public
-export interface NamespacesListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
-
-// @public
-export interface NamespacesListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-// @public
-export interface NamespacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListByResourceGroupNextResponse = RelayNamespaceListResult;
-
-// @public
-export interface NamespacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListByResourceGroupResponse = RelayNamespaceListResult;
-
-// @public
-export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListKeysResponse = AccessKeys;
-
-// @public
-export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesOperations {
+    checkNameAvailability: (parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, parameters: RelayNamespace, options?: NamespacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<RelayNamespace>, RelayNamespace>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    createOrUpdateNetworkRuleSet: (resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams) => Promise<NetworkRuleSet>;
+    delete: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams) => Promise<RelayNamespace>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    getNetworkRuleSet: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams) => Promise<NetworkRuleSet>;
+    list: (options?: NamespacesListOptionalParams) => PagedAsyncIterableIterator<RelayNamespace>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listByResourceGroup: (resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<RelayNamespace>;
+    listKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams) => Promise<AccessKeys>;
+    update: (resourceGroupName: string, namespaceName: string, parameters: RelayUpdateParameters, options?: NamespacesUpdateOptionalParams) => Promise<RelayNamespace>;
 }
 
 // @public
-export type NamespacesListNextResponse = RelayNamespaceListResult;
-
-// @public
-export interface NamespacesListOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesRegenerateKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesListResponse = RelayNamespaceListResult;
-
-// @public
-export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesRegenerateKeysResponse = AccessKeys;
+export type NetworkRuleIPAction = string;
 
 // @public
-export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface NetworkRuleSet extends ProxyResource {
+    properties?: NetworkRuleSetProperties;
 }
 
 // @public
-export type NamespacesUpdateResponse = RelayNamespace;
+export interface NetworkRuleSetProperties {
+    defaultAction?: DefaultAction;
+    ipRules?: NWRuleSetIpRules[];
+    publicNetworkAccess?: PublicNetworkAccess;
+    trustedServiceAccessEnabled?: boolean;
+}
+
+// @public
+export interface NWRuleSetIpRules {
+    action?: NetworkRuleIPAction;
+    ipMask?: string;
+}
 
 // @public
 export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
+    readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PrivateEndpoint {
+    id?: string;
+}
 
 // @public
-export type ProvisioningStateEnum = "Created" | "Succeeded" | "Deleted" | "Failed" | "Updating" | "Unknown";
+export interface PrivateEndpointConnection extends ProxyResource {
+    readonly location?: string;
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: ConnectionState;
+    provisioningState?: EndPointProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export type PrivateLinkConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    groupId?: string;
+    requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, namespaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    list: (resourceGroupName: string, namespaceName: string, options?: PrivateLinkResourcesListOptionalParams) => Promise<PrivateLinkResourcesListResult>;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export interface RegenerateAccessKeyParameters {
@@ -341,45 +503,39 @@ export interface RegenerateAccessKeyParameters {
 }
 
 // @public (undocumented)
-export class RelayAPI extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RelayAPIOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    hybridConnections: HybridConnections;
-    // (undocumented)
-    namespaces: Namespaces;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    wCFRelays: WCFRelays;
+export class RelayAPI {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: RelayAPIOptionalParams);
+    readonly hybridConnections: HybridConnectionsOperations;
+    readonly namespaces: NamespacesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly wcfRelays: WCFRelaysOperations;
 }
 
 // @public
-export interface RelayAPIOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface RelayAPIOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface RelayNamespace extends TrackedResource {
-    readonly createdAt?: Date;
-    readonly metricId?: string;
-    readonly provisioningState?: ProvisioningStateEnum;
-    readonly serviceBusEndpoint?: string;
+    properties?: RelayNamespaceProperties;
     sku?: Sku;
-    readonly updatedAt?: Date;
 }
 
 // @public
-export interface RelayNamespaceListResult {
-    nextLink?: string;
-    value?: RelayNamespace[];
+export interface RelayNamespaceProperties {
+    readonly createdAt?: Date;
+    readonly metricId?: string;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly serviceBusEndpoint?: string;
+    readonly status?: string;
+    readonly updatedAt?: Date;
 }
 
 // @public
@@ -387,47 +543,72 @@ export type Relaytype = "NetTcp" | "Http";
 
 // @public
 export interface RelayUpdateParameters extends ResourceNamespacePatch {
-    readonly createdAt?: Date;
-    readonly metricId?: string;
-    readonly provisioningState?: ProvisioningStateEnum;
-    readonly serviceBusEndpoint?: string;
+    properties?: RelayNamespaceProperties;
     sku?: Sku;
-    readonly updatedAt?: Date;
 }
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceNamespacePatch extends Resource {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: RelayAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface Sku {
-    name: "Standard";
-    tier?: "Standard";
+    name: SkuName;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuName = string;
+
+// @public
+export type SkuTier = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
+export type UnavailableReason = string;
 
 // @public
-export interface WcfRelay extends Resource {
+export interface WcfRelay extends ProxyResource {
+    readonly location?: string;
+    properties?: WcfRelayProperties;
+}
+
+// @public
+export interface WcfRelayProperties {
     readonly createdAt?: Date;
     readonly isDynamic?: boolean;
     readonly listenerCount?: number;
@@ -439,102 +620,58 @@ export interface WcfRelay extends Resource {
 }
 
 // @public
-export interface WCFRelays {
-    createOrUpdate(resourceGroupName: string, namespaceName: string, relayName: string, parameters: WcfRelay, options?: WCFRelaysCreateOrUpdateOptionalParams): Promise<WCFRelaysCreateOrUpdateResponse>;
-    createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams): Promise<WCFRelaysCreateOrUpdateAuthorizationRuleResponse>;
-    delete(resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysDeleteOptionalParams): Promise<void>;
-    deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    get(resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysGetOptionalParams): Promise<WCFRelaysGetResponse>;
-    getAuthorizationRule(resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysGetAuthorizationRuleOptionalParams): Promise<WCFRelaysGetAuthorizationRuleResponse>;
-    listAuthorizationRules(resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
-    listByNamespace(resourceGroupName: string, namespaceName: string, options?: WCFRelaysListByNamespaceOptionalParams): PagedAsyncIterableIterator<WcfRelay>;
-    listKeys(resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysListKeysOptionalParams): Promise<WCFRelaysListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: WCFRelaysRegenerateKeysOptionalParams): Promise<WCFRelaysRegenerateKeysResponse>;
+export interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WCFRelaysCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface WCFRelaysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WCFRelaysCreateOrUpdateResponse = WcfRelay;
-
-// @public
-export interface WCFRelaysDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WCFRelaysGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface WCFRelaysGetOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WCFRelaysGetResponse = WcfRelay;
-
-// @public
-export interface WCFRelaysListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WCFRelaysListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
-
-// @public
-export interface WCFRelaysListAuthorizationRulesOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WCFRelaysListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-// @public
-export interface WCFRelaysListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, relayName: string, parameters: WcfRelay, options?: WCFRelaysCreateOrUpdateOptionalParams) => Promise<WcfRelay>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    delete: (resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysDeleteOptionalParams) => Promise<void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysGetOptionalParams) => Promise<WcfRelay | null>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: WCFRelaysListByNamespaceOptionalParams) => PagedAsyncIterableIterator<WcfRelay>;
+    listKeys: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: WCFRelaysRegenerateKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export type WCFRelaysListByNamespaceNextResponse = WcfRelaysListResult;
-
-// @public
-export interface WCFRelaysListByNamespaceOptionalParams extends coreClient.OperationOptions {
+export interface WCFRelaysRegenerateKeysOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WCFRelaysListByNamespaceResponse = WcfRelaysListResult;
-
-// @public
-export interface WCFRelaysListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WCFRelaysListKeysResponse = AccessKeys;
-
-// @public
-export interface WcfRelaysListResult {
-    nextLink?: string;
-    value?: WcfRelay[];
-}
-
-// @public
-export interface WCFRelaysRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WCFRelaysRegenerateKeysResponse = AccessKeys;
 
 // (No @packageDocumentation comment for this package)
 
