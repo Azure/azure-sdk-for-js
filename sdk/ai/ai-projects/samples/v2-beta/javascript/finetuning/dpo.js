@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to create and manage supervised fine-tuning jobs.
+ * This sample demonstrates how to create and cancel dpo fine-tuning jobs.
  *
  * @summary Using an OpenAI client, this sample shows how to upload training and validation files
- * and perform fine-tuning operations: create, retrieve, list, and cancel.
+ * and perform dpo fine-tuning operations: create and cancel.
  */
 
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
@@ -30,7 +30,6 @@ async function createOpenAI() {
     apiKey: azureADTokenProvider,
     baseURL: openAiBaseUrl,
     defaultQuery: { "api-version": "2025-11-15-preview" },
-    defaultHeaders: { "accept-encoding": "deflate" },
   });
 }
 
@@ -97,23 +96,23 @@ async function main() {
   });
   console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 
-  // 3) Retrieve the fine-tuning job by ID
-  console.log(`\nRetrieving fine-tuning job with ID: ${fineTuningJob.id}`);
-  const retrievedJob = await openAI.fineTuning.jobs.retrieve(fineTuningJob.id);
-  console.log("Retrieved job:\n", JSON.stringify(retrievedJob, null, 2));
-
-  // 4) List all fine-tuning jobs
-  console.log("\nListing all fine-tuning jobs:");
-  const jobsList = await openAI.fineTuning.jobs.list();
-  for (const job of jobsList.data ?? []) {
-    console.log(JSON.stringify(job, null, 2));
-  }
-
-  // 5) Cancel the fine-tuning job
+  // 3) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
   const cancelledJob = await openAI.fineTuning.jobs.cancel(fineTuningJob.id);
   console.log(
     `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
+  );
+
+  // 4) Delete the uploaded files
+  console.log(`Deleting file with ID: ${trainingFile.id}`);
+  const deletedTrainingFile = await openAI.files.delete(trainingFile.id);
+  console.log(
+    `Successfully deleted file: ${deletedTrainingFile?.id || trainingFile.id}, deleted=${String(deletedTrainingFile?.deleted ?? true)}`,
+  );
+  console.log(`Deleting file with ID: ${validationFile.id}`);
+  const deletedValidationFile = await openAI.files.delete(validationFile.id);
+  console.log(
+    `Successfully deleted file: ${deletedValidationFile?.id || validationFile.id}, deleted=${String(deletedValidationFile?.deleted ?? true)}`,
   );
 }
 
