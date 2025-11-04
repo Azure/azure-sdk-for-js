@@ -66,13 +66,11 @@ export async function main(): Promise<void> {
   console.log("\nGenerating initial response...");
   const response = await openAIClient.responses.create(
     {
-      input: [
-        {
-          type: "message",
-          role: "user",
-          content: "What is my horoscope? I am an Aquarius.",
-        },
-      ],
+      input: [{
+        type: "message",
+        role: "user",
+        content: "What is my horoscope? I am an Aquarius.",
+      }],
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
