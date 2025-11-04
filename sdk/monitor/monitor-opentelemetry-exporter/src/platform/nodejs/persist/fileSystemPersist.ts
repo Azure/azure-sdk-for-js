@@ -280,13 +280,13 @@ export function getStorageDirectory(
   try {
     subDirectory = createHash("sha256").update(hash_input).digest("hex");
   } catch (error) {
-      let hash = 5381;
-      for (let i = 0; i < hash_input.length; i++) {
-        const char = hash_input.charCodeAt(i);
-        hash = ((hash << 5) + hash) + char;
-        hash = hash & hash;
-      }
-      subDirectory = Math.abs(hash).toString(16);
+    let hash = 5381;
+    for (let i = 0; i < hash_input.length; i++) {
+      const char = hash_input.charCodeAt(i);
+      hash = (hash << 5) + hash + char;
+      hash = hash & hash;
+    }
+    subDirectory = Math.abs(hash).toString(16);
   }
 
   let sharedRoot: string;
