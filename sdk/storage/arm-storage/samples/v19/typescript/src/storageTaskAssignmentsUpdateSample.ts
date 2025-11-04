@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update storage task assignment properties
  *
  * @summary Update storage task assignment properties
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
  */
 async function patchStorageTaskAssignment(): Promise<void> {
   const subscriptionId =

@@ -148,8 +148,12 @@ To record or update our recordings, we need to set the environment variable `TES
 After running the test cases, you need to push your recordings into assets repo. See [here](#how-to-push-test-recordings-to-assets-repo)
 
 ```Shell
-# Windows
+# Windows with CMD
 > set TEST_MODE=record
+> pnpm test
+
+# Windows with PowerShell
+> $env: TEST MODE="record"
 > pnpm test
 
 # Linux / Mac
@@ -173,8 +177,12 @@ This time we could get following similar logs. Go to the folder `purview-scannin
 If we have existing recordings, then the tests have been run against generated the HTTP recordings, we can run your tests in `playback` mode.
 
 ```Shell
-# Windows
+# Windows with CMD
 > set TEST_MODE=playback
+> pnpm test
+
+# Windows with PowerShell
+> $env: TEST MODE="playback"
 > pnpm test
 
 # Linux / Mac

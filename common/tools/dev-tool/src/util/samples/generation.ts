@@ -84,7 +84,9 @@ function isValidNpmVersionSpecifier(specifier: string) {
   return (
     semver.valid(
       specifier.startsWith("^") || specifier.startsWith("~") ? specifier.substring(1) : specifier,
-    ) || ["latest", "dev", "next"].includes(specifier)
+    ) ||
+    semver.validRange(specifier) ||
+    ["latest", "dev", "next"].includes(specifier)
   );
 }
 

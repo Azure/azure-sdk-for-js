@@ -241,7 +241,7 @@ export interface CreationData {
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
   /**
-   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
@@ -290,11 +290,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentOrchestratorVersion?: string;
-  /**
-   * The version of node image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeImageVersion?: string;
+  /** The version of node image */
+  nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
   /** Settings for upgrading the agentpool. Applies when upgrade strategy is set to Rolling. */
@@ -312,8 +309,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
   availabilityZones?: string[];
   /** Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** Whether to enable Custom CA Trust feature. When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
-  enableCustomCATrust?: boolean;
   /** The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
@@ -370,6 +365,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
+  /** Settings to determine the node customization used to provision nodes in a pool. */
+  nodeCustomizationProfile?: NodeCustomizationProfile;
 }
 
 /** Settings for rolling upgrade on an agentpool */
@@ -646,6 +643,12 @@ export interface LocalDNSOverride {
   serveStaleDurationInSeconds?: number;
   /** Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
   serveStale?: LocalDNSServeStale;
+}
+
+/** Settings to determine the node customization used to provision nodes in a pool. */
+export interface NodeCustomizationProfile {
+  /** The resource ID of the node customization resource to use. This can be a version. Omitting the version will use the latest version of the node customization. */
+  nodeCustomizationId?: string;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -1408,6 +1411,8 @@ export interface IstioComponents {
   ingressGateways?: IstioIngressGateway[];
   /** Istio egress gateways. */
   egressGateways?: IstioEgressGateway[];
+  /** Mode of traffic redirection. */
+  proxyRedirectionMechanism?: ProxyRedirectionMechanism;
 }
 
 /** Istio ingress gateway configuration. For now, we support up to one external ingress gateway named `aks-istio-ingressgateway-external` and one internal ingress gateway named `aks-istio-ingressgateway-internal`. */
@@ -1499,6 +1504,12 @@ export interface SchedulerProfileSchedulerInstanceProfiles {
 export interface SchedulerInstanceProfile {
   /** The config customization mode for this scheduler instance. */
   schedulerConfigMode?: SchedulerConfigMode;
+}
+
+/** Settings for hosted system addons. */
+export interface ManagedClusterHostedSystemProfile {
+  /** Whether to enable hosted system addons for the cluster. */
+  enabled?: boolean;
 }
 
 /** Contains read-only information about the Managed Cluster. */
@@ -1846,6 +1857,11 @@ export interface AgentPoolUpgradeProfile {
   upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
   /** List of components grouped by kubernetes major.minor version. */
   componentsByReleases?: ComponentsByRelease[];
+  /**
+   * List of historical good versions for rollback operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recentlyUsedVersions?: AgentPoolRecentlyUsedVersion[];
   /** The latest AKS supported node image version. */
   latestNodeImageVersion?: string;
 }
@@ -1857,6 +1873,16 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
   isPreview?: boolean;
   /** Whether the Kubernetes version is out of support. */
   isOutOfSupport?: boolean;
+}
+
+/** A historical version that can be used for rollback operations. */
+export interface AgentPoolRecentlyUsedVersion {
+  /** The Kubernetes version (major.minor.patch) available for rollback. */
+  orchestratorVersion?: string;
+  /** The node image version available for rollback. */
+  nodeImageVersion?: string;
+  /** The timestamp when this version was last used. */
+  timestamp?: Date;
 }
 
 /** Specifies a list of machine names from the agent pool to be deleted. */
@@ -1910,7 +1936,7 @@ export interface MachineProperties {
   /** The tags to be persisted on the machine. */
   tags?: { [propertyName: string]: string };
   /**
-   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
@@ -2634,6 +2660,28 @@ export interface JWTAuthenticatorExtraClaimMappingExpression {
   valueExpression: string;
 }
 
+/** The result of a request to list mesh memberships in a managed cluster. */
+export interface MeshMembershipsListResult {
+  /** The list of mesh memberships. */
+  value?: MeshMembership[];
+  /**
+   * The URL to get the next set of mesh membership results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Mesh membership properties of a managed cluster. */
+export interface MeshMembershipProperties {
+  /**
+   * The current provisioning state of the Mesh Membership.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: MeshMembershipProvisioningState;
+  /** The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information. */
+  managedMeshID: string;
+}
+
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolProfileProperties {
   /** Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less. */
@@ -2704,7 +2752,7 @@ export interface ManagedNamespace extends SubResource {
   /** The tags to be persisted on the managed cluster namespace. */
   tags?: { [propertyName: string]: string };
   /**
-   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
@@ -2717,7 +2765,7 @@ export interface ManagedNamespace extends SubResource {
 /** Agent Pool. */
 export interface AgentPool extends SubResource {
   /**
-   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
@@ -2766,11 +2814,8 @@ export interface AgentPool extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentOrchestratorVersion?: string;
-  /**
-   * The version of node image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeImageVersion?: string;
+  /** The version of node image */
+  nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
   /** Settings for upgrading the agentpool. Applies when upgrade strategy is set to Rolling. */
@@ -2788,8 +2833,6 @@ export interface AgentPool extends SubResource {
   availabilityZones?: string[];
   /** Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** Whether to enable Custom CA Trust feature. When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
-  enableCustomCATrust?: boolean;
   /** The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
@@ -2846,6 +2889,8 @@ export interface AgentPool extends SubResource {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
+  /** Settings to determine the node customization used to provision nodes in a pool. */
+  nodeCustomizationProfile?: NodeCustomizationProfile;
 }
 
 /** A machine provides detailed information about its configuration and status. A machine may be visible here but not in kubectl get nodes; if so, it may be because the machine has not been registered with the Kubernetes API Server yet. */
@@ -2862,7 +2907,7 @@ export interface MeshUpgradeProfileProperties extends MeshRevision {}
 /** Managed cluster. */
 export interface ManagedCluster extends TrackedResource {
   /**
-   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
@@ -2992,6 +3037,8 @@ export interface ManagedCluster extends TrackedResource {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** Profile of the pod scheduler configuration. */
   schedulerProfile?: SchedulerProfile;
+  /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -3089,7 +3136,7 @@ export interface IdentityBinding extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: IdentityBindingProperties;
   /**
-   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
@@ -3099,6 +3146,19 @@ export interface IdentityBinding extends ProxyResource {
 export interface JWTAuthenticator extends ProxyResource {
   /** The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs. */
   properties: JWTAuthenticatorProperties;
+}
+
+/** Mesh membership of a managed cluster. */
+export interface MeshMembership extends ProxyResource {
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string;
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /** Mesh membership properties of a managed cluster. */
+  properties?: MeshMembershipProperties;
 }
 
 /** Defines headers for ManagedClusters_delete operation. */
@@ -3311,6 +3371,12 @@ export interface JWTAuthenticatorsDeleteExceptionHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for MeshMemberships_delete operation. */
+export interface MeshMembershipsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
 /** Known values of {@link KubernetesSupportPlan} that the service accepts. */
 export enum KnownKubernetesSupportPlan {
   /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
@@ -3504,6 +3570,8 @@ export enum KnownOssku {
   AzureLinux = "AzureLinux",
   /** Use AzureLinux3 as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\//aka.ms\/azurelinux for more information. For limitations, visit https:\//aka.ms\/aks\/node-images. For OS migration guidance, see https:\//aka.ms\/aks\/upgrade-os-version. */
   AzureLinux3 = "AzureLinux3",
+  /** Use Flatcar Container Linux as the OS for node images. Flatcar is a container-optimized, security-focused Linux OS, with an immutable filesystem and part of the Cloud Native Computing Foundation (CNCF). For more information about Flatcar Container Linux for AKS, see aka.ms\/aks\/flatcar-container-linux-for-aks */
+  Flatcar = "Flatcar",
   /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
   CBLMariner = "CBLMariner",
   /** Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. */
@@ -3529,6 +3597,7 @@ export enum KnownOssku {
  * **Mariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **AzureLinux**: Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\/\/aka.ms\/azurelinux for more information. \
  * **AzureLinux3**: Use AzureLinux3 as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\/\/aka.ms\/azurelinux for more information. For limitations, visit https:\/\/aka.ms\/aks\/node-images. For OS migration guidance, see https:\/\/aka.ms\/aks\/upgrade-os-version. \
+ * **Flatcar**: Use Flatcar Container Linux as the OS for node images. Flatcar is a container-optimized, security-focused Linux OS, with an immutable filesystem and part of the Cloud Native Computing Foundation (CNCF). For more information about Flatcar Container Linux for AKS, see aka.ms\/aks\/flatcar-container-linux-for-aks \
  * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
  * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. \
@@ -3744,8 +3813,10 @@ export type Protocol = string;
 export enum KnownAgentPoolSSHAccess {
   /** Can SSH onto the node as a local user using private key. */
   LocalUser = "LocalUser",
-  /** SSH service will be turned off on the node. */
+  /** SSH service will be turned off on the node. More information can be found under https:\//aka.ms\/aks\/ssh\/disable */
   Disabled = "Disabled",
+  /** SSH to node with EntraId integration. More information can be found under https:\//aka.ms\/aks\/ssh\/aad */
+  EntraId = "EntraId",
 }
 
 /**
@@ -3754,7 +3825,8 @@ export enum KnownAgentPoolSSHAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LocalUser**: Can SSH onto the node as a local user using private key. \
- * **Disabled**: SSH service will be turned off on the node.
+ * **Disabled**: SSH service will be turned off on the node. More information can be found under https:\/\/aka.ms\/aks\/ssh\/disable \
+ * **EntraId**: SSH to node with EntraId integration. More information can be found under https:\/\/aka.ms\/aks\/ssh\/aad
  */
 export type AgentPoolSSHAccess = string;
 
@@ -4529,6 +4601,24 @@ export enum KnownIstioIngressGatewayMode {
  */
 export type IstioIngressGatewayMode = string;
 
+/** Known values of {@link ProxyRedirectionMechanism} that the service accepts. */
+export enum KnownProxyRedirectionMechanism {
+  /** Istio will inject an init container into each pod to redirect traffic (requires NET_ADMIN and NET_RAW). */
+  InitContainers = "InitContainers",
+  /** Istio will install a chained CNI plugin to redirect traffic (recommended). */
+  CNIChaining = "CNIChaining",
+}
+
+/**
+ * Defines values for ProxyRedirectionMechanism. \
+ * {@link KnownProxyRedirectionMechanism} can be used interchangeably with ProxyRedirectionMechanism,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InitContainers**: Istio will inject an init container into each pod to redirect traffic (requires NET_ADMIN and NET_RAW). \
+ * **CNIChaining**: Istio will install a chained CNI plugin to redirect traffic (recommended).
+ */
+export type ProxyRedirectionMechanism = string;
+
 /** Known values of {@link NodeProvisioningMode} that the service accepts. */
 export enum KnownNodeProvisioningMode {
   /** Nodes are provisioned manually by the user */
@@ -5044,6 +5134,36 @@ export enum KnownJWTAuthenticatorProvisioningState {
  * **Deleting**: The JWT authenticator is being deleted.
  */
 export type JWTAuthenticatorProvisioningState = string;
+
+/** Known values of {@link MeshMembershipProvisioningState} that the service accepts. */
+export enum KnownMeshMembershipProvisioningState {
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The Mesh Membership is being created. */
+  Creating = "Creating",
+  /** The Mesh Membership is being deleted. */
+  Deleting = "Deleting",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** The Mesh Membership is being updated. */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for MeshMembershipProvisioningState. \
+ * {@link KnownMeshMembershipProvisioningState} can be used interchangeably with MeshMembershipProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The Mesh Membership is being created. \
+ * **Deleting**: The Mesh Membership is being deleted. \
+ * **Failed**: Resource creation failed. \
+ * **Succeeded**: Resource has been created. \
+ * **Updating**: The Mesh Membership is being updated.
+ */
+export type MeshMembershipProvisioningState = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
@@ -5968,6 +6088,48 @@ export interface JWTAuthenticatorsListByManagedClusterNextOptionalParams
 
 /** Contains response data for the listByManagedClusterNext operation. */
 export type JWTAuthenticatorsListByManagedClusterNextResponse = JWTAuthenticatorListResult;
+
+/** Optional parameters. */
+export interface MeshMembershipsListByManagedClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedCluster operation. */
+export type MeshMembershipsListByManagedClusterResponse = MeshMembershipsListResult;
+
+/** Optional parameters. */
+export interface MeshMembershipsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MeshMembershipsGetResponse = MeshMembership;
+
+/** Optional parameters. */
+export interface MeshMembershipsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MeshMembershipsCreateOrUpdateResponse = MeshMembership;
+
+/** Optional parameters. */
+export interface MeshMembershipsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MeshMembershipsDeleteResponse = MeshMembershipsDeleteHeaders;
+
+/** Optional parameters. */
+export interface MeshMembershipsListByManagedClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedClusterNext operation. */
+export type MeshMembershipsListByManagedClusterNextResponse = MeshMembershipsListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {

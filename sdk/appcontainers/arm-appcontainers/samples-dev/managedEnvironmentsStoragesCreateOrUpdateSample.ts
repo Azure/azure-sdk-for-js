@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update storage for a managedEnvironment.
- *
- * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
- */
-
+import type {
+  ManagedEnvironmentStorage} from "@azure/arm-appcontainers";
 import {
-  ManagedEnvironmentStorage,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Create or update storage for a managedEnvironment.
+ *
+ * @summary Create or update storage for a managedEnvironment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ */
 async function createOrUpdateEnvironmentsStorage(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -48,7 +48,7 @@ async function createOrUpdateEnvironmentsStorage(): Promise<void> {
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
  */
 async function createOrUpdateEnvironmentsStorageForNfsAzureFile(): Promise<void> {
   const subscriptionId =
