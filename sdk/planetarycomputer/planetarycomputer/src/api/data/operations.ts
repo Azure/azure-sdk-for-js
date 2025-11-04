@@ -1284,6 +1284,18 @@ export async function _getPreviewDeserialize(result: PathUncheckedResponse): Pro
     throw createRestError(result);
   }
 
+  // When using asNodeStream(), result.body is the readable stream
+  // We need to read and buffer it into a Uint8Array
+  const stream = (result as any).body;
+  if (stream && typeof stream[Symbol.asyncIterator] === 'function') {
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    return new Uint8Array(Buffer.concat(chunks));
+  }
+
+  // Fallback: if body is already buffered (shouldn't happen with asNodeStream)
   return result.body;
 }
 
@@ -1294,7 +1306,7 @@ export async function getPreview(
   itemId: string,
   options: DataGetPreviewOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPreviewSend(context, collectionId, itemId, options);
+  const result = await _getPreviewSend(context, collectionId, itemId, options).asNodeStream();
   return _getPreviewDeserialize(result);
 }
 
