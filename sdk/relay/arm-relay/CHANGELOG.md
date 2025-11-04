@@ -3,74 +3,75 @@
 ## 4.0.0 (2025-11-04)
 
 ### Features Added
-  - Added operation group PrivateEndpointConnections
-  - Added operation group PrivateLinkResources
-  - Added operation Namespaces.createOrUpdateNetworkRuleSet
-  - Added operation Namespaces.getNetworkRuleSet
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation NamespacesOperations.createOrUpdate
+  - Added operation NamespacesOperations.createOrUpdateNetworkRuleSet
+  - Added operation NamespacesOperations.delete
+  - Added operation NamespacesOperations.getNetworkRuleSet
+  - Added Interface AuthorizationRuleProperties
   - Added Interface ConnectionState
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
-  - Added Interface NamespacesCreateOrUpdateHeaders
+  - Added Interface HybridConnectionProperties
   - Added Interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
-  - Added Interface NamespacesDeleteHeaders
   - Added Interface NamespacesGetNetworkRuleSetOptionalParams
   - Added Interface NetworkRuleSet
+  - Added Interface NetworkRuleSetProperties
   - Added Interface NWRuleSetIpRules
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
   - Added Interface PrivateEndpoint
   - Added Interface PrivateEndpointConnection
-  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateEndpointConnectionProperties
   - Added Interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  - Added Interface PrivateEndpointConnectionsDeleteHeaders
   - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
   - Added Interface PrivateEndpointConnectionsGetOptionalParams
   - Added Interface PrivateEndpointConnectionsListOptionalParams
   - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
   - Added Interface PrivateLinkResourcesGetOptionalParams
   - Added Interface PrivateLinkResourcesListOptionalParams
   - Added Interface PrivateLinkResourcesListResult
   - Added Interface ProxyResource
+  - Added Interface RelayNamespaceProperties
+  - Added Interface RestorePollerOptions
   - Added Interface SystemData
+  - Added Interface WcfRelayProperties
   - Interface AuthorizationRule has a new optional parameter location
+  - Interface AuthorizationRule has a new optional parameter properties
   - Interface AuthorizationRule has a new optional parameter systemData
   - Interface ErrorResponse has a new optional parameter error
   - Interface HybridConnection has a new optional parameter location
+  - Interface HybridConnection has a new optional parameter properties
   - Interface HybridConnection has a new optional parameter systemData
   - Interface Operation has a new optional parameter actionType
   - Interface Operation has a new optional parameter isDataAction
   - Interface Operation has a new optional parameter origin
   - Interface OperationDisplay has a new optional parameter description
-  - Interface RelayNamespace has a new optional parameter privateEndpointConnections
-  - Interface RelayNamespace has a new optional parameter publicNetworkAccess
-  - Interface RelayNamespace has a new optional parameter status
+  - Interface RelayNamespace has a new optional parameter properties
   - Interface RelayNamespace has a new optional parameter systemData
-  - Interface RelayUpdateParameters has a new optional parameter privateEndpointConnections
-  - Interface RelayUpdateParameters has a new optional parameter publicNetworkAccess
-  - Interface RelayUpdateParameters has a new optional parameter status
+  - Interface RelayUpdateParameters has a new optional parameter properties
   - Interface RelayUpdateParameters has a new optional parameter systemData
   - Interface Resource has a new optional parameter systemData
   - Interface ResourceNamespacePatch has a new optional parameter systemData
   - Interface TrackedResource has a new optional parameter systemData
   - Interface WcfRelay has a new optional parameter location
+  - Interface WcfRelay has a new optional parameter properties
   - Interface WcfRelay has a new optional parameter systemData
   - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
   - Added Type Alias CreatedByType
   - Added Type Alias DefaultAction
   - Added Type Alias EndPointProvisioningState
   - Added Type Alias KeyType
-  - Added Type Alias NamespacesCreateOrUpdateNetworkRuleSetResponse
-  - Added Type Alias NamespacesGetNetworkRuleSetResponse
   - Added Type Alias NetworkRuleIPAction
   - Added Type Alias Origin
-  - Added Type Alias PrivateEndpointConnectionsCreateOrUpdateResponse
-  - Added Type Alias PrivateEndpointConnectionsGetResponse
-  - Added Type Alias PrivateEndpointConnectionsListNextResponse
-  - Added Type Alias PrivateEndpointConnectionsListResponse
   - Added Type Alias PrivateLinkConnectionStatus
-  - Added Type Alias PrivateLinkResourcesGetResponse
-  - Added Type Alias PrivateLinkResourcesListResponse
   - Added Type Alias PublicNetworkAccess
   - Added Type Alias SkuName
   - Added Type Alias SkuTier
+  - Added Enum AzureClouds
   - Added Enum KnownAccessRights
   - Added Enum KnownActionType
   - Added Enum KnownCreatedByType
@@ -84,13 +85,16 @@
   - Added Enum KnownSkuName
   - Added Enum KnownSkuTier
   - Added Enum KnownUnavailableReason
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation Namespaces.beginCreateOrUpdate
+  - Removed operation Namespaces.beginCreateOrUpdateAndWait
+  - Removed operation Namespaces.beginDelete
+  - Removed operation Namespaces.beginDeleteAndWait
   - Operation HybridConnections.createOrUpdateAuthorizationRule has a new signature
   - Operation HybridConnections.getAuthorizationRule has a new signature
   - Operation HybridConnections.regenerateKeys has a new signature
-  - Operation Namespaces.beginCreateOrUpdate has a new signature
-  - Operation Namespaces.beginCreateOrUpdateAndWait has a new signature
   - Operation Namespaces.checkNameAvailability has a new signature
   - Operation Namespaces.createOrUpdateAuthorizationRule has a new signature
   - Operation Namespaces.get has a new signature
@@ -101,17 +105,34 @@
   - Operation WCFRelays.getAuthorizationRule has a new signature
   - Operation WCFRelays.regenerateKeys has a new signature
   - Type of parameter keyType of interface RegenerateAccessKeyParameters is changed from KeyType_2 to KeyType
-  - Type of parameter provisioningState of interface RelayNamespace is changed from ProvisioningStateEnum to string
-  - Type of parameter provisioningState of interface RelayUpdateParameters is changed from ProvisioningStateEnum to string
   - Type of parameter name of interface Sku is changed from "Standard" to SkuName
   - Type of parameter tier of interface Sku is changed from "Standard" to SkuTier
+  - Interface AuthorizationRule no longer has parameter rights
   - Interface ErrorResponse no longer has parameter code
   - Interface ErrorResponse no longer has parameter message
-  - Parameter value of interface AuthorizationRuleListResult is now required
-  - Parameter value of interface HybridConnectionListResult is now required
-  - Parameter value of interface RelayNamespaceListResult is now required
-  - Parameter value of interface WcfRelaysListResult is now required
-  - Parameter rights of interface AuthorizationRule is now optional
+  - Interface HybridConnection no longer has parameter createdAt
+  - Interface HybridConnection no longer has parameter listenerCount
+  - Interface HybridConnection no longer has parameter requiresClientAuthorization
+  - Interface HybridConnection no longer has parameter updatedAt
+  - Interface HybridConnection no longer has parameter userMetadata
+  - Interface RelayNamespace no longer has parameter createdAt
+  - Interface RelayNamespace no longer has parameter metricId
+  - Interface RelayNamespace no longer has parameter provisioningState
+  - Interface RelayNamespace no longer has parameter serviceBusEndpoint
+  - Interface RelayNamespace no longer has parameter updatedAt
+  - Interface RelayUpdateParameters no longer has parameter createdAt
+  - Interface RelayUpdateParameters no longer has parameter metricId
+  - Interface RelayUpdateParameters no longer has parameter provisioningState
+  - Interface RelayUpdateParameters no longer has parameter serviceBusEndpoint
+  - Interface RelayUpdateParameters no longer has parameter updatedAt
+  - Interface WcfRelay no longer has parameter createdAt
+  - Interface WcfRelay no longer has parameter isDynamic
+  - Interface WcfRelay no longer has parameter listenerCount
+  - Interface WcfRelay no longer has parameter relayType
+  - Interface WcfRelay no longer has parameter requiresClientAuthorization
+  - Interface WcfRelay no longer has parameter requiresTransportSecurity
+  - Interface WcfRelay no longer has parameter updatedAt
+  - Interface WcfRelay no longer has parameter userMetadata
   - Removed Type Alias KeyType_2
   - Removed Type Alias ProvisioningStateEnum
   - Type alias "AccessRights" has been changed
