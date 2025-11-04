@@ -108,36 +108,39 @@ describe("Redis test", () => {
   it("Redis create test", async () => {
     // create network resource
     await createVirtualNetwork(resourceGroupName, location, networkName, subnetName);
-    const res = await client.redis.beginCreateAndWait(
+    const poller = client.redis.create(
       resourceGroupName,
       name,
       {
         location: location,
         zones: ["1"],
-        sku: {
-          name: "Premium",
-          family: "P",
-          capacity: 1,
+        properties: {
+          sku: {
+            name: "Premium",
+            family: "P",
+            capacity: 1,
+          },
+          enableNonSslPort: true,
+          shardCount: 2,
+          redisConfiguration: {
+            maxmemoryPolicy: "allkeys-lru",
+          },
+          subnetId:
+            "/subscriptions/" +
+            subscriptionId +
+            "/resourceGroups/" +
+            resourceGroupName +
+            "/providers/Microsoft.Network/virtualNetworks/" +
+            networkName +
+            "/subnets/" +
+            subnetName,
+          staticIP: "10.0.0.5",
+          minimumTlsVersion: "1.2",
         },
-        enableNonSslPort: true,
-        shardCount: 2,
-        redisConfiguration: {
-          maxmemoryPolicy: "allkeys-lru",
-        },
-        subnetId:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroupName +
-          "/providers/Microsoft.Network/virtualNetworks/" +
-          networkName +
-          "/subnets/" +
-          subnetName,
-        staticIP: "10.0.0.5",
-        minimumTlsVersion: "1.2",
       },
       testPollingOptions,
     );
+    const res = await poller.pollUntilDone();
     assert.equal(res.name, name);
   });
 
@@ -148,17 +151,19 @@ describe("Redis test", () => {
 
   it("patchSchedules create for redis test", async () => {
     const res = await client.patchSchedules.createOrUpdate(resourceGroupName, name, "default", {
-      scheduleEntries: [
-        {
-          dayOfWeek: "Monday",
-          startHourUtc: 12,
-          maintenanceWindow: "PT5H",
-        },
-        {
-          dayOfWeek: "Tuesday",
-          startHourUtc: 12,
-        },
-      ],
+      properties: {
+        scheduleEntries: [
+          {
+            dayOfWeek: "Monday",
+            startHourUtc: 12,
+            maintenanceWindow: "PT5H",
+          },
+          {
+            dayOfWeek: "Tuesday",
+            startHourUtc: 12,
+          },
+        ],
+      },
     });
     assert.equal(res.type, "Microsoft.Cache/Redis/PatchSchedules");
   });
@@ -184,14 +189,15 @@ describe("Redis test", () => {
     while (count < 20) {
       count++;
       const redisResponse = await client.redis.get(resourceGroupName, name);
-      if (redisResponse.provisioningState === "Succeeded") {
-        const updateResult = await client.redis.beginUpdateAndWait(
+      if (redisResponse.properties.provisioningState === "Succeeded") {
+        const poller = client.redis.update(
           resourceGroupName,
           name,
-          { enableNonSslPort: true },
+          { properties: { enableNonSslPort: true } },
           testPollingOptions,
         );
-        assert.equal(updateResult.enableNonSslPort, true);
+        const updateResult = await poller.pollUntilDone();
+        assert.equal(updateResult.properties.enableNonSslPort, true);
         break;
       } else {
         // The resource is activating
@@ -206,7 +212,8 @@ describe("Redis test", () => {
   });
 
   it("redis delete test", async () => {
-    await client.redis.beginDeleteAndWait(resourceGroupName, name, testPollingOptions);
+    const poller = client.redis.delete(resourceGroupName, name, testPollingOptions);
+    await poller.pollUntilDone();
     const resArray = new Array();
     for await (const item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
