@@ -17,6 +17,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [sendSms.ts][sendsms]                                                          | Send an SMS message to 1 or more recipients                  |
 | [sendSmsWithOptions.ts][sendsmswithoptions]                                    | Configure SMS options when sending a message                 |
 | [usingAadAuth.ts][usingaadauth]                                                | Use AAD token credentials when sending a SMS message.        |
+| [getDeliveryReport.ts][getdeliveryreport]                                      | Get delivery report for a sent SMS message                   |
 | [optOutCheck.ts][optoutcheck]                                                  | Check if recipients opted out of receiving messages          |
 | [optOutAdd.ts][optoutadd]                                                      | Opt out recipients from receiving messages                   |
 | [optOutRemove.ts][optoutremove]                                                | Remove recipients from Opt Out list                          |
@@ -76,6 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/sendSms.ts
 [sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/sendSmsWithOptions.ts
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/usingAadAuth.ts
+[getdeliveryreport]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/getDeliveryReport.ts
 [optoutcheck]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutCheck.ts
 [optoutadd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutAdd.ts
 [optoutremove]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/typescript/src/optOutRemove.ts
