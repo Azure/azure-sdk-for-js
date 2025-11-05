@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0-beta.6 (2025-11-04)
+## 11.0.0 (2025-11-04)
 Compared with version 10.1.0
 
 ### Features Added
