@@ -4,8 +4,7 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AIProjectClient } from "../../../src/index.js";
-import type { ClientOptions } from "@azure-rest/core-client";
+import { AIProjectClient, AIProjectClientOptionalParams } from "../../../src/index.js";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import OpenAI from "openai";
@@ -150,7 +149,7 @@ export async function createFoundryOpenAI(): Promise<OpenAI> {
 
 export function createProjectsClient(
   recorder?: Recorder,
-  options?: ClientOptions,
+  options?: AIProjectClientOptionalParams,
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint =
@@ -165,11 +164,11 @@ export function createProjectsClient(
 export function createMockProjectsClient(
   responseFn: (request: PipelineRequest) => Partial<PipelineResponse>,
 ): AIProjectClient {
-  const options: ClientOptions = { additionalPolicies: [] };
+  const options: AIProjectClientOptionalParams = { additionalPolicies: [] };
   options.additionalPolicies?.push({
     policy: {
       name: "RequestMockPolicy",
-      sendRequest: async (req) => {
+      sendRequest: async (req: PipelineRequest) => {
         const response = responseFn(req);
         return {
           headers: createHttpHeaders(),
