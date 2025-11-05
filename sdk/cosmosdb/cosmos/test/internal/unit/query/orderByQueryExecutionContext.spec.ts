@@ -182,7 +182,7 @@ describe("OrderByQueryExecutionContext", () => {
     while (context.hasMoreResults()) {
       const response = await context.fetchMore(createDummyDiagnosticNode());
       if (response && response.result && response.result.buffer.length > 0) {
-        result.push(...response.result);
+        result.push(...response.result.buffer);
       }
       count++;
     }

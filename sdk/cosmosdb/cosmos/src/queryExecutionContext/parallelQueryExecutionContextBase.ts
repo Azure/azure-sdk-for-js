@@ -15,12 +15,12 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
-import type { FilterContext, FilterStrategy } from "./index.js";
+import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
+import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
 import {
-  RidSkipCountFilter,
   TargetPartitionRangeManager,
   QueryExecutionContextType,
-} from "./index.js";
+} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,

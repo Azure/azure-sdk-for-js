@@ -496,7 +496,7 @@ describe("parallelQueryExecutionContextBase", () => {
       await (tempContext as any).fillBufferFromBufferQueue();
       const result2 = await (tempContext as any).drainBufferedItems();
 
-      assert.equal(result2.result.length, 0);
+      assert.equal(result2.result.buffer.length, 0);
       assert.equal(result2.headers["x-ms-request-charge"], "7.0");
     });
   });
