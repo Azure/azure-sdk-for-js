@@ -215,7 +215,7 @@ export {
   PendingUploadRequest,
   PendingUploadResponse,
   BlobReference,
-  BlobReferenceSasCredential,
+  SasCredential,
   DatasetCredential,
   Index,
   IndexUnion,
@@ -320,5 +320,5 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
-  KnownVersions,
+  KnownApiVersions,
 } from "./models.js";
