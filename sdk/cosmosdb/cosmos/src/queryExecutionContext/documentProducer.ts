@@ -207,8 +207,6 @@ export class DocumentProducer {
           );
           addHeaderToFetchResult = false;
         });
-        if (resources.length > 0 && resources[0].orderByItems) {
-        }
       }
 
       // need to modify the header response so that the query metrics are per partition

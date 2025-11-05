@@ -710,7 +710,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         ? rewrittenQuery.replace(formatPlaceHolder, filterCondition)
         : rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;
-    } else {
     }
 
     const options = { ...this.options };
