@@ -227,7 +227,7 @@ You may meet the CI failures after submitting the PR, so please refer to [Troubl
 
 ## Resolve conflicts for PR
 
-You may meet the merge conflicts of `pnpm-lock.yaml` file when merging the PR, so please try to follow these steps to resolve conflicts:
+Latest changes to the main branch may introduce merge conflicts of `pnpm-lock.yaml` file to the PR, so please try to follow these steps to resolve conflicts:
 
 1. checkout to main branch and pull the latest code
 2. checkout the PR's branch
