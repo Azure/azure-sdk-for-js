@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -131,96 +131,96 @@ node dist/agentPoolsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env CONTAINERREGISTRY_SUBSCRIPTION_ID="<containerregistry subscription id>" CONTAINERREGISTRY_RESOURCE_GROUP="<containerregistry resource group>" node dist/agentPoolsCreateSample.js
+npx dev-tool run vendored cross-env CONTAINERREGISTRY_SUBSCRIPTION_ID="<containerregistry subscription id>" CONTAINERREGISTRY_RESOURCE_GROUP="<containerregistry resource group>" node dist/agentPoolsCreateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[agentpoolscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/agentPoolsCreateSample.ts
-[agentpoolsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/agentPoolsDeleteSample.ts
-[agentpoolsgetqueuestatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/agentPoolsGetQueueStatusSample.ts
-[agentpoolsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/agentPoolsGetSample.ts
-[agentpoolslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/agentPoolsListSample.ts
-[agentpoolsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/agentPoolsUpdateSample.ts
-[cacherulescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/cacheRulesCreateSample.ts
-[cacherulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/cacheRulesDeleteSample.ts
-[cacherulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/cacheRulesGetSample.ts
-[cacheruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/cacheRulesListSample.ts
-[cacherulesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/cacheRulesUpdateSample.ts
-[connectedregistriescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/connectedRegistriesCreateSample.ts
-[connectedregistriesdeactivatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/connectedRegistriesDeactivateSample.ts
-[connectedregistriesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/connectedRegistriesDeleteSample.ts
-[connectedregistriesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/connectedRegistriesGetSample.ts
-[connectedregistrieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/connectedRegistriesListSample.ts
-[connectedregistriesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/connectedRegistriesUpdateSample.ts
-[credentialsetscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/credentialSetsCreateSample.ts
-[credentialsetsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/credentialSetsDeleteSample.ts
-[credentialsetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/credentialSetsGetSample.ts
-[credentialsetslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/credentialSetsListSample.ts
-[credentialsetsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/credentialSetsUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/operationsListSample.ts
-[privateendpointconnectionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/privateEndpointConnectionsCreateOrUpdateSample.ts
-[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/privateEndpointConnectionsDeleteSample.ts
-[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/privateEndpointConnectionsGetSample.ts
-[privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/privateEndpointConnectionsListSample.ts
-[registrieschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesCheckNameAvailabilitySample.ts
-[registriescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesCreateSample.ts
-[registriesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesDeleteSample.ts
-[registriesgeneratecredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesGenerateCredentialsSample.ts
-[registriesgetbuildsourceuploadurlsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesGetBuildSourceUploadUrlSample.ts
-[registriesgetprivatelinkresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesGetPrivateLinkResourceSample.ts
-[registriesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesGetSample.ts
-[registriesimportimagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesImportImageSample.ts
-[registrieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesListByResourceGroupSample.ts
-[registrieslistcredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesListCredentialsSample.ts
-[registrieslistprivatelinkresourcessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesListPrivateLinkResourcesSample.ts
-[registrieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesListSample.ts
-[registrieslistusagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesListUsagesSample.ts
-[registriesregeneratecredentialsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesRegenerateCredentialSample.ts
-[registriesschedulerunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesScheduleRunSample.ts
-[registriesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/registriesUpdateSample.ts
-[replicationscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/replicationsCreateSample.ts
-[replicationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/replicationsDeleteSample.ts
-[replicationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/replicationsGetSample.ts
-[replicationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/replicationsListSample.ts
-[replicationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/replicationsUpdateSample.ts
-[runscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/runsCancelSample.ts
-[runsgetlogsasurlsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/runsGetLogSasUrlSample.ts
-[runsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/runsGetSample.ts
-[runslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/runsListSample.ts
-[runsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/runsUpdateSample.ts
-[scopemapscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/scopeMapsCreateSample.ts
-[scopemapsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/scopeMapsDeleteSample.ts
-[scopemapsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/scopeMapsGetSample.ts
-[scopemapslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/scopeMapsListSample.ts
-[scopemapsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/scopeMapsUpdateSample.ts
-[taskrunscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/taskRunsCreateSample.ts
-[taskrunsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/taskRunsDeleteSample.ts
-[taskrunsgetdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/taskRunsGetDetailsSample.ts
-[taskrunsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/taskRunsGetSample.ts
-[taskrunslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/taskRunsListSample.ts
-[taskrunsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/taskRunsUpdateSample.ts
-[taskscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tasksCreateSample.ts
-[tasksdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tasksDeleteSample.ts
-[tasksgetdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tasksGetDetailsSample.ts
-[tasksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tasksGetSample.ts
-[taskslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tasksListSample.ts
-[tasksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tasksUpdateSample.ts
-[tokenscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tokensCreateSample.ts
-[tokensdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tokensDeleteSample.ts
-[tokensgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tokensGetSample.ts
-[tokenslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tokensListSample.ts
-[tokensupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/tokensUpdateSample.ts
-[webhookscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksCreateSample.ts
-[webhooksdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksDeleteSample.ts
-[webhooksgetcallbackconfigsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksGetCallbackConfigSample.ts
-[webhooksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksGetSample.ts
-[webhookslisteventssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksListEventsSample.ts
-[webhookslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksListSample.ts
-[webhookspingsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksPingSample.ts
-[webhooksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksUpdateSample.ts
+[agentpoolscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/agentPoolsCreateSample.ts
+[agentpoolsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/agentPoolsDeleteSample.ts
+[agentpoolsgetqueuestatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/agentPoolsGetQueueStatusSample.ts
+[agentpoolsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/agentPoolsGetSample.ts
+[agentpoolslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/agentPoolsListSample.ts
+[agentpoolsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/agentPoolsUpdateSample.ts
+[cacherulescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/cacheRulesCreateSample.ts
+[cacherulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/cacheRulesDeleteSample.ts
+[cacherulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/cacheRulesGetSample.ts
+[cacheruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/cacheRulesListSample.ts
+[cacherulesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/cacheRulesUpdateSample.ts
+[connectedregistriescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/connectedRegistriesCreateSample.ts
+[connectedregistriesdeactivatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/connectedRegistriesDeactivateSample.ts
+[connectedregistriesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/connectedRegistriesDeleteSample.ts
+[connectedregistriesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/connectedRegistriesGetSample.ts
+[connectedregistrieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/connectedRegistriesListSample.ts
+[connectedregistriesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/connectedRegistriesUpdateSample.ts
+[credentialsetscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/credentialSetsCreateSample.ts
+[credentialsetsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/credentialSetsDeleteSample.ts
+[credentialsetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/credentialSetsGetSample.ts
+[credentialsetslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/credentialSetsListSample.ts
+[credentialsetsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/credentialSetsUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/operationsListSample.ts
+[privateendpointconnectionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/privateEndpointConnectionsCreateOrUpdateSample.ts
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/privateEndpointConnectionsDeleteSample.ts
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/privateEndpointConnectionsGetSample.ts
+[privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/privateEndpointConnectionsListSample.ts
+[registrieschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesCheckNameAvailabilitySample.ts
+[registriescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesCreateSample.ts
+[registriesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesDeleteSample.ts
+[registriesgeneratecredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesGenerateCredentialsSample.ts
+[registriesgetbuildsourceuploadurlsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesGetBuildSourceUploadUrlSample.ts
+[registriesgetprivatelinkresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesGetPrivateLinkResourceSample.ts
+[registriesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesGetSample.ts
+[registriesimportimagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesImportImageSample.ts
+[registrieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesListByResourceGroupSample.ts
+[registrieslistcredentialssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesListCredentialsSample.ts
+[registrieslistprivatelinkresourcessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesListPrivateLinkResourcesSample.ts
+[registrieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesListSample.ts
+[registrieslistusagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesListUsagesSample.ts
+[registriesregeneratecredentialsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesRegenerateCredentialSample.ts
+[registriesschedulerunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesScheduleRunSample.ts
+[registriesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/registriesUpdateSample.ts
+[replicationscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/replicationsCreateSample.ts
+[replicationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/replicationsDeleteSample.ts
+[replicationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/replicationsGetSample.ts
+[replicationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/replicationsListSample.ts
+[replicationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/replicationsUpdateSample.ts
+[runscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/runsCancelSample.ts
+[runsgetlogsasurlsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/runsGetLogSasUrlSample.ts
+[runsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/runsGetSample.ts
+[runslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/runsListSample.ts
+[runsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/runsUpdateSample.ts
+[scopemapscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/scopeMapsCreateSample.ts
+[scopemapsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/scopeMapsDeleteSample.ts
+[scopemapsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/scopeMapsGetSample.ts
+[scopemapslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/scopeMapsListSample.ts
+[scopemapsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/scopeMapsUpdateSample.ts
+[taskrunscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/taskRunsCreateSample.ts
+[taskrunsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/taskRunsDeleteSample.ts
+[taskrunsgetdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/taskRunsGetDetailsSample.ts
+[taskrunsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/taskRunsGetSample.ts
+[taskrunslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/taskRunsListSample.ts
+[taskrunsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/taskRunsUpdateSample.ts
+[taskscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tasksCreateSample.ts
+[tasksdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tasksDeleteSample.ts
+[tasksgetdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tasksGetDetailsSample.ts
+[tasksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tasksGetSample.ts
+[taskslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tasksListSample.ts
+[tasksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tasksUpdateSample.ts
+[tokenscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tokensCreateSample.ts
+[tokensdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tokensDeleteSample.ts
+[tokensgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tokensGetSample.ts
+[tokenslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tokensListSample.ts
+[tokensupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/tokensUpdateSample.ts
+[webhookscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksCreateSample.ts
+[webhooksdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksDeleteSample.ts
+[webhooksgetcallbackconfigsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksGetCallbackConfigSample.ts
+[webhooksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksGetSample.ts
+[webhookslisteventssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksListEventsSample.ts
+[webhookslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksListSample.ts
+[webhookspingsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksPingSample.ts
+[webhooksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11/typescript/src/webhooksUpdateSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-containerregistry?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry/README.md
