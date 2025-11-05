@@ -2,62 +2,79 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use the synchronous file operations
- * using the OpenAI client: create, retrieve, content, list, and delete.
+ * This sample demonstrates how to obtain an OpenAI client and perform file operations.
  *
- * @summary This sample demonstrates how to upload, retrieve, list,
- * get content, and delete files using the OpenAI client.
+ * @summary Using an OpenAI client, this sample demonstrates how to perform files operations:
+ * create, retrieve, content, list, and delete.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AIProjectClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
+const OpenAI = require("openai").default;
 const fs = require("fs");
-const { resolve, dirname } = require("path");
-const { fileURLToPath } = require("url");
+const path = require("path");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const filePath = resolve(__dirname, "data", "test_file.jsonl");
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const openAiBaseUrl = `${endpoint}/openai`;
 
-async function main() {
-  // Create OpenAI client with Azure credentials
-  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
-  // Upload file
-  console.log("Uploading file...", filePath);
-  const uploadedFile = await openAIClient.files.create({
-    file: fs.createReadStream(filePath),
+async function createOpenAI() {
+  const credential = new DefaultAzureCredential();
+  const scope = "https://ai.azure.com/.default";
+  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
+
+  return new OpenAI({
+    apiKey: azureADTokenProvider,
+    baseURL: openAiBaseUrl,
+    defaultQuery: { "api-version": "2025-11-15-preview" },
+  });
+}
+
+async function uploadFileAndWait(openAiClient, uploadPath) {
+  console.log(`Uploading file from path: ${uploadPath}`);
+  const created = await openAiClient.files.create({
+    file: fs.createReadStream(uploadPath),
     purpose: "fine-tune",
   });
-  console.log(`Uploaded file ID: ${uploadedFile.id}`);
-  console.log(`File name: ${uploadedFile.filename}`);
+  console.log(`Uploaded file with ID: ${created.id}`);
 
-  // Retrieve file metadata
-  console.log(`\nRetrieving file metadata with ID: ${uploadedFile.id}`);
-  const retrievedFile = await openAIClient.files.retrieve(uploadedFile.id);
-  console.log(`Retrieved file ID: ${retrievedFile.id}`);
-  console.log(`File name: ${retrievedFile.filename}`);
-  console.log(`Purpose: ${retrievedFile.purpose}`);
-  console.log(`Created at: ${new Date(retrievedFile.created_at * 1000).toISOString()}`);
+  return openAiClient.files.retrieve(created.id);
+}
 
-  // Retrieve file content
-  console.log(`\nRetrieving file content with ID: ${uploadedFile.id}`);
-  const fileContentResponse = await openAIClient.files.content(uploadedFile.id);
-  const text = await fileContentResponse.text();
-  console.log(`Content (first 100 chars): ${text.substring(0, 100)}...`);
+async function main() {
+  console.log("Getting Azure OpenAI client from AI Project (via AAD token)...");
+  const openAI = await createOpenAI();
+  console.log("Created OpenAI client.");
 
-  // List all files
-  console.log("\nListing all files:");
-  const files = await openAIClient.files.list();
-  for await (const file of files) {
-    console.log(`- File ID: ${file.id}, Name: ${file.filename}, Purpose: ${file.purpose}`);
+  // 1) Create (upload) a file, wait until processed
+  const uploadedFile = await uploadFileAndWait(openAI, filePath);
+  console.log("Processed file metadata:\n", JSON.stringify(uploadedFile, null, 2));
+
+  // 2) Retrieve file metadata by ID
+  console.log(`Retrieving file metadata with ID: ${uploadedFile.id}`);
+  const retrievedFile = await openAI.files.retrieve(uploadedFile.id);
+  console.log("Retrieved file:\n", JSON.stringify(retrievedFile, null, 2));
+
+  // 3) Retrieve file content
+  console.log(`Retrieving file content with ID: ${uploadedFile.id}`);
+  const contentResponse = await openAI.files.content(uploadedFile.id);
+  const buf = Buffer.from(await contentResponse.arrayBuffer());
+  console.log(buf.toString("utf-8"));
+
+  // 4) List all files
+  console.log("Listing all files:");
+  const filesList = await openAI.files.list();
+  for (const f of filesList.data ?? []) {
+    console.log(JSON.stringify(f));
   }
 
-  // Delete file
-  console.log(`\nDeleting file with ID: ${uploadedFile.id}`);
-  const deletedFile = await openAIClient.files.delete(uploadedFile.id);
-  console.log(`Successfully deleted file: ${deletedFile.id}`);
+  // 5) Delete the file
+  console.log(`Deleting file with ID: ${uploadedFile.id}`);
+  const deleted = await openAI.files.delete(uploadedFile.id);
+  console.log(
+    `Successfully deleted file: ${deleted?.id || uploadedFile.id}, deleted=${String(deleted?.deleted ?? true)}`,
+  );
 }
 
 main().catch((err) => {
