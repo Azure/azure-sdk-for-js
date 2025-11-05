@@ -33,7 +33,7 @@ export async function createIndex(
       kind: "azureOpenAI",
       vectorizerName: "vector-search-vectorizer",
       parameters: {
-        deploymentId: assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        deploymentId: "text-embedding-ada-002", // assertEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT_NAME"),
         resourceUrl: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
         modelName: "text-embedding-ada-002",
       },
@@ -570,7 +570,7 @@ async function addVectorDescriptions(
 
   const descriptions = documents.map(({ description }) => description).filter(isDefined);
 
-  const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
+  const embeddingsArray = await openAIClient.getEmbeddings("text-embedding-ada-002", descriptions);
 
   embeddingsArray.data.forEach((embeddingItem) => {
     const { embedding, index } = embeddingItem;

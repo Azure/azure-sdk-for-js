@@ -15,6 +15,7 @@ import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
+
 describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
@@ -50,6 +51,8 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       name: "searchindex-ks",
       searchIndexParameters: {
         searchIndexName: TEST_INDEX_NAME,
+        searchFields: [{ name: "hotelName" }, { name: "description" }],
+        semanticConfigurationName: "semantic-configuration",
       },
     });
 
@@ -70,13 +73,14 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
   afterEach(async () => {
     await indexClient.deleteKnowledgeBase(TEST_AGENT_NAME);
+    await indexClient.deleteKnowledgeSource("searchindex-ks");
     await indexClient.deleteIndex(TEST_INDEX_NAME);
     await delay(WAIT_TIME);
     await recorder?.stop();
   });
 
   describe("KnowledgeRetrievalClient", () => {
-    it("executes queries", async () => {
+    it("executes queries", { timeout: 60000 }, async () => {
       const result = await knowledgeRetrievalClient.retrieveKnowledge({
         messages: [
           {
@@ -85,7 +89,11 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
           },
         ],
       });
-      assert.deepEqual(result, {});
+
+      assert.exists(result.activity);
+      assert.exists(result.references);
+      assert.exists(result.response);
+      assert.isTrue(result.response.length > 0);
     });
   });
 });

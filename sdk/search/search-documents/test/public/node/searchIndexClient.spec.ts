@@ -114,6 +114,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await indexClient.deleteKnowledgeBase(knowledgeBase.name);
+      await indexClient.deleteKnowledgeSource(knowledgeSource.name);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
       await recorder?.stop();
