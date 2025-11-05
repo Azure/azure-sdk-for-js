@@ -258,18 +258,8 @@ describe("STAC Item Tiler Operations", () => {
 
     console.log(`Response type: ${typeof response}`);
 
-    // Collect XML bytes
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const xmlBytes = Buffer.concat(chunks);
+    // Response is already Uint8Array
+    const xmlBytes = Buffer.from(response);
     console.log(`XML size: ${xmlBytes.length} bytes`);
 
     // Decode to string
@@ -339,17 +329,7 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = Buffer.from(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
@@ -395,17 +375,7 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = Buffer.from(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
@@ -470,17 +440,7 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = Buffer.from(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
@@ -514,17 +474,7 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = Buffer.from(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
@@ -563,17 +513,7 @@ describe("STAC Item Tiler Operations", () => {
       assetBandIndices: "image|1,2,3",
     });
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = Buffer.from(response);
     console.log(`Image size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Image bytes should not be empty");
@@ -631,17 +571,7 @@ describe("STAC Item Tiler Operations", () => {
       },
     );
 
-    const chunks: Buffer[] = [];
-    for await (const chunk of response) {
-      if (typeof chunk === "string") {
-        chunks.push(Buffer.from(chunk, "binary"));
-      } else if (typeof chunk === "number") {
-        chunks.push(Buffer.from([chunk]));
-      } else {
-        chunks.push(Buffer.from(chunk as Uint8Array));
-      }
-    }
-    const imageBytes = Buffer.concat(chunks);
+    const imageBytes = Buffer.from(response);
     console.log(`Tile size: ${imageBytes.length} bytes`);
 
     assert.isTrue(imageBytes.length > 0, "Tile bytes should not be empty");

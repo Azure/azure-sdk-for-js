@@ -79,7 +79,24 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { stringToUint8Array } from "@azure/core-util";
+
+/**
+ * Helper function to deserialize binary responses from Node.js streams.
+ * When using asNodeStream(), the response body is a readable stream that needs
+ * to be read and buffered into a Uint8Array to preserve binary data.
+ */
+async function deserializeBinaryStream(result: PathUncheckedResponse): Promise<Uint8Array> {
+  const stream = (result as any).body;
+  if (stream && typeof stream[Symbol.asyncIterator] === "function") {
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    return new Uint8Array(Buffer.concat(chunks));
+  }
+  // Fallback: if body is already buffered
+  return result.body;
+}
 
 export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,
@@ -144,7 +161,7 @@ export async function _getMosaicsWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** OGC WMTS endpoint. */
@@ -156,7 +173,12 @@ export async function getMosaicsWmtsCapabilities(
     requestOptions: {},
   },
 ): Promise<Uint8Array> {
-  const result = await _getMosaicsWmtsCapabilitiesSend(context, searchId, tileMatrixSetId, options);
+  const result = await _getMosaicsWmtsCapabilitiesSend(
+    context,
+    searchId,
+    tileMatrixSetId,
+    options,
+  ).asNodeStream();
   return _getMosaicsWmtsCapabilitiesDeserialize(result);
 }
 
@@ -228,7 +250,7 @@ export async function _getMosaicsTileDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create map tile. */
@@ -253,7 +275,7 @@ export async function getMosaicsTile(
     scale,
     format,
     options,
-  );
+  ).asNodeStream();
   return _getMosaicsTileDeserialize(result);
 }
 
@@ -620,7 +642,7 @@ export async function _getLegendDeserialize(result: PathUncheckedResponse): Prom
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /**
@@ -635,7 +657,7 @@ export async function getLegend(
   colorMapName: string,
   options: DataGetLegendOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getLegendSend(context, colorMapName, options);
+  const result = await _getLegendSend(context, colorMapName, options).asNodeStream();
   return _getLegendDeserialize(result);
 }
 
@@ -796,7 +818,7 @@ export async function _getWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** OGC WMTS endpoint. */
@@ -813,7 +835,7 @@ export async function getWmtsCapabilities(
     itemId,
     tileMatrixSetId,
     options,
-  );
+  ).asNodeStream();
   return _getWmtsCapabilitiesDeserialize(result);
 }
 
@@ -884,7 +906,7 @@ export async function _getTileDeserialize(result: PathUncheckedResponse): Promis
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create map tile from a dataset. */
@@ -911,7 +933,7 @@ export async function getTile(
     scale,
     format,
     options,
-  );
+  ).asNodeStream();
   return _getTileDeserialize(result);
 }
 
@@ -1097,7 +1119,7 @@ export async function _getStaticImageDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Fetch an existing image export by ID */
@@ -1107,7 +1129,7 @@ export async function getStaticImage(
   id: string,
   options: DataGetStaticImageOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getStaticImageSend(context, collectionId, id, options);
+  const result = await _getStaticImageSend(context, collectionId, id, options).asNodeStream();
   return _getStaticImageDeserialize(result);
 }
 
@@ -1216,7 +1238,7 @@ export async function _getPreviewWithFormatDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create preview of a dataset. */
@@ -1227,7 +1249,13 @@ export async function getPreviewWithFormat(
   format: string,
   options: DataGetPreviewWithFormatOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _getPreviewWithFormatSend(context, collectionId, itemId, format, options);
+  const result = await _getPreviewWithFormatSend(
+    context,
+    collectionId,
+    itemId,
+    format,
+    options,
+  ).asNodeStream();
   return _getPreviewWithFormatDeserialize(result);
 }
 
@@ -1284,19 +1312,7 @@ export async function _getPreviewDeserialize(result: PathUncheckedResponse): Pro
     throw createRestError(result);
   }
 
-  // When using asNodeStream(), result.body is the readable stream
-  // We need to read and buffer it into a Uint8Array
-  const stream = (result as any).body;
-  if (stream && typeof stream[Symbol.asyncIterator] === 'function') {
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
-    return new Uint8Array(Buffer.concat(chunks));
-  }
-
-  // Fallback: if body is already buffered (shouldn't happen with asNodeStream)
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create preview of a dataset. */
@@ -1443,7 +1459,7 @@ export async function _getPartWithDimensionsDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create image from part of a dataset. */
@@ -1472,7 +1488,7 @@ export async function getPartWithDimensions(
     height,
     format,
     options,
-  );
+  ).asNodeStream();
   return _getPartWithDimensionsDeserialize(result);
 }
 
@@ -1539,7 +1555,7 @@ export async function _getPartDeserialize(result: PathUncheckedResponse): Promis
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create image from part of a dataset. */
@@ -1564,7 +1580,7 @@ export async function getPart(
     maxy,
     format,
     options,
-  );
+  ).asNodeStream();
   return _getPartDeserialize(result);
 }
 
@@ -1815,7 +1831,7 @@ export async function _cropGeoJsonWithDimensionsDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create image from a geojson feature. */
@@ -1838,7 +1854,7 @@ export async function cropGeoJsonWithDimensions(
     format,
     body,
     options,
-  );
+  ).asNodeStream();
   return _cropGeoJsonWithDimensionsDeserialize(result);
 }
 
@@ -1901,7 +1917,7 @@ export async function _cropGeoJsonDeserialize(result: PathUncheckedResponse): Pr
     throw createRestError(result);
   }
 
-  return result.body;
+  return deserializeBinaryStream(result);
 }
 
 /** Create image from a geojson feature. */
@@ -1913,7 +1929,14 @@ export async function cropGeoJson(
   body: Feature,
   options: DataCropGeoJsonOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _cropGeoJsonSend(context, collectionId, itemId, format, body, options);
+  const result = await _cropGeoJsonSend(
+    context,
+    collectionId,
+    itemId,
+    format,
+    body,
+    options,
+  ).asNodeStream();
   return _cropGeoJsonDeserialize(result);
 }
 
