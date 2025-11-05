@@ -2,7 +2,7 @@
 
 ## 1.9.2 (2025-11-05)
 
-### Features Added
+### Other Changes
 
 - Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs. [#36344](https://github.com/Azure/azure-sdk-for-js/pull/36344)
 
