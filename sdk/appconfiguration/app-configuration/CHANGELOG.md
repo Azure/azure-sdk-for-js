@@ -9,6 +9,8 @@
   - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties (to translate `ConfigurationSetting` into the type above).
   - Helper method `isSnapshotReference` checks the contentType and return boolean values.
 
+- Support `requirement_type` for feature flag. [#36104](https://github.com/Azure/azure-sdk-for-js/pull/36104)
+
 ### Bugs Fixed
 
 ### Other Changes
