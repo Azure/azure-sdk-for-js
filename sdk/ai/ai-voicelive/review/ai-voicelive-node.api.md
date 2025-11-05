@@ -1497,12 +1497,14 @@ export class VoiceLiveClient {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: VoiceLiveClientOptions);
     // (undocumented)
     get apiVersion(): string;
-    createSession(model: string, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
-    createSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
+    // Warning: (ae-forgotten-export) The symbol "CreateSessionOptions" needs to be exported by the entry point index.d.ts
+    createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+    createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     // (undocumented)
     get endpoint(): string;
-    startSession(model: string, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
-    startSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
+    // Warning: (ae-forgotten-export) The symbol "StartSessionOptions" needs to be exported by the entry point index.d.ts
+    startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
+    startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
 }
 
 // @public (undocumented)
