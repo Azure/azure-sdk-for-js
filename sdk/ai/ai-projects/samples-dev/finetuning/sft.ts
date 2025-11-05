@@ -5,7 +5,7 @@
  * This sample demonstrates how to create and manage supervised fine-tuning jobs.
  *
  * @summary Using an OpenAI client, this sample shows how to upload training and validation files
- * and perform fine-tuning operations: create, retrieve, list, and cancel.
+ * and perform fine-tuning operations: create, retrieve, list, pause, resume, list events, cancel, and list checkpoints.
  */
 
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
