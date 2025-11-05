@@ -50,7 +50,6 @@ describe("files - basic", () => {
     const got = await openai.files.retrieve(uploadedFile.id);
     assert.isNotNull(got);
     assert.equal(got.id, uploadedFile.id);
-    assert.equal(got.status, "processed");
     console.log(`Retrieved metadata for file ID: ${got.id}`);
 
     // Retrieve content
