@@ -1,5 +1,10 @@
 # Release History
 
+## 1.1.0-beta.2 (2025-11-05)
+Compared with version 1.0.0
+
+// TODO: Please manually update the changelog with the appropriate changes.
+
 ## 1.1.0-beta.1 (2025-09-30)
 
 ### Features Added
