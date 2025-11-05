@@ -17,7 +17,7 @@ export interface AddConfigurationSettingOptions extends OperationOptions {
 }
 
 // @public
-export type AddConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
+export type AddConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
@@ -27,7 +27,7 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
-    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue> | AddConfigurationSettingParam<SnapshotReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     beginCreateSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>>;
     beginCreateSnapshotAndWait(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
@@ -40,7 +40,7 @@ export class AppConfigurationClient {
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
-    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
+    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue> | SetConfigurationSettingParam<SnapshotReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
 }
@@ -52,7 +52,7 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T> & {
+export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string> = ConfigurationSettingParam<T> & {
     isReadOnly: boolean;
     lastModified?: Date;
 };
@@ -65,7 +65,7 @@ export interface ConfigurationSettingId {
 }
 
 // @public
-export type ConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingId & {
+export type ConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string> = ConfigurationSettingId & {
     contentType?: string;
     tags?: {
         [propertyName: string]: string;
@@ -199,6 +199,9 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
+export function isSnapshotReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
+
+// @public
 export enum KnownAppConfigAudience {
     AzureChina = "https://appconfig.azure.cn",
     AzureGovernment = "https://appconfig.azure.us",
@@ -303,6 +306,9 @@ export function parseFeatureFlag(setting: ConfigurationSetting): ConfigurationSe
 export function parseSecretReference(setting: ConfigurationSetting): ConfigurationSetting<SecretReferenceValue>;
 
 // @public
+export function parseSnapshotReference(setting: ConfigurationSetting): ConfigurationSetting<SnapshotReferenceValue>;
+
+// @public
 export interface RetryOptions {
     maxRetries?: number;
     maxRetryDelayInMs?: number;
@@ -321,7 +327,7 @@ export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField
 }
 
 // @public
-export type SetConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
+export type SetConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
@@ -352,6 +358,14 @@ export interface SnapshotInfo {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export const snapshotReferenceContentType = "application/json; profile=\"https://azconfig.io/mime-profiles/snapshot-ref\"; charset=utf-8";
+
+// @public
+export interface SnapshotReferenceValue {
+    snapshotName: string;
 }
 
 // @public
