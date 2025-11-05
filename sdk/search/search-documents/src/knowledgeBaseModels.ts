@@ -4,8 +4,8 @@
 import type { OperationOptions } from "@azure/core-client";
 import type {
   KnowledgeRetrievalOutputMode,
-  KnowledgeRetrievalReasoningEffortUnion,
   KnowledgeSourceReference,
+  KnowledgeRetrievalReasoningEffort,
 } from "./generated/service/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
@@ -27,7 +27,7 @@ export interface KnowledgeBase {
    */
   models: KnowledgeBaseModel[];
   knowledgeSources: KnowledgeSourceReference[];
-  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffort;
   /**
    * Instructions considered by the knowledge base when developing query plan.
    */
