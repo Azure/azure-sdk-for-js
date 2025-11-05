@@ -108,3 +108,7 @@ When possible, refer to the Azure SDK for JS Design Guidelines for specific exam
 ## SDK release
 
 For detailed workflow instructions, see [SDK Release](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/instructions/copilot/sdk-release.instructions.md).
+
+## SDK Workflow
+
+For anything related to SDK generation/development/verification/release, see [azsdk-tools instructions](../eng/common/instructions/azsdk-tools/).
