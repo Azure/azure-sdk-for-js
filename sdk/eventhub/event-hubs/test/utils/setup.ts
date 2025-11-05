@@ -7,16 +7,16 @@ import type { MockServerOptions } from "@azure-tools/mock-hub";
 import { MockEventHub } from "@azure-tools/mock-hub";
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
-import type { GlobalSetupContext } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
 import type { AzureLogLevel } from "@azure/logger";
+import type { TestProject } from "vitest/node";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
     [K in keyof Omit<typeof EnvVarKeys, "AZURE_LOG_LEVEL">]: string;
   } & { AZURE_LOG_LEVEL: AzureLogLevel | undefined };
-  export interface ProvidedContext extends MyEnvVarKeys {}
+  export interface ProvidedContext extends MyEnvVarKeys { }
 }
 
 function assertEnvironmentVariable<K extends EnvVarKeys.AZURE_LOG_LEVEL>(
@@ -62,7 +62,7 @@ function getAzureLogLevel(): AzureLogLevel | undefined {
   return val as AzureLogLevel | undefined;
 }
 
-export default async function ({ provide }: GlobalSetupContext) {
+export default async function ({ provide }: TestProject) {
   if (process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() === "live") {
     const kvUri = assertEnvironmentVariable("KEYVAULT_URI");
     const eventHubConnectionStringSecretName = assertEnvironmentVariable(
@@ -81,10 +81,10 @@ export default async function ({ provide }: GlobalSetupContext) {
     for (const key of Object.values(EnvVarKeys)) {
       provide(key, assertEnvironmentVariable(key));
     }
-    return () => {};
+    return () => { };
   } else if (process.env["TestType"] === "browser") {
     // only running some unit tests under browsers so don't need to do anything here
-    return () => {};
+    return () => { };
   }
   provide(EnvVarKeys.TEST_MODE, "mock");
   provide(EnvVarKeys.EVENTHUB_NAME, MOCKS.EVENTHUB_NAME);
