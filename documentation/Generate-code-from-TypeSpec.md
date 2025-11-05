@@ -41,7 +41,7 @@ For control-plane SDKs, the `is-modular-library` option is true by default, whil
 ```
 is-modular-library:true
 ```
-in your tspconfig.yaml. `is-modular-library` should be set to true unless you have been explictly instructed by the Azure SDK Architecture Board to proceed with RLC code generation.
+in your tspconfig.yaml. `is-modular-library` should be set to true unless you have been explicitly instructed by the Azure SDK Architecture Board to proceed with RLC code generation.
 
 
 - "parameters.service-dir.default" would be `sdk/<service>`
