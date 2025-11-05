@@ -97,12 +97,6 @@ export class TargetPartitionRangeManager {
     rangeTokenPairs?: PartitionRangeWithContinuationToken[],
     additionalQueryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-    console.log(`=== TargetPartitionRangeManager.filterPartitionRanges START ===`);
-    console.log(`Strategy: ${this.strategy.getStrategyType()}`);
-    console.log(`Target ranges count: ${targetRanges?.length || 0}`);
-    console.log(`Range-token pairs count: ${rangeTokenPairs?.length || 0}`);
-    console.log(`Additional query info:`, additionalQueryInfo || {});
-
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
       return { rangeTokenPairs: [] };
@@ -116,11 +110,6 @@ export class TargetPartitionRangeManager {
       rangeTokenPairs,
       mergedQueryInfo,
     );
-
-    console.log(`=== TargetPartitionRangeManager.filterPartitionRanges RESULT ===`);
-    console.log(`Filtered ranges count: ${result.rangeTokenPairs?.length || 0}`);
-    console.log(`=== TargetPartitionRangeManager.filterPartitionRanges END ===`);
-
     return result;
   }
 

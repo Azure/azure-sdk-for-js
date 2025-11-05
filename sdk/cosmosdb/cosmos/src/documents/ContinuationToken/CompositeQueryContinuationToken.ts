@@ -6,7 +6,7 @@ import type { QueryRangeMapping } from "../../queryExecutionContext/queryRangeMa
 
 /**
  * @hidden
- * Simplified query range for continuation tokens without internal flags
+ * Simplified query range for continuation tokens
  */
 export interface SimplifiedQueryRange {
   /**
@@ -103,7 +103,6 @@ export function parseCompositeQueryContinuationToken(
 export interface QueryRangeWithContinuationToken {
   /**
    * The simplified query range containing min/max boundaries
-   * (assumes min is inclusive and max is exclusive)
    */
   queryRange: SimplifiedQueryRange;
 

@@ -23,8 +23,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-    console.log(`QueryInfo:`, queryInfo || {});
-
     if (
       !targetRanges ||
       targetRanges.length === 0 ||
@@ -125,16 +123,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         });
       });
     }
-
-    console.log(`=== ORDER BY RANGE FILTER RESULT ===`);
-    console.log(`Total filtered ranges: ${result.rangeTokenPairs.length}`);
-    result.rangeTokenPairs.forEach((pair, index) => {
-      console.log(
-        `  Result[${index}]: range.id=${pair.range.id}, token=${pair.continuationToken}, filter=${pair.filteringCondition || "NONE"}`,
-      );
-    });
-    console.log(`=== OrderByQueryRangeStrategy.filterPartitionRanges END ===`);
-
     return result;
   }
 

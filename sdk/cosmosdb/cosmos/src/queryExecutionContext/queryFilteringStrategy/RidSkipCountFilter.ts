@@ -32,14 +32,6 @@ export class RidSkipCountFilter implements FilterStrategy {
    * @returns A new array containing only the documents that should be processed.
    */
   public applyFilter(documents: any[]): any[] {
-    console.log(`[FILTER-DEBUG] Filter context:`, {
-      orderByItems: this.filterContext.orderByItems,
-      sortOrders: this.filterContext.sortOrders,
-      rid: this.filterContext.rid,
-      skipCount: this.filterContext.skipCount,
-      initialSkipCount: this.remainingSkipCount,
-    });
-
     const filteredDocs: any[] = [];
     let skippedCount = 0;
 
@@ -50,12 +42,6 @@ export class RidSkipCountFilter implements FilterStrategy {
       }
       filteredDocs.push(doc);
     }
-
-    console.log(`[FILTER-DEBUG] === Filter Results ===`);
-    console.log(`[FILTER-DEBUG] Filtered documents count: ${filteredDocs.length}`);
-    console.log(`[FILTER-DEBUG] Skipped documents count: ${skippedCount}`);
-    console.log(`[FILTER-DEBUG] Remaining skip count: ${this.remainingSkipCount}`);
-
     return filteredDocs;
   }
 
@@ -84,16 +70,13 @@ export class RidSkipCountFilter implements FilterStrategy {
     // Step 2: RID Filtering (sortOrderCompare === 0, same OrderBy values)
     // Check if RID is available for comparison (some queries like JOIN may not have RID)
     // if (!this.filterContext.rid) {
-    //   console.log(`[FILTER-DETAIL] No RID in continuation token, using skip count only`);
-    //   // Without RID, we can't do RID-based filtering, so include the document
+    //    //   // Without RID, we can't do RID-based filtering, so include the document
     //   // The skipCount logic will handle any necessary filtering
     //   if (this.remainingSkipCount > 0) {
-    //     console.log(`[FILTER-DETAIL] ✗ Skip count remaining: ${this.remainingSkipCount}, skipping`);
-    //     this.remainingSkipCount--;
+    //    //     this.remainingSkipCount--;
     //     return false;
     //   }
-    //   console.log(`[FILTER-DETAIL] ✓ Skip count exhausted, including`);
-    //   return true;
+    //    //   return true;
     // }
 
     // For ORDER BY queries, _rid is at the top level of doc, not in payload

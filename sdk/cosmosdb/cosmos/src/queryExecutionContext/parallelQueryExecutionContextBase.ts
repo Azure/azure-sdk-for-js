@@ -189,20 +189,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           // Create filter context for ORDER BY queries with continuation
           let filterContext: FilterContext | undefined;
-          console.log(`[ParallelQueryExecutionContextBase] Checking filter context creation:`, {
-            hasOrderByItems: !!processedContinuationResponse.orderByItems,
-            orderByItems: processedContinuationResponse.orderByItems,
-            hasRid: !!processedContinuationResponse.rid,
-            rid: processedContinuationResponse.rid,
-            hasSkipCount: processedContinuationResponse.skipCount !== undefined,
-            skipCount: processedContinuationResponse.skipCount,
-          });
           if (
             processedContinuationResponse.orderByItems &&
             processedContinuationResponse.rid &&
             processedContinuationResponse.skipCount !== undefined
           ) {
-            console.log(`[ParallelQueryExecutionContextBase] ✓ Creating filter context`);
             filterContext = {
               orderByItems: processedContinuationResponse.orderByItems,
               rid: processedContinuationResponse.rid,
@@ -211,8 +202,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             };
           }
 
-          console.log(`[ParallelQueryExecutionContextBase] *** DOCUMENT PRODUCER CREATION ***`);
-          rangeTokenPairs.forEach((rangeTokenPair, index) => {
+          rangeTokenPairs.forEach((rangeTokenPair) => {
             const partitionTargetRange = rangeTokenPair.range;
             const continuationToken = rangeTokenPair.continuationToken;
             const filterCondition = rangeTokenPair.filteringCondition
@@ -231,30 +221,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const isTargetPartition = filterResult.targetPartitionId === partitionTargetRange.id;
             const partitionFilterContext = isTargetPartition ? filterContext : undefined;
 
-            console.log(
-              `[ParallelQueryExecutionContextBase] *** Producer ${index}: Partition ${partitionTargetRange.id} ***`,
-            );
-            console.log(
-              `  isTargetPartition: ${isTargetPartition} (targetPartitionId=${filterResult.targetPartitionId} vs partitionId=${partitionTargetRange.id})`,
-            );
-            console.log(`  partitionMinInclusive: ${partitionTargetRange.minInclusive}`);
-            console.log(`  hasFilter: ${!!partitionFilterContext}`);
-            console.log(`  hasContinuationToken: ${!!continuationToken}`);
-            console.log(`  filterCondition: ${filterCondition}`);
-            if (partitionFilterContext) {
-              console.log(`  filterContext:`, {
-                rid: partitionFilterContext.rid,
-                skipCount: partitionFilterContext.skipCount,
-                orderByItems: partitionFilterContext.orderByItems,
-                sortOrders: partitionFilterContext.sortOrders,
-              });
-            }
-            if (continuationToken) {
-              console.log(
-                `  continuationToken (first 100 chars): ${continuationToken.substring(0, 100)}`,
-              );
-            }
-
             const documentProducer = this._createTargetPartitionQueryExecutionContext(
               partitionTargetRange,
               continuationToken,
@@ -265,9 +231,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               partitionFilterContext,
             );
 
-            console.log(
-              `  ✓ Created DocumentProducer: partition=${documentProducer.targetPartitionKeyRange.id}, minInclusive=${documentProducer.targetPartitionKeyRange.minInclusive}`,
-            );
             targetPartitionQueryExecutionContextList.push(documentProducer);
           });
         } else {
@@ -281,22 +244,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         }
 
         // Fill up our priority queue with documentProducers
-        console.log(`[ParallelQueryExecutionContextBase] *** FILLING PRIORITY QUEUE ***`);
-        console.log(
-          `  Total document producers to enqueue: ${targetPartitionQueryExecutionContextList.length}`,
-        );
-        targetPartitionQueryExecutionContextList.forEach((documentProducer, index): void => {
+        targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
           // has async callback
           try {
-            console.log(
-              `  Enqueuing producer ${index}: partition=${documentProducer.targetPartitionKeyRange.id}, minInclusive=${documentProducer.targetPartitionKeyRange.minInclusive}`,
-            );
             this.unfilledDocumentProducersQueue.enq(documentProducer);
-            console.log(
-              `    ✓ Successfully enqueued (queue size: ${this.unfilledDocumentProducersQueue.size()})`,
-            );
           } catch (e: any) {
-            console.log(`    ✗ Failed to enqueue: ${e.message}`);
             this.err = e;
           }
         });
@@ -483,34 +435,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   } {
     try {
       const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
-      console.log(
-        `[_parseContinuationToken] isOrderByQuery: ${isOrderByQuery}, sortOrders: ${JSON.stringify(this.sortOrders)}`,
-      );
-      console.log(`[_parseContinuationToken] *** FULL CONTINUATION TOKEN ***:`);
-      console.log(continuationToken);
-      console.log(`[_parseContinuationToken] *** END TOKEN ***`);
 
       let parsed: any;
       if (isOrderByQuery) {
         // For ORDER BY queries, parse the token and extract all needed information
         parsed = parseOrderByQueryContinuationToken(continuationToken);
-        console.log(`[_parseContinuationToken] *** PARSED ORDER BY TOKEN ***:`, {
-          hasRangeMappings: !!parsed?.rangeMappings,
-          rangeMappingsCount: parsed?.rangeMappings?.length,
-          orderByItems: parsed?.orderByItems,
-          documentRid: parsed?.documentRid,
-          skipCount: parsed?.skipCount,
-          rid: parsed?.rid,
-          hashedLastResult: parsed?.hashedLastResult,
-        });
-        console.log(`[_parseContinuationToken] *** DETAILED RANGE MAPPINGS ***:`);
-        if (parsed?.rangeMappings) {
-          parsed.rangeMappings.forEach((mapping: any, index: number) => {
-            console.log(
-              `  Range ${index}: id=${mapping.queryRange?.id}, minInclusive=${mapping.queryRange?.minInclusive}, token=${mapping.continuationToken ? "present" : "null"}`,
-            );
-          });
-        }
 
         if (parsed && parsed.rangeMappings) {
           return {
@@ -523,10 +452,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       } else {
         // For parallel queries, parse directly and extract range mappings
         parsed = parseCompositeQueryContinuationToken(continuationToken);
-        console.log(`[_parseContinuationToken] Parsed PARALLEL token:`, {
-          hasRangeMappings: !!parsed?.rangeMappings,
-          rid: parsed?.rid,
-        });
 
         if (parsed && parsed.rangeMappings) {
           return {
@@ -785,15 +710,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         ? rewrittenQuery.replace(formatPlaceHolder, filterCondition)
         : rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;
-      console.log(`[_createTargetPartitionQueryExecutionContext] *** REWRITTEN QUERY ***`);
-      console.log(`  Partition: ${partitionKeyTargetRange.id}`);
-      console.log(`  Original query: ${this.query}`);
-      console.log(`  Rewritten query: ${rewrittenQuery}`);
-      console.log(`  Filter condition: ${filterCondition || "none"}`);
     } else {
-      console.log(`[_createTargetPartitionQueryExecutionContext] *** NO QUERY REWRITE ***`);
-      console.log(`  Partition: ${partitionKeyTargetRange.id}`);
-      console.log(`  Query: ${sqlQuerySpec.query}`);
     }
 
     const options = { ...this.options };
@@ -831,14 +748,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // return undefined if there is no more results
         if (this.buffer.length === 0) {
           this.sem.leave();
-          console.log(
-            "[ParallelQueryExecutionContextBase] drainBufferedItems - buffer is empty, checking partitionDataPatchMap size:",
-            this.partitionDataPatchMap.size,
-          );
-          console.log(
-            "[ParallelQueryExecutionContextBase] drainBufferedItems - partitionDataPatchMap entries before copy:",
-            Array.from(this.partitionDataPatchMap.entries()),
-          );
           const partitionDataPatchMap = this.partitionDataPatchMap;
           this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
           this.patchCounter = 0;
@@ -852,27 +761,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             partitionDataPatchMap,
             updatedContinuationRanges,
             undefined,
-          );
-          console.log(
-            "[ParallelQueryExecutionContextBase] Created result with Map size:",
-            partitionDataPatchMap.size,
-            "Map object:",
-            partitionDataPatchMap,
-          );
-          console.log(
-            "[ParallelQueryExecutionContextBase] Empty Drained items - Map size:",
-            partitionDataPatchMap.size,
-          );
-          console.log(
-            "[ParallelQueryExecutionContextBase] Empty Drained items - Map entries:",
-            Array.from(partitionDataPatchMap.entries()),
-          );
-          console.log(
-            "[ParallelQueryExecutionContextBase] Empty Drained items - JSON result:",
-            JSON.stringify({
-              ...result,
-              partitionKeyRangeMap: Object.fromEntries(partitionDataPatchMap),
-            }),
           );
 
           return resolve({
@@ -972,33 +860,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             documentProducer: DocumentProducer,
           ): Promise<void> => {
             try {
-              console.log(`[PARALLEL-BUFFER] *** BUFFERING PRODUCER ***`);
-              console.log(`  Partition: ${documentProducer.targetPartitionKeyRange.id}`);
-              console.log(
-                `  MinInclusive: ${documentProducer.targetPartitionKeyRange.minInclusive}`,
-              );
-              console.log(`  HasMoreResults: ${documentProducer.hasMoreResults()}`);
-              console.log(`  Current buffer size: ${documentProducer.peekBufferedItems().length}`);
-
               const headers = await documentProducer.bufferMore(diagnosticNode);
               this._mergeWithActiveResponseHeaders(headers);
 
               // Always track this document producer in patchToRangeMapping, even if it has no results
               // This ensures we maintain a record of all partition ranges that were scanned
               const nextItem = documentProducer.peakNextItem();
-              console.log(
-                `  After buffering: buffer size = ${documentProducer.peekBufferedItems().length}`,
-              );
               if (nextItem !== undefined) {
-                const category = nextItem?.orderByItems?.[0]?.item || "unknown";
-                console.log(`  ✓ Has buffered items, next item category="${category}"`);
-                console.log(
-                  `  → Moving to BUFFERED queue (current buffered queue size: ${this.bufferedDocumentProducersQueue.size()})`,
-                );
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
-                console.log(
-                  `    New buffered queue size: ${this.bufferedDocumentProducersQueue.size()}`,
-                );
               } else {
                 // Track document producer with no results in patchToRangeMapping
                 // This represents a scanned partition that yielded no results
@@ -1015,30 +884,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                     partitionKeyRange: documentProducer.targetPartitionKeyRange,
                     continuationToken: documentProducer.continuationToken,
                   });
-                  console.log(
-                    `No buffered items after buffering: ${this.partitionDataPatchMap.size} total patches tracked`,
-                  );
-                  console.log(`  → Added patch key: ${patchKey}`);
-                  console.log(
-                    `  → Current map entries:`,
-                    Array.from(this.partitionDataPatchMap.entries()),
-                  );
-                  console.log(
-                    `  → Continuation token: ${documentProducer.continuationToken ? "YES" : "NO"}`,
-                  );
-                } else {
-                  console.log(
-                    `  → SKIPPING patch - continuation token is null/exhausted (prevents infinite loop)`,
-                  );
-                  console.log(
-                    `  → Continuation token value: "${documentProducer.continuationToken}"`,
-                  );
                 }
                 if (documentProducer.hasMoreResults()) {
-                  console.log(`  → Keeping in UNFILLED queue (has more results to fetch)`);
                   this.unfilledDocumentProducersQueue.enq(documentProducer);
-                } else {
-                  console.log(`  → Exhausted (no more results)`);
                 }
               }
             } catch (err) {

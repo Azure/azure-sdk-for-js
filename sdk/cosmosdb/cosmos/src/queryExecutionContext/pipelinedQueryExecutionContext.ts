@@ -341,45 +341,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
-    // Process response and update continuation token manager
-    if (response?.result) {
-      console.log(
-        "[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap type:",
-        typeof response.result.partitionKeyRangeMap,
-      );
-      console.log(
-        "[PipelinedQueryExecutionContext] Processing response in continuation token manager - partitionKeyRangeMap is Map?:",
-        response.result.partitionKeyRangeMap instanceof Map,
-      );
-      if (response.result.partitionKeyRangeMap instanceof Map) {
-        console.log(
-          "[PipelinedQueryExecutionContext] Processing response - Map entries:",
-          Object.fromEntries(response.result.partitionKeyRangeMap),
-        );
-      }
-    }
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
-      console.log(
-        "[PipelinedQueryExecutionContext] Empty buffer detected - response.result:",
-        response?.result,
-      );
-      if (response?.result?.partitionKeyRangeMap instanceof Map) {
-        console.log(
-          "[PipelinedQueryExecutionContext] Empty buffer - original partitionKeyRangeMap entries:",
-          Object.fromEntries(response.result.partitionKeyRangeMap),
-        );
-      }
       const { continuationToken } = this.continuationTokenManager.createContinuationToken(
         this.pageSize,
         true, // isResponseEmpty = true
         response?.result, // Pass response data for processing
       );
       this._setContinuationTokenInHeaders(continuationToken);
-      console.log(
-        "[PipelinedQueryExecutionContext] Empty response - continuation token set:",
-        continuationToken ? "YES" : "NO",
-      );
       return this.createEmptyResult(this.fetchMoreRespHeaders);
     }
 
