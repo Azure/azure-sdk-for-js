@@ -6,7 +6,7 @@ The Microsoft Azure Container Registry management API provides create, read, upd
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-containerregistry) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-containerregistry?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-containerregistry) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,11 +63,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
+ });
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new ContainerRegistryManagementClient(credential, subscriptionId);
 ```
 
