@@ -13,6 +13,9 @@ import {
   ResourceLocationConfig,
 } from "@azure/core-lro";
 
+/**
+ * Options for restoring a poller.
+ */
 export interface RestorePollerOptions<
   TResult,
   TResponse extends PathUncheckedResponse = PathUncheckedResponse,

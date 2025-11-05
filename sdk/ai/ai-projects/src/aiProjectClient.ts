@@ -131,8 +131,7 @@ export class AIProjectClient {
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       apiKey: azureADTokenProvider,
       baseURL: `${this._endpoint}/openai`,
-      defaultQuery: { "api-version": this._options?.apiVersion || "2025-05-15-preview" },
-      defaultHeaders: { "accept-encoding": "deflate" },
+      defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
     };
 
@@ -151,7 +150,7 @@ export class AIProjectClient {
    * gets the endpoint of the client
    * @returns the endpoint of the client
    */
-  public getEndpointUrl(): string {
+  public get endpoint(): string {
     return this._endpoint;
   }
 }
