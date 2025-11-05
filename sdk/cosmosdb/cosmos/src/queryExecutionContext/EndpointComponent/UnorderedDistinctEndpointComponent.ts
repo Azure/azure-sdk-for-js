@@ -6,6 +6,7 @@ import { hashObject } from "../../utils/hashObject.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import type { ParallelQueryResult } from "../parallelQueryResult.js";
 import { createParallelQueryResult } from "../parallelQueryResult.js";
+import { getInitialHeader } from "../headerUtils.js";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
@@ -23,8 +24,12 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
 
+    if (!response) {
+      const result = createParallelQueryResult([], new Map(), {}, undefined);
+      return { result, headers: getInitialHeader() };
+    }
+
     if (
-      response === undefined ||
       response.result === undefined ||
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0

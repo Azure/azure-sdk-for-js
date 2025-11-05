@@ -79,9 +79,17 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     // If there are more results in backend, keep filling pq.
     if (this.executionContext.hasMoreResults()) {
       const response = await this.executionContext.fetchMore(diagnosticNode);
+
+      if (!response) {
+        this.isCompleted = true;
+        if (!this.nonStreamingOrderByPQ.isEmpty()) {
+          return this.buildFinalResultArray(resHeaders);
+        }
+        return { result: undefined, headers: resHeaders };
+      }
+
       resHeaders = response.headers;
       if (
-        response === undefined ||
         response.result === undefined ||
         !response.result.buffer ||
         response.result.buffer.length === 0

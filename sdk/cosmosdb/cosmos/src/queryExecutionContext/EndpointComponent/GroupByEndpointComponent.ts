@@ -42,10 +42,18 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
     const aggregateHeaders = getInitialHeader();
     const response = await this.executionContext.fetchMore(diagnosticNode);
+
+    if (!response) {
+      // If there are any groupings, consolidate and return them
+      if (this.groupings.size > 0) {
+        return this.consolidateGroupResults(aggregateHeaders);
+      }
+      return { result: undefined, headers: aggregateHeaders };
+    }
+
     mergeHeaders(aggregateHeaders, response.headers);
 
     if (
-      response === undefined ||
       response.result === undefined ||
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0

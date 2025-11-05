@@ -341,7 +341,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
-
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
       const { continuationToken } = this.continuationTokenManager.createContinuationToken(
         this.pageSize,

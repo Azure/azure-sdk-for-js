@@ -112,8 +112,22 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const response = await this.executionContext.fetchMore(diagnosticNode);
+
+      if (!response) {
+        this.isCompleted = true;
+        if (this.aggregateMap.size() > 0) {
+          await this.buildFinalResultArray();
+          const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
+          return {
+            result,
+            headers: resHeaders,
+          };
+        }
+        return { result: undefined, headers: resHeaders };
+      }
+
       if (
-        response === undefined ||
         response.result === undefined ||
         !Array.isArray(response.result.buffer) ||
         response.result.buffer.length === 0
