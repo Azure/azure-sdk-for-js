@@ -92,7 +92,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       expect(appendStub).not.toHaveBeenCalled();
       expect(writeStub).toHaveBeenCalledTimes(2);
       // assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
-      assert.ok(
+      assert.isTrue(
         writeStub.mock.calls[0][0].toString().indexOf(".applicationinsights.log") > 0,
         ".applicationinsights.log present in backup file name",
       ); // First call is for backup file
@@ -130,19 +130,18 @@ describe("Library/DiagFileConsoleLogger", () => {
       const setIntervalSpy = vi.spyOn(global, "setInterval");
       logger = new DiagFileConsoleLogger();
       expect(setIntervalSpy).toHaveBeenCalled();
-      assert.ok(logger["_fileCleanupTimer"]);
+      assert.isDefined(logger["_fileCleanupTimer"]);
     });
 
     it("should remove backup files", async () => {
       vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           [
             "applicationinsights.log",
             "123.applicationinsights.log",
             "456.applicationinsights.log",
-          ] as any,
+          ] as never,
       );
       logger["_maxHistory"] = 0;
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
@@ -154,18 +153,17 @@ describe("Library/DiagFileConsoleLogger", () => {
       vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           [
             "applicationinsights.log",
             "123.applicationinsights.log",
             "456.applicationinsights.log",
-          ] as any,
+          ] as never,
       );
       logger["_maxHistory"] = 1;
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
       await logger["_fileCleanupTask"]();
       expect(unlinkStub).toHaveBeenCalledTimes(1);
-      assert.ok(
+      assert.isTrue(
         unlinkStub.mock.calls[0][0].toString().indexOf("123.applicationinsights.log") > 0,
         "Oldest file is deleted",
       );
