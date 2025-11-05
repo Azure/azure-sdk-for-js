@@ -3,7 +3,7 @@
 import { processMultiTenantRequest } from "$internal/util/tenantIdUtils.js";
 import {
   extractPemCertificateKeys,
-  validatePemCertificates,
+  canParseAsX509Certificate,
 } from "$internal/util/certificatesUtils.js";
 import { describe, it, assert, afterEach } from "vitest";
 import path from "node:path";
@@ -35,14 +35,20 @@ describe("Identity utilities (Node.js only)", function () {
         assert.isTrue(keys[0].length > 0);
       });
 
-      it("should return empty array for empty input", () => {
-        const keys = extractPemCertificateKeys("");
-        assert.equal(keys.length, 0);
+      it("should throw error for empty input", () => {
+        assert.throws(
+          () => extractPemCertificateKeys(""),
+          Error,
+          "The file at the specified path does not contain a PEM-encoded certificate.",
+        );
       });
 
-      it("should return empty array for invalid PEM format", () => {
-        const keys = extractPemCertificateKeys("not a certificate at all");
-        assert.equal(keys.length, 0);
+      it("should throw error for invalid PEM format", () => {
+        assert.throws(
+          () => extractPemCertificateKeys("not a certificate at all"),
+          Error,
+          "The file at the specified path does not contain a PEM-encoded certificate.",
+        );
       });
 
       it("should handle PEM with different newline formats", () => {
@@ -52,25 +58,25 @@ describe("Identity utilities (Node.js only)", function () {
       });
     });
 
-    describe("validatePemCertificates", () => {
-      it("should return true for valid PEM certificate", () => {
-        assert.isTrue(validatePemCertificates(validPemCertificate));
+    describe("canParseAsX509Certificate", () => {
+      it("should return true for valid PEM certificate that can be parsed as X509", () => {
+        assert.isTrue(canParseAsX509Certificate(validPemCertificate));
       });
 
       it("should return false for invalid PEM format", () => {
-        assert.isFalse(validatePemCertificates("not a certificate"));
+        assert.isFalse(canParseAsX509Certificate("not a certificate"));
       });
 
       it("should return false for PEM with invalid base64 content", () => {
         const invalidPemData = `-----BEGIN CERTIFICATE-----
-Invalid base64 data here!!!
+invalidbase64content==
 -----END CERTIFICATE-----`;
-        assert.isFalse(validatePemCertificates(invalidPemData));
+        assert.isFalse(canParseAsX509Certificate(invalidPemData));
       });
 
-      it("should return false for regular string", () => {
-        assert.isFalse(validatePemCertificates(""));
-        assert.isFalse(validatePemCertificates("non-cert data"));
+      it("should return false for empty or non-certificate data", () => {
+        assert.isFalse(canParseAsX509Certificate(""));
+        assert.isFalse(canParseAsX509Certificate("non-cert data"));
       });
     });
   });

@@ -12,7 +12,7 @@ import { readFile } from "node:fs/promises";
 import type { PipelineRequest, PipelineResponse, HttpClient } from "@azure/core-rest-pipeline";
 import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import type { TlsSettings } from "@azure/core-rest-pipeline";
-import { validatePemCertificates } from "../util/certificatesUtils.js";
+import { canParseAsX509Certificate } from "../util/certificatesUtils.js";
 import { readFileSync } from "node:fs";
 
 const credentialName = "WorkloadIdentityCredential";
@@ -235,7 +235,8 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   private createAksProxyClient(tokenEndpoint: string): HttpClient {
     const defaultClient = createDefaultHttpClient();
-    const tlsSettings = this.getTlsSettings();
+    // Init cached TLS settings at construction time to fail fast on misconfiguration
+    this.cachedTlsSettings = this.getTlsSettings();
 
     return {
       sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
@@ -260,7 +261,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
         newUrl.hash = requestUrl.hash;
 
         request.url = newUrl.toString();
-        request.tlsSettings = tlsSettings;
+        request.tlsSettings = this.getTlsSettings();
 
         logger.info(`${credentialName}: Sending request to ${request.url}`);
         // Forward the modified request with custom TLS settings
@@ -285,7 +286,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     // Host provided CA bytes in AZURE_KUBERNETES_CA_DATA and can't change now
     if (!this.caFile) {
       if (!this.cachedTlsSettings) {
-        if (!validatePemCertificates(this.caData!)) {
+        if (!canParseAsX509Certificate(this.caData!)) {
           throw new CredentialUnavailableError(
             `${credentialName}: is unavailable. ${ErrorMessages.INVALID_CA_CERTIFICATES}`,
           );
@@ -321,7 +322,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     if (!this.cachedCaData || !fileContent.equals(this.cachedCaData)) {
       const caDataString = fileContent.toString("utf8");
 
-      if (!validatePemCertificates(caDataString)) {
+      if (!canParseAsX509Certificate(caDataString)) {
         throw new CredentialUnavailableError(
           `${credentialName}: is unavailable. ${ErrorMessages.INVALID_CA_CERTIFICATES}`,
         );
