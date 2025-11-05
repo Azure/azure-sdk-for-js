@@ -3,8 +3,8 @@
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
-import type { ParallelQueryResult } from "../ParallelQueryResult.js";
-import { createParallelQueryResult } from "../ParallelQueryResult.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {

@@ -11,7 +11,7 @@ import {
   type QueryRangeWithContinuationToken,
 } from "../../../../../src/documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { QueryRange } from "../../../../../src/routing/QueryRange.js";
-import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/QueryRangeMapping.js";
+import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/queryRangeMapping.js";
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
 describe.skip("CompositeQueryContinuationToken", () => {
   const mockRid = "test-resource-id";

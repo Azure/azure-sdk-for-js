@@ -26,14 +26,14 @@ import {
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
-import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import type { QueryRangeMapping } from "./queryRangeMapping.js";
 import type {
   QueryRangeWithContinuationToken,
   SimplifiedQueryRange,
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { parseCompositeQueryContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { createParallelQueryResult } from "./ParallelQueryResult.js";
+import { createParallelQueryResult } from "./parallelQueryResult.js";
 import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,

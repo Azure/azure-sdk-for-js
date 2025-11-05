@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import type { QueryRangeMapping } from "./queryRangeMapping.js";
 
 /**
  * Manages partition key range mappings for query execution.

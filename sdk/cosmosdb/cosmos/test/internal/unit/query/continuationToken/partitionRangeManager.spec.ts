@@ -3,7 +3,7 @@
 
 import { describe, it, beforeEach, assert } from "vitest";
 import { PartitionRangeManager } from "../../../../../src/queryExecutionContext/PartitionRangeManager.js";
-import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/QueryRangeMapping.js";
+import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/queryRangeMapping.js";
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
 
 describe("PartitionRangeManager", () => {

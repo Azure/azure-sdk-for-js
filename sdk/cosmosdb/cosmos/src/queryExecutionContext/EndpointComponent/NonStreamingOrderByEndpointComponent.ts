@@ -8,9 +8,9 @@ import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js"
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
 import type { CosmosHeaders } from "../headerUtils.js";
 import { getInitialHeader } from "../headerUtils.js";
-import type { QueryRangeMapping } from "../QueryRangeMapping.js";
-import type { ParallelQueryResult } from "../ParallelQueryResult.js";
-import { createParallelQueryResult } from "../ParallelQueryResult.js";
+import type { QueryRangeMapping } from "../queryRangeMapping.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
  * @hidden

@@ -21,7 +21,7 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
-import { type ParallelQueryResult } from "./ParallelQueryResult.js";
+import { type ParallelQueryResult } from "./parallelQueryResult.js";
 import { validateContinuationTokenUsage } from "./QueryValidationHelper.js";
 
 /** @hidden */

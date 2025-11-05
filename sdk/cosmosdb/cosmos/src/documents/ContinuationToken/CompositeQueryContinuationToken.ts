@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { QueryRange } from "../../routing/QueryRange.js";
-import type { QueryRangeMapping } from "../../queryExecutionContext/QueryRangeMapping.js";
+import type { QueryRangeMapping } from "../../queryExecutionContext/queryRangeMapping.js";
 
 /**
  * @hidden

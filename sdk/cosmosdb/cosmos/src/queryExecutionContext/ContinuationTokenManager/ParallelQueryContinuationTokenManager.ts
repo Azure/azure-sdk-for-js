@@ -13,7 +13,7 @@ import {
   parseCompositeQueryContinuationToken,
   convertRangeMappingToQueryRange,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import type { QueryRangeMapping } from "../QueryRangeMapping.js";
+import type { QueryRangeMapping } from "../queryRangeMapping.js";
 
 /**
  * Manages continuation tokens for parallel queries using multi-range aggregation.

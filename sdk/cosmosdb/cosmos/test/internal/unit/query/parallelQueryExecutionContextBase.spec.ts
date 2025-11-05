@@ -10,7 +10,7 @@ import type {
 } from "../../../../src/index.js";
 import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
 import type { ClientContext } from "../../../../src/index.js";
-import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";
+import { TestParallelQueryExecutionContext } from "../common/testParallelQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,

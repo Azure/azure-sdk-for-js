@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import type { QueryRangeMapping } from "./queryRangeMapping.js";
 
 /**
  * Represents the result structure returned by parallel query execution contexts

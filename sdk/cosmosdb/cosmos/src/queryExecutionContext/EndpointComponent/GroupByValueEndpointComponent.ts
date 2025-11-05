@@ -10,8 +10,8 @@ import { createAggregator } from "../Aggregators/index.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
-import type { ParallelQueryResult } from "../ParallelQueryResult.js";
-import { createParallelQueryResult } from "../ParallelQueryResult.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 
 interface GroupByResult {
   groupByItems: any[];

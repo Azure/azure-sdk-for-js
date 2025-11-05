@@ -4,8 +4,8 @@ import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInt
 import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
-import type { ParallelQueryResult } from "../ParallelQueryResult.js";
-import { createParallelQueryResult } from "../ParallelQueryResult.js";
+import type { ParallelQueryResult } from "../parallelQueryResult.js";
+import { createParallelQueryResult } from "../parallelQueryResult.js";
 import { calculateOffsetLimitForPartitionRanges } from "../PartitionRangeUtils.js";
 
 /** @hidden */
