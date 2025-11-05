@@ -1,5 +1,18 @@
 # Release History
 
+## 1.1.0-beta.2 (2025-11-05)
+Compared with version 1.0.0
+
+### Features Added
+  - Added Interface SimplePhiEntity
+  - Added Interface TaggedPhiEntities
+  - Interface DeidentificationContent has a new optional parameter taggedEntities
+  - Interface DeidentificationCustomizationOptions has a new optional parameter inputLocale
+  - Interface DeidentificationJobCustomizationOptions has a new optional parameter inputLocale
+  - Interface DeidentificationJobCustomizationOptionsOutput has a new optional parameter inputLocale
+  - Added Type Alias PhiCategory
+  - Added Type Alias TextEncodingType
+
 ## 1.1.0-beta.1 (2025-09-30)
 
 ### Features Added
