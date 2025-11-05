@@ -73,7 +73,7 @@ export {
   KnowledgeSourceParamsUnion as KnowledgeSourceParams,
   KnownKnowledgeSourceKind,
   SearchIndexKnowledgeSourceParams,
-  SearchIndexFieldReference,
+  SearchIndexFieldReference as KnowledgeBaseSearchIndexFieldReference,
 } from "./generated/knowledgeBase/models/index.js";
 export {
   AIFoundryModelCatalogName,
@@ -258,6 +258,7 @@ export {
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
   SearchIndexerError,
+  SearchIndexFieldReference,
   SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
   SearchIndexerKnowledgeStoreFileProjectionSelector,

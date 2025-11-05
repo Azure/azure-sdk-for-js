@@ -47,7 +47,7 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
 
     await indexClient.createKnowledgeSource({
       kind: "searchIndex",
-      name: "searchIndex-ks",
+      name: "searchindex-ks",
       searchIndexParameters: {
         searchIndexName: TEST_INDEX_NAME,
       },
@@ -61,7 +61,7 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
           azureOpenAIParameters: { ...azureOpenAIParameters, modelName: "gpt-4o" },
         },
       ],
-      knowledgeSources: [{ name: "searchIndex-ks" }],
+      knowledgeSources: [{ name: "searchindex-ks" }],
     });
 
     await delay(WAIT_TIME);

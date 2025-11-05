@@ -1454,16 +1454,21 @@ export interface KnowledgeBaseRetrievalResponse {
 export interface KnowledgeBaseSearchIndexActivityArguments {
     filter?: string;
     search?: string;
-    searchFields?: SearchIndexFieldReference[];
+    searchFields?: KnowledgeBaseSearchIndexFieldReference[];
     semanticConfigurationName?: string;
-    // Warning: (ae-forgotten-export) The symbol "SearchIndexFieldReference" needs to be exported by the entry point index.d.ts
-    sourceDataFields?: SearchIndexFieldReference[];
+    sourceDataFields?: KnowledgeBaseSearchIndexFieldReference[];
 }
 
 // @public
 export interface KnowledgeBaseSearchIndexActivityRecord extends BaseKnowledgeBaseRetrievalActivityRecord {
     searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
     type: "searchIndex";
+}
+
+// @public (undocumented)
+export interface KnowledgeBaseSearchIndexFieldReference {
+    // (undocumented)
+    name: string;
 }
 
 // @public
@@ -3551,6 +3556,12 @@ export interface SearchIndexerWarning {
     readonly name?: string;
 }
 
+// @public (undocumented)
+export interface SearchIndexFieldReference {
+    // (undocumented)
+    name: string;
+}
+
 // @public
 export class SearchIndexingBufferedSender<TModel extends object> {
     constructor(client: IndexDocumentsClient<TModel>, documentKeyRetriever: (document: TModel) => string, options?: SearchIndexingBufferedSenderOptions);
@@ -3612,7 +3623,6 @@ export interface SearchIndexKnowledgeSourceParameters {
     searchFields?: SearchIndexFieldReference[];
     searchIndexName: string;
     semanticConfigurationName?: string;
-    // Warning: (ae-forgotten-export) The symbol "SearchIndexFieldReference" needs to be exported by the entry point index.d.ts
     sourceDataFields?: SearchIndexFieldReference[];
 }
 
