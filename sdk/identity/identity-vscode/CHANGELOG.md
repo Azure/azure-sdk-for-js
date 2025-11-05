@@ -1,16 +1,10 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 2.1.0 (2025-11-11)
 
 ### Features Added
 
 - Added support for Linux broker authentication via VSCode. [#36460](https://github.com/Azure/azure-sdk-for-js/pull/36460)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.0.0 (2025-08-05)
 

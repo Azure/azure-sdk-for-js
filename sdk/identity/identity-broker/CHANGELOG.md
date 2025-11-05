@@ -1,16 +1,10 @@
 # Release History
 
-## 1.3.0 (Unreleased)
+## 1.3.0 (2025-11-11)
 
 ### Features Added
 
 - Added support for Linux broker authentication. [#36460](https://github.com/Azure/azure-sdk-for-js/pull/36460)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.2.0 (2025-02-18)
 
