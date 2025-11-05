@@ -1,21 +1,15 @@
 # Release History
 
-## 1.9.2 (Unreleased)
+## 1.10.0 (2025-11-03)
 
 ### Features Added
 
-- Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs.
+- Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs. [#36344](https://github.com/Azure/azure-sdk-for-js/pull/36344)
 
-- Support snapshot reference.
+- Support snapshot reference. [#36105](https://github.com/Azure/azure-sdk-for-js/pull/36105)
   - New type for SnapshotReference - `ConfigurationSetting<SnapshotReferenceValue>`
   - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties (to translate `ConfigurationSetting` into the type above).
   - Helper method `isSnapshotReference` checks the contentType and return boolean values.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.9.0 (2025-04-08)
 

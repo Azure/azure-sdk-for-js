@@ -16,9 +16,3 @@ export {
   secretReferenceContentType,
   SecretReferenceValue,
 } from "./secretReference.js";
-export {
-  isSnapshotReference,
-  parseSnapshotReference,
-  snapshotReferenceContentType,
-  SnapshotReferenceValue,
-} from "./snapshotReference.js";

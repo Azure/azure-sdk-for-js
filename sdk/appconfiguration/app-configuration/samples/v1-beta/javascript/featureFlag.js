@@ -21,7 +21,6 @@ async function main() {
     isReadOnly: false,
     contentType: featureFlagContentType,
     value: {
-      id: "sample-feature-flag",
       enabled: false,
       description: "I'm a description",
       conditions: {
@@ -80,8 +79,8 @@ async function main() {
       `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
         clientFilter.parameters,
         null,
-        1,
-      )}\n`,
+        1
+      )}\n`
     );
     switch (clientFilter.name) {
       // Tweak the client filters of the feature flag
@@ -127,8 +126,8 @@ async function main() {
       `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
         clientFilter.parameters,
         null,
-        1,
-      )}\n`,
+        1
+      )}\n`
     );
   }
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
