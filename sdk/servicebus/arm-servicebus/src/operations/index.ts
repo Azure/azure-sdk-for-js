@@ -6,13 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./namespaces.js";
-export * from "./privateEndpointConnections.js";
-export * from "./privateLinkResources.js";
 export * from "./operations.js";
+export * from "./namespaces.js";
 export * from "./disasterRecoveryConfigs.js";
 export * from "./migrationConfigs.js";
+export * from "./networkSecurityPerimeterConfigurationOperations.js";
+export * from "./networkSecurityPerimeterConfigurations.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
 export * from "./queues.js";
 export * from "./topics.js";
-export * from "./rules.js";
 export * from "./subscriptions.js";
+export * from "./rules.js";

@@ -6,26 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   ArmDisasterRecovery,
   DisasterRecoveryConfigsListOptionalParams,
   SBAuthorizationRule,
   DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
+  DisasterRecoveryConfigsGetOptionalParams,
+  DisasterRecoveryConfigsGetResponse,
   DisasterRecoveryConfigsCreateOrUpdateOptionalParams,
   DisasterRecoveryConfigsCreateOrUpdateResponse,
   DisasterRecoveryConfigsDeleteOptionalParams,
-  DisasterRecoveryConfigsGetOptionalParams,
-  DisasterRecoveryConfigsGetResponse,
-  DisasterRecoveryConfigsBreakPairingOptionalParams,
-  DisasterRecoveryConfigsFailOverOptionalParams,
   DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   DisasterRecoveryConfigsGetAuthorizationRuleResponse,
   DisasterRecoveryConfigsListKeysOptionalParams,
   DisasterRecoveryConfigsListKeysResponse,
+  DisasterRecoveryConfigsBreakPairingOptionalParams,
+  DisasterRecoveryConfigsFailOverOptionalParams,
   CheckNameAvailability,
   DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
-  DisasterRecoveryConfigsCheckNameAvailabilityResponse
+  DisasterRecoveryConfigsCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,18 +33,18 @@ import {
 export interface DisasterRecoveryConfigs {
   /**
    * Gets all Alias(Disaster Recovery configurations)
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
+    options?: DisasterRecoveryConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<ArmDisasterRecovery>;
   /**
    * Gets the authorization rules for a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param options The options parameters.
@@ -53,11 +53,24 @@ export interface DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
+   * Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: DisasterRecoveryConfigsGetOptionalParams,
+  ): Promise<DisasterRecoveryConfigsGetResponse>;
+  /**
    * Creates or updates a new Alias(Disaster Recovery configuration)
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param parameters Parameters required to create an Alias(Disaster Recovery configuration)
@@ -68,11 +81,11 @@ export interface DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     parameters: ArmDisasterRecovery,
-    options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams
+    options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams,
   ): Promise<DisasterRecoveryConfigsCreateOrUpdateResponse>;
   /**
    * Deletes an Alias(Disaster Recovery configuration)
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param options The options parameters.
@@ -81,51 +94,11 @@ export interface DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    options?: DisasterRecoveryConfigsGetOptionalParams
-  ): Promise<DisasterRecoveryConfigsGetResponse>;
-  /**
-   * This operation disables the Disaster Recovery and stops replicating changes from primary to
-   * secondary namespaces
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param options The options parameters.
-   */
-  breakPairing(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    options?: DisasterRecoveryConfigsBreakPairingOptionalParams
-  ): Promise<void>;
-  /**
-   * Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param options The options parameters.
-   */
-  failOver(
-    resourceGroupName: string,
-    namespaceName: string,
-    alias: string,
-    options?: DisasterRecoveryConfigsFailOverOptionalParams
+    options?: DisasterRecoveryConfigsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets an authorization rule for a namespace by rule name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param authorizationRuleName The authorization rule name.
@@ -136,11 +109,11 @@ export interface DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
+    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   ): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
   /**
    * Gets the primary and secondary connection strings for the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param authorizationRuleName The authorization rule name.
@@ -151,11 +124,38 @@ export interface DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsListKeysOptionalParams
+    options?: DisasterRecoveryConfigsListKeysOptionalParams,
   ): Promise<DisasterRecoveryConfigsListKeysResponse>;
   /**
+   * This operation disables the Disaster Recovery and stops replicating changes from primary to
+   * secondary namespaces
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param options The options parameters.
+   */
+  breakPairing(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: DisasterRecoveryConfigsBreakPairingOptionalParams,
+  ): Promise<void>;
+  /**
+   * Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param options The options parameters.
+   */
+  failOver(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: DisasterRecoveryConfigsFailOverOptionalParams,
+  ): Promise<void>;
+  /**
    * Check the give namespace name availability.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param parameters Parameters to check availability of the given namespace name
    * @param options The options parameters.
@@ -164,6 +164,6 @@ export interface DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     parameters: CheckNameAvailability,
-    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
+    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
   ): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse>;
 }

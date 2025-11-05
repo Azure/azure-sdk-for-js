@@ -1,21 +1,88 @@
 # Release History
 
-## 6.2.0-beta.3 (Unreleased)
+## 7.0.0-beta.1 (2025-11-05)
+Compared with version 6.1.0
 
 ### Features Added
+  - Added operation group NetworkSecurityPerimeterConfigurationOperations
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added operation Namespaces.beginFailover
+  - Added operation Namespaces.beginFailoverAndWait
+  - Added Interface ConfidentialCompute
+  - Added Interface FailOver
+  - Added Interface GeoDataReplicationProperties
+  - Added Interface MigrationConfigsCreateAndStartMigrationHeaders
+  - Added Interface NamespaceReplicaLocation
+  - Added Interface NamespacesCreateOrUpdateHeaders
+  - Added Interface NamespacesDeleteHeaders
+  - Added Interface NamespacesFailoverHeaders
+  - Added Interface NamespacesFailoverOptionalParams
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationList
+  - Added Interface NetworkSecurityPerimeterConfigurationListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NspAccessRule
+  - Added Interface NspAccessRuleProperties
+  - Added Interface NspAccessRulePropertiesSubscriptionsItem
+  - Added Interface PlatformCapabilities
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceNamespacePatch has a new optional parameter systemData
+  - Interface SBNamespace has a new optional parameter geoDataReplication
+  - Interface SBNamespace has a new optional parameter minimumTlsVersion
+  - Interface SBNamespace has a new optional parameter platformCapabilities
+  - Interface SBNamespace has a new optional parameter premiumMessagingPartitions
+  - Interface SBNamespace has a new optional parameter publicNetworkAccess
+  - Interface SBNamespaceUpdateParameters has a new optional parameter systemData
+  - Interface SBQueue has a new optional parameter userMetadata
+  - Interface SBSubscription has a new optional parameter userMetadata
+  - Interface SBTopic has a new optional parameter userMetadata
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias GeoDRRoleType
+  - Added Type Alias KeyType
+  - Added Type Alias Mode
+  - Added Type Alias NamespacesFailoverResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationListResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameResponse
+  - Added Type Alias NspAccessRuleDirection
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias TlsVersion
+  - Added Enum KnownGeoDRRoleType
+  - Added Enum KnownMode
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownNspAccessRuleDirection
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownTlsVersion
 
 ### Breaking Changes
+  - Removed Interface SqlRuleAction
+  - Interface ProxyResource no longer has parameter location
+  - Parameter value of interface ArmDisasterRecoveryListResult is now required
+  - Parameter value of interface MigrationConfigListResult is now required
+  - Parameter value of interface NetworkRuleSetListResult is now required
+  - Parameter value of interface OperationListResult is now required
+  - Parameter value of interface PrivateEndpointConnectionListResult is now required
+  - Parameter value of interface PrivateLinkResourcesListResult is now required
+  - Parameter value of interface RuleListResult is now required
+  - Parameter value of interface SBAuthorizationRuleListResult is now required
+  - Parameter value of interface SBNamespaceListResult is now required
+  - Parameter value of interface SBQueueListResult is now required
+  - Parameter value of interface SBSubscriptionListResult is now required
+  - Parameter value of interface SBTopicListResult is now required
+  - Removed Type Alias KeyType_2
 
-### Bugs Fixed
-
-### Other Changes
-
-## 6.2.0-beta.2 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 6.2.0-beta.1 (2023-02-08)
     
 ### Features Added
@@ -100,4 +167,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

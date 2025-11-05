@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   MigrationConfigProperties,
   MigrationConfigsListOptionalParams,
   MigrationConfigurationName,
+  MigrationConfigsGetOptionalParams,
+  MigrationConfigsGetResponse,
   MigrationConfigsCreateAndStartMigrationOptionalParams,
   MigrationConfigsCreateAndStartMigrationResponse,
   MigrationConfigsDeleteOptionalParams,
-  MigrationConfigsGetOptionalParams,
-  MigrationConfigsGetResponse,
+  MigrationConfigsRevertOptionalParams,
   MigrationConfigsCompleteMigrationOptionalParams,
-  MigrationConfigsRevertOptionalParams
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,20 +26,33 @@ import {
 export interface MigrationConfigs {
   /**
    * Gets all migrationConfigurations
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
+    options?: MigrationConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<MigrationConfigProperties>;
   /**
-   * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * Retrieves Migration Config
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
+   * @param configName The configuration name. Should always be $default.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    configName: MigrationConfigurationName,
+    options?: MigrationConfigsGetOptionalParams,
+  ): Promise<MigrationConfigsGetResponse>;
+  /**
+   * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param configName The configuration name. Should always be $default.
    * @param parameters Parameters required to create Migration Configuration
    * @param options The options parameters.
    */
@@ -48,18 +61,18 @@ export interface MigrationConfigs {
     namespaceName: string,
     configName: MigrationConfigurationName,
     parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
+    options?: MigrationConfigsCreateAndStartMigrationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>,
+    SimplePollerLike<
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>,
       MigrationConfigsCreateAndStartMigrationResponse
     >
   >;
   /**
    * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
+   * @param configName The configuration name. Should always be $default.
    * @param parameters Parameters required to create Migration Configuration
    * @param options The options parameters.
    */
@@ -68,60 +81,47 @@ export interface MigrationConfigs {
     namespaceName: string,
     configName: MigrationConfigurationName,
     parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
+    options?: MigrationConfigsCreateAndStartMigrationOptionalParams,
   ): Promise<MigrationConfigsCreateAndStartMigrationResponse>;
   /**
    * Deletes a MigrationConfiguration
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
+   * @param configName The configuration name. Should always be $default.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Retrieves Migration Config
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    configName: MigrationConfigurationName,
-    options?: MigrationConfigsGetOptionalParams
-  ): Promise<MigrationConfigsGetResponse>;
-  /**
-   * This operation Completes Migration of entities by pointing the connection strings to Premium
-   * namespace and any entities created after the operation will be under Premium Namespace.
-   * CompleteMigration operation will fail when entity migration is in-progress.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
-   * @param options The options parameters.
-   */
-  completeMigration(
-    resourceGroupName: string,
-    namespaceName: string,
-    configName: MigrationConfigurationName,
-    options?: MigrationConfigsCompleteMigrationOptionalParams
+    options?: MigrationConfigsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * This operation reverts Migration
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
-   * @param configName The configuration name. Should always be "$default".
+   * @param configName The configuration name. Should always be $default.
    * @param options The options parameters.
    */
   revert(
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsRevertOptionalParams
+    options?: MigrationConfigsRevertOptionalParams,
+  ): Promise<void>;
+  /**
+   * This operation Completes Migration of entities by pointing the connection strings to Premium
+   * namespace and any entities created after the operation will be under Premium Namespace.
+   * CompleteMigration operation will fail when entity migration is in-progress.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param configName The configuration name. Should always be $default.
+   * @param options The options parameters.
+   */
+  completeMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    configName: MigrationConfigurationName,
+    options?: MigrationConfigsCompleteMigrationOptionalParams,
   ): Promise<void>;
 }

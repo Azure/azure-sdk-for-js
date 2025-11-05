@@ -6,35 +6,46 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  SBAuthorizationRule,
-  QueuesListAuthorizationRulesOptionalParams,
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   SBQueue,
   QueuesListByNamespaceOptionalParams,
+  SBAuthorizationRule,
+  QueuesListAuthorizationRulesOptionalParams,
+  QueuesGetOptionalParams,
+  QueuesGetResponse,
+  QueuesCreateOrUpdateOptionalParams,
+  QueuesCreateOrUpdateResponse,
+  QueuesDeleteOptionalParams,
+  QueuesGetAuthorizationRuleOptionalParams,
+  QueuesGetAuthorizationRuleResponse,
   QueuesCreateOrUpdateAuthorizationRuleOptionalParams,
   QueuesCreateOrUpdateAuthorizationRuleResponse,
   QueuesDeleteAuthorizationRuleOptionalParams,
-  QueuesGetAuthorizationRuleOptionalParams,
-  QueuesGetAuthorizationRuleResponse,
   QueuesListKeysOptionalParams,
   QueuesListKeysResponse,
   RegenerateAccessKeyParameters,
   QueuesRegenerateKeysOptionalParams,
   QueuesRegenerateKeysResponse,
-  QueuesCreateOrUpdateOptionalParams,
-  QueuesCreateOrUpdateResponse,
-  QueuesDeleteOptionalParams,
-  QueuesGetOptionalParams,
-  QueuesGetResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Queues. */
 export interface Queues {
   /**
+   * Gets the queues within a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param options The options parameters.
+   */
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: QueuesListByNamespaceOptionalParams,
+  ): PagedAsyncIterableIterator<SBQueue>;
+  /**
    * Gets all authorization rules for a queue.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
    * @param options The options parameters.
@@ -43,22 +54,67 @@ export interface Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesListAuthorizationRulesOptionalParams
+    options?: QueuesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
-   * Gets the queues within a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * Returns a description for the specified queue.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
+   * @param queueName The queue name.
    * @param options The options parameters.
    */
-  listByNamespace(
+  get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: QueuesListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<SBQueue>;
+    queueName: string,
+    options?: QueuesGetOptionalParams,
+  ): Promise<QueuesGetResponse>;
+  /**
+   * Creates or updates a Service Bus queue. This operation is idempotent.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param parameters Parameters supplied to create or update a queue resource.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    queueName: string,
+    parameters: SBQueue,
+    options?: QueuesCreateOrUpdateOptionalParams,
+  ): Promise<QueuesCreateOrUpdateResponse>;
+  /**
+   * Deletes a queue from the specified namespace in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    queueName: string,
+    options?: QueuesDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets an authorization rule for a queue by rule name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    queueName: string,
+    authorizationRuleName: string,
+    options?: QueuesGetAuthorizationRuleOptionalParams,
+  ): Promise<QueuesGetAuthorizationRuleResponse>;
   /**
    * Creates an authorization rule for a queue.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
    * @param authorizationRuleName The authorization rule name.
@@ -71,11 +127,11 @@ export interface Queues {
     queueName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<QueuesCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a queue authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
    * @param authorizationRuleName The authorization rule name.
@@ -86,26 +142,11 @@ export interface Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesDeleteAuthorizationRuleOptionalParams
+    options?: QueuesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
-   * Gets an authorization rule for a queue by rule name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    queueName: string,
-    authorizationRuleName: string,
-    options?: QueuesGetAuthorizationRuleOptionalParams
-  ): Promise<QueuesGetAuthorizationRuleResponse>;
-  /**
    * Primary and secondary connection strings to the queue.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
    * @param authorizationRuleName The authorization rule name.
@@ -116,11 +157,11 @@ export interface Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesListKeysOptionalParams
+    options?: QueuesListKeysOptionalParams,
   ): Promise<QueuesListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings to the queue.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param queueName The queue name.
    * @param authorizationRuleName The authorization rule name.
@@ -133,47 +174,6 @@ export interface Queues {
     queueName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: QueuesRegenerateKeysOptionalParams
+    options?: QueuesRegenerateKeysOptionalParams,
   ): Promise<QueuesRegenerateKeysResponse>;
-  /**
-   * Creates or updates a Service Bus queue. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param parameters Parameters supplied to create or update a queue resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    namespaceName: string,
-    queueName: string,
-    parameters: SBQueue,
-    options?: QueuesCreateOrUpdateOptionalParams
-  ): Promise<QueuesCreateOrUpdateResponse>;
-  /**
-   * Deletes a queue from the specified namespace in a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    queueName: string,
-    options?: QueuesDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Returns a description for the specified queue.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    queueName: string,
-    options?: QueuesGetOptionalParams
-  ): Promise<QueuesGetResponse>;
 }

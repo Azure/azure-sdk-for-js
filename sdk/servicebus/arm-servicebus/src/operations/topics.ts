@@ -6,39 +6,39 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Topics } from "../operationsInterfaces/index.js";
+import type { Topics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ServiceBusManagementClient } from "../serviceBusManagementClient.js";
-import {
-  SBAuthorizationRule,
-  TopicsListAuthorizationRulesNextOptionalParams,
-  TopicsListAuthorizationRulesOptionalParams,
-  TopicsListAuthorizationRulesResponse,
+import type { ServiceBusManagementClient } from "../serviceBusManagementClient.js";
+import type {
   SBTopic,
   TopicsListByNamespaceNextOptionalParams,
   TopicsListByNamespaceOptionalParams,
   TopicsListByNamespaceResponse,
-  TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
-  TopicsCreateOrUpdateAuthorizationRuleResponse,
+  SBAuthorizationRule,
+  TopicsListAuthorizationRulesNextOptionalParams,
+  TopicsListAuthorizationRulesOptionalParams,
+  TopicsListAuthorizationRulesResponse,
+  TopicsGetOptionalParams,
+  TopicsGetResponse,
+  TopicsCreateOrUpdateOptionalParams,
+  TopicsCreateOrUpdateResponse,
+  TopicsDeleteOptionalParams,
   TopicsGetAuthorizationRuleOptionalParams,
   TopicsGetAuthorizationRuleResponse,
+  TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
+  TopicsCreateOrUpdateAuthorizationRuleResponse,
   TopicsDeleteAuthorizationRuleOptionalParams,
   TopicsListKeysOptionalParams,
   TopicsListKeysResponse,
   RegenerateAccessKeyParameters,
   TopicsRegenerateKeysOptionalParams,
   TopicsRegenerateKeysResponse,
-  TopicsCreateOrUpdateOptionalParams,
-  TopicsCreateOrUpdateResponse,
-  TopicsDeleteOptionalParams,
-  TopicsGetOptionalParams,
-  TopicsGetResponse,
+  TopicsListByNamespaceNextResponse,
   TopicsListAuthorizationRulesNextResponse,
-  TopicsListByNamespaceNextResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,8 +55,92 @@ export class TopicsImpl implements Topics {
   }
 
   /**
+   * Gets all the topics in a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param options The options parameters.
+   */
+  public listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: TopicsListByNamespaceOptionalParams,
+  ): PagedAsyncIterableIterator<SBTopic> {
+    const iter = this.listByNamespacePagingAll(
+      resourceGroupName,
+      namespaceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByNamespacePagingPage(
+          resourceGroupName,
+          namespaceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByNamespacePagingPage(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: TopicsListByNamespaceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SBTopic[]> {
+    let result: TopicsListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options,
+      );
+      const page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByNamespaceNext(
+        resourceGroupName,
+        namespaceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      const page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByNamespacePagingAll(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: TopicsListByNamespaceOptionalParams,
+  ): AsyncIterableIterator<SBTopic> {
+    for await (const page of this.listByNamespacePagingPage(
+      resourceGroupName,
+      namespaceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Gets authorization rules for a topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -65,13 +149,13 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsListAuthorizationRulesOptionalParams
+    options?: TopicsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
       topicName,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +173,9 @@ export class TopicsImpl implements Topics {
           namespaceName,
           topicName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -100,7 +184,7 @@ export class TopicsImpl implements Topics {
     namespaceName: string,
     topicName: string,
     options?: TopicsListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SBAuthorizationRule[]> {
     let result: TopicsListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,9 +193,9 @@ export class TopicsImpl implements Topics {
         resourceGroupName,
         namespaceName,
         topicName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -122,10 +206,10 @@ export class TopicsImpl implements Topics {
         namespaceName,
         topicName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -135,13 +219,13 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsListAuthorizationRulesOptionalParams
+    options?: TopicsListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<SBAuthorizationRule> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
       topicName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,91 +233,83 @@ export class TopicsImpl implements Topics {
 
   /**
    * Gets all the topics in a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
-  public listByNamespace(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: TopicsListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<SBTopic> {
-    const iter = this.listByNamespacePagingAll(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByNamespacePagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByNamespacePagingPage(
+  private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
     options?: TopicsListByNamespaceOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<SBTopic[]> {
-    let result: TopicsListByNamespaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByNamespace(
-        resourceGroupName,
-        namespaceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByNamespaceNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  ): Promise<TopicsListByNamespaceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, options },
+      listByNamespaceOperationSpec,
+    );
   }
 
-  private async *listByNamespacePagingAll(
+  /**
+   * Returns a description for the specified topic.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param topicName The topic name.
+   * @param options The options parameters.
+   */
+  get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: TopicsListByNamespaceOptionalParams
-  ): AsyncIterableIterator<SBTopic> {
-    for await (const page of this.listByNamespacePagingPage(
-      resourceGroupName,
-      namespaceName,
-      options
-    )) {
-      yield* page;
-    }
+    topicName: string,
+    options?: TopicsGetOptionalParams,
+  ): Promise<TopicsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, topicName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates a topic in the specified namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param topicName The topic name.
+   * @param parameters Parameters supplied to create a topic resource.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    parameters: SBTopic,
+    options?: TopicsCreateOrUpdateOptionalParams,
+  ): Promise<TopicsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, topicName, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes a topic from the specified namespace and resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param topicName The topic name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    options?: TopicsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, topicName, options },
+      deleteOperationSpec,
+    );
   }
 
   /**
    * Gets authorization rules for a topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -242,17 +318,44 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsListAuthorizationRulesOptionalParams
+    options?: TopicsListAuthorizationRulesOptionalParams,
   ): Promise<TopicsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, topicName, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the specified authorization rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param topicName The topic name.
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The options parameters.
+   */
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    authorizationRuleName: string,
+    options?: TopicsGetAuthorizationRuleOptionalParams,
+  ): Promise<TopicsGetAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        topicName,
+        authorizationRuleName,
+        options,
+      },
+      getAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Creates an authorization rule for the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -265,7 +368,7 @@ export class TopicsImpl implements Topics {
     topicName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<TopicsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -274,42 +377,15 @@ export class TopicsImpl implements Topics {
         topicName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateAuthorizationRuleOperationSpec
-    );
-  }
-
-  /**
-   * Returns the specified authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param topicName The topic name.
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The options parameters.
-   */
-  getAuthorizationRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    topicName: string,
-    authorizationRuleName: string,
-    options?: TopicsGetAuthorizationRuleOptionalParams
-  ): Promise<TopicsGetAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        topicName,
-        authorizationRuleName,
-        options
-      },
-      getAuthorizationRuleOperationSpec
+      createOrUpdateAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Deletes a topic authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -320,7 +396,7 @@ export class TopicsImpl implements Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsDeleteAuthorizationRuleOptionalParams
+    options?: TopicsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -328,15 +404,15 @@ export class TopicsImpl implements Topics {
         namespaceName,
         topicName,
         authorizationRuleName,
-        options
+        options,
       },
-      deleteAuthorizationRuleOperationSpec
+      deleteAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Gets the primary and secondary connection strings for the topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -347,7 +423,7 @@ export class TopicsImpl implements Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsListKeysOptionalParams
+    options?: TopicsListKeysOptionalParams,
   ): Promise<TopicsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -355,15 +431,15 @@ export class TopicsImpl implements Topics {
         namespaceName,
         topicName,
         authorizationRuleName,
-        options
+        options,
       },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
    * Regenerates primary or secondary connection strings for the topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -376,7 +452,7 @@ export class TopicsImpl implements Topics {
     topicName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: TopicsRegenerateKeysOptionalParams
+    options?: TopicsRegenerateKeysOptionalParams,
   ): Promise<TopicsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -385,91 +461,34 @@ export class TopicsImpl implements Topics {
         topicName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
   /**
-   * Gets all the topics in a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * ListByNamespaceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
+   * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
    * @param options The options parameters.
    */
-  private _listByNamespace(
+  private _listByNamespaceNext(
     resourceGroupName: string,
     namespaceName: string,
-    options?: TopicsListByNamespaceOptionalParams
-  ): Promise<TopicsListByNamespaceResponse> {
+    nextLink: string,
+    options?: TopicsListByNamespaceNextOptionalParams,
+  ): Promise<TopicsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
-    );
-  }
-
-  /**
-   * Creates a topic in the specified namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param topicName The topic name.
-   * @param parameters Parameters supplied to create a topic resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    namespaceName: string,
-    topicName: string,
-    parameters: SBTopic,
-    options?: TopicsCreateOrUpdateOptionalParams
-  ): Promise<TopicsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, topicName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Deletes a topic from the specified namespace and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param topicName The topic name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    topicName: string,
-    options?: TopicsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, topicName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Returns a description for the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param topicName The topic name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    topicName: string,
-    options?: TopicsGetOptionalParams
-  ): Promise<TopicsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, topicName, options },
-      getOperationSpec
+      { resourceGroupName, namespaceName, nextLink, options },
+      listByNamespaceNextOperationSpec,
     );
   }
 
   /**
    * ListAuthorizationRulesNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
@@ -480,70 +499,160 @@ export class TopicsImpl implements Topics {
     namespaceName: string,
     topicName: string,
     nextLink: string,
-    options?: TopicsListAuthorizationRulesNextOptionalParams
+    options?: TopicsListAuthorizationRulesNextOptionalParams,
   ): Promise<TopicsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, topicName, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByNamespaceNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param nextLink The nextLink from the previous successful call to the ListByNamespace method.
-   * @param options The options parameters.
-   */
-  private _listByNamespaceNext(
-    resourceGroupName: string,
-    namespaceName: string,
-    nextLink: string,
-    options?: TopicsListByNamespaceNextOptionalParams
-  ): Promise<TopicsListByNamespaceNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules",
+const listByNamespaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBAuthorizationRuleListResult
+      bodyMapper: Mappers.SBTopicListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBTopic,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.topicName
+    Parameters.namespaceName,
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SBAuthorizationRule
+      bodyMapper: Mappers.SBTopic,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.topicName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.topicName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBAuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.topicName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBAuthorizationRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.topicName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBAuthorizationRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -551,96 +660,69 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.topicName
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBAuthorizationRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.authorizationRuleName,
-    Parameters.topicName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.topicName
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}/ListKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.topicName
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -648,146 +730,54 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.topicName
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBTopicListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBTopic
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.topicName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.topicName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBTopic
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.topicName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBAuthorizationRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.nextLink,
-    Parameters.topicName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBTopicListResult
+      bodyMapper: Mappers.SBTopicListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.nextLink
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBAuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.topicName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

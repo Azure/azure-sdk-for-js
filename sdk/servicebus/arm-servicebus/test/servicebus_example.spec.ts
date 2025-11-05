@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ServiceBusManagementClient } from "../src/serviceBusManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -96,7 +97,7 @@ describe("ServiceBus test", () => {
 
   it("queues list test", async () => {
     const resArray = new Array();
-    for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
+    for await (const item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -116,7 +117,7 @@ describe("ServiceBus test", () => {
 
   it("topics list test", async () => {
     const resArray = new Array();
-    for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
+    for await (const item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -125,7 +126,7 @@ describe("ServiceBus test", () => {
   it("queues delete test", async () => {
     const resArray = new Array();
     await client.queues.delete(resourceGroup, namespacesName, queueName);
-    for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
+    for await (const item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -134,7 +135,7 @@ describe("ServiceBus test", () => {
   it("topics delete test", async () => {
     const resArray = new Array();
     await client.topics.delete(resourceGroup, namespacesName, topicName);
-    for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
+    for await (const item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

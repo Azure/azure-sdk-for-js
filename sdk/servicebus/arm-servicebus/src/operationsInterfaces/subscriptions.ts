@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   SBSubscription,
   SubscriptionsListByTopicOptionalParams,
+  SubscriptionsGetOptionalParams,
+  SubscriptionsGetResponse,
   SubscriptionsCreateOrUpdateOptionalParams,
   SubscriptionsCreateOrUpdateResponse,
   SubscriptionsDeleteOptionalParams,
-  SubscriptionsGetOptionalParams,
-  SubscriptionsGetResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ import {
 export interface Subscriptions {
   /**
    * List all the subscriptions under a specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -31,11 +31,26 @@ export interface Subscriptions {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: SubscriptionsListByTopicOptionalParams
+    options?: SubscriptionsListByTopicOptionalParams,
   ): PagedAsyncIterableIterator<SBSubscription>;
   /**
+   * Returns a subscription description for the specified topic.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param topicName The topic name.
+   * @param subscriptionName The subscription name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    options?: SubscriptionsGetOptionalParams,
+  ): Promise<SubscriptionsGetResponse>;
+  /**
    * Creates a topic subscription.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -48,11 +63,11 @@ export interface Subscriptions {
     topicName: string,
     subscriptionName: string,
     parameters: SBSubscription,
-    options?: SubscriptionsCreateOrUpdateOptionalParams
+    options?: SubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionsCreateOrUpdateResponse>;
   /**
    * Deletes a subscription from the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -63,21 +78,6 @@ export interface Subscriptions {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: SubscriptionsDeleteOptionalParams
+    options?: SubscriptionsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Returns a subscription description for the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param topicName The topic name.
-   * @param subscriptionName The subscription name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    topicName: string,
-    subscriptionName: string,
-    options?: SubscriptionsGetOptionalParams
-  ): Promise<SubscriptionsGetResponse>;
 }
