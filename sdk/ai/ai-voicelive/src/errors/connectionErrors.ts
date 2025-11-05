@@ -11,22 +11,22 @@ export enum VoiceLiveErrorCodes {
   CONNECTION_LOST = "CONNECTION_LOST",
   ALREADY_CONNECTED = "ALREADY_CONNECTED",
   NOT_CONNECTED = "NOT_CONNECTED",
-  
+
   // WebSocket errors
   WEBSOCKET_ERROR = "WEBSOCKET_ERROR",
-  
+
   // Authentication errors
   AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED",
   INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
   UNAUTHORIZED = "UNAUTHORIZED",
   FORBIDDEN = "FORBIDDEN",
-  
+
   // Protocol errors
   INVALID_MESSAGE = "INVALID_MESSAGE",
   MESSAGE_TOO_LARGE = "MESSAGE_TOO_LARGE",
   PROTOCOL_ERROR = "PROTOCOL_ERROR",
   BUFFER_OVERFLOW = "BUFFER_OVERFLOW",
-  
+
   // General errors
   OPERATION_CANCELLED = "OPERATION_CANCELLED",
   INVALID_STATE = "INVALID_STATE",
@@ -38,16 +38,16 @@ export enum VoiceLiveErrorCodes {
 export class VoiceLiveConnectionError extends Error {
   /** Error code identifying the specific error type */
   public readonly code: string;
-  
+
   /** Context information about where the error occurred */
   public readonly context: string;
-  
+
   /** Indicates whether this error is potentially recoverable */
   public readonly recoverable: boolean;
-  
+
   /** The original error that caused this error, if any */
   public readonly cause?: Error;
-  
+
   /** Timestamp when the error occurred */
   public readonly timestamp: Date;
 
@@ -65,7 +65,7 @@ export class VoiceLiveConnectionError extends Error {
     this.recoverable = recoverable;
     this.cause = cause;
     this.timestamp = new Date();
-    
+
     // Ensure proper stack trace in V8
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, VoiceLiveConnectionError);
@@ -148,7 +148,7 @@ export class VoiceLiveErrorClassifier {
           "websocket_close",
           false
         );
-      
+
       case 1001: // Going away
       case 1006: // Abnormal closure
         return new VoiceLiveConnectionError(
@@ -157,7 +157,7 @@ export class VoiceLiveErrorClassifier {
           "websocket_close",
           true // Recoverable
         );
-      
+
       case 1008: // Policy violation
         return new VoiceLiveConnectionError(
           `WebSocket policy violation: ${reason}`,
@@ -165,7 +165,7 @@ export class VoiceLiveErrorClassifier {
           "websocket_close",
           false // Not recoverable
         );
-      
+
       case 1011: // Server error
         return new VoiceLiveConnectionError(
           `WebSocket server error: ${reason}`,
@@ -173,7 +173,7 @@ export class VoiceLiveErrorClassifier {
           "websocket_close",
           true // Recoverable
         );
-      
+
       default:
         return new VoiceLiveConnectionError(
           `WebSocket closed with code ${code}: ${reason}`,
@@ -187,7 +187,7 @@ export class VoiceLiveErrorClassifier {
   /**
    * Classifies connection errors
    */
-  static classifyConnectionError(error: any): VoiceLiveConnectionError {
+  static classifyConnectionError(error: VoiceLiveConnectionError | Error | unknown): VoiceLiveConnectionError {
     if (error instanceof VoiceLiveConnectionError) {
       return error;
     }
@@ -226,7 +226,7 @@ export class VoiceLiveErrorClassifier {
   /**
    * Classifies protocol errors
    */
-  static classifyProtocolError(error: Error, messageType: string, _messageData?: any): VoiceLiveProtocolError {
+  static classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError {
     if (error.message.includes('JSON')) {
       return new VoiceLiveProtocolError(
         `Invalid JSON message: ${error.message}`,

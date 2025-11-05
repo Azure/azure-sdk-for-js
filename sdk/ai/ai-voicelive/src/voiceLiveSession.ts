@@ -40,6 +40,9 @@ export interface VoiceLiveSessionOptions {
   enableDebugLogging?: boolean;
 }
 
+export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
+
+export interface StartSessionOptions extends VoiceLiveSessionOptions {}
 export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
@@ -152,7 +155,6 @@ export class VoiceLiveSession {
         }),
         {
           endpoint: wsUrl,
-          //protocols: ['voice-live-realtime'],
           connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs
         }
       );

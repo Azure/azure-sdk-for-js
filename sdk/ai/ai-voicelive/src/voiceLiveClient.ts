@@ -3,7 +3,7 @@
 
 import type { KeyCredential, TokenCredential } from '@azure/core-auth';
 import type { RequestSession } from './models/index.js';
-import { VoiceLiveSession, VoiceLiveSessionOptions } from './voiceLiveSession.js';
+import { CreateSessionOptions, StartSessionOptions, VoiceLiveSession, VoiceLiveSessionOptions } from './voiceLiveSession.js';
 import { logger } from './logger.js';
 
 export interface VoiceLiveClientOptions {
@@ -53,7 +53,7 @@ export class VoiceLiveClient {
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A new VoiceLiveSession instance ready to connect
    */
-  createSession(model: string, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
+  createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
   
   /**
    * Creates a new VoiceLiveSession for real-time voice communication with session configuration.
@@ -61,11 +61,11 @@ export class VoiceLiveClient {
    * @param sessionConfig - Session configuration including model and other settings
    * @returns A new VoiceLiveSession instance ready to connect
    */
-  createSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): VoiceLiveSession;
+  createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
   
   createSession(
     modelOrConfig: string | RequestSession,
-    sessionOptions?: VoiceLiveSessionOptions
+    sessionOptions?: CreateSessionOptions
   ): VoiceLiveSession {
     // Extract model name from the parameter
     const model = typeof modelOrConfig === 'string' ? modelOrConfig : modelOrConfig.model;
@@ -103,7 +103,7 @@ export class VoiceLiveClient {
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A connected VoiceLiveSession instance
    */
-  async startSession(model: string, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
+  async startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
   
   /**
    * Creates and immediately connects a new VoiceLiveSession with session configuration.
@@ -112,11 +112,11 @@ export class VoiceLiveClient {
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A connected VoiceLiveSession instance
    */
-  async startSession(sessionConfig: RequestSession, sessionOptions?: VoiceLiveSessionOptions): Promise<VoiceLiveSession>;
+  async startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
   
   async startSession(
     modelOrConfig: string | RequestSession,
-    sessionOptions?: VoiceLiveSessionOptions
+    sessionOptions?: StartSessionOptions
   ): Promise<VoiceLiveSession> {
     const session = this.createSession(modelOrConfig as any, sessionOptions);
     await session.connect();

@@ -1529,8 +1529,8 @@ export class VoiceLiveError extends VoiceLiveConnectionError {
 
 // @public
 export class VoiceLiveErrorClassifier {
-    static classifyConnectionError(error: any): VoiceLiveConnectionError;
-    static classifyProtocolError(error: Error, messageType: string, _messageData?: any): VoiceLiveProtocolError;
+    static classifyConnectionError(error: VoiceLiveConnectionError | Error | unknown): VoiceLiveConnectionError;
+    static classifyProtocolError(error: Error, messageType: string): VoiceLiveProtocolError;
     static classifyWebSocketClose(code: number, reason: string): VoiceLiveConnectionError;
 }
 
