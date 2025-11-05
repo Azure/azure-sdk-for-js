@@ -39,7 +39,7 @@ async function uploadFileAndWait(openAiClient, uploadPath) {
   });
   console.log(`Uploaded file with ID: ${created.id}`);
 
-  return openAiClient.files.waitForProcessing(created.id);
+  return openAiClient.files.retrieve(created.id);
 }
 
 async function main() {
