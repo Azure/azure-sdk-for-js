@@ -17,7 +17,7 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
     openAIClient = await createOpenAI();
   });
 
-  it("should create responses with code interpretor tool", async function () {
+  it("should create responses with code interpreter tool", async function () {
     const instructions =
       "You are a personal math tutor. When asked a math question, \
         write and run code using the python tool to answer the question.";

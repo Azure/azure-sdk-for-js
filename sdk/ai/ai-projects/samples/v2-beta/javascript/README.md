@@ -27,7 +27,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agents/agentContainerAppBasic.js][agents_agentcontainerappbasic]         | demonstrates how to use basic container app agent operations.                                                                                                                                                                                                                                    |
 | [agents/agentConversationCurd.js][agents_agentconversationcurd]           | demonstrates how to use basic conversation operations.                                                                                                                                                                                                                                           |
 | [agents/agentCurd.js][agents_agentcurd]                                   | demonstrates how to use basic agent operations.                                                                                                                                                                                                                                                  |
-| [agents/tools\computerUseUtil.js][agents_tools_computeruseutil]           | Utility functions for Computer Use Agent samples. Shared helper functions and classes for Computer Use Agent samples.                                                                                                                                                                            |
+| [agents/tools/computerUseUtil.js][agents_tools_computeruseutil]           | Utility functions for Computer Use Agent samples. Shared helper functions and classes for Computer Use Agent samples.                                                                                                                                                                            |
 | [connections/connectionsBasics.js][connections_connectionsbasics]         | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name.                                                                                           |
 | [conversations/conversationsBasics.js][conversations_conversationsbasics] | This sample demonstrates how to create, retrieve, update, list, and delete conversations using the OpenAI client.                                                                                                                                                                                |
 | [datasets/datasetsBasics.js][datasets_datasetsbasics]                     | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                                                                                                             |
@@ -61,13 +61,13 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node agents\agentBasic.js
+node agents/agentBasic.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env PROJECT_ENDPOINT="<project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node agents\agentBasic.js
+cross-env PROJECT_ENDPOINT="<project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node agents/agentBasic.js
 ```
 
 ## Next Steps
@@ -77,18 +77,19 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentBasic.js
 [agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentCodeInterpreter.js
 [agents_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentFileSearch.js
-[agents_tools_agentcomputeruse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools\agentComputerUse.js
-[agents_tools_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools\agentFileSearch.js
-[agents_tools_agentimagegeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools\agentImageGeneration.js
-[agents_tools_agentmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools\agentMcp.js
-[agents_tools_agentwebsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools\agentWebSearch.js
+[agents_tools_agentcomputeruse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentComputerUse.js
+[agents_tools_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentFileSearch.js
+[agents_tools_agentimagegeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentImageGeneration.js
+[agents_tools_agentmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentMcp.js
+[agents_tools_agentwebsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/agentWebSearch.js
+[files_filesbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/files/filesBasic.js
 [responses_responsebasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/responses/responseBasic.js
 [responses_responsestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/responses/responseStream.js
 [agents_agentfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentFunctionTool.js
 [agents_agentcontainerappbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentContainerAppBasic.js
 [agents_agentconversationcurd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentConversationCurd.js
 [agents_agentcurd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/agentCurd.js
-[agents_tools_computeruseutil]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools\computerUseUtil.js
+[agents_tools_computeruseutil]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/agents/tools/computerUseUtil.js
 [connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/connections/connectionsBasics.js
 [conversations_conversationsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/conversations/conversationsBasics.js
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/javascript/datasets/datasetsBasics.js
