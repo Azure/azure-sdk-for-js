@@ -42,7 +42,7 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-01T03:18:17.6104919Z",
+        "creationTime": "2025-11-05T11:42:54.7642739Z",
         "importType": "StaticCatalog",
         "displayName": "Ingestion for Cancel Test",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
@@ -76,7 +76,7 @@
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000/runs/efbf597f-1dc1-4ee1-8356-f5bfca5c22f0?api-version=2025-04-30-preview",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/collections/naip-atl-00000000/ingestions/00000000-0000-0000-0000-000000000000/runs/2bc9c1f2-5be8-4c28-9bcb-f63ef7077524?api-version=2025-04-30-preview",
         "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -86,7 +86,7 @@
       },
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
-        "creationTime": "2025-11-01T03:18:17.6825632Z",
+        "creationTime": "2025-11-05T11:42:55.6682584Z",
         "sourceCatalogUrl": "https://fake.example.com/catalog.json",
         "00000000-0000-0000-0000-000000000000ExistingItems": true,
         "keepOriginalAssets": true,
@@ -96,10 +96,10 @@
           "statusHistory": [
             {
               "status": "Pending",
-              "timestamp": "2025-11-01T03:18:17.6583891Z"
+              "timestamp": "2025-11-05T11:42:55.636271Z"
             }
           ],
-          "creationTime": "2025-11-01T03:18:17.6583884Z",
+          "creationTime": "2025-11-05T11:42:55.6362702Z",
           "totalItems": 0,
           "totalPendingItems": 0,
           "totalSuccessfulItems": 0,

@@ -44,7 +44,7 @@
       "ResponseBody": {
         "id": "00000000-0000-0000-0000-000000000000",
         "kind": "SasToken",
-        "created": "2025-11-01T03:14:23.8618716Z",
+        "created": "2025-11-05T11:38:33.0677144Z",
         "connectionInfo": {
           "containerUrl": "https://SANITIZED.blob.core.windows.net/sample-container",
           "expiration": "2099-12-31T23:59:59.0000000Z"
