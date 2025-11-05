@@ -93,7 +93,9 @@ describe("Call Automation Client Unit Tests", () => {
       callConnection: {} as CallConnection,
     };
 
-    vi.spyOn(client as CallAutomationClient, "createGroupCall").mockResolvedValue(createGroupCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "createGroupCall").mockResolvedValue(
+      createGroupCallResultMock,
+    );
 
     const promiseResult = client.createGroupCall(targets, CALL_CALLBACK_URL);
 

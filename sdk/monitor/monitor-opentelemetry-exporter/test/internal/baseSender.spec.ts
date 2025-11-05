@@ -745,7 +745,6 @@ describe("BaseSender", () => {
     });
 
     it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
-
       // Set up a scenario that triggers circular redirect
       (testSender as any).redirectCount = 10; // Force circular redirect
 
