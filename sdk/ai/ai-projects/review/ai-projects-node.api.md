@@ -23,7 +23,6 @@ export interface A2ATool extends Tool {
 
 // @public
 export interface AgentClusterInsightResult extends InsightResult {
-    // (undocumented)
     clusterInsight: ClusterInsightResult;
     type: "AgentClusterInsight";
 }
@@ -71,7 +70,6 @@ export type AgentContainerStatus = "Starting" | "Running" | "Stopping" | "Stoppe
 
 // @public
 export interface AgentDefinition {
-    // (undocumented)
     kind: AgentKind;
     raiConfig?: RaiConfig;
 }
@@ -82,7 +80,6 @@ export type AgentDefinitionUnion = WorkflowDefinition | HostedAgentDefinitionUni
 // @public
 export interface AgentId {
     name: string;
-    // (undocumented)
     type: "agent_id";
     version: string;
 }
@@ -106,7 +103,6 @@ export type AgentProtocol = "activity_protocol" | "responses";
 // @public
 export interface AgentReference {
     name: string;
-    // (undocumented)
     type: "agent_reference";
     version?: string;
 }
@@ -258,7 +254,6 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 // @public
 export interface AgentVersionObject {
     createdAt: Date;
-    // (undocumented)
     definition: AgentDefinitionUnion;
     description?: string;
     id: string;
@@ -304,7 +299,6 @@ export interface AISearchIndexResource {
 
 // @public
 export interface Annotation {
-    // (undocumented)
     type: AnnotationType;
 }
 
@@ -340,13 +334,9 @@ export interface AnnotationUrlCitation extends Annotation {
 
 // @public
 export interface ApiError {
-    // (undocumented)
     code: string;
-    // (undocumented)
     details?: string;
-    // (undocumented)
     errors?: Record<string, string[]>;
-    // (undocumented)
     message: string;
 }
 
@@ -358,15 +348,10 @@ export interface ApiKeyCredentials extends BaseCredentials {
 
 // @public
 export interface ApproximateLocation extends Location {
-    // (undocumented)
     city?: string | null;
-    // (undocumented)
     country?: string | null;
-    // (undocumented)
     region?: string | null;
-    // (undocumented)
     timezone?: string | null;
-    // (undocumented)
     type: "approximate";
 }
 
@@ -435,7 +420,6 @@ export interface AzureFunctionStorageQueue {
 // @public
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
     modelDeploymentName: string;
-    // (undocumented)
     type: "AzureOpenAIModel";
 }
 
@@ -548,13 +532,11 @@ export interface ClusterTokenUsage {
 // @public
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
     codeText: string;
-    // (undocumented)
     type: "code";
 }
 
 // @public
 export interface CodeInterpreterOutput {
-    // (undocumented)
     type: CodeInterpreterOutputType;
 }
 
@@ -593,7 +575,6 @@ export interface CodeInterpreterToolCallItemParam extends ItemParam {
     code: string | null;
     containerId: string;
     outputs: CodeInterpreterOutputUnion[] | null;
-    // (undocumented)
     type: "code_interpreter_call";
 }
 
@@ -612,7 +593,6 @@ export interface CompoundFilter {
 
 // @public
 export interface ComputerAction {
-    // (undocumented)
     type: ComputerActionType;
 }
 
@@ -683,27 +663,21 @@ export interface ComputerActionWait extends ComputerAction {
 
 // @public
 export interface ComputerToolCallItemParam extends ItemParam {
-    // (undocumented)
     action: ComputerActionUnion;
     callId: string;
     pendingSafetyChecks: ComputerToolCallSafetyCheck[];
-    // (undocumented)
     type: "computer_call";
 }
 
 // @public
 export interface ComputerToolCallOutputItemOutput {
-    // (undocumented)
     type: ComputerToolCallOutputItemOutputType;
 }
 
 // @public
 export interface ComputerToolCallOutputItemOutputComputerScreenshot extends ComputerToolCallOutputItemOutput {
-    // (undocumented)
     fileId?: string;
-    // (undocumented)
     imageUrl?: string;
-    // (undocumented)
     type: "computer_screenshot";
 }
 
@@ -717,9 +691,7 @@ export type ComputerToolCallOutputItemOutputUnion = ComputerToolCallOutputItemOu
 export interface ComputerToolCallOutputItemParam extends ItemParam {
     acknowledgedSafetyChecks?: ComputerToolCallSafetyCheck[];
     callId: string;
-    // (undocumented)
     output: ComputerToolCallOutputItemOutputUnion;
-    // (undocumented)
     type: "computer_call_output";
 }
 
@@ -782,7 +754,6 @@ export interface ContainerAppAgentDefinition extends AgentDefinition {
     containerAppResourceId: string;
     containerProtocolVersions: ProtocolVersionRecord[];
     ingressSubdomainSuffix: string;
-    // (undocumented)
     kind: "container_app";
 }
 
@@ -795,7 +766,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
     evalId: string;
     maxHourlyRuns?: number;
-    // (undocumented)
     type: "continuousEvaluation";
 }
 
@@ -824,7 +794,6 @@ export interface CronTrigger extends Trigger {
     expression: string;
     startTime?: string;
     timeZone?: string;
-    // (undocumented)
     type: "Cron";
 }
 
@@ -1091,7 +1060,6 @@ export interface EvaluationRulesOperations {
 
 // @public
 export interface EvaluationRunClusterInsightResult extends InsightResult {
-    // (undocumented)
     clusterInsight: ClusterInsightResult;
     type: "EvaluationRunClusterInsight";
 }
@@ -1108,7 +1076,6 @@ export interface EvaluationRunClusterInsightsRequest extends InsightRequest {
 export interface EvaluationScheduleTask extends ScheduleTask {
     evalId: string;
     evalRun: Record<string, any>;
-    // (undocumented)
     type: "Evaluation";
 }
 
@@ -1298,7 +1265,6 @@ export interface FileSearchToolCallItemParam extends ItemParam {
         attributes?: VectorStoreFileAttributes;
         score?: number;
     }>;
-    // (undocumented)
     type: "file_search_call";
 }
 
@@ -1324,7 +1290,6 @@ export interface FunctionToolCallItemParam extends ItemParam {
     arguments: string;
     callId: string;
     name: string;
-    // (undocumented)
     type: "function_call";
 }
 
@@ -1332,7 +1297,6 @@ export interface FunctionToolCallItemParam extends ItemParam {
 export interface FunctionToolCallOutputItemParam extends ItemParam {
     callId: string;
     output: string;
-    // (undocumented)
     type: "function_call_output";
 }
 
@@ -1341,7 +1305,6 @@ export interface HostedAgentDefinition extends AgentDefinition {
     containerProtocolVersions: ProtocolVersionRecord[];
     cpu: string;
     environmentVariables?: Record<string, string>;
-    // (undocumented)
     kind: "hosted";
     memory: string;
     tools?: ToolUnion[];
@@ -1352,21 +1315,18 @@ export type HostedAgentDefinitionUnion = ImageBasedHostedAgentDefinition | Hoste
 
 // @public
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-    // (undocumented)
     type: "Hourly";
 }
 
 // @public
 export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
     templateId: string;
-    // (undocumented)
     type: "humanEvaluation";
 }
 
 // @public
 export interface ImageBasedHostedAgentDefinition extends HostedAgentDefinition {
     image: string;
-    // (undocumented)
     kind: "hosted";
 }
 
@@ -1390,7 +1350,6 @@ export interface ImageGenTool extends Tool {
 // @public
 export interface ImageGenToolCallItemParam extends ItemParam {
     result: string | null;
-    // (undocumented)
     type: "image_generation_call";
 }
 
@@ -1495,7 +1454,6 @@ export type InsightSampleUnion = EvaluationResultSample | InsightSample;
 // @public
 export interface InsightScheduleTask extends ScheduleTask {
     insight: Insight;
-    // (undocumented)
     type: "Insight";
 }
 
@@ -1548,7 +1506,6 @@ export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" 
 
 // @public
 export interface ItemContent {
-    // (undocumented)
     type: ItemContentType;
 }
 
@@ -1591,7 +1548,6 @@ export interface ItemContentOutputAudio extends ItemContent {
 // @public
 export interface ItemContentOutputText extends ItemContent {
     annotations: AnnotationUnion[];
-    // (undocumented)
     logprobs?: LogProb[];
     text: string;
     type: "output_text";
@@ -1611,7 +1567,6 @@ export type ItemContentUnion = ItemContentInputAudio | ItemContentOutputAudio | 
 
 // @public
 export interface ItemParam {
-    // (undocumented)
     type: ItemType;
 }
 
@@ -1621,7 +1576,6 @@ export type ItemParamUnion = StructuredInputsItemParam | ResponsesMessageItemPar
 // @public
 export interface ItemReferenceItemParam extends ItemParam {
     id: string;
-    // (undocumented)
     type: "item_reference";
 }
 
@@ -1652,23 +1606,19 @@ export interface LocalShellTool extends Tool {
 
 // @public
 export interface LocalShellToolCallItemParam extends ItemParam {
-    // (undocumented)
     action: LocalShellExecAction;
     callId: string;
-    // (undocumented)
     type: "local_shell_call";
 }
 
 // @public
 export interface LocalShellToolCallOutputItemParam extends ItemParam {
     output: string;
-    // (undocumented)
     type: "local_shell_call_output";
 }
 
 // @public
 export interface Location {
-    // (undocumented)
     type: LocationType;
 }
 
@@ -1680,13 +1630,9 @@ export type LocationUnion = ApproximateLocation | Location;
 
 // @public
 export interface LogProb {
-    // (undocumented)
     bytes: number[];
-    // (undocumented)
     logprob: number;
-    // (undocumented)
     token: string;
-    // (undocumented)
     topLogprobs: TopLogProb[];
 }
 
@@ -1701,7 +1647,6 @@ export interface MCPApprovalRequestItemParam extends ItemParam {
     arguments: string;
     name: string;
     serverLabel: string;
-    // (undocumented)
     type: "mcp_approval_request";
 }
 
@@ -1710,7 +1655,6 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
     approvalRequestId: string;
     approve: boolean;
     reason?: string | null;
-    // (undocumented)
     type: "mcp_approval_response";
 }
 
@@ -1721,7 +1665,6 @@ export interface MCPCallItemParam extends ItemParam {
     name: string;
     output?: string | null;
     serverLabel: string;
-    // (undocumented)
     type: "mcp_call";
 }
 
@@ -1730,7 +1673,6 @@ export interface MCPListToolsItemParam extends ItemParam {
     error?: string | null;
     serverLabel: string;
     tools: MCPListToolsTool[];
-    // (undocumented)
     type: "mcp_list_tools";
 }
 
@@ -1808,7 +1750,6 @@ export interface MemorySearchTool extends Tool {
 // @public
 export interface MemorySearchToolCallItemParam extends ItemParam {
     results?: MemorySearchItem[] | null;
-    // (undocumented)
     type: "memory_search_call";
 }
 
@@ -2004,7 +1945,6 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
 export interface OneTimeTrigger extends Trigger {
     timeZone?: string;
     triggerAt: string;
-    // (undocumented)
     type: "OneTime";
 }
 
@@ -2105,10 +2045,8 @@ export type PendingUploadType = "None" | "BlobReference";
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
     instructions?: string;
-    // (undocumented)
     kind: "prompt";
     model: string;
-    // (undocumented)
     reasoning?: Reasoning;
     structuredInputs?: Record<string, StructuredInputDefinition>;
     temperature?: number;
@@ -2122,7 +2060,6 @@ export interface PromptAgentDefinition extends AgentDefinition {
 // @public
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
     promptText: string;
-    // (undocumented)
     type: "prompt";
 }
 
@@ -2145,7 +2082,6 @@ export interface RankingOptions {
 
 // @public
 export interface Reasoning {
-    // (undocumented)
     effort?: ReasoningEffort;
     generateSummary?: "auto" | "concise" | "detailed";
     summary?: "auto" | "concise" | "detailed";
@@ -2158,13 +2094,11 @@ export type ReasoningEffort = "low" | "medium" | "high";
 export interface ReasoningItemParam extends ItemParam {
     encryptedContent?: string | null;
     summary: ReasoningItemSummaryPartUnion[];
-    // (undocumented)
     type: "reasoning";
 }
 
 // @public
 export interface ReasoningItemSummaryPart {
-    // (undocumented)
     type: ReasoningItemSummaryPartType;
 }
 
@@ -2176,9 +2110,7 @@ export type ReasoningItemSummaryPartUnion = ReasoningItemSummaryTextPart | Reaso
 
 // @public
 export interface ReasoningItemSummaryTextPart extends ReasoningItemSummaryPart {
-    // (undocumented)
     text: string;
-    // (undocumented)
     type: "summary_text";
 }
 
@@ -2282,13 +2214,11 @@ export interface ResponsesUserMessageItemParam extends ResponsesMessageItemParam
 
 // @public
 export interface ResponseTextFormatConfiguration {
-    // (undocumented)
     type: ResponseTextFormatConfigurationType;
 }
 
 // @public
 export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextFormatConfiguration {
-    // (undocumented)
     type: "json_object";
 }
 
@@ -2296,7 +2226,6 @@ export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextF
 export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextFormatConfiguration {
     description?: string;
     name: string;
-    // (undocumented)
     schema: ResponseFormatJsonSchemaSchema;
     strict?: boolean;
     type: "json_schema";
@@ -2304,7 +2233,6 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
 
 // @public
 export interface ResponseTextFormatConfigurationText extends ResponseTextFormatConfiguration {
-    // (undocumented)
     type: "text";
 }
 
@@ -2317,7 +2245,7 @@ export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurati
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
-// @public (undocumented)
+// @public
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
@@ -2446,7 +2374,6 @@ export interface StructuredInputDefinition {
 // @public
 export interface StructuredInputsItemParam extends ItemParam {
     inputs?: Record<string, any>;
-    // (undocumented)
     type: "structured_inputs";
 }
 
@@ -2493,7 +2420,6 @@ export interface TaxonomySubCategory {
 
 // @public
 export interface Tool {
-    // (undocumented)
     type: ToolType;
 }
 
@@ -2527,11 +2453,8 @@ export type ToolUnion = FunctionTool | FileSearchTool | ComputerUsePreviewTool |
 
 // @public
 export interface TopLogProb {
-    // (undocumented)
     bytes: number[];
-    // (undocumented)
     logprob: number;
-    // (undocumented)
     token: string;
 }
 
@@ -2561,7 +2484,6 @@ export interface VectorStoreFileAttributes {
 
 // @public
 export interface WebSearchAction {
-    // (undocumented)
     type: WebSearchActionType;
 }
 
@@ -2600,7 +2522,6 @@ export interface WebSearchPreviewTool extends Tool {
 // @public
 export interface WebSearchToolCallItemParam extends ItemParam {
     action: WebSearchActionUnion;
-    // (undocumented)
     type: "web_search_call";
 }
 
@@ -2612,9 +2533,7 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 
 // @public
 export interface WorkflowDefinition extends AgentDefinition {
-    // (undocumented)
     kind: "workflow";
-    // (undocumented)
     trigger?: Record<string, any>;
 }
 

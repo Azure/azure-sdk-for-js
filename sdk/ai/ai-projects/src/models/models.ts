@@ -56,6 +56,7 @@ export interface AgentVersionObject {
   metadata?: Record<string, string>;
   /** The Unix timestamp (seconds) when the agent was created. */
   createdAt: Date;
+  /** The definition of the agent. */
   definition: AgentDefinitionUnion;
 }
 
@@ -74,6 +75,7 @@ export function agentVersionObjectDeserializer(item: any): AgentVersionObject {
 
 /** model interface AgentDefinition */
 export interface AgentDefinition {
+  /** The kind of agent. */
   kind: AgentKind;
   /** Configuration for Responsible AI (RAI) content filtering and safety features. */
   raiConfig?: RaiConfig;
@@ -160,7 +162,9 @@ export function raiConfigDeserializer(item: any): RaiConfig {
 
 /** The workflow specification in CPSDL format. */
 export interface WorkflowDefinition extends AgentDefinition {
+  /** The kind of agent definition. */
   kind: "workflow";
+  /** The trigger for the workflow. */
   trigger?: Record<string, any>;
 }
 
@@ -182,6 +186,7 @@ export function workflowDefinitionDeserializer(item: any): WorkflowDefinition {
 
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
+  /** The kind of agent definition. */
   kind: "hosted";
   /**
    * An array of tools the hosted agent's model may call while generating a response. You
@@ -287,6 +292,7 @@ export type AgentProtocol = "activity_protocol" | "responses";
 
 /** The image-based deployment definition for a hosted agent. */
 export interface ImageBasedHostedAgentDefinition extends HostedAgentDefinition {
+  /** The kind of agent definition. */
   kind: "hosted";
   /** The image for the hosted agent. */
   image: string;
@@ -328,6 +334,7 @@ export function imageBasedHostedAgentDefinitionDeserializer(
 
 /** The container app agent definition. */
 export interface ContainerAppAgentDefinition extends AgentDefinition {
+  /** The kind of agent. */
   kind: "container_app";
   /** The protocols that the agent supports for ingress communication of the containers. */
   containerProtocolVersions: ProtocolVersionRecord[];
@@ -363,6 +370,7 @@ export function containerAppAgentDefinitionDeserializer(item: any): ContainerApp
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
+  /** The kind of agent. */
   kind: "prompt";
   /** The model deployment to use for this agent. */
   model: string;
@@ -382,6 +390,7 @@ export interface PromptAgentDefinition extends AgentDefinition {
    * We generally recommend altering this or `temperature` but not both.
    */
   topP?: number;
+  /** Configuration options for reasoning with o-series models. */
   reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
@@ -437,6 +446,7 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
+  /** the effort level of the reasoning */
   effort?: ReasoningEffort;
   /**
    * A summary of the reasoning performed by the model. This can be
@@ -495,6 +505,7 @@ export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
 
 /** model interface Tool */
 export interface Tool {
+  /** The type of the tool. */
   type: ToolType;
 }
 
@@ -949,6 +960,7 @@ export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewToo
 
 /** model interface Location */
 export interface Location {
+  /** The type of the location. */
   type: LocationType;
 }
 
@@ -990,10 +1002,15 @@ export type LocationType = "approximate";
 
 /** model interface ApproximateLocation */
 export interface ApproximateLocation extends Location {
+  /** The type of the location. Always `approximate`. */
   type: "approximate";
+  /** The country of the location. */
   country?: string | null;
+  /** The region of the location. */
   region?: string | null;
+  /** The city of the location. */
   city?: string | null;
+  /** The timezone of the location. */
   timezone?: string | null;
 }
 
@@ -2631,6 +2648,7 @@ export function _promptAgentDefinitionTextDeserializer(item: any): _PromptAgentD
 
 /** model interface ResponseTextFormatConfiguration */
 export interface ResponseTextFormatConfiguration {
+  /** The type of response format being defined. */
   type: ResponseTextFormatConfigurationType;
 }
 
@@ -2722,6 +2740,7 @@ export type ResponseTextFormatConfigurationType = "text" | "json_schema" | "json
 
 /** model interface ResponseTextFormatConfigurationText */
 export interface ResponseTextFormatConfigurationText extends ResponseTextFormatConfiguration {
+  /** The type of the item. Always `text`. */
   type: "text";
 }
 
@@ -2741,6 +2760,7 @@ export function responseTextFormatConfigurationTextDeserializer(
 
 /** model interface ResponseTextFormatConfigurationJsonObject */
 export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextFormatConfiguration {
+  /** The type of the item. Always `json_object`. */
   type: "json_object";
 }
 
@@ -2775,6 +2795,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
    * underscores and dashes, with a maximum length of 64.
    */
   name: string;
+  /** The JSON Schema describing the desired response format. */
   schema: ResponseFormatJsonSchemaSchema;
   /**
    * Whether to enable strict schema adherence when generating the output.
@@ -2924,9 +2945,13 @@ export function toolArgumentBindingDeserializer(item: any): ToolArgumentBinding 
 
 /** model interface ApiError */
 export interface ApiError {
+  /** The error code. */
   code: string;
+  /** The error message. */
   message: string;
+  /** The error details. */
   details?: string;
+  /** The error fields. */
   errors?: Record<string, string[]>;
 }
 
@@ -3345,6 +3370,7 @@ export function deleteMemoryStoreResponseDeserializer(item: any): DeleteMemorySt
 
 /** Content item used to generate a response. */
 export interface ItemParam {
+  /** The type of the content item. */
   type: ItemType;
 }
 
@@ -3467,6 +3493,7 @@ export type ItemType =
 
 /** model interface StructuredInputsItemParam */
 export interface StructuredInputsItemParam extends ItemParam {
+  /** The type of the structured inputs item, which is always 'structured_inputs'. */
   type: "structured_inputs";
   /** The structured inputs to the response. */
   inputs?: Record<string, any>;
@@ -3558,6 +3585,7 @@ export function itemContentUnionArraySerializer(result: Array<ItemContentUnion>)
 
 /** model interface ItemContent */
 export interface ItemContent {
+  /** the type of the content item. */
   type: ItemContentType;
 }
 
@@ -3723,6 +3751,7 @@ export interface ItemContentOutputText extends ItemContent {
   text: string;
   /** The annotations of the text output. */
   annotations: AnnotationUnion[];
+  /** The log probabilities of the text output tokens. */
   logprobs?: LogProb[];
 }
 
@@ -3743,6 +3772,7 @@ export function annotationUnionArraySerializer(result: Array<AnnotationUnion>): 
 
 /** model interface Annotation */
 export interface Annotation {
+  /** The type of the annotation. */
   type: AnnotationType;
 }
 
@@ -3847,9 +3877,13 @@ export function logProbArraySerializer(result: Array<LogProb>): any[] {
 
 /** The log probability of a token. */
 export interface LogProb {
+  /** The token text. */
   token: string;
+  /** The log probability of the token. */
   logprob: number;
+  /** The bytes of the token. */
   bytes: number[];
+  /** The top log probabilities for the token. */
   topLogprobs: TopLogProb[];
 }
 
@@ -3872,8 +3906,11 @@ export function topLogProbArraySerializer(result: Array<TopLogProb>): any[] {
 
 /** The top log probability of a token. */
 export interface TopLogProb {
+  /** The token text. */
   token: string;
+  /** The log probability of the token. */
   logprob: number;
+  /** The bytes of the token. */
   bytes: number[];
 }
 
@@ -3973,6 +4010,7 @@ export function _responsesAssistantMessageItemParamContentSerializer(
  *
  */
 export interface FunctionToolCallOutputItemParam extends ItemParam {
+  /** The type of the tool call output. Always `function_call_output`. */
   type: "function_call_output";
   /** The unique ID of the function tool call generated by the model. */
   callId: string;
@@ -3996,6 +4034,7 @@ export function functionToolCallOutputItemParamSerializer(
  *
  */
 export interface FileSearchToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `file_search_call`. */
   type: "file_search_call";
   /** The queries used to search for files. */
   queries: string[];
@@ -4093,9 +4132,11 @@ export function _vectorStoreFileAttributesAdditionalPropertySerializer(
  *
  */
 export interface ComputerToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `computer_call`. */
   type: "computer_call";
   /** An identifier used when responding to the tool call with output. */
   callId: string;
+  /** The action to be performed on the computer. */
   action: ComputerActionUnion;
   /** The pending safety checks for the computer call. */
   pendingSafetyChecks: ComputerToolCallSafetyCheck[];
@@ -4112,6 +4153,7 @@ export function computerToolCallItemParamSerializer(item: ComputerToolCallItemPa
 
 /** model interface ComputerAction */
 export interface ComputerAction {
+  /** The type of the computer action. */
   type: ComputerActionType;
 }
 
@@ -4396,6 +4438,9 @@ export function computerToolCallSafetyCheckSerializer(item: ComputerToolCallSafe
  *
  */
 export interface ComputerToolCallOutputItemParam extends ItemParam {
+  /**
+   * The type of the output. Always `computer_call_output`.
+   */
   type: "computer_call_output";
   /** The ID of the computer tool call that produced the output. */
   callId: string;
@@ -4404,6 +4449,7 @@ export interface ComputerToolCallOutputItemParam extends ItemParam {
    * developer.
    */
   acknowledgedSafetyChecks?: ComputerToolCallSafetyCheck[];
+  /** The output produced by the computer tool call. */
   output: ComputerToolCallOutputItemOutputUnion;
 }
 
@@ -4422,6 +4468,7 @@ export function computerToolCallOutputItemParamSerializer(
 
 /** model interface ComputerToolCallOutputItemOutput */
 export interface ComputerToolCallOutputItemOutput {
+  /** The type of the output. */
   type: ComputerToolCallOutputItemOutputType;
 }
 
@@ -4456,8 +4503,11 @@ export type ComputerToolCallOutputItemOutputType = "computer_screenshot";
 /** model interface ComputerToolCallOutputItemOutputComputerScreenshot */
 export interface ComputerToolCallOutputItemOutputComputerScreenshot
   extends ComputerToolCallOutputItemOutput {
+  /** The type of the output. Always `computer_screenshot`. */
   type: "computer_screenshot";
+  /** The URL of the screenshot image. */
   imageUrl?: string;
+  /** The ID of the screenshot file. */
   fileId?: string;
 }
 
@@ -4477,6 +4527,7 @@ export function computerToolCallOutputItemOutputComputerScreenshotSerializer(
  *
  */
 export interface WebSearchToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `web_search_call`. */
   type: "web_search_call";
   /**
    * An object describing the specific action taken in this web search call.
@@ -4494,6 +4545,7 @@ export function webSearchToolCallItemParamSerializer(item: WebSearchToolCallItem
 
 /** model interface WebSearchAction */
 export interface WebSearchAction {
+  /** The action type. */
   type: WebSearchActionType;
 }
 
@@ -4571,6 +4623,7 @@ export function webSearchActionSearchSerializer(item: WebSearchActionSearch): an
  *
  */
 export interface FunctionToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `function_call`. */
   type: "function_call";
   /** The unique ID of the function tool call generated by the model. */
   callId: string;
@@ -4597,6 +4650,7 @@ export function functionToolCallItemParamSerializer(item: FunctionToolCallItemPa
  *
  */
 export interface ReasoningItemParam extends ItemParam {
+  /** The type of the reasoning item. Always `reasoning`. */
   type: "reasoning";
   /**
    * The encrypted content of the reasoning item - populated when a response is
@@ -4625,6 +4679,7 @@ export function reasoningItemSummaryPartUnionArraySerializer(
 
 /** model interface ReasoningItemSummaryPart */
 export interface ReasoningItemSummaryPart {
+  /** The type of the reasoning item summary part. */
   type: ReasoningItemSummaryPartType;
 }
 
@@ -4650,7 +4705,9 @@ export type ReasoningItemSummaryPartType = "summary_text";
 
 /** model interface ReasoningItemSummaryTextPart */
 export interface ReasoningItemSummaryTextPart extends ReasoningItemSummaryPart {
+  /** The type of the reasoning item summary part. Always `summary_text`. */
   type: "summary_text";
+  /** The text content of the reasoning item summary part. */
   text: string;
 }
 
@@ -4660,6 +4717,7 @@ export function reasoningItemSummaryTextPartSerializer(item: ReasoningItemSummar
 
 /** An internal identifier for an item to reference. */
 export interface ItemReferenceItemParam extends ItemParam {
+  /** The type of the item reference. Always `item_reference`. */
   type: "item_reference";
   /** The service-originated ID of the previously generated response item being referenced. */
   id: string;
@@ -4674,6 +4732,7 @@ export function itemReferenceItemParamSerializer(item: ItemReferenceItemParam): 
  *
  */
 export interface ImageGenToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `image_generation_call`. */
   type: "image_generation_call";
   /** The generated image encoded in base64. */
   result: string | null;
@@ -4688,6 +4747,7 @@ export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemPa
  *
  */
 export interface CodeInterpreterToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `code_interpreter_call`. */
   type: "code_interpreter_call";
   /** The ID of the container used to run the code. */
   containerId: string;
@@ -4723,6 +4783,7 @@ export function codeInterpreterOutputUnionArraySerializer(
 
 /** model interface CodeInterpreterOutput */
 export interface CodeInterpreterOutput {
+  /** The type of the output. */
   type: CodeInterpreterOutputType;
 }
 
@@ -4781,9 +4842,11 @@ export function codeInterpreterOutputLogsSerializer(item: CodeInterpreterOutputL
  *
  */
 export interface LocalShellToolCallItemParam extends ItemParam {
+  /** The type of the tool call. Always `local_shell_call`. */
   type: "local_shell_call";
   /** The unique ID of the local shell tool call generated by the model. */
   callId: string;
+  /** The action to be performed on the local shell. */
   action: LocalShellExecAction;
 }
 
@@ -4829,6 +4892,7 @@ export function localShellExecActionSerializer(item: LocalShellExecAction): any 
  *
  */
 export interface LocalShellToolCallOutputItemParam extends ItemParam {
+  /** The type of the tool call output. Always `local_shell_call_output`. */
   type: "local_shell_call_output";
   /** A JSON string of the output of the local shell tool call. */
   output: string;
@@ -4845,6 +4909,7 @@ export function localShellToolCallOutputItemParamSerializer(
  *
  */
 export interface MCPListToolsItemParam extends ItemParam {
+  /** The type of the item. Always `mcp_list_tools`. */
   type: "mcp_list_tools";
   /** The label of the MCP server. */
   serverLabel: string;
@@ -4895,6 +4960,7 @@ export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
  *
  */
 export interface MCPApprovalRequestItemParam extends ItemParam {
+  /** The type of the item. Always `mcp_approval_request`. */
   type: "mcp_approval_request";
   /** The label of the MCP server making the request. */
   serverLabel: string;
@@ -4918,6 +4984,7 @@ export function mcpApprovalRequestItemParamSerializer(item: MCPApprovalRequestIt
  *
  */
 export interface MCPApprovalResponseItemParam extends ItemParam {
+  /** The type of the item. Always `mcp_approval_response`. */
   type: "mcp_approval_response";
   /** The ID of the approval request being answered. */
   approvalRequestId: string;
@@ -4941,6 +5008,7 @@ export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponse
  *
  */
 export interface MCPCallItemParam extends ItemParam {
+  /** The type of the item. Always `mcp_call`. */
   type: "mcp_call";
   /** The label of the MCP server running the tool. */
   serverLabel: string;
@@ -4967,6 +5035,7 @@ export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
 
 /** model interface MemorySearchToolCallItemParam */
 export interface MemorySearchToolCallItemParam extends ItemParam {
+  /** The type of the item. Always `memory_search_call`. */
   type: "memory_search_call";
   /** The results returned from the memory search. */
   results?: MemorySearchItem[] | null;
@@ -6255,6 +6324,7 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
+  /** Type of the model configuration. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -6401,6 +6471,7 @@ export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation
 
 /** Evaluation rule action for continuous evaluation. */
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
+  /** The type of the action. */
   type: "continuousEvaluation";
   /** Eval Id to add continuous evaluation runs to. */
   evalId: string;
@@ -6430,6 +6501,7 @@ export function continuousEvaluationRuleActionDeserializer(
 
 /** Evaluation rule action for human evaluation. */
 export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
+  /** The type of the action. */
   type: "humanEvaluation";
   /** Human evaluation template Id. */
   templateId: string;
@@ -7008,6 +7080,7 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 /** Code-based evaluator definition using python code */
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** the type of the evaluator definition */
   type: "code";
   /** Inline code text for the evaluator */
   codeText: string;
@@ -7027,6 +7100,7 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
 
 /** Prompt-based evaluator */
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** the type of the evaluator definition */
   type: "prompt";
   /** The prompt text used for evaluation */
   promptText: string;
@@ -7436,6 +7510,7 @@ export type TreatmentEffectType =
 export interface EvaluationRunClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "EvaluationRunClusterInsight";
+  /** Cluster insights from the evaluation run analysis. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -7682,6 +7757,7 @@ export function chartCoordinateDeserializer(item: any): ChartCoordinate {
 export interface AgentClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "AgentClusterInsight";
+  /** The cluster insight details. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -7835,6 +7911,7 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 /** Cron based trigger. */
 export interface CronTrigger extends Trigger {
+  /** Type of the trigger. */
   type: "Cron";
   /** Cron expression that defines the schedule frequency. */
   expression: string;
@@ -7972,6 +8049,7 @@ export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
 /** Hourly recurrencce schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
+  /** the type of the schedule. */
   type: "Hourly";
 }
 
@@ -8075,6 +8153,7 @@ export function monthlyRecurrenceScheduleDeserializer(item: any): MonthlyRecurre
 
 /** One-time trigger. */
 export interface OneTimeTrigger extends Trigger {
+  /** Type of the trigger. */
   type: "OneTime";
   /** Date and time for the one-time trigger in ISO 8601 format. */
   triggerAt: string;
@@ -8152,6 +8231,7 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 
 /** Evaluation task for the schedule. */
 export interface EvaluationScheduleTask extends ScheduleTask {
+  /** The type of the task. Always `Evaluation`. */
   type: "Evaluation";
   /** Identifier of the evaluation group. */
   evalId: string;
@@ -8194,6 +8274,7 @@ export function _evaluationScheduleTaskEvalRunDeserializer(
 
 /** Insight task for the schedule. */
 export interface InsightScheduleTask extends ScheduleTask {
+  /** The type of the task. Always `Insight`. */
   type: "Insight";
   /** The insight payload. */
   insight: Insight;
@@ -8292,6 +8373,7 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
 
 /** model interface AgentId */
 export interface AgentId {
+  /** The type of the agent ID. */
   type: "agent_id";
   /** The name of the agent. */
   name: string;
@@ -8312,6 +8394,7 @@ export type _ResponseInstructions = string | ItemParamUnion[];
 
 /** model interface AgentReference */
 export interface AgentReference {
+  /** The type of the agent reference. */
   type: "agent_reference";
   /** The name of the agent. */
   name: string;
