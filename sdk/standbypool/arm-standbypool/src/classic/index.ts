@@ -5,5 +5,5 @@ export { OperationsOperations } from "./operations/index.js";
 export { StandbyContainerGroupPoolRuntimeViewsOperations } from "./standbyContainerGroupPoolRuntimeViews/index.js";
 export { StandbyContainerGroupPoolsOperations } from "./standbyContainerGroupPools/index.js";
 export { StandbyVirtualMachinePoolRuntimeViewsOperations } from "./standbyVirtualMachinePoolRuntimeViews/index.js";
-export { StandbyVirtualMachinePoolsOperations } from "./standbyVirtualMachinePools/index.js";
+export { StandbyVirtualMachinePoolsTestingOperations } from "./standbyVirtualMachinePoolsTesting/index.js";
 export { StandbyVirtualMachinesOperations } from "./standbyVirtualMachines/index.js";

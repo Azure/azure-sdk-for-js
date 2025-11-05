@@ -1,19 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
-import {
-  StandbyVirtualMachinePoolResource,
-  StandbyVirtualMachinePoolResourceUpdate,
-} from "../../models/models.js";
-import {
-  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  StandbyVirtualMachinePoolsUpdateOptionalParams,
-  StandbyVirtualMachinePoolsDeleteOptionalParams,
-  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  StandbyVirtualMachinePoolsGetOptionalParams,
-} from "../../api/standbyVirtualMachinePools/options.js";
+import type { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -21,27 +9,39 @@ import {
   $delete,
   createOrUpdate,
   get,
-} from "../../api/standbyVirtualMachinePools/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+} from "../../api/standbyVirtualMachinePoolsTesting/operations.js";
+import type {
+  StandbyVirtualMachinePoolsTestingListBySubscriptionOptionalParams,
+  StandbyVirtualMachinePoolsTestingListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsTestingUpdateOptionalParams,
+  StandbyVirtualMachinePoolsTestingDeleteOptionalParams,
+  StandbyVirtualMachinePoolsTestingCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsTestingGetOptionalParams,
+} from "../../api/standbyVirtualMachinePoolsTesting/options.js";
+import type {
+  StandbyVirtualMachinePoolResource,
+  StandbyVirtualMachinePoolResourceUpdate,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
-/** Interface representing a StandbyVirtualMachinePools operations. */
-export interface StandbyVirtualMachinePoolsOperations {
+/** Interface representing a StandbyVirtualMachinePoolsTesting operations. */
+export interface StandbyVirtualMachinePoolsTestingOperations {
   /** List StandbyVirtualMachinePoolResource resources by subscription ID */
   listBySubscription: (
-    options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+    options?: StandbyVirtualMachinePoolsTestingListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
   /** List StandbyVirtualMachinePoolResource resources by resource group */
   listByResourceGroup: (
     resourceGroupName: string,
-    options?: StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+    options?: StandbyVirtualMachinePoolsTestingListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
   /** Update a StandbyVirtualMachinePoolResource */
   update: (
     resourceGroupName: string,
     standbyVirtualMachinePoolName: string,
     properties: StandbyVirtualMachinePoolResourceUpdate,
-    options?: StandbyVirtualMachinePoolsUpdateOptionalParams,
+    options?: StandbyVirtualMachinePoolsTestingUpdateOptionalParams,
   ) => Promise<StandbyVirtualMachinePoolResource>;
   /** Delete a StandbyVirtualMachinePoolResource */
   /**
@@ -52,14 +52,14 @@ export interface StandbyVirtualMachinePoolsOperations {
   delete: (
     resourceGroupName: string,
     standbyVirtualMachinePoolName: string,
-    options?: StandbyVirtualMachinePoolsDeleteOptionalParams,
+    options?: StandbyVirtualMachinePoolsTestingDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Create a StandbyVirtualMachinePoolResource */
   createOrUpdate: (
     resourceGroupName: string,
     standbyVirtualMachinePoolName: string,
     resource: StandbyVirtualMachinePoolResource,
-    options?: StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+    options?: StandbyVirtualMachinePoolsTestingCreateOrUpdateOptionalParams,
   ) => PollerLike<
     OperationState<StandbyVirtualMachinePoolResource>,
     StandbyVirtualMachinePoolResource
@@ -68,48 +68,49 @@ export interface StandbyVirtualMachinePoolsOperations {
   get: (
     resourceGroupName: string,
     standbyVirtualMachinePoolName: string,
-    options?: StandbyVirtualMachinePoolsGetOptionalParams,
+    options?: StandbyVirtualMachinePoolsTestingGetOptionalParams,
   ) => Promise<StandbyVirtualMachinePoolResource>;
 }
 
-function _getStandbyVirtualMachinePools(context: StandbyPoolManagementContext) {
+function _getStandbyVirtualMachinePoolsTesting(context: StandbyPoolManagementContext) {
   return {
-    listBySubscription: (options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: StandbyVirtualMachinePoolsTestingListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
-      options?: StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+      options?: StandbyVirtualMachinePoolsTestingListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
     update: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       properties: StandbyVirtualMachinePoolResourceUpdate,
-      options?: StandbyVirtualMachinePoolsUpdateOptionalParams,
+      options?: StandbyVirtualMachinePoolsTestingUpdateOptionalParams,
     ) => update(context, resourceGroupName, standbyVirtualMachinePoolName, properties, options),
     delete: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
-      options?: StandbyVirtualMachinePoolsDeleteOptionalParams,
+      options?: StandbyVirtualMachinePoolsTestingDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, standbyVirtualMachinePoolName, options),
     createOrUpdate: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       resource: StandbyVirtualMachinePoolResource,
-      options?: StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+      options?: StandbyVirtualMachinePoolsTestingCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, resourceGroupName, standbyVirtualMachinePoolName, resource, options),
     get: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
-      options?: StandbyVirtualMachinePoolsGetOptionalParams,
+      options?: StandbyVirtualMachinePoolsTestingGetOptionalParams,
     ) => get(context, resourceGroupName, standbyVirtualMachinePoolName, options),
   };
 }
 
-export function _getStandbyVirtualMachinePoolsOperations(
+export function _getStandbyVirtualMachinePoolsTestingOperations(
   context: StandbyPoolManagementContext,
-): StandbyVirtualMachinePoolsOperations {
+): StandbyVirtualMachinePoolsTestingOperations {
   return {
-    ..._getStandbyVirtualMachinePools(context),
+    ..._getStandbyVirtualMachinePoolsTesting(context),
   };
 }

@@ -4,17 +4,27 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface ContainerGroupInstanceCountSummary {
@@ -44,7 +54,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -344,13 +354,14 @@ export class StandbyPoolManagementClient {
     readonly standbyContainerGroupPoolRuntimeViews: StandbyContainerGroupPoolRuntimeViewsOperations;
     readonly standbyContainerGroupPools: StandbyContainerGroupPoolsOperations;
     readonly standbyVirtualMachinePoolRuntimeViews: StandbyVirtualMachinePoolRuntimeViewsOperations;
-    readonly standbyVirtualMachinePools: StandbyVirtualMachinePoolsOperations;
+    readonly standbyVirtualMachinePoolsTesting: StandbyVirtualMachinePoolsTestingOperations;
     readonly standbyVirtualMachines: StandbyVirtualMachinesOperations;
 }
 
 // @public
 export interface StandbyPoolManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -425,39 +436,39 @@ export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface StandbyVirtualMachinePoolsTestingCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsDeleteOptionalParams extends OperationOptions {
+export interface StandbyVirtualMachinePoolsTestingDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsGetOptionalParams extends OperationOptions {
+export interface StandbyVirtualMachinePoolsTestingGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsListByResourceGroupOptionalParams extends OperationOptions {
+export interface StandbyVirtualMachinePoolsTestingListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsListBySubscriptionOptionalParams extends OperationOptions {
+export interface StandbyVirtualMachinePoolsTestingListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsOperations {
-    createOrUpdate: (resourceGroupName: string, standbyVirtualMachinePoolName: string, resource: StandbyVirtualMachinePoolResource, options?: StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<StandbyVirtualMachinePoolResource>, StandbyVirtualMachinePoolResource>;
-    delete: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolsGetOptionalParams) => Promise<StandbyVirtualMachinePoolResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: StandbyVirtualMachinePoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
-    listBySubscription: (options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
-    update: (resourceGroupName: string, standbyVirtualMachinePoolName: string, properties: StandbyVirtualMachinePoolResourceUpdate, options?: StandbyVirtualMachinePoolsUpdateOptionalParams) => Promise<StandbyVirtualMachinePoolResource>;
+export interface StandbyVirtualMachinePoolsTestingOperations {
+    createOrUpdate: (resourceGroupName: string, standbyVirtualMachinePoolName: string, resource: StandbyVirtualMachinePoolResource, options?: StandbyVirtualMachinePoolsTestingCreateOrUpdateOptionalParams) => PollerLike<OperationState<StandbyVirtualMachinePoolResource>, StandbyVirtualMachinePoolResource>;
+    delete: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolsTestingDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolsTestingGetOptionalParams) => Promise<StandbyVirtualMachinePoolResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: StandbyVirtualMachinePoolsTestingListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
+    listBySubscription: (options?: StandbyVirtualMachinePoolsTestingListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
+    update: (resourceGroupName: string, standbyVirtualMachinePoolName: string, properties: StandbyVirtualMachinePoolResourceUpdate, options?: StandbyVirtualMachinePoolsTestingUpdateOptionalParams) => Promise<StandbyVirtualMachinePoolResource>;
 }
 
 // @public
-export interface StandbyVirtualMachinePoolsUpdateOptionalParams extends OperationOptions {
+export interface StandbyVirtualMachinePoolsTestingUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
