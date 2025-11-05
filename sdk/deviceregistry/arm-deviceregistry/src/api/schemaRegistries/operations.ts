@@ -247,7 +247,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, schemaRegistryName, properties, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
 }
 

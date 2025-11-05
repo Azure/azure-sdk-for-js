@@ -202,7 +202,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, namespaceName, deviceName, properties, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "original-uri",
   }) as PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
 }
 
