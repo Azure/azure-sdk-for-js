@@ -77,7 +77,6 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "eslint-plugin-markdown": "^5.1.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
