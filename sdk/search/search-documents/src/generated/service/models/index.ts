@@ -1534,18 +1534,14 @@ export interface SearchIndexKnowledgeSourceParameters {
   /** The name of the Search index. */
   searchIndexName: string;
   /** Used to request additional fields for referenced source data. */
-  sourceDataFields?: SearchIndexKnowledgeSourceParametersSourceDataFieldsItem[];
+  sourceDataFields?: SearchIndexFieldReference[];
   /** Used to restrict which fields to search on the search index. */
-  searchFields?: SearchIndexKnowledgeSourceParametersSearchFieldsItem[];
+  searchFields?: SearchIndexFieldReference[];
   /** Used to specify a different semantic configuration on the target search index other than the default one. */
   semanticConfigurationName?: string;
 }
 
-export interface SearchIndexKnowledgeSourceParametersSourceDataFieldsItem {
-  name: string;
-}
-
-export interface SearchIndexKnowledgeSourceParametersSearchFieldsItem {
+export interface SearchIndexFieldReference {
   name: string;
 }
 
@@ -1973,7 +1969,7 @@ export interface RemoteSharePointKnowledgeSource extends KnowledgeSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "remoteSharePoint";
   /** The parameters for the knowledge source. */
-  remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
+  remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
 }
 
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
@@ -3014,7 +3010,7 @@ export type KnowledgeBaseModelKind = string;
 
 /** Known values of {@link KnowledgeRetrievalReasoningEffortKind} that the service accepts. */
 export enum KnownKnowledgeRetrievalReasoningEffortKind {
-  /** Does not perform any source selections, any query planning, or any iterative search. */
+  /** Does not perform any source selections, query planning, or iterative search. */
   Minimal = "minimal",
   /** Use low reasoning during retrieval. */
   Low = "low",
@@ -3027,7 +3023,7 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
  * {@link KnownKnowledgeRetrievalReasoningEffortKind} can be used interchangeably with KnowledgeRetrievalReasoningEffortKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **minimal**: Does not perform any source selections, any query planning, or any iterative search. \
+ * **minimal**: Does not perform any source selections, query planning, or iterative search. \
  * **low**: Use low reasoning during retrieval. \
  * **medium**: Use a moderate amount of reasoning during retrieval.
  */

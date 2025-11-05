@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/knowledgeBase
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/refs/heads/yangylu/2025-11-01-preview/specification/search/data-plane/Azure.Search/preview/2025-11-01-preview/knowledgebase.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/66088f96b90cc4aaf1b21e9779506e68efcfb2ca/specification/search/data-plane/Azure.Search/preview/2025-11-01-preview/knowledgebase.json
 add-credentials: false
 title: SearchClient
 use-extension:

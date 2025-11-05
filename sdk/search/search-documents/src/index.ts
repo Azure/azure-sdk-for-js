@@ -73,6 +73,7 @@ export {
   KnowledgeSourceParamsUnion as KnowledgeSourceParams,
   KnownKnowledgeSourceKind,
   SearchIndexKnowledgeSourceParams,
+  SearchIndexFieldReference,
 } from "./generated/knowledgeBase/models/index.js";
 export {
   AIFoundryModelCatalogName,

@@ -270,6 +270,16 @@ export interface KnowledgeBaseSearchIndexActivityArguments {
   search?: string;
   /** The filter string. */
   filter?: string;
+  /** What fields were selected for search. */
+  sourceDataFields?: SearchIndexFieldReference[];
+  /** What fields were searched against. */
+  searchFields?: SearchIndexFieldReference[];
+  /** What semantic configuration was used from the search index. */
+  semanticConfigurationName?: string;
+}
+
+export interface SearchIndexFieldReference {
+  name: string;
 }
 
 /** Represents the arguments the azure blob retrieval activity was run with. */
@@ -638,7 +648,7 @@ export type KnowledgeRetrievalIntentType = string;
 
 /** Known values of {@link KnowledgeRetrievalReasoningEffortKind} that the service accepts. */
 export enum KnownKnowledgeRetrievalReasoningEffortKind {
-  /** Does not perform any source selections, any query planning, or any iterative search. */
+  /** Does not perform any source selections, query planning, or iterative search. */
   Minimal = "minimal",
   /** Use low reasoning during retrieval. */
   Low = "low",
@@ -651,7 +661,7 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
  * {@link KnownKnowledgeRetrievalReasoningEffortKind} can be used interchangeably with KnowledgeRetrievalReasoningEffortKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **minimal**: Does not perform any source selections, any query planning, or any iterative search. \
+ * **minimal**: Does not perform any source selections, query planning, or iterative search. \
  * **low**: Use low reasoning during retrieval. \
  * **medium**: Use a moderate amount of reasoning during retrieval.
  */

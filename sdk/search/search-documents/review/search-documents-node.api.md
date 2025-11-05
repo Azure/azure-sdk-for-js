@@ -1454,6 +1454,10 @@ export interface KnowledgeBaseRetrievalResponse {
 export interface KnowledgeBaseSearchIndexActivityArguments {
     filter?: string;
     search?: string;
+    searchFields?: SearchIndexFieldReference[];
+    semanticConfigurationName?: string;
+    // Warning: (ae-forgotten-export) The symbol "SearchIndexFieldReference" needs to be exported by the entry point index.d.ts
+    sourceDataFields?: SearchIndexFieldReference[];
 }
 
 // @public
@@ -3605,12 +3609,11 @@ export interface SearchIndexKnowledgeSource extends BaseKnowledgeSource {
 
 // @public
 export interface SearchIndexKnowledgeSourceParameters {
-    // Warning: (ae-forgotten-export) The symbol "SearchIndexKnowledgeSourceParametersSearchFieldsItem" needs to be exported by the entry point index.d.ts
-    searchFields?: SearchIndexKnowledgeSourceParametersSearchFieldsItem[];
+    searchFields?: SearchIndexFieldReference[];
     searchIndexName: string;
     semanticConfigurationName?: string;
-    // Warning: (ae-forgotten-export) The symbol "SearchIndexKnowledgeSourceParametersSourceDataFieldsItem" needs to be exported by the entry point index.d.ts
-    sourceDataFields?: SearchIndexKnowledgeSourceParametersSourceDataFieldsItem[];
+    // Warning: (ae-forgotten-export) The symbol "SearchIndexFieldReference" needs to be exported by the entry point index.d.ts
+    sourceDataFields?: SearchIndexFieldReference[];
 }
 
 // @public

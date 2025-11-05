@@ -3840,8 +3840,7 @@ export const SearchIndexKnowledgeSourceParameters: coreClient.CompositeMapper =
             element: {
               type: {
                 name: "Composite",
-                className:
-                  "SearchIndexKnowledgeSourceParametersSourceDataFieldsItem",
+                className: "SearchIndexFieldReference",
               },
             },
           },
@@ -3853,8 +3852,7 @@ export const SearchIndexKnowledgeSourceParameters: coreClient.CompositeMapper =
             element: {
               type: {
                 name: "Composite",
-                className:
-                  "SearchIndexKnowledgeSourceParametersSearchFieldsItem",
+                className: "SearchIndexFieldReference",
               },
             },
           },
@@ -3869,39 +3867,21 @@ export const SearchIndexKnowledgeSourceParameters: coreClient.CompositeMapper =
     },
   };
 
-export const SearchIndexKnowledgeSourceParametersSourceDataFieldsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SearchIndexKnowledgeSourceParametersSourceDataFieldsItem",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          required: true,
-          type: {
-            name: "String",
-          },
+export const SearchIndexFieldReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexFieldReference",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
-
-export const SearchIndexKnowledgeSourceParametersSearchFieldsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SearchIndexKnowledgeSourceParametersSearchFieldsItem",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
+  },
+};
 
 export const AzureBlobKnowledgeSourceParameters: coreClient.CompositeMapper = {
   type: {

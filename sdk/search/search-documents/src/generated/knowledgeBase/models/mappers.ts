@@ -572,9 +572,55 @@ export const KnowledgeBaseSearchIndexActivityArguments: coreClient.CompositeMapp
             name: "String",
           },
         },
+        sourceDataFields: {
+          serializedName: "sourceDataFields",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SearchIndexFieldReference",
+              },
+            },
+          },
+        },
+        searchFields: {
+          serializedName: "searchFields",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SearchIndexFieldReference",
+              },
+            },
+          },
+        },
+        semanticConfigurationName: {
+          serializedName: "semanticConfigurationName",
+          type: {
+            name: "String",
+          },
+        },
       },
     },
   };
+
+export const SearchIndexFieldReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexFieldReference",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const KnowledgeBaseAzureBlobActivityArguments: coreClient.CompositeMapper =
   {
