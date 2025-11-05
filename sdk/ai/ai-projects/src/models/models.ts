@@ -1234,22 +1234,22 @@ export interface MCPTool extends Tool {
   headers?: Record<string, string> | null;
   /** List of allowed tool names or a filter object. */
   allowedTools?:
-  | string[]
-  | {
-      toolNames?: string[];
-    };
+    | string[]
+    | {
+        toolNames?: string[];
+      };
   /** Specify which of the MCP server's tools require approval. */
   requireApproval?:
-  | {
-      always?: {
-        toolNames?: string[];
-      };
-      never?: {
-        toolNames?: string[];
-      };
-    }
-  | "always"
-  | "never";
+    | {
+        always?: {
+          toolNames?: string[];
+        };
+        never?: {
+          toolNames?: string[];
+        };
+      }
+    | "always"
+    | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   projectConnectionId?: string;
 }
@@ -4040,12 +4040,12 @@ export interface FileSearchToolCallItemParam extends ItemParam {
   queries: string[];
   /** The results of the file search tool call. */
   results?: Array<{
-        fileId?: string;
-        text?: string;
-        filename?: string;
-        attributes?: VectorStoreFileAttributes;
-        score?: number;
-      }>;
+    fileId?: string;
+    text?: string;
+    filename?: string;
+    attributes?: VectorStoreFileAttributes;
+    score?: number;
+  }>;
 }
 
 export function fileSearchToolCallItemParamSerializer(item: FileSearchToolCallItemParam): any {
