@@ -8,30 +8,16 @@
  * create, retrieve, content, list, and delete.
  */
 
-const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-const OpenAI = require("openai").default;
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const openAiBaseUrl = `${endpoint}/openai`;
-
 const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
-async function createOpenAI() {
-  const credential = new DefaultAzureCredential();
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
-
-  return new OpenAI({
-    apiKey: azureADTokenProvider,
-    baseURL: openAiBaseUrl,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-  });
-}
-
-async function uploadFileAndWait(openAiClient, uploadPath) {
+async function uploadAndRetrieve(openAiClient, uploadPath) {
   console.log(`Uploading file from path: ${uploadPath}`);
   const created = await openAiClient.files.create({
     file: fs.createReadStream(uploadPath),
@@ -43,12 +29,13 @@ async function uploadFileAndWait(openAiClient, uploadPath) {
 }
 
 async function main() {
-  console.log("Getting Azure OpenAI client from AI Project (via AAD token)...");
-  const openAI = await createOpenAI();
+  const projectClient = new AIProjectClient(endpoint, new DefaultAzureCredential());
+
+  const openAI = await projectClient.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create (upload) a file, wait until processed
-  const uploadedFile = await uploadFileAndWait(openAI, filePath);
+  const uploadedFile = await uploadAndRetrieve(openAI, filePath);
   console.log("Processed file metadata:\n", JSON.stringify(uploadedFile, null, 2));
 
   // 2) Retrieve file metadata by ID
