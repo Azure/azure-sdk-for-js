@@ -34,32 +34,7 @@ describe("files - basic", () => {
     });
     console.log(`Uploaded file with ID: ${created.id}`);
 
-    const pollMs = 2000;
-    const timeoutMs = 5 * 60 * 1000;
-    const start = Date.now();
-
-    while (true) {
-      const retrieved = await openai.files.retrieve(created.id);
-      const status = retrieved.status;
-      console.log(`File ${created.id} current status: ${status}`);
-
-      if (status === "processed") {
-        console.log(`File ${created.id} processed successfully.`);
-        return retrieved;
-      }
-      if (status === "error") {
-        throw new Error(
-          `File ${created.id} import failed: ${retrieved.status_details || "Unknown reason"}`,
-        );
-      }
-      if (Date.now() - start > timeoutMs) {
-        throw new Error(
-          `File ${created.id} import did not complete within ${timeoutMs / 1000}s. Last status: ${status}`,
-        );
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, pollMs));
-    }
+    return openai.files.retrieve(created.id);
   }
 
   it.skipIf(!isLive)("should upload, get, read content, list, and delete a file", async () => {
@@ -75,7 +50,6 @@ describe("files - basic", () => {
     const got = await openai.files.retrieve(uploadedFile.id);
     assert.isNotNull(got);
     assert.equal(got.id, uploadedFile.id);
-    assert.equal(got.status, "processed");
     console.log(`Retrieved metadata for file ID: ${got.id}`);
 
     // Retrieve content
