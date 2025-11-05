@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for Linux broker authentication. 
+- Added support for Linux broker authentication. [#36460](https://github.com/Azure/azure-sdk-for-js/pull/36460)
 
 ### Breaking Changes
 
