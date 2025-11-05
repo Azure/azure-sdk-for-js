@@ -11,6 +11,12 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 
+type WaitForJobTarget = "trainingStarted" | "paused" | "running";
+interface FineTuningJobStatus {
+  status: string;
+}
+type JobStatusPredicate = (job: FineTuningJobStatus) => Promise<boolean | void>;
+
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
@@ -146,6 +152,51 @@ export async function createFoundryOpenAI(): Promise<OpenAI> {
     defaultQuery: { "api-version": "2025-11-15-preview" },
     dangerouslyAllowBrowser: true,
   });
+}
+
+export async function waitForFoundryOpenAIJob(
+  client: OpenAI,
+  jobId: string,
+  target: WaitForJobTarget,
+  {
+    timeoutMs = 24 * 60 * 60_000, // 24 hours default; bump higher for busy regions/large jobs
+    pollMs = 60_000, // poll every 1 minute
+  }: { timeoutMs?: number; pollMs?: number } = {},
+): Promise<void> {
+  // Target-specific predicates
+  const predicates: Record<WaitForJobTarget, JobStatusPredicate> = {
+    trainingStarted: async (job) => {
+      if (job.status === "trainingStarted") return true;
+      return false;
+    },
+    paused: async (job) => {
+      if (job.status === "paused") return true;
+      return false;
+    },
+    running: async (job) => {
+      if (job.status === "running") return true;
+      return false;
+    },
+  };
+  if (!predicates[target]) {
+    throw new Error(
+      `Unsupported target '${target}'. Use 'trainingStarted' | 'paused' | 'running'.`,
+    );
+  }
+
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const job = await client.fineTuning.jobs.retrieve(jobId);
+    console.log(`[waitForJob] job=${jobId} status=${job.status} target=${target}`);
+    if (await predicates[target](job)) {
+      return;
+    }
+    await new Promise((resolve) => setTimeout(resolve, pollMs));
+  }
+
+  throw new Error(
+    `Timed out after ${Math.round(timeoutMs / 1000)}s waiting for '${target}' on job ${jobId}.`,
+  );
 }
 
 export function createProjectsClient(
