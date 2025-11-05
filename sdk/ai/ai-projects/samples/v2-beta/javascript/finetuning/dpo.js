@@ -34,10 +34,6 @@ async function createOpenAI() {
 }
 
 async function uploadFileAndWait(openAiClient, filePath) {
-  const pollMs = 2000;
-  const timeoutMs = 5 * 60 * 1000; // 5 minutes
-  const start = Date.now();
-
   console.log(`Uploading file from path: ${filePath}`);
   const created = await openAiClient.files.create({
     file: fs.createReadStream(filePath),
@@ -45,23 +41,7 @@ async function uploadFileAndWait(openAiClient, filePath) {
   });
   console.log(`Uploaded file with ID: ${created.id}`);
 
-  while (true) {
-    const retrieved = await openAiClient.files.retrieve(created.id);
-    if (retrieved.status === "processed") {
-      return retrieved;
-    }
-    if (retrieved.status === "error") {
-      throw new Error(
-        `File ${retrieved.id} import failed: ${retrieved.status_details || "Unknown reason"}`,
-      );
-    }
-    if (Date.now() - start > timeoutMs) {
-      throw new Error(
-        `File ${retrieved.id} import did not complete within ${timeoutMs / 1000}s. Last status: ${retrieved.status}`,
-      );
-    }
-    await new Promise((resolve) => setTimeout(resolve, pollMs));
-  }
+  return openAiClient.files.retrieve(created.id);
 }
 
 async function main() {
