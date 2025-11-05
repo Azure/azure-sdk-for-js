@@ -65,16 +65,16 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { IoTOperationsClient } from "@azure/arm-iotoperations";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new IoTOperationsClient(credential, subscriptionId);
 ```
 
-### JavaScript Bundle
 
+### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
