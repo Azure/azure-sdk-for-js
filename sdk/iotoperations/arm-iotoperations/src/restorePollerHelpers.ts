@@ -1,45 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsClient } from "./ioTOperationsClient.js";
+import type { IoTOperationsClient } from "./ioTOperationsClient.js";
+import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/akriConnector/operations.js";
 import {
-  _instanceCreateOrUpdateDeserialize,
-  _instanceDeleteDeserialize,
-} from "./api/instance/index.js";
-import { _brokerCreateOrUpdateDeserialize, _brokerDeleteDeserialize } from "./api/broker/index.js";
+  _$deleteDeserialize as _$deleteDeserializeAkriConnectorTemplate,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAkriConnectorTemplate,
+} from "./api/akriConnectorTemplate/operations.js";
 import {
-  _brokerListenerCreateOrUpdateDeserialize,
-  _brokerListenerDeleteDeserialize,
-} from "./api/brokerListener/index.js";
+  _$deleteDeserialize as _$deleteDeserializeRegistryEndpoint,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeRegistryEndpoint,
+} from "./api/registryEndpoint/operations.js";
 import {
-  _brokerAuthenticationCreateOrUpdateDeserialize,
-  _brokerAuthenticationDeleteDeserialize,
-} from "./api/brokerAuthentication/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDataflowGraph,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDataflowGraph,
+} from "./api/dataflowGraph/operations.js";
 import {
-  _brokerAuthorizationCreateOrUpdateDeserialize,
-  _brokerAuthorizationDeleteDeserialize,
-} from "./api/brokerAuthorization/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDataflowEndpoint,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDataflowEndpoint,
+} from "./api/dataflowEndpoint/operations.js";
 import {
-  _dataflowProfileCreateOrUpdateDeserialize,
-  _dataflowProfileDeleteDeserialize,
-} from "./api/dataflowProfile/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDataflow,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDataflow,
+} from "./api/dataflow/operations.js";
 import {
-  _dataflowCreateOrUpdateDeserialize,
-  _dataflowDeleteDeserialize,
-} from "./api/dataflow/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDataflowProfile,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDataflowProfile,
+} from "./api/dataflowProfile/operations.js";
 import {
-  _dataflowEndpointCreateOrUpdateDeserialize,
-  _dataflowEndpointDeleteDeserialize,
-} from "./api/dataflowEndpoint/index.js";
+  _$deleteDeserialize as _$deleteDeserializeBrokerAuthorization,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBrokerAuthorization,
+} from "./api/brokerAuthorization/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeBrokerAuthentication,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBrokerAuthentication,
+} from "./api/brokerAuthentication/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeBrokerListener,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBrokerListener,
+} from "./api/brokerListener/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeBroker,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBroker,
+} from "./api/broker/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeInstance,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeInstance,
+} from "./api/instance/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -99,90 +111,130 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}":
     {
-      deserializer: _instanceCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}":
-    {
-      deserializer: _instanceDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}":
     {
-      deserializer: _brokerCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createOrUpdateDeserialize,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}":
     {
-      deserializer: _brokerDeleteDeserialize,
+      deserializer: _$deleteDeserializeAkriConnectorTemplate,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}":
     {
-      deserializer: _brokerListenerCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createOrUpdateDeserializeAkriConnectorTemplate,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}":
     {
-      deserializer: _brokerListenerDeleteDeserialize,
+      deserializer: _$deleteDeserializeRegistryEndpoint,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}":
     {
-      deserializer: _brokerAuthenticationCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createOrUpdateDeserializeRegistryEndpoint,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}":
     {
-      deserializer: _brokerAuthenticationDeleteDeserialize,
+      deserializer: _$deleteDeserializeDataflowGraph,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}":
     {
-      deserializer: _brokerAuthorizationCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createOrUpdateDeserializeDataflowGraph,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}":
     {
-      deserializer: _brokerAuthorizationDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}":
-    {
-      deserializer: _dataflowProfileCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}":
-    {
-      deserializer: _dataflowProfileDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}":
-    {
-      deserializer: _dataflowCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}":
-    {
-      deserializer: _dataflowDeleteDeserialize,
+      deserializer: _$deleteDeserializeDataflowEndpoint,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}":
     {
-      deserializer: _dataflowEndpointCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _createOrUpdateDeserializeDataflowEndpoint,
+      expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}":
     {
-      deserializer: _dataflowEndpointDeleteDeserialize,
+      deserializer: _$deleteDeserializeDataflow,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}":
+    {
+      deserializer: _createOrUpdateDeserializeDataflow,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}":
+    {
+      deserializer: _$deleteDeserializeDataflowProfile,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}":
+    {
+      deserializer: _createOrUpdateDeserializeDataflowProfile,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}":
+    {
+      deserializer: _$deleteDeserializeBrokerAuthorization,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}":
+    {
+      deserializer: _createOrUpdateDeserializeBrokerAuthorization,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}":
+    {
+      deserializer: _$deleteDeserializeBrokerAuthentication,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}":
+    {
+      deserializer: _createOrUpdateDeserializeBrokerAuthentication,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}":
+    {
+      deserializer: _$deleteDeserializeBrokerListener,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}":
+    {
+      deserializer: _createOrUpdateDeserializeBrokerListener,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}":
+    {
+      deserializer: _$deleteDeserializeBroker,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}":
+    {
+      deserializer: _createOrUpdateDeserializeBroker,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}":
+    {
+      deserializer: _$deleteDeserializeInstance,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}":
+    {
+      deserializer: _createOrUpdateDeserializeInstance,
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 

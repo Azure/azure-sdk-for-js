@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_ADLSv2.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_ADLSv2.json
  */
-
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function dataflowEndpointCreateOrUpdateADLSv2(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
@@ -31,7 +30,7 @@ async function dataflowEndpointCreateOrUpdateADLSv2(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -43,9 +42,9 @@ async function dataflowEndpointCreateOrUpdateADLSv2(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_ADX.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_ADX.json
  */
-async function dataflowEndpointCreateOrUpdateAdx(): Promise<void> {
+async function dataflowEndpointCreateOrUpdateADX(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -67,7 +66,7 @@ async function dataflowEndpointCreateOrUpdateAdx(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -79,9 +78,9 @@ async function dataflowEndpointCreateOrUpdateAdx(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_AIO.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_AIO.json
  */
-async function dataflowEndpointCreateOrUpdateAio(): Promise<void> {
+async function dataflowEndpointCreateOrUpdateAIO(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -105,7 +104,7 @@ async function dataflowEndpointCreateOrUpdateAio(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -117,7 +116,7 @@ async function dataflowEndpointCreateOrUpdateAio(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_EventGrid.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_EventGrid.json
  */
 async function dataflowEndpointCreateOrUpdateEventGrid(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -140,7 +139,7 @@ async function dataflowEndpointCreateOrUpdateEventGrid(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -152,7 +151,7 @@ async function dataflowEndpointCreateOrUpdateEventGrid(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_EventHub.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_EventHub.json
  */
 async function dataflowEndpointCreateOrUpdateEventHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -176,7 +175,7 @@ async function dataflowEndpointCreateOrUpdateEventHub(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -188,7 +187,7 @@ async function dataflowEndpointCreateOrUpdateEventHub(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_Fabric.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_Fabric.json
  */
 async function dataflowEndpointCreateOrUpdateFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -215,7 +214,7 @@ async function dataflowEndpointCreateOrUpdateFabric(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -227,7 +226,7 @@ async function dataflowEndpointCreateOrUpdateFabric(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_Kafka.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_Kafka.json
  */
 async function dataflowEndpointCreateOrUpdateKafka(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -265,7 +264,7 @@ async function dataflowEndpointCreateOrUpdateKafka(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -277,7 +276,7 @@ async function dataflowEndpointCreateOrUpdateKafka(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_LocalStorage.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_LocalStorage.json
  */
 async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -293,7 +292,7 @@ async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
         localStorageSettings: { persistentVolumeClaimRef: "example-pvc" },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -305,7 +304,49 @@ async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
+ */
+async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
+  const client = new IoTOperationsClient(credential, subscriptionId);
+  const result = await client.dataflowEndpoint.createOrUpdate(
+    "rgiotoperations",
+    "resource-name123",
+    "generic-mqtt-broker-endpoint",
+    {
+      properties: {
+        endpointType: "Mqtt",
+        mqttSettings: {
+          host: "example.broker.local:1883",
+          authentication: {
+            method: "X509Certificate",
+            x509CertificateSettings: { secretRef: "example-secret" },
+          },
+          tls: { mode: "Disabled" },
+          clientIdPrefix: "factory-gateway",
+          retain: "Keep",
+          sessionExpirySeconds: 3600,
+          qos: 1,
+          protocol: "WebSockets",
+          maxInflightMessages: 100,
+          keepAliveSeconds: 60,
+        },
+      },
+      extendedLocation: {
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
+        type: "CustomLocation",
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create a DataflowEndpointResource
+ *
+ * @summary create a DataflowEndpointResource
+ * x-ms-original-file: 2025-10-01/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowEndpointCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -400,6 +441,7 @@ async function dataflowEndpointCreateOrUpdate(): Promise<void> {
             mode: "Enabled",
             trustedCaCertificateConfigMapRef: "tectjjvukvelsreihwadh",
           },
+          cloudEventAttributes: "PassThrough",
         },
         localStorageSettings: { persistentVolumeClaimRef: "jjwqwvd" },
         mqttSettings: {
@@ -428,52 +470,11 @@ async function dataflowEndpointCreateOrUpdate(): Promise<void> {
             mode: "Enabled",
             trustedCaCertificateConfigMapRef: "tectjjvukvelsreihwadh",
           },
+          cloudEventAttributes: "PassThrough",
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
-        type: "CustomLocation",
-      },
-    },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to create a DataflowEndpointResource
- *
- * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
- */
-async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
-  const client = new IoTOperationsClient(credential, subscriptionId);
-  const result = await client.dataflowEndpoint.createOrUpdate(
-    "rgiotoperations",
-    "resource-name123",
-    "generic-mqtt-broker-endpoint",
-    {
-      properties: {
-        endpointType: "Mqtt",
-        mqttSettings: {
-          host: "example.broker.local:1883",
-          authentication: {
-            method: "X509Certificate",
-            x509CertificateSettings: { secretRef: "example-secret" },
-          },
-          tls: { mode: "Disabled" },
-          clientIdPrefix: "factory-gateway",
-          retain: "Keep",
-          sessionExpirySeconds: 3600,
-          qos: 1,
-          protocol: "WebSockets",
-          maxInflightMessages: 100,
-          keepAliveSeconds: 60,
-        },
-      },
-      extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -483,15 +484,15 @@ async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
 
 async function main(): Promise<void> {
   await dataflowEndpointCreateOrUpdateADLSv2();
-  await dataflowEndpointCreateOrUpdateAdx();
-  await dataflowEndpointCreateOrUpdateAio();
+  await dataflowEndpointCreateOrUpdateADX();
+  await dataflowEndpointCreateOrUpdateAIO();
   await dataflowEndpointCreateOrUpdateEventGrid();
   await dataflowEndpointCreateOrUpdateEventHub();
   await dataflowEndpointCreateOrUpdateFabric();
   await dataflowEndpointCreateOrUpdateKafka();
   await dataflowEndpointCreateOrUpdateLocalStorage();
-  await dataflowEndpointCreateOrUpdate();
   await dataflowEndpointCreateOrUpdateMqtt();
+  await dataflowEndpointCreateOrUpdate();
 }
 
 main().catch(console.error);
