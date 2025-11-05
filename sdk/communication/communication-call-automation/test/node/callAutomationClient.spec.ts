@@ -75,7 +75,7 @@ describe("Call Automation Client Unit Tests", () => {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
     };
-    vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "createCall").mockResolvedValue(createCallResultMock);
 
     const promiseResult = client.createCall(target, CALL_CALLBACK_URL);
 
@@ -93,7 +93,7 @@ describe("Call Automation Client Unit Tests", () => {
       callConnection: {} as CallConnection,
     };
 
-    vi.spyOn(client, "createGroupCall").mockResolvedValue(createGroupCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "createGroupCall").mockResolvedValue(createGroupCallResultMock);
 
     const promiseResult = client.createGroupCall(targets, CALL_CALLBACK_URL);
 
@@ -110,7 +110,7 @@ describe("Call Automation Client Unit Tests", () => {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
     };
-    vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "answerCall").mockResolvedValue(answerCallResultMock);
 
     const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
 
@@ -124,7 +124,7 @@ describe("Call Automation Client Unit Tests", () => {
 
   it("RedirectCall", async () => {
     // mocks
-    vi.spyOn(client, "redirectCall").mockReturnValue(
+    vi.spyOn(client as CallAutomationClient, "redirectCall").mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
@@ -139,7 +139,7 @@ describe("Call Automation Client Unit Tests", () => {
 
   it("RejectCall", async () => {
     // mocks
-    vi.spyOn(client, "rejectCall").mockReturnValue(
+    vi.spyOn(client as CallAutomationClient, "rejectCall").mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
