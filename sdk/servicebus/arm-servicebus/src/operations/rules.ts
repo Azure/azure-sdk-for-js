@@ -6,24 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Rules } from "../operationsInterfaces/index.js";
+import type { Rules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ServiceBusManagementClient } from "../serviceBusManagementClient.js";
-import {
+import type { ServiceBusManagementClient } from "../serviceBusManagementClient.js";
+import type {
   Rule,
   RulesListBySubscriptionsNextOptionalParams,
   RulesListBySubscriptionsOptionalParams,
   RulesListBySubscriptionsResponse,
+  RulesGetOptionalParams,
+  RulesGetResponse,
   RulesCreateOrUpdateOptionalParams,
   RulesCreateOrUpdateResponse,
   RulesDeleteOptionalParams,
-  RulesGetOptionalParams,
-  RulesGetResponse,
-  RulesListBySubscriptionsNextResponse
+  RulesListBySubscriptionsNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class RulesImpl implements Rules {
 
   /**
    * List all the rules within given topic-subscription
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -52,14 +52,14 @@ export class RulesImpl implements Rules {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: RulesListBySubscriptionsOptionalParams
+    options?: RulesListBySubscriptionsOptionalParams,
   ): PagedAsyncIterableIterator<Rule> {
     const iter = this.listBySubscriptionsPagingAll(
       resourceGroupName,
       namespaceName,
       topicName,
       subscriptionName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class RulesImpl implements Rules {
           topicName,
           subscriptionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class RulesImpl implements Rules {
     topicName: string,
     subscriptionName: string,
     options?: RulesListBySubscriptionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Rule[]> {
     let result: RulesListBySubscriptionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,9 +100,9 @@ export class RulesImpl implements Rules {
         namespaceName,
         topicName,
         subscriptionName,
-        options
+        options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -114,10 +114,10 @@ export class RulesImpl implements Rules {
         topicName,
         subscriptionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -128,14 +128,14 @@ export class RulesImpl implements Rules {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: RulesListBySubscriptionsOptionalParams
+    options?: RulesListBySubscriptionsOptionalParams,
   ): AsyncIterableIterator<Rule> {
     for await (const page of this.listBySubscriptionsPagingPage(
       resourceGroupName,
       namespaceName,
       topicName,
       subscriptionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,7 +143,7 @@ export class RulesImpl implements Rules {
 
   /**
    * List all the rules within given topic-subscription
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -154,7 +154,7 @@ export class RulesImpl implements Rules {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: RulesListBySubscriptionsOptionalParams
+    options?: RulesListBySubscriptionsOptionalParams,
   ): Promise<RulesListBySubscriptionsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -162,15 +162,45 @@ export class RulesImpl implements Rules {
         namespaceName,
         topicName,
         subscriptionName,
-        options
+        options,
       },
-      listBySubscriptionsOperationSpec
+      listBySubscriptionsOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves the description for the specified rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName The namespace name
+   * @param topicName The topic name.
+   * @param subscriptionName The subscription name.
+   * @param ruleName The rule name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options?: RulesGetOptionalParams,
+  ): Promise<RulesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        topicName,
+        subscriptionName,
+        ruleName,
+        options,
+      },
+      getOperationSpec,
     );
   }
 
   /**
    * Creates a new rule and updates an existing rule
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -185,7 +215,7 @@ export class RulesImpl implements Rules {
     subscriptionName: string,
     ruleName: string,
     parameters: Rule,
-    options?: RulesCreateOrUpdateOptionalParams
+    options?: RulesCreateOrUpdateOptionalParams,
   ): Promise<RulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -195,15 +225,15 @@ export class RulesImpl implements Rules {
         subscriptionName,
         ruleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Deletes an existing rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -216,7 +246,7 @@ export class RulesImpl implements Rules {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -225,45 +255,15 @@ export class RulesImpl implements Rules {
         topicName,
         subscriptionName,
         ruleName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Retrieves the description for the specified rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param topicName The topic name.
-   * @param subscriptionName The subscription name.
-   * @param ruleName The rule name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    topicName: string,
-    subscriptionName: string,
-    ruleName: string,
-    options?: RulesGetOptionalParams
-  ): Promise<RulesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        topicName,
-        subscriptionName,
-        ruleName,
-        options
-      },
-      getOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * ListBySubscriptionsNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -276,7 +276,7 @@ export class RulesImpl implements Rules {
     topicName: string,
     subscriptionName: string,
     nextLink: string,
-    options?: RulesListBySubscriptionsNextOptionalParams
+    options?: RulesListBySubscriptionsNextOptionalParams,
   ): Promise<RulesListBySubscriptionsNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -285,9 +285,9 @@ export class RulesImpl implements Rules {
         topicName,
         subscriptionName,
         nextLink,
-        options
+        options,
       },
-      listBySubscriptionsNextOperationSpec
+      listBySubscriptionsNextOperationSpec,
     );
   }
 }
@@ -295,125 +295,121 @@ export class RulesImpl implements Rules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleListResult
+      bodyMapper: Mappers.RuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.topicName,
-    Parameters.subscriptionName
+    Parameters.subscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
-  httpMethod: "PUT",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.Rule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.topicName,
     Parameters.subscriptionName,
-    Parameters.ruleName
+    Parameters.ruleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Rule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters14,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.topicName,
+    Parameters.subscriptionName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.topicName,
-    Parameters.subscriptionName,
-    Parameters.ruleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Rule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName,
     Parameters.topicName,
     Parameters.subscriptionName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RuleListResult
+      bodyMapper: Mappers.RuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.nextLink,
+    Parameters.namespaceName,
     Parameters.topicName,
-    Parameters.subscriptionName
+    Parameters.subscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

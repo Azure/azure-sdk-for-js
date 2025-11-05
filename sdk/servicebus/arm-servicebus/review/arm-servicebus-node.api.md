@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessKeys {
@@ -34,17 +34,17 @@ export interface Action {
 // @public
 export interface ArmDisasterRecovery extends ProxyResource {
     alternateName?: string;
+    readonly location?: string;
     partnerNamespace?: string;
     readonly pendingReplicationOperationsCount?: number;
     readonly provisioningState?: ProvisioningStateDR;
     readonly role?: RoleDisasterRecovery;
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface ArmDisasterRecoveryListResult {
-    readonly nextLink?: string;
-    value?: ArmDisasterRecovery[];
+    nextLink?: string;
+    value: ArmDisasterRecovery[];
 }
 
 // @public
@@ -57,6 +57,11 @@ export interface CheckNameAvailabilityResult {
     readonly message?: string;
     nameAvailable?: boolean;
     reason?: UnavailableReason;
+}
+
+// @public (undocumented)
+export interface ConfidentialCompute {
+    mode?: Mode;
 }
 
 // @public
@@ -192,7 +197,7 @@ export type EntityStatus = "Active" | "Disabled" | "Restoring" | "SendDisabled" 
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -210,6 +215,12 @@ export interface ErrorResponseError {
     readonly target?: string;
 }
 
+// @public (undocumented)
+export interface FailOver {
+    force?: boolean;
+    primaryLocation?: string;
+}
+
 // @public
 export interface FailoverProperties {
     isSafeFailover?: boolean;
@@ -217,6 +228,15 @@ export interface FailoverProperties {
 
 // @public
 export type FilterType = "SqlFilter" | "CorrelationFilter";
+
+// @public
+export interface GeoDataReplicationProperties {
+    locations?: NamespaceReplicaLocation[];
+    maxReplicationLagDurationInSeconds?: number;
+}
+
+// @public
+export type GeoDRRoleType = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -268,13 +288,46 @@ export enum KnownEndPointProvisioningState {
 }
 
 // @public
+export enum KnownGeoDRRoleType {
+    Primary = "Primary",
+    Secondary = "Secondary"
+}
+
+// @public
 export enum KnownMigrationConfigurationName {
     Default = "$default"
 }
 
 // @public
+export enum KnownMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownNetworkRuleIPAction {
     Allow = "Allow"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InvalidResponse = "InvalidResponse",
+    Succeeded = "Succeeded",
+    SucceededWithIssues = "SucceededWithIssues",
+    Unknown = "Unknown",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -299,6 +352,15 @@ export enum KnownPublicNetworkAccessFlag {
 }
 
 // @public
+export enum KnownResourceAssociationAccessMode {
+    AuditMode = "AuditMode",
+    EnforcedMode = "EnforcedMode",
+    LearningMode = "LearningMode",
+    NoAssociationMode = "NoAssociationMode",
+    UnspecifiedMode = "UnspecifiedMode"
+}
+
+// @public
 export enum KnownTlsVersion {
     One0 = "1.0",
     One1 = "1.1",
@@ -319,23 +381,23 @@ export interface MessageCountDetails {
 
 // @public
 export interface MigrationConfigListResult {
-    readonly nextLink?: string;
-    value?: MigrationConfigProperties[];
+    nextLink?: string;
+    value: MigrationConfigProperties[];
 }
 
 // @public
 export interface MigrationConfigProperties extends ProxyResource {
+    readonly location?: string;
     readonly migrationState?: string;
     readonly pendingReplicationOperationsCount?: number;
     postMigrationName?: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
     targetNamespace?: string;
 }
 
 // @public
 export interface MigrationConfigs {
-    beginCreateAndStartMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<PollerLike<PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>, MigrationConfigsCreateAndStartMigrationResponse>>;
+    beginCreateAndStartMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<SimplePollerLike<OperationState<MigrationConfigsCreateAndStartMigrationResponse>, MigrationConfigsCreateAndStartMigrationResponse>>;
     beginCreateAndStartMigrationAndWait(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<MigrationConfigsCreateAndStartMigrationResponse>;
     completeMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsCompleteMigrationOptionalParams): Promise<void>;
     delete(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsDeleteOptionalParams): Promise<void>;
@@ -346,6 +408,12 @@ export interface MigrationConfigs {
 
 // @public
 export interface MigrationConfigsCompleteMigrationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface MigrationConfigsCreateAndStartMigrationHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -390,11 +458,23 @@ export interface MigrationConfigsRevertOptionalParams extends coreClient.Operati
 export type MigrationConfigurationName = string;
 
 // @public
+export type Mode = string;
+
+// @public
+export interface NamespaceReplicaLocation {
+    clusterArmId?: string;
+    locationName?: string;
+    roleType?: GeoDRRoleType;
+}
+
+// @public
 export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
+    beginFailover(resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesFailoverResponse>, NamespacesFailoverResponse>>;
+    beginFailoverAndWait(resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams): Promise<NamespacesFailoverResponse>;
     checkNameAvailability(parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
     createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
     createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
@@ -426,6 +506,11 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends
 export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule;
 
 // @public
+export interface NamespacesCreateOrUpdateHeaders {
+    location?: string;
+}
+
+// @public
 export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -446,10 +531,31 @@ export interface NamespacesDeleteAuthorizationRuleOptionalParams extends coreCli
 }
 
 // @public
+export interface NamespacesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface NamespacesFailoverHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface NamespacesFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespacesFailoverResponse = FailOver;
 
 // @public
 export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
@@ -556,8 +662,8 @@ export type NetworkRuleIPAction = string;
 export interface NetworkRuleSet extends ProxyResource {
     defaultAction?: DefaultAction;
     ipRules?: NWRuleSetIpRules[];
+    readonly location?: string;
     publicNetworkAccess?: PublicNetworkAccessFlag;
-    readonly systemData?: SystemData;
     trustedServiceAccessEnabled?: boolean;
     virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
 }
@@ -565,7 +671,111 @@ export interface NetworkRuleSet extends ProxyResource {
 // @public
 export interface NetworkRuleSetListResult {
     nextLink?: string;
-    value?: NetworkRuleSet[];
+    value: NetworkRuleSet[];
+}
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    readonly applicableFeatures?: string[];
+    readonly isBackingResource?: boolean;
+    readonly location?: string;
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly parentAssociationName?: string;
+    readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+    provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+    readonly sourceResourceId?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    nextLink?: string;
+    value: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationListNextResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationOperations {
+    list(resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: string;
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    getResourceAssociationName(resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameResponse>;
+    reconcile(resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<void>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface NspAccessRule {
+    id?: string;
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+    type?: string;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
 }
 
 // @public
@@ -586,7 +796,7 @@ export interface Operation {
     isDataAction?: boolean;
     readonly name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -599,8 +809,8 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+    nextLink?: string;
+    value: Operation[];
 }
 
 // @public
@@ -622,6 +832,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 // @public
 export type OperationsListResponse = OperationListResult;
 
+// @public (undocumented)
+export interface PlatformCapabilities {
+    // (undocumented)
+    confidentialCompute?: ConfidentialCompute;
+}
+
 // @public
 export interface PrivateEndpoint {
     id?: string;
@@ -629,21 +845,21 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    readonly location?: string;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResult {
     nextLink?: string;
-    value?: PrivateEndpointConnection[];
+    value: PrivateEndpointConnection[];
 }
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
     get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
@@ -656,6 +872,12 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 
 // @public
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -713,18 +935,26 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult;
 // @public
 export interface PrivateLinkResourcesListResult {
     nextLink?: string;
-    value?: PrivateLinkResource[];
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
 }
 
 // @public
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -837,8 +1067,12 @@ export interface RegenerateAccessKeyParameters {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceAssociationAccessMode = string;
 
 // @public
 export interface ResourceNamespacePatch extends Resource {
@@ -856,14 +1090,14 @@ export interface Rule extends ProxyResource {
     action?: Action;
     correlationFilter?: CorrelationFilter;
     filterType?: FilterType;
+    readonly location?: string;
     sqlFilter?: SqlFilter;
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface RuleListResult {
     nextLink?: string;
-    value?: Rule[];
+    value: Rule[];
 }
 
 // @public
@@ -910,14 +1144,14 @@ export type RulesListBySubscriptionsResponse = RuleListResult;
 
 // @public
 export interface SBAuthorizationRule extends ProxyResource {
+    readonly location?: string;
     rights?: AccessRights[];
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface SBAuthorizationRuleListResult {
     nextLink?: string;
-    value?: SBAuthorizationRule[];
+    value: SBAuthorizationRule[];
 }
 
 // @public
@@ -933,9 +1167,12 @@ export interface SBNamespace extends TrackedResource {
     readonly createdAt?: Date;
     disableLocalAuth?: boolean;
     encryption?: Encryption;
+    geoDataReplication?: GeoDataReplicationProperties;
     identity?: Identity;
     readonly metricId?: string;
     minimumTlsVersion?: TlsVersion;
+    // (undocumented)
+    platformCapabilities?: PlatformCapabilities;
     premiumMessagingPartitions?: number;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
@@ -943,7 +1180,6 @@ export interface SBNamespace extends TrackedResource {
     readonly serviceBusEndpoint?: string;
     sku?: SBSku;
     readonly status?: string;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
     zoneRedundant?: boolean;
 }
@@ -951,7 +1187,7 @@ export interface SBNamespace extends TrackedResource {
 // @public
 export interface SBNamespaceListResult {
     nextLink?: string;
-    value?: SBNamespace[];
+    value: SBNamespace[];
 }
 
 // @public
@@ -984,6 +1220,7 @@ export interface SBQueue extends ProxyResource {
     enablePartitioning?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
+    readonly location?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxMessageSizeInKilobytes?: number;
@@ -993,14 +1230,14 @@ export interface SBQueue extends ProxyResource {
     requiresSession?: boolean;
     readonly sizeInBytes?: number;
     status?: EntityStatus;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
+    userMetadata?: string;
 }
 
 // @public
 export interface SBQueueListResult {
     nextLink?: string;
-    value?: SBQueue[];
+    value: SBQueue[];
 }
 
 // @public
@@ -1025,19 +1262,20 @@ export interface SBSubscription extends ProxyResource {
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
     isClientAffine?: boolean;
+    readonly location?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
     readonly messageCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
+    userMetadata?: string;
 }
 
 // @public
 export interface SBSubscriptionListResult {
     nextLink?: string;
-    value?: SBSubscription[];
+    value: SBSubscription[];
 }
 
 // @public
@@ -1051,6 +1289,7 @@ export interface SBTopic extends ProxyResource {
     enableBatchedOperations?: boolean;
     enableExpress?: boolean;
     enablePartitioning?: boolean;
+    readonly location?: string;
     maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes?: number;
     requiresDuplicateDetection?: boolean;
@@ -1058,14 +1297,14 @@ export interface SBTopic extends ProxyResource {
     status?: EntityStatus;
     readonly subscriptionCount?: number;
     supportOrdering?: boolean;
-    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
+    userMetadata?: string;
 }
 
 // @public
 export interface SBTopicListResult {
     nextLink?: string;
-    value?: SBTopic[];
+    value: SBTopic[];
 }
 
 // @public (undocumented)
@@ -1081,6 +1320,10 @@ export class ServiceBusManagementClient extends coreClient.ServiceClient {
     migrationConfigs: MigrationConfigs;
     // (undocumented)
     namespaces: Namespaces;
+    // (undocumented)
+    networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperations;
+    // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -1117,10 +1360,6 @@ export interface SqlFilter {
     compatibilityLevel?: number;
     requiresPreprocessing?: boolean;
     sqlExpression?: string;
-}
-
-// @public
-export interface SqlRuleAction extends Action {
 }
 
 // @public
