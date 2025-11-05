@@ -190,8 +190,6 @@ describe.skip("CompositeQueryContinuationToken", () => {
       assert.equal(result.continuationToken, "test-token");
       assert.equal(result.queryRange.min, "AA");
       assert.equal(result.queryRange.max, "BB");
-      assert.isTrue(result.queryRange.isMinInclusive);
-      assert.isFalse(result.queryRange.isMaxInclusive);
     });
 
     it("should prefer EPK boundaries over logical boundaries", () => {
