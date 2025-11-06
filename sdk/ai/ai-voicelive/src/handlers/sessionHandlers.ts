@@ -37,8 +37,8 @@ import type {
   ServerEventResponseAudioTimestampDelta,
   ServerEventResponseAudioTimestampDone,
   ServerEventResponseFunctionCallArgumentsDelta,
-  ServerEventResponseFunctionCallArgumentsDone
-} from '../models/index.js';
+  ServerEventResponseFunctionCallArgumentsDone,
+} from "../models/index.js";
 
 /**
  * Context information provided to connection-related handlers
@@ -118,7 +118,7 @@ export interface SubscribeOptions {
 
 /**
  * Handler functions for VoiceLive session events following Azure SDK patterns.
- * 
+ *
  * ALL handlers are optional - implement only the events you care about!
  * Each handler receives strongly-typed event data and context information.
  */
@@ -126,7 +126,7 @@ export interface VoiceLiveSessionHandlers {
   // ========================================
   // CONNECTION LIFECYCLE EVENTS
   // ========================================
-  
+
   /**
    * Called when the session connects successfully to the VoiceLive service
    */
@@ -152,17 +152,26 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when the session is created on the server
    */
-  processSessionCreated?: (event: ServerEventSessionCreated, context: SessionContext) => Promise<void>;
+  processSessionCreated?: (
+    event: ServerEventSessionCreated,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when the session configuration is updated
    */
-  processSessionUpdated?: (event: ServerEventSessionUpdated, context: SessionContext) => Promise<void>;
+  processSessionUpdated?: (
+    event: ServerEventSessionUpdated,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when the server is establishing an avatar media connection
    */
-  processSessionAvatarConnecting?: (event: ServerEventSessionAvatarConnecting, context: SessionContext) => Promise<void>;
+  processSessionAvatarConnecting?: (
+    event: ServerEventSessionAvatarConnecting,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // INPUT AUDIO BUFFER EVENTS
@@ -171,22 +180,34 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when the input audio buffer is committed
    */
-  processInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
+  processInputAudioBufferCommitted?: (
+    event: ServerEventInputAudioBufferCommitted,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when the input audio buffer is cleared
    */
-  processInputAudioBufferCleared?: (event: ServerEventInputAudioBufferCleared, context: SessionContext) => Promise<void>;
+  processInputAudioBufferCleared?: (
+    event: ServerEventInputAudioBufferCleared,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when speech is detected in the user's audio input
    */
-  processInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
+  processInputAudioBufferSpeechStarted?: (
+    event: ServerEventInputAudioBufferSpeechStarted,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when speech stops being detected in the user's audio input
    */
-  processInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
+  processInputAudioBufferSpeechStopped?: (
+    event: ServerEventInputAudioBufferSpeechStopped,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // CONVERSATION ITEM EVENTS
@@ -195,37 +216,58 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a conversation item is created
    */
-  processConversationItemCreated?: (event: ServerEventConversationItemCreated, context: SessionContext) => Promise<void>;
+  processConversationItemCreated?: (
+    event: ServerEventConversationItemCreated,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when input audio transcription is completed
    */
-  processConversationItemInputAudioTranscriptionCompleted?: (event: ServerEventConversationItemInputAudioTranscriptionCompleted, context: SessionContext) => Promise<void>;
+  processConversationItemInputAudioTranscriptionCompleted?: (
+    event: ServerEventConversationItemInputAudioTranscriptionCompleted,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when input audio transcription fails
    */
-  processConversationItemInputAudioTranscriptionFailed?: (event: ServerEventConversationItemInputAudioTranscriptionFailed, context: SessionContext) => Promise<void>;
+  processConversationItemInputAudioTranscriptionFailed?: (
+    event: ServerEventConversationItemInputAudioTranscriptionFailed,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when input audio transcription delta is received
    */
-  processConversationItemInputAudioTranscriptionDelta?: (event: ServerEventConversationItemInputAudioTranscriptionDelta, context: SessionContext) => Promise<void>;
+  processConversationItemInputAudioTranscriptionDelta?: (
+    event: ServerEventConversationItemInputAudioTranscriptionDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when a conversation item is truncated
    */
-  processConversationItemTruncated?: (event: ServerEventConversationItemTruncated, context: SessionContext) => Promise<void>;
+  processConversationItemTruncated?: (
+    event: ServerEventConversationItemTruncated,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when a conversation item is deleted
    */
-  processConversationItemDeleted?: (event: ServerEventConversationItemDeleted, context: SessionContext) => Promise<void>;
+  processConversationItemDeleted?: (
+    event: ServerEventConversationItemDeleted,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when a conversation item is retrieved
    */
-  processConversationItemRetrieved?: (event: ServerEventConversationItemRetrieved, context: SessionContext) => Promise<void>;
+  processConversationItemRetrieved?: (
+    event: ServerEventConversationItemRetrieved,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // RESPONSE LIFECYCLE EVENTS
@@ -234,7 +276,10 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a response is created by the assistant
    */
-  processResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
+  processResponseCreated?: (
+    event: ServerEventResponseCreated,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when a response is completed by the assistant
@@ -244,22 +289,34 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when a new output item is added to a response
    */
-  processResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
+  processResponseOutputItemAdded?: (
+    event: ServerEventResponseOutputItemAdded,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when an output item is completed
    */
-  processResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
+  processResponseOutputItemDone?: (
+    event: ServerEventResponseOutputItemDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when a new content part is added to a response
    */
-  processResponseContentPartAdded?: (event: ServerEventResponseContentPartAdded, context: SessionContext) => Promise<void>;
+  processResponseContentPartAdded?: (
+    event: ServerEventResponseContentPartAdded,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when a content part is completed
    */
-  processResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
+  processResponseContentPartDone?: (
+    event: ServerEventResponseContentPartDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // RESPONSE TEXT EVENTS
@@ -268,12 +325,18 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when text data is received from the assistant (streaming text response)
    */
-  processResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;
+  processResponseTextDelta?: (
+    event: ServerEventResponseTextDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when text response is completed
    */
-  processResponseTextDone?: (event: ServerEventResponseTextDone, context: SessionContext) => Promise<void>;
+  processResponseTextDone?: (
+    event: ServerEventResponseTextDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // RESPONSE AUDIO EVENTS
@@ -282,22 +345,34 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio data is received from the assistant (streaming audio response)
    */
-  processResponseAudioDelta?: (event: ServerEventResponseAudioDelta, context: SessionContext) => Promise<void>;
+  processResponseAudioDelta?: (
+    event: ServerEventResponseAudioDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when audio response is completed
    */
-  processResponseAudioDone?: (event: ServerEventResponseAudioDone, context: SessionContext) => Promise<void>;
+  processResponseAudioDone?: (
+    event: ServerEventResponseAudioDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when audio transcript data is received (what the assistant said as text)
    */
-  processResponseAudioTranscriptDelta?: (event: ServerEventResponseAudioTranscriptDelta, context: SessionContext) => Promise<void>;
+  processResponseAudioTranscriptDelta?: (
+    event: ServerEventResponseAudioTranscriptDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when audio transcript is completed
    */
-  processResponseAudioTranscriptDone?: (event: ServerEventResponseAudioTranscriptDone, context: SessionContext) => Promise<void>;
+  processResponseAudioTranscriptDone?: (
+    event: ServerEventResponseAudioTranscriptDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // RESPONSE ANIMATION EVENTS
@@ -306,22 +381,34 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when animation blendshape data is received
    */
-  processResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
+  processResponseAnimationBlendshapeDelta?: (
+    event: ServerEventResponseAnimationBlendshapeDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when animation blendshape data is completed
    */
-  processResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
+  processResponseAnimationBlendshapeDone?: (
+    event: ServerEventResponseAnimationBlendshapeDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when animation viseme data is received
    */
-  processResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
+  processResponseAnimationVisemeDelta?: (
+    event: ServerEventResponseAnimationVisemeDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when animation viseme data is completed
    */
-  processResponseAnimationVisemeDone?: (event: ServerEventResponseAnimationVisemeDone, context: SessionContext) => Promise<void>;
+  processResponseAnimationVisemeDone?: (
+    event: ServerEventResponseAnimationVisemeDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // RESPONSE TIMING EVENTS
@@ -330,12 +417,18 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when audio timestamp data is received
    */
-  processResponseAudioTimestampDelta?: (event: ServerEventResponseAudioTimestampDelta, context: SessionContext) => Promise<void>;
+  processResponseAudioTimestampDelta?: (
+    event: ServerEventResponseAudioTimestampDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when audio timestamp data is completed
    */
-  processResponseAudioTimestampDone?: (event: ServerEventResponseAudioTimestampDone, context: SessionContext) => Promise<void>;
+  processResponseAudioTimestampDone?: (
+    event: ServerEventResponseAudioTimestampDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // FUNCTION CALL EVENTS
@@ -344,12 +437,18 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called when function call arguments are received (streaming)
    */
-  processResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
+  processResponseFunctionCallArgumentsDelta?: (
+    event: ServerEventResponseFunctionCallArgumentsDelta,
+    context: SessionContext,
+  ) => Promise<void>;
 
   /**
    * Called when function call arguments are completed
    */
-  processResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
+  processResponseFunctionCallArgumentsDone?: (
+    event: ServerEventResponseFunctionCallArgumentsDone,
+    context: SessionContext,
+  ) => Promise<void>;
 
   // ========================================
   // CATCH-ALL HANDLER (OPTIONAL)
@@ -358,12 +457,12 @@ export interface VoiceLiveSessionHandlers {
   /**
    * Called for all server events from the VoiceLive service.
    * This is a catch-all handler that receives every server protocol message.
-   * 
+   *
    * Use this for:
    * - Custom logging/monitoring of all events
    * - Handling future events not yet covered by specific handlers
    * - Debugging and development
-   * 
+   *
    * Note: This is called IN ADDITION TO any specific handlers above.
    */
   processServerEvent?: (event: ServerEventUnion, context: SessionContext) => Promise<void>;

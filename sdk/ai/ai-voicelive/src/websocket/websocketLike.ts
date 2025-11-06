@@ -32,11 +32,7 @@ export interface VoiceLiveWebSocketLike {
   /**
    * Establishes WebSocket connection to the specified URL
    */
-  connect(
-    url: string, 
-    protocols?: string[], 
-    abortSignal?: AbortSignal
-  ): Promise<void>;
+  connect(url: string, protocols?: string[], abortSignal?: AbortSignal): Promise<void>;
 
   /**
    * Closes the WebSocket connection

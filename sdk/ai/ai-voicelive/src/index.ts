@@ -180,10 +180,7 @@ export {
 } from "./models/index.js";
 
 // Main client export
-export {
-  VoiceLiveClient,
-  VoiceLiveClientOptions
-} from "./voiceLiveClient.js";
+export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
 
 // Session export
 export {
@@ -192,7 +189,7 @@ export {
   ConnectOptions,
   SendEventOptions,
   AudioStreamOptions,
-  TurnOptions
+  TurnOptions,
 } from "./voiceLiveSession.js";
 
 // Handler-based subscription exports (Azure SDK pattern)
@@ -204,13 +201,11 @@ export type {
   SessionContext,
   ConnectedEventArgs,
   DisconnectedEventArgs,
-  ErrorEventArgs
+  ErrorEventArgs,
 } from "./handlers/sessionHandlers.js";
 
 // WebSocket and connection exports
-export {
-  ConnectionState
-} from "./websocket/connectionManager.js";
+export { ConnectionState } from "./websocket/connectionManager.js";
 
 // Error exports
 export {
@@ -219,5 +214,5 @@ export {
   VoiceLiveAuthenticationError,
   VoiceLiveProtocolError,
   VoiceLiveErrorCodes,
-  VoiceLiveErrorClassifier
+  VoiceLiveErrorClassifier,
 } from "./errors/index.js";
