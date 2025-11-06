@@ -15856,12 +15856,24 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: ^4.9.0
-        version: link:../../identity/identity
+        specifier: catalog:internal
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15880,9 +15892,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.0
       playwright:
         specifier: catalog:testing
         version: 1.56.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.6.2
       rimraf:
         specifier: 'catalog:'
         version: 6.1.0
@@ -40794,7 +40812,7 @@ snapshots:
       istanbul-reports: 3.2.0
       magicast: 0.3.5
       tinyrainbow: 3.0.3
-      vitest: 4.0.7(@types/debug@4.1.12)(@types/node@20.19.24)(@vitest/browser-playwright@4.0.7)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.24)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 4.0.7(@types/debug@4.1.12)(@types/node@20.19.24)(@vitest/browser-playwright@4.0.7)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.24)(typescript@5.9.3))(terser@5.39.0)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
