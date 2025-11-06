@@ -26,7 +26,7 @@ export interface SecretReferenceValue {
  */
 export const SecretReferenceHelper = {
   /**
-   * Takes the SecretReference (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
+   * Takes the SecretReference (JSON) and returns a ConfigurationSetting (with the props encoded in the value).
    */
   toConfigurationSettingParam: (
     secretReference: ConfigurationSettingParam<SecretReferenceValue>,

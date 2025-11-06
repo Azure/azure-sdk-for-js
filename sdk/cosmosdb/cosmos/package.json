@@ -86,7 +86,7 @@
     "@types/node": "catalog:",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "assertion-error": "^2.0.1",
     "cross-env": "catalog:",

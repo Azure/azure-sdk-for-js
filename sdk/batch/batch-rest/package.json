@@ -76,7 +76,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/keyvault-keys": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
