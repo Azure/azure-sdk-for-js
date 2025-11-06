@@ -3166,19 +3166,19 @@ importers:
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/core-auth':
-        specifier: ^1.6.0
+        specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
-        specifier: ^1.5.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.0.0
+        specifier: ^1.2.0
         version: link:../../core/logger
-      moment:
-        specifier: ~2.30.1
-        version: 2.30.1
       tslib:
-        specifier: ^2.6.2
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -3187,9 +3187,24 @@ importers:
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
-      '@azure/core-util':
+      '@azure-tools/test-utils-vitest':
         specifier: workspace:^
-        version: link:../../core/core-util
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-authorization':
+        specifier: workspace:^
+        version: link:../../authorization/arm-authorization
+      '@azure/arm-batch':
+        specifier: workspace:^
+        version: link:../arm-batch
+      '@azure/arm-compute':
+        specifier: workspace:^
+        version: link:../../compute/arm-compute
+      '@azure/arm-keyvault':
+        specifier: workspace:^
+        version: link:../../keyvault/arm-keyvault
+      '@azure/arm-resources':
+        specifier: workspace:^
+        version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -3199,6 +3214,9 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.11.1
+      '@azure/keyvault-keys':
+        specifier: workspace:^
+        version: link:../../keyvault/keyvault-keys
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.24
@@ -3208,15 +3226,15 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 3.2.4(vitest@3.2.4)
-      cross-env:
-        specifier: 'catalog:'
-        version: 7.0.3
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.0
+      moment:
+        specifier: ^2.30.1
+        version: 2.30.1
       playwright:
         specifier: catalog:testing
         version: 1.56.1
