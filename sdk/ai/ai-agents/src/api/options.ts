@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ToolDefinitionUnion,
   ToolResources,
   AgentsResponseFormatOption,
@@ -10,7 +10,7 @@ import {
   AgentsToolChoiceOption,
   ListSortOrder,
 } from "../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface CreateThreadAndRunOptionalParams extends OperationOptions {
@@ -150,25 +150,4 @@ export interface CreateAgentOptionalParams extends OperationOptions {
   responseFormat?: AgentsResponseFormatOption | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
-}
-
-/**
- * Optional parameters configuring polling behavior.
- */
-export interface PollingOptionsParams {
-  /** Options for configuring polling behavior. */
-  pollingOptions?: PollingOptions;
-}
-/**
- * Options for configuring polling behavior.
- */
-export interface PollingOptions {
-  /**
-   * The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used.
-   */
-  intervalInMs?: number;
-  /**
-   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
-   */
-  restoreFrom?: string;
 }

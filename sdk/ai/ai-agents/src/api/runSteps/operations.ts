@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type { RunStep, _AgentsPagedResultRunStep } from "../../models/models.js";
 import {
   agentV1ErrorDeserializer,
-  RunStep,
   runStepDeserializer,
-  _AgentsPagedResultRunStep,
   _agentsPagedResultRunStepDeserializer,
 } from "../../models/models.js";
-import { RunStepsListRunStepsOptionalParams, RunStepsGetRunStepOptionalParams } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  RunStepsListRunStepsOptionalParams,
+  RunStepsGetRunStepOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listRunStepsSend(
   context: Client,
@@ -29,16 +25,16 @@ export function _listRunStepsSend(
   options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api-version,limit,order,after,before}",
+    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api%2Dversion,limit,order,after,before}",
     {
       threadId: threadId,
       runId: runId,
-      "include[]": !options?.include
+      "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
           }),
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -94,13 +90,13 @@ export function _getRunStepSend(
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api-version,include[]}",
+    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api%2Dversion,include%5B%5D}",
     {
       threadId: threadId,
       runId: runId,
       stepId: stepId,
-      "api-version": context.apiVersion,
-      "include[]": !options?.include
+      "api%2Dversion": context.apiVersion,
+      "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;

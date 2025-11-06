@@ -1,20 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  MessageRole,
-  MessageInputContent,
-  ThreadMessage,
-  MessageDeletionStatus,
-} from "../../models/models.js";
-import {
-  MessagesDeleteOptionalParams,
-  MessagesUpdateMessageOptionalParams,
-  MessagesGetMessageOptionalParams,
-  MessagesListMessagesOptionalParams,
-  MessagesCreateMessageOptionalParams,
-} from "../../api/messages/options.js";
+import type { AgentsContext } from "../../api/agentsContext.js";
 import {
   $delete,
   updateMessage,
@@ -22,35 +9,53 @@ import {
   listMessages,
   createMessage,
 } from "../../api/messages/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  MessagesDeleteOptionalParams,
+  MessagesUpdateMessageOptionalParams,
+  MessagesGetMessageOptionalParams,
+  MessagesListMessagesOptionalParams,
+  MessagesCreateMessageOptionalParams,
+} from "../../api/messages/options.js";
+import type {
+  MessageRole,
+  MessageInputContent,
+  ThreadMessage,
+  MessageDeletionStatus,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Messages operations. */
 export interface MessagesOperations {
   /** Deletes an existing message on an existing thread. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     threadId: string,
     messageId: string,
     options?: MessagesDeleteOptionalParams,
   ) => Promise<MessageDeletionStatus>;
   /** Modifies an existing message on an existing thread. */
-  update: (
+  updateMessage: (
     threadId: string,
     messageId: string,
     options?: MessagesUpdateMessageOptionalParams,
   ) => Promise<ThreadMessage>;
   /** Retrieves an existing message. */
-  get: (
+  getMessage: (
     threadId: string,
     messageId: string,
     options?: MessagesGetMessageOptionalParams,
   ) => Promise<ThreadMessage>;
   /** Gets a list of messages that exist on a thread. */
-  list: (
+  listMessages: (
     threadId: string,
     options?: MessagesListMessagesOptionalParams,
   ) => PagedAsyncIterableIterator<ThreadMessage>;
   /** Creates a new message on a specified thread. */
-  create: (
+  createMessage: (
     threadId: string,
     role: MessageRole,
     content: MessageInputContent,
@@ -62,13 +67,16 @@ function _getMessages(context: AgentsContext) {
   return {
     delete: (threadId: string, messageId: string, options?: MessagesDeleteOptionalParams) =>
       $delete(context, threadId, messageId, options),
-    update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) =>
-      updateMessage(context, threadId, messageId, options),
-    get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) =>
+    updateMessage: (
+      threadId: string,
+      messageId: string,
+      options?: MessagesUpdateMessageOptionalParams,
+    ) => updateMessage(context, threadId, messageId, options),
+    getMessage: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) =>
       getMessage(context, threadId, messageId, options),
-    list: (threadId: string, options?: MessagesListMessagesOptionalParams) =>
+    listMessages: (threadId: string, options?: MessagesListMessagesOptionalParams) =>
       listMessages(context, threadId, options),
-    create: (
+    createMessage: (
       threadId: string,
       role: MessageRole,
       content: MessageInputContent,

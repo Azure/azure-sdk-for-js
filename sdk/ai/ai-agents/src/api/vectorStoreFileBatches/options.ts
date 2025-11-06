@@ -8,7 +8,6 @@ import type {
   VectorStoreFileStatusFilter,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams
@@ -35,8 +34,7 @@ export interface VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams
-  extends OperationOptions,
-    PollingOptionsParams {
+  extends OperationOptions {
   /** List of file identifiers. */
   fileIds?: string[];
   /** List of Azure assets. */

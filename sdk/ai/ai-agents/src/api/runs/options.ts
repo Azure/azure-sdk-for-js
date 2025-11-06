@@ -8,23 +8,16 @@ import type {
   ThreadMessageOptions,
   TruncationObject,
   AgentsToolChoiceOption,
-  ToolOutput,
-  ToolApproval,
   ListSortOrder,
   RunAdditionalFieldList,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface RunsCancelRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
-  /** A list of tools for which the outputs are being submitted */
-  toolOutputs?: ToolOutput[];
-  /** A list of tool approvals allowing data to be sent to tools. */
-  toolApprovals?: ToolApproval[];
   /** If true, returns a stream of events that happen during the Run as SSE, terminating at `[DONE]`. */
   stream?: boolean | null;
 }
@@ -51,7 +44,7 @@ export interface RunsListRunsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface RunsCreateRunOptionalParams extends OperationOptions, PollingOptionsParams {
+export interface RunsCreateRunOptionalParams extends OperationOptions {
   /**
    * A list of additional fields to include in the response.
    * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content`

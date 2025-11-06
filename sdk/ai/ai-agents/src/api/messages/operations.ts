@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
-import {
-  agentV1ErrorDeserializer,
+import type { AgentsContext as Client } from "../index.js";
+import type {
   MessageRole,
   MessageInputContent,
-  messageInputContentSerializer,
-  messageAttachmentArraySerializer,
   ThreadMessage,
-  threadMessageDeserializer,
   _AgentsPagedResultThreadMessage,
-  _agentsPagedResultThreadMessageDeserializer,
   MessageDeletionStatus,
-  messageDeletionStatusDeserializer,
 } from "../../models/models.js";
 import {
+  agentV1ErrorDeserializer,
+  messageInputContentSerializer,
+  messageAttachmentArraySerializer,
+  threadMessageDeserializer,
+  _agentsPagedResultThreadMessageDeserializer,
+  messageDeletionStatusDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   MessagesDeleteOptionalParams,
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
   MessagesListMessagesOptionalParams,
   MessagesCreateMessageOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -41,11 +37,11 @@ export function _$deleteSend(
   options: MessagesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api-version}",
+    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,6 +70,11 @@ export async function _$deleteDeserialize(
 }
 
 /** Deletes an existing message on an existing thread. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   threadId: string,
@@ -91,11 +92,11 @@ export function _updateMessageSend(
   options: MessagesUpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api-version}",
+    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,11 +144,11 @@ export function _getMessageSend(
   options: MessagesGetMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api-version}",
+    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,11 +193,11 @@ export function _listMessagesSend(
   options: MessagesListMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?run_id,api-version,limit,order,after,before}",
+    "/threads/{threadId}/messages{?run_id,api%2Dversion,limit,order,after,before}",
     {
       threadId: threadId,
       run_id: options?.runId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -249,10 +250,10 @@ export function _createMessageSend(
   options: MessagesCreateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?api-version}",
+    "/threads/{threadId}/messages{?api%2Dversion}",
     {
       threadId: threadId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

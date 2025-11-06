@@ -17,6 +17,4 @@ export {
   GetAgentOptionalParams,
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
-  PollingOptionsParams,
-  PollingOptions,
 } from "./options.js";

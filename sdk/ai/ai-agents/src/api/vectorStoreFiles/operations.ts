@@ -1,37 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type {
+  _AgentsPagedResultVectorStoreFile,
+  VectorStoreFile,
+  VectorStoreFileDeletionStatus,
+} from "../../models/models.js";
 import {
   vectorStoreDataSourceSerializer,
   agentV1ErrorDeserializer,
   vectorStoreChunkingStrategyRequestUnionSerializer,
-  _AgentsPagedResultVectorStoreFile,
   _agentsPagedResultVectorStoreFileDeserializer,
-  VectorStoreFile,
   vectorStoreFileDeserializer,
-  VectorStoreFileDeletionStatus,
   vectorStoreFileDeletionStatusDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   VectorStoreFilesDeleteVectorStoreFileOptionalParams,
   VectorStoreFilesGetVectorStoreFileOptionalParams,
   VectorStoreFilesCreateVectorStoreFileOptionalParams,
   VectorStoreFilesListVectorStoreFilesOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
-import { createPoller } from "../poller.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _deleteVectorStoreFileSend(
   context: Client,
@@ -42,11 +36,11 @@ export function _deleteVectorStoreFileSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/files/{fileId}{?api-version}",
+    "/vector_stores/{vectorStoreId}/files/{fileId}{?api%2Dversion}",
     {
       vectorStoreId: vectorStoreId,
       fileId: fileId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,10 +143,10 @@ export function _createVectorStoreFileSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/files{?api-version}",
+    "/vector_stores/{vectorStoreId}/files{?api%2Dversion}",
     {
       vectorStoreId: vectorStoreId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +185,7 @@ export async function _createVectorStoreFileDeserialize(
 }
 
 /** Create a vector store file by attaching a file to a vector store. */
-export async function createVectorStoreFileInternal(
+export async function createVectorStoreFile(
   context: Client,
   vectorStoreId: string,
   options: VectorStoreFilesCreateVectorStoreFileOptionalParams = {
@@ -200,55 +194,6 @@ export async function createVectorStoreFileInternal(
 ): Promise<VectorStoreFile> {
   const result = await _createVectorStoreFileSend(context, vectorStoreId, options);
   return _createVectorStoreFileDeserialize(result);
-}
-/** Create a vector store file by attaching a file to a vector store. */
-export function createVectorStoreFile(
-  context: Client,
-  vectorStoreId: string,
-  options: VectorStoreFilesCreateVectorStoreFileOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile> {
-  return createPoller<VectorStoreFile>({
-    initOperation: async () => {
-      return createVectorStoreFileInternal(context, vectorStoreId, options);
-    },
-    pollOperation: async (currentResult: VectorStoreFile) => {
-      return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
-    },
-    getOperationStatus: getLroOperationStatus,
-    getOperationError: (result: VectorStoreFile) => {
-      return result.status === "failed" && result.lastError
-        ? new Error(
-            `Operation failed with code ${result.lastError.code}: ${result.lastError.message}`,
-          )
-        : undefined;
-    },
-    intervalInMs: options.pollingOptions?.intervalInMs,
-  });
-}
-
-/** Create a vector store file by attaching a file to a vector store and poll. */
-export function createVectorStoreFileAndPoll(
-  context: Client,
-  vectorStoreId: string,
-  options: VectorStoreFilesCreateVectorStoreFileOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile> {
-  return createPoller<VectorStoreFile>({
-    initOperation: async () => {
-      return createVectorStoreFileInternal(context, vectorStoreId, options);
-    },
-    pollOperation: async (currentResult: VectorStoreFile) => {
-      return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
-    },
-    getOperationStatus: getLroOperationStatus,
-    getOperationError: (result: VectorStoreFile) => {
-      return result.status === "failed" && result.lastError
-        ? new Error(
-            `Operation failed with code ${result.lastError.code}: ${result.lastError.message}`,
-          )
-        : undefined;
-    },
-    intervalInMs: options.pollingOptions?.intervalInMs,
-  });
 }
 
 export function _listVectorStoreFilesSend(
@@ -310,17 +255,4 @@ export function listVectorStoreFiles(
     ["200"],
     { itemName: "data" },
   );
-}
-
-function getLroOperationStatus(result: VectorStoreFile): OperationStatus {
-  switch (result.status) {
-    case "in_progress":
-      return "running";
-    case "completed":
-      return "succeeded";
-    case "cancelled":
-      return "canceled";
-    default:
-      return "failed";
-  }
 }
