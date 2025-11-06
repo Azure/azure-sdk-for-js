@@ -125,7 +125,10 @@ describe("WebPubSubClient", function () {
           .spyOn(client as any, "_sendMessage")
           .mockImplementationOnce(() => Promise.reject())
           .mockImplementationOnce(() => {
-            client["_ackManager"].resolveAck(2, { ackId: 2, isDuplicated: false } as WebPubSubResult);
+            client["_ackManager"].resolveAck(2, {
+              ackId: 2,
+              isDuplicated: false,
+            } as WebPubSubResult);
             return Promise.resolve();
           });
 

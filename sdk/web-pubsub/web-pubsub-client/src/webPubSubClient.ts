@@ -613,8 +613,7 @@ export class WebPubSubClient {
 
       client.onmessage((data: any) => {
         const handleAckMessage = (message: AckMessage): void => {
-          const isDuplicated: boolean =
-            message.error != null && message.error.name === "Duplicate";
+          const isDuplicated: boolean = message.error != null && message.error.name === "Duplicate";
           if (message.success || isDuplicated) {
             this._ackManager.resolveAck(message.ackId, {
               ackId: message.ackId,
@@ -854,9 +853,12 @@ export class WebPubSubClient {
   private async _handleConnectionClose(): Promise<void> {
     // Clean ack cache
     this._ackManager.rejectAll((ackId) => {
-      return new SendMessageError("Connection is disconnected before receive ack from the service", {
-        ackId,
-      } as SendMessageErrorOptions);
+      return new SendMessageError(
+        "Connection is disconnected before receive ack from the service",
+        {
+          ackId,
+        } as SendMessageErrorOptions,
+      );
     });
 
     if (this._isStopping) {
