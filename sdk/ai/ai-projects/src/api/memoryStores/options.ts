@@ -13,7 +13,7 @@ export interface MemoryStoresGetUpdateResultOptionalParams extends OperationOpti
 /** Optional parameters. */
 export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
-  update_interval_in_ms?: number;
+  updateIntervalInMs?: number;
   /** The conversation ID from which to extract memories. Only one of conversation_id or items should be provided. */
   conversation_id?: string;
   /** Conversation items from which to extract memories. Only one of conversation_id or items should be provided. */

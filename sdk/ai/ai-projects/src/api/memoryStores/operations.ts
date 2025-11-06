@@ -177,7 +177,7 @@ export function _updateMemoriesSend(
       conversation_id: options?.conversation_id,
       items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
       previous_update_id: options?.previous_update_id,
-      update_delay: options?.update_delay,
+      updateDelay: options?.update_delay,
     },
   });
 }
@@ -210,7 +210,7 @@ export function updateMemories(
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
-    update_interval_in_ms: options?.update_interval_in_ms,
+    update_interval_in_ms: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
   }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;

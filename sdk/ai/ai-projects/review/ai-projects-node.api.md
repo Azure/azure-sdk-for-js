@@ -1950,7 +1950,7 @@ export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptio
     items?: ItemParamUnion[];
     previous_update_id?: string;
     update_delay?: number;
-    update_interval_in_ms?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public

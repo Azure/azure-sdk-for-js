@@ -2224,7 +2224,7 @@ export function memorySearchToolSerializer(item: MemorySearchTool): any {
     search_options: !item["search_options"]
       ? item["search_options"]
       : memorySearchOptionsSerializer(item["search_options"]),
-    update_delay: item["update_delay"],
+    updateDelay: item["update_delay"],
   };
 }
 
