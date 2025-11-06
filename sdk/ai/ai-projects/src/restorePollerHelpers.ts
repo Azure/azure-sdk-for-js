@@ -18,7 +18,7 @@ export interface RestorePollerOptions<
   TResponse extends PathUncheckedResponse = PathUncheckedResponse,
 > extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
-  update_interval_in_ms?: number;
+  updateIntervalInMs?: number;
   /**
    * The signal which can be used to abort requests.
    */
@@ -61,7 +61,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     deserializeHelper as (result: TResponse) => Promise<TResult>,
     expectedStatuses,
     {
-      update_interval_in_ms: options?.update_interval_in_ms,
+      updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       resourceLocationConfig,
       restoreFrom: serializedState,

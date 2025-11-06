@@ -210,7 +210,7 @@ export function updateMemories(
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
-    update_interval_in_ms: options?.updateIntervalInMs,
+    updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
   }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
