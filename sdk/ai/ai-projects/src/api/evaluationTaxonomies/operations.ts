@@ -107,7 +107,7 @@ export function _createSend(
 export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EvaluationTaxonomy> {
-  const expectedStatuses = ["201"];
+  const expectedStatuses = ["201", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
