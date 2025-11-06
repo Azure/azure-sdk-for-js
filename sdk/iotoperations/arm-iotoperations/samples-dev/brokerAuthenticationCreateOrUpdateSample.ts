@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2024-11-01/BrokerAuthentication_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2025-10-01/BrokerAuthentication_CreateOrUpdate_Complex.json
  */
-
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function brokerAuthenticationCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
@@ -50,7 +49,7 @@ async function brokerAuthenticationCreateOrUpdateComplex(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -62,7 +61,7 @@ async function brokerAuthenticationCreateOrUpdateComplex(): Promise<void> {
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2024-11-01/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-10-01/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerAuthenticationCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -98,7 +97,7 @@ async function brokerAuthenticationCreateOrUpdate(): Promise<void> {
         ],
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },

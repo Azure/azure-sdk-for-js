@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotoperations/arm-iotoperations)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotoperations)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-iotoperations?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-iotoperations)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotoperations/arm-iotoperations/samples)
 
 ## Getting started
