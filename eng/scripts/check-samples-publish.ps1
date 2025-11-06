@@ -46,7 +46,14 @@ if ($packageInfoFiles.Length -eq 0) {
 
 foreach ($packageInfoFile in $packageInfoFiles) {
   $packageInfo = Get-Content -Path $packageInfoFile.FullName -Raw | ConvertFrom-Json
-  $packageDir = Join-Path $PSScriptRoot "../.." $packageInfo.DirectoryPath
+  
+  # Handle both absolute and relative paths
+  if ([System.IO.Path]::IsPathRooted($packageInfo.DirectoryPath)) {
+    $packageDir = $packageInfo.DirectoryPath
+  } else {
+    $packageDir = Join-Path $PSScriptRoot "../.." $packageInfo.DirectoryPath
+  }
+  
   $samplesDevDir = Join-Path $packageDir "samples-dev"
   
   Write-Host ""
@@ -69,11 +76,12 @@ foreach ($packageInfoFile in $packageInfoFiles) {
     # Run dev-tool samples publish
     Push-Location $packageDir
     
-    $output = npx dev-tool samples publish --output-path $tempOutputDir 2>&1
+    # Capture all output (stdout and stderr)
+    $output = & npx dev-tool samples publish --output-path $tempOutputDir 2>&1 | Out-String
     $exitCode = $LASTEXITCODE
     
     if ($exitCode -ne 0) {
-      Write-Error "  Failed to publish samples for $($packageInfo.Name)"
+      Write-Host "  ✗ Failed to publish samples for $($packageInfo.Name)" -ForegroundColor Red
       Write-Host "  Output:"
       Write-Host $output
       $allSuccess = $false
@@ -83,7 +91,7 @@ foreach ($packageInfoFile in $packageInfoFiles) {
     }
   }
   catch {
-    Write-Error "  Exception while checking samples for $($packageInfo.Name): $_"
+    Write-Host "  ✗ Exception while checking samples for $($packageInfo.Name): $_" -ForegroundColor Red
     $allSuccess = $false
   }
   finally {
@@ -103,7 +111,10 @@ Write-Host "  Packages checked: $checkedCount"
 Write-Host "  Packages skipped (no samples-dev): $skippedCount"
 
 if (-not $allSuccess) {
-  Write-Error "One or more packages failed the samples publish check. See above output for details."
+  Write-Host "  Result: ✗ One or more packages failed the samples publish check" -ForegroundColor Red
+  Write-Host "=========================================="
+  Write-Host ""
+  Write-Host "##vso[task.logissue type=error]One or more packages failed the samples publish check. See above output for details."
   exit 1
 }
 
