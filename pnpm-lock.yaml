@@ -376,7 +376,7 @@ importers:
         version: link:../../../sdk/identity/identity
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../../../sdk/storage/storage-blob
+        version: 12.27.0
       '@fastify/multipart':
         specifier: ^9.0.3
         version: 9.2.1
