@@ -137,22 +137,6 @@ export async function createOpenAI(): Promise<OpenAI> {
   });
 }
 
-export async function createFoundryOpenAI(): Promise<OpenAI> {
-  const credential = createTestCredential();
-  const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "";
-  const openAiBaseUrl = `${projectEndpoint}/openai`;
-
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
-
-  return new OpenAI({
-    apiKey: azureADTokenProvider,
-    baseURL: openAiBaseUrl,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-    dangerouslyAllowBrowser: true,
-  });
-}
-
 export async function waitForFoundryOpenAIJob(
   client: OpenAI,
   jobId: string,
