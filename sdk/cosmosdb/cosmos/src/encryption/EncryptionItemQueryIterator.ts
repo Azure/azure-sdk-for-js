@@ -122,47 +122,33 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     if (response?.resources?.length > 0) {
       let count = 0;
 
-      // Simple check: are all resources primitive values?
-      const isSelectValueResponse = response.resources.every(
-        (resource) =>
-          resource === null ||
-          typeof resource === "string" ||
-          typeof resource === "number" ||
-          typeof resource === "boolean",
-      );
-
       diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
 
-      if (isSelectValueResponse) {
-        // Check if this is a single-field SELECT VALUE query
-        const fieldPath = this.getSelectValueFieldPath();
+      // Check if this is a single-field SELECT VALUE query
+      const fieldPath = this.getSelectValueFieldPath();
 
-        if (fieldPath) {
-          // Check if this field is actually encrypted
-          const isFieldEncrypted =
-            await this.container.encryptionProcessor.isPathEncrypted(fieldPath);
+      if (fieldPath) {
+        // Check if this field is actually encrypted
+        const isFieldEncrypted =
+          await this.container.encryptionProcessor.isPathEncrypted(fieldPath);
 
-          if (isFieldEncrypted) {
-            // Decrypt each primitive value using the identified field path
-            const decryptedResources: T[] = [];
-            for (let i = 0; i < response.resources.length; i++) {
-              const decryptedValue = await this.container.encryptionProcessor.decryptProperty(
-                fieldPath,
-                response.resources[i] as any,
-              );
-              decryptedResources.push(decryptedValue as T);
-              count++;
-            }
-            response.resources.splice(0, response.resources.length, ...decryptedResources);
+        if (isFieldEncrypted) {
+          // Decrypt each value using the identified field path
+          for (let i = 0; i < response.resources.length; i++) {
+            const decryptedValue = await this.container.encryptionProcessor.decryptProperty(
+              fieldPath,
+              response.resources[i] as any,
+            );
+            response.resources[i] = decryptedValue;
+            count++;
           }
         }
-        // If fieldPath is null or field is not encrypted, no decryption needed
       } else {
         // Regular object decryption
-        for (let resource of response.resources) {
+        for (let i = 0; i < response.resources.length; i++) {
           const { body, propertiesDecryptedCount } =
-            await this.container.encryptionProcessor.decrypt(resource);
-          resource = body;
+            await this.container.encryptionProcessor.decrypt(response.resources[i]);
+          response.resources[i] = body;
           count += propertiesDecryptedCount;
         }
       }
