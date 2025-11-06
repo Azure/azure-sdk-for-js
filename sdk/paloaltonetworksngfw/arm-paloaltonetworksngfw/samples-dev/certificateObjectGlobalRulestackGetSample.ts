@@ -3,32 +3,41 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to get a CertificateObjectGlobalRulestackResource
+ * This sample demonstrates how to Get a CertificateObjectGlobalRulestackResource
  *
- * @summary get a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: 2025-10-08/CertificateObjectGlobalRulestack_Get_MaximumSet_Gen.json
+ * @summary Get a CertificateObjectGlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/CertificateObjectGlobalRulestack_Get_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackGetMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
+  const name = "armid1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.certificateObjectGlobalRulestack.get("praval", "armid1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.certificateObjectGlobalRulestack.get(
+    globalRulestackName,
+    name,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to get a CertificateObjectGlobalRulestackResource
+ * This sample demonstrates how to Get a CertificateObjectGlobalRulestackResource
  *
- * @summary get a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: 2025-10-08/CertificateObjectGlobalRulestack_Get_MinimumSet_Gen.json
+ * @summary Get a CertificateObjectGlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/CertificateObjectGlobalRulestack_Get_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackGetMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
+  const name = "armid1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.certificateObjectGlobalRulestack.get("praval", "armid1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.certificateObjectGlobalRulestack.get(
+    globalRulestackName,
+    name,
+  );
   console.log(result);
 }
 

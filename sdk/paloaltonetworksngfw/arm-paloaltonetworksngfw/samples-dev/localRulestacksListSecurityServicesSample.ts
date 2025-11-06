@@ -1,42 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  LocalRulestacksListSecurityServicesOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to list the security services for rulestack
+ * This sample demonstrates how to List the security services for rulestack
  *
- * @summary list the security services for rulestack
- * x-ms-original-file: 2025-10-08/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
+ * @summary List the security services for rulestack
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
  */
 async function localRulestacksListSecurityServicesMaximumSetGen(): Promise<void> {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+  const localRulestackName = "lrs1";
+  const skip = "a6a321";
+  const top = 20;
+  const typeParam = "localRulestacks";
+  const options: LocalRulestacksListSecurityServicesOptionalParams = {
+    skip,
+    top,
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const result = await client.localRulestacks.listSecurityServices(
-    "rgopenapi",
-    "lrs1",
-    "localRulestacks",
-    { skip: "a6a321", top: 20 },
+    resourceGroupName,
+    localRulestackName,
+    typeParam,
+    options,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to list the security services for rulestack
+ * This sample demonstrates how to List the security services for rulestack
  *
- * @summary list the security services for rulestack
- * x-ms-original-file: 2025-10-08/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
+ * @summary List the security services for rulestack
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
  */
 async function localRulestacksListSecurityServicesMinimumSetGen(): Promise<void> {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+  const localRulestackName = "lrs1";
+  const typeParam = "localRulestacks";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const result = await client.localRulestacks.listSecurityServices(
-    "rgopenapi",
-    "lrs1",
-    "localRulestacks",
+    resourceGroupName,
+    localRulestackName,
+    typeParam,
   );
   console.log(result);
 }

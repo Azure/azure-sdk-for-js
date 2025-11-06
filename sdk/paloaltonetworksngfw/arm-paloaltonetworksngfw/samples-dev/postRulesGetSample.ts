@@ -3,32 +3,35 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to get a PostRulesResource
+ * This sample demonstrates how to Get a PostRulesResource
  *
- * @summary get a PostRulesResource
- * x-ms-original-file: 2025-10-08/PostRules_Get_MaximumSet_Gen.json
+ * @summary Get a PostRulesResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_Get_MaximumSet_Gen.json
  */
 async function postRulesGetMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.postRules.get("lrs1", "1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.get(globalRulestackName, priority);
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to get a PostRulesResource
+ * This sample demonstrates how to Get a PostRulesResource
  *
- * @summary get a PostRulesResource
- * x-ms-original-file: 2025-10-08/PostRules_Get_MinimumSet_Gen.json
+ * @summary Get a PostRulesResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_Get_MinimumSet_Gen.json
  */
 async function postRulesGetMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.postRules.get("lrs1", "1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.get(globalRulestackName, priority);
   console.log(result);
 }
 

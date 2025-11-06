@@ -3,32 +3,33 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to get a GlobalRulestackResource
+ * This sample demonstrates how to Get a GlobalRulestackResource
  *
- * @summary get a GlobalRulestackResource
- * x-ms-original-file: 2025-10-08/GlobalRulestack_Get_MaximumSet_Gen.json
+ * @summary Get a GlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_Get_MaximumSet_Gen.json
  */
 async function globalRulestackGetMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.globalRulestack.get("praval");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.get(globalRulestackName);
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to get a GlobalRulestackResource
+ * This sample demonstrates how to Get a GlobalRulestackResource
  *
- * @summary get a GlobalRulestackResource
- * x-ms-original-file: 2025-10-08/GlobalRulestack_Get_MinimumSet_Gen.json
+ * @summary Get a GlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_Get_MinimumSet_Gen.json
  */
 async function globalRulestackGetMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.globalRulestack.get("praval");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.get(globalRulestackName);
   console.log(result);
 }
 

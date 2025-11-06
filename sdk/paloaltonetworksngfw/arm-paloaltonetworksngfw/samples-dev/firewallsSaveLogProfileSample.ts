@@ -1,123 +1,147 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  LogSettings,
+  FirewallsSaveLogProfileOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to log Profile for Firewall
+ * This sample demonstrates how to Log Profile for Firewall
  *
- * @summary log Profile for Firewall
- * x-ms-original-file: 2025-10-08/Firewalls_saveLogProfile_MaximumSet_Gen.json
+ * @summary Log Profile for Firewall
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/Firewalls_saveLogProfile_MaximumSet_Gen.json
  */
 async function firewallsSaveLogProfileMaximumSetGen(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.firewalls.saveLogProfile("firewall-rg", "firewall1", {
-    logSettings: {
-      applicationInsights: { id: "aaaaaaaaaaaaaaaa", key: "aaaaaaaaaaaaa" },
-      commonDestination: {
-        eventHubConfigurations: {
-          name: "aaaaaaaa",
-          id: "aaaaaaaaaa",
-          nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
-          policyName: "aaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaaa",
-        },
-        monitorConfigurations: {
-          id: "aaaaaaaaaaaaaaaaaaa",
-          primaryKey: "aaaaaaaaaaaaa",
-          secondaryKey: "a",
-          subscriptionId: "aaaaaaaaaaaaa",
-          workspace: "aaaaaaaaaaa",
-        },
-        storageConfigurations: {
-          accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
-          id: "aaaaaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaa",
-        },
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
+  const firewallName = "firewall1";
+  const logSettings: LogSettings = {
+    applicationInsights: { id: "aaaaaaaaaaaaaaaa", key: "aaaaaaaaaaaaa" },
+    commonDestination: {
+      eventHubConfigurations: {
+        name: "aaaaaaaa",
+        id: "aaaaaaaaaa",
+        nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
+        policyName: "aaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaaa",
       },
-      decryptLogDestination: {
-        eventHubConfigurations: {
-          name: "aaaaaaaa",
-          id: "aaaaaaaaaa",
-          nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
-          policyName: "aaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaaa",
-        },
-        monitorConfigurations: {
-          id: "aaaaaaaaaaaaaaaaaaa",
-          primaryKey: "aaaaaaaaaaaaa",
-          secondaryKey: "a",
-          subscriptionId: "aaaaaaaaaaaaa",
-          workspace: "aaaaaaaaaaa",
-        },
-        storageConfigurations: {
-          accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
-          id: "aaaaaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaa",
-        },
+      monitorConfigurations: {
+        id: "aaaaaaaaaaaaaaaaaaa",
+        primaryKey: "aaaaaaaaaaaaa",
+        secondaryKey: "a",
+        subscriptionId: "aaaaaaaaaaaaa",
+        workspace: "aaaaaaaaaaa",
       },
-      logOption: "SAME_DESTINATION",
-      logType: "TRAFFIC",
-      threatLogDestination: {
-        eventHubConfigurations: {
-          name: "aaaaaaaa",
-          id: "aaaaaaaaaa",
-          nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
-          policyName: "aaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaaa",
-        },
-        monitorConfigurations: {
-          id: "aaaaaaaaaaaaaaaaaaa",
-          primaryKey: "aaaaaaaaaaaaa",
-          secondaryKey: "a",
-          subscriptionId: "aaaaaaaaaaaaa",
-          workspace: "aaaaaaaaaaa",
-        },
-        storageConfigurations: {
-          accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
-          id: "aaaaaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaa",
-        },
-      },
-      trafficLogDestination: {
-        eventHubConfigurations: {
-          name: "aaaaaaaa",
-          id: "aaaaaaaaaa",
-          nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
-          policyName: "aaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaaa",
-        },
-        monitorConfigurations: {
-          id: "aaaaaaaaaaaaaaaaaaa",
-          primaryKey: "aaaaaaaaaaaaa",
-          secondaryKey: "a",
-          subscriptionId: "aaaaaaaaaaaaa",
-          workspace: "aaaaaaaaaaa",
-        },
-        storageConfigurations: {
-          accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
-          id: "aaaaaaaaaaaaaaa",
-          subscriptionId: "aaaaaaaaa",
-        },
+      storageConfigurations: {
+        accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
+        id: "aaaaaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaa",
       },
     },
-  });
+    decryptLogDestination: {
+      eventHubConfigurations: {
+        name: "aaaaaaaa",
+        id: "aaaaaaaaaa",
+        nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
+        policyName: "aaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaaa",
+      },
+      monitorConfigurations: {
+        id: "aaaaaaaaaaaaaaaaaaa",
+        primaryKey: "aaaaaaaaaaaaa",
+        secondaryKey: "a",
+        subscriptionId: "aaaaaaaaaaaaa",
+        workspace: "aaaaaaaaaaa",
+      },
+      storageConfigurations: {
+        accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
+        id: "aaaaaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaa",
+      },
+    },
+    logOption: "SAME_DESTINATION",
+    logType: "TRAFFIC",
+    threatLogDestination: {
+      eventHubConfigurations: {
+        name: "aaaaaaaa",
+        id: "aaaaaaaaaa",
+        nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
+        policyName: "aaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaaa",
+      },
+      monitorConfigurations: {
+        id: "aaaaaaaaaaaaaaaaaaa",
+        primaryKey: "aaaaaaaaaaaaa",
+        secondaryKey: "a",
+        subscriptionId: "aaaaaaaaaaaaa",
+        workspace: "aaaaaaaaaaa",
+      },
+      storageConfigurations: {
+        accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
+        id: "aaaaaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaa",
+      },
+    },
+    trafficLogDestination: {
+      eventHubConfigurations: {
+        name: "aaaaaaaa",
+        id: "aaaaaaaaaa",
+        nameSpace: "aaaaaaaaaaaaaaaaaaaaa",
+        policyName: "aaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaaa",
+      },
+      monitorConfigurations: {
+        id: "aaaaaaaaaaaaaaaaaaa",
+        primaryKey: "aaaaaaaaaaaaa",
+        secondaryKey: "a",
+        subscriptionId: "aaaaaaaaaaaaa",
+        workspace: "aaaaaaaaaaa",
+      },
+      storageConfigurations: {
+        accountName: "aaaaaaaaaaaaaaaaaaaaaaa",
+        id: "aaaaaaaaaaaaaaa",
+        subscriptionId: "aaaaaaaaa",
+      },
+    },
+  };
+  const options: FirewallsSaveLogProfileOptionalParams = { logSettings };
+  const credential = new DefaultAzureCredential();
+  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const result = await client.firewalls.saveLogProfile(
+    resourceGroupName,
+    firewallName,
+    options,
+  );
+  console.log(result);
 }
 
 /**
- * This sample demonstrates how to log Profile for Firewall
+ * This sample demonstrates how to Log Profile for Firewall
  *
- * @summary log Profile for Firewall
- * x-ms-original-file: 2025-10-08/Firewalls_saveLogProfile_MinimumSet_Gen.json
+ * @summary Log Profile for Firewall
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/Firewalls_saveLogProfile_MinimumSet_Gen.json
  */
 async function firewallsSaveLogProfileMinimumSetGen(): Promise<void> {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
+  const firewallName = "firewall1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.firewalls.saveLogProfile("firewall-rg", "firewall1");
+  const result = await client.firewalls.saveLogProfile(
+    resourceGroupName,
+    firewallName,
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

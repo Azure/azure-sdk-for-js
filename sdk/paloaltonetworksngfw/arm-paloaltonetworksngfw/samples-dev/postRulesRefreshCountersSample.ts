@@ -1,35 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  PostRulesRefreshCountersOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to refresh counters
+ * This sample demonstrates how to Refresh counters
  *
- * @summary refresh counters
- * x-ms-original-file: 2025-10-08/PostRules_refreshCounters_MaximumSet_Gen.json
+ * @summary Refresh counters
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_refreshCounters_MaximumSet_Gen.json
  */
 async function postRulesRefreshCountersMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
+  const firewallName = "firewall1";
+  const options: PostRulesRefreshCountersOptionalParams = { firewallName };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.postRules.refreshCounters("lrs1", "1", {
-    firewallName: "firewall1",
-  });
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.refreshCounters(
+    globalRulestackName,
+    priority,
+    options,
+  );
+  console.log(result);
 }
 
 /**
- * This sample demonstrates how to refresh counters
+ * This sample demonstrates how to Refresh counters
  *
- * @summary refresh counters
- * x-ms-original-file: 2025-10-08/PostRules_refreshCounters_MinimumSet_Gen.json
+ * @summary Refresh counters
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_refreshCounters_MinimumSet_Gen.json
  */
 async function postRulesRefreshCountersMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.postRules.refreshCounters("lrs1", "1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.refreshCounters(
+    globalRulestackName,
+    priority,
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

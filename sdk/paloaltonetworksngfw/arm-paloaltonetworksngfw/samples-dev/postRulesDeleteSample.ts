@@ -3,31 +3,42 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to delete a PostRulesResource
+ * This sample demonstrates how to Delete a PostRulesResource
  *
- * @summary delete a PostRulesResource
- * x-ms-original-file: 2025-10-08/PostRules_Delete_MaximumSet_Gen.json
+ * @summary Delete a PostRulesResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_Delete_MaximumSet_Gen.json
  */
 async function postRulesDeleteMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.postRules.delete("lrs1", "1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.beginDeleteAndWait(
+    globalRulestackName,
+    priority,
+  );
+  console.log(result);
 }
 
 /**
- * This sample demonstrates how to delete a PostRulesResource
+ * This sample demonstrates how to Delete a PostRulesResource
  *
- * @summary delete a PostRulesResource
- * x-ms-original-file: 2025-10-08/PostRules_Delete_MinimumSet_Gen.json
+ * @summary Delete a PostRulesResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_Delete_MinimumSet_Gen.json
  */
 async function postRulesDeleteMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.postRules.delete("lrs1", "1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.beginDeleteAndWait(
+    globalRulestackName,
+    priority,
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

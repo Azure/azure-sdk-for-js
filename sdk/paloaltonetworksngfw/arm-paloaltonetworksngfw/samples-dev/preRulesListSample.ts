@@ -3,40 +3,39 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to list PreRulesResource resources by Tenant
+ * This sample demonstrates how to List PreRulesResource resources by Tenant
  *
- * @summary list PreRulesResource resources by Tenant
- * x-ms-original-file: 2025-10-08/PreRules_List_MaximumSet_Gen.json
+ * @summary List PreRulesResource resources by Tenant
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_List_MaximumSet_Gen.json
  */
 async function preRulesListMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
-  for await (const item of client.preRules.list("lrs1")) {
+  for await (const item of client.preRules.list(globalRulestackName)) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to list PreRulesResource resources by Tenant
+ * This sample demonstrates how to List PreRulesResource resources by Tenant
  *
- * @summary list PreRulesResource resources by Tenant
- * x-ms-original-file: 2025-10-08/PreRules_List_MinimumSet_Gen.json
+ * @summary List PreRulesResource resources by Tenant
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_List_MinimumSet_Gen.json
  */
 async function preRulesListMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
-  for await (const item of client.preRules.list("lrs1")) {
+  for await (const item of client.preRules.list(globalRulestackName)) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 

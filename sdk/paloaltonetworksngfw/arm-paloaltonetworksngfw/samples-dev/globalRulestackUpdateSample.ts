@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  GlobalRulestackResourceUpdate,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to update a GlobalRulestackResource
+ * This sample demonstrates how to Update a GlobalRulestackResource
  *
- * @summary update a GlobalRulestackResource
- * x-ms-original-file: 2025-10-08/GlobalRulestack_Update_MaximumSet_Gen.json
+ * @summary Update a GlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_Update_MaximumSet_Gen.json
  */
 async function globalRulestackUpdateMaximumSetGen(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.globalRulestack.update("praval", {
+  const globalRulestackName = "praval";
+  const properties: GlobalRulestackResourceUpdate = {
     identity: {
       type: "None",
       userAssignedIdentities: {
@@ -41,21 +43,31 @@ async function globalRulestackUpdateMaximumSetGen(): Promise<void> {
         vulnerabilityProfile: "default",
       },
     },
-  });
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.update(
+    globalRulestackName,
+    properties,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to update a GlobalRulestackResource
+ * This sample demonstrates how to Update a GlobalRulestackResource
  *
- * @summary update a GlobalRulestackResource
- * x-ms-original-file: 2025-10-08/GlobalRulestack_Update_MinimumSet_Gen.json
+ * @summary Update a GlobalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_Update_MinimumSet_Gen.json
  */
 async function globalRulestackUpdateMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
+  const properties: GlobalRulestackResourceUpdate = {};
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.globalRulestack.update("praval", {});
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.update(
+    globalRulestackName,
+    properties,
+  );
   console.log(result);
 }
 

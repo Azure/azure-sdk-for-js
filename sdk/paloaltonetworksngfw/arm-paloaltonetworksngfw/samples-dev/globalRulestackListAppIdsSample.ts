@@ -1,39 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  GlobalRulestackListAppIdsOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to list of AppIds for GlobalRulestack ApiVersion
+ * This sample demonstrates how to List of AppIds for GlobalRulestack ApiVersion
  *
- * @summary list of AppIds for GlobalRulestack ApiVersion
- * x-ms-original-file: 2025-10-08/GlobalRulestack_listAppIds_MaximumSet_Gen.json
+ * @summary List of AppIds for GlobalRulestack ApiVersion
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listAppIds_MaximumSet_Gen.json
  */
 async function globalRulestackListAppIdsMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
+  const appIdVersion = "8543";
+  const appPrefix = "pref";
+  const skip = "a6a321";
+  const top = 20;
+  const options: GlobalRulestackListAppIdsOptionalParams = {
+    appIdVersion,
+    appPrefix,
+    skip,
+    top,
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.globalRulestack.listAppIds("praval", {
-    appIdVersion: "8543",
-    appPrefix: "pref",
-    skip: "a6a321",
-    top: 20,
-  });
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.listAppIds(
+    globalRulestackName,
+    options,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to list of AppIds for GlobalRulestack ApiVersion
+ * This sample demonstrates how to List of AppIds for GlobalRulestack ApiVersion
  *
- * @summary list of AppIds for GlobalRulestack ApiVersion
- * x-ms-original-file: 2025-10-08/GlobalRulestack_listAppIds_MinimumSet_Gen.json
+ * @summary List of AppIds for GlobalRulestack ApiVersion
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_listAppIds_MinimumSet_Gen.json
  */
 async function globalRulestackListAppIdsMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.globalRulestack.listAppIds("praval");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.globalRulestack.listAppIds(globalRulestackName);
   console.log(result);
 }
 

@@ -1,20 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  LocalRulestackResource,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to create a LocalRulestackResource
+ * This sample demonstrates how to Create a LocalRulestackResource
  *
- * @summary create a LocalRulestackResource
- * x-ms-original-file: 2025-10-08/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary Create a LocalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.createOrUpdate("rgopenapi", "lrs1", {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+  const localRulestackName = "lrs1";
+  const resource: LocalRulestackResource = {
+    description: "local rulestacks",
+    associatedSubscriptions: ["2bf4a339-294d-4c25-b0b2-ef649e9f5c27"],
+    defaultMode: "IPS",
     identity: {
       type: "None",
       userAssignedIdentities: {
@@ -22,45 +32,54 @@ async function localRulestacksCreateOrUpdateMaximumSetGen(): Promise<void> {
       },
     },
     location: "eastus",
-    properties: {
-      description: "local rulestacks",
-      associatedSubscriptions: ["2bf4a339-294d-4c25-b0b2-ef649e9f5c27"],
-      defaultMode: "IPS",
-      minAppIdVersion: "8.5.3",
-      panEtag: "2bf4a339-294d-4c25-b0b2-ef649e9f5c12",
-      panLocation: "eastus",
-      provisioningState: "Accepted",
-      scope: "LOCAL",
-      securityServices: {
-        antiSpywareProfile: "default",
-        antiVirusProfile: "default",
-        dnsSubscription: "default",
-        fileBlockingProfile: "default",
-        outboundTrustCertificate: "default",
-        outboundUnTrustCertificate: "default",
-        urlFilteringProfile: "default",
-        vulnerabilityProfile: "default",
-      },
+    minAppIdVersion: "8.5.3",
+    panEtag: "2bf4a339-294d-4c25-b0b2-ef649e9f5c12",
+    panLocation: "eastus",
+    provisioningState: "Accepted",
+    scope: "LOCAL",
+    securityServices: {
+      antiSpywareProfile: "default",
+      antiVirusProfile: "default",
+      dnsSubscription: "default",
+      fileBlockingProfile: "default",
+      outboundTrustCertificate: "default",
+      outboundUnTrustCertificate: "default",
+      urlFilteringProfile: "default",
+      vulnerabilityProfile: "default",
     },
     tags: { tagName: "value" },
-  });
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
+  const result = await client.localRulestacks.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    localRulestackName,
+    resource,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to create a LocalRulestackResource
+ * This sample demonstrates how to Create a LocalRulestackResource
  *
- * @summary create a LocalRulestackResource
- * x-ms-original-file: 2025-10-08/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary Create a LocalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMinimumSetGen(): Promise<void> {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+  const localRulestackName = "lrs1";
+  const resource: LocalRulestackResource = { location: "eastus" };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.createOrUpdate("rgopenapi", "lrs1", {
-    location: "eastus",
-    properties: {},
-  });
+  const result = await client.localRulestacks.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    localRulestackName,
+    resource,
+  );
   console.log(result);
 }
 

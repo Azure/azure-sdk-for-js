@@ -1,36 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  PreRulesResetCountersOptionalParams,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to reset counters
+ * This sample demonstrates how to Reset counters
  *
- * @summary reset counters
- * x-ms-original-file: 2025-10-08/PreRules_resetCounters_MaximumSet_Gen.json
+ * @summary Reset counters
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_resetCounters_MaximumSet_Gen.json
  */
 async function preRulesResetCountersMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
+  const firewallName = "firewall1";
+  const options: PreRulesResetCountersOptionalParams = { firewallName };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.preRules.resetCounters("lrs1", "1", {
-    firewallName: "firewall1",
-  });
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.preRules.resetCounters(
+    globalRulestackName,
+    priority,
+    options,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to reset counters
+ * This sample demonstrates how to Reset counters
  *
- * @summary reset counters
- * x-ms-original-file: 2025-10-08/PreRules_resetCounters_MinimumSet_Gen.json
+ * @summary Reset counters
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_resetCounters_MinimumSet_Gen.json
  */
 async function preRulesResetCountersMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.preRules.resetCounters("lrs1", "1");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.preRules.resetCounters(
+    globalRulestackName,
+    priority,
+  );
   console.log(result);
 }
 

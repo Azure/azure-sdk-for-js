@@ -1,69 +1,81 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  PostRulesResource,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to create a PostRulesResource
+ * This sample demonstrates how to Create a PostRulesResource
  *
- * @summary create a PostRulesResource
- * x-ms-original-file: 2025-10-08/PostRules_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary Create a PostRulesResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function postRulesCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.postRules.createOrUpdate("lrs1", "1", {
-    properties: {
-      description: "description of post rule",
-      actionType: "Allow",
-      applications: ["app1"],
-      auditComment: "example comment",
-      category: { feeds: ["feed"], urlCustom: ["https://microsoft.com"] },
-      decryptionRuleType: "SSLOutboundInspection",
-      destination: {
-        cidrs: ["1.0.0.1/10"],
-        countries: ["India"],
-        feeds: ["feed"],
-        fqdnLists: ["FQDN1"],
-        prefixLists: ["PL1"],
-      },
-      enableLogging: "DISABLED",
-      etag: "c18e6eef-ba3e-49ee-8a85-2b36c863a9d0",
-      inboundInspectionCertificate: "cert1",
-      negateDestination: "TRUE",
-      negateSource: "TRUE",
-      protocolPortList: ["80"],
-      provisioningState: "Accepted",
-      ruleName: "postRule1",
-      ruleState: "DISABLED",
-      source: {
-        cidrs: ["1.0.0.1/10"],
-        countries: ["India"],
-        feeds: ["feed"],
-        prefixLists: ["PL1"],
-      },
-      tags: [{ key: "keyName", value: "value" }],
-      protocol: "HTTP",
+  const globalRulestackName = "lrs1";
+  const priority = "1";
+  const resource: PostRulesResource = {
+    description: "description of post rule",
+    actionType: "Allow",
+    applications: ["app1"],
+    auditComment: "example comment",
+    category: { feeds: ["feed"], urlCustom: ["https://microsoft.com"] },
+    decryptionRuleType: "SSLOutboundInspection",
+    destination: {
+      cidrs: ["1.0.0.1/10"],
+      countries: ["India"],
+      feeds: ["feed"],
+      fqdnLists: ["FQDN1"],
+      prefixLists: ["PL1"],
     },
-  });
+    enableLogging: "DISABLED",
+    etag: "c18e6eef-ba3e-49ee-8a85-2b36c863a9d0",
+    inboundInspectionCertificate: "cert1",
+    negateDestination: "TRUE",
+    negateSource: "TRUE",
+    protocolPortList: ["80"],
+    provisioningState: "Accepted",
+    ruleName: "postRule1",
+    ruleState: "DISABLED",
+    source: {
+      cidrs: ["1.0.0.1/10"],
+      countries: ["India"],
+      feeds: ["feed"],
+      prefixLists: ["PL1"],
+    },
+    tags: [{ key: "keyName", value: "value" }],
+    protocol: "HTTP",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.beginCreateOrUpdateAndWait(
+    globalRulestackName,
+    priority,
+    resource,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to create a PostRulesResource
+ * This sample demonstrates how to Create a PostRulesResource
  *
- * @summary create a PostRulesResource
- * x-ms-original-file: 2025-10-08/PostRules_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary Create a PostRulesResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PostRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function postRulesCreateOrUpdateMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "lrs1";
+  const priority = "1";
+  const resource: PostRulesResource = { ruleName: "postRule1" };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.postRules.createOrUpdate("lrs1", "1", {
-    properties: { ruleName: "postRule1" },
-  });
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result = await client.postRules.beginCreateOrUpdateAndWait(
+    globalRulestackName,
+    priority,
+    resource,
+  );
   console.log(result);
 }
 

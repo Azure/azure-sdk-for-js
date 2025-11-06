@@ -1,44 +1,70 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import {
+  FqdnListLocalRulestackResource,
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to create a FqdnListLocalRulestackResource
+ * This sample demonstrates how to Create a FqdnListLocalRulestackResource
  *
- * @summary create a FqdnListLocalRulestackResource
- * x-ms-original-file: 2025-10-08/FqdnListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary Create a FqdnListLocalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/FqdnListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fqdnListLocalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+  const localRulestackName = "lrs1";
+  const name = "armid1";
+  const resource: FqdnListLocalRulestackResource = {
+    description: "string",
+    auditComment: "string",
+    etag: "aaaaaaaaaaaaaaaaaa",
+    fqdnList: ["string1", "string2"],
+    provisioningState: "Accepted",
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.fqdnListLocalRulestack.createOrUpdate("rgopenapi", "lrs1", "armid1", {
-    properties: {
-      description: "string",
-      auditComment: "string",
-      etag: "aaaaaaaaaaaaaaaaaa",
-      fqdnList: ["string1", "string2"],
-      provisioningState: "Accepted",
-    },
-  });
+  const result = await client.fqdnListLocalRulestack.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    localRulestackName,
+    name,
+    resource,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to create a FqdnListLocalRulestackResource
+ * This sample demonstrates how to Create a FqdnListLocalRulestackResource
  *
- * @summary create a FqdnListLocalRulestackResource
- * x-ms-original-file: 2025-10-08/FqdnListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary Create a FqdnListLocalRulestackResource
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/FqdnListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function fqdnListLocalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
+  const subscriptionId =
+    process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
+    "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
+  const resourceGroupName =
+    process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
+  const localRulestackName = "lrs1";
+  const name = "armid1";
+  const resource: FqdnListLocalRulestackResource = {
+    fqdnList: ["string1", "string2"],
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.fqdnListLocalRulestack.createOrUpdate("rgopenapi", "lrs1", "armid1", {
-    properties: { fqdnList: ["string1", "string2"] },
-  });
+  const result = await client.fqdnListLocalRulestack.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    localRulestackName,
+    name,
+    resource,
+  );
   console.log(result);
 }
 

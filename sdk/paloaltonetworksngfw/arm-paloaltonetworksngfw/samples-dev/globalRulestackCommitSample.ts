@@ -3,31 +3,36 @@
 
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to commit rulestack configuration
+ * This sample demonstrates how to Commit rulestack configuration
  *
- * @summary commit rulestack configuration
- * x-ms-original-file: 2025-10-08/GlobalRulestack_commit_MaximumSet_Gen.json
+ * @summary Commit rulestack configuration
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_commit_MaximumSet_Gen.json
  */
 async function globalRulestackCommitMaximumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.globalRulestack.commit("praval");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result =
+    await client.globalRulestack.beginCommitAndWait(globalRulestackName);
+  console.log(result);
 }
 
 /**
- * This sample demonstrates how to commit rulestack configuration
+ * This sample demonstrates how to Commit rulestack configuration
  *
- * @summary commit rulestack configuration
- * x-ms-original-file: 2025-10-08/GlobalRulestack_commit_MinimumSet_Gen.json
+ * @summary Commit rulestack configuration
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/GlobalRulestack_commit_MinimumSet_Gen.json
  */
 async function globalRulestackCommitMinimumSetGen(): Promise<void> {
+  const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  await client.globalRulestack.commit("praval");
+  const client = new PaloAltoNetworksCloudngfw(credential);
+  const result =
+    await client.globalRulestack.beginCommitAndWait(globalRulestackName);
+  console.log(result);
 }
 
 async function main(): Promise<void> {
