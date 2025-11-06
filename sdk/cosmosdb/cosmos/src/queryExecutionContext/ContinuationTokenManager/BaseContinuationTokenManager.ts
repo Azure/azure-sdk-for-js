@@ -47,7 +47,6 @@ export abstract class BaseContinuationTokenManager {
     responseResult?: QueryResponseResult,
   ): {
     endIndex: number;
-    processedRanges: string[];
     continuationToken?: string;
   };
 

@@ -78,7 +78,6 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     responseResult?: QueryResponseResult,
   ): {
     endIndex: number;
-    processedRanges: string[];
     continuationToken?: string;
   } {
     // Process response data first if provided
@@ -100,7 +99,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
         : undefined;
 
     return {
-      ...result,
+      endIndex: result.endIndex,
       continuationToken: tokenString,
     };
   }

@@ -45,7 +45,6 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     responseResult?: QueryResponseResult,
   ): {
     endIndex: number;
-    processedRanges: string[];
     continuationToken?: string;
   } {
     // Process response data first if provided
@@ -67,7 +66,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
         : undefined;
 
     return {
-      ...result,
+      endIndex: result.endIndex,
       continuationToken: tokenString,
     };
   }

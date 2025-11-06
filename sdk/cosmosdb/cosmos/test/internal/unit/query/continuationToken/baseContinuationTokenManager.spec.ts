@@ -32,13 +32,11 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     _responseResult?: QueryResponseResult,
   ): {
     endIndex: number;
-    processedRanges: string[];
     continuationToken?: string;
   } {
     // Simple test implementation
     return {
       endIndex: 0,
-      processedRanges: [],
       continuationToken: undefined,
     };
   }
