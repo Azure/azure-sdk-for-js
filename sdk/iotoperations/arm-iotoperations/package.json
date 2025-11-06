@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-iotoperations",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A generated SDK for IoTOperationsClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -12,6 +12,20 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/akriConnector": "./src/api/akriConnector/index.ts",
+      "./api/akriConnectorTemplate": "./src/api/akriConnectorTemplate/index.ts",
+      "./api/registryEndpoint": "./src/api/registryEndpoint/index.ts",
+      "./api/dataflowGraph": "./src/api/dataflowGraph/index.ts",
+      "./api/dataflowEndpoint": "./src/api/dataflowEndpoint/index.ts",
+      "./api/dataflow": "./src/api/dataflow/index.ts",
+      "./api/dataflowProfile": "./src/api/dataflowProfile/index.ts",
+      "./api/brokerAuthorization": "./src/api/brokerAuthorization/index.ts",
+      "./api/brokerAuthentication": "./src/api/brokerAuthentication/index.ts",
+      "./api/brokerListener": "./src/api/brokerListener/index.ts",
+      "./api/broker": "./src/api/broker/index.ts",
+      "./api/instance": "./src/api/instance/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -130,6 +144,258 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/akriConnector": {
+      "browser": {
+        "types": "./dist/browser/api/akriConnector/index.d.ts",
+        "default": "./dist/browser/api/akriConnector/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/akriConnector/index.d.ts",
+        "default": "./dist/react-native/api/akriConnector/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/akriConnector/index.d.ts",
+        "default": "./dist/esm/api/akriConnector/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/akriConnector/index.d.ts",
+        "default": "./dist/commonjs/api/akriConnector/index.js"
+      }
+    },
+    "./api/akriConnectorTemplate": {
+      "browser": {
+        "types": "./dist/browser/api/akriConnectorTemplate/index.d.ts",
+        "default": "./dist/browser/api/akriConnectorTemplate/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/akriConnectorTemplate/index.d.ts",
+        "default": "./dist/react-native/api/akriConnectorTemplate/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/akriConnectorTemplate/index.d.ts",
+        "default": "./dist/esm/api/akriConnectorTemplate/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/akriConnectorTemplate/index.d.ts",
+        "default": "./dist/commonjs/api/akriConnectorTemplate/index.js"
+      }
+    },
+    "./api/registryEndpoint": {
+      "browser": {
+        "types": "./dist/browser/api/registryEndpoint/index.d.ts",
+        "default": "./dist/browser/api/registryEndpoint/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryEndpoint/index.d.ts",
+        "default": "./dist/react-native/api/registryEndpoint/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryEndpoint/index.d.ts",
+        "default": "./dist/esm/api/registryEndpoint/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryEndpoint/index.d.ts",
+        "default": "./dist/commonjs/api/registryEndpoint/index.js"
+      }
+    },
+    "./api/dataflowGraph": {
+      "browser": {
+        "types": "./dist/browser/api/dataflowGraph/index.d.ts",
+        "default": "./dist/browser/api/dataflowGraph/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataflowGraph/index.d.ts",
+        "default": "./dist/react-native/api/dataflowGraph/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataflowGraph/index.d.ts",
+        "default": "./dist/esm/api/dataflowGraph/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataflowGraph/index.d.ts",
+        "default": "./dist/commonjs/api/dataflowGraph/index.js"
+      }
+    },
+    "./api/dataflowEndpoint": {
+      "browser": {
+        "types": "./dist/browser/api/dataflowEndpoint/index.d.ts",
+        "default": "./dist/browser/api/dataflowEndpoint/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataflowEndpoint/index.d.ts",
+        "default": "./dist/react-native/api/dataflowEndpoint/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataflowEndpoint/index.d.ts",
+        "default": "./dist/esm/api/dataflowEndpoint/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataflowEndpoint/index.d.ts",
+        "default": "./dist/commonjs/api/dataflowEndpoint/index.js"
+      }
+    },
+    "./api/dataflow": {
+      "browser": {
+        "types": "./dist/browser/api/dataflow/index.d.ts",
+        "default": "./dist/browser/api/dataflow/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataflow/index.d.ts",
+        "default": "./dist/react-native/api/dataflow/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataflow/index.d.ts",
+        "default": "./dist/esm/api/dataflow/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataflow/index.d.ts",
+        "default": "./dist/commonjs/api/dataflow/index.js"
+      }
+    },
+    "./api/dataflowProfile": {
+      "browser": {
+        "types": "./dist/browser/api/dataflowProfile/index.d.ts",
+        "default": "./dist/browser/api/dataflowProfile/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataflowProfile/index.d.ts",
+        "default": "./dist/react-native/api/dataflowProfile/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataflowProfile/index.d.ts",
+        "default": "./dist/esm/api/dataflowProfile/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataflowProfile/index.d.ts",
+        "default": "./dist/commonjs/api/dataflowProfile/index.js"
+      }
+    },
+    "./api/brokerAuthorization": {
+      "browser": {
+        "types": "./dist/browser/api/brokerAuthorization/index.d.ts",
+        "default": "./dist/browser/api/brokerAuthorization/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/brokerAuthorization/index.d.ts",
+        "default": "./dist/react-native/api/brokerAuthorization/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/brokerAuthorization/index.d.ts",
+        "default": "./dist/esm/api/brokerAuthorization/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/brokerAuthorization/index.d.ts",
+        "default": "./dist/commonjs/api/brokerAuthorization/index.js"
+      }
+    },
+    "./api/brokerAuthentication": {
+      "browser": {
+        "types": "./dist/browser/api/brokerAuthentication/index.d.ts",
+        "default": "./dist/browser/api/brokerAuthentication/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/brokerAuthentication/index.d.ts",
+        "default": "./dist/react-native/api/brokerAuthentication/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/brokerAuthentication/index.d.ts",
+        "default": "./dist/esm/api/brokerAuthentication/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/brokerAuthentication/index.d.ts",
+        "default": "./dist/commonjs/api/brokerAuthentication/index.js"
+      }
+    },
+    "./api/brokerListener": {
+      "browser": {
+        "types": "./dist/browser/api/brokerListener/index.d.ts",
+        "default": "./dist/browser/api/brokerListener/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/brokerListener/index.d.ts",
+        "default": "./dist/react-native/api/brokerListener/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/brokerListener/index.d.ts",
+        "default": "./dist/esm/api/brokerListener/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/brokerListener/index.d.ts",
+        "default": "./dist/commonjs/api/brokerListener/index.js"
+      }
+    },
+    "./api/broker": {
+      "browser": {
+        "types": "./dist/browser/api/broker/index.d.ts",
+        "default": "./dist/browser/api/broker/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/broker/index.d.ts",
+        "default": "./dist/react-native/api/broker/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/broker/index.d.ts",
+        "default": "./dist/esm/api/broker/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/broker/index.d.ts",
+        "default": "./dist/commonjs/api/broker/index.js"
+      }
+    },
+    "./api/instance": {
+      "browser": {
+        "types": "./dist/browser/api/instance/index.d.ts",
+        "default": "./dist/browser/api/instance/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/instance/index.d.ts",
+        "default": "./dist/react-native/api/instance/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/instance/index.d.ts",
+        "default": "./dist/esm/api/instance/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/instance/index.d.ts",
+        "default": "./dist/commonjs/api/instance/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {
