@@ -45,6 +45,11 @@ export interface SchedulesOperations {
   /** Get a schedule by id. */
   get: (id: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
   /** Delete a schedule. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (id: string, options?: SchedulesDeleteOptionalParams) => Promise<void>;
 }
 

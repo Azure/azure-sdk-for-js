@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { list, getWithCredentials, get, getDefault } from "../../api/connections/operations.js";
+import { list, getWithCredentials, get } from "../../api/connections/operations.js";
 import {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
 } from "../../api/connections/options.js";
-import { Connection, ConnectionType } from "../../models/models.js";
+import { Connection } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Connections operations. */
@@ -21,13 +21,7 @@ export interface ConnectionsOperations {
     options?: ConnectionsGetWithCredentialsOptionalParams,
   ) => Promise<Connection>;
   /** Get a connection by name, without populating connection credentials */
-  get: (
-    name: string,
-    includeCredentials?: boolean,
-    options?: ConnectionsGetOptionalParams,
-  ) => Promise<Connection>;
-  /** Get the default connection for the project */
-  getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) => Promise<Connection>;
+  get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
 }
 
 function _getConnections(context: AIProjectContext) {
@@ -35,10 +29,7 @@ function _getConnections(context: AIProjectContext) {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
     getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) =>
       getWithCredentials(context, name, options),
-    get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) =>
-      get(context, name, includeCredentials, options),
-    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) =>
-      getDefault(context, connectionType, includeCredentials),
+    get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
   };
 }
 

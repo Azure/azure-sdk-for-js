@@ -4,7 +4,7 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   memorySearchOptionsSerializer,
-  apiErrorDeserializer,
+  apiErrorResponseDeserializer,
   memoryStoreDefinitionUnionSerializer,
   MemoryStoreDefinitionUnion,
   MemoryStoreObject,
@@ -81,7 +81,7 @@ export async function _deleteScopeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -102,14 +102,14 @@ export async function deleteScope(
 export function _getUpdateResultSend(
   context: Client,
   name: string,
-  updateId: string,
+  update_id: string,
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/memory_stores/{name}/updates/{update_id}{?api-version}",
     {
       name: name,
-      update_id: updateId,
+      update_id: update_id,
       "api-version": context.apiVersion,
     },
     {
@@ -131,7 +131,7 @@ export async function _getUpdateResultDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -142,10 +142,10 @@ export async function _getUpdateResultDeserialize(
 export async function getUpdateResult(
   context: Client,
   name: string,
-  updateId: string,
+  update_id: string,
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreUpdateResponse> {
-  const result = await _getUpdateResultSend(context, name, updateId, options);
+  const result = await _getUpdateResultSend(context, name, update_id, options);
   return _getUpdateResultDeserialize(result);
 }
 
@@ -174,10 +174,10 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversationId,
+      conversation_id: options?.conversation_id,
       items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
-      previous_update_id: options?.previousUpdateId,
-      update_delay: options?.updateDelay,
+      previous_update_id: options?.previous_update_id,
+      update_delay: options?.update_delay,
     },
   });
 }
@@ -188,7 +188,7 @@ export async function _updateMemoriesDeserialize(
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -210,7 +210,7 @@ export function updateMemories(
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
+    update_interval_in_ms: options?.update_interval_in_ms,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
   }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
@@ -241,9 +241,9 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversationId,
+      conversation_id: options?.conversation_id,
       items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
-      previous_search_id: options?.previousSearchId,
+      previous_search_id: options?.previous_search_id,
       options: !options?.options
         ? options?.options
         : memorySearchOptionsSerializer(options?.options),
@@ -257,7 +257,7 @@ export async function _searchMemoriesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -305,7 +305,7 @@ export async function _deleteMemoryStoreDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -354,7 +354,7 @@ export async function _listMemoryStoresDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -405,7 +405,7 @@ export async function _getMemoryStoreDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -454,7 +454,7 @@ export async function _updateMemoryStoreDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 
@@ -508,7 +508,7 @@ export async function _createMemoryStoreDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    error.details = apiErrorResponseDeserializer(result.body);
     throw error;
   }
 

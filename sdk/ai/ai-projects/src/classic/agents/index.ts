@@ -60,24 +60,24 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
   /** List container operations for a specific version of an agent. */
-  listVersionContainerOperations: (
+  listAgentVersionContainerOperations: (
     agentName: string,
     agentVersion: string,
     options?: AgentsListAgentVersionContainerOperationsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
   /** List container operations for an agent. */
-  listContainerOperations: (
+  listAgentContainerOperations: (
     agentName: string,
     options?: AgentsListAgentContainerOperationsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
   /** Get the status of a container operation for an agent. */
-  getContainerOperation: (
+  getAgentContainerOperation: (
     agentName: string,
     operationId: string,
     options?: AgentsGetAgentContainerOperationOptionalParams,
   ) => Promise<AgentContainerOperationObject>;
   /** Get a container for a specific version of an agent. */
-  getContainer: (
+  getAgentContainer: (
     agentName: string,
     agentVersion: string,
     options?: AgentsGetAgentContainerOptionalParams,
@@ -87,7 +87,7 @@ export interface AgentsOperations {
    * The operation is a long-running operation. Following the design guidelines for long-running operations in Azure REST APIs.
    * https://github.com/microsoft/api-guidelines/blob/vNext/azure/ConsiderationsForServiceDesign.md#action-operations
    */
-  deleteContainer: (
+  deleteAgentContainer: (
     agentName: string,
     agentVersion: string,
     options?: AgentsDeleteAgentContainerOptionalParams,
@@ -97,7 +97,7 @@ export interface AgentsOperations {
    * The operation is a long-running operation. Following the design guidelines for long-running operations in Azure REST APIs.
    * https://github.com/microsoft/api-guidelines/blob/vNext/azure/ConsiderationsForServiceDesign.md#action-operations
    */
-  stopContainer: (
+  stopAgentContainer: (
     agentName: string,
     agentVersion: string,
     options?: AgentsStopAgentContainerOptionalParams,
@@ -107,7 +107,7 @@ export interface AgentsOperations {
    * The operation is a long-running operation. Following the design guidelines for long-running operations in Azure REST APIs.
    * https://github.com/microsoft/api-guidelines/blob/vNext/azure/ConsiderationsForServiceDesign.md#action-operations
    */
-  updateContainer: (
+  updateAgentContainer: (
     agentName: string,
     agentVersion: string,
     options?: AgentsUpdateAgentContainerOptionalParams,
@@ -117,45 +117,45 @@ export interface AgentsOperations {
    * The operation is a long-running operation. Following the design guidelines for long-running operations in Azure REST APIs.
    * https://github.com/microsoft/api-guidelines/blob/vNext/azure/ConsiderationsForServiceDesign.md#action-operations
    */
-  startContainer: (
+  startAgentContainer: (
     agentName: string,
     agentVersion: string,
     options?: AgentsStartAgentContainerOptionalParams,
   ) => Promise<AgentContainerOperationObject>;
   /** Returns the list of versions of an agent. */
-  listVersions: (
+  listAgentVersions: (
     agentName: string,
     options?: AgentsListAgentVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentVersionObject>;
   /** Deletes a specific version of an agent. */
-  deleteVersion: (
+  deleteAgentVersion: (
     agentName: string,
     agentVersion: string,
     options?: AgentsDeleteAgentVersionOptionalParams,
   ) => Promise<DeleteAgentVersionResponse>;
   /** Retrieves a specific version of an agent. */
-  getVersion: (
+  getAgentVersion: (
     agentName: string,
     agentVersion: string,
     options?: AgentsGetAgentVersionOptionalParams,
   ) => Promise<AgentVersionObject>;
   /** Create a new agent version from a manifest. */
-  createVersionFromManifest: (
+  createAgentVersionFromManifest: (
     agentName: string,
     manifestId: string,
     parameterValues: Record<string, any>,
     options?: AgentsCreateAgentVersionFromManifestOptionalParams,
   ) => Promise<AgentVersionObject>;
   /** Create a new agent version. */
-  createVersion: (
+  createAgentVersion: (
     agentName: string,
     definition: AgentDefinitionUnion,
     options?: AgentsCreateAgentVersionOptionalParams,
   ) => Promise<AgentVersionObject>;
   /** Returns the list of all agents. */
-  list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
+  listAgents: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
   /** Deletes an agent. */
-  delete: (
+  deleteAgent: (
     agentName: string,
     options?: AgentsDeleteAgentOptionalParams,
   ) => Promise<DeleteAgentResponse>;
@@ -163,14 +163,14 @@ export interface AgentsOperations {
    * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
-  updateFromManifest: (
+  updateAgentFromManifest: (
     agentName: string,
     manifestId: string,
     parameterValues: Record<string, any>,
     options?: AgentsUpdateAgentFromManifestOptionalParams,
   ) => Promise<AgentObject>;
   /** Creates an agent from a manifest. */
-  createFromManifest: (
+  createAgentFromManifest: (
     name: string,
     manifestId: string,
     parameterValues: Record<string, any>,
@@ -180,111 +180,111 @@ export interface AgentsOperations {
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
-  update: (
+  updateAgent: (
     agentName: string,
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<AgentObject>;
   /** Creates the agent. */
-  create: (
+  createAgent: (
     name: string,
     definition: AgentDefinitionUnion,
     options?: AgentsCreateAgentOptionalParams,
   ) => Promise<AgentObject>;
   /** Retrieves the agent. */
-  get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
+  getAgent: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
 }
 
 function _getAgents(context: AIProjectContext) {
   return {
-    listVersionContainerOperations: (
+    listAgentVersionContainerOperations: (
       agentName: string,
       agentVersion: string,
       options?: AgentsListAgentVersionContainerOperationsOptionalParams,
     ) => listAgentVersionContainerOperations(context, agentName, agentVersion, options),
-    listContainerOperations: (
+    listAgentContainerOperations: (
       agentName: string,
       options?: AgentsListAgentContainerOperationsOptionalParams,
     ) => listAgentContainerOperations(context, agentName, options),
-    getContainerOperation: (
+    getAgentContainerOperation: (
       agentName: string,
       operationId: string,
       options?: AgentsGetAgentContainerOperationOptionalParams,
     ) => getAgentContainerOperation(context, agentName, operationId, options),
-    getContainer: (
+    getAgentContainer: (
       agentName: string,
       agentVersion: string,
       options?: AgentsGetAgentContainerOptionalParams,
     ) => getAgentContainer(context, agentName, agentVersion, options),
-    deleteContainer: (
+    deleteAgentContainer: (
       agentName: string,
       agentVersion: string,
       options?: AgentsDeleteAgentContainerOptionalParams,
     ) => deleteAgentContainer(context, agentName, agentVersion, options),
-    stopContainer: (
+    stopAgentContainer: (
       agentName: string,
       agentVersion: string,
       options?: AgentsStopAgentContainerOptionalParams,
     ) => stopAgentContainer(context, agentName, agentVersion, options),
-    updateContainer: (
+    updateAgentContainer: (
       agentName: string,
       agentVersion: string,
       options?: AgentsUpdateAgentContainerOptionalParams,
     ) => updateAgentContainer(context, agentName, agentVersion, options),
-    startContainer: (
+    startAgentContainer: (
       agentName: string,
       agentVersion: string,
       options?: AgentsStartAgentContainerOptionalParams,
     ) => startAgentContainer(context, agentName, agentVersion, options),
-    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) =>
+    listAgentVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) =>
       listAgentVersions(context, agentName, options),
-    deleteVersion: (
+    deleteAgentVersion: (
       agentName: string,
       agentVersion: string,
       options?: AgentsDeleteAgentVersionOptionalParams,
     ) => deleteAgentVersion(context, agentName, agentVersion, options),
-    getVersion: (
+    getAgentVersion: (
       agentName: string,
       agentVersion: string,
       options?: AgentsGetAgentVersionOptionalParams,
     ) => getAgentVersion(context, agentName, agentVersion, options),
-    createVersionFromManifest: (
+    createAgentVersionFromManifest: (
       agentName: string,
       manifestId: string,
       parameterValues: Record<string, any>,
       options?: AgentsCreateAgentVersionFromManifestOptionalParams,
     ) => createAgentVersionFromManifest(context, agentName, manifestId, parameterValues, options),
-    createVersion: (
+    createAgentVersion: (
       agentName: string,
       definition: AgentDefinitionUnion,
       options?: AgentsCreateAgentVersionOptionalParams,
     ) => createAgentVersion(context, agentName, definition, options),
-    list: (options?: AgentsListAgentsOptionalParams) => listAgents(context, options),
-    delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) =>
+    listAgents: (options?: AgentsListAgentsOptionalParams) => listAgents(context, options),
+    deleteAgent: (agentName: string, options?: AgentsDeleteAgentOptionalParams) =>
       deleteAgent(context, agentName, options),
-    updateFromManifest: (
+    updateAgentFromManifest: (
       agentName: string,
       manifestId: string,
       parameterValues: Record<string, any>,
       options?: AgentsUpdateAgentFromManifestOptionalParams,
     ) => updateAgentFromManifest(context, agentName, manifestId, parameterValues, options),
-    createFromManifest: (
+    createAgentFromManifest: (
       name: string,
       manifestId: string,
       parameterValues: Record<string, any>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
     ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
-    update: (
+    updateAgent: (
       agentName: string,
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
-    create: (
+    createAgent: (
       name: string,
       definition: AgentDefinitionUnion,
       options?: AgentsCreateAgentOptionalParams,
     ) => createAgent(context, name, definition, options),
-    get: (agentName: string, options?: AgentsGetAgentOptionalParams) =>
+    getAgent: (agentName: string, options?: AgentsGetAgentOptionalParams) =>
       getAgent(context, agentName, options),
   };
 }

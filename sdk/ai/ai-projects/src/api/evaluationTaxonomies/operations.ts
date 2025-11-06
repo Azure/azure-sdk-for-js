@@ -35,7 +35,7 @@ export function _updateSend(
   options: EvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluation_taxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
@@ -84,7 +84,7 @@ export function _createSend(
   options: EvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluation_taxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
@@ -107,7 +107,7 @@ export function _createSend(
 export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EvaluationTaxonomy> {
-  const expectedStatuses = ["201"];
+  const expectedStatuses = ["201", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -132,7 +132,7 @@ export function _$deleteSend(
   options: EvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluation_taxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
@@ -162,6 +162,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an evaluation taxonomy by name. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   name: string,
@@ -176,7 +181,7 @@ export function _listSend(
   options: EvaluationTaxonomiesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluation_taxonomies{?api-version,inputName,inputType}",
+    "/evaluationtaxonomies{?api-version,inputName,inputType}",
     {
       "api-version": context.apiVersion,
       inputName: options?.inputName,
@@ -229,7 +234,7 @@ export function _getSend(
   options: EvaluationTaxonomiesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluation_taxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,

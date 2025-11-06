@@ -15,7 +15,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface GetLongRunningPollerOptions<TResponse> {
   /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
+  update_interval_in_ms?: number;
   /**
    * The signal which can be used to abort requests.
    */
@@ -93,7 +93,7 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
     },
   };
   return createHttpPoller(poller, {
-    intervalInMs: options?.updateIntervalInMs,
+    intervalInMs: options?.update_interval_in_ms,
     resourceLocationConfig: options?.resourceLocationConfig,
     restoreFrom: options?.restoreFrom,
     processResult: (result: unknown) => {

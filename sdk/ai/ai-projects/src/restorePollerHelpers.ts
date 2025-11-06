@@ -13,15 +13,12 @@ import {
   ResourceLocationConfig,
 } from "@azure/core-lro";
 
-/**
- * Options for restoring a poller.
- */
 export interface RestorePollerOptions<
   TResult,
   TResponse extends PathUncheckedResponse = PathUncheckedResponse,
 > extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
+  update_interval_in_ms?: number;
   /**
    * The signal which can be used to abort requests.
    */
@@ -64,7 +61,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     deserializeHelper as (result: TResponse) => Promise<TResult>,
     expectedStatuses,
     {
-      updateIntervalInMs: options?.updateIntervalInMs,
+      update_interval_in_ms: options?.update_interval_in_ms,
       abortSignal: options?.abortSignal,
       resourceLocationConfig,
       restoreFrom: serializedState,

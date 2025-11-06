@@ -18,11 +18,16 @@ export interface IndexesOperations {
   /** Create a new or update an existing Index with the given version id */
   createOrUpdate: (
     name: string,
-    version: string,
     index: IndexUnion,
+    version: string,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
   /** Delete the specific version of the Index. The service returns 204 No Content if the Index was deleted successfully or if the Index does not exist. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
   /** Get the specific version of the Index. The service returns 404 Not Found error if the Index does not exist. */
   get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
@@ -39,10 +44,10 @@ function _getIndexes(context: AIProjectContext) {
   return {
     createOrUpdate: (
       name: string,
-      version: string,
       index: IndexUnion,
+      version: string,
       options?: IndexesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, index, options),
+    ) => createOrUpdate(context, name, index, version, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: IndexesGetOptionalParams) =>
