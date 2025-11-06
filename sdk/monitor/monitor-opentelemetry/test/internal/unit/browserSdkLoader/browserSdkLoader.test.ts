@@ -3,7 +3,6 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import assert from "node:assert";
 import type http from "node:http";
 import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader.js";
 import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper.js";
@@ -12,7 +11,7 @@ import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js"
 import { getOsPrefix } from "../../../../src/utils/common.js";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
-import { vi, describe, beforeEach, afterEach, afterAll, it, expect } from "vitest";
+import { assert, vi, describe, beforeEach, afterEach, afterAll, it, expect } from "vitest";
 import { Logger } from "../../../../src/shared/logging/logger.js";
 
 describe("#BrowserSdkLoader", () => {
@@ -126,7 +125,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
+    assert.equal(newHtml.indexOf("<html><head>"), 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
       "Instrumentation Key is not set correctly",
@@ -163,8 +162,8 @@ describe("#BrowserSdkLoader", () => {
     response.setHeader("Content-Length", 39);
     const validHtml = "<html><head></head><body></body></html>";
     const newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
-    assert.ok(newHtml.length > 4000);
-    assert.ok(Number(response.getHeader("Content-Length")) > 4000); // Content length updated
+    assert.isTrue(newHtml.length > 4000);
+    assert.isTrue(Number(response.getHeader("Content-Length")) > 4000); // Content length updated
   });
 
   it("browser SDK loader be constructed using the proper verison prefix ", () => {
@@ -204,7 +203,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
+    assert.equal(newHtml.indexOf("<html><head>"), 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf(expectedSdkVersion) >= 0,
       `Expected string does not exist in the snippet. Expected: ${expectedSdkVersion} in ${newHtml}`,
@@ -248,7 +247,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
+    assert.equal(newHtml.indexOf("<html><head>"), 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
       "Instrumentation Key is not set correctly",
@@ -292,10 +291,10 @@ describe("#BrowserSdkLoader", () => {
     response.setHeader("Content-Length", originalBufferSize);
     const newHtml = browserSdkLoader.InjectSdkLoader(response, validBuffer);
     const isValidBufferEncode = BrowserSdkLoaderHelper.isBufferType(validBuffer, "utf8");
-    assert.ok(isValidBufferEncode);
+    assert.isTrue(isValidBufferEncode);
 
-    assert.ok(newHtml.length > originalBufferSize);
-    assert.ok(Number(response.getHeader("Content-Length")) > originalBufferSize); // Content length updated
+    assert.isTrue(newHtml.length > originalBufferSize);
+    assert.isTrue(Number(response.getHeader("Content-Length")) > originalBufferSize); // Content length updated
   });
 
   it("injection should use correct connection string from config", () => {
@@ -335,7 +334,7 @@ describe("#BrowserSdkLoader", () => {
       newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
       "src path does not exist in the snippet",
     );
-    assert.ok(newHtml.indexOf("<html><head>") === 0, "No snippet content was populated");
+    assert.equal(newHtml.indexOf("<html><head>"), 0, "No snippet content was populated");
     assert.ok(
       newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
       "Instrumentation Key is not set correctly",

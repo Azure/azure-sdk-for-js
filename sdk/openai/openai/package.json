@@ -123,7 +123,7 @@
     "@azure/logger": "^1.1.4",
     "@azure/search-documents": "^12.1.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

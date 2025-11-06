@@ -77,7 +77,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     configureStorageClient(recorder, serviceClientWithSAS);
 
     const result = (await serviceClientWithSAS.listShares().byPage().next()).value;
-    assert.ok(result.shareItems!.length >= 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -109,7 +109,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
@@ -139,7 +139,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
@@ -172,7 +172,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       error = err;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
   });
 
   it("generateFileSASQueryParameters should work for share", async () => {
@@ -207,8 +207,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
     const result = (await dirURLwithSAS.listFilesAndDirectories().byPage().next()).value;
-    assert.ok(result.segment.directoryItems!.length >= 0);
-    assert.ok(result.segment.fileItems!.length >= 0);
+    assert.isAtLeast(result.segment.directoryItems!.length, 0);
+    assert.isAtLeast(result.segment.fileItems!.length, 0);
 
     await shareClient.delete();
   });
@@ -331,8 +331,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const dirClientwithSAS = shareClientwithSAS.getDirectoryClient("");
     const result = (await dirClientwithSAS.listFilesAndDirectories().byPage().next()).value;
-    assert.ok(result.segment.directoryItems!.length >= 0);
-    assert.ok(result.segment.fileItems!.length >= 0);
+    assert.isAtLeast(result.segment.directoryItems!.length, 0);
+    assert.isAtLeast(result.segment.fileItems!.length, 0);
     await shareClient.delete();
   });
 
@@ -436,7 +436,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const serviceClientWithSAS = new ShareServiceClient(sasURL);
     configureStorageClient(recorder, serviceClientWithSAS);
     const result = (await serviceClientWithSAS.listShares().byPage().next()).value;
-    assert.ok(result.shareItems!.length >= 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
   });
 
   it("ShareServiceClient.generateAccountSasUrl should work with default parameters", async () => {
@@ -450,10 +450,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await serviceClientWithSAS.generateAccountSasUrl();
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("ShareCleint.generateSasUrl should work", async () => {
@@ -496,18 +496,18 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     configureStorageClient(recorder, shareClientwithSAS);
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
     const result = (await dirURLwithSAS.listFilesAndDirectories().byPage().next()).value;
-    assert.ok(result.segment.directoryItems!.length >= 0);
-    assert.ok(result.segment.fileItems!.length >= 0);
+    assert.isAtLeast(result.segment.directoryItems!.length, 0);
+    assert.isAtLeast(result.segment.fileItems!.length, 0);
 
     // Should throw with client constructed with an Anonymous credential.
     let exceptionCaught = false;
     try {
       shareClient.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     await shareClient.delete();
   });
@@ -585,10 +585,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       fileClient.generateSasUrl({});
     } catch (err: any) {
-      assert.ok(err instanceof RangeError);
+      assert.instanceOf(err, RangeError);
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     await shareClient.delete();
   });
@@ -631,8 +631,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       replaceIfExists: true,
     });
 
-    assert.ok(
-      result.destinationFileClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationFileClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -640,7 +641,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+      assert.strictEqual(err.statusCode as number, 404, "Source file should not exist anymore");
     }
   });
 
@@ -682,8 +683,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       replaceIfExists: true,
     });
 
-    assert.ok(
-      result.destinationDirectoryClient.name === destFileName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destFileName,
       "Destination name should be expected",
     );
 
@@ -717,7 +719,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     try {
       await shareClient.create();
     } catch (err) {
-      assert.ok((err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"));
+      assert.isTrue(
+        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+      );
     }
   });
 });
