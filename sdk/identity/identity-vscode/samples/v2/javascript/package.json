@@ -1,38 +1,36 @@
 {
-  "name": "@azure-samples/identity-js-beta",
+  "name": "@azure-samples/identity-vscode-js",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Identity client library samples for JavaScript (Beta)",
+  "description": "Azure Identity Visual Studio Code Plugin client library samples for JavaScript",
   "engines": {
     "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/identity/identity"
+    "directory": "sdk/identity/identity-vscode"
   },
   "keywords": [
     "azure",
     "cloud",
-    "entra id",
+    "active directory",
     "authentication",
     "credential",
     "certificate",
-    "managed identity",
-    "client secret",
-    "access token"
+    "vscode",
+    "account"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode",
   "dependencies": {
-    "@azure/identity": "next",
+    "@azure/identity-vscode": "latest",
     "dotenv": "latest",
-    "@azure/keyvault-keys": "4.10.0",
-    "@azure/core-rest-pipeline": "^1.17.0"
+    "@azure/identity": "^4.11.0"
   },
   "devDependencies": {
     "cross-env": "latest"

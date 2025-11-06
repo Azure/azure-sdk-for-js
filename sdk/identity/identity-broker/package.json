@@ -35,8 +35,7 @@
   "keywords": [
     "azure",
     "cloud",
-    "azure",
-    "azure-active-directory",
+    "entra-id",
     "WAM",
     "MSA support"
   ],
@@ -78,11 +77,11 @@
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",
     "productSlugs": [
-      "azure",
-      "azure-active-directory"
+      "entra",
+      "entra-id"
     ],
     "requiredResources": {
-      "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app"
+      "Microsoft Entra App Registration": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app"
     }
   },
   "type": "module",

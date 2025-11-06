@@ -74,6 +74,16 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Identity Visual Studio Code Plugin",
+    "productSlugs": [
+      "entra",
+      "entra-id"
+    ],
+    "requiredResources": {
+      "Microsoft Entra App Registration": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app"
+    }
+  },
   "type": "module",
   "tshy": {
     "project": "../../../tsconfig.src.build.json",
