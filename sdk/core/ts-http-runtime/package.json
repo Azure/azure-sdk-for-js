@@ -1,6 +1,6 @@
 {
   "name": "@typespec/ts-http-runtime",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
