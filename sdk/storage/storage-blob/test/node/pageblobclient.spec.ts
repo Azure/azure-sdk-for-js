@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import {
   getBSU,
   getConnectionStringFromEnvironment,
@@ -11,12 +12,7 @@ import {
   configureBlobStorageClient,
   SimpleTokenCredential,
 } from "../utils/index.js";
-import type {
-  StorageSharedKeyCredential,
-  ContainerClient,
-  BlobClient,
-  BlobServiceClient,
-} from "../../src/index.js";
+import type { ContainerClient, BlobClient, BlobServiceClient } from "../../src/index.js";
 import {
   newPipeline,
   PageBlobClient,

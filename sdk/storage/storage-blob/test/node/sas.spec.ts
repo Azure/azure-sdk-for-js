@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  StorageSharedKeyCredential,
-  Tags,
-  UserDelegationKey,
-  BlobImmutabilityPolicyMode,
-} from "../../src/index.js";
+
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
+import type { Tags, UserDelegationKey, BlobImmutabilityPolicyMode } from "../../src/index.js";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
-  AnonymousCredential,
   BlobSASPermissions,
   ContainerSASPermissions,
   ContainerClient,

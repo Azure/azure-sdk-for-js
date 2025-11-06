@@ -7,12 +7,13 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+
 import type {
   BlobImmutabilityPolicyMode,
   BlobServiceClient,
   BlockBlobClient,
   ContainerClient,
-  StorageSharedKeyCredential,
 } from "../../src/index.js";
 import {
   BlobClient,
