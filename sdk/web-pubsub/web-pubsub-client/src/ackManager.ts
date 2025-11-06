@@ -89,8 +89,8 @@ export class AckManager {
 
 class AckEntity {
   private readonly _promise: Promise<WebPubSubResult>;
-  private _resolve?: (value: WebPubSubResult | PromiseLike<WebPubSubResult>) => void;
-  private _reject?: (reason?: unknown) => void;
+  private _resolve: ((value: WebPubSubResult | PromiseLike<WebPubSubResult>) => void) | undefined;
+  private _reject: ((reason?: unknown) => void) | undefined;
 
   constructor(public readonly ackId: number) {
     this._promise = new Promise<WebPubSubResult>((resolve, reject) => {
@@ -104,10 +104,22 @@ class AckEntity {
   }
 
   public resolve(value: WebPubSubResult | PromiseLike<WebPubSubResult>): void {
-    this._resolve!(value);
+    const callback = this._resolve;
+    if (!callback) {
+      return;
+    }
+    this._resolve = undefined;
+    this._reject = undefined;
+    callback(value);
   }
 
   public reject(reason?: unknown): void {
-    this._reject!(reason);
+    const callback = this._reject;
+    if (!callback) {
+      return;
+    }
+    this._resolve = undefined;
+    this._reject = undefined;
+    callback(reason);
   }
 }
