@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists all the tasks for a specified container registry.
  *
  * @summary Lists all the tasks for a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/RegistryTasks/preview/2019-06-01-preview/examples/TasksList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/preview/2019-06-01-preview/examples/TasksList.json
  */
 async function tasksList() {
   const subscriptionId =
