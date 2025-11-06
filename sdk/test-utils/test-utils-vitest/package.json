@@ -47,13 +47,13 @@
     "@azure/core-tracing": "^1.1.2",
     "@opentelemetry/api": "^1.9.0",
     "tslib": "^2.6.3",
-    "vitest": "^3.0.9"
+    "vitest": "catalog:testing"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "@vitest/expect": "catalog:testing",
     "cross-env": "catalog:",

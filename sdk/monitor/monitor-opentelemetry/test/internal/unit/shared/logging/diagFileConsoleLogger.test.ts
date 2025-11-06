@@ -135,7 +135,7 @@ describe("Library/DiagFileConsoleLogger", () => {
 
     it("should remove backup files", async () => {
       vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
-        // eslint-disable-next-line @typescript-eslint/require-await
+        // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unsafe-return
         async () =>
           [
             "applicationinsights.log",
@@ -151,7 +151,7 @@ describe("Library/DiagFileConsoleLogger", () => {
 
     it("cleanup should keep configured number of backups", async () => {
       vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
-        // eslint-disable-next-line @typescript-eslint/require-await
+        // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unsafe-return
         async () =>
           [
             "applicationinsights.log",

@@ -44,7 +44,7 @@
     "@azure-tools/test-credential": "workspace:*",
     "@azure-tools/test-utils-vitest": "workspace:*",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "playwright": "catalog:testing",
     "vitest": "catalog:testing"
