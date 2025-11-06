@@ -25,7 +25,9 @@ describe("finetuning - basic", () => {
     await recorder.stop();
   });
 
-  async function uploadFileAndWait(fileName: string): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
+  async function uploadFileAndWait(
+    fileName: string,
+  ): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
     const dataUrl = new URL(`./data/${fileName}`, import.meta.url);
     const fs = await import("fs");
     console.log(`Uploading file`);

@@ -8,84 +8,34 @@
  * and perform fine-tuning operations: create, retrieve, list, pause, resume, list events, cancel, and list checkpoints.
  */
 
-const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-const OpenAI = require("openai").default;
-const fs = require("fs");
-const path = require("path");
-require("dotenv/config");
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
+import type OpenAI from "openai";
+import * as fs from "fs";
+import * as path from "path";
+import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const openAiBaseUrl = `${endpoint}/openai`;
-
 const modelName = process.env["MODEL_NAME"] || "gpt-4.1";
 const trainingFilePath = path.join(__dirname, "data", "training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "validation_set.jsonl");
 
-async function createOpenAI() {
-  const credential = new DefaultAzureCredential();
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
-
-  return new OpenAI({
-    apiKey: azureADTokenProvider,
-    baseURL: openAiBaseUrl,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-  });
-}
-
-async function uploadFileAndWait(openAiClient, filePath) {
-  console.log(`Uploading file from path: ${filePath}`);
-  const created = await openAiClient.files.create({
-    file: fs.createReadStream(filePath),
-    purpose: "fine-tune",
-  });
-  console.log(`Uploaded file with ID: ${created.id}`);
-
-  return openAiClient.files.retrieve(created.id);
-}
-
 async function waitForJob(
-  client,
-  jobId,
-  target,
+  client: OpenAI,
+  jobId: string,
+  target: string,
   {
     timeoutMs = 24 * 60 * 60_000, // 24 hours default; bump higher for busy regions/large jobs
     pollMs = 60_000, // poll every 1 minute
-  } = {},
-) {
-  // Target-specific predicates
-  const predicates = {
-    trainingStarted: async (job) => {
-      if (job.status === "trainingStarted") return true;
-      return false;
-    },
-
-    paused: async (job) => {
-      if (job.status === "paused") return true;
-      return false;
-    },
-
-    running: async (job) => {
-      if (job.status === "running") return true;
-      return false;
-    },
-  };
-  if (!predicates[target]) {
-    throw new Error(
-      `Unsupported target '${target}'. Use 'trainingStarted' | 'paused' | 'running'.`,
-    );
-  }
-
+  }: { timeoutMs?: number; pollMs?: number } = {},
+): Promise<void> {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
     const job = await client.fineTuning.jobs.retrieve(jobId);
-
     console.log(`[waitForJob] job=${jobId} status=${job.status} target=${target}`);
-
-    if (await predicates[target](job)) {
+    if (job.status === target) {
       return;
     }
-
     await new Promise((resolve) => setTimeout(resolve, pollMs));
   }
 
@@ -94,18 +44,25 @@ async function waitForJob(
   );
 }
 
-async function main() {
-  console.log("Getting Azure OpenAI client from AI Project (via AAD token)...");
-  const openAI = await createOpenAI();
+async function main(): Promise<void> {
+  console.log("Getting Azure OpenAI client from AI Project.");
+  const projectClient = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const openAI = await projectClient.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Upload training and validation files
   console.log("\nUploading training file...");
-  const trainingFile = await uploadFileAndWait(openAI, trainingFilePath);
+  const trainingFile = await openAI.files.create({
+    file: fs.createReadStream(trainingFilePath),
+    purpose: "fine-tune",
+  });
   console.log("Training file processed successfully.");
 
   console.log("\nUploading validation file...");
-  const validationFile = await uploadFileAndWait(openAI, validationFilePath);
+  const validationFile = await openAI.files.create({
+    file: fs.createReadStream(validationFilePath),
+    purpose: "fine-tune",
+  });
   console.log("Validation file processed successfully.");
 
   // 2) Create a supervised fine-tuning job
@@ -165,6 +122,7 @@ async function main() {
   // 8) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
   const cancelledJob = await openAI.fineTuning.jobs.cancel(fineTuningJob.id);
+  await waitForJob(openAI, fineTuningJob.id, "canceled");
   console.log(
     `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
   );
@@ -181,12 +139,16 @@ async function main() {
   console.log(`Deleting file with ID: ${trainingFile.id}`);
   const deletedTrainingFile = await openAI.files.delete(trainingFile.id);
   console.log(
-    `Successfully deleted file: ${deletedTrainingFile?.id || trainingFile.id}, deleted=${String(deletedTrainingFile?.deleted ?? true)}`,
+    `Successfully deleted file: ${deletedTrainingFile?.id || trainingFile.id}, deleted=${String(
+      deletedTrainingFile?.deleted ?? true,
+    )}`,
   );
   console.log(`Deleting file with ID: ${validationFile.id}`);
   const deletedValidationFile = await openAI.files.delete(validationFile.id);
   console.log(
-    `Successfully deleted file: ${deletedValidationFile?.id || validationFile.id}, deleted=${String(deletedValidationFile?.deleted ?? true)}`,
+    `Successfully deleted file: ${deletedValidationFile?.id || validationFile.id}, deleted=${String(
+      deletedValidationFile?.deleted ?? true,
+    )}`,
   );
 }
 
