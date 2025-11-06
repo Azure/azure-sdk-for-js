@@ -38,7 +38,10 @@ export async function main(): Promise<void> {
   // Upload file to vector store
   try {
     const fileStream = fs.createReadStream(assetFilePath);
-    const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(vectorStore.id, fileStream);
+    const uploadedFile = await openAIClient.vectorStores.files.uploadAndPoll(
+      vectorStore.id,
+      fileStream,
+    );
     console.log(`File uploaded to vector store (id: ${uploadedFile.id})`);
     console.log("File processing completed");
   } catch (error: any) {
