@@ -78,14 +78,25 @@ foreach ($packageInfoFile in $packageInfoFiles) {
     # Run dev-tool samples publish
     Push-Location $packageDir
     
-    # Capture all output (stdout and stderr)
-    $output = & npx dev-tool samples publish --output-path $tempOutputDir 2>&1 | Out-String
+    # Capture output line by line to avoid memory issues with large output
+    $outputLines = @()
+    $error.Clear()
+    
+    & npx dev-tool samples publish --output-path $tempOutputDir 2>&1 | ForEach-Object {
+      $outputLines += $_
+      # Show progress during execution
+      if ($_.ToString() -match "^\[publish\]") {
+        Write-Host "  $_" -ForegroundColor Gray
+      }
+    }
     $exitCode = $LASTEXITCODE
     
     if ($exitCode -ne 0) {
       Write-Host "  ✗ Failed to publish samples for $($packageInfo.Name)" -ForegroundColor Red
-      Write-Host "  Output:"
-      Write-Host $output
+      if ($outputLines.Count -gt 0) {
+        Write-Host "  Output:"
+        $outputLines | ForEach-Object { Write-Host "    $_" }
+      }
       $allSuccess = $false
       $failedCount++
     } else {
@@ -102,7 +113,12 @@ foreach ($packageInfoFile in $packageInfoFiles) {
     
     # Clean up temporary directory
     if (Test-Path $tempOutputDir) {
-      Remove-Item -Path $tempOutputDir -Recurse -Force -ErrorAction SilentlyContinue
+      try {
+        Remove-Item -Path $tempOutputDir -Recurse -Force
+      }
+      catch {
+        Write-Warning "Failed to clean up temporary directory: $tempOutputDir. Error: $_"
+      }
     }
   }
 }
