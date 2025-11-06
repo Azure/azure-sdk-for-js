@@ -22,6 +22,7 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
   private container: Container;
   private encryptionClientContext: ClientContext;
   private encryptionOptions: FeedOptions;
+  private originalQuery: SqlQuerySpec | string;
 
   constructor(
     clientContext: ClientContext,
@@ -34,38 +35,38 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     this.container = container;
     this.encryptionClientContext = clientContext;
     this.encryptionOptions = options;
+    this.originalQuery = query;
   }
 
   /**
    * Gets an async iterator that will yield results until completion.
    */
   public override async *getAsyncIterator(): AsyncIterable<FeedResponse<Item>> {
-    let response: FeedResponse<Item>;
     const diagnosticNode = new DiagnosticNodeInternal(
       this.encryptionClientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
       null,
     );
+
     try {
-      response = yield* QueryIterator.prototype.getAsyncIteratorInternal.call(this, diagnosticNode);
+      // Get the parent's async iterator
+      const parentIterator = QueryIterator.prototype.getAsyncIteratorInternal.call(
+        this,
+        diagnosticNode,
+      );
+
+      // Iterate through each response from the parent
+      for await (const response of parentIterator) {
+        // Apply shared decryption logic to each response
+        const decryptedResponse = await this.decryptResponse(
+          response as FeedResponse<Item>,
+          diagnosticNode,
+        );
+        yield decryptedResponse;
+      }
     } catch (error) {
       await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
     }
-    if (response?.resources?.length > 0) {
-      let count = 0;
-      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
-      for (let resource of response.resources) {
-        const { body, propertiesDecryptedCount } =
-          await this.container.encryptionProcessor.decrypt(resource);
-        resource = body;
-        count += propertiesDecryptedCount;
-      }
-      diagnosticNode.endEncryptionDiagnostics(
-        Constants.Encryption.DiagnosticsDecryptOperation,
-        count,
-      );
-    }
-    yield response;
   }
 
   /**
@@ -79,21 +80,9 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       } catch (error) {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
-      if (response?.resources?.length > 0) {
-        let count = 0;
-        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
-        for (let resource of response.resources) {
-          const { body, propertiesDecryptedCount } =
-            await this.container.encryptionProcessor.decrypt(resource);
-          resource = body;
-          count += propertiesDecryptedCount;
-        }
-        diagnosticNode.endEncryptionDiagnostics(
-          Constants.Encryption.DiagnosticsDecryptOperation,
-          count,
-        );
-      }
-      return response;
+
+      // Apply shared decryption logic
+      return this.decryptResponse(response, diagnosticNode);
     }, this.encryptionClientContext);
   }
 
@@ -108,30 +97,106 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       } catch (error) {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
-      if (response?.resources?.length > 0) {
-        let count = 0;
-        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+
+      // Apply shared decryption logic
+      return this.decryptResponse(response, diagnosticNode);
+    }, this.encryptionClientContext);
+  }
+
+  /**
+   * @internal
+   */
+  public override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    await this.container.checkAndInitializeEncryption();
+    this.encryptionOptions.containerRid = this.container._rid;
+    await QueryIterator.prototype.init.call(this, diagnosticNode);
+  }
+
+  /**
+   * Shared decryption logic for all iterator methods
+   */
+  private async decryptResponse<T>(
+    response: FeedResponse<T>,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<FeedResponse<T>> {
+    if (response?.resources?.length > 0) {
+      let count = 0;
+
+      // Simple check: are all resources primitive values?
+      const isSelectValueResponse = response.resources.every(
+        (resource) =>
+          resource === null ||
+          typeof resource === "string" ||
+          typeof resource === "number" ||
+          typeof resource === "boolean",
+      );
+
+      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+
+      if (isSelectValueResponse) {
+        // Check if this is a single-field SELECT VALUE query
+        const fieldPath = this.getSelectValueFieldPath();
+
+        if (fieldPath) {
+          // Check if this field is actually encrypted
+          const isFieldEncrypted =
+            await this.container.encryptionProcessor.isPathEncrypted(fieldPath);
+
+          if (isFieldEncrypted) {
+            // Decrypt each primitive value using the identified field path
+            const decryptedResources: T[] = [];
+            for (let i = 0; i < response.resources.length; i++) {
+              const decryptedValue = await this.container.encryptionProcessor.decryptProperty(
+                fieldPath,
+                response.resources[i] as any,
+              );
+              decryptedResources.push(decryptedValue as T);
+              count++;
+            }
+            response.resources.splice(0, response.resources.length, ...decryptedResources);
+          }
+        }
+        // If fieldPath is null or field is not encrypted, no decryption needed
+      } else {
+        // Regular object decryption
         for (let resource of response.resources) {
           const { body, propertiesDecryptedCount } =
             await this.container.encryptionProcessor.decrypt(resource);
           resource = body;
           count += propertiesDecryptedCount;
         }
-        diagnosticNode.endEncryptionDiagnostics(
-          Constants.Encryption.DiagnosticsDecryptOperation,
-          count,
-        );
       }
-      return response;
-    }, this.encryptionClientContext);
+
+      diagnosticNode.endEncryptionDiagnostics(
+        Constants.Encryption.DiagnosticsDecryptOperation,
+        count,
+      );
+    }
+    return response;
   }
+
   /**
-   * @internal
+   * Extract field path from SELECT VALUE query (single field only)
+   * Only returns a field path if this is a simple field selection, not a function or expression
    */
-  public override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    // Ensure encryption is initialized and set rid in options
-    await this.container.checkAndInitializeEncryption();
-    this.encryptionOptions.containerRid = this.container._rid;
-    await QueryIterator.prototype.init.call(this, diagnosticNode);
+  private getSelectValueFieldPath(): string | null {
+    const queryText =
+      typeof this.originalQuery === "string" ? this.originalQuery : this.originalQuery.query;
+
+    // Match simple field SELECT VALUE patterns only:
+    // SELECT VALUE c.fieldName - YES
+    // SELECT DISTINCT VALUE c.fieldName - YES
+    // SELECT VALUE UPPER(c.fieldName) - NO (function call)
+    // SELECT VALUE c.field + 1 - NO (expression)
+    // SELECT VALUE { ... } - NO (object constructor)
+    const simpleFieldMatch = queryText.match(
+      /SELECT\s+(?:DISTINCT\s+)?VALUE\s+(\w+)\.(\w+)\s*(?:FROM|WHERE|ORDER|GROUP|$)/i,
+    );
+
+    if (simpleFieldMatch) {
+      return `/${simpleFieldMatch[2]}`;
+    }
+
+    return null;
   }
 }

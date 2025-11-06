@@ -2434,6 +2434,140 @@ describe("ClientSideEncryption", () => {
     assert.equal(response.resources[0], 1);
   });
 
+  it("encryption SELECT VALUE query with single field", async () => {
+    // Create test documents with encrypted fields
+    const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+    const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+
+    // Basic SELECT VALUE with encrypted string field
+    let queryBuilder = new EncryptionQueryBuilder(
+      "SELECT VALUE c.sensitive_StringFormat FROM c WHERE c.id = @id",
+    );
+    queryBuilder.addParameter("@id", testDoc1.id, "/id");
+
+    let iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    let response = await iterator.fetchAll();
+
+    assert.equal(response.resources.length, 1);
+    assert.strictEqual(response.resources[0] as unknown as string, testDoc1.sensitive_StringFormat);
+    assert.isNotNull(response.diagnostics);
+
+    // SELECT DISTINCT VALUE with encrypted field
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT DISTINCT VALUE c.sensitive_BoolFormat FROM c",
+    );
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    response = await iterator.fetchAll();
+
+    assert.ok(response.resources.length > 0);
+    response.resources.forEach((resource) => {
+      const booleanResource = resource as unknown as boolean;
+      assert.ok(typeof booleanResource === "boolean");
+    });
+
+    // SELECT VALUE with non-encrypted field (should work normally)
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT VALUE c.nonsensitive FROM c WHERE c.id = @id",
+    );
+    queryBuilder.addParameter("@id", testDoc1.id, "/id");
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    response = await iterator.fetchAll();
+
+    assert.equal(response.resources.length, 1);
+    assert.strictEqual(response.resources[0] as unknown as string, testDoc1.nonsensitive);
+
+    // SELECT VALUE with WHERE clause on encrypted field
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT VALUE c.id FROM c WHERE c.sensitive_StringFormat = @sensitiveString",
+    );
+    queryBuilder.addParameter(
+      "@sensitiveString",
+      testDoc1.sensitive_StringFormat,
+      "/sensitive_StringFormat",
+    );
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    response = await iterator.fetchAll();
+
+    assert.equal(response.resources.length, 1);
+    assert.strictEqual(response.resources[0] as unknown as string, testDoc1.id);
+
+    // SELECT VALUE with object constructor (should use normal decryption, not SELECT VALUE logic)
+    const objectConstructorQuery = new EncryptionQueryBuilder(
+      "SELECT VALUE { id: c.id, sensitive: c.sensitive_StringFormat, nonsensitive: c.nonsensitive } FROM c WHERE c.id = @id",
+    );
+    objectConstructorQuery.addParameter("@id", testDoc1.id, "/id");
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(objectConstructorQuery);
+    response = await iterator.fetchAll();
+
+    assert.equal(response.resources.length, 1);
+    assert.equal(response.resources[0].id, testDoc1.id);
+    assert.equal(response.resources[0].sensitive, testDoc1.sensitive_StringFormat);
+    assert.equal(response.resources[0].nonsensitive, testDoc1.nonsensitive);
+
+    // Test fetchNext() method with SELECT VALUE
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT VALUE c.sensitive_StringFormat FROM c ORDER BY c._ts",
+    );
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    let hasResults = false;
+    while (iterator.hasMoreResults()) {
+      const batchResponse = await iterator.fetchNext();
+      if (batchResponse.resources.length > 0) {
+        hasResults = true;
+        batchResponse.resources.forEach((resource) => {
+          const stringResource = resource as unknown as string;
+          assert.ok(
+            typeof stringResource === "string",
+            `Expected string but got ${typeof stringResource}`,
+          );
+        });
+      }
+    }
+    assert.ok(hasResults, "Should have found results with fetchNext()");
+
+    // Test getAsyncIterator() method with SELECT VALUE
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT VALUE c.sensitive_StringFormat FROM c ORDER BY c._ts",
+    );
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    hasResults = false;
+
+    for await (const batchResponse of iterator.getAsyncIterator()) {
+      if (batchResponse.resources.length > 0) {
+        hasResults = true;
+        batchResponse.resources.forEach((resource) => {
+          const stringResource = resource as unknown as string;
+          assert.ok(
+            typeof stringResource === "string",
+            `Expected string but got ${typeof stringResource}`,
+          );
+        });
+      }
+    }
+    assert.ok(hasResults, "Should have found results with getAsyncIterator()");
+
+    // SELECT VALUE with IN operator
+    queryBuilder = new EncryptionQueryBuilder(
+      "SELECT VALUE c.sensitive_StringFormat FROM c WHERE c.id IN (@id1, @id2)",
+    );
+    queryBuilder.addParameter("@id1", testDoc1.id, "/id");
+    queryBuilder.addParameter("@id2", testDoc2.id, "/id");
+
+    iterator = await encryptionContainer.items.getEncryptionQueryIterator(queryBuilder);
+    response = await iterator.fetchAll();
+
+    assert.equal(response.resources.length, 2);
+    const stringResources = response.resources as unknown as string[];
+    assert.ok(stringResources.includes(testDoc1.sensitive_StringFormat));
+    assert.ok(stringResources.includes(testDoc2.sensitive_StringFormat));
+  });
+
   it("encryption hierarchical partition key test", async () => {
     const key1Paths = ["/sensitive_LongFormat", "/sensitive_NestedObjectFormatL1"].map((path) => ({
       path: path,

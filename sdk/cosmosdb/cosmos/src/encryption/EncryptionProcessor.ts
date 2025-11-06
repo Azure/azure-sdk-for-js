@@ -84,6 +84,19 @@ export class EncryptionProcessor {
     return value;
   }
 
+  async decryptProperty(path: string, value: JSONValue): Promise<any> {
+    path = extractPath(path);
+    const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return value;
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
+    if (!settingForProperty) {
+      return value;
+    }
+
+    value = await this.decryptToken(value, settingForProperty, path === "/id");
+    return value;
+  }
+
   async getEncryptedPartitionKeyValue(
     partitionKeyList: PartitionKeyInternal,
   ): Promise<{ partitionKeyList: PartitionKeyInternal; encryptedCount: number }> {
