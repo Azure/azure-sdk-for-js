@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import { operationsList } from "../../api/operations/index.js";
-import { OperationsListOptionalParams } from "../../api/options.js";
-import { Operation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { list } from "../../api/operations/operations.js";
+import type { OperationsListOptionalParams } from "../../api/operations/options.js";
+import type { Operation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
@@ -13,14 +13,14 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: IoTOperationsContext) {
+function _getOperations(context: IoTOperationsContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function getOperationsOperations(context: IoTOperationsContext): OperationsOperations {
+export function _getOperationsOperations(context: IoTOperationsContext): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }

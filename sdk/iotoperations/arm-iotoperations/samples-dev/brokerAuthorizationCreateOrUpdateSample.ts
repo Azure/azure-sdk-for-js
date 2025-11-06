@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a BrokerAuthorizationResource
  *
  * @summary create a BrokerAuthorizationResource
- * x-ms-original-file: 2024-11-01/BrokerAuthorization_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2025-10-01/BrokerAuthorization_CreateOrUpdate_Complex.json
  */
-
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function brokerAuthorizationCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
@@ -68,7 +67,7 @@ async function brokerAuthorizationCreateOrUpdateComplex(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -80,7 +79,7 @@ async function brokerAuthorizationCreateOrUpdateComplex(): Promise<void> {
  * This sample demonstrates how to create a BrokerAuthorizationResource
  *
  * @summary create a BrokerAuthorizationResource
- * x-ms-original-file: 2024-11-01/BrokerAuthorization_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-10-01/BrokerAuthorization_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerAuthorizationCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -115,7 +114,7 @@ async function brokerAuthorizationCreateOrUpdate(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -127,7 +126,7 @@ async function brokerAuthorizationCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a BrokerAuthorizationResource
  *
  * @summary create a BrokerAuthorizationResource
- * x-ms-original-file: 2024-11-01/BrokerAuthorization_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2025-10-01/BrokerAuthorization_CreateOrUpdate_Simple.json
  */
 async function brokerAuthorizationCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,7 +160,7 @@ async function brokerAuthorizationCreateOrUpdateSimple(): Promise<void> {
         },
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
