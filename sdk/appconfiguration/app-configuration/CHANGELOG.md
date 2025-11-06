@@ -1,5 +1,20 @@
 # Release History
 
+## 1.10.0 (Unreleased)
+
+### Features Added
+
+- Support snapshot reference [#36105](https://github.com/Azure/azure-sdk-for-js/pull/36105)
+  - New type for SnapshotReference - `ConfigurationSetting<SnapshotReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties (to translate `ConfigurationSetting` into the type above).
+  - Helper method `isSnapshotReference` checks the contentType and return boolean values.
+
+- Support `requirement_type` for feature flag. [#36104](https://github.com/Azure/azure-sdk-for-js/pull/36104)
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.9.2 (2025-11-05)
 
 ### Other Changes
