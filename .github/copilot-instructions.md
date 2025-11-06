@@ -108,3 +108,9 @@ When possible, refer to the Azure SDK for JS Design Guidelines for specific exam
 ## SDK release
 
 For detailed workflow instructions, see [SDK Release](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/instructions/copilot/sdk-release.instructions.md).
+
+## Commands
+
+The following commands should activate a specific prompt file.
+
+- `azsdk create lro-compat <package-name>` - activates the prompt in `.github/prompts/create-lro-compat.prompt.md`
