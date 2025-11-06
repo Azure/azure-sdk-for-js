@@ -79,7 +79,7 @@
     "@playwright/test": "^1.51.1",
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",
