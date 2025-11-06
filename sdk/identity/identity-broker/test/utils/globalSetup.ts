@@ -12,10 +12,13 @@ export default function setup(): void {
   if (platform() === "linux") {
     // Try to install the dependency
     try {
-      execSync("sudo dpkg --configure -a && sudo -n apt-get update -qq && sudo -n apt-get install -y libsecret-1-0", {
-        stdio: "inherit",
-        timeout: 60000,
-      });
+      execSync(
+        "sudo dpkg --configure -a && sudo -n apt-get update -qq && sudo -n apt-get install -y libsecret-1-0",
+        {
+          stdio: "inherit",
+          timeout: 60000,
+        },
+      );
     } catch (error) {
       console.error("Failed to install libsecret-1-0 automatically");
     }
