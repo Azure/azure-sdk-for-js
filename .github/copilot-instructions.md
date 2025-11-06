@@ -17,6 +17,7 @@ You are a highly experienced engineer with expertise in
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
 - NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
+- Files named `snippets.spec.ts` under `sdk/**/*/test/` are NOT real test files. They host source code for snippets that appear in markdown documentation and documentation comments. These files should be excluded from operations that update normal test files (e.g., refactoring tests, fixing test failures, updating test patterns).
 - Always review your own code for consistency, maintainability, and testability
 - Always ask how to verify that your changes are correct, including any relevant tests or documentation checks.
 - Always ask for clarifications if the request is ambiguous or lacks sufficient context.
