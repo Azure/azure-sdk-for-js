@@ -29,6 +29,7 @@ describe("EnvironmentCredential", function () {
     "AZURE_CLIENT_CERTIFICATE_PASSWORD",
     "AZURE_USERNAME",
     "AZURE_PASSWORD",
+    "SKIP_SP_LIVE_TESTS"
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
@@ -50,7 +51,11 @@ describe("EnvironmentCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with a client secret on the environment variables", async function () {
+  it("authenticates with a client secret on the environment variables", async function (ctx) {
+    if (process.env.SKIP_SP_LIVE_TESTS) {
+      console.log("TEST IS SKIPPED");
+      ctx.skip();
+    }
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -102,7 +107,11 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("finds and uses client username/password environment variables", async () => {
+  it("finds and uses client username/password environment variables", async (ctx) => {
+    if (process.env.SKIP_SP_LIVE_TESTS) {
+      console.log("TEST IS SKIPPED");
+      ctx.skip();
+    }
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
