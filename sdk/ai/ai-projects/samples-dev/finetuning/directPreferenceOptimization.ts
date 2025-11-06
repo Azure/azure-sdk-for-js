@@ -8,57 +8,61 @@
  * and perform dpo fine-tuning operations: create and cancel.
  */
 
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import OpenAI from "openai";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
+import type OpenAI from "openai";
 import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const openAiBaseUrl = `${endpoint}/openai`;
-
 const modelName = process.env["MODEL_NAME"] || "gpt-4o-mini";
 const trainingFilePath = path.join(__dirname, "data", "dpo_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "dpo_validation_set.jsonl");
 
-async function createOpenAI(): Promise<OpenAI> {
-  const credential = new DefaultAzureCredential();
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
+async function waitForJob(
+  client: OpenAI,
+  jobId: string,
+  target: string,
+  {
+    timeoutMs = 24 * 60 * 60_000, // 24 hours default; bump higher for busy regions/large jobs
+    pollMs = 60_000, // poll every 1 minute
+  }: { timeoutMs?: number; pollMs?: number } = {},
+): Promise<void> {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const job = await client.fineTuning.jobs.retrieve(jobId);
+    console.log(`[waitForJob] job=${jobId} status=${job.status} target=${target}`);
+    if (job.status === target) {
+      return;
+    }
+    await new Promise((resolve) => setTimeout(resolve, pollMs));
+  }
 
-  return new OpenAI({
-    apiKey: azureADTokenProvider,
-    baseURL: openAiBaseUrl,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-  });
-}
-
-async function uploadFileAndWait(
-  openAiClient: OpenAI,
-  filePath: string,
-): Promise<OpenAI.Files.FileObject> {
-  console.log(`Uploading file from path: ${filePath}`);
-  const created = await openAiClient.files.create({
-    file: fs.createReadStream(filePath),
-    purpose: "fine-tune",
-  });
-  console.log(`Uploaded file with ID: ${created.id}`);
-
-  return openAiClient.files.retrieve(created.id);
+  throw new Error(
+    `Timed out after ${Math.round(timeoutMs / 1000)}s waiting for '${target}' on job ${jobId}.`,
+  );
 }
 
 async function main(): Promise<void> {
-  console.log("Getting Azure OpenAI client from AI Project (via AAD token)...");
-  const openAI = await createOpenAI();
+  console.log("Getting Azure OpenAI client from AI Project.");
+  const projectClient = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const openAI = await projectClient.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Upload training and validation files
   console.log("\nUploading training file...");
-  const trainingFile = await uploadFileAndWait(openAI, trainingFilePath);
+  const trainingFile = await openAI.files.create({
+    file: fs.createReadStream(trainingFilePath),
+    purpose: "fine-tune",
+  });
   console.log("Training file processed successfully.");
 
   console.log("\nUploading validation file...");
-  const validationFile = await uploadFileAndWait(openAI, validationFilePath);
+  const validationFile = await openAI.files.create({
+    file: fs.createReadStream(validationFilePath),
+    purpose: "fine-tune",
+  });
   console.log("Validation file processed successfully.");
 
   // 2) Create a DPO fine-tuning job
@@ -82,6 +86,7 @@ async function main(): Promise<void> {
   // 3) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
   const cancelledJob = await openAI.fineTuning.jobs.cancel(fineTuningJob.id);
+  await waitForJob(openAI, fineTuningJob.id, "canceled");
   console.log(
     `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
   );

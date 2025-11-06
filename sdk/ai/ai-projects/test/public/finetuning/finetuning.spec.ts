@@ -2,45 +2,65 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import {
-  createRecorder,
-  createFoundryOpenAI,
-  waitForFoundryOpenAIJob,
-} from "../utils/createClient.js";
+import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import type { AIProjectClient } from "../../../src/index.js";
+import type { OpenAI } from "openai/client";
 
 const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
 const isLive = testMode === "live";
 
 describe("finetuning - basic", () => {
   let recorder: Recorder;
-  let openai: Awaited<ReturnType<typeof createFoundryOpenAI>>;
+  let projectsClient: AIProjectClient;
+  let openai: OpenAI;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
-    openai = await createFoundryOpenAI();
+    projectsClient = createProjectsClient(recorder);
+    openai = await projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  async function uploadFileAndWait(
-    fileName: string,
-  ): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
+  async function uploadFileAndWait(fileName: string): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
     const dataUrl = new URL(`./data/${fileName}`, import.meta.url);
-    const fs = await import("fs/promises");
-    const buffer = await fs.readFile(dataUrl);
-    const fileBlob = new Blob([buffer], { type: "application/jsonl" });
-
+    const fs = await import("fs");
     console.log(`Uploading file`);
     const created = await openai.files.create({
-      file: new File([fileBlob], fileName, { type: "application/jsonl" }),
+      file: fs.createReadStream(dataUrl),
       purpose: "fine-tune",
     });
+
     console.log(`Uploaded file with ID: ${created.id}`);
 
     return openai.files.retrieve(created.id);
+  }
+
+  async function waitForJob(
+    client: OpenAI,
+    jobId: string,
+    target: string,
+    {
+      timeoutMs = 24 * 60 * 60_000, // 24 hours default; bump higher for busy regions/large jobs
+      pollMs = 60_000, // poll every 1 minute
+    }: { timeoutMs?: number; pollMs?: number } = {},
+  ): Promise<void> {
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      const job = await client.fineTuning.jobs.retrieve(jobId);
+      console.log(`[waitForJob] job=${jobId} status=${job.status} target=${target}`);
+      if (job.status === target) {
+        return;
+      }
+      await new Promise((resolve) => setTimeout(resolve, pollMs));
+    }
+
+    throw new Error(
+      `Timed out after ${Math.round(timeoutMs / 1000)}s waiting for '${target}' on job ${jobId}.`,
+    );
   }
 
   it.skipIf(!isLive)(
@@ -91,7 +111,7 @@ describe("finetuning - basic", () => {
       }
 
       console.log("\n-- Waiting for training to start --");
-      await waitForFoundryOpenAIJob(openai, fineTuningJob.id, "trainingStarted");
+      await waitForJob(openai, fineTuningJob.id, "trainingStarted");
       console.log("-- Training started --");
 
       // 5) Pause the fine-tuning job
@@ -99,14 +119,14 @@ describe("finetuning - basic", () => {
       const pausedJob = await openai.fineTuning.jobs.pause(fineTuningJob.id);
       console.log("Paused job:\n", JSON.stringify(pausedJob, null, 2));
 
-      await waitForFoundryOpenAIJob(openai, fineTuningJob.id, "paused");
+      await waitForJob(openai, fineTuningJob.id, "paused");
 
       // 6) Resume the fine-tuning job
       console.log(`\nResuming fine-tuning job with ID: ${fineTuningJob.id}`);
       const resumedJob = await openai.fineTuning.jobs.resume(fineTuningJob.id);
       console.log("Resumed job:\n", JSON.stringify(resumedJob, null, 2));
 
-      await waitForFoundryOpenAIJob(openai, fineTuningJob.id, "running");
+      await waitForJob(openai, fineTuningJob.id, "running");
 
       // 7) List events for the fine-tuning job (limit 10)
       console.log(`\nListing events for fine-tuning job: ${fineTuningJob.id}`);
@@ -116,6 +136,7 @@ describe("finetuning - basic", () => {
       // 8) Cancel the fine-tuning job
       console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
       const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
+      await waitForJob(openai, fineTuningJob.id, "canceled");
       console.log(
         `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
       );
