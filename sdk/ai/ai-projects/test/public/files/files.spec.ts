@@ -2,19 +2,23 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { createRecorder, createFoundryOpenAI } from "../utils/createClient.js";
+import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import type { AIProjectClient } from "../../../src/index.js";
+import type { OpenAI } from "openai/client";
 
 const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
 const isLive = testMode === "live";
 
 describe("files - basic", () => {
   let recorder: Recorder;
-  let openai: Awaited<ReturnType<typeof createFoundryOpenAI>>;
+  let projectsClient: AIProjectClient;
+  let openai: OpenAI;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
-    openai = await createFoundryOpenAI();
+    projectsClient = createProjectsClient(recorder);
+    openai = await projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
@@ -23,15 +27,13 @@ describe("files - basic", () => {
 
   async function uploadFileAndWait(): Promise<Awaited<ReturnType<typeof openai.files.retrieve>>> {
     const dataUrl = new URL("./data/training_set.jsonl", import.meta.url);
-    const fs = await import("fs/promises");
-    const buffer = await fs.readFile(dataUrl);
-    const fileBlob = new Blob([buffer], { type: "application/jsonl" });
-
+    const fs = await import("fs");
     console.log(`Uploading file`);
     const created = await openai.files.create({
-      file: new File([fileBlob], "training_set.jsonl", { type: "application/jsonl" }),
+      file: fs.createReadStream(dataUrl),
       purpose: "fine-tune",
     });
+
     console.log(`Uploaded file with ID: ${created.id}`);
 
     return openai.files.retrieve(created.id);
