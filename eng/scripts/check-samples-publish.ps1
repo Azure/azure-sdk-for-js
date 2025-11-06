@@ -25,6 +25,7 @@ $ErrorActionPreference = 'Stop'
 
 $allSuccess = $true
 $checkedCount = 0
+$failedCount = 0
 $skippedCount = 0
 
 Write-Host "Checking samples publishability for packages in: $PackageInfoPath"
@@ -68,6 +69,7 @@ foreach ($packageInfoFile in $packageInfoFiles) {
   }
   
   Write-Host "  Found samples-dev directory. Running dev-tool samples publish..."
+  $checkedCount++
   
   # Create a temporary output directory for the publish check
   $tempOutputDir = Join-Path ([System.IO.Path]::GetTempPath()) "samples-publish-check-$([Guid]::NewGuid())"
@@ -85,14 +87,15 @@ foreach ($packageInfoFile in $packageInfoFiles) {
       Write-Host "  Output:"
       Write-Host $output
       $allSuccess = $false
+      $failedCount++
     } else {
       Write-Host "  ✓ Successfully validated samples can be published"
-      $checkedCount++
     }
   }
   catch {
     Write-Host "  ✗ Exception while checking samples for $($packageInfo.Name): $_" -ForegroundColor Red
     $allSuccess = $false
+    $failedCount++
   }
   finally {
     Pop-Location
@@ -108,13 +111,14 @@ Write-Host ""
 Write-Host "=========================================="
 Write-Host "Samples Publish Check Summary:"
 Write-Host "  Packages checked: $checkedCount"
+Write-Host "  Packages failed: $failedCount"
 Write-Host "  Packages skipped (no samples-dev): $skippedCount"
 
 if (-not $allSuccess) {
-  Write-Host "  Result: ✗ One or more packages failed the samples publish check" -ForegroundColor Red
+  Write-Host "  Result: ✗ $failedCount of $checkedCount package(s) failed the samples publish check" -ForegroundColor Red
   Write-Host "=========================================="
   Write-Host ""
-  Write-Host "##vso[task.logissue type=error]One or more packages failed the samples publish check. See above output for details."
+  Write-Host "##vso[task.logissue type=error]$failedCount of $checkedCount package(s) failed the samples publish check. See above output for details."
   exit 1
 }
 
