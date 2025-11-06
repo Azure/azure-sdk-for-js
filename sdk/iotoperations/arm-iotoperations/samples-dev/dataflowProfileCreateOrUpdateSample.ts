@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2024-11-01/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-10-01/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function dataflowProfileCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
@@ -28,7 +27,7 @@ async function dataflowProfileCreateOrUpdate(): Promise<void> {
         instanceCount: 14,
       },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -40,7 +39,7 @@ async function dataflowProfileCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2024-11-01/DataflowProfile_CreateOrUpdate_Minimal.json
+ * x-ms-original-file: 2025-10-01/DataflowProfile_CreateOrUpdate_Minimal.json
  */
 async function dataflowProfileCreateOrUpdateMinimal(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +52,7 @@ async function dataflowProfileCreateOrUpdateMinimal(): Promise<void> {
     {
       properties: { instanceCount: 1 },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
@@ -65,7 +64,7 @@ async function dataflowProfileCreateOrUpdateMinimal(): Promise<void> {
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2024-11-01/DataflowProfile_CreateOrUpdate_Multi.json
+ * x-ms-original-file: 2025-10-01/DataflowProfile_CreateOrUpdate_Multi.json
  */
 async function dataflowProfileCreateOrUpdateMulti(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +77,7 @@ async function dataflowProfileCreateOrUpdateMulti(): Promise<void> {
     {
       properties: { instanceCount: 3 },
       extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
+        name: "/subscriptions/F8C729F9-DF9C-4743-848F-96EE433D8E53/resourceGroups/rgiotoperations/providers/Microsoft.ExtendedLocation/customLocations/resource-123",
         type: "CustomLocation",
       },
     },
