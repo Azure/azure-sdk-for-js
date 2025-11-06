@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-broker",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "sdk-type": "client",
   "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
   "main": "./dist/commonjs/index.js",
