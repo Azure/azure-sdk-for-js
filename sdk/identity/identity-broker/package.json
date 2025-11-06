@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-broker",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "sdk-type": "client",
   "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
   "main": "./dist/commonjs/index.js",
@@ -35,8 +35,7 @@
   "keywords": [
     "azure",
     "cloud",
-    "azure",
-    "azure-active-directory",
+    "entra-id",
     "WAM",
     "MSA support"
   ],
@@ -78,11 +77,11 @@
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",
     "productSlugs": [
-      "azure",
-      "azure-active-directory"
+      "entra",
+      "entra-id"
     ],
     "requiredResources": {
-      "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app"
+      "Microsoft Entra App Registration": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app"
     }
   },
   "type": "module",
