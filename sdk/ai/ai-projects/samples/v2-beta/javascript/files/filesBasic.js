@@ -10,13 +10,11 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
-const { fileURLToPath } = require("url");
 const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
 async function uploadAndRetrieve(openAiClient, uploadPath) {
