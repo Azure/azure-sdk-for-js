@@ -2338,7 +2338,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
-    update_interval_in_ms?: number;
+    updateIntervalInMs?: number;
 }
 
 // @public
