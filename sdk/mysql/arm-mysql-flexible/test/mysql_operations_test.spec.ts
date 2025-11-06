@@ -7,7 +7,7 @@
  */
 
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { MySQLManagementFlexibleServerClient } from "../src/mySQLManagementFlexibleServerClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -39,7 +39,7 @@ describe("mysql test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = "2941a09d-7bcf-42fe-91ca-1765f521c829";
+    subscriptionId = subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MySQLManagementFlexibleServerClient(
@@ -82,7 +82,7 @@ describe("mysql test", () => {
     assert.equal(res.name, "czwtestserver");
   });
 
-  it.only("servers update test", async () => {
+  it("servers update test", async () => {
     const res1 = await client.servers.get("czwjstest",
       "czwtestserver");
     console.log("Public Network Access:", res1.network!.publicNetworkAccess);
@@ -101,7 +101,7 @@ describe("mysql test", () => {
     assert.equal(res.name, "czwtestserver");
   });
 
-  it.only("servers get test", async () => {
+  it("servers get test", async () => {
     const res = await client.servers.get("czwjstest",
       "czwtestserver");
     assert.equal(res.name, "czwtestserver");
@@ -110,7 +110,7 @@ describe("mysql test", () => {
   });
 
   
-  it.only("configurations beginCreateOrUpdateAndWait test", async () => {
+  it("configurations beginCreateOrUpdateAndWait test", async () => {
     const res = await client.configurations.beginCreateOrUpdateAndWait(
       "czwjstest",
       "czwtestserver",
@@ -124,7 +124,7 @@ describe("mysql test", () => {
     assert.equal(res.name, "max_connections");
   });
 
-  it.only("configurations beginUpdateAndWait test", async () => {
+  it("configurations beginUpdateAndWait test", async () => {
     const res = await client.configurations.beginUpdateAndWait(
       "czwjstest",
       "czwtestserver",
