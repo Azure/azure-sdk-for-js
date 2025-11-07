@@ -1,282 +1,84 @@
 # Release History
 
-## 2.0.0 (2025-10-30)
+## 2.0.0 (2025-11-07)
 
 ### Features Added
-  - Added operation group MetricsObjectFirewallOperations
-  - Added operation group PaloAltoNetworksCloudngfwOperationsOperations
-  - Added operation CertificateObjectGlobalRulestackOperations.createOrUpdate
-  - Added operation CertificateObjectGlobalRulestackOperations.delete
-  - Added operation CertificateObjectLocalRulestackOperations.createOrUpdate
-  - Added operation CertificateObjectLocalRulestackOperations.delete
-  - Added operation FirewallsOperations.createOrUpdate
-  - Added operation FirewallsOperations.delete
-  - Added operation FqdnListGlobalRulestackOperations.createOrUpdate
-  - Added operation FqdnListGlobalRulestackOperations.delete
-  - Added operation FqdnListLocalRulestackOperations.createOrUpdate
-  - Added operation FqdnListLocalRulestackOperations.delete
-  - Added operation GlobalRulestackOperations.commit
-  - Added operation GlobalRulestackOperations.createOrUpdate
-  - Added operation GlobalRulestackOperations.delete
-  - Added operation LocalRulesOperations.createOrUpdate
-  - Added operation LocalRulesOperations.delete
-  - Added operation LocalRulestacksOperations.commit
-  - Added operation LocalRulestacksOperations.createOrUpdate
-  - Added operation LocalRulestacksOperations.delete
-  - Added operation PostRulesOperations.createOrUpdate
-  - Added operation PostRulesOperations.delete
-  - Added operation PrefixListGlobalRulestackOperations.createOrUpdate
-  - Added operation PrefixListGlobalRulestackOperations.delete
-  - Added operation PrefixListLocalRulestackOperations.createOrUpdate
-  - Added operation PrefixListLocalRulestackOperations.delete
-  - Added operation PreRulesOperations.createOrUpdate
-  - Added operation PreRulesOperations.delete
-  - Added Interface CertificateObject
+  - Added operation group MetricsObjectFirewall
+  - Added operation group PaloAltoNetworksCloudngfwOperations
+  - Added Interface CertificateObjectGlobalRulestackCreateOrUpdateHeaders
+  - Added Interface CertificateObjectGlobalRulestackDeleteHeaders
+  - Added Interface CertificateObjectLocalRulestackCreateOrUpdateHeaders
+  - Added Interface CertificateObjectLocalRulestackDeleteHeaders
   - Added Interface CloudManagerTenantList
-  - Added Interface FirewallDeploymentProperties
-  - Added Interface FirewallStatusProperty
-  - Added Interface FqdnObject
-  - Added Interface MetricsObject
+  - Added Interface FirewallsCreateOrUpdateHeaders
+  - Added Interface FirewallsDeleteHeaders
+  - Added Interface FqdnListGlobalRulestackCreateOrUpdateHeaders
+  - Added Interface FqdnListGlobalRulestackDeleteHeaders
+  - Added Interface FqdnListLocalRulestackCreateOrUpdateHeaders
+  - Added Interface FqdnListLocalRulestackDeleteHeaders
+  - Added Interface GlobalRulestackCommitHeaders
+  - Added Interface GlobalRulestackCreateOrUpdateHeaders
+  - Added Interface GlobalRulestackDeleteHeaders
+  - Added Interface LocalRulesCreateOrUpdateHeaders
+  - Added Interface LocalRulesDeleteHeaders
+  - Added Interface LocalRulestacksCommitHeaders
+  - Added Interface LocalRulestacksCreateOrUpdateHeaders
+  - Added Interface LocalRulestacksDeleteHeaders
+  - Added Interface MetricsObjectFirewallCreateOrUpdateHeaders
   - Added Interface MetricsObjectFirewallCreateOrUpdateOptionalParams
+  - Added Interface MetricsObjectFirewallDeleteHeaders
   - Added Interface MetricsObjectFirewallDeleteOptionalParams
   - Added Interface MetricsObjectFirewallGetOptionalParams
   - Added Interface MetricsObjectFirewallListByFirewallsOptionalParams
   - Added Interface MetricsObjectFirewallResource
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
+  - Added Interface MetricsObjectFirewallResourceListResult
   - Added Interface PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams
   - Added Interface PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams
   - Added Interface PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams
   - Added Interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams
-  - Added Interface PrefixObject
+  - Added Interface PostRulesCreateOrUpdateHeaders
+  - Added Interface PostRulesDeleteHeaders
+  - Added Interface PrefixListGlobalRulestackCreateOrUpdateHeaders
+  - Added Interface PrefixListGlobalRulestackDeleteHeaders
+  - Added Interface PrefixListLocalRulestackCreateOrUpdateHeaders
+  - Added Interface PrefixListLocalRulestackDeleteHeaders
+  - Added Interface PreRulesCreateOrUpdateHeaders
+  - Added Interface PreRulesDeleteHeaders
   - Added Interface ProductSerialNumberRequestStatus
   - Added Interface ProductSerialNumberStatus
-  - Added Interface RestorePollerOptions
-  - Added Interface RuleEntry
-  - Added Interface RulestackProperties
   - Added Interface StrataCloudManagerConfig
   - Added Interface StrataCloudManagerInfo
   - Added Interface SupportInfoModel
+  - Interface FirewallResource has a new optional parameter isStrataCloudManaged
+  - Interface FirewallResource has a new optional parameter strataCloudManagerConfig
   - Interface FirewallResourceUpdateProperties has a new optional parameter isStrataCloudManaged
   - Interface FirewallResourceUpdateProperties has a new optional parameter strataCloudManagerConfig
+  - Interface FirewallStatusResource has a new optional parameter isStrataCloudManaged
+  - Interface FirewallStatusResource has a new optional parameter strataCloudManagerInfo
   - Interface NetworkProfile has a new optional parameter privateSourceNatRulesDestination
-  - Added Type Alias AzureSupportedClouds
   - Added Type Alias EnableStatus
+  - Added Type Alias GlobalRulestackCommitResponse
+  - Added Type Alias LocalRulestacksCommitResponse
+  - Added Type Alias LocalRulestacksListAppIdsNextResponse
+  - Added Type Alias LocalRulestacksListCountriesNextResponse
+  - Added Type Alias LocalRulestacksListPredefinedUrlCategoriesNextResponse
+  - Added Type Alias MetricsObjectFirewallCreateOrUpdateResponse
+  - Added Type Alias MetricsObjectFirewallDeleteResponse
+  - Added Type Alias MetricsObjectFirewallGetResponse
+  - Added Type Alias MetricsObjectFirewallListByFirewallsNextResponse
+  - Added Type Alias MetricsObjectFirewallListByFirewallsResponse
+  - Added Type Alias PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberResponse
+  - Added Type Alias PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsResponse
+  - Added Type Alias PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusResponse
+  - Added Type Alias PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse
   - Added Type Alias ProductSerialStatusValues
   - Added Type Alias RegistrationStatus
-  - Added Enum AzureClouds
   - Added Enum KnownEnableStatus
   - Added Enum KnownRegistrationStatus
-  - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation CertificateObjectGlobalRulestack.beginCreateOrUpdate
-  - Removed operation CertificateObjectGlobalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation CertificateObjectGlobalRulestack.beginDelete
-  - Removed operation CertificateObjectGlobalRulestack.beginDeleteAndWait
-  - Removed operation CertificateObjectLocalRulestack.beginCreateOrUpdate
-  - Removed operation CertificateObjectLocalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation CertificateObjectLocalRulestack.beginDelete
-  - Removed operation CertificateObjectLocalRulestack.beginDeleteAndWait
-  - Removed operation Firewalls.beginCreateOrUpdate
-  - Removed operation Firewalls.beginCreateOrUpdateAndWait
-  - Removed operation Firewalls.beginDelete
-  - Removed operation Firewalls.beginDeleteAndWait
-  - Removed operation FqdnListGlobalRulestack.beginCreateOrUpdate
-  - Removed operation FqdnListGlobalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation FqdnListGlobalRulestack.beginDelete
-  - Removed operation FqdnListGlobalRulestack.beginDeleteAndWait
-  - Removed operation FqdnListLocalRulestack.beginCreateOrUpdate
-  - Removed operation FqdnListLocalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation FqdnListLocalRulestack.beginDelete
-  - Removed operation FqdnListLocalRulestack.beginDeleteAndWait
-  - Removed operation GlobalRulestack.beginCommit
-  - Removed operation GlobalRulestack.beginCommitAndWait
-  - Removed operation GlobalRulestack.beginCreateOrUpdate
-  - Removed operation GlobalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation GlobalRulestack.beginDelete
-  - Removed operation GlobalRulestack.beginDeleteAndWait
-  - Removed operation LocalRules.beginCreateOrUpdate
-  - Removed operation LocalRules.beginCreateOrUpdateAndWait
-  - Removed operation LocalRules.beginDelete
-  - Removed operation LocalRules.beginDeleteAndWait
-  - Removed operation LocalRulestacks.beginCommit
-  - Removed operation LocalRulestacks.beginCommitAndWait
-  - Removed operation LocalRulestacks.beginCreateOrUpdate
-  - Removed operation LocalRulestacks.beginCreateOrUpdateAndWait
-  - Removed operation LocalRulestacks.beginDelete
-  - Removed operation LocalRulestacks.beginDeleteAndWait
-  - Removed operation PostRules.beginCreateOrUpdate
-  - Removed operation PostRules.beginCreateOrUpdateAndWait
-  - Removed operation PostRules.beginDelete
-  - Removed operation PostRules.beginDeleteAndWait
-  - Removed operation PrefixListGlobalRulestack.beginCreateOrUpdate
-  - Removed operation PrefixListGlobalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation PrefixListGlobalRulestack.beginDelete
-  - Removed operation PrefixListGlobalRulestack.beginDeleteAndWait
-  - Removed operation PrefixListLocalRulestack.beginCreateOrUpdate
-  - Removed operation PrefixListLocalRulestack.beginCreateOrUpdateAndWait
-  - Removed operation PrefixListLocalRulestack.beginDelete
-  - Removed operation PrefixListLocalRulestack.beginDeleteAndWait
-  - Removed operation PreRules.beginCreateOrUpdate
-  - Removed operation PreRules.beginCreateOrUpdateAndWait
-  - Removed operation PreRules.beginDelete
-  - Removed operation PreRules.beginDeleteAndWait
-  - Operation CertificateObjectGlobalRulestack.get has a new signature
-  - Operation CertificateObjectLocalRulestack.get has a new signature
-  - Operation Firewalls.get has a new signature
-  - Operation Firewalls.update has a new signature
-  - Operation FqdnListGlobalRulestack.get has a new signature
-  - Operation FqdnListLocalRulestack.get has a new signature
-  - Operation LocalRules.get has a new signature
-  - Operation LocalRulestacks.listAppIds has a new signature
-  - Operation LocalRulestacks.listCountries has a new signature
-  - Operation LocalRulestacks.listPredefinedUrlCategories has a new signature
-  - Operation PostRules.get has a new signature
-  - Operation PrefixListGlobalRulestack.get has a new signature
-  - Operation PrefixListLocalRulestack.get has a new signature
-  - Operation PreRules.get has a new signature
-  - Removed Interface CountriesResponse
-  - Removed Interface ListAppIdResponse
-  - Removed Interface PredefinedUrlCategoriesResponse
-  - Interface CertificateObjectGlobalRulestackResource has a new required parameter properties
-  - Interface CertificateObjectLocalRulestackResource has a new required parameter properties
-  - Interface FirewallResource has a new required parameter properties
-  - Interface FirewallStatusResource has a new required parameter properties
-  - Interface FqdnListGlobalRulestackResource has a new required parameter properties
-  - Interface FqdnListLocalRulestackResource has a new required parameter properties
-  - Interface GlobalRulestackResource has a new required parameter properties
-  - Interface LocalRulesResource has a new required parameter properties
-  - Interface LocalRulestackResource has a new required parameter properties
-  - Interface PostRulesResource has a new required parameter properties
-  - Interface PrefixListGlobalRulestackResource has a new required parameter properties
-  - Interface PrefixListResource has a new required parameter properties
-  - Interface PreRulesResource has a new required parameter properties
-  - Interface CertificateObjectGlobalRulestackResource no longer has parameter auditComment
-  - Interface CertificateObjectGlobalRulestackResource no longer has parameter certificateSelfSigned
-  - Interface CertificateObjectGlobalRulestackResource no longer has parameter certificateSignerResourceId
-  - Interface CertificateObjectGlobalRulestackResource no longer has parameter description
-  - Interface CertificateObjectGlobalRulestackResource no longer has parameter etag
-  - Interface CertificateObjectGlobalRulestackResource no longer has parameter provisioningState
-  - Interface CertificateObjectLocalRulestackResource no longer has parameter auditComment
-  - Interface CertificateObjectLocalRulestackResource no longer has parameter certificateSelfSigned
-  - Interface CertificateObjectLocalRulestackResource no longer has parameter certificateSignerResourceId
-  - Interface CertificateObjectLocalRulestackResource no longer has parameter description
-  - Interface CertificateObjectLocalRulestackResource no longer has parameter etag
-  - Interface CertificateObjectLocalRulestackResource no longer has parameter provisioningState
-  - Interface FirewallResource no longer has parameter associatedRulestack
-  - Interface FirewallResource no longer has parameter dnsSettings
-  - Interface FirewallResource no longer has parameter frontEndSettings
-  - Interface FirewallResource no longer has parameter isPanoramaManaged
-  - Interface FirewallResource no longer has parameter marketplaceDetails
-  - Interface FirewallResource no longer has parameter networkProfile
-  - Interface FirewallResource no longer has parameter panEtag
-  - Interface FirewallResource no longer has parameter panoramaConfig
-  - Interface FirewallResource no longer has parameter planData
-  - Interface FirewallResource no longer has parameter provisioningState
-  - Interface FirewallStatusResource no longer has parameter healthReason
-  - Interface FirewallStatusResource no longer has parameter healthStatus
-  - Interface FirewallStatusResource no longer has parameter isPanoramaManaged
-  - Interface FirewallStatusResource no longer has parameter panoramaStatus
-  - Interface FirewallStatusResource no longer has parameter provisioningState
-  - Interface FqdnListGlobalRulestackResource no longer has parameter auditComment
-  - Interface FqdnListGlobalRulestackResource no longer has parameter description
-  - Interface FqdnListGlobalRulestackResource no longer has parameter etag
-  - Interface FqdnListGlobalRulestackResource no longer has parameter fqdnList
-  - Interface FqdnListGlobalRulestackResource no longer has parameter provisioningState
-  - Interface FqdnListLocalRulestackResource no longer has parameter auditComment
-  - Interface FqdnListLocalRulestackResource no longer has parameter description
-  - Interface FqdnListLocalRulestackResource no longer has parameter etag
-  - Interface FqdnListLocalRulestackResource no longer has parameter fqdnList
-  - Interface FqdnListLocalRulestackResource no longer has parameter provisioningState
-  - Interface GlobalRulestackResource no longer has parameter associatedSubscriptions
-  - Interface GlobalRulestackResource no longer has parameter defaultMode
-  - Interface GlobalRulestackResource no longer has parameter description
-  - Interface GlobalRulestackResource no longer has parameter minAppIdVersion
-  - Interface GlobalRulestackResource no longer has parameter panEtag
-  - Interface GlobalRulestackResource no longer has parameter panLocation
-  - Interface GlobalRulestackResource no longer has parameter provisioningState
-  - Interface GlobalRulestackResource no longer has parameter scope
-  - Interface GlobalRulestackResource no longer has parameter securityServices
-  - Interface LocalRulesResource no longer has parameter actionType
-  - Interface LocalRulesResource no longer has parameter applications
-  - Interface LocalRulesResource no longer has parameter auditComment
-  - Interface LocalRulesResource no longer has parameter category
-  - Interface LocalRulesResource no longer has parameter decryptionRuleType
-  - Interface LocalRulesResource no longer has parameter description
-  - Interface LocalRulesResource no longer has parameter destination
-  - Interface LocalRulesResource no longer has parameter enableLogging
-  - Interface LocalRulesResource no longer has parameter etag
-  - Interface LocalRulesResource no longer has parameter inboundInspectionCertificate
-  - Interface LocalRulesResource no longer has parameter negateDestination
-  - Interface LocalRulesResource no longer has parameter negateSource
-  - Interface LocalRulesResource no longer has parameter priority
-  - Interface LocalRulesResource no longer has parameter protocol
-  - Interface LocalRulesResource no longer has parameter protocolPortList
-  - Interface LocalRulesResource no longer has parameter provisioningState
-  - Interface LocalRulesResource no longer has parameter ruleName
-  - Interface LocalRulesResource no longer has parameter ruleState
-  - Interface LocalRulesResource no longer has parameter source
-  - Interface LocalRulesResource no longer has parameter tags
-  - Interface LocalRulestackResource no longer has parameter associatedSubscriptions
-  - Interface LocalRulestackResource no longer has parameter defaultMode
-  - Interface LocalRulestackResource no longer has parameter description
-  - Interface LocalRulestackResource no longer has parameter minAppIdVersion
-  - Interface LocalRulestackResource no longer has parameter panEtag
-  - Interface LocalRulestackResource no longer has parameter panLocation
-  - Interface LocalRulestackResource no longer has parameter provisioningState
-  - Interface LocalRulestackResource no longer has parameter scope
-  - Interface LocalRulestackResource no longer has parameter securityServices
-  - Interface PostRulesResource no longer has parameter actionType
-  - Interface PostRulesResource no longer has parameter applications
-  - Interface PostRulesResource no longer has parameter auditComment
-  - Interface PostRulesResource no longer has parameter category
-  - Interface PostRulesResource no longer has parameter decryptionRuleType
-  - Interface PostRulesResource no longer has parameter description
-  - Interface PostRulesResource no longer has parameter destination
-  - Interface PostRulesResource no longer has parameter enableLogging
-  - Interface PostRulesResource no longer has parameter etag
-  - Interface PostRulesResource no longer has parameter inboundInspectionCertificate
-  - Interface PostRulesResource no longer has parameter negateDestination
-  - Interface PostRulesResource no longer has parameter negateSource
-  - Interface PostRulesResource no longer has parameter priority
-  - Interface PostRulesResource no longer has parameter protocol
-  - Interface PostRulesResource no longer has parameter protocolPortList
-  - Interface PostRulesResource no longer has parameter provisioningState
-  - Interface PostRulesResource no longer has parameter ruleName
-  - Interface PostRulesResource no longer has parameter ruleState
-  - Interface PostRulesResource no longer has parameter source
-  - Interface PostRulesResource no longer has parameter tags
-  - Interface PrefixListGlobalRulestackResource no longer has parameter auditComment
-  - Interface PrefixListGlobalRulestackResource no longer has parameter description
-  - Interface PrefixListGlobalRulestackResource no longer has parameter etag
-  - Interface PrefixListGlobalRulestackResource no longer has parameter prefixList
-  - Interface PrefixListGlobalRulestackResource no longer has parameter provisioningState
-  - Interface PrefixListResource no longer has parameter auditComment
-  - Interface PrefixListResource no longer has parameter description
-  - Interface PrefixListResource no longer has parameter etag
-  - Interface PrefixListResource no longer has parameter prefixList
-  - Interface PrefixListResource no longer has parameter provisioningState
-  - Interface PreRulesResource no longer has parameter actionType
-  - Interface PreRulesResource no longer has parameter applications
-  - Interface PreRulesResource no longer has parameter auditComment
-  - Interface PreRulesResource no longer has parameter category
-  - Interface PreRulesResource no longer has parameter decryptionRuleType
-  - Interface PreRulesResource no longer has parameter description
-  - Interface PreRulesResource no longer has parameter destination
-  - Interface PreRulesResource no longer has parameter enableLogging
-  - Interface PreRulesResource no longer has parameter etag
-  - Interface PreRulesResource no longer has parameter inboundInspectionCertificate
-  - Interface PreRulesResource no longer has parameter negateDestination
-  - Interface PreRulesResource no longer has parameter negateSource
-  - Interface PreRulesResource no longer has parameter priority
-  - Interface PreRulesResource no longer has parameter protocol
-  - Interface PreRulesResource no longer has parameter protocolPortList
-  - Interface PreRulesResource no longer has parameter provisioningState
-  - Interface PreRulesResource no longer has parameter ruleName
-  - Interface PreRulesResource no longer has parameter ruleState
-  - Interface PreRulesResource no longer has parameter source
-  - Interface PreRulesResource no longer has parameter tags
+  - Operation GlobalRulestack.beginCommitAndWait has a new signature
+  - Operation LocalRulestacks.beginCommitAndWait has a new signature
 
     
 ## 1.1.0 (2023-11-15)
