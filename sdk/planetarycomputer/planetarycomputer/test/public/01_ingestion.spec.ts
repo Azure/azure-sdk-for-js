@@ -188,7 +188,8 @@ describe("Ingestion Management", () => {
     }
 
     for (const ingestion of existingIngestions) {
-      await client.ingestion.delete(collectionId, ingestion.id!);
+      const deletePoller = client.ingestion.delete(collectionId, ingestion.id!);
+      await deletePoller.pollUntilDone();
       console.log(`  Deleted existing ingestion: ${ingestion.id}`);
     }
 

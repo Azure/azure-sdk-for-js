@@ -7,6 +7,7 @@ import { createRecorder, createRecordedClient } from "./utils/recordedClient.js"
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
 import { EnvironmentVariableNames, assertEnvironmentVariable } from "./utils/envVars.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 import {
   KnownPartitionTypeScheme,
   KnownRenderOptionType,
@@ -577,12 +578,7 @@ describe("STAC Collections", () => {
       assert.fail("Render option should have been deleted");
     } catch (e: unknown) {
       console.log(`Confirmed deletion (404 expected): ${e}`);
-      const errorStr = String(e);
-      assert.isTrue(
-        errorStr.includes("404") ||
-          errorStr.toLowerCase().includes("not found") ||
-          errorStr.toLowerCase().includes("notfound"),
-      );
+      assert.isTrue(isRestError(e) && e.statusCode === 404, "Should get 404 Not Found error");
     }
 
     console.log("Test PASSED\n");
@@ -717,12 +713,7 @@ describe("STAC Collections", () => {
       assert.fail("Mosaic should have been deleted");
     } catch (e: unknown) {
       console.log(`Confirmed deletion (404 expected): ${e}`);
-      const errorStr = String(e);
-      assert.isTrue(
-        errorStr.includes("404") ||
-          errorStr.toLowerCase().includes("not found") ||
-          errorStr.toLowerCase().includes("notfound"),
-      );
+      assert.isTrue(isRestError(e) && e.statusCode === 404, "Should get 404 Not Found error");
     }
 
     console.log("Test PASSED\n");
@@ -742,11 +733,9 @@ describe("STAC Collections", () => {
     try {
       await client.stac.getCollection(testCollectionId);
       console.log(`Collection '${testCollectionId}' already exists, deleting first...`);
-      await client.stac.deleteCollection(testCollectionId);
+      const deletePoller = client.stac.deleteCollection(testCollectionId);
+      await deletePoller.pollUntilDone();
       console.log(`Deleted existing collection '${testCollectionId}'`);
-      if (!isPlaybackMode()) {
-        await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait for deletion
-      }
     } catch {
       console.log(`Collection '${testCollectionId}' does not exist, proceeding with creation`);
     }
@@ -804,7 +793,8 @@ describe("STAC Collections", () => {
       // Clean up: delete the temporary collection
       console.log(`Deleting temporary collection: ${testCollectionId}`);
       try {
-        await client.stac.deleteCollection(testCollectionId);
+        const deletePoller = client.stac.deleteCollection(testCollectionId);
+        await deletePoller.pollUntilDone();
         console.log("Temporary collection deleted");
       } catch (e) {
         console.log(`Failed to delete temporary collection: ${e}`);
