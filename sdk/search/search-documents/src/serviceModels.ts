@@ -1173,6 +1173,8 @@ export interface SimpleField {
    * The encoding format to interpret the field contents.
    */
   vectorEncodingFormat?: VectorEncodingFormat;
+   /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
+  sensitivityLabel?: boolean;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1364,6 +1366,8 @@ export interface SearchIndex {
    * The ETag of the index.
    */
   etag?: string;
+  /** A value indicating whether the index is leveraging Purview-specific features. This property defaults to false and cannot be changed after index creation. */
+  purviewEnabled?: boolean;
 }
 
 export interface SearchIndexerCache {

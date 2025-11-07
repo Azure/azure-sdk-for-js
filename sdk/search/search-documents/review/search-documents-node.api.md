@@ -3443,6 +3443,7 @@ export interface SearchIndex {
     name: string;
     normalizers?: LexicalNormalizer[];
     permissionFilterOption?: SearchIndexPermissionFilterOption;
+    purviewEnabled?: boolean;
     scoringProfiles?: ScoringProfile[];
     semanticSearch?: SemanticSearch;
     similarity?: SimilarityAlgorithm;
@@ -4050,6 +4051,7 @@ export interface SimpleField {
     permissionFilter?: PermissionFilter;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
+    sensitivityLabel?: boolean;
     sortable?: boolean;
     stored?: boolean;
     synonymMapNames?: string[];
