@@ -30,7 +30,7 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
-        "Content-Length": "15197",
+        "Content-Length": "15187",
         "Content-Type": "application/geo+json",
         "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -43,12 +43,12 @@
         "type": "FeatureCollection",
         "features": [
           {
-            "id": "ga_m_3308429_nw_16_060_20231008_20240103",
+            "id": "va_m_3807708_sw_18_060_20231113_20240103",
             "bbox": [
-              -84.504026,
-              33.559387,
-              -84.43345,
-              33.628155
+              -77.129202,
+              38.87201,
+              -77.058351,
+              38.940463
             ],
             "type": "Feature",
             "links": [
@@ -70,12 +70,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308429_nw_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807708_sw_18_060_20231113_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -102,7 +102,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -110,7 +110,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -119,7 +119,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -127,47 +127,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:46.001506Z",
+            "_msft:ts": "2025-11-03T15:01:45.754371Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.435445,
-                    33.559387
+                    -77.058351,
+                    38.873244
                   ],
                   [
-                    -84.43345,
-                    33.626749
+                    -77.060293,
+                    38.940463
                   ],
                   [
-                    -84.502084,
-                    33.628155
+                    -77.129202,
+                    38.939226
                   ],
                   [
-                    -84.504026,
-                    33.560789
+                    -77.127195,
+                    38.87201
                   ],
                   [
-                    -84.435445,
-                    33.559387
+                    -77.058351,
+                    38.873244
                   ]
                 ]
               ]
             },
-            "_msft:etag": "3f8c4060-fbac-4595-bb2c-bb5d51fbd193",
+            "_msft:etag": "69a4ef42-3265-4dcc-9d8a-de1cb1ea9c05",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-13T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                731706.0,
-                3716250.0,
-                738078.0,
-                3723726.0
+                315462.0,
+                4304724.0,
+                321438.0,
+                4312188.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -178,22 +178,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12460,
-                10620
+                12440,
+                9960
               ],
               "proj:centroid": {
-                "lat": 33.59377,
-                "lon": -84.46875
+                "lat": 38.90624,
+                "lon": -77.09376
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                731706.0,
+                315462.0,
                 0.0,
                 -0.6,
-                3723726.0,
+                4312188.0,
                 0.0,
                 0.0,
                 1.0
@@ -206,12 +206,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308429_ne_16_060_20231008_20240103",
+            "id": "va_m_3807708_se_18_060_20231113_20240103",
             "bbox": [
-              -84.441543,
-              33.559319,
-              -84.370855,
-              33.628174
+              -77.066695,
+              38.87205,
+              -76.995901,
+              38.940415
             ],
             "type": "Feature",
             "links": [
@@ -233,12 +233,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308429_ne_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807708_se_18_060_20231113_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -265,7 +265,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -273,7 +273,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -282,7 +282,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -290,47 +290,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.521414Z",
+            "_msft:ts": "2025-11-03T15:34:53.348468Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.372901,
-                    33.559319
+                    -76.995901,
+                    38.873248
                   ],
                   [
-                    -84.370855,
-                    33.626731
+                    -76.997783,
+                    38.940415
                   ],
                   [
-                    -84.439551,
-                    33.628174
+                    -77.066695,
+                    38.939214
                   ],
                   [
-                    -84.441543,
-                    33.560757
+                    -77.064748,
+                    38.87205
                   ],
                   [
-                    -84.372901,
-                    33.559319
+                    -76.995901,
+                    38.873248
                   ]
                 ]
               ]
             },
-            "_msft:etag": "d00f1385-67e4-49b7-bb24-c5518b1425d6",
+            "_msft:etag": "d6ccc30b-6919-440c-98a9-11ecbe90ef0b",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-13T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                737508.0,
-                3716388.0,
-                743886.0,
-                3723870.0
+                320880.0,
+                4304604.0,
+                326856.0,
+                4312062.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -341,22 +341,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12470,
-                10630
+                12430,
+                9960
               ],
               "proj:centroid": {
-                "lat": 33.59375,
-                "lon": -84.40621
+                "lat": 38.90624,
+                "lon": -77.03128
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                737508.0,
+                320880.0,
                 0.0,
                 -0.6,
-                3723870.0,
+                4312062.0,
                 0.0,
                 0.0,
                 1.0
@@ -369,12 +369,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308428_ne_16_060_20231008_20240103",
+            "id": "va_m_3807708_nw_18_060_20231113_20240103",
             "bbox": [
-              -84.566447,
-              33.559422,
-              -84.495982,
-              33.628103
+              -77.129274,
+              38.934504,
+              -77.058288,
+              39.002958
             ],
             "type": "Feature",
             "links": [
@@ -396,12 +396,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308428_ne_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807708_nw_18_060_20231113_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -428,7 +428,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -436,7 +436,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -445,7 +445,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -453,47 +453,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.192088Z",
+            "_msft:ts": "2025-11-03T14:59:41.300764Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.497927,
-                    33.559422
+                    -77.058288,
+                    38.935741
                   ],
                   [
-                    -84.495982,
-                    33.626733
+                    -77.060235,
+                    39.002958
                   ],
                   [
-                    -84.564555,
-                    33.628103
+                    -77.129274,
+                    39.001718
                   ],
                   [
-                    -84.566447,
-                    33.560789
+                    -77.127261,
+                    38.934504
                   ],
                   [
-                    -84.497927,
-                    33.559422
+                    -77.058288,
+                    38.935741
                   ]
                 ]
               ]
             },
-            "_msft:etag": "17aa20b6-0f99-46de-93b2-a2ada014bcd1",
+            "_msft:etag": "d8464c9b-b57e-4217-a99d-3e72f122dc4c",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-13T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                725910.0,
-                3716112.0,
-                732276.0,
-                3723582.0
+                315618.0,
+                4311660.0,
+                321600.0,
+                4319124.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -504,22 +504,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12450,
-                10610
+                12440,
+                9970
               ],
               "proj:centroid": {
-                "lat": 33.59377,
-                "lon": -84.53123
+                "lat": 38.96874,
+                "lon": -77.09376
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                725910.0,
+                315618.0,
                 0.0,
                 -0.6,
-                3723582.0,
+                4319124.0,
                 0.0,
                 0.0,
                 1.0
@@ -532,12 +532,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308421_sw_16_060_20231008_20240103",
+            "id": "va_m_3807716_se_18_060_20231104_20240103",
             "bbox": [
-              -84.504036,
-              33.621867,
-              -84.433405,
-              33.690637
+              -77.06667,
+              38.747059,
+              -76.995866,
+              38.815423
             ],
             "type": "Feature",
             "links": [
@@ -559,12 +559,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308421_sw_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807716_se_18_060_20231104_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -591,7 +591,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -599,7 +599,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -608,7 +608,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -616,47 +616,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.588863Z",
+            "_msft:ts": "2025-11-03T15:35:33.886961Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.435405,
-                    33.621867
+                    -76.995866,
+                    38.748255
                   ],
                   [
-                    -84.433405,
-                    33.689228
+                    -76.99774,
+                    38.815423
                   ],
                   [
-                    -84.502089,
-                    33.690637
+                    -77.06667,
+                    38.814224
                   ],
                   [
-                    -84.504036,
-                    33.623272
+                    -77.064731,
+                    38.747059
                   ],
                   [
-                    -84.435405,
-                    33.621867
+                    -76.995866,
+                    38.748255
                   ]
                 ]
               ]
             },
-            "_msft:etag": "e7d11257-6827-400a-94ab-6fe844116489",
+            "_msft:etag": "52d27aff-9345-49a4-9f93-05fba4a7776e",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-04T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                731538.0,
-                3723180.0,
-                737910.0,
-                3730656.0
+                320568.0,
+                4290732.0,
+                326556.0,
+                4298190.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -667,22 +667,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12460,
-                10620
+                12430,
+                9980
               ],
               "proj:centroid": {
-                "lat": 33.65626,
-                "lon": -84.46873
+                "lat": 38.78125,
+                "lon": -77.03125
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                731538.0,
+                320568.0,
                 0.0,
                 -0.6,
-                3730656.0,
+                4298190.0,
                 0.0,
                 0.0,
                 1.0
@@ -695,12 +695,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308421_se_16_060_20231008_20240103",
+            "id": "va_m_3807716_nw_18_060_20231104_20240103",
             "bbox": [
-              -84.44157,
-              33.621853,
-              -84.370894,
-              33.690654
+              -77.129203,
+              38.809515,
+              -77.058347,
+              38.877968
             ],
             "type": "Feature",
             "links": [
@@ -722,12 +722,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308421_se_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807716_nw_18_060_20231104_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -754,7 +754,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -762,7 +762,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -771,7 +771,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -779,47 +779,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.120394Z",
+            "_msft:ts": "2025-11-03T15:34:58.144776Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.372943,
-                    33.621853
+                    -77.058347,
+                    38.810749
                   ],
                   [
-                    -84.370894,
-                    33.689211
+                    -77.060285,
+                    38.877968
                   ],
                   [
-                    -84.439575,
-                    33.690654
+                    -77.129203,
+                    38.876731
                   ],
                   [
-                    -84.44157,
-                    33.623293
+                    -77.1272,
+                    38.809515
                   ],
                   [
-                    -84.372943,
-                    33.621853
+                    -77.058347,
+                    38.810749
                   ]
                 ]
               ]
             },
-            "_msft:etag": "be55dccb-3620-4198-973d-a453998ca822",
+            "_msft:etag": "eba1e1af-9738-4fb5-b87f-5a70cb1750e6",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-04T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                737334.0,
-                3723324.0,
-                743706.0,
-                3730800.0
+                315300.0,
+                4297788.0,
+                321282.0,
+                4305252.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -830,22 +830,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12460,
-                10620
+                12440,
+                9970
               ],
               "proj:centroid": {
-                "lat": 33.65626,
-                "lon": -84.40625
+                "lat": 38.84375,
+                "lon": -77.09376
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                737334.0,
+                315300.0,
                 0.0,
                 -0.6,
-                3730800.0,
+                4305252.0,
                 0.0,
                 0.0,
                 1.0
@@ -915,7 +915,7 @@
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
-        "Content-Length": "15197",
+        "Content-Length": "15187",
         "Content-Type": "application/geo+json",
         "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -928,12 +928,12 @@
         "type": "FeatureCollection",
         "features": [
           {
-            "id": "ga_m_3308429_nw_16_060_20231008_20240103",
+            "id": "va_m_3807708_sw_18_060_20231113_20240103",
             "bbox": [
-              -84.504026,
-              33.559387,
-              -84.43345,
-              33.628155
+              -77.129202,
+              38.87201,
+              -77.058351,
+              38.940463
             ],
             "type": "Feature",
             "links": [
@@ -955,12 +955,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308429_nw_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807708_sw_18_060_20231113_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -987,7 +987,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -995,7 +995,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -1004,7 +1004,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/d8d/ga_m_3308429_nw_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/12f/va_m_3807708_sw_18_060_20231113_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -1012,47 +1012,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:46.001506Z",
+            "_msft:ts": "2025-11-03T15:01:45.754371Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.435445,
-                    33.559387
+                    -77.058351,
+                    38.873244
                   ],
                   [
-                    -84.43345,
-                    33.626749
+                    -77.060293,
+                    38.940463
                   ],
                   [
-                    -84.502084,
-                    33.628155
+                    -77.129202,
+                    38.939226
                   ],
                   [
-                    -84.504026,
-                    33.560789
+                    -77.127195,
+                    38.87201
                   ],
                   [
-                    -84.435445,
-                    33.559387
+                    -77.058351,
+                    38.873244
                   ]
                 ]
               ]
             },
-            "_msft:etag": "3f8c4060-fbac-4595-bb2c-bb5d51fbd193",
+            "_msft:etag": "69a4ef42-3265-4dcc-9d8a-de1cb1ea9c05",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-13T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                731706.0,
-                3716250.0,
-                738078.0,
-                3723726.0
+                315462.0,
+                4304724.0,
+                321438.0,
+                4312188.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -1063,22 +1063,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12460,
-                10620
+                12440,
+                9960
               ],
               "proj:centroid": {
-                "lat": 33.59377,
-                "lon": -84.46875
+                "lat": 38.90624,
+                "lon": -77.09376
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                731706.0,
+                315462.0,
                 0.0,
                 -0.6,
-                3723726.0,
+                4312188.0,
                 0.0,
                 0.0,
                 1.0
@@ -1091,12 +1091,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308429_ne_16_060_20231008_20240103",
+            "id": "va_m_3807708_se_18_060_20231113_20240103",
             "bbox": [
-              -84.441543,
-              33.559319,
-              -84.370855,
-              33.628174
+              -77.066695,
+              38.87205,
+              -76.995901,
+              38.940415
             ],
             "type": "Feature",
             "links": [
@@ -1118,12 +1118,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308429_ne_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807708_se_18_060_20231113_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -1150,7 +1150,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -1158,7 +1158,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -1167,7 +1167,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/6e3/ga_m_3308429_ne_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/0f1/va_m_3807708_se_18_060_20231113_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -1175,47 +1175,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.521414Z",
+            "_msft:ts": "2025-11-03T15:34:53.348468Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.372901,
-                    33.559319
+                    -76.995901,
+                    38.873248
                   ],
                   [
-                    -84.370855,
-                    33.626731
+                    -76.997783,
+                    38.940415
                   ],
                   [
-                    -84.439551,
-                    33.628174
+                    -77.066695,
+                    38.939214
                   ],
                   [
-                    -84.441543,
-                    33.560757
+                    -77.064748,
+                    38.87205
                   ],
                   [
-                    -84.372901,
-                    33.559319
+                    -76.995901,
+                    38.873248
                   ]
                 ]
               ]
             },
-            "_msft:etag": "d00f1385-67e4-49b7-bb24-c5518b1425d6",
+            "_msft:etag": "d6ccc30b-6919-440c-98a9-11ecbe90ef0b",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-13T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                737508.0,
-                3716388.0,
-                743886.0,
-                3723870.0
+                320880.0,
+                4304604.0,
+                326856.0,
+                4312062.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -1226,22 +1226,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12470,
-                10630
+                12430,
+                9960
               ],
               "proj:centroid": {
-                "lat": 33.59375,
-                "lon": -84.40621
+                "lat": 38.90624,
+                "lon": -77.03128
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                737508.0,
+                320880.0,
                 0.0,
                 -0.6,
-                3723870.0,
+                4312062.0,
                 0.0,
                 0.0,
                 1.0
@@ -1254,12 +1254,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308428_ne_16_060_20231008_20240103",
+            "id": "va_m_3807708_nw_18_060_20231113_20240103",
             "bbox": [
-              -84.566447,
-              33.559422,
-              -84.495982,
-              33.628103
+              -77.129274,
+              38.934504,
+              -77.058288,
+              39.002958
             ],
             "type": "Feature",
             "links": [
@@ -1281,12 +1281,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308428_ne_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807708_nw_18_060_20231113_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -1313,7 +1313,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -1321,7 +1321,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -1330,7 +1330,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/667/ga_m_3308428_ne_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/b32/va_m_3807708_nw_18_060_20231113_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -1338,47 +1338,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.192088Z",
+            "_msft:ts": "2025-11-03T14:59:41.300764Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.497927,
-                    33.559422
+                    -77.058288,
+                    38.935741
                   ],
                   [
-                    -84.495982,
-                    33.626733
+                    -77.060235,
+                    39.002958
                   ],
                   [
-                    -84.564555,
-                    33.628103
+                    -77.129274,
+                    39.001718
                   ],
                   [
-                    -84.566447,
-                    33.560789
+                    -77.127261,
+                    38.934504
                   ],
                   [
-                    -84.497927,
-                    33.559422
+                    -77.058288,
+                    38.935741
                   ]
                 ]
               ]
             },
-            "_msft:etag": "17aa20b6-0f99-46de-93b2-a2ada014bcd1",
+            "_msft:etag": "d8464c9b-b57e-4217-a99d-3e72f122dc4c",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-13T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                725910.0,
-                3716112.0,
-                732276.0,
-                3723582.0
+                315618.0,
+                4311660.0,
+                321600.0,
+                4319124.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -1389,22 +1389,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12450,
-                10610
+                12440,
+                9970
               ],
               "proj:centroid": {
-                "lat": 33.59377,
-                "lon": -84.53123
+                "lat": 38.96874,
+                "lon": -77.09376
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                725910.0,
+                315618.0,
                 0.0,
                 -0.6,
-                3723582.0,
+                4319124.0,
                 0.0,
                 0.0,
                 1.0
@@ -1417,12 +1417,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308421_sw_16_060_20231008_20240103",
+            "id": "va_m_3807716_se_18_060_20231104_20240103",
             "bbox": [
-              -84.504036,
-              33.621867,
-              -84.433405,
-              33.690637
+              -77.06667,
+              38.747059,
+              -76.995866,
+              38.815423
             ],
             "type": "Feature",
             "links": [
@@ -1444,12 +1444,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308421_sw_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807716_se_18_060_20231104_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -1476,7 +1476,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -1484,7 +1484,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -1493,7 +1493,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/59a/ga_m_3308421_sw_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/89e/va_m_3807716_se_18_060_20231104_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -1501,47 +1501,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.588863Z",
+            "_msft:ts": "2025-11-03T15:35:33.886961Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.435405,
-                    33.621867
+                    -76.995866,
+                    38.748255
                   ],
                   [
-                    -84.433405,
-                    33.689228
+                    -76.99774,
+                    38.815423
                   ],
                   [
-                    -84.502089,
-                    33.690637
+                    -77.06667,
+                    38.814224
                   ],
                   [
-                    -84.504036,
-                    33.623272
+                    -77.064731,
+                    38.747059
                   ],
                   [
-                    -84.435405,
-                    33.621867
+                    -76.995866,
+                    38.748255
                   ]
                 ]
               ]
             },
-            "_msft:etag": "e7d11257-6827-400a-94ab-6fe844116489",
+            "_msft:etag": "52d27aff-9345-49a4-9f93-05fba4a7776e",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-04T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                731538.0,
-                3723180.0,
-                737910.0,
-                3730656.0
+                320568.0,
+                4290732.0,
+                326556.0,
+                4298190.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -1552,22 +1552,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12460,
-                10620
+                12430,
+                9980
               ],
               "proj:centroid": {
-                "lat": 33.65626,
-                "lon": -84.46873
+                "lat": 38.78125,
+                "lon": -77.03125
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                731538.0,
+                320568.0,
                 0.0,
                 -0.6,
-                3730656.0,
+                4298190.0,
                 0.0,
                 0.0,
                 1.0
@@ -1580,12 +1580,12 @@
             "stac_version": "1.0.0"
           },
           {
-            "id": "ga_m_3308421_se_16_060_20231008_20240103",
+            "id": "va_m_3807716_nw_18_060_20231104_20240103",
             "bbox": [
-              -84.44157,
-              33.621853,
-              -84.370894,
-              33.690654
+              -77.129203,
+              38.809515,
+              -77.058347,
+              38.877968
             ],
             "type": "Feature",
             "links": [
@@ -1607,12 +1607,12 @@
               {
                 "rel": "self",
                 "type": "application/geo+json",
-                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/ga_m_3308421_se_16_060_20231008_20240103"
+                "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items/va_m_3807716_nw_18_060_20231104_20240103"
               }
             ],
             "assets": {
               "image": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/image.tif",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/image.tif",
                 "type": "image/tiff; application=geotiff; profile=cloud-optimized",
                 "roles": [
                   "data"
@@ -1639,7 +1639,7 @@
                 ]
               },
               "tilejson": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/tilejson.json",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/tilejson.json",
                 "type": "application/json",
                 "roles": [
                   "tiles"
@@ -1647,7 +1647,7 @@
                 "title": "TileJSON with default rendering"
               },
               "thumbnail": {
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/thumbnail.jpg",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/thumbnail.jpg",
                 "type": "image/jpeg",
                 "roles": [
                   "thumbnail"
@@ -1656,7 +1656,7 @@
               },
               "rendered_preview": {
                 "rel": "preview",
-                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/a18/ga_m_3308421_se_16_060_20231008_20240103/rendered_preview.png",
+                "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/bf0/va_m_3807716_nw_18_060_20231104_20240103/rendered_preview.png",
                 "type": "image/png",
                 "roles": [
                   "overview"
@@ -1664,47 +1664,47 @@
                 "title": "Rendered preview"
               }
             },
-            "_msft:ts": "2025-10-22T11:16:45.120394Z",
+            "_msft:ts": "2025-11-03T15:34:58.144776Z",
             "geometry": {
               "type": "Polygon",
               "coordinates": [
                 [
                   [
-                    -84.372943,
-                    33.621853
+                    -77.058347,
+                    38.810749
                   ],
                   [
-                    -84.370894,
-                    33.689211
+                    -77.060285,
+                    38.877968
                   ],
                   [
-                    -84.439575,
-                    33.690654
+                    -77.129203,
+                    38.876731
                   ],
                   [
-                    -84.44157,
-                    33.623293
+                    -77.1272,
+                    38.809515
                   ],
                   [
-                    -84.372943,
-                    33.621853
+                    -77.058347,
+                    38.810749
                   ]
                 ]
               ]
             },
-            "_msft:etag": "be55dccb-3620-4198-973d-a453998ca822",
+            "_msft:etag": "eba1e1af-9738-4fb5-b87f-5a70cb1750e6",
             "collection": "naip-atl-00000000",
             "properties": {
               "gsd": 0.6,
-              "datetime": "2023-10-08T16:00:00Z",
+              "datetime": "2023-11-04T16:00:00Z",
               "naip:year": "2023",
               "proj:bbox": [
-                737334.0,
-                3723324.0,
-                743706.0,
-                3730800.0
+                315300.0,
+                4297788.0,
+                321282.0,
+                4305252.0
               ],
-              "proj:epsg": 26916,
+              "proj:epsg": 26918,
               "providers": [
                 {
                   "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/",
@@ -1715,22 +1715,22 @@
                   ]
                 }
               ],
-              "naip:state": "ga",
+              "naip:state": "va",
               "proj:shape": [
-                12460,
-                10620
+                12440,
+                9970
               ],
               "proj:centroid": {
-                "lat": 33.65626,
-                "lon": -84.40625
+                "lat": 38.84375,
+                "lon": -77.09376
               },
               "proj:transform": [
                 0.6,
                 0.0,
-                737334.0,
+                315300.0,
                 0.0,
                 -0.6,
-                3730800.0,
+                4305252.0,
                 0.0,
                 0.0,
                 1.0

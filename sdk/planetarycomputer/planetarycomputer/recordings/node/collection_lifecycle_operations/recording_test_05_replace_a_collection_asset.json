@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "396",
+        "Content-Length": "417",
         "Content-Type": "multipart/form-data; boundary=--RecordedTestMultipartBoundary",
         "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
         "x-ms-client-request-id": "Sanitized"
@@ -21,15 +21,16 @@
         "{\"key\":\"Sanitized\",\"type\":\"text/plain\",\"roles\":[\"metadata\"],\"title\":\"Test Asset - Updated\"}",
         "\r\n",
         "----RecordedTestMultipartBoundary\r\n",
-        "content-type: application/octet-stream\r\n",
-        "content-disposition: form-data; name=\"file\"\r\n",
+        "content-type: text/plain\r\n",
+        "content-disposition: form-data; name=\"file\"; filename=\"test-asset-updated.txt\"\r\n",
         "\r\n",
-        "b64:VGVzdCBhc3NldCBjb250ZW50IC0gdXBkYXRlZA==",
+        "Test asset content - updated",
         "\r\n",
         "----RecordedTestMultipartBoundary--\r\n"
       ],
-      "StatusCode": 400,
+      "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
         "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
@@ -37,25 +38,209 @@
         "Access-Control-Expose-Headers": "Location",
         "Access-Control-Max-Age": "1728000",
         "Connection": "keep-alive",
-        "Content-Length": "193",
+        "Content-Encoding": "gzip",
+        "Content-Length": "3550",
         "Content-Type": "application/json",
         "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
         "x-azure-ref": "Sanitized",
         "X-Cache": "CONFIG_NOCACHE",
-        "x-ms-error-code": "ValidationError",
         "X-Request-ID": "00000000000000000000000000000000"
       },
       "ResponseBody": {
-        "error": {
-          "code": "ValidationError",
-          "message": "Validation Error Occurred",
-          "details": [
+        "type": "Collection",
+        "id": "naip-atl-00000000",
+        "stac_version": "1.0.0",
+        "description": "A Subset of imagery for sample MPC Pro GeoCatalog deployments. - Updated for testing",
+        "links": [
+          {
+            "rel": "items",
+            "type": "application/geo+json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000/items"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/"
+          },
+          {
+            "rel": "self",
+            "type": "application/json",
+            "href": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/stac/collections/naip-atl-00000000"
+          }
+        ],
+        "stac_extensions": [
+          "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/table/v1.2.0/schema.json"
+        ],
+        "item_assets": {
+          "image": {
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "RGBIR COG tile",
+            "eo:bands": [
+              {
+                "name": "Red",
+                "common_name": "red"
+              },
+              {
+                "name": "Green",
+                "common_name": "green"
+              },
+              {
+                "name": "Blue",
+                "common_name": "blue"
+              },
+              {
+                "name": "NIR",
+                "common_name": "nir",
+                "description": "near-infrared"
+              }
+            ]
+          },
+          "metadata": {
+            "type": "text/plain",
+            "roles": [
+              "metadata"
+            ],
+            "title": "FGDC Metdata"
+          },
+          "thumbnail": {
+            "type": "image/jpeg",
+            "roles": [
+              "thumbnail"
+            ],
+            "title": "Thumbnail"
+          }
+        },
+        "msft:_created": "2025-11-03T14:16:10.3539672Z",
+        "msft:_updated": "2025-11-07T20:13:36.332470Z",
+        "title": "MPC Pro Sample Datasets",
+        "extent": {
+          "spatial": {
+            "bbox": [
+              [
+                -85.605165,
+                30.357851,
+                -80.839729,
+                35.000659
+              ]
+            ]
+          },
+          "temporal": {
+            "interval": [
+              [
+                "2020-01-01T00:00:00Z",
+                "2099-12-31T23:59:59Z"
+              ]
+            ]
+          }
+        },
+        "license": "proprietary",
+        "providers": [
+          {
+            "name": "USDA Farm Service Agency",
+            "roles": [
+              "producer",
+              "licensor"
+            ],
+            "url": "https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/"
+          },
+          {
+            "name": "Esri",
+            "roles": [
+              "processor"
+            ],
+            "url": "https://www.esri.com/"
+          },
+          {
+            "name": "Microsoft",
+            "roles": [
+              "host",
+              "processor"
+            ],
+            "url": "https://planetarycomputer.microsoft.com"
+          }
+        ],
+        "summaries": {
+          "gsd": [
+            0.3,
+            0.6,
+            1
+          ],
+          "eo:bands": [
             {
-              "code": "ValidationError",
-              "message": "body.file Value error, Expected UploadFile, received: <class 'str'>"
+              "name": "Red",
+              "common_name": "red",
+              "description": "visible red"
+            },
+            {
+              "name": "Green",
+              "common_name": "green",
+              "description": "visible green"
+            },
+            {
+              "name": "Blue",
+              "common_name": "blue",
+              "description": "visible blue"
+            },
+            {
+              "name": "NIR",
+              "common_name": "nir",
+              "description": "near-infrared"
             }
           ]
+        },
+        "assets": {
+          "thumbnail": {
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/thumbnail/thumbnail.png",
+            "type": "image/png",
+            "title": "Thumbnail",
+            "roles": [
+              "thumbnail"
+            ]
+          },
+          "test-asset": {
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/test-asset/test-asset-updated.txt",
+            "type": "text/plain",
+            "title": "Test Asset - Updated",
+            "roles": [
+              "metadata"
+            ]
+          },
+          "test-asset-js": {
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/test-asset-js/test-asset-js.txt",
+            "type": "text/plain",
+            "title": "Test Asset",
+            "roles": [
+              "metadata"
+            ]
+          },
+          "test-asset-js-sdk": {
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/test-asset-js-sdk/test-asset-sdk.txt",
+            "type": "text/plain",
+            "title": "Test Asset from SDK Script",
+            "description": "Testing multipart upload with SDK",
+            "roles": [
+              "metadata"
+            ]
+          },
+          "test-asset-js-standalone": {
+            "href": "https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/collection-assets/test-asset-js-standalone/test-asset-standalone.txt",
+            "type": "text/plain",
+            "title": "Test Asset from Standalone Script",
+            "roles": [
+              "metadata"
+            ]
+          }
         }
       }
     }

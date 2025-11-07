@@ -74,7 +74,7 @@
             "title": "RGBIR COG tile"
           }
         },
-        "_msft:ts": "2025-10-29T01:07:28.191887Z",
+        "_msft:ts": "2025-11-03T22:09:46.143580Z",
         "geometry": {
           "type": "Polygon",
           "coordinates": [
@@ -102,7 +102,7 @@
             ]
           ]
         },
-        "_msft:etag": "c3525071-c639-4b74-a31b-dec3a594d2b8",
+        "_msft:etag": "542ed86c-8571-49ab-84f2-3cc5a4359af8",
         "collection": "naip-atl-00000000",
         "properties": {
           "gsd": 0.6,
@@ -253,8 +253,8 @@
             ]
           }
         },
-        "_msft:ts": "2025-10-29T01:07:28.191887Z",
-        "_msft:etag": "c3525071-c639-4b74-a31b-dec3a594d2b8"
+        "_msft:ts": "2025-11-03T22:09:46.143580Z",
+        "_msft:etag": "542ed86c-8571-49ab-84f2-3cc5a4359af8"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
@@ -268,7 +268,7 @@
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
-        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/569cbc7e-6844-4c13-acfa-94441fed2ae7?api-version=2025-04-30-preview",
+        "Location": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/59e00b35-0ebc-4784-a3c4-bf76fa2b0e57?api-version=2025-04-30-preview",
         "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
         "operation-location": "https://example.com",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -283,11 +283,11 @@
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T03:19:35.4567778Z"
+            "timestamp": "2025-11-05T12:23:30.6058225Z"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T03:19:35.4567758Z",
+        "creationTime": "2025-11-05T12:23:30.6058213Z",
         "collectionId": "naip-atl-00000000"
       }
     },
@@ -328,68 +328,12 @@
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T03:19:35.4567778Z"
+            "timestamp": "2025-11-05T12:23:30.6058225Z"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T03:19:35.4567758Z",
+        "creationTime": "2025-11-05T12:23:30.6058213Z",
         "collectionId": "naip-atl-00000000"
-      }
-    },
-    {
-      "RequestUri": "https://Sanitized.sanitized_label.sanitized_location.geocatalog.spatio.azure.com/inma/operations/00000000-0000-0000-0000-000000000000?api-version=2025-04-30-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-planetarycomputer/1.0.0-beta.1 core-rest-pipeline/1.22.2 Node/22.16.0 OS/(x64-Windows_NT-10.0.26100)",
-        "x-ms-client-request-id": "Sanitized"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Headers": "X-PC-Request-Entity,DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,Location",
-        "Access-Control-Allow-Methods": "PUT, GET, POST, OPTIONS, DELETE, PATCH",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "Location",
-        "Access-Control-Max-Age": "1728000",
-        "api-supported-versions": "2024-01-31-preview, 2025-04-30-preview",
-        "Connection": "keep-alive",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 01 Jan 2024 00:00:00 GMT",
-        "mise-correlation-id": "00000000-0000-0000-0000-000000000000",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "x-azure-ref": "Sanitized",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Request-ID": "00000000000000000000000000000000"
-      },
-      "ResponseBody": {
-        "id": "00000000-0000-0000-0000-000000000000",
-        "status": "Running",
-        "statusHistory": [
-          {
-            "status": "Pending",
-            "timestamp": "2025-11-01T03:19:35.456775Z"
-          },
-          {
-            "status": "Running",
-            "timestamp": "2025-11-01T03:19:36.951124Z"
-          }
-        ],
-        "type": "UpdateItem",
-        "creationTime": "2025-11-01T03:19:35.456775Z",
-        "startTime": "2025-11-01T03:19:35.456775Z",
-        "collectionId": "naip-atl-00000000",
-        "additionalInformation": {
-          "TotalFailedItems": "0",
-          "TotalItems": "1",
-          "TotalPendingItems": "1",
-          "TotalSuccessfulItems": "0"
-        }
       }
     },
     {
@@ -429,23 +373,23 @@
         "statusHistory": [
           {
             "status": "Pending",
-            "timestamp": "2025-11-01T03:19:35.456775Z"
+            "timestamp": "2025-11-05T12:23:30.605821Z"
           },
           {
             "status": "Running",
-            "timestamp": "2025-11-01T03:19:36.951124Z"
+            "timestamp": "2025-11-05T12:23:32.576806Z"
           },
           {
             "status": "Failed",
-            "timestamp": "2025-11-01T03:19:39.036998Z",
+            "timestamp": "2025-11-05T12:23:33.77298Z",
             "errorCode": "PublicAccessRestricted",
             "errorMessage": "Asset transformation exception. Reason: Error retrieving content from public source. Reason: Public access is not permitted on this storage account. Source: https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif. Source: https://SANITIZED.blob.core.windows.net/naip-atl-00000000-bde3e846/08a/fake-item-id_test/image.tif"
           }
         ],
         "type": "UpdateItem",
-        "creationTime": "2025-11-01T03:19:35.456775Z",
-        "startTime": "2025-11-01T03:19:35.456775Z",
-        "finishTime": "2025-11-01T03:19:39.036998Z",
+        "creationTime": "2025-11-05T12:23:30.605821Z",
+        "startTime": "2025-11-05T12:23:30.605821Z",
+        "finishTime": "2025-11-05T12:23:33.77298Z",
         "collectionId": "naip-atl-00000000",
         "additionalInformation": {
           "TotalFailedItems": "1",

@@ -6,6 +6,7 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecorder, createRecordedClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { PlanetaryComputerProClient } from "../../src/index.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 /**
  * Test suite for STAC Collection lifecycle operations (create, update, delete).
@@ -37,12 +38,9 @@ describe("Collection Lifecycle Operations", () => {
       const existingCollection = await client.stac.getCollection(testCollectionId);
       if (existingCollection) {
         console.log(`Collection '${testCollectionId}' already exists, deleting first...`);
-        await client.stac.deleteCollection(testCollectionId);
+        const poller = client.stac.deleteCollection(testCollectionId);
+        await poller.pollUntilDone();
         console.log(`Deleted existing collection '${testCollectionId}'`);
-        // Wait for deletion to complete in live mode
-        if (!isPlaybackMode()) {
-          await new Promise((resolve) => setTimeout(resolve, 30000));
-        }
       }
     } catch (error: any) {
       console.log(`Collection '${testCollectionId}' does not exist, proceeding with creation`);
@@ -66,14 +64,12 @@ describe("Collection Lifecycle Operations", () => {
     };
 
     console.log("Calling: createCollection(body=collection_data)");
-    const result = await client.stac.createCollection(collectionData as any);
+    const poller = client.stac.createCollection(collectionData as any);
+    await poller.pollUntilDone();
 
-    console.log(`Collection created: ${JSON.stringify(result)}`);
+    console.log("Collection created successfully");
 
     // Verify creation
-    if (!isPlaybackMode()) {
-      await new Promise((resolve) => setTimeout(resolve, 15000)); // Wait for collection to be available
-    }
     const createdCollection = await client.stac.getCollection(testCollectionId);
     assert.isDefined(createdCollection, "Created collection should not be undefined");
     assert.strictEqual(createdCollection.id, testCollectionId);
@@ -124,27 +120,46 @@ describe("Collection Lifecycle Operations", () => {
     console.log("TEST: test_03_begin_delete_collection");
     console.log("=" + "=".repeat(79));
 
-    console.log(`Calling: deleteCollection(collection_id='${testCollectionId}')`);
-    await client.stac.deleteCollection(testCollectionId);
+    const deletionTestCollectionId = "test-collection-deletion";
+
+    // First, create a collection to delete
+    const collectionData = {
+      id: deletionTestCollectionId,
+      description: "Test collection for deletion",
+      extent: {
+        spatial: { boundingBox: [[-180, -90, 180, 90]] },
+        temporal: {
+          interval: [[new Date("2020-01-01T00:00:00Z"), new Date("2024-12-31T23:59:59Z")]],
+        },
+      },
+      license: "proprietary",
+      links: [],
+      stacVersion: "1.0.0",
+      title: "Test Collection to Delete",
+      type: "Collection" as const,
+    };
+
+    console.log("Creating collection to be deleted...");
+    const createPoller = client.stac.createCollection(collectionData as any);
+    await createPoller.pollUntilDone();
+    console.log("Collection created");
+
+    // Now delete it
+    console.log(`Calling: deleteCollection(collection_id='${deletionTestCollectionId}')`);
+    const deletePoller = client.stac.deleteCollection(deletionTestCollectionId);
+    await deletePoller.pollUntilDone();
 
     console.log("Delete operation completed");
 
-    // Verify deletion
-    if (!isPlaybackMode()) {
-      await new Promise((resolve) => setTimeout(resolve, 30000));
-    }
-
+    // Verify deletion - no need to wait with manual timeout since pollUntilDone() already waited
     try {
-      await client.stac.getCollection(testCollectionId);
+      await client.stac.getCollection(deletionTestCollectionId);
       assert.fail("Collection should have been deleted");
     } catch (error: any) {
       console.log(`Collection successfully deleted (404 expected): ${error.message}`);
-      const errorMsg = error.message || error.toString();
       assert.isTrue(
-        errorMsg.includes("404") ||
-          errorMsg.includes("Not Found") ||
-          errorMsg.includes("ResourceNotFound"),
-        "Should get 404/Not Found error",
+        isRestError(error) && error.statusCode === 404,
+        "Should get 404 Not Found error",
       );
     }
 
@@ -167,8 +182,7 @@ describe("Collection Lifecycle Operations", () => {
         await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait for deletion to complete
       }
     } catch (error: any) {
-      const errorMsg = error.message || error.toString();
-      if (errorMsg.includes("404") || errorMsg.toLowerCase().includes("not found")) {
+      if (isRestError(error) && error.statusCode === 404) {
         console.log("Asset 'test-asset' does not exist, proceeding with creation");
       } else {
         console.log(`Error checking/deleting asset: ${error}`);
@@ -189,8 +203,12 @@ describe("Collection Lifecycle Operations", () => {
     console.log(`Calling: createCollectionAsset(collection_id='${collectionId}', body={{...}})`);
     const response = await client.stac.createCollectionAsset(collectionId, {
       data: assetData,
-      file: fileContent,
-    } as any);
+      file: {
+        contents: fileContent,
+        filename: "test-asset.txt",
+        contentType: "text/plain",
+      },
+    });
 
     console.log(`Response: ${JSON.stringify(response)}`);
     assert.isDefined(response, "Response should not be undefined");
@@ -220,8 +238,12 @@ describe("Collection Lifecycle Operations", () => {
     );
     const response = await client.stac.replaceCollectionAsset(collectionId, "test-asset", {
       data: assetData,
-      file: fileContent,
-    } as any);
+      file: {
+        contents: fileContent,
+        filename: "test-asset-updated.txt",
+        contentType: "text/plain",
+      },
+    });
 
     console.log(`Response: ${JSON.stringify(response)}`);
     assert.isDefined(response, "Response should not be undefined");
@@ -251,8 +273,12 @@ describe("Collection Lifecycle Operations", () => {
 
     await client.stac.createCollectionAsset(collectionId, {
       data: assetData,
-      file: fileContent,
-    } as any);
+      file: {
+        contents: fileContent,
+        filename: "test-asset-to-delete.txt",
+        contentType: "text/plain",
+      },
+    });
     console.log("Asset created successfully");
 
     // Now delete it
