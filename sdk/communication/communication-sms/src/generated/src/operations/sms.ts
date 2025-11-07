@@ -42,7 +42,7 @@ export class SmsImpl implements Sms {
     return tracingClient.withSpan(
       "SmsApiClient.send",
       options ?? {},
-      async (options) => {
+      async (options: SmsSendOptionalParams) => {
         return this.client.sendOperationRequest(
           { sendMessageRequest, options },
           sendOperationSpec,

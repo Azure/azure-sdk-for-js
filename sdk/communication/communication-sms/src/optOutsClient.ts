@@ -84,7 +84,7 @@ export interface RemoveOptions extends OperationOptions {}
 /**
  * A sub-client for managing opt-out operations.
  */
-export interface OptOuts {
+export interface OptOutsClient {
   /**
    * Adds phone numbers to the optouts list.
    *
@@ -112,9 +112,9 @@ export interface OptOuts {
 }
 
 /**
- * Implementation of the OptOuts sub-client.
+ * Implementation of the OptOutsClient sub-client.
  */
-export class OptOutsClientImpl implements OptOuts {
+export class OptOutsClientImpl implements OptOutsClient {
   private readonly api: SmsApiClient;
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -135,7 +135,7 @@ export class OptOutsClientImpl implements OptOuts {
     options: RemoveOptions = {},
   ): Promise<OptOutRemoveResult[]> {
     const { operationOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("OptOuts-Remove", operationOptions, async (updatedOptions) => {
+    return tracingClient.withSpan("OptOuts-Remove", operationOptions, async (updatedOptions: OperationOptions) => {
       const response = await this.api.optOuts.remove(
         generateOptOutRequest(from, to),
         updatedOptions,
@@ -164,7 +164,7 @@ export class OptOutsClientImpl implements OptOuts {
     options: AddOptions = {},
   ): Promise<OptOutAddResult[]> {
     const { operationOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("OptOuts-Add", operationOptions, async (updatedOptions) => {
+    return tracingClient.withSpan("OptOuts-Add", operationOptions, async (updatedOptions: OperationOptions) => {
       const response = await this.api.optOuts.add(generateOptOutRequest(from, to), updatedOptions);
 
       return response.value.map((optOutResponseItem: OptOutResponseItem) => {
@@ -190,7 +190,7 @@ export class OptOutsClientImpl implements OptOuts {
     options: CheckOptions = {},
   ): Promise<OptOutCheckResult[]> {
     const { operationOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("OptOuts-Check", operationOptions, async (updatedOptions) => {
+    return tracingClient.withSpan("OptOuts-Check", operationOptions, async (updatedOptions: OperationOptions) => {
       const response = await this.api.optOuts.check(
         generateOptOutRequest(from, to),
         updatedOptions,

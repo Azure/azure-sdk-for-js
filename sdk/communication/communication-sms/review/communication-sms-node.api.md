@@ -60,7 +60,7 @@ export interface OptOutRemoveResult {
 }
 
 // @public
-export interface OptOuts {
+export interface OptOutsClient {
     add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
     check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
     remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
@@ -83,7 +83,7 @@ export class SmsClient {
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
     readonly apiVersion: ServiceVersion;
     getDeliveryReport(messageId: string, options?: GetDeliveryReportOptions): Promise<SmsDeliveryReportResult>;
-    optOuts: OptOuts;
+    getOptOutsClient(): OptOutsClient;
     send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
 

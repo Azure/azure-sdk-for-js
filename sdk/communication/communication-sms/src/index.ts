@@ -13,8 +13,8 @@ export type {
   MessagingConnectOptions,
 } from "./smsClient.js";
 
-// Export OptOuts sub-client and its types
-export type { OptOuts } from "./optOutsClient.js";
+// Export OptOutsClient sub-client and its types
+export type { OptOutsClient } from "./optOutsClient.js";
 export type {
   OptOutCheckResult,
   OptOutAddResult,

@@ -16,8 +16,9 @@ import { extractOperationOptions } from "./extractOperationOptions.js";
 import { generateSendMessageRequest } from "./utils/smsUtils.js";
 import { logger } from "./logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { OptOutsClientImpl, type OptOuts } from "./optOutsClient.js";
-import { ServiceVersion, DEFAULT_API_VERSION } from "./constants.js";
+import { OptOutsClientImpl, type OptOutsClient } from "./optOutsClient.js";
+import type { ServiceVersion } from "./constants.js";
+import { DEFAULT_API_VERSION } from "./constants.js";
 import type { DeliveryAttempt, DeliveryReportDeliveryStatus } from "./generated/src/index.js";
 
 /**
@@ -176,10 +177,7 @@ const isSmsClientOptions = (options: any): options is SmsClientOptions =>
  */
 export class SmsClient {
   private readonly api: SmsApiClient;
-  /**
-   * A sub-client for managing opt-out operations.
-   */
-  public optOuts: OptOuts;
+  private readonly _optOutsClient: OptOutsClient;
   /**
    * The API version being used by this client.
    */
@@ -232,7 +230,15 @@ export class SmsClient {
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.api = new SmsApiClient(url, { ...internalPipelineOptions, apiVersion: this.apiVersion });
     this.api.pipeline.addPolicy(authPolicy);
-    this.optOuts = new OptOutsClientImpl(this.api);
+    this._optOutsClient = new OptOutsClientImpl(this.api);
+  }
+
+  /**
+   * Gets the OptOutsClient for managing opt-out operations.
+   * @returns The OptOutsClient instance for managing opt-outs.
+   */
+  public getOptOutsClient(): OptOutsClient {
+    return this._optOutsClient;
   }
 
   /**
@@ -246,7 +252,7 @@ export class SmsClient {
     options: SmsSendOptions = { enableDeliveryReport: false },
   ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("SmsClient-Send", operationOptions, async (updatedOptions) => {
+    return tracingClient.withSpan("SmsClient-Send", operationOptions, async (updatedOptions: OperationOptions) => {
       const response = await this.api.sms.send(
         generateSendMessageRequest(sendRequest, restOptions),
         updatedOptions,
@@ -269,7 +275,7 @@ export class SmsClient {
     return tracingClient.withSpan(
       "SmsClient-GetDeliveryReport",
       operationOptions,
-      async (updatedOptions) => {
+      async (updatedOptions: OperationOptions) => {
         const response = await this.api.deliveryReports.get(messageId, updatedOptions);
 
         return {

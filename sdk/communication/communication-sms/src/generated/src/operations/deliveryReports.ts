@@ -41,7 +41,7 @@ export class DeliveryReportsImpl implements DeliveryReports {
     return tracingClient.withSpan(
       "SmsApiClient.get",
       options ?? {},
-      async (options) => {
+      async (options: DeliveryReportsGetOptionalParams) => {
         return this.client.sendOperationRequest(
           { outgoingMessageId, options },
           getOperationSpec,

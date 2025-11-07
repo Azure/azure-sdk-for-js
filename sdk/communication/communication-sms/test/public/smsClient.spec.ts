@@ -253,7 +253,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           async () => {
             const fromNumber = env.AZURE_PHONE_NUMBER as string;
             const validToNumber = env.AZURE_PHONE_NUMBER as string;
-            const results = await client.optOuts.check(fromNumber, [validToNumber]);
+            const results = await client.getOptOutsClient().check(fromNumber, [validToNumber]);
 
             assert.lengthOf(results, 1, "must return as many results as there were recipients");
             assert.equal(results[0].httpStatusCode, 200);
@@ -266,7 +266,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           async () => {
             const fromNumber = env.AZURE_PHONE_NUMBER as string;
             const validToNumber = env.AZURE_PHONE_NUMBER as string;
-            const results = await client.optOuts.add(fromNumber, [validToNumber]);
+            const results = await client.getOptOutsClient().add(fromNumber, [validToNumber]);
 
             assert.lengthOf(results, 1, "must return as many results as there were recipients");
             assert.equal(results[0].httpStatusCode, 200);
@@ -279,7 +279,7 @@ matrix([[false, true]], async function (useAad: boolean) {
           async () => {
             const fromNumber = env.AZURE_PHONE_NUMBER as string;
             const validToNumber = env.AZURE_PHONE_NUMBER as string;
-            const results = await client.optOuts.remove(fromNumber, [validToNumber]);
+            const results = await client.getOptOutsClient().remove(fromNumber, [validToNumber]);
 
             assert.lengthOf(results, 1, "must return as many results as there were recipients");
             assert.equal(results[0].httpStatusCode, 200);
@@ -290,10 +290,10 @@ matrix([[false, true]], async function (useAad: boolean) {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
-          const addResults = await client.optOuts.add(fromNumber, [validToNumber]);
+          const addResults = await client.getOptOutsClient().add(fromNumber, [validToNumber]);
           assert.equal(addResults[0].httpStatusCode, 200);
 
-          const checkResults = await client.optOuts.check(fromNumber, [validToNumber]);
+          const checkResults = await client.getOptOutsClient().check(fromNumber, [validToNumber]);
           assert.equal(checkResults[0].httpStatusCode, 200);
           assert.equal(checkResults[0].isOptedOut, true);
         });
@@ -302,10 +302,10 @@ matrix([[false, true]], async function (useAad: boolean) {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
-          const removeResults = await client.optOuts.remove(fromNumber, [validToNumber]);
+          const removeResults = await client.getOptOutsClient().remove(fromNumber, [validToNumber]);
           assert.equal(removeResults[0].httpStatusCode, 200);
 
-          const checkResults = await client.optOuts.check(fromNumber, [validToNumber]);
+          const checkResults = await client.getOptOutsClient().check(fromNumber, [validToNumber]);
           assert.equal(checkResults[0].httpStatusCode, 200);
           assert.equal(checkResults[0].isOptedOut, false);
         });

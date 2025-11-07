@@ -56,7 +56,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new SmsClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const optOutCheckResults = await client.optOuts.check(
+    const optOutCheckResults = await client.getOptOutsClient().check(
       "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
     );
@@ -78,7 +78,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new SmsClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const optOutAddResults = await client.optOuts.add(
+    const optOutAddResults = await client.getOptOutsClient().add(
       "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
     );
@@ -100,7 +100,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new SmsClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const optOutRemoveResults = await client.optOuts.remove(
+    const optOutRemoveResults = await client.getOptOutsClient().remove(
       "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
     );

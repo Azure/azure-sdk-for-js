@@ -13,8 +13,11 @@
   - Updated structure: `messagingConnect: { partnerId: "PartnerName", partnerParams: { "apiKey": "your-api-key" } }`
   - Follows Azure SDK design guidelines for flexible parameter collections
   - Migration from beta: Change `messagingConnect: { apiKey: "your-api-key", partner: "PartnerName" }` to `messagingConnect: { partnerId: "PartnerName", partnerParams: { "apiKey": "your-api-key" } }`
-- Renamed `OptOutsClient` type to `OptOuts` to align with Azure SDK guidelines for sub-clients
-- Changed `SmsClient.optOuts` property type from `OptOutsClient` to `OptOuts`
+- Updated opt-out management to follow Azure SDK subclient guidelines:
+  - Renamed `OptOuts` type to `OptOutsClient`
+  - Changed from property access (`client.optOuts`) to method access (`client.getOptOutsClient()`)
+  - Migration: Change `client.optOuts.check()` to `client.getOptOutsClient().check()` (same for `add()` and `remove()`)
+
 
 ## 1.2.0-beta.4 (2025-06-16)
 

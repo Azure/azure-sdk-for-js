@@ -117,7 +117,7 @@ for (const sendResult of sendResults) {
 
 ## Check if a list of recipients is in the Opt Out list
 
-To check if the recipients are in the Opt Out list, call the `check` function from the `SmsClient.optOuts` with a list of recipient phone numbers.
+To check if the recipients are in the Opt Out list, call the `check` function from the `SmsClient.getOptOutsClient()` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutCheck
 import { DefaultAzureCredential } from "@azure/identity";
@@ -127,7 +127,7 @@ const endpoint = "https://<resource-name>.communication.azure.com";
 const credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 
-const optOutCheckResults = await client.optOuts.check(
+const optOutCheckResults = await client.getOptOutsClient().check(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
   ["<to-phone-number-1>", "<to-phone-number-2>"],
 );
@@ -146,7 +146,7 @@ for (const optOutCheckResult of optOutCheckResults) {
 
 ## Add a list of recipients to Opt Out list
 
-To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.optOuts` with a list of recipient phone numbers.
+To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.getOptOutsClient()` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutAdd
 import { DefaultAzureCredential } from "@azure/identity";
@@ -156,7 +156,7 @@ const endpoint = "https://<resource-name>.communication.azure.com";
 const credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 
-const optOutAddResults = await client.optOuts.add(
+const optOutAddResults = await client.getOptOutsClient().add(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
   ["<to-phone-number-1>", "<to-phone-number-2>"],
 );
@@ -175,7 +175,7 @@ for (const optOutAddResult of optOutAddResults) {
 
 ## Remove a list of recipients from Opt Out list
 
-To remove the list of recipients to Opt Out list, call the `remove` function from the `SmsClient.optOuts.` with a list of recipient phone numbers.
+To remove the list of recipients from Opt Out list, call the `remove` function from the `SmsClient.getOptOutsClient()` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutRemove
 import { DefaultAzureCredential } from "@azure/identity";
@@ -185,7 +185,7 @@ const endpoint = "https://<resource-name>.communication.azure.com";
 const credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 
-const optOutRemoveResults = await client.optOuts.remove(
+const optOutRemoveResults = await client.getOptOutsClient().remove(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
   ["<to-phone-number-1>", "<to-phone-number-2>"],
 );
