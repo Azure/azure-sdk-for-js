@@ -21,7 +21,7 @@ import {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-describe("DeviceRegistry Namespaced Resources tests", () => {
+describe("DeviceRegistry Root Level Resources tests", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let resourceGroupName: string;
