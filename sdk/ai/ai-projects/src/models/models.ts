@@ -116,7 +116,6 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
       return workflowAgentDefinitionSerializer(item as WorkflowAgentDefinition);
 
     case "hosted":
-    case "hosted":
       return hostedAgentDefinitionUnionSerializer(item as HostedAgentDefinitionUnion);
 
     case "container_app":
@@ -135,7 +134,6 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
     case "workflow":
       return workflowAgentDefinitionDeserializer(item as WorkflowAgentDefinition);
 
-    case "hosted":
     case "hosted":
       return hostedAgentDefinitionUnionDeserializer(item as HostedAgentDefinitionUnion);
 
