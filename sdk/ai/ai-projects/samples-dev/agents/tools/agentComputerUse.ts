@@ -30,8 +30,7 @@ import {
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Initialize state machine

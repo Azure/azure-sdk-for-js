@@ -14,7 +14,8 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const endpoint = process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint =
+  process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());

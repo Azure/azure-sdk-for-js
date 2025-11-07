@@ -19,7 +19,8 @@ import "dotenv/config";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const endpoint = process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint =
+  process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 const VERSION1 = "1.0";
