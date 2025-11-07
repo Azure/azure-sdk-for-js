@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
   console.log("Creating agent with image generation tool...");
 
   // Create Agent with image generation tool
-  const agent = await project.agents.createAgentVersion("agent-image-generation", {
+  const agent = await project.agents.createVersion("agent-image-generation", {
     kind: "prompt",
     model: deploymentName,
     instructions: "Generate images based on user prompts",
@@ -83,7 +83,7 @@ export async function main(): Promise<void> {
 
   // Clean up resources
   console.log("\nCleaning up resources...");
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nImage generation sample completed!");

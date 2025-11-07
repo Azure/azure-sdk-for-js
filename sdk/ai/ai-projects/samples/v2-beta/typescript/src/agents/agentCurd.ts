@@ -17,12 +17,12 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const projectClient = new AIProjectClient(projectEndpoint, credential);
-  const agent1 = await projectClient.agents.createAgentVersion("bg-crud-agent4", {
+  const agent1 = await projectClient.agents.createVersion("bg-crud-agent4", {
     kind: "prompt",
     model: deploymentName,
   });
   console.log("Created agent id:", agent1.id, "version:", agent1.version, "name:", agent1.name);
-  const agent2 = await projectClient.agents.createAgentVersion("bg-crud-agent2", {
+  const agent2 = await projectClient.agents.createVersion("bg-crud-agent2", {
     kind: "prompt",
     model: deploymentName,
   });
@@ -55,7 +55,7 @@ async function main(): Promise<void> {
   }
 
   // Delete agent1
-  const result1 = await projectClient.agents.deleteAgentVersion(agent1.name, agent1.version);
+  const result1 = await projectClient.agents.deleteVersion(agent1.name, agent1.version);
   console.log(
     "Deleted agent name:",
     result1.name,
@@ -65,7 +65,7 @@ async function main(): Promise<void> {
     result1.deleted,
   );
   // Delete agent2
-  const result2 = await projectClient.agents.deleteAgentVersion(agent2.name, agent2.version);
+  const result2 = await projectClient.agents.deleteVersion(agent2.name, agent2.version);
   console.log(
     "Deleted agent name:",
     result2.name,

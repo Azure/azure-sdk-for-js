@@ -27,7 +27,7 @@ export async function main(): Promise<void> {
 
   // Define MCP tool that connects to Azure REST API specifications GitHub repository
   // The tool requires approval for each operation to ensure user control over external requests
-  const agent = await project.agents.createAgentVersion("agent-mcp", {
+  const agent = await project.agents.createVersion("agent-mcp", {
     kind: "prompt",
     model: deploymentName,
     instructions:
@@ -107,7 +107,7 @@ export async function main(): Promise<void> {
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nMCP sample completed!");

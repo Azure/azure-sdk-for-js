@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   console.log("Creating agent with web search tool...");
 
   // Create Agent with web search tool
-  const agent = await project.agents.createAgentVersion("agent-web-search", {
+  const agent = await project.agents.createVersion("agent-web-search", {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant that can search the web",
@@ -64,7 +64,7 @@ export async function main(): Promise<void> {
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nWeb search sample completed!");

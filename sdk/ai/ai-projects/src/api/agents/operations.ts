@@ -201,74 +201,6 @@ export async function getAgentVersion(
   return _getAgentVersionDeserialize(result);
 }
 
-export function _createAgentVersionFromManifestSend(
-  context: Client,
-  agentName: string,
-  manifestId: string,
-  parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions:import{?api-version}",
-    {
-      agent_name: agentName,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      metadata: options?.metadata,
-      description: options?.description,
-      manifest_id: manifestId,
-      parameter_values: parameterValues,
-    },
-  });
-}
-
-export async function _createAgentVersionFromManifestDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AgentVersionObject> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return agentVersionObjectDeserializer(result.body);
-}
-
-/** Create a new agent version from a manifest. */
-export async function createAgentVersionFromManifest(
-  context: Client,
-  agentName: string,
-  manifestId: string,
-  parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<AgentVersionObject> {
-  const result = await _createAgentVersionFromManifestSend(
-    context,
-    agentName,
-    manifestId,
-    parameterValues,
-    options,
-  );
-  return _createAgentVersionFromManifestDeserialize(result);
-}
-
 export function _createAgentVersionSend(
   context: Client,
   agentName: string,
@@ -293,8 +225,8 @@ export function _createAgentVersionSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      metadata: options?.metadata,
       description: options?.description,
+      metadata: options?.metadata,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
@@ -450,8 +382,8 @@ export function _updateAgentFromManifestSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      metadata: options?.metadata,
       description: options?.description,
+      metadata: options?.metadata,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -517,8 +449,8 @@ export function _createAgentFromManifestSend(
     },
     body: {
       name: name,
-      metadata: options?.metadata,
       description: options?.description,
+      metadata: options?.metadata,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -580,8 +512,8 @@ export function _updateAgentSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      metadata: options?.metadata,
       description: options?.description,
+      metadata: options?.metadata,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
@@ -636,8 +568,8 @@ export function _createAgentSend(
     },
     body: {
       name: name,
-      metadata: options?.metadata,
       description: options?.description,
+      metadata: options?.metadata,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
@@ -708,4 +640,72 @@ export async function getAgent(
 ): Promise<AgentObject> {
   const result = await _getAgentSend(context, agentName, options);
   return _getAgentDeserialize(result);
+}
+
+export function _createAgentVersionFromManifestSend(
+  context: Client,
+  agentName: string,
+  manifestId: string,
+  parameterValues: Record<string, any>,
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions:import{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      description: options?.description,
+      metadata: options?.metadata,
+      manifest_id: manifestId,
+      parameter_values: parameterValues,
+    },
+  });
+}
+
+export async function _createAgentVersionFromManifestDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentVersionObject> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return agentVersionObjectDeserializer(result.body);
+}
+
+/** Create a new agent version from a manifest. */
+export async function createAgentVersionFromManifest(
+  context: Client,
+  agentName: string,
+  manifestId: string,
+  parameterValues: Record<string, any>,
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<AgentVersionObject> {
+  const result = await _createAgentVersionFromManifestSend(
+    context,
+    agentName,
+    manifestId,
+    parameterValues,
+    options,
+  );
+  return _createAgentVersionFromManifestDeserialize(result);
 }

@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
   // Define MCP tool that connects to GitHub Copilot API with project connection authentication
   // The project connection should have Authorization header configured with "Bearer <GitHub PAT token>"
   // Token can be created at https://github.com/settings/personal-access-tokens/new
-  const agent = await project.agents.createAgentVersion("agent-mcp-connection-auth", {
+  const agent = await project.agents.createVersion("agent-mcp-connection-auth", {
     kind: "prompt",
     model: deploymentName,
     instructions: "Use MCP tools as needed",
@@ -107,7 +107,7 @@ export async function main(): Promise<void> {
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nMCP with project connection sample completed!");

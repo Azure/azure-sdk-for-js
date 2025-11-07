@@ -141,18 +141,18 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    createAgent: (name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams) => Promise<AgentObject>;
-    createAgentFromManifest: (name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams) => Promise<AgentObject>;
-    createAgentVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    createAgentVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
-    deleteAgent: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
-    deleteAgentVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    getAgent: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
-    getAgentVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    listAgents: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
-    listAgentVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    updateAgent: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams) => Promise<AgentObject>;
-    updateAgentFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams) => Promise<AgentObject>;
+    // Warning: (ae-forgotten-export) The symbol "CreateAgentConfig" needs to be exported by the entry point index.d.ts
+    create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
+    createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
+    createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
+    delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
+    deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
+    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
+    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
+    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
+    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
+    // Warning: (ae-forgotten-export) The symbol "UpdateAgentConfig" needs to be exported by the entry point index.d.ts
+    update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
 }
 
 // @public
