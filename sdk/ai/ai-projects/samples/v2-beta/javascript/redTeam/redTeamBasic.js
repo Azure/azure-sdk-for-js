@@ -11,13 +11,13 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<model endpoint>";
 const modelApiKey = process.env["MODEL_API_KEY"] || "<model api key>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating a Red Team scan for direct model testing");
 
