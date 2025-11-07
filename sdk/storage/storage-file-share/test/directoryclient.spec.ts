@@ -64,12 +64,12 @@ describe("DirectoryClient", () => {
     defaultDirCreateResp = await dirClient.create();
     assert.equal(defaultDirCreateResp.errorCode, undefined);
     assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
-    assert.ok(defaultDirCreateResp.fileChangeOn!);
-    assert.ok(defaultDirCreateResp.fileCreatedOn!);
-    assert.ok(defaultDirCreateResp.fileId!);
-    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
-    assert.ok(defaultDirCreateResp.fileParentId!);
-    assert.ok(defaultDirCreateResp.filePermissionKey!);
+    assert.isDefined(defaultDirCreateResp.fileChangeOn!);
+    assert.isDefined(defaultDirCreateResp.fileCreatedOn!);
+    assert.isDefined(defaultDirCreateResp.fileId!);
+    assert.isDefined(defaultDirCreateResp.fileLastWriteOn!);
+    assert.isDefined(defaultDirCreateResp.fileParentId!);
+    assert.isDefined(defaultDirCreateResp.filePermissionKey!);
   });
 
   afterEach(async () => {
@@ -124,11 +124,11 @@ describe("DirectoryClient", () => {
 
   it("getProperties", async () => {
     const result = await dirClient.getProperties();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("create with default parameters", () => {
@@ -155,21 +155,21 @@ describe("DirectoryClient", () => {
     assert.deepStrictEqual(result.metadata, metadata);
     assert.equal(result.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.directory);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.directory);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("create with all parameters configured setting filePermission", async () => {
@@ -194,20 +194,20 @@ describe("DirectoryClient", () => {
     assert.deepStrictEqual(result.metadata, metadata);
     assert.equal(result.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.directory);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.directory);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("create with all parameters configured setting filePermission format", async () => {
@@ -236,20 +236,20 @@ describe("DirectoryClient", () => {
     assert.deepStrictEqual(result.metadata, metadata);
     assert.equal(result.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.directory);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.directory);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("create with filePermission with Sddl format", async () => {
@@ -270,19 +270,19 @@ describe("DirectoryClient", () => {
 
     const result = await dirClient2.getProperties();
     assert.equal(result.errorCode, undefined);
-    assert.ok(result.filePermissionKey!);
+    assert.isDefined(result.filePermissionKey!);
   });
 
   it("createIfNotExists", async () => {
     const res = await dirClient.createIfNotExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceAlreadyExists");
 
     const dirClient2 = shareClient.getDirectoryClient(
       recorder.variable(dirName, getUniqueName(dirName)),
     );
     const res2 = await dirClient2.createIfNotExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
 
     await dirClient2.delete();
   });
@@ -292,12 +292,12 @@ describe("DirectoryClient", () => {
       recorder.variable(dirName, getUniqueName(dirName)),
     );
     const res = await dirClient2.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
 
     await dirClient2.create();
     const res2 = await dirClient2.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("deleteIfExists when parent not exists ", async () => {
@@ -305,16 +305,16 @@ describe("DirectoryClient", () => {
     const dirClient2 = dirClient.getDirectoryClient(subDirName);
     const dirClient3 = dirClient2.getDirectoryClient(subDirName);
     const res = await dirClient3.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ParentNotFound");
   });
 
   it("exists", async () => {
-    assert.ok(await dirClient.exists());
+    assert.isTrue(await dirClient.exists());
     const dirClient2 = shareClient.getDirectoryClient(
       recorder.variable(dirName, getUniqueName(dirName)),
     );
-    assert.ok(!(await dirClient2.exists()));
+    assert.isFalse(await dirClient2.exists());
   });
 
   it("setProperties with default parameters", async () => {
@@ -332,9 +332,9 @@ describe("DirectoryClient", () => {
       truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("setProperties with all parameters configured setting filePermission", async () => {
@@ -355,21 +355,21 @@ describe("DirectoryClient", () => {
     const result = await dirClient.getProperties();
     assert.equal(result.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.directory);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.directory);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("setProperties with binary permissions", async () => {
@@ -378,9 +378,9 @@ describe("DirectoryClient", () => {
       filePermission: filePermissionInBinaryFormat,
     });
     const result = await dirClient.getProperties();
-    assert.ok(result.lastModified);
+    assert.isDefined(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
-    assert.ok(result.filePermissionKey);
+    assert.isDefined(result.filePermissionKey);
   });
 
   it("delete", () => {});
@@ -407,20 +407,20 @@ describe("DirectoryClient", () => {
 
     const result = (await dirClient.listFilesAndDirectories({ prefix: "" }).byPage().next()).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
     let i = 0;
     for (const entry of result.segment.directoryItems) {
-      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+      assert.isAbove(subDirClients[i++].url.indexOf(entry.name), 0);
     }
 
     i = 0;
     for (const entry of result.segment.fileItems) {
-      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+      assert.isAbove(subFileClients[i++].url.indexOf(entry.name), 0);
     }
 
     for (const subFile of subFileClients) {
@@ -465,36 +465,36 @@ describe("DirectoryClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
     let i = 0;
     for (const entry of result.segment.directoryItems) {
-      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
-      assert.ok(entry.fileId);
-      assert.ok(entry.attributes);
-      assert.ok(entry.permissionKey);
-      assert.ok(entry.properties.creationTime);
-      assert.ok(entry.properties.lastAccessTime);
-      assert.ok(entry.properties.changeTime);
-      assert.ok(entry.properties.lastModified);
-      assert.ok(entry.properties.etag);
+      assert.isAbove(subDirClients[i++].url.indexOf(entry.name), 0);
+      assert.isDefined(entry.fileId);
+      assert.isDefined(entry.attributes);
+      assert.isDefined(entry.permissionKey);
+      assert.isDefined(entry.properties.creationTime);
+      assert.isDefined(entry.properties.lastAccessTime);
+      assert.isDefined(entry.properties.changeTime);
+      assert.isDefined(entry.properties.lastModified);
+      assert.isDefined(entry.properties.etag);
     }
 
     i = 0;
     for (const entry of result.segment.fileItems) {
-      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
-      assert.ok(entry.fileId);
-      assert.ok(entry.attributes);
-      assert.ok(entry.permissionKey);
-      assert.ok(entry.properties.creationTime);
-      assert.ok(entry.properties.lastAccessTime);
-      assert.ok(entry.properties.changeTime);
-      assert.ok(entry.properties.lastModified);
-      assert.ok(entry.properties.etag);
+      assert.isAbove(subFileClients[i++].url.indexOf(entry.name), 0);
+      assert.isDefined(entry.fileId);
+      assert.isDefined(entry.attributes);
+      assert.isDefined(entry.permissionKey);
+      assert.isDefined(entry.properties.creationTime);
+      assert.isDefined(entry.properties.lastAccessTime);
+      assert.isDefined(entry.properties.changeTime);
+      assert.isDefined(entry.properties.lastModified);
+      assert.isDefined(entry.properties.etag);
     }
 
     for (const subFile of subFileClients) {
@@ -555,8 +555,8 @@ describe("DirectoryClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
@@ -565,35 +565,35 @@ describe("DirectoryClient", () => {
     let resultDirNames = [];
     for (const entry of result.segment.directoryItems) {
       resultDirNames.push(entry.name);
-      assert.ok(entry.fileId);
-      assert.ok(entry.attributes);
-      assert.ok(entry.permissionKey);
-      assert.ok(entry.properties.creationTime);
-      assert.ok(entry.properties.lastAccessTime);
-      assert.ok(entry.properties.changeTime);
-      assert.ok(entry.properties.lastModified);
-      assert.ok(entry.properties.etag);
+      assert.isDefined(entry.fileId);
+      assert.isDefined(entry.attributes);
+      assert.isDefined(entry.permissionKey);
+      assert.isDefined(entry.properties.creationTime);
+      assert.isDefined(entry.properties.lastAccessTime);
+      assert.isDefined(entry.properties.changeTime);
+      assert.isDefined(entry.properties.lastModified);
+      assert.isDefined(entry.properties.etag);
     }
 
     for (const subDirName of subDirNames) {
-      assert.ok(resultDirNames.includes(subDirName));
+      assert.include(resultDirNames, subDirName);
     }
 
     let resultFileNames = [];
     for (const entry of result.segment.fileItems) {
       resultFileNames.push(entry.name);
-      assert.ok(entry.fileId);
-      assert.ok(entry.attributes);
-      assert.ok(entry.permissionKey);
-      assert.ok(entry.properties.creationTime);
-      assert.ok(entry.properties.lastAccessTime);
-      assert.ok(entry.properties.changeTime);
-      assert.ok(entry.properties.lastModified);
-      assert.ok(entry.properties.etag);
+      assert.isDefined(entry.fileId);
+      assert.isDefined(entry.attributes);
+      assert.isDefined(entry.permissionKey);
+      assert.isDefined(entry.properties.creationTime);
+      assert.isDefined(entry.properties.lastAccessTime);
+      assert.isDefined(entry.properties.changeTime);
+      assert.isDefined(entry.properties.lastModified);
+      assert.isDefined(entry.properties.etag);
     }
 
     for (const subFileName of subFileNames) {
-      assert.ok(resultFileNames.includes(subFileName));
+      assert.include(resultFileNames, subFileName);
     }
 
     // List with dir prefix
@@ -611,8 +611,8 @@ describe("DirectoryClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, 0);
@@ -622,18 +622,18 @@ describe("DirectoryClient", () => {
     resultDirNames = [];
     for (const entry of result.segment.directoryItems) {
       resultDirNames.push(entry.name);
-      assert.ok(entry.fileId);
-      assert.ok(entry.attributes);
-      assert.ok(entry.permissionKey);
-      assert.ok(entry.properties.creationTime);
-      assert.ok(entry.properties.lastAccessTime);
-      assert.ok(entry.properties.changeTime);
-      assert.ok(entry.properties.lastModified);
-      assert.ok(entry.properties.etag);
+      assert.isDefined(entry.fileId);
+      assert.isDefined(entry.attributes);
+      assert.isDefined(entry.permissionKey);
+      assert.isDefined(entry.properties.creationTime);
+      assert.isDefined(entry.properties.lastAccessTime);
+      assert.isDefined(entry.properties.changeTime);
+      assert.isDefined(entry.properties.lastModified);
+      assert.isDefined(entry.properties.etag);
     }
 
     for (const subDirName of subDirNames) {
-      assert.ok(resultDirNames.includes(subDirName));
+      assert.include(resultDirNames, subDirName);
     }
 
     // List with file prefix
@@ -651,8 +651,8 @@ describe("DirectoryClient", () => {
         .next()
     ).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, 0);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
@@ -662,18 +662,18 @@ describe("DirectoryClient", () => {
     resultFileNames = [];
     for (const entry of result.segment.fileItems) {
       resultFileNames.push(entry.name);
-      assert.ok(entry.fileId);
-      assert.ok(entry.attributes);
-      assert.ok(entry.permissionKey);
-      assert.ok(entry.properties.creationTime);
-      assert.ok(entry.properties.lastAccessTime);
-      assert.ok(entry.properties.changeTime);
-      assert.ok(entry.properties.lastModified);
-      assert.ok(entry.properties.etag);
+      assert.isDefined(entry.fileId);
+      assert.isDefined(entry.attributes);
+      assert.isDefined(entry.permissionKey);
+      assert.isDefined(entry.properties.creationTime);
+      assert.isDefined(entry.properties.lastAccessTime);
+      assert.isDefined(entry.properties.changeTime);
+      assert.isDefined(entry.properties.lastModified);
+      assert.isDefined(entry.properties.etag);
     }
 
     for (const subFileName of subFileNames) {
-      assert.ok(resultFileNames.includes(subFileName));
+      assert.include(resultFileNames, subFileName);
     }
 
     for (const subFile of subFileClients) {
@@ -712,20 +712,20 @@ describe("DirectoryClient", () => {
 
     const result = (await rootDirClient.listFilesAndDirectories({ prefix }).byPage().next()).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
     let i = 0;
     for (const entry of result.segment.directoryItems) {
-      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+      assert.isAbove(subDirClients[i++].url.indexOf(entry.name), 0);
     }
 
     i = 0;
     for (const entry of result.segment.fileItems) {
-      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+      assert.isAbove(subFileClients[i++].url.indexOf(entry.name), 0);
     }
 
     for (const subFile of subFileClients) {
@@ -822,7 +822,7 @@ describe("DirectoryClient", () => {
     }
 
     for await (const entity of rootDirClient.listFilesAndDirectories({ prefix })) {
-      assert.ok(entity.name.startsWith(prefix));
+      assert.isTrue(entity.name.startsWith(prefix));
       if (entity.kind === "file") {
         assert.deepEqual(entity.properties.contentLength, 1024);
       }
@@ -862,13 +862,13 @@ describe("DirectoryClient", () => {
 
     const iter = rootDirClient.listFilesAndDirectories({ prefix });
     let entity = getYieldedValue(await iter.next());
-    assert.ok(entity.name.startsWith(prefix));
+    assert.isTrue(entity.name.startsWith(prefix));
     if (entity.kind === "file") {
       assert.deepEqual(entity.properties.contentLength, 1024);
     }
 
     entity = getYieldedValue(await iter.next());
-    assert.ok(entity.name.startsWith(prefix));
+    assert.isTrue(entity.name.startsWith(prefix));
     if (entity.kind === "file") {
       assert.deepEqual(entity.properties.contentLength, 1024);
     }
@@ -911,11 +911,11 @@ describe("DirectoryClient", () => {
       })
       .byPage({ maxPageSize: 2 })) {
       for (const fileItem of response.segment.fileItems) {
-        assert.ok(fileItem.name.startsWith(prefix));
+        assert.isTrue(fileItem.name.startsWith(prefix));
         assert.deepEqual(fileItem.properties.contentLength, 1024);
       }
       for (const dirItem of response.segment.directoryItems) {
-        assert.ok(dirItem.name.startsWith(prefix));
+        assert.isTrue(dirItem.name.startsWith(prefix));
       }
     }
 
@@ -1006,7 +1006,7 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
   });
 
@@ -1026,7 +1026,7 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.strictEqual(error.statusCode as number, 404);
     }
     await subDirClient.delete();
   });
@@ -1053,7 +1053,7 @@ describe("DirectoryClient", () => {
           "Expecting an error in getting properties from a deleted block blob but didn't get one.",
         );
       } catch (error: any) {
-        assert.ok((error.statusCode as number) === 404);
+        assert.strictEqual(error.statusCode as number, 404);
         assert.equal(
           error.details.errorCode,
           "ResourceNotFound",
@@ -1144,8 +1144,9 @@ describe("DirectoryClient", () => {
   it("rename", async () => {
     const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const result = await dirClient.rename(destDirName);
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -1156,7 +1157,11 @@ describe("DirectoryClient", () => {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1170,8 +1175,9 @@ describe("DirectoryClient", () => {
     const result = await dirClient.rename(destDirName, {
       metadata: metadata,
     });
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -1183,7 +1189,11 @@ describe("DirectoryClient", () => {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1207,8 +1217,9 @@ describe("DirectoryClient", () => {
     const destDirPath = destParentDirName + "/" + destDirName;
 
     const result = await sourceDir.rename(destDirPath);
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -1219,7 +1230,11 @@ describe("DirectoryClient", () => {
       await sourceDir.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1230,8 +1245,9 @@ describe("DirectoryClient", () => {
       replaceIfExists: true,
     });
 
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -1242,7 +1258,11 @@ describe("DirectoryClient", () => {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1254,15 +1274,16 @@ describe("DirectoryClient", () => {
       await dirClient.rename(destDirName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err: any) {
-      assert.ok(
-        (err.statusCode as number) === 409,
+      assert.strictEqual(
+        err.statusCode as number,
+        409,
         "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
     await dirClient.getProperties();
     const properties = await targetFileClient.getProperties();
-    assert.ok(properties.contentLength === 1024, "The origin file should still exist");
+    assert.strictEqual(properties.contentLength, 1024, "The origin file should still exist");
   });
 
   it("rename - ignoreReadOnly = true", async () => {
@@ -1284,7 +1305,11 @@ describe("DirectoryClient", () => {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1302,15 +1327,16 @@ describe("DirectoryClient", () => {
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err: any) {
-      assert.ok(
-        (err.statusCode as number) === 409,
+      assert.strictEqual(
+        err.statusCode as number,
+        409,
         "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
     await dirClient.getProperties();
     const properties = await targetFileClient.getProperties();
-    assert.ok(properties.contentLength === 1024, "The origin file should still exist");
+    assert.strictEqual(properties.contentLength, 1024, "The origin file should still exist");
   });
 
   it("rename - destination leased", async () => {
@@ -1336,7 +1362,11 @@ describe("DirectoryClient", () => {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1355,12 +1385,12 @@ describe("DirectoryClient", () => {
       });
       assert.fail("Should got conflict error when trying to overwrite a leased file");
     } catch (err: any) {
-      assert.ok("Should got conflict error when trying to overwrite a leased file");
+      assert.equal(err.code, "LeaseIdMissing");
     }
 
     await dirClient.getProperties();
     const properties = await targetFileClient.getProperties();
-    assert.ok(properties.contentLength === 1024, "The origin file should still exist");
+    assert.strictEqual(properties.contentLength, 1024, "The origin file should still exist");
   });
 
   it("rename - Non-ASCII source and destination", async () => {
@@ -1373,8 +1403,9 @@ describe("DirectoryClient", () => {
     await sourceDirClient.create();
 
     const result = await sourceDirClient.rename(destDirName);
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -1384,7 +1415,11 @@ describe("DirectoryClient", () => {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1401,19 +1436,27 @@ describe("DirectoryClient", () => {
       filePermission: filePermission,
     });
 
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
     const properties = await result.destinationDirectoryClient.getProperties();
-    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+    assert.isDefined(
+      properties.filePermissionKey,
+      "File permission should have been set to destination",
+    );
 
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1429,19 +1472,27 @@ describe("DirectoryClient", () => {
       filePermission: filePermissionInBinaryFormat,
     });
 
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
     const properties = await result.destinationDirectoryClient.getProperties();
-    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+    assert.isDefined(
+      properties.filePermissionKey,
+      "File permission should have been set to destination",
+    );
 
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 
@@ -1475,27 +1526,34 @@ describe("DirectoryClient", () => {
       copyFileSmbInfo: copyFileSMBInfo,
     });
 
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
     const properties = await result.destinationDirectoryClient.getProperties();
-    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
-    assert.ok(
-      truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
+    assert.isDefined(
+      properties.filePermissionKey,
+      "File permission should have been set to destination",
+    );
+    assert.strictEqual(
+      truncatedISO8061Date(properties.fileCreatedOn!),
+      truncatedISO8061Date(creationDate),
       "Creation time should be expected",
     );
-    assert.ok(
-      truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
+    assert.strictEqual(
+      truncatedISO8061Date(properties.fileLastWriteOn!),
+      truncatedISO8061Date(lastwriteTime),
       "Last write time should be expected",
     );
-    assert.ok(
-      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changedTime),
+    assert.strictEqual(
+      truncatedISO8061Date(properties.fileChangeOn!),
+      truncatedISO8061Date(changedTime),
       "Changed time should be expected",
     );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
-    assert.ok(
+    assert.isTrue(
       fileSystemAttributes.readonly && fileSystemAttributes.directory,
       "File attributes should be expected",
     );
@@ -1504,7 +1562,11 @@ describe("DirectoryClient", () => {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
     } catch (err: any) {
-      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+      assert.strictEqual(
+        err.statusCode as number,
+        404,
+        "Source directory should not exist anymore",
+      );
     }
   });
 });
@@ -1625,12 +1687,12 @@ describe("DirectoryClient - OAuth", () => {
     defaultDirCreateResp = await dirClient.create();
     assert.equal(defaultDirCreateResp.errorCode, undefined);
     assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
-    assert.ok(defaultDirCreateResp.fileChangeOn!);
-    assert.ok(defaultDirCreateResp.fileCreatedOn!);
-    assert.ok(defaultDirCreateResp.fileId!);
-    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
-    assert.ok(defaultDirCreateResp.fileParentId!);
-    assert.ok(defaultDirCreateResp.filePermissionKey!);
+    assert.isDefined(defaultDirCreateResp.fileChangeOn!);
+    assert.isDefined(defaultDirCreateResp.fileCreatedOn!);
+    assert.isDefined(defaultDirCreateResp.fileId!);
+    assert.isDefined(defaultDirCreateResp.fileLastWriteOn!);
+    assert.isDefined(defaultDirCreateResp.fileParentId!);
+    assert.isDefined(defaultDirCreateResp.filePermissionKey!);
   });
 
   afterEach(async () => {
@@ -1656,11 +1718,11 @@ describe("DirectoryClient - OAuth", () => {
 
   it("getProperties", async () => {
     const result = await dirClient.getProperties();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("create", () => {
@@ -1669,14 +1731,14 @@ describe("DirectoryClient - OAuth", () => {
 
   it("createIfNotExists", async () => {
     const res = await dirClient.createIfNotExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceAlreadyExists");
 
     const dirClient2 = shareClient.getDirectoryClient(
       recorder.variable(dirName, getUniqueName(dirName)),
     );
     const res2 = await dirClient2.createIfNotExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
 
     await dirClient2.delete();
   });
@@ -1686,20 +1748,20 @@ describe("DirectoryClient - OAuth", () => {
       recorder.variable(dirName, getUniqueName(dirName)),
     );
     const res = await dirClient2.deleteIfExists();
-    assert.ok(!res.succeeded);
+    assert.isFalse(res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
 
     await dirClient2.create();
     const res2 = await dirClient2.deleteIfExists();
-    assert.ok(res2.succeeded);
+    assert.isTrue(res2.succeeded);
   });
 
   it("exists", async () => {
-    assert.ok(await dirClient.exists());
+    assert.isTrue(await dirClient.exists());
     const dirClient2 = shareClient.getDirectoryClient(
       recorder.variable(dirName, getUniqueName(dirName)),
     );
-    assert.ok(!(await dirClient2.exists()));
+    assert.isFalse(await dirClient2.exists());
   });
 
   it("setProperties and getProperties", async () => {
@@ -1717,9 +1779,9 @@ describe("DirectoryClient - OAuth", () => {
       truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("setProperties with all parameters configured setting filePermission", async () => {
@@ -1740,21 +1802,21 @@ describe("DirectoryClient - OAuth", () => {
     const result = await dirClient.getProperties();
     assert.equal(result.errorCode, undefined);
     const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
-    assert.ok(respFileAttributes.readonly);
-    assert.ok(respFileAttributes.hidden);
-    assert.ok(respFileAttributes.system);
-    assert.ok(respFileAttributes.directory);
-    assert.ok(respFileAttributes.archive);
-    assert.ok(respFileAttributes.offline);
-    assert.ok(respFileAttributes.notContentIndexed);
-    assert.ok(respFileAttributes.noScrubData);
+    assert.isDefined(respFileAttributes.readonly);
+    assert.isDefined(respFileAttributes.hidden);
+    assert.isDefined(respFileAttributes.system);
+    assert.isDefined(respFileAttributes.directory);
+    assert.isDefined(respFileAttributes.archive);
+    assert.isDefined(respFileAttributes.offline);
+    assert.isDefined(respFileAttributes.notContentIndexed);
+    assert.isDefined(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
-    assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.filePermissionKey!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("delete", () => {
@@ -1783,20 +1845,20 @@ describe("DirectoryClient - OAuth", () => {
 
     const result = (await dirClient.listFilesAndDirectories().byPage().next()).value;
 
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.notStrictEqual(shareClient.url.indexOf(result.shareName), -1);
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
     let i = 0;
     for (const entry of result.segment.directoryItems) {
-      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+      assert.isAbove(subDirClients[i++].url.indexOf(entry.name), 0);
     }
 
     i = 0;
     for (const entry of result.segment.fileItems) {
-      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+      assert.isAbove(subFileClients[i++].url.indexOf(entry.name), 0);
     }
 
     for (const subFile of subFileClients) {
@@ -1873,8 +1935,9 @@ describe("DirectoryClient - OAuth", () => {
   it("rename", async () => {
     const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const result = await dirClient.rename(destDirName);
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -1946,7 +2009,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot is created.");
+    assert.isTrue(foundDir, "The directory with trailing dot is created.");
     await dirClient1.delete();
 
     assert.equal(await dirClient1.exists(), false);
@@ -1954,7 +2017,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
 
   it("createIfNotExists - Exists", async () => {
     const response = await dirClient.createIfNotExists();
-    assert.ok(!response.succeeded, "Directory should already exists");
+    assert.isFalse(response.succeeded, "Directory should already exists");
   });
 
   it("createIfNotExists - New", async () => {
@@ -1971,7 +2034,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot is created.");
+    assert.isTrue(foundDir, "The directory with trailing dot is created.");
   });
 
   it("setProperties and getProperties", async () => {
@@ -1989,9 +2052,9 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
       truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("createSubDirectory and deleteSubDirectory", async () => {
@@ -2029,7 +2092,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   });
 
   it("exists", async () => {
-    assert.ok(await dirClient.exists(), "The directory with trailing dot should exists");
+    assert.isTrue(await dirClient.exists(), "The directory with trailing dot should exists");
   });
 
   it("deleteIfExists", async () => {
@@ -2039,9 +2102,9 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
 
     await dirClient1.create();
     let deleteResponse = await dirClient1.deleteIfExists();
-    assert.ok(deleteResponse.succeeded, "Deletion should succeeded.");
+    assert.isTrue(deleteResponse.succeeded, "Deletion should succeeded.");
     deleteResponse = await dirClient1.deleteIfExists();
-    assert.ok(!deleteResponse.succeeded, "Directory should not exist anymore.");
+    assert.isFalse(deleteResponse.succeeded, "Directory should not exist anymore.");
   });
 
   it("setMetadata", async () => {
@@ -2068,7 +2131,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundFile, "Should found the file.");
+    assert.isTrue(foundFile, "Should found the file.");
   });
 
   it("forceCloseHandle", async () => {
@@ -2094,8 +2157,9 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   it("rename", async () => {
     const destDirName = recorder.variable("destdir", getUniqueName("destdir")) + "....";
     const result = await dirClient.rename(destDirName);
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -2112,7 +2176,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot exists.");
+    assert.isTrue(foundDir, "The directory with trailing dot exists.");
 
     const firstDestClient = result.destinationDirectoryClient;
     const anotherDestDirName = recorder.variable("destdir1", getUniqueName("destdir1")) + "....";
@@ -2131,7 +2195,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot exists.");
+    assert.isTrue(foundDir, "The directory with trailing dot exists.");
   });
 });
 
@@ -2189,7 +2253,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot trimmed is created.");
+    assert.isTrue(foundDir, "The directory with trailing dot trimmed is created.");
     await dirClient1.delete();
 
     assert.equal(await dirClient1.exists(), false);
@@ -2197,7 +2261,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
 
   it("createIfNotExists - Exists", async () => {
     const response = await dirClient.createIfNotExists();
-    assert.ok(!response.succeeded, "Directory should already exists");
+    assert.isFalse(response.succeeded, "Directory should already exists");
   });
 
   it("createIfNotExists - New", async () => {
@@ -2214,7 +2278,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot trimmed is created.");
+    assert.isTrue(foundDir, "The directory with trailing dot trimmed is created.");
   });
 
   it("setProperties and getProperties", async () => {
@@ -2232,9 +2296,9 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!),
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeOn!);
-    assert.ok(result.fileId!);
-    assert.ok(result.fileParentId!);
+    assert.isDefined(result.fileChangeOn!);
+    assert.isDefined(result.fileId!);
+    assert.isDefined(result.fileParentId!);
   });
 
   it("createSubDirectory and deleteSubDirectory", async () => {
@@ -2252,7 +2316,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot trimmed should have been created.");
+    assert.isTrue(foundDir, "The directory with trailing dot trimmed should have been created.");
     await subDirClient.getProperties();
 
     await dirClient.deleteSubdirectory(subDirNameWithDots);
@@ -2273,7 +2337,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundFile, "The file with trailing dots trimmed should have been created.");
+    assert.isTrue(foundFile, "The file with trailing dots trimmed should have been created.");
 
     await fileClient.getProperties();
 
@@ -2296,7 +2360,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   });
 
   it("exists", async () => {
-    assert.ok(await dirClient.exists(), "The directory with trailing dot should exists");
+    assert.isTrue(await dirClient.exists(), "The directory with trailing dot should exists");
   });
 
   it("deleteIfExists", async () => {
@@ -2307,9 +2371,9 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
 
     const dirClientWithTrailingDots = shareClient.getDirectoryClient(dirNameWithDots);
     let deleteResponse = await dirClientWithTrailingDots.deleteIfExists();
-    assert.ok(deleteResponse.succeeded, "Deletion should succeeded.");
+    assert.isTrue(deleteResponse.succeeded, "Deletion should succeeded.");
     deleteResponse = await dirClient1.deleteIfExists();
-    assert.ok(!deleteResponse.succeeded, "Directory should not exist anymore.");
+    assert.isFalse(deleteResponse.succeeded, "Directory should not exist anymore.");
   });
 
   it("setMetadata", async () => {
@@ -2340,7 +2404,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundFile, "Should found the file.");
+    assert.isTrue(foundFile, "Should found the file.");
   });
 
   it("forceCloseHandle", async () => {
@@ -2367,8 +2431,9 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
     const destDirBaseName = recorder.variable("destdir", getUniqueName("destdir"));
     const destDirName = destDirBaseName + "....";
     const result = await dirClient.rename(destDirName);
-    assert.ok(
-      result.destinationDirectoryClient.name === destDirName,
+    assert.strictEqual(
+      result.destinationDirectoryClient.name,
+      destDirName,
       "Destination name should be expected",
     );
 
@@ -2385,7 +2450,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dots trimmed should exist.");
+    assert.isTrue(foundDir, "The directory with trailing dots trimmed should exist.");
 
     const firstDestClient = result.destinationDirectoryClient;
     const anotherDestDirBaseName = recorder.variable("destdir1", getUniqueName("destdir1"));
@@ -2405,7 +2470,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot exists.");
+    assert.isTrue(foundDir, "The directory with trailing dot exists.");
   });
 });
 
@@ -2459,7 +2524,7 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
       }
     }
 
-    assert.ok(foundDir, "The directory with trailing dot is created.");
+    assert.isTrue(foundDir, "The directory with trailing dot is created.");
     await dirClient1.delete();
 
     assert.equal(await dirClient1.exists(), false);
@@ -2539,11 +2604,11 @@ describe("DirectoryClient - NFS", () => {
     assert.deepEqual(cResp.posixProperties?.group, posixProperties.group);
     assert.deepEqual(cResp.posixProperties?.fileMode, posixProperties.fileMode);
     assert.deepEqual(cResp.posixProperties?.fileType, "Directory");
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
+    assert.isDefined(cResp.fileChangeOn!);
+    assert.isDefined(cResp.fileCreatedOn!);
+    assert.isDefined(cResp.fileId!);
+    assert.isDefined(cResp.fileLastWriteOn!);
+    assert.isDefined(cResp.fileParentId!);
   });
 
   it("set&get nfs properties", async () => {
@@ -2574,8 +2639,8 @@ describe("DirectoryClient - NFS", () => {
     const cResp = await dirClient.create();
     assert.deepEqual(cResp.posixProperties?.owner, "0");
     assert.deepEqual(cResp.posixProperties?.group, "0");
-    assert.ok(cResp.posixProperties?.fileMode);
-    assert.ok(cResp.posixProperties?.fileType);
+    assert.isDefined(cResp.posixProperties?.fileMode);
+    assert.isDefined(cResp.posixProperties?.fileType);
 
     const setResp = await dirClient.setProperties({ posixProperties });
     assert.deepEqual(setResp.posixProperties?.owner, posixProperties.owner);
@@ -2587,10 +2652,10 @@ describe("DirectoryClient - NFS", () => {
     assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
     assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
     assert.deepEqual(getResp.posixProperties?.fileType, "Directory");
-    assert.ok(getResp.fileChangeOn!);
-    assert.ok(getResp.fileCreatedOn!);
-    assert.ok(getResp.fileId!);
-    assert.ok(getResp.fileLastWriteOn!);
-    assert.ok(getResp.fileParentId!);
+    assert.isDefined(getResp.fileChangeOn!);
+    assert.isDefined(getResp.fileCreatedOn!);
+    assert.isDefined(getResp.fileId!);
+    assert.isDefined(getResp.fileLastWriteOn!);
+    assert.isDefined(getResp.fileParentId!);
   });
 });
