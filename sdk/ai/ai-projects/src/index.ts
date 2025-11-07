@@ -41,10 +41,10 @@ export {
   MCPTool,
   BingGroundingAgentTool,
   BingGroundingSearchToolParameters,
+  ToolProjectConnection,
   BingGroundingSearchConfiguration,
   MicrosoftFabricAgentTool,
   FabricDataAgentToolParameters,
-  ToolProjectConnection,
   SharepointAgentTool,
   SharepointGroundingToolParameters,
   AzureAISearchAgentTool,
@@ -97,11 +97,6 @@ export {
   ApiInnerError,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
-  AgentContainerOperationObject,
-  AgentContainerOperationStatus,
-  AgentContainerOperationError,
-  AgentContainerObject,
-  AgentContainerStatus,
   MemoryStoreDefinition,
   MemoryStoreDefinitionUnion,
   MemoryStoreKind,
@@ -334,14 +329,6 @@ export {
 } from "./models/index.js";
 export { AIProjectClientOptionalParams } from "./api/index.js";
 export {
-  AgentsListAgentVersionContainerOperationsOptionalParams,
-  AgentsListAgentContainerOperationsOptionalParams,
-  AgentsGetAgentContainerOperationOptionalParams,
-  AgentsGetAgentContainerOptionalParams,
-  AgentsDeleteAgentContainerOptionalParams,
-  AgentsStopAgentContainerOptionalParams,
-  AgentsUpdateAgentContainerOptionalParams,
-  AgentsStartAgentContainerOptionalParams,
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
@@ -354,6 +341,8 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  UpdateAgentConfig,
 } from "./api/agents/index.js";
 export {
   ConnectionsListOptionalParams,

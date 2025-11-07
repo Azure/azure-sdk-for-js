@@ -510,7 +510,7 @@ export interface FileSearchTool extends Tool {
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
   /** A filter to apply. */
-  filters?: Filters | null;
+  filters?: Filters;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -985,7 +985,7 @@ export interface MCPTool extends Tool {
    * Optional HTTP headers to send to the MCP server. Use for authentication
    * or other purposes.
    */
-  headers?: Record<string, string> | null;
+  headers?: Record<string, string>;
   /** List of allowed tool names or a filter object. */
   allowed_tools?:
     | (
@@ -1565,7 +1565,7 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: any;
+  spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
@@ -1574,7 +1574,7 @@ export interface OpenApiFunctionDefinition {
   readonly functions?: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   }[];
 }
 
@@ -2012,7 +2012,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   input_binding: AzureFunctionBinding;
@@ -2043,7 +2043,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
+  parameters: unknown;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -2741,7 +2741,7 @@ export interface StructuredInputDefinition {
   /** When provided, the input value is bound to the specified tool arguments. */
   tool_argument_bindings?: ToolArgumentBinding[];
   /** The JSON schema for the structured input (optional). */
-  schema?: any;
+  schema?: unknown;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -2799,6 +2799,11 @@ export function toolArgumentBindingDeserializer(item: any): ToolArgumentBinding 
     tool_name: item["tool_name"],
     argument_name: item["argument_name"],
   };
+}
+
+/** Error response for API failures. */
+export interface ApiErrorResponse {
+  error: ApiError;
 }
 
 /** Error response for API failures. */
@@ -4611,7 +4616,7 @@ export function itemReferenceItemParamSerializer(item: ItemReferenceItemParam): 
 export interface ImageGenToolCallItemParam extends ItemParam {
   type: "image_generation_call";
   /** The generated image encoded in base64. */
-  result: string | null;
+  result?: string;
 }
 
 export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemParam): any {
@@ -4743,7 +4748,7 @@ export interface LocalShellExecAction {
   /** Environment variables to set for the command. */
   env: Record<string, string>;
   /** Optional user to run the command as. */
-  user?: string | null;
+  user?: string;
 }
 
 export function localShellExecActionSerializer(item: LocalShellExecAction): any {
@@ -4786,7 +4791,7 @@ export interface MCPListToolsItemParam extends ItemParam {
   /** The tools available on the server. */
   tools: MCPListToolsTool[];
   /** Error message if the server could not list tools. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpListToolsItemParamSerializer(item: MCPListToolsItemParam): any {
@@ -4809,11 +4814,11 @@ export interface MCPListToolsTool {
   /** The name of the tool. */
   name: string;
   /** The description of the tool. */
-  description?: string | null;
+  description?: string;
   /** The JSON schema describing the tool's input. */
   input_schema: any;
   /** Additional annotations about the tool. */
-  annotations?: any | null;
+  annotations?: unknown;
 }
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
@@ -4859,7 +4864,7 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
   /** Whether the request was approved. */
   approve: boolean;
   /** Optional reason for the decision. */
-  reason?: string | null;
+  reason?: string;
 }
 
 export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponseItemParam): any {
@@ -4884,9 +4889,9 @@ export interface MCPCallItemParam extends ItemParam {
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
   /** The output from the tool call. */
-  output?: string | null;
+  output?: string;
   /** The error from the tool call, if any. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
@@ -4904,7 +4909,7 @@ export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
 export interface MemorySearchToolCallItemParam extends ItemParam {
   type: "memory_search_call";
   /** The results returned from the memory search. */
-  results?: MemorySearchItem[] | null;
+  results?: MemorySearchItem[];
 }
 
 export function memorySearchToolCallItemParamSerializer(item: MemorySearchToolCallItemParam): any {
@@ -5059,6 +5064,12 @@ export function chatSummaryMemoryItemDeserializer(item: any): ChatSummaryMemoryI
     content: item["content"],
     kind: item["kind"],
   };
+}
+
+/** A memory item containing a summary extracted from conversations. */
+export interface ChatSummaryMemoryItem extends MemoryItem {
+  /** The kind of the memory item. */
+  kind: "chat_summary";
 }
 
 export function itemParamUnionArraySerializer(result: Array<ItemParamUnion>): any[] {

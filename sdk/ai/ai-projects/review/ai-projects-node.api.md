@@ -36,40 +36,6 @@ export interface AgentClusterInsightsRequest extends InsightRequest {
 }
 
 // @public
-export interface AgentContainerObject {
-    readonly created_at: Date;
-    readonly error_message?: string;
-    max_replicas?: number;
-    min_replicas?: number;
-    readonly object: "agent.container";
-    readonly status: AgentContainerStatus;
-    readonly updated_at: Date;
-}
-
-// @public
-export interface AgentContainerOperationError {
-    code: string;
-    message: string;
-    type: string;
-}
-
-// @public
-export interface AgentContainerOperationObject {
-    agent_id: string;
-    agent_version_id: string;
-    container?: AgentContainerObject;
-    error?: AgentContainerOperationError;
-    id: string;
-    status: AgentContainerOperationStatus;
-}
-
-// @public
-export type AgentContainerOperationStatus = "NotStarted" | "InProgress" | "Succeeded" | "Failed";
-
-// @public
-export type AgentContainerStatus = "Starting" | "Running" | "Stopping" | "Stopped" | "Failed" | "Deleting" | "Deleted" | "Updating";
-
-// @public
 export interface AgentDefinition {
     // (undocumented)
     kind: AgentKind;
@@ -141,23 +107,11 @@ export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions
 }
 
 // @public
-export interface AgentsDeleteAgentContainerOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AgentsDeleteAgentOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsGetAgentContainerOperationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsGetAgentContainerOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -169,26 +123,10 @@ export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsListAgentContainerOperationsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: "asc" | "desc";
-}
-
-// @public
 export interface AgentsListAgentsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     kind?: AgentKind;
-    limit?: number;
-    order?: "asc" | "desc";
-}
-
-// @public
-export interface AgentsListAgentVersionContainerOperationsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
     limit?: number;
     order?: "asc" | "desc";
 }
@@ -203,42 +141,16 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    createAgent: (name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams) => Promise<AgentObject>;
-    createAgentFromManifest: (name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams) => Promise<AgentObject>;
+    create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
     createAgentVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     createAgentVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
     deleteAgent: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
-    deleteAgentContainer: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
     deleteAgentVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    getAgent: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
-    getAgentContainer: (agentName: string, agentVersion: string, options?: AgentsGetAgentContainerOptionalParams) => Promise<AgentContainerObject>;
-    getAgentContainerOperation: (agentName: string, operationId: string, options?: AgentsGetAgentContainerOperationOptionalParams) => Promise<AgentContainerOperationObject>;
+    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
     getAgentVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    listAgentContainerOperations: (agentName: string, options?: AgentsListAgentContainerOperationsOptionalParams) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
     listAgents: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
-    listAgentVersionContainerOperations: (agentName: string, agentVersion: string, options?: AgentsListAgentVersionContainerOperationsOptionalParams) => PagedAsyncIterableIterator<AgentContainerOperationObject>;
-    listAgentVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    startAgentContainer: (agentName: string, agentVersion: string, options?: AgentsStartAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    stopAgentContainer: (agentName: string, agentVersion: string, options?: AgentsStopAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    updateAgent: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams) => Promise<AgentObject>;
-    updateAgentContainer: (agentName: string, agentVersion: string, options?: AgentsUpdateAgentContainerOptionalParams) => Promise<AgentContainerOperationObject>;
-    updateAgentFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams) => Promise<AgentObject>;
-}
-
-// @public
-export interface AgentsStartAgentContainerOptionalParams extends OperationOptions {
-    max_replicas?: number;
-    min_replicas?: number;
-}
-
-// @public
-export interface AgentsStopAgentContainerOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsUpdateAgentContainerOptionalParams extends OperationOptions {
-    max_replicas?: number;
-    min_replicas?: number;
+    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
+    update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
 }
 
 // @public
@@ -358,6 +270,12 @@ export interface ApiErrorResponse {
 }
 
 // @public
+export interface ApiErrorResponse {
+    // (undocumented)
+    error: ApiError;
+}
+
+// @public
 export interface ApiInnerError {
     code: string;
     innererror?: ApiInnerError;
@@ -433,7 +351,7 @@ export interface AzureFunctionDefinition {
     function: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     };
     input_binding: AzureFunctionBinding;
     output_binding: AzureFunctionBinding;
@@ -541,6 +459,11 @@ export interface ChartCoordinate {
     size: number;
     x: number;
     y: number;
+}
+
+// @public
+export interface ChatSummaryMemoryItem extends MemoryItem {
+    kind: "chat_summary";
 }
 
 // @public
@@ -830,6 +753,12 @@ export interface CosmosDBIndex extends Index {
     fieldMapping: FieldMapping;
     type: "CosmosDBNoSqlVectorStore";
 }
+
+// Warning: (ae-forgotten-export) The symbol "CreateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CreateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
 
 // @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
@@ -1294,7 +1223,7 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    filters?: Filters | null;
+    filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
     type: "file_search";
@@ -1402,7 +1331,7 @@ export interface ImageGenTool extends Tool {
 
 // @public
 export interface ImageGenToolCallItemParam extends ItemParam {
-    result: string | null;
+    result?: string;
     // (undocumented)
     type: "image_generation_call";
 }
@@ -1655,7 +1584,7 @@ export interface LocalShellExecAction {
     env: Record<string, string>;
     timeout_ms?: number | null;
     type: "exec";
-    user?: string | null;
+    user?: string;
     working_directory?: string | null;
 }
 
@@ -1723,7 +1652,7 @@ export interface MCPApprovalRequestItemParam extends ItemParam {
 export interface MCPApprovalResponseItemParam extends ItemParam {
     approval_request_id: string;
     approve: boolean;
-    reason?: string | null;
+    reason?: string;
     // (undocumented)
     type: "mcp_approval_response";
 }
@@ -1731,9 +1660,9 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
 // @public
 export interface MCPCallItemParam extends ItemParam {
     arguments: string;
-    error?: string | null;
+    error?: string;
     name: string;
-    output?: string | null;
+    output?: string;
     server_label: string;
     // (undocumented)
     type: "mcp_call";
@@ -1741,7 +1670,7 @@ export interface MCPCallItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsItemParam extends ItemParam {
-    error?: string | null;
+    error?: string;
     server_label: string;
     tools: MCPListToolsTool[];
     // (undocumented)
@@ -1750,8 +1679,8 @@ export interface MCPListToolsItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsTool {
-    annotations?: any | null;
-    description?: string | null;
+    annotations?: unknown;
+    description?: string;
     input_schema: any;
     name: string;
 }
@@ -1761,7 +1690,7 @@ export interface MCPTool extends Tool {
     allowed_tools?: (string[] | {
         tool_names?: string[];
     }) | null;
-    headers?: Record<string, string> | null;
+    headers?: Record<string, string>;
     project_connection_id?: string;
     require_approval?: ({
         always?: {
@@ -1821,7 +1750,7 @@ export interface MemorySearchTool extends Tool {
 
 // @public
 export interface MemorySearchToolCallItemParam extends ItemParam {
-    results?: MemorySearchItem[] | null;
+    results?: MemorySearchItem[];
     // (undocumented)
     type: "memory_search_call";
 }
@@ -2052,10 +1981,10 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     }[];
     name: string;
-    spec: any;
+    spec: unknown;
 }
 
 // @public
@@ -2445,7 +2374,7 @@ export interface StructuredInputDefinition {
     default_value?: any;
     description?: string;
     required?: boolean;
-    schema?: any;
+    schema?: unknown;
     tool_argument_bindings?: ToolArgumentBinding[];
 }
 
@@ -2544,6 +2473,12 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
+
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
