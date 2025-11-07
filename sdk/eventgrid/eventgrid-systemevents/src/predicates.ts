@@ -601,13 +601,12 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.RouterWorkerUpdated" event. */
   "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
-  /** An interface for the event data of a Microsoft.ResourceNotifications.AKSResources.FleetGateCreated event. */
+  /** An interface for the event data of a Microsoft.ResourceNotifications.AksResources.FleetGateCreated event. */
   "Microsoft.ResourceNotifications.AksResources.FleetGateCreated": ResourceNotificationsAksResourcesFleetGateCreatedEventData;
-  /** An interface for the event data of a Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated event. */
+  /** An interface for the event data of a Microsoft.ResourceNotifications.AksResources.FleetGateUpdated event. */
   "Microsoft.ResourceNotifications.AksResources.FleetGateUpdated": ResourceNotificationsAksResourcesFleetGateUpdatedEventData;
-  /** An interface for the event data of a Microsoft.ResourceNotifications.AKSResources.FleetGateDeleted event. */
+  /** An interface for the event data of a Microsoft.ResourceNotifications.AksResources.FleetGateDeleted event. */
   "Microsoft.ResourceNotifications.AksResources.FleetGateDeleted": ResourceNotificationsAksResourcesFleetGateDeletedEventData;
-
 }
 
 /**
