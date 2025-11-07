@@ -65,6 +65,10 @@ async function main(): Promise<void> {
   });
   console.log("Validation file processed successfully.");
 
+  // Wait 5 seconds for files to be processed
+  console.log("\nWaiting for training file to be processed...");
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+
   // 2) Create a DPO fine-tuning job
   const fineTuningJob = await openAI.fineTuning.jobs.create({
     training_file: trainingFile.id,
@@ -86,7 +90,7 @@ async function main(): Promise<void> {
   // 3) Cancel the fine-tuning job
   console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
   const cancelledJob = await openAI.fineTuning.jobs.cancel(fineTuningJob.id);
-  await waitForJob(openAI, fineTuningJob.id, "canceled");
+  await waitForJob(openAI, fineTuningJob.id, "cancelled");
   console.log(
     `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
   );

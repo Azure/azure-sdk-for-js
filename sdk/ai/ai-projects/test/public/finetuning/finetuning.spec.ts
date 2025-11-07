@@ -81,6 +81,10 @@ describe("finetuning - basic", () => {
       assert.isString(validationFile.id);
       console.log(`Uploaded and processed file ID: ${validationFile.id}`);
 
+      // Wait 5 seconds for files to be processed
+      console.log("\nWaiting for training file to be processed...");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
       // 2) Create a supervised fine-tuning job
       console.log("\nCreating supervised fine-tuning job...");
       const fineTuningJob = await openai.fineTuning.jobs.create({
@@ -138,7 +142,7 @@ describe("finetuning - basic", () => {
       // 8) Cancel the fine-tuning job
       console.log(`\nCancelling fine-tuning job with ID: ${fineTuningJob.id}`);
       const cancelledJob = await openai.fineTuning.jobs.cancel(fineTuningJob.id);
-      await waitForJob(openai, fineTuningJob.id, "canceled");
+      await waitForJob(openai, fineTuningJob.id, "cancelled");
       console.log(
         `Successfully cancelled fine-tuning job: ${cancelledJob?.id || fineTuningJob.id}, Status: ${cancelledJob.status}`,
       );
