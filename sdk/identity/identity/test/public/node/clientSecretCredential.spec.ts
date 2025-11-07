@@ -11,10 +11,11 @@ import { delay, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential, type GetTokenOptions } from "@azure/identity";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { shouldRunSPTest } from "./utils/utils.js";
 
 expect.extend({ toSupportTracing });
 
-describe("ClientSecretCredential", function () {
+describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   beforeEach(async function (ctx) {
