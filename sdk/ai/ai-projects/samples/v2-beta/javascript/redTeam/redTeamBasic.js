@@ -29,7 +29,7 @@ async function main() {
     displayName: "redteamtest1",
     target: {
       type: "AzureOpenAIModel",
-      deploymentName: deploymentName,
+      modelDeploymentName: deploymentName,
     },
   };
 
