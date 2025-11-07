@@ -11,6 +11,8 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import semver from "semver";
 import { getPackageSpec, readFileJson, writePackageJson } from "@azure-tools/eng-package-utils";
+import { getConfig } from "@pnpm/config";
+import { resolveFromCatalog } from "@pnpm/catalogs.resolver";
 
 // crossSpawn is used because of its ability to better handle corner cases that break when using spawn in Windows environments.
 // For more details see - https://www.npmjs.com/package/cross-spawn
@@ -109,6 +111,7 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
  * @param {*} targetPackageName - name of the package for which the min/max testing is being run
  * @param {*} versionType - min or max or same
  * @param {*} testFolder - this is the test folder path from the package which is either test or test/public
+ * @param {*} catalogs - pnpm catalogs configuration
  * @returns
  */
 async function insertPackageJson(
@@ -118,6 +121,7 @@ async function insertPackageJson(
   targetPackageName,
   versionType,
   testFolder,
+  catalogs,
 ) {
   const testPath = path.join(targetPackagePath, testFolder);
   const testPackageJson = await readFileJson("./templates/package.json");
@@ -142,6 +146,7 @@ async function insertPackageJson(
       packageJsonContents.dependencies[pkg],
       normalizedRoot,
       versionType,
+      catalogs,
     );
     if (packageJsonContents.dependencies[pkg] !== depList[pkg]) {
       console.log(pkg);
@@ -163,6 +168,7 @@ async function insertPackageJson(
         packageVersion,
         normalizedRoot,
         versionType,
+        catalogs,
       );
       console.log("packagejson version = " + packageJsonContents.devDependencies[pkg]);
       if (packageJsonContents.devDependencies[pkg] !== testPackageJson.devDependencies[pkg]) {
@@ -200,14 +206,42 @@ async function isPackageAUtility(pkg, normalizedRoot) {
  * @param {*} packageJsonDepVersion - the dependency version range of the {package} in the targetPackage's package.json
  * @param {*} normalizedRoot - root of the repository given as input
  * @param {*} versionType - min or max or same
+ * @param {*} catalogs - pnpm catalogs configuration
  * @returns
  */
-async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot, versionType) {
+async function findAppropriateVersion(
+  pkg,
+  packageJsonDepVersion,
+  normalizedRoot,
+  versionType,
+  catalogs,
+) {
   console.log("checking " + pkg + " = " + packageJsonDepVersion);
   let isUtility = await isPackageAUtility(pkg, normalizedRoot);
   if (isUtility) {
     return packageJsonDepVersion;
   }
+
+  // Resolve catalog version specifiers to actual version ranges
+  let resolvedVersionRange = packageJsonDepVersion;
+  if (packageJsonDepVersion.startsWith("catalog:")) {
+    const resolvedVersion = resolveFromCatalog(catalogs, {
+      alias: pkg,
+      bareSpecifier: packageJsonDepVersion,
+    });
+    if (resolvedVersion.type === "found") {
+      resolvedVersionRange = resolvedVersion.resolution.specifier;
+      console.log(`resolved catalog version: ${packageJsonDepVersion} -> ${resolvedVersionRange}`);
+    } else {
+      console.warn(
+        `Failed to resolve catalog version for package ${pkg} with version ${packageJsonDepVersion}. Using local version.`,
+      );
+      let version = await getPackageVersion(normalizedRoot, pkg);
+      console.log(version);
+      return version;
+    }
+  }
+
   let allNPMVersionsString = await getVersions(pkg);
   if (allNPMVersionsString) {
     let allVersions = JSON.parse(allNPMVersionsString);
@@ -216,13 +250,13 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot
     }
     console.log(versionType);
     if (versionType === "min") {
-      let minVersion = await semver.minSatisfying(allVersions, packageJsonDepVersion);
+      let minVersion = await semver.minSatisfying(allVersions, resolvedVersionRange);
       if (minVersion) {
         return minVersion;
       } else {
         //issue a warning
         console.warn(
-          `No matching semver min version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver min version found on npm for package ${pkg} with version ${resolvedVersionRange}. Replacing with local version`,
         );
         let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
@@ -230,20 +264,20 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot
       }
     } else if (versionType === "max") {
       console.log("calling semver max satisfying");
-      let maxVersion = await semver.maxSatisfying(allVersions, packageJsonDepVersion);
+      let maxVersion = await semver.maxSatisfying(allVersions, resolvedVersionRange);
       if (maxVersion) {
         return maxVersion;
       } else {
         //issue a warning
         console.warn(
-          `No matching semver max version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
+          `No matching semver max version found on npm for package ${pkg} with version ${resolvedVersionRange}. Replacing with local version`,
         );
         let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
         return version;
       }
     } else if (versionType === "same") {
-      return packageJsonDepVersion;
+      return resolvedVersionRange;
     }
   }
 }
@@ -441,6 +475,16 @@ async function main(argv) {
     dryRun,
   });
 
+  // Load pnpm catalogs configuration
+  const { config } = await getConfig({
+    cliOptions: {},
+    packageManager: {
+      name: "pnpm",
+      version: "10.0.0",
+    },
+    workspaceDir: normalizedRoot,
+  });
+
   const targetPackage = await getPackageFromPnpm(normalizedRoot, packageName);
   if (!targetPackage) {
     throw new Error(`Package is not found in pnpm workspace for artifact ${artifactName}`);
@@ -457,6 +501,7 @@ async function main(argv) {
     targetPackage.packageName,
     versionType,
     testFolder,
+    config.catalogs,
   );
   await insertTsConfigJson(targetPackagePath, testFolder);
   if (packageJsonContents.scripts["test:node"].includes("vitest")) {
