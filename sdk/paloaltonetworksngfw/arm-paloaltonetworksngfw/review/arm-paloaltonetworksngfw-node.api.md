@@ -4,14 +4,11 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionEnum = string;
@@ -58,18 +55,13 @@ export interface AppSeenInfo {
 }
 
 // @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
-}
-
-// @public
 export interface AzureResourceManagerManagedIdentityProperties {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedIdentityType;
-    userAssignedIdentities?: Record<string, AzureResourceManagerUserAssignedIdentity>;
+    userAssignedIdentities?: {
+        [propertyName: string]: AzureResourceManagerUserAssignedIdentity;
+    };
 }
 
 // @public
@@ -77,9 +69,6 @@ export interface AzureResourceManagerUserAssignedIdentity {
     clientId?: string;
     principalId?: string;
 }
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type BillingCycle = string;
@@ -94,7 +83,65 @@ export interface Category {
 }
 
 // @public
-export interface CertificateObject {
+export interface CertificateObjectGlobalRulestack {
+    beginCreateOrUpdate(globalRulestackName: string, name: string, resource: CertificateObjectGlobalRulestackResource, options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CertificateObjectGlobalRulestackCreateOrUpdateResponse>, CertificateObjectGlobalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(globalRulestackName: string, name: string, resource: CertificateObjectGlobalRulestackResource, options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams): Promise<CertificateObjectGlobalRulestackCreateOrUpdateResponse>;
+    beginDelete(globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackDeleteOptionalParams): Promise<void>;
+    get(globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackGetOptionalParams): Promise<CertificateObjectGlobalRulestackGetResponse>;
+    list(globalRulestackName: string, options?: CertificateObjectGlobalRulestackListOptionalParams): PagedAsyncIterableIterator<CertificateObjectGlobalRulestackResource>;
+}
+
+// @public
+export interface CertificateObjectGlobalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CertificateObjectGlobalRulestackCreateOrUpdateResponse = CertificateObjectGlobalRulestackResource;
+
+// @public
+export interface CertificateObjectGlobalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CertificateObjectGlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CertificateObjectGlobalRulestackGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CertificateObjectGlobalRulestackGetResponse = CertificateObjectGlobalRulestackResource;
+
+// @public
+export interface CertificateObjectGlobalRulestackListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CertificateObjectGlobalRulestackListNextResponse = CertificateObjectGlobalRulestackResourceListResult;
+
+// @public
+export interface CertificateObjectGlobalRulestackListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CertificateObjectGlobalRulestackListResponse = CertificateObjectGlobalRulestackResourceListResult;
+
+// @public
+export interface CertificateObjectGlobalRulestackResource extends ProxyResource {
     auditComment?: string;
     certificateSelfSigned: BooleanEnum;
     certificateSignerResourceId?: string;
@@ -104,65 +151,83 @@ export interface CertificateObject {
 }
 
 // @public
-export interface CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
+export interface CertificateObjectGlobalRulestackResourceListResult {
+    nextLink?: string;
+    value: CertificateObjectGlobalRulestackResource[];
+}
+
+// @public
+export interface CertificateObjectLocalRulestack {
+    beginCreateOrUpdate(resourceGroupName: string, localRulestackName: string, name: string, resource: CertificateObjectLocalRulestackResource, options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CertificateObjectLocalRulestackCreateOrUpdateResponse>, CertificateObjectLocalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, localRulestackName: string, name: string, resource: CertificateObjectLocalRulestackResource, options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams): Promise<CertificateObjectLocalRulestackCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackGetOptionalParams): Promise<CertificateObjectLocalRulestackGetResponse>;
+    listByLocalRulestacks(resourceGroupName: string, localRulestackName: string, options?: CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams): PagedAsyncIterableIterator<CertificateObjectLocalRulestackResource>;
+}
+
+// @public
+export interface CertificateObjectLocalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CertificateObjectLocalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CertificateObjectGlobalRulestackDeleteOptionalParams extends OperationOptions {
+export type CertificateObjectLocalRulestackCreateOrUpdateResponse = CertificateObjectLocalRulestackResource;
+
+// @public
+export interface CertificateObjectLocalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CertificateObjectLocalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CertificateObjectGlobalRulestackGetOptionalParams extends OperationOptions {
+export interface CertificateObjectLocalRulestackGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CertificateObjectGlobalRulestackListOptionalParams extends OperationOptions {
+export type CertificateObjectLocalRulestackGetResponse = CertificateObjectLocalRulestackResource;
+
+// @public
+export interface CertificateObjectLocalRulestackListByLocalRulestacksNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CertificateObjectGlobalRulestackOperations {
-    createOrUpdate: (globalRulestackName: string, name: string, resource: CertificateObjectGlobalRulestackResource, options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<CertificateObjectGlobalRulestackResource>, CertificateObjectGlobalRulestackResource>;
-    delete: (globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (globalRulestackName: string, name: string, options?: CertificateObjectGlobalRulestackGetOptionalParams) => Promise<CertificateObjectGlobalRulestackResource>;
-    list: (globalRulestackName: string, options?: CertificateObjectGlobalRulestackListOptionalParams) => PagedAsyncIterableIterator<CertificateObjectGlobalRulestackResource>;
+export type CertificateObjectLocalRulestackListByLocalRulestacksNextResponse = CertificateObjectLocalRulestackResourceListResult;
+
+// @public
+export interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CertificateObjectGlobalRulestackResource extends ProxyResource {
-    properties: CertificateObject;
-}
-
-// @public
-export interface CertificateObjectLocalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CertificateObjectLocalRulestackDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CertificateObjectLocalRulestackGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CertificateObjectLocalRulestackOperations {
-    createOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: CertificateObjectLocalRulestackResource, options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<CertificateObjectLocalRulestackResource>, CertificateObjectLocalRulestackResource>;
-    delete: (resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, localRulestackName: string, name: string, options?: CertificateObjectLocalRulestackGetOptionalParams) => Promise<CertificateObjectLocalRulestackResource>;
-    listByLocalRulestacks: (resourceGroupName: string, localRulestackName: string, options?: CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams) => PagedAsyncIterableIterator<CertificateObjectLocalRulestackResource>;
-}
+export type CertificateObjectLocalRulestackListByLocalRulestacksResponse = CertificateObjectLocalRulestackResourceListResult;
 
 // @public
 export interface CertificateObjectLocalRulestackResource extends ProxyResource {
-    properties: CertificateObject;
+    auditComment?: string;
+    certificateSelfSigned: BooleanEnum;
+    certificateSignerResourceId?: string;
+    description?: string;
+    etag?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface CertificateObjectLocalRulestackResourceListResult {
+    nextLink?: string;
+    value: CertificateObjectLocalRulestackResource[];
 }
 
 // @public
@@ -178,9 +243,10 @@ export interface CloudManagerTenantList {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
+export interface CountriesResponse {
+    nextLink?: string;
+    value: Country[];
+}
 
 // @public
 export interface Country {
@@ -233,7 +299,7 @@ export interface EndpointConfiguration {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -261,10 +327,11 @@ export interface EventHub {
 }
 
 // @public
-export interface FirewallDeploymentProperties {
+export interface FirewallResource extends TrackedResource {
     associatedRulestack?: RulestackDetails;
     dnsSettings: DNSSettings;
     frontEndSettings?: FrontendSetting[];
+    identity?: AzureResourceManagerManagedIdentityProperties;
     isPanoramaManaged?: BooleanEnum;
     isStrataCloudManaged?: BooleanEnum;
     marketplaceDetails: MarketplaceDetails;
@@ -277,16 +344,18 @@ export interface FirewallDeploymentProperties {
 }
 
 // @public
-export interface FirewallResource extends TrackedResource {
-    identity?: AzureResourceManagerManagedIdentityProperties;
-    properties: FirewallDeploymentProperties;
+export interface FirewallResourceListResult {
+    nextLink?: string;
+    value: FirewallResource[];
 }
 
 // @public
 export interface FirewallResourceUpdate {
     identity?: AzureResourceManagerManagedIdentityProperties;
     properties?: FirewallResourceUpdateProperties;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -305,76 +374,139 @@ export interface FirewallResourceUpdateProperties {
 }
 
 // @public
-export interface FirewallsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface Firewalls {
+    beginCreateOrUpdate(resourceGroupName: string, firewallName: string, resource: FirewallResource, options?: FirewallsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FirewallsCreateOrUpdateResponse>, FirewallsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, firewallName: string, resource: FirewallResource, options?: FirewallsCreateOrUpdateOptionalParams): Promise<FirewallsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, firewallName: string, options?: FirewallsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, firewallName: string, options?: FirewallsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, firewallName: string, options?: FirewallsGetOptionalParams): Promise<FirewallsGetResponse>;
+    getGlobalRulestack(resourceGroupName: string, firewallName: string, options?: FirewallsGetGlobalRulestackOptionalParams): Promise<FirewallsGetGlobalRulestackResponse>;
+    getLogProfile(resourceGroupName: string, firewallName: string, options?: FirewallsGetLogProfileOptionalParams): Promise<FirewallsGetLogProfileResponse>;
+    getSupportInfo(resourceGroupName: string, firewallName: string, options?: FirewallsGetSupportInfoOptionalParams): Promise<FirewallsGetSupportInfoResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: FirewallsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FirewallResource>;
+    listBySubscription(options?: FirewallsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<FirewallResource>;
+    saveLogProfile(resourceGroupName: string, firewallName: string, options?: FirewallsSaveLogProfileOptionalParams): Promise<void>;
+    update(resourceGroupName: string, firewallName: string, properties: FirewallResourceUpdate, options?: FirewallsUpdateOptionalParams): Promise<FirewallsUpdateResponse>;
+}
+
+// @public
+export interface FirewallsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FirewallsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FirewallsDeleteOptionalParams extends OperationOptions {
+export type FirewallsCreateOrUpdateResponse = FirewallResource;
+
+// @public
+export interface FirewallsDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FirewallsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FirewallsGetGlobalRulestackOptionalParams extends OperationOptions {
+export interface FirewallsGetGlobalRulestackOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallsGetLogProfileOptionalParams extends OperationOptions {
+export type FirewallsGetGlobalRulestackResponse = GlobalRulestackInfo;
+
+// @public
+export interface FirewallsGetLogProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallsGetOptionalParams extends OperationOptions {
+export type FirewallsGetLogProfileResponse = LogSettings;
+
+// @public
+export interface FirewallsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallsGetSupportInfoOptionalParams extends OperationOptions {
+export type FirewallsGetResponse = FirewallResource;
+
+// @public
+export interface FirewallsGetSupportInfoOptionalParams extends coreClient.OperationOptions {
     email?: string;
 }
 
 // @public
-export interface FirewallsListByResourceGroupOptionalParams extends OperationOptions {
+export type FirewallsGetSupportInfoResponse = SupportInfo;
+
+// @public
+export interface FirewallsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallsListBySubscriptionOptionalParams extends OperationOptions {
+export type FirewallsListByResourceGroupNextResponse = FirewallResourceListResult;
+
+// @public
+export interface FirewallsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallsOperations {
-    createOrUpdate: (resourceGroupName: string, firewallName: string, resource: FirewallResource, options?: FirewallsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FirewallResource>, FirewallResource>;
-    delete: (resourceGroupName: string, firewallName: string, options?: FirewallsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, firewallName: string, options?: FirewallsGetOptionalParams) => Promise<FirewallResource>;
-    getGlobalRulestack: (resourceGroupName: string, firewallName: string, options?: FirewallsGetGlobalRulestackOptionalParams) => Promise<GlobalRulestackInfo>;
-    getLogProfile: (resourceGroupName: string, firewallName: string, options?: FirewallsGetLogProfileOptionalParams) => Promise<LogSettings>;
-    getSupportInfo: (resourceGroupName: string, firewallName: string, options?: FirewallsGetSupportInfoOptionalParams) => Promise<SupportInfo>;
-    listByResourceGroup: (resourceGroupName: string, options?: FirewallsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<FirewallResource>;
-    listBySubscription: (options?: FirewallsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FirewallResource>;
-    saveLogProfile: (resourceGroupName: string, firewallName: string, options?: FirewallsSaveLogProfileOptionalParams) => Promise<void>;
-    update: (resourceGroupName: string, firewallName: string, properties: FirewallResourceUpdate, options?: FirewallsUpdateOptionalParams) => Promise<FirewallResource>;
+export type FirewallsListByResourceGroupResponse = FirewallResourceListResult;
+
+// @public
+export interface FirewallsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallsSaveLogProfileOptionalParams extends OperationOptions {
-    // (undocumented)
+export type FirewallsListBySubscriptionNextResponse = FirewallResourceListResult;
+
+// @public
+export interface FirewallsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallsListBySubscriptionResponse = FirewallResourceListResult;
+
+// @public
+export interface FirewallsSaveLogProfileOptionalParams extends coreClient.OperationOptions {
     logSettings?: LogSettings;
 }
 
 // @public
-export interface FirewallStatusGetOptionalParams extends OperationOptions {
+export interface FirewallStatus {
+    get(resourceGroupName: string, firewallName: string, options?: FirewallStatusGetOptionalParams): Promise<FirewallStatusGetResponse>;
+    listByFirewalls(resourceGroupName: string, firewallName: string, options?: FirewallStatusListByFirewallsOptionalParams): PagedAsyncIterableIterator<FirewallStatusResource>;
 }
 
 // @public
-export interface FirewallStatusListByFirewallsOptionalParams extends OperationOptions {
+export interface FirewallStatusGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallStatusOperations {
-    get: (resourceGroupName: string, firewallName: string, options?: FirewallStatusGetOptionalParams) => Promise<FirewallStatusResource>;
-    listByFirewalls: (resourceGroupName: string, firewallName: string, options?: FirewallStatusListByFirewallsOptionalParams) => PagedAsyncIterableIterator<FirewallStatusResource>;
+export type FirewallStatusGetResponse = FirewallStatusResource;
+
+// @public
+export interface FirewallStatusListByFirewallsNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FirewallStatusProperty {
+export type FirewallStatusListByFirewallsNextResponse = FirewallStatusResourceListResult;
+
+// @public
+export interface FirewallStatusListByFirewallsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallStatusListByFirewallsResponse = FirewallStatusResourceListResult;
+
+// @public
+export interface FirewallStatusResource extends ProxyResource {
     readonly healthReason?: string;
     readonly healthStatus?: HealthStatus;
     readonly isPanoramaManaged?: BooleanEnum;
@@ -385,83 +517,162 @@ export interface FirewallStatusProperty {
 }
 
 // @public
-export interface FirewallStatusResource extends ProxyResource {
-    properties: FirewallStatusProperty;
+export interface FirewallStatusResourceListResult {
+    nextLink?: string;
+    value: FirewallStatusResource[];
 }
 
 // @public
-export interface FirewallsUpdateOptionalParams extends OperationOptions {
+export interface FirewallsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
+export type FirewallsUpdateResponse = FirewallResource;
+
+// @public
+export interface FqdnListGlobalRulestack {
+    beginCreateOrUpdate(globalRulestackName: string, name: string, resource: FqdnListGlobalRulestackResource, options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FqdnListGlobalRulestackCreateOrUpdateResponse>, FqdnListGlobalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(globalRulestackName: string, name: string, resource: FqdnListGlobalRulestackResource, options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams): Promise<FqdnListGlobalRulestackCreateOrUpdateResponse>;
+    beginDelete(globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackDeleteOptionalParams): Promise<void>;
+    get(globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackGetOptionalParams): Promise<FqdnListGlobalRulestackGetResponse>;
+    list(globalRulestackName: string, options?: FqdnListGlobalRulestackListOptionalParams): PagedAsyncIterableIterator<FqdnListGlobalRulestackResource>;
+}
+
+// @public
+export interface FqdnListGlobalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FqdnListGlobalRulestackDeleteOptionalParams extends OperationOptions {
+export type FqdnListGlobalRulestackCreateOrUpdateResponse = FqdnListGlobalRulestackResource;
+
+// @public
+export interface FqdnListGlobalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FqdnListGlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FqdnListGlobalRulestackGetOptionalParams extends OperationOptions {
+export interface FqdnListGlobalRulestackGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FqdnListGlobalRulestackListOptionalParams extends OperationOptions {
+export type FqdnListGlobalRulestackGetResponse = FqdnListGlobalRulestackResource;
+
+// @public
+export interface FqdnListGlobalRulestackListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FqdnListGlobalRulestackOperations {
-    createOrUpdate: (globalRulestackName: string, name: string, resource: FqdnListGlobalRulestackResource, options?: FqdnListGlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<FqdnListGlobalRulestackResource>, FqdnListGlobalRulestackResource>;
-    delete: (globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (globalRulestackName: string, name: string, options?: FqdnListGlobalRulestackGetOptionalParams) => Promise<FqdnListGlobalRulestackResource>;
-    list: (globalRulestackName: string, options?: FqdnListGlobalRulestackListOptionalParams) => PagedAsyncIterableIterator<FqdnListGlobalRulestackResource>;
+export type FqdnListGlobalRulestackListNextResponse = FqdnListGlobalRulestackResourceListResult;
+
+// @public
+export interface FqdnListGlobalRulestackListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type FqdnListGlobalRulestackListResponse = FqdnListGlobalRulestackResourceListResult;
 
 // @public
 export interface FqdnListGlobalRulestackResource extends ProxyResource {
-    properties: FqdnObject;
-}
-
-// @public
-export interface FqdnListLocalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FqdnListLocalRulestackDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FqdnListLocalRulestackGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FqdnListLocalRulestackListByLocalRulestacksOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FqdnListLocalRulestackOperations {
-    createOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: FqdnListLocalRulestackResource, options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<FqdnListLocalRulestackResource>, FqdnListLocalRulestackResource>;
-    delete: (resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackGetOptionalParams) => Promise<FqdnListLocalRulestackResource>;
-    listByLocalRulestacks: (resourceGroupName: string, localRulestackName: string, options?: FqdnListLocalRulestackListByLocalRulestacksOptionalParams) => PagedAsyncIterableIterator<FqdnListLocalRulestackResource>;
-}
-
-// @public
-export interface FqdnListLocalRulestackResource extends ProxyResource {
-    properties: FqdnObject;
-}
-
-// @public
-export interface FqdnObject {
     auditComment?: string;
     description?: string;
     etag?: string;
     fqdnList: string[];
     readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface FqdnListGlobalRulestackResourceListResult {
+    nextLink?: string;
+    value: FqdnListGlobalRulestackResource[];
+}
+
+// @public
+export interface FqdnListLocalRulestack {
+    beginCreateOrUpdate(resourceGroupName: string, localRulestackName: string, name: string, resource: FqdnListLocalRulestackResource, options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FqdnListLocalRulestackCreateOrUpdateResponse>, FqdnListLocalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, localRulestackName: string, name: string, resource: FqdnListLocalRulestackResource, options?: FqdnListLocalRulestackCreateOrUpdateOptionalParams): Promise<FqdnListLocalRulestackCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, localRulestackName: string, name: string, options?: FqdnListLocalRulestackGetOptionalParams): Promise<FqdnListLocalRulestackGetResponse>;
+    listByLocalRulestacks(resourceGroupName: string, localRulestackName: string, options?: FqdnListLocalRulestackListByLocalRulestacksOptionalParams): PagedAsyncIterableIterator<FqdnListLocalRulestackResource>;
+}
+
+// @public
+export interface FqdnListLocalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FqdnListLocalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FqdnListLocalRulestackCreateOrUpdateResponse = FqdnListLocalRulestackResource;
+
+// @public
+export interface FqdnListLocalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FqdnListLocalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FqdnListLocalRulestackGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FqdnListLocalRulestackGetResponse = FqdnListLocalRulestackResource;
+
+// @public
+export interface FqdnListLocalRulestackListByLocalRulestacksNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FqdnListLocalRulestackListByLocalRulestacksNextResponse = FqdnListLocalRulestackResourceListResult;
+
+// @public
+export interface FqdnListLocalRulestackListByLocalRulestacksOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FqdnListLocalRulestackListByLocalRulestacksResponse = FqdnListLocalRulestackResourceListResult;
+
+// @public
+export interface FqdnListLocalRulestackResource extends ProxyResource {
+    auditComment?: string;
+    description?: string;
+    etag?: string;
+    fqdnList: string[];
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface FqdnListLocalRulestackResourceListResult {
+    nextLink?: string;
+    value: FqdnListLocalRulestackResource[];
 }
 
 // @public
@@ -473,27 +684,84 @@ export interface FrontendSetting {
 }
 
 // @public
-export interface GlobalRulestackCommitOptionalParams extends OperationOptions {
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GlobalRulestack {
+    beginCommit(globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams): Promise<SimplePollerLike<OperationState<GlobalRulestackCommitResponse>, GlobalRulestackCommitResponse>>;
+    beginCommitAndWait(globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams): Promise<GlobalRulestackCommitResponse>;
+    beginCreateOrUpdate(globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GlobalRulestackCreateOrUpdateResponse>, GlobalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams): Promise<GlobalRulestackCreateOrUpdateResponse>;
+    beginDelete(globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams): Promise<void>;
+    get(globalRulestackName: string, options?: GlobalRulestackGetOptionalParams): Promise<GlobalRulestackGetResponse>;
+    getChangeLog(globalRulestackName: string, options?: GlobalRulestackGetChangeLogOptionalParams): Promise<GlobalRulestackGetChangeLogResponse>;
+    list(options?: GlobalRulestackListOptionalParams): PagedAsyncIterableIterator<GlobalRulestackResource>;
+    listAdvancedSecurityObjects(globalRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: GlobalRulestackListAdvancedSecurityObjectsOptionalParams): Promise<GlobalRulestackListAdvancedSecurityObjectsResponse>;
+    listAppIds(globalRulestackName: string, options?: GlobalRulestackListAppIdsOptionalParams): Promise<GlobalRulestackListAppIdsResponse>;
+    listCountries(globalRulestackName: string, options?: GlobalRulestackListCountriesOptionalParams): Promise<GlobalRulestackListCountriesResponse>;
+    listFirewalls(globalRulestackName: string, options?: GlobalRulestackListFirewallsOptionalParams): Promise<GlobalRulestackListFirewallsResponse>;
+    listPredefinedUrlCategories(globalRulestackName: string, options?: GlobalRulestackListPredefinedUrlCategoriesOptionalParams): Promise<GlobalRulestackListPredefinedUrlCategoriesResponse>;
+    listSecurityServices(globalRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: GlobalRulestackListSecurityServicesOptionalParams): Promise<GlobalRulestackListSecurityServicesResponse>;
+    revert(globalRulestackName: string, options?: GlobalRulestackRevertOptionalParams): Promise<void>;
+    update(globalRulestackName: string, properties: GlobalRulestackResourceUpdate, options?: GlobalRulestackUpdateOptionalParams): Promise<GlobalRulestackUpdateResponse>;
+}
+
+// @public
+export interface GlobalRulestackCommitHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GlobalRulestackCommitOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GlobalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
+export type GlobalRulestackCommitResponse = GlobalRulestackCommitHeaders;
+
+// @public
+export interface GlobalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GlobalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GlobalRulestackDeleteOptionalParams extends OperationOptions {
+export type GlobalRulestackCreateOrUpdateResponse = GlobalRulestackResource;
+
+// @public
+export interface GlobalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GlobalRulestackGetChangeLogOptionalParams extends OperationOptions {
+export interface GlobalRulestackGetChangeLogOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GlobalRulestackGetOptionalParams extends OperationOptions {
+export type GlobalRulestackGetChangeLogResponse = Changelog;
+
+// @public
+export interface GlobalRulestackGetOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type GlobalRulestackGetResponse = GlobalRulestackResource;
 
 // @public
 export interface GlobalRulestackInfo {
@@ -501,7 +769,7 @@ export interface GlobalRulestackInfo {
 }
 
 // @public
-export interface GlobalRulestackListAdvancedSecurityObjectsOptionalParams extends OperationOptions {
+export interface GlobalRulestackListAdvancedSecurityObjectsOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -509,7 +777,10 @@ export interface GlobalRulestackListAdvancedSecurityObjectsOptionalParams extend
 }
 
 // @public
-export interface GlobalRulestackListAppIdsOptionalParams extends OperationOptions {
+export type GlobalRulestackListAdvancedSecurityObjectsResponse = AdvSecurityObjectListResponse;
+
+// @public
+export interface GlobalRulestackListAppIdsOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     appIdVersion?: string;
     // (undocumented)
@@ -521,7 +792,10 @@ export interface GlobalRulestackListAppIdsOptionalParams extends OperationOption
 }
 
 // @public
-export interface GlobalRulestackListCountriesOptionalParams extends OperationOptions {
+export type GlobalRulestackListAppIdsResponse = ListAppIdResponse;
+
+// @public
+export interface GlobalRulestackListCountriesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -529,15 +803,28 @@ export interface GlobalRulestackListCountriesOptionalParams extends OperationOpt
 }
 
 // @public
-export interface GlobalRulestackListFirewallsOptionalParams extends OperationOptions {
+export type GlobalRulestackListCountriesResponse = CountriesResponse;
+
+// @public
+export interface GlobalRulestackListFirewallsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GlobalRulestackListOptionalParams extends OperationOptions {
+export type GlobalRulestackListFirewallsResponse = ListFirewallsResponse;
+
+// @public
+export interface GlobalRulestackListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GlobalRulestackListPredefinedUrlCategoriesOptionalParams extends OperationOptions {
+export type GlobalRulestackListNextResponse = GlobalRulestackResourceListResult;
+
+// @public
+export interface GlobalRulestackListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GlobalRulestackListPredefinedUrlCategoriesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -545,7 +832,13 @@ export interface GlobalRulestackListPredefinedUrlCategoriesOptionalParams extend
 }
 
 // @public
-export interface GlobalRulestackListSecurityServicesOptionalParams extends OperationOptions {
+export type GlobalRulestackListPredefinedUrlCategoriesResponse = PredefinedUrlCategoriesResponse;
+
+// @public
+export type GlobalRulestackListResponse = GlobalRulestackResourceListResult;
+
+// @public
+export interface GlobalRulestackListSecurityServicesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -553,31 +846,27 @@ export interface GlobalRulestackListSecurityServicesOptionalParams extends Opera
 }
 
 // @public
-export interface GlobalRulestackOperations {
-    commit: (globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<GlobalRulestackResource>, GlobalRulestackResource>;
-    delete: (globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (globalRulestackName: string, options?: GlobalRulestackGetOptionalParams) => Promise<GlobalRulestackResource>;
-    getChangeLog: (globalRulestackName: string, options?: GlobalRulestackGetChangeLogOptionalParams) => Promise<Changelog>;
-    list: (options?: GlobalRulestackListOptionalParams) => PagedAsyncIterableIterator<GlobalRulestackResource>;
-    listAdvancedSecurityObjects: (globalRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: GlobalRulestackListAdvancedSecurityObjectsOptionalParams) => Promise<AdvSecurityObjectListResponse>;
-    // Warning: (ae-forgotten-export) The symbol "_ListAppIdResponse" needs to be exported by the entry point index.d.ts
-    listAppIds: (globalRulestackName: string, options?: GlobalRulestackListAppIdsOptionalParams) => Promise<_ListAppIdResponse>;
-    // Warning: (ae-forgotten-export) The symbol "_CountriesResponse" needs to be exported by the entry point index.d.ts
-    listCountries: (globalRulestackName: string, options?: GlobalRulestackListCountriesOptionalParams) => Promise<_CountriesResponse>;
-    listFirewalls: (globalRulestackName: string, options?: GlobalRulestackListFirewallsOptionalParams) => Promise<ListFirewallsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "_PredefinedUrlCategoriesResponse" needs to be exported by the entry point index.d.ts
-    listPredefinedUrlCategories: (globalRulestackName: string, options?: GlobalRulestackListPredefinedUrlCategoriesOptionalParams) => Promise<_PredefinedUrlCategoriesResponse>;
-    listSecurityServices: (globalRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: GlobalRulestackListSecurityServicesOptionalParams) => Promise<SecurityServicesResponse>;
-    revert: (globalRulestackName: string, options?: GlobalRulestackRevertOptionalParams) => Promise<void>;
-    update: (globalRulestackName: string, properties: GlobalRulestackResourceUpdate, options?: GlobalRulestackUpdateOptionalParams) => Promise<GlobalRulestackResource>;
-}
+export type GlobalRulestackListSecurityServicesResponse = SecurityServicesResponse;
 
 // @public
 export interface GlobalRulestackResource extends ProxyResource {
+    associatedSubscriptions?: string[];
+    defaultMode?: DefaultMode;
+    description?: string;
     identity?: AzureResourceManagerManagedIdentityProperties;
     location: string;
-    properties: RulestackProperties;
+    minAppIdVersion?: string;
+    panEtag?: string;
+    panLocation?: string;
+    readonly provisioningState?: ProvisioningState;
+    scope?: ScopeType;
+    securityServices?: SecurityServices;
+}
+
+// @public
+export interface GlobalRulestackResourceListResult {
+    nextLink?: string;
+    value: GlobalRulestackResource[];
 }
 
 // @public
@@ -600,12 +889,15 @@ export interface GlobalRulestackResourceUpdateProperties {
 }
 
 // @public
-export interface GlobalRulestackRevertOptionalParams extends OperationOptions {
+export interface GlobalRulestackRevertOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GlobalRulestackUpdateOptionalParams extends OperationOptions {
+export interface GlobalRulestackUpdateOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type GlobalRulestackUpdateResponse = GlobalRulestackResource;
 
 // @public
 export type HealthStatus = string;
@@ -820,9 +1112,12 @@ export enum KnownUsageType {
     Payg = "PAYG"
 }
 
-// @public
-export enum KnownVersions {
-    V20251008 = "2025-10-08"
+// @public (undocumented)
+export interface ListAppIdResponse {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value: string[];
 }
 
 // @public
@@ -832,68 +1127,147 @@ export interface ListFirewallsResponse {
 }
 
 // @public
-export interface LocalRulesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface LocalRules {
+    beginCreateOrUpdate(resourceGroupName: string, localRulestackName: string, priority: string, resource: LocalRulesResource, options?: LocalRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LocalRulesCreateOrUpdateResponse>, LocalRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, localRulestackName: string, priority: string, resource: LocalRulesResource, options?: LocalRulesCreateOrUpdateOptionalParams): Promise<LocalRulesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesGetOptionalParams): Promise<LocalRulesGetResponse>;
+    getCounters(resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesGetCountersOptionalParams): Promise<LocalRulesGetCountersResponse>;
+    listByLocalRulestacks(resourceGroupName: string, localRulestackName: string, options?: LocalRulesListByLocalRulestacksOptionalParams): PagedAsyncIterableIterator<LocalRulesResource>;
+    refreshCounters(resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesRefreshCountersOptionalParams): Promise<void>;
+    resetCounters(resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesResetCountersOptionalParams): Promise<LocalRulesResetCountersResponse>;
+}
+
+// @public
+export interface LocalRulesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LocalRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface LocalRulesDeleteOptionalParams extends OperationOptions {
+export type LocalRulesCreateOrUpdateResponse = LocalRulesResource;
+
+// @public
+export interface LocalRulesDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LocalRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface LocalRulesGetCountersOptionalParams extends OperationOptions {
+export interface LocalRulesGetCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
 
 // @public
-export interface LocalRulesGetOptionalParams extends OperationOptions {
+export type LocalRulesGetCountersResponse = RuleCounter;
+
+// @public
+export interface LocalRulesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulesListByLocalRulestacksOptionalParams extends OperationOptions {
+export type LocalRulesGetResponse = LocalRulesResource;
+
+// @public
+export interface LocalRulesListByLocalRulestacksNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulesOperations {
-    createOrUpdate: (resourceGroupName: string, localRulestackName: string, priority: string, resource: LocalRulesResource, options?: LocalRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<LocalRulesResource>, LocalRulesResource>;
-    delete: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesGetOptionalParams) => Promise<LocalRulesResource>;
-    getCounters: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesGetCountersOptionalParams) => Promise<RuleCounter>;
-    listByLocalRulestacks: (resourceGroupName: string, localRulestackName: string, options?: LocalRulesListByLocalRulestacksOptionalParams) => PagedAsyncIterableIterator<LocalRulesResource>;
-    refreshCounters: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesRefreshCountersOptionalParams) => Promise<void>;
-    resetCounters: (resourceGroupName: string, localRulestackName: string, priority: string, options?: LocalRulesResetCountersOptionalParams) => Promise<RuleCounterReset>;
+export type LocalRulesListByLocalRulestacksNextResponse = LocalRulesResourceListResult;
+
+// @public
+export interface LocalRulesListByLocalRulestacksOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulesRefreshCountersOptionalParams extends OperationOptions {
+export type LocalRulesListByLocalRulestacksResponse = LocalRulesResourceListResult;
+
+// @public
+export interface LocalRulesRefreshCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
 
 // @public
-export interface LocalRulesResetCountersOptionalParams extends OperationOptions {
+export interface LocalRulesResetCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
+
+// @public
+export type LocalRulesResetCountersResponse = RuleCounterReset;
 
 // @public
 export interface LocalRulesResource extends ProxyResource {
-    properties: RuleEntry;
+    actionType?: ActionEnum;
+    applications?: string[];
+    auditComment?: string;
+    category?: Category;
+    decryptionRuleType?: DecryptionRuleTypeEnum;
+    description?: string;
+    destination?: DestinationAddr;
+    enableLogging?: StateEnum;
+    etag?: string;
+    inboundInspectionCertificate?: string;
+    negateDestination?: BooleanEnum;
+    negateSource?: BooleanEnum;
+    readonly priority?: number;
+    protocol?: string;
+    protocolPortList?: string[];
+    readonly provisioningState?: ProvisioningState;
+    ruleName: string;
+    ruleState?: StateEnum;
+    source?: SourceAddr;
+    tags?: TagInfo[];
+}
+
+// @public
+export interface LocalRulesResourceListResult {
+    nextLink?: string;
+    value: LocalRulesResource[];
 }
 
 // @public
 export interface LocalRulestackResource extends TrackedResource {
+    associatedSubscriptions?: string[];
+    defaultMode?: DefaultMode;
+    description?: string;
     identity?: AzureResourceManagerManagedIdentityProperties;
-    properties: RulestackProperties;
+    minAppIdVersion?: string;
+    panEtag?: string;
+    panLocation?: string;
+    readonly provisioningState?: ProvisioningState;
+    scope?: ScopeType;
+    securityServices?: SecurityServices;
+}
+
+// @public
+export interface LocalRulestackResourceListResult {
+    nextLink?: string;
+    value: LocalRulestackResource[];
 }
 
 // @public
 export interface LocalRulestackResourceUpdate {
     identity?: AzureResourceManagerManagedIdentityProperties;
     properties?: LocalRulestackResourceUpdateProperties;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -909,35 +1283,94 @@ export interface LocalRulestackResourceUpdateProperties {
 }
 
 // @public
-export interface LocalRulestacksCommitOptionalParams extends OperationOptions {
+export interface LocalRulestacks {
+    beginCommit(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams): Promise<SimplePollerLike<OperationState<LocalRulestacksCommitResponse>, LocalRulestacksCommitResponse>>;
+    beginCommitAndWait(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams): Promise<LocalRulestacksCommitResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LocalRulestacksCreateOrUpdateResponse>, LocalRulestacksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams): Promise<LocalRulestacksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetOptionalParams): Promise<LocalRulestacksGetResponse>;
+    getChangeLog(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetChangeLogOptionalParams): Promise<LocalRulestacksGetChangeLogResponse>;
+    getSupportInfo(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetSupportInfoOptionalParams): Promise<LocalRulestacksGetSupportInfoResponse>;
+    listAdvancedSecurityObjects(resourceGroupName: string, localRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse>;
+    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): PagedAsyncIterableIterator<string>;
+    listByResourceGroup(resourceGroupName: string, options?: LocalRulestacksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
+    listBySubscription(options?: LocalRulestacksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
+    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): PagedAsyncIterableIterator<Country>;
+    listFirewalls(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListFirewallsOptionalParams): Promise<LocalRulestacksListFirewallsResponse>;
+    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): PagedAsyncIterableIterator<PredefinedUrlCategory>;
+    listSecurityServices(resourceGroupName: string, localRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: LocalRulestacksListSecurityServicesOptionalParams): Promise<LocalRulestacksListSecurityServicesResponse>;
+    revert(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksRevertOptionalParams): Promise<void>;
+    update(resourceGroupName: string, localRulestackName: string, properties: LocalRulestackResourceUpdate, options?: LocalRulestacksUpdateOptionalParams): Promise<LocalRulestacksUpdateResponse>;
+}
+
+// @public
+export interface LocalRulestacksCommitHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LocalRulestacksCommitOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface LocalRulestacksCreateOrUpdateOptionalParams extends OperationOptions {
+export type LocalRulestacksCommitResponse = LocalRulestacksCommitHeaders;
+
+// @public
+export interface LocalRulestacksCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LocalRulestacksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface LocalRulestacksDeleteOptionalParams extends OperationOptions {
+export type LocalRulestacksCreateOrUpdateResponse = LocalRulestackResource;
+
+// @public
+export interface LocalRulestacksDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LocalRulestacksDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface LocalRulestacksGetChangeLogOptionalParams extends OperationOptions {
+export interface LocalRulestacksGetChangeLogOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksGetOptionalParams extends OperationOptions {
+export type LocalRulestacksGetChangeLogResponse = Changelog;
+
+// @public
+export interface LocalRulestacksGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksGetSupportInfoOptionalParams extends OperationOptions {
+export type LocalRulestacksGetResponse = LocalRulestackResource;
+
+// @public
+export interface LocalRulestacksGetSupportInfoOptionalParams extends coreClient.OperationOptions {
     email?: string;
 }
 
 // @public
-export interface LocalRulestacksListAdvancedSecurityObjectsOptionalParams extends OperationOptions {
+export type LocalRulestacksGetSupportInfoResponse = SupportInfo;
+
+// @public
+export interface LocalRulestacksListAdvancedSecurityObjectsOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -945,7 +1378,17 @@ export interface LocalRulestacksListAdvancedSecurityObjectsOptionalParams extend
 }
 
 // @public
-export interface LocalRulestacksListAppIdsOptionalParams extends OperationOptions {
+export type LocalRulestacksListAdvancedSecurityObjectsResponse = AdvSecurityObjectListResponse;
+
+// @public
+export interface LocalRulestacksListAppIdsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocalRulestacksListAppIdsNextResponse = ListAppIdResponse;
+
+// @public
+export interface LocalRulestacksListAppIdsOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     appIdVersion?: string;
     // (undocumented)
@@ -957,15 +1400,45 @@ export interface LocalRulestacksListAppIdsOptionalParams extends OperationOption
 }
 
 // @public
-export interface LocalRulestacksListByResourceGroupOptionalParams extends OperationOptions {
+export type LocalRulestacksListAppIdsResponse = ListAppIdResponse;
+
+// @public
+export interface LocalRulestacksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksListBySubscriptionOptionalParams extends OperationOptions {
+export type LocalRulestacksListByResourceGroupNextResponse = LocalRulestackResourceListResult;
+
+// @public
+export interface LocalRulestacksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksListCountriesOptionalParams extends OperationOptions {
+export type LocalRulestacksListByResourceGroupResponse = LocalRulestackResourceListResult;
+
+// @public
+export interface LocalRulestacksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocalRulestacksListBySubscriptionNextResponse = LocalRulestackResourceListResult;
+
+// @public
+export interface LocalRulestacksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocalRulestacksListBySubscriptionResponse = LocalRulestackResourceListResult;
+
+// @public
+export interface LocalRulestacksListCountriesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocalRulestacksListCountriesNextResponse = CountriesResponse;
+
+// @public
+export interface LocalRulestacksListCountriesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -973,11 +1446,24 @@ export interface LocalRulestacksListCountriesOptionalParams extends OperationOpt
 }
 
 // @public
-export interface LocalRulestacksListFirewallsOptionalParams extends OperationOptions {
+export type LocalRulestacksListCountriesResponse = CountriesResponse;
+
+// @public
+export interface LocalRulestacksListFirewallsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksListPredefinedUrlCategoriesOptionalParams extends OperationOptions {
+export type LocalRulestacksListFirewallsResponse = ListFirewallsResponse;
+
+// @public
+export interface LocalRulestacksListPredefinedUrlCategoriesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocalRulestacksListPredefinedUrlCategoriesNextResponse = PredefinedUrlCategoriesResponse;
+
+// @public
+export interface LocalRulestacksListPredefinedUrlCategoriesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -985,7 +1471,10 @@ export interface LocalRulestacksListPredefinedUrlCategoriesOptionalParams extend
 }
 
 // @public
-export interface LocalRulestacksListSecurityServicesOptionalParams extends OperationOptions {
+export type LocalRulestacksListPredefinedUrlCategoriesResponse = PredefinedUrlCategoriesResponse;
+
+// @public
+export interface LocalRulestacksListSecurityServicesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     skip?: string;
     // (undocumented)
@@ -993,32 +1482,18 @@ export interface LocalRulestacksListSecurityServicesOptionalParams extends Opera
 }
 
 // @public
-export interface LocalRulestacksOperations {
-    commit: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams) => PollerLike<OperationState<LocalRulestackResource>, LocalRulestackResource>;
-    delete: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetOptionalParams) => Promise<LocalRulestackResource>;
-    getChangeLog: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetChangeLogOptionalParams) => Promise<Changelog>;
-    getSupportInfo: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetSupportInfoOptionalParams) => Promise<SupportInfo>;
-    listAdvancedSecurityObjects: (resourceGroupName: string, localRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams) => Promise<AdvSecurityObjectListResponse>;
-    listAppIds: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams) => PagedAsyncIterableIterator<string>;
-    listByResourceGroup: (resourceGroupName: string, options?: LocalRulestacksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LocalRulestackResource>;
-    listBySubscription: (options?: LocalRulestacksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<LocalRulestackResource>;
-    listCountries: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams) => PagedAsyncIterableIterator<Country>;
-    listFirewalls: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListFirewallsOptionalParams) => Promise<ListFirewallsResponse>;
-    listPredefinedUrlCategories: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams) => PagedAsyncIterableIterator<PredefinedUrlCategory>;
-    listSecurityServices: (resourceGroupName: string, localRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: LocalRulestacksListSecurityServicesOptionalParams) => Promise<SecurityServicesResponse>;
-    revert: (resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksRevertOptionalParams) => Promise<void>;
-    update: (resourceGroupName: string, localRulestackName: string, properties: LocalRulestackResourceUpdate, options?: LocalRulestacksUpdateOptionalParams) => Promise<LocalRulestackResource>;
+export type LocalRulestacksListSecurityServicesResponse = SecurityServicesResponse;
+
+// @public
+export interface LocalRulestacksRevertOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksRevertOptionalParams extends OperationOptions {
+export interface LocalRulestacksUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LocalRulestacksUpdateOptionalParams extends OperationOptions {
-}
+export type LocalRulestacksUpdateResponse = LocalRulestackResource;
 
 // @public
 export interface LogDestination {
@@ -1059,7 +1534,69 @@ export interface MarketplaceDetails {
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
-export interface MetricsObject {
+export interface MetricsObjectFirewall {
+    beginCreateOrUpdate(resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MetricsObjectFirewallCreateOrUpdateResponse>, MetricsObjectFirewallCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams): Promise<MetricsObjectFirewallCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MetricsObjectFirewallDeleteResponse>, MetricsObjectFirewallDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams): Promise<MetricsObjectFirewallDeleteResponse>;
+    get(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallGetOptionalParams): Promise<MetricsObjectFirewallGetResponse>;
+    listByFirewalls(resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallListByFirewallsOptionalParams): PagedAsyncIterableIterator<MetricsObjectFirewallResource>;
+}
+
+// @public
+export interface MetricsObjectFirewallCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MetricsObjectFirewallCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MetricsObjectFirewallCreateOrUpdateResponse = MetricsObjectFirewallResource;
+
+// @public
+export interface MetricsObjectFirewallDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MetricsObjectFirewallDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MetricsObjectFirewallDeleteResponse = MetricsObjectFirewallDeleteHeaders;
+
+// @public
+export interface MetricsObjectFirewallGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetricsObjectFirewallGetResponse = MetricsObjectFirewallResource;
+
+// @public
+export interface MetricsObjectFirewallListByFirewallsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetricsObjectFirewallListByFirewallsNextResponse = MetricsObjectFirewallResourceListResult;
+
+// @public
+export interface MetricsObjectFirewallListByFirewallsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetricsObjectFirewallListByFirewallsResponse = MetricsObjectFirewallResourceListResult;
+
+// @public
+export interface MetricsObjectFirewallResource extends ProxyResource {
     applicationInsightsConnectionString: string;
     applicationInsightsResourceId: string;
     panEtag?: string;
@@ -1067,34 +1604,9 @@ export interface MetricsObject {
 }
 
 // @public
-export interface MetricsObjectFirewallCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MetricsObjectFirewallDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MetricsObjectFirewallGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MetricsObjectFirewallListByFirewallsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MetricsObjectFirewallOperations {
-    createOrUpdate: (resourceGroupName: string, firewallName: string, resource: MetricsObjectFirewallResource, options?: MetricsObjectFirewallCreateOrUpdateOptionalParams) => PollerLike<OperationState<MetricsObjectFirewallResource>, MetricsObjectFirewallResource>;
-    delete: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallGetOptionalParams) => Promise<MetricsObjectFirewallResource>;
-    listByFirewalls: (resourceGroupName: string, firewallName: string, options?: MetricsObjectFirewallListByFirewallsOptionalParams) => PagedAsyncIterableIterator<MetricsObjectFirewallResource>;
-}
-
-// @public
-export interface MetricsObjectFirewallResource extends ProxyResource {
-    properties: MetricsObject;
+export interface MetricsObjectFirewallResourceListResult {
+    nextLink?: string;
+    value: MetricsObjectFirewallResource[];
 }
 
 // @public
@@ -1145,83 +1657,122 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
 // @public (undocumented)
-export class PaloAltoNetworksCloudngfw {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: PaloAltoNetworksCloudngfwOptionalParams);
-    readonly certificateObjectGlobalRulestack: CertificateObjectGlobalRulestackOperations;
-    readonly certificateObjectLocalRulestack: CertificateObjectLocalRulestackOperations;
-    readonly firewalls: FirewallsOperations;
-    readonly firewallStatus: FirewallStatusOperations;
-    readonly fqdnListGlobalRulestack: FqdnListGlobalRulestackOperations;
-    readonly fqdnListLocalRulestack: FqdnListLocalRulestackOperations;
-    readonly globalRulestack: GlobalRulestackOperations;
-    readonly localRules: LocalRulesOperations;
-    readonly localRulestacks: LocalRulestacksOperations;
-    readonly metricsObjectFirewall: MetricsObjectFirewallOperations;
-    readonly operations: OperationsOperations;
-    readonly paloAltoNetworksCloudngfwOperations: PaloAltoNetworksCloudngfwOperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly postRules: PostRulesOperations;
-    readonly prefixListGlobalRulestack: PrefixListGlobalRulestackOperations;
-    readonly prefixListLocalRulestack: PrefixListLocalRulestackOperations;
-    readonly preRules: PreRulesOperations;
-}
-
-// @public
-export interface PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PaloAltoNetworksCloudngfwOperationsOperations {
+export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     // (undocumented)
-    createProductSerialNumber: (options?: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams) => Promise<ProductSerialNumberRequestStatus>;
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PaloAltoNetworksCloudngfwOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PaloAltoNetworksCloudngfwOptionalParams);
     // (undocumented)
-    listCloudManagerTenants: (options?: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams) => Promise<CloudManagerTenantList>;
+    apiVersion: string;
     // (undocumented)
-    listProductSerialNumberStatus: (options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams) => Promise<ProductSerialNumberStatus | null>;
+    certificateObjectGlobalRulestack: CertificateObjectGlobalRulestack;
     // (undocumented)
-    listSupportInfo: (options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams) => Promise<SupportInfoModel>;
+    certificateObjectLocalRulestack: CertificateObjectLocalRulestack;
+    // (undocumented)
+    firewalls: Firewalls;
+    // (undocumented)
+    firewallStatus: FirewallStatus;
+    // (undocumented)
+    fqdnListGlobalRulestack: FqdnListGlobalRulestack;
+    // (undocumented)
+    fqdnListLocalRulestack: FqdnListLocalRulestack;
+    // (undocumented)
+    globalRulestack: GlobalRulestack;
+    // (undocumented)
+    localRules: LocalRules;
+    // (undocumented)
+    localRulestacks: LocalRulestacks;
+    // (undocumented)
+    metricsObjectFirewall: MetricsObjectFirewall;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    paloAltoNetworksCloudngfwOperations: PaloAltoNetworksCloudngfwOperations;
+    // (undocumented)
+    postRules: PostRules;
+    // (undocumented)
+    prefixListGlobalRulestack: PrefixListGlobalRulestack;
+    // (undocumented)
+    prefixListLocalRulestack: PrefixListLocalRulestack;
+    // (undocumented)
+    preRules: PreRules;
+    // (undocumented)
+    subscriptionId?: string;
 }
 
 // @public
-export interface PaloAltoNetworksCloudngfwOptionalParams extends ClientOptions {
+export interface PaloAltoNetworksCloudngfwOperations {
+    // (undocumented)
+    createProductSerialNumber(options?: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberResponse>;
+    // (undocumented)
+    listCloudManagerTenants(options?: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsResponse>;
+    // (undocumented)
+    listProductSerialNumberStatus(options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusResponse>;
+    // (undocumented)
+    listSupportInfo(options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams): Promise<PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse>;
+}
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberResponse = ProductSerialNumberRequestStatus;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsResponse = CloudManagerTenantList;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusResponse = ProductSerialNumberStatus;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse = SupportInfoModel;
+
+// @public
+export interface PaloAltoNetworksCloudngfwOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
     apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
+    endpoint?: string;
 }
 
 // @public
@@ -1251,55 +1802,124 @@ export interface PlanData {
 }
 
 // @public
-export interface PostRulesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PostRules {
+    beginCreateOrUpdate(globalRulestackName: string, priority: string, resource: PostRulesResource, options?: PostRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PostRulesCreateOrUpdateResponse>, PostRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(globalRulestackName: string, priority: string, resource: PostRulesResource, options?: PostRulesCreateOrUpdateOptionalParams): Promise<PostRulesCreateOrUpdateResponse>;
+    beginDelete(globalRulestackName: string, priority: string, options?: PostRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(globalRulestackName: string, priority: string, options?: PostRulesDeleteOptionalParams): Promise<void>;
+    get(globalRulestackName: string, priority: string, options?: PostRulesGetOptionalParams): Promise<PostRulesGetResponse>;
+    getCounters(globalRulestackName: string, priority: string, options?: PostRulesGetCountersOptionalParams): Promise<PostRulesGetCountersResponse>;
+    list(globalRulestackName: string, options?: PostRulesListOptionalParams): PagedAsyncIterableIterator<PostRulesResource>;
+    refreshCounters(globalRulestackName: string, priority: string, options?: PostRulesRefreshCountersOptionalParams): Promise<void>;
+    resetCounters(globalRulestackName: string, priority: string, options?: PostRulesResetCountersOptionalParams): Promise<PostRulesResetCountersResponse>;
+}
+
+// @public
+export interface PostRulesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PostRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PostRulesDeleteOptionalParams extends OperationOptions {
+export type PostRulesCreateOrUpdateResponse = PostRulesResource;
+
+// @public
+export interface PostRulesDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PostRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PostRulesGetCountersOptionalParams extends OperationOptions {
+export interface PostRulesGetCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
 
 // @public
-export interface PostRulesGetOptionalParams extends OperationOptions {
+export type PostRulesGetCountersResponse = RuleCounter;
+
+// @public
+export interface PostRulesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PostRulesListOptionalParams extends OperationOptions {
+export type PostRulesGetResponse = PostRulesResource;
+
+// @public
+export interface PostRulesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PostRulesOperations {
-    createOrUpdate: (globalRulestackName: string, priority: string, resource: PostRulesResource, options?: PostRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PostRulesResource>, PostRulesResource>;
-    delete: (globalRulestackName: string, priority: string, options?: PostRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (globalRulestackName: string, priority: string, options?: PostRulesGetOptionalParams) => Promise<PostRulesResource>;
-    getCounters: (globalRulestackName: string, priority: string, options?: PostRulesGetCountersOptionalParams) => Promise<RuleCounter>;
-    list: (globalRulestackName: string, options?: PostRulesListOptionalParams) => PagedAsyncIterableIterator<PostRulesResource>;
-    refreshCounters: (globalRulestackName: string, priority: string, options?: PostRulesRefreshCountersOptionalParams) => Promise<void>;
-    resetCounters: (globalRulestackName: string, priority: string, options?: PostRulesResetCountersOptionalParams) => Promise<RuleCounterReset>;
+export type PostRulesListNextResponse = PostRulesResourceListResult;
+
+// @public
+export interface PostRulesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PostRulesRefreshCountersOptionalParams extends OperationOptions {
+export type PostRulesListResponse = PostRulesResourceListResult;
+
+// @public
+export interface PostRulesRefreshCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
 
 // @public
-export interface PostRulesResetCountersOptionalParams extends OperationOptions {
+export interface PostRulesResetCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
+
+// @public
+export type PostRulesResetCountersResponse = RuleCounterReset;
 
 // @public
 export interface PostRulesResource extends ProxyResource {
-    properties: RuleEntry;
+    actionType?: ActionEnum;
+    applications?: string[];
+    auditComment?: string;
+    category?: Category;
+    decryptionRuleType?: DecryptionRuleTypeEnum;
+    description?: string;
+    destination?: DestinationAddr;
+    enableLogging?: StateEnum;
+    etag?: string;
+    inboundInspectionCertificate?: string;
+    negateDestination?: BooleanEnum;
+    negateSource?: BooleanEnum;
+    readonly priority?: number;
+    protocol?: string;
+    protocolPortList?: string[];
+    readonly provisioningState?: ProvisioningState;
+    ruleName: string;
+    ruleState?: StateEnum;
+    source?: SourceAddr;
+    tags?: TagInfo[];
+}
+
+// @public
+export interface PostRulesResourceListResult {
+    nextLink?: string;
+    value: PostRulesResource[];
+}
+
+// @public
+export interface PredefinedUrlCategoriesResponse {
+    nextLink?: string;
+    value: PredefinedUrlCategory[];
 }
 
 // @public
@@ -1311,69 +1931,65 @@ export interface PredefinedUrlCategory {
 }
 
 // @public
-export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PrefixListGlobalRulestack {
+    beginCreateOrUpdate(globalRulestackName: string, name: string, resource: PrefixListGlobalRulestackResource, options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrefixListGlobalRulestackCreateOrUpdateResponse>, PrefixListGlobalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(globalRulestackName: string, name: string, resource: PrefixListGlobalRulestackResource, options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams): Promise<PrefixListGlobalRulestackCreateOrUpdateResponse>;
+    beginDelete(globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackDeleteOptionalParams): Promise<void>;
+    get(globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackGetOptionalParams): Promise<PrefixListGlobalRulestackGetResponse>;
+    list(globalRulestackName: string, options?: PrefixListGlobalRulestackListOptionalParams): PagedAsyncIterableIterator<PrefixListGlobalRulestackResource>;
+}
+
+// @public
+export interface PrefixListGlobalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrefixListGlobalRulestackDeleteOptionalParams extends OperationOptions {
+export type PrefixListGlobalRulestackCreateOrUpdateResponse = PrefixListGlobalRulestackResource;
+
+// @public
+export interface PrefixListGlobalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrefixListGlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrefixListGlobalRulestackGetOptionalParams extends OperationOptions {
+export interface PrefixListGlobalRulestackGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrefixListGlobalRulestackListOptionalParams extends OperationOptions {
+export type PrefixListGlobalRulestackGetResponse = PrefixListGlobalRulestackResource;
+
+// @public
+export interface PrefixListGlobalRulestackListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrefixListGlobalRulestackOperations {
-    createOrUpdate: (globalRulestackName: string, name: string, resource: PrefixListGlobalRulestackResource, options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrefixListGlobalRulestackResource>, PrefixListGlobalRulestackResource>;
-    delete: (globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (globalRulestackName: string, name: string, options?: PrefixListGlobalRulestackGetOptionalParams) => Promise<PrefixListGlobalRulestackResource>;
-    list: (globalRulestackName: string, options?: PrefixListGlobalRulestackListOptionalParams) => PagedAsyncIterableIterator<PrefixListGlobalRulestackResource>;
+export type PrefixListGlobalRulestackListNextResponse = PrefixListGlobalRulestackResourceListResult;
+
+// @public
+export interface PrefixListGlobalRulestackListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type PrefixListGlobalRulestackListResponse = PrefixListGlobalRulestackResourceListResult;
 
 // @public
 export interface PrefixListGlobalRulestackResource extends ProxyResource {
-    properties: PrefixObject;
-}
-
-// @public
-export interface PrefixListLocalRulestackCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrefixListLocalRulestackDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrefixListLocalRulestackGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrefixListLocalRulestackListByLocalRulestacksOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrefixListLocalRulestackOperations {
-    createOrUpdate: (resourceGroupName: string, localRulestackName: string, name: string, resource: PrefixListResource, options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrefixListResource>, PrefixListResource>;
-    delete: (resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackGetOptionalParams) => Promise<PrefixListResource>;
-    listByLocalRulestacks: (resourceGroupName: string, localRulestackName: string, options?: PrefixListLocalRulestackListByLocalRulestacksOptionalParams) => PagedAsyncIterableIterator<PrefixListResource>;
-}
-
-// @public
-export interface PrefixListResource extends ProxyResource {
-    properties: PrefixObject;
-}
-
-// @public
-export interface PrefixObject {
     auditComment?: string;
     description?: string;
     etag?: string;
@@ -1382,55 +1998,197 @@ export interface PrefixObject {
 }
 
 // @public
-export interface PreRulesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PrefixListGlobalRulestackResourceListResult {
+    nextLink?: string;
+    value: PrefixListGlobalRulestackResource[];
+}
+
+// @public
+export interface PrefixListLocalRulestack {
+    beginCreateOrUpdate(resourceGroupName: string, localRulestackName: string, name: string, resource: PrefixListResource, options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrefixListLocalRulestackCreateOrUpdateResponse>, PrefixListLocalRulestackCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, localRulestackName: string, name: string, resource: PrefixListResource, options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams): Promise<PrefixListLocalRulestackCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, localRulestackName: string, name: string, options?: PrefixListLocalRulestackGetOptionalParams): Promise<PrefixListLocalRulestackGetResponse>;
+    listByLocalRulestacks(resourceGroupName: string, localRulestackName: string, options?: PrefixListLocalRulestackListByLocalRulestacksOptionalParams): PagedAsyncIterableIterator<PrefixListResource>;
+}
+
+// @public
+export interface PrefixListLocalRulestackCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrefixListLocalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PreRulesDeleteOptionalParams extends OperationOptions {
+export type PrefixListLocalRulestackCreateOrUpdateResponse = PrefixListResource;
+
+// @public
+export interface PrefixListLocalRulestackDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrefixListLocalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PreRulesGetCountersOptionalParams extends OperationOptions {
+export interface PrefixListLocalRulestackGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrefixListLocalRulestackGetResponse = PrefixListResource;
+
+// @public
+export interface PrefixListLocalRulestackListByLocalRulestacksNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrefixListLocalRulestackListByLocalRulestacksNextResponse = PrefixListResourceListResult;
+
+// @public
+export interface PrefixListLocalRulestackListByLocalRulestacksOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrefixListLocalRulestackListByLocalRulestacksResponse = PrefixListResourceListResult;
+
+// @public
+export interface PrefixListResource extends ProxyResource {
+    auditComment?: string;
+    description?: string;
+    etag?: string;
+    prefixList: string[];
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PrefixListResourceListResult {
+    nextLink?: string;
+    value: PrefixListResource[];
+}
+
+// @public
+export interface PreRules {
+    beginCreateOrUpdate(globalRulestackName: string, priority: string, resource: PreRulesResource, options?: PreRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PreRulesCreateOrUpdateResponse>, PreRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(globalRulestackName: string, priority: string, resource: PreRulesResource, options?: PreRulesCreateOrUpdateOptionalParams): Promise<PreRulesCreateOrUpdateResponse>;
+    beginDelete(globalRulestackName: string, priority: string, options?: PreRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(globalRulestackName: string, priority: string, options?: PreRulesDeleteOptionalParams): Promise<void>;
+    get(globalRulestackName: string, priority: string, options?: PreRulesGetOptionalParams): Promise<PreRulesGetResponse>;
+    getCounters(globalRulestackName: string, priority: string, options?: PreRulesGetCountersOptionalParams): Promise<PreRulesGetCountersResponse>;
+    list(globalRulestackName: string, options?: PreRulesListOptionalParams): PagedAsyncIterableIterator<PreRulesResource>;
+    refreshCounters(globalRulestackName: string, priority: string, options?: PreRulesRefreshCountersOptionalParams): Promise<void>;
+    resetCounters(globalRulestackName: string, priority: string, options?: PreRulesResetCountersOptionalParams): Promise<PreRulesResetCountersResponse>;
+}
+
+// @public
+export interface PreRulesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PreRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PreRulesCreateOrUpdateResponse = PreRulesResource;
+
+// @public
+export interface PreRulesDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PreRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PreRulesGetCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
 
 // @public
-export interface PreRulesGetOptionalParams extends OperationOptions {
+export type PreRulesGetCountersResponse = RuleCounter;
+
+// @public
+export interface PreRulesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PreRulesListOptionalParams extends OperationOptions {
+export type PreRulesGetResponse = PreRulesResource;
+
+// @public
+export interface PreRulesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PreRulesOperations {
-    createOrUpdate: (globalRulestackName: string, priority: string, resource: PreRulesResource, options?: PreRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PreRulesResource>, PreRulesResource>;
-    delete: (globalRulestackName: string, priority: string, options?: PreRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (globalRulestackName: string, priority: string, options?: PreRulesGetOptionalParams) => Promise<PreRulesResource>;
-    getCounters: (globalRulestackName: string, priority: string, options?: PreRulesGetCountersOptionalParams) => Promise<RuleCounter>;
-    list: (globalRulestackName: string, options?: PreRulesListOptionalParams) => PagedAsyncIterableIterator<PreRulesResource>;
-    refreshCounters: (globalRulestackName: string, priority: string, options?: PreRulesRefreshCountersOptionalParams) => Promise<void>;
-    resetCounters: (globalRulestackName: string, priority: string, options?: PreRulesResetCountersOptionalParams) => Promise<RuleCounterReset>;
+export type PreRulesListNextResponse = PreRulesResourceListResult;
+
+// @public
+export interface PreRulesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PreRulesRefreshCountersOptionalParams extends OperationOptions {
+export type PreRulesListResponse = PreRulesResourceListResult;
+
+// @public
+export interface PreRulesRefreshCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
 
 // @public
-export interface PreRulesResetCountersOptionalParams extends OperationOptions {
+export interface PreRulesResetCountersOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     firewallName?: string;
 }
+
+// @public
+export type PreRulesResetCountersResponse = RuleCounterReset;
 
 // @public
 export interface PreRulesResource extends ProxyResource {
-    properties: RuleEntry;
+    actionType?: ActionEnum;
+    applications?: string[];
+    auditComment?: string;
+    category?: Category;
+    decryptionRuleType?: DecryptionRuleTypeEnum;
+    description?: string;
+    destination?: DestinationAddr;
+    enableLogging?: StateEnum;
+    etag?: string;
+    inboundInspectionCertificate?: string;
+    negateDestination?: BooleanEnum;
+    negateSource?: BooleanEnum;
+    readonly priority?: number;
+    protocol?: string;
+    protocolPortList?: string[];
+    readonly provisioningState?: ProvisioningState;
+    ruleName: string;
+    ruleState?: StateEnum;
+    source?: SourceAddr;
+    tags?: TagInfo[];
+}
+
+// @public
+export interface PreRulesResourceListResult {
+    nextLink?: string;
+    value: PreRulesResource[];
 }
 
 // @public
@@ -1472,16 +2230,6 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PaloAltoNetworksCloudngfw, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface RuleCounter {
     appSeen?: AppSeenData;
     firewallName?: string;
@@ -1505,48 +2253,10 @@ export interface RuleCounterReset {
 }
 
 // @public
-export interface RuleEntry {
-    actionType?: ActionEnum;
-    applications?: string[];
-    auditComment?: string;
-    category?: Category;
-    decryptionRuleType?: DecryptionRuleTypeEnum;
-    description?: string;
-    destination?: DestinationAddr;
-    enableLogging?: StateEnum;
-    etag?: string;
-    inboundInspectionCertificate?: string;
-    negateDestination?: BooleanEnum;
-    negateSource?: BooleanEnum;
-    // (undocumented)
-    readonly priority?: number;
-    protocol?: string;
-    protocolPortList?: string[];
-    readonly provisioningState?: ProvisioningState;
-    ruleName: string;
-    ruleState?: StateEnum;
-    source?: SourceAddr;
-    tags?: TagInfo[];
-}
-
-// @public
 export interface RulestackDetails {
     location?: string;
     resourceId?: string;
     rulestackId?: string;
-}
-
-// @public
-export interface RulestackProperties {
-    associatedSubscriptions?: string[];
-    defaultMode?: DefaultMode;
-    description?: string;
-    minAppIdVersion?: string;
-    panEtag?: string;
-    panLocation?: string;
-    readonly provisioningState?: ProvisioningState;
-    scope?: ScopeType;
-    securityServices?: SecurityServices;
 }
 
 // @public
@@ -1665,7 +2375,9 @@ export interface TagInfo {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

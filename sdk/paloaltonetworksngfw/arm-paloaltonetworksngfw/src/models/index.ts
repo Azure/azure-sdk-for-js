@@ -1021,8 +1021,7 @@ export interface GlobalRulestackResource extends ProxyResource {
 }
 
 /** GlobalRulestack Certificate Object */
-export interface CertificateObjectGlobalRulestackResource
-  extends ProxyResource {
+export interface CertificateObjectGlobalRulestackResource extends ProxyResource {
   /** Resource Id of certificate signer, to be populated only when certificateSelfSigned is false */
   certificateSignerResourceId?: string;
   /** use certificate self signed */
@@ -2202,22 +2201,19 @@ export type ReadOnlyProvisioningState = string;
 export type ProductSerialStatusValues = "Allocated" | "InProgress";
 
 /** Optional parameters. */
-export interface GlobalRulestackListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type GlobalRulestackListResponse = GlobalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface GlobalRulestackGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type GlobalRulestackGetResponse = GlobalRulestackResource;
 
 /** Optional parameters. */
-export interface GlobalRulestackCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalRulestackCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2228,15 +2224,13 @@ export interface GlobalRulestackCreateOrUpdateOptionalParams
 export type GlobalRulestackCreateOrUpdateResponse = GlobalRulestackResource;
 
 /** Optional parameters. */
-export interface GlobalRulestackUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type GlobalRulestackUpdateResponse = GlobalRulestackResource;
 
 /** Optional parameters. */
-export interface GlobalRulestackDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2244,8 +2238,7 @@ export interface GlobalRulestackDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface GlobalRulestackCommitOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalRulestackCommitOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2256,8 +2249,7 @@ export interface GlobalRulestackCommitOptionalParams
 export type GlobalRulestackCommitResponse = GlobalRulestackCommitHeaders;
 
 /** Optional parameters. */
-export interface GlobalRulestackGetChangeLogOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackGetChangeLogOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getChangeLog operation. */
 export type GlobalRulestackGetChangeLogResponse = Changelog;
@@ -2270,12 +2262,10 @@ export interface GlobalRulestackListAdvancedSecurityObjectsOptionalParams
 }
 
 /** Contains response data for the listAdvancedSecurityObjects operation. */
-export type GlobalRulestackListAdvancedSecurityObjectsResponse =
-  AdvSecurityObjectListResponse;
+export type GlobalRulestackListAdvancedSecurityObjectsResponse = AdvSecurityObjectListResponse;
 
 /** Optional parameters. */
-export interface GlobalRulestackListAppIdsOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalRulestackListAppIdsOptionalParams extends coreClient.OperationOptions {
   skip?: string;
   top?: number;
   appIdVersion?: string;
@@ -2286,8 +2276,7 @@ export interface GlobalRulestackListAppIdsOptionalParams
 export type GlobalRulestackListAppIdsResponse = ListAppIdResponse;
 
 /** Optional parameters. */
-export interface GlobalRulestackListCountriesOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalRulestackListCountriesOptionalParams extends coreClient.OperationOptions {
   skip?: string;
   top?: number;
 }
@@ -2296,8 +2285,7 @@ export interface GlobalRulestackListCountriesOptionalParams
 export type GlobalRulestackListCountriesResponse = CountriesResponse;
 
 /** Optional parameters. */
-export interface GlobalRulestackListFirewallsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackListFirewallsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFirewalls operation. */
 export type GlobalRulestackListFirewallsResponse = ListFirewallsResponse;
@@ -2310,8 +2298,7 @@ export interface GlobalRulestackListPredefinedUrlCategoriesOptionalParams
 }
 
 /** Contains response data for the listPredefinedUrlCategories operation. */
-export type GlobalRulestackListPredefinedUrlCategoriesResponse =
-  PredefinedUrlCategoriesResponse;
+export type GlobalRulestackListPredefinedUrlCategoriesResponse = PredefinedUrlCategoriesResponse;
 
 /** Optional parameters. */
 export interface GlobalRulestackListSecurityServicesOptionalParams
@@ -2321,16 +2308,13 @@ export interface GlobalRulestackListSecurityServicesOptionalParams
 }
 
 /** Contains response data for the listSecurityServices operation. */
-export type GlobalRulestackListSecurityServicesResponse =
-  SecurityServicesResponse;
+export type GlobalRulestackListSecurityServicesResponse = SecurityServicesResponse;
 
 /** Optional parameters. */
-export interface GlobalRulestackRevertOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackRevertOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GlobalRulestackListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalRulestackListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GlobalRulestackListNextResponse = GlobalRulestackResourceListResult;
@@ -2348,8 +2332,7 @@ export interface CertificateObjectGlobalRulestackGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CertificateObjectGlobalRulestackGetResponse =
-  CertificateObjectGlobalRulestackResource;
+export type CertificateObjectGlobalRulestackGetResponse = CertificateObjectGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
@@ -2382,20 +2365,16 @@ export type CertificateObjectGlobalRulestackListNextResponse =
   CertificateObjectGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface FqdnListGlobalRulestackListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FqdnListGlobalRulestackListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type FqdnListGlobalRulestackListResponse =
-  FqdnListGlobalRulestackResourceListResult;
+export type FqdnListGlobalRulestackListResponse = FqdnListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface FqdnListGlobalRulestackGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FqdnListGlobalRulestackGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FqdnListGlobalRulestackGetResponse =
-  FqdnListGlobalRulestackResource;
+export type FqdnListGlobalRulestackGetResponse = FqdnListGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams
@@ -2407,12 +2386,10 @@ export interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type FqdnListGlobalRulestackCreateOrUpdateResponse =
-  FqdnListGlobalRulestackResource;
+export type FqdnListGlobalRulestackCreateOrUpdateResponse = FqdnListGlobalRulestackResource;
 
 /** Optional parameters. */
-export interface FqdnListGlobalRulestackDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FqdnListGlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2424,26 +2401,22 @@ export interface FqdnListGlobalRulestackListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FqdnListGlobalRulestackListNextResponse =
-  FqdnListGlobalRulestackResourceListResult;
+export type FqdnListGlobalRulestackListNextResponse = FqdnListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface PostRulesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PostRulesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PostRulesListResponse = PostRulesResourceListResult;
 
 /** Optional parameters. */
-export interface PostRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PostRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PostRulesGetResponse = PostRulesResource;
 
 /** Optional parameters. */
-export interface PostRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PostRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2454,8 +2427,7 @@ export interface PostRulesCreateOrUpdateOptionalParams
 export type PostRulesCreateOrUpdateResponse = PostRulesResource;
 
 /** Optional parameters. */
-export interface PostRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PostRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2463,8 +2435,7 @@ export interface PostRulesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PostRulesGetCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface PostRulesGetCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
@@ -2472,14 +2443,12 @@ export interface PostRulesGetCountersOptionalParams
 export type PostRulesGetCountersResponse = RuleCounter;
 
 /** Optional parameters. */
-export interface PostRulesRefreshCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface PostRulesRefreshCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
 /** Optional parameters. */
-export interface PostRulesResetCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface PostRulesResetCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
@@ -2487,29 +2456,25 @@ export interface PostRulesResetCountersOptionalParams
 export type PostRulesResetCountersResponse = RuleCounterReset;
 
 /** Optional parameters. */
-export interface PostRulesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PostRulesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PostRulesListNextResponse = PostRulesResourceListResult;
 
 /** Optional parameters. */
-export interface PreRulesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PreRulesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PreRulesListResponse = PreRulesResourceListResult;
 
 /** Optional parameters. */
-export interface PreRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PreRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PreRulesGetResponse = PreRulesResource;
 
 /** Optional parameters. */
-export interface PreRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PreRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2520,8 +2485,7 @@ export interface PreRulesCreateOrUpdateOptionalParams
 export type PreRulesCreateOrUpdateResponse = PreRulesResource;
 
 /** Optional parameters. */
-export interface PreRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PreRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2529,8 +2493,7 @@ export interface PreRulesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PreRulesGetCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface PreRulesGetCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
@@ -2538,14 +2501,12 @@ export interface PreRulesGetCountersOptionalParams
 export type PreRulesGetCountersResponse = RuleCounter;
 
 /** Optional parameters. */
-export interface PreRulesRefreshCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface PreRulesRefreshCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
 /** Optional parameters. */
-export interface PreRulesResetCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface PreRulesResetCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
@@ -2553,27 +2514,22 @@ export interface PreRulesResetCountersOptionalParams
 export type PreRulesResetCountersResponse = RuleCounterReset;
 
 /** Optional parameters. */
-export interface PreRulesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PreRulesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PreRulesListNextResponse = PreRulesResourceListResult;
 
 /** Optional parameters. */
-export interface PrefixListGlobalRulestackListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrefixListGlobalRulestackListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrefixListGlobalRulestackListResponse =
-  PrefixListGlobalRulestackResourceListResult;
+export type PrefixListGlobalRulestackListResponse = PrefixListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface PrefixListGlobalRulestackGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrefixListGlobalRulestackGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrefixListGlobalRulestackGetResponse =
-  PrefixListGlobalRulestackResource;
+export type PrefixListGlobalRulestackGetResponse = PrefixListGlobalRulestackResource;
 
 /** Optional parameters. */
 export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams
@@ -2585,12 +2541,10 @@ export interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrefixListGlobalRulestackCreateOrUpdateResponse =
-  PrefixListGlobalRulestackResource;
+export type PrefixListGlobalRulestackCreateOrUpdateResponse = PrefixListGlobalRulestackResource;
 
 /** Optional parameters. */
-export interface PrefixListGlobalRulestackDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrefixListGlobalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2602,19 +2556,16 @@ export interface PrefixListGlobalRulestackListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrefixListGlobalRulestackListNextResponse =
-  PrefixListGlobalRulestackResourceListResult;
+export type PrefixListGlobalRulestackListNextResponse = PrefixListGlobalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -2648,33 +2599,28 @@ export interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportInfo operation. */
-export type PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse =
-  SupportInfoModel;
+export type PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse = SupportInfoModel;
 
 /** Optional parameters. */
-export interface FirewallsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type FirewallsListBySubscriptionResponse = FirewallResourceListResult;
 
 /** Optional parameters. */
-export interface FirewallsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type FirewallsListByResourceGroupResponse = FirewallResourceListResult;
 
 /** Optional parameters. */
-export interface FirewallsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FirewallsGetResponse = FirewallResource;
 
 /** Optional parameters. */
-export interface FirewallsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2685,15 +2631,13 @@ export interface FirewallsCreateOrUpdateOptionalParams
 export type FirewallsCreateOrUpdateResponse = FirewallResource;
 
 /** Optional parameters. */
-export interface FirewallsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type FirewallsUpdateResponse = FirewallResource;
 
 /** Optional parameters. */
-export interface FirewallsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2701,22 +2645,19 @@ export interface FirewallsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface FirewallsGetGlobalRulestackOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallsGetGlobalRulestackOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getGlobalRulestack operation. */
 export type FirewallsGetGlobalRulestackResponse = GlobalRulestackInfo;
 
 /** Optional parameters. */
-export interface FirewallsGetLogProfileOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallsGetLogProfileOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLogProfile operation. */
 export type FirewallsGetLogProfileResponse = LogSettings;
 
 /** Optional parameters. */
-export interface FirewallsGetSupportInfoOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallsGetSupportInfoOptionalParams extends coreClient.OperationOptions {
   /** email address on behalf of which this API called */
   email?: string;
 }
@@ -2725,8 +2666,7 @@ export interface FirewallsGetSupportInfoOptionalParams
 export type FirewallsGetSupportInfoResponse = SupportInfo;
 
 /** Optional parameters. */
-export interface FirewallsSaveLogProfileOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallsSaveLogProfileOptionalParams extends coreClient.OperationOptions {
   /** Log Settings for Firewall */
   logSettings?: LogSettings;
 }
@@ -2736,43 +2676,37 @@ export interface FirewallsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type FirewallsListBySubscriptionNextResponse =
-  FirewallResourceListResult;
+export type FirewallsListBySubscriptionNextResponse = FirewallResourceListResult;
 
 /** Optional parameters. */
 export interface FirewallsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type FirewallsListByResourceGroupNextResponse =
-  FirewallResourceListResult;
+export type FirewallsListByResourceGroupNextResponse = FirewallResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type LocalRulestacksListBySubscriptionResponse =
-  LocalRulestackResourceListResult;
+export type LocalRulestacksListBySubscriptionResponse = LocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type LocalRulestacksListByResourceGroupResponse =
-  LocalRulestackResourceListResult;
+export type LocalRulestacksListByResourceGroupResponse = LocalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface LocalRulestacksGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulestacksGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LocalRulestacksGetResponse = LocalRulestackResource;
 
 /** Optional parameters. */
-export interface LocalRulestacksCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulestacksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2783,15 +2717,13 @@ export interface LocalRulestacksCreateOrUpdateOptionalParams
 export type LocalRulestacksCreateOrUpdateResponse = LocalRulestackResource;
 
 /** Optional parameters. */
-export interface LocalRulestacksUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulestacksUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type LocalRulestacksUpdateResponse = LocalRulestackResource;
 
 /** Optional parameters. */
-export interface LocalRulestacksDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulestacksDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2799,8 +2731,7 @@ export interface LocalRulestacksDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface LocalRulestacksCommitOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulestacksCommitOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2811,15 +2742,13 @@ export interface LocalRulestacksCommitOptionalParams
 export type LocalRulestacksCommitResponse = LocalRulestacksCommitHeaders;
 
 /** Optional parameters. */
-export interface LocalRulestacksGetChangeLogOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulestacksGetChangeLogOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getChangeLog operation. */
 export type LocalRulestacksGetChangeLogResponse = Changelog;
 
 /** Optional parameters. */
-export interface LocalRulestacksGetSupportInfoOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulestacksGetSupportInfoOptionalParams extends coreClient.OperationOptions {
   /** email address on behalf of which this API called */
   email?: string;
 }
@@ -2835,12 +2764,10 @@ export interface LocalRulestacksListAdvancedSecurityObjectsOptionalParams
 }
 
 /** Contains response data for the listAdvancedSecurityObjects operation. */
-export type LocalRulestacksListAdvancedSecurityObjectsResponse =
-  AdvSecurityObjectListResponse;
+export type LocalRulestacksListAdvancedSecurityObjectsResponse = AdvSecurityObjectListResponse;
 
 /** Optional parameters. */
-export interface LocalRulestacksListAppIdsOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulestacksListAppIdsOptionalParams extends coreClient.OperationOptions {
   skip?: string;
   top?: number;
   appIdVersion?: string;
@@ -2851,8 +2778,7 @@ export interface LocalRulestacksListAppIdsOptionalParams
 export type LocalRulestacksListAppIdsResponse = ListAppIdResponse;
 
 /** Optional parameters. */
-export interface LocalRulestacksListCountriesOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulestacksListCountriesOptionalParams extends coreClient.OperationOptions {
   skip?: string;
   top?: number;
 }
@@ -2861,8 +2787,7 @@ export interface LocalRulestacksListCountriesOptionalParams
 export type LocalRulestacksListCountriesResponse = CountriesResponse;
 
 /** Optional parameters. */
-export interface LocalRulestacksListFirewallsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulestacksListFirewallsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFirewalls operation. */
 export type LocalRulestacksListFirewallsResponse = ListFirewallsResponse;
@@ -2875,8 +2800,7 @@ export interface LocalRulestacksListPredefinedUrlCategoriesOptionalParams
 }
 
 /** Contains response data for the listPredefinedUrlCategories operation. */
-export type LocalRulestacksListPredefinedUrlCategoriesResponse =
-  PredefinedUrlCategoriesResponse;
+export type LocalRulestacksListPredefinedUrlCategoriesResponse = PredefinedUrlCategoriesResponse;
 
 /** Optional parameters. */
 export interface LocalRulestacksListSecurityServicesOptionalParams
@@ -2886,32 +2810,27 @@ export interface LocalRulestacksListSecurityServicesOptionalParams
 }
 
 /** Contains response data for the listSecurityServices operation. */
-export type LocalRulestacksListSecurityServicesResponse =
-  SecurityServicesResponse;
+export type LocalRulestacksListSecurityServicesResponse = SecurityServicesResponse;
 
 /** Optional parameters. */
-export interface LocalRulestacksRevertOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulestacksRevertOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LocalRulestacksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type LocalRulestacksListBySubscriptionNextResponse =
-  LocalRulestackResourceListResult;
+export type LocalRulestacksListBySubscriptionNextResponse = LocalRulestackResourceListResult;
 
 /** Optional parameters. */
 export interface LocalRulestacksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type LocalRulestacksListByResourceGroupNextResponse =
-  LocalRulestackResourceListResult;
+export type LocalRulestacksListByResourceGroupNextResponse = LocalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface LocalRulestacksListAppIdsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulestacksListAppIdsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAppIdsNext operation. */
 export type LocalRulestacksListAppIdsNextResponse = ListAppIdResponse;
@@ -2936,12 +2855,10 @@ export interface MetricsObjectFirewallListByFirewallsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFirewalls operation. */
-export type MetricsObjectFirewallListByFirewallsResponse =
-  MetricsObjectFirewallResourceListResult;
+export type MetricsObjectFirewallListByFirewallsResponse = MetricsObjectFirewallResourceListResult;
 
 /** Optional parameters. */
-export interface MetricsObjectFirewallGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MetricsObjectFirewallGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MetricsObjectFirewallGetResponse = MetricsObjectFirewallResource;
@@ -2956,12 +2873,10 @@ export interface MetricsObjectFirewallCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type MetricsObjectFirewallCreateOrUpdateResponse =
-  MetricsObjectFirewallResource;
+export type MetricsObjectFirewallCreateOrUpdateResponse = MetricsObjectFirewallResource;
 
 /** Optional parameters. */
-export interface MetricsObjectFirewallDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface MetricsObjectFirewallDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2969,8 +2884,7 @@ export interface MetricsObjectFirewallDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type MetricsObjectFirewallDeleteResponse =
-  MetricsObjectFirewallDeleteHeaders;
+export type MetricsObjectFirewallDeleteResponse = MetricsObjectFirewallDeleteHeaders;
 
 /** Optional parameters. */
 export interface MetricsObjectFirewallListByFirewallsNextOptionalParams
@@ -2981,16 +2895,13 @@ export type MetricsObjectFirewallListByFirewallsNextResponse =
   MetricsObjectFirewallResourceListResult;
 
 /** Optional parameters. */
-export interface FirewallStatusListByFirewallsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallStatusListByFirewallsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFirewalls operation. */
-export type FirewallStatusListByFirewallsResponse =
-  FirewallStatusResourceListResult;
+export type FirewallStatusListByFirewallsResponse = FirewallStatusResourceListResult;
 
 /** Optional parameters. */
-export interface FirewallStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FirewallStatusGetResponse = FirewallStatusResource;
@@ -3000,8 +2911,7 @@ export interface FirewallStatusListByFirewallsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFirewallsNext operation. */
-export type FirewallStatusListByFirewallsNextResponse =
-  FirewallStatusResourceListResult;
+export type FirewallStatusListByFirewallsNextResponse = FirewallStatusResourceListResult;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams
@@ -3016,8 +2926,7 @@ export interface CertificateObjectLocalRulestackGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CertificateObjectLocalRulestackGetResponse =
-  CertificateObjectLocalRulestackResource;
+export type CertificateObjectLocalRulestackGetResponse = CertificateObjectLocalRulestackResource;
 
 /** Optional parameters. */
 export interface CertificateObjectLocalRulestackCreateOrUpdateOptionalParams
@@ -3058,8 +2967,7 @@ export type FqdnListLocalRulestackListByLocalRulestacksResponse =
   FqdnListLocalRulestackResourceListResult;
 
 /** Optional parameters. */
-export interface FqdnListLocalRulestackGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FqdnListLocalRulestackGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FqdnListLocalRulestackGetResponse = FqdnListLocalRulestackResource;
@@ -3074,12 +2982,10 @@ export interface FqdnListLocalRulestackCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type FqdnListLocalRulestackCreateOrUpdateResponse =
-  FqdnListLocalRulestackResource;
+export type FqdnListLocalRulestackCreateOrUpdateResponse = FqdnListLocalRulestackResource;
 
 /** Optional parameters. */
-export interface FqdnListLocalRulestackDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FqdnListLocalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3099,19 +3005,16 @@ export interface LocalRulesListByLocalRulestacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacks operation. */
-export type LocalRulesListByLocalRulestacksResponse =
-  LocalRulesResourceListResult;
+export type LocalRulesListByLocalRulestacksResponse = LocalRulesResourceListResult;
 
 /** Optional parameters. */
-export interface LocalRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocalRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LocalRulesGetResponse = LocalRulesResource;
 
 /** Optional parameters. */
-export interface LocalRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3122,8 +3025,7 @@ export interface LocalRulesCreateOrUpdateOptionalParams
 export type LocalRulesCreateOrUpdateResponse = LocalRulesResource;
 
 /** Optional parameters. */
-export interface LocalRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3131,8 +3033,7 @@ export interface LocalRulesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface LocalRulesGetCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulesGetCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
@@ -3140,14 +3041,12 @@ export interface LocalRulesGetCountersOptionalParams
 export type LocalRulesGetCountersResponse = RuleCounter;
 
 /** Optional parameters. */
-export interface LocalRulesRefreshCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulesRefreshCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
 /** Optional parameters. */
-export interface LocalRulesResetCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface LocalRulesResetCountersOptionalParams extends coreClient.OperationOptions {
   firewallName?: string;
 }
 
@@ -3159,20 +3058,17 @@ export interface LocalRulesListByLocalRulestacksNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacksNext operation. */
-export type LocalRulesListByLocalRulestacksNextResponse =
-  LocalRulesResourceListResult;
+export type LocalRulesListByLocalRulestacksNextResponse = LocalRulesResourceListResult;
 
 /** Optional parameters. */
 export interface PrefixListLocalRulestackListByLocalRulestacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocalRulestacks operation. */
-export type PrefixListLocalRulestackListByLocalRulestacksResponse =
-  PrefixListResourceListResult;
+export type PrefixListLocalRulestackListByLocalRulestacksResponse = PrefixListResourceListResult;
 
 /** Optional parameters. */
-export interface PrefixListLocalRulestackGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrefixListLocalRulestackGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrefixListLocalRulestackGetResponse = PrefixListResource;
@@ -3190,8 +3086,7 @@ export interface PrefixListLocalRulestackCreateOrUpdateOptionalParams
 export type PrefixListLocalRulestackCreateOrUpdateResponse = PrefixListResource;
 
 /** Optional parameters. */
-export interface PrefixListLocalRulestackDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrefixListLocalRulestackDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3207,8 +3102,7 @@ export type PrefixListLocalRulestackListByLocalRulestacksNextResponse =
   PrefixListResourceListResult;
 
 /** Optional parameters. */
-export interface PaloAltoNetworksCloudngfwOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface PaloAltoNetworksCloudngfwOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

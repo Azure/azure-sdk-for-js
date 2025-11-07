@@ -64,18 +64,15 @@ describe("paloaltonetworksngfw test", () => {
   });
 
   it("localRulestacks create test", async () => {
-    const poller = client.localRulestacks.createOrUpdate(
+    const res = await client.localRulestacks.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
       {
         location,
-        properties: {
-          description: "local rulestacks",
-        },
+        description: "local rulestacks",
       },
       testPollingOptions,
     );
-    const res = await poller.pollUntilDone();
     assert.equal(res.name, resourcename);
   });
 
@@ -95,9 +92,7 @@ describe("paloaltonetworksngfw test", () => {
   });
 
   it("localRulestacks delete test", async () => {
-    const deletePoller = client.localRulestacks.delete(resourceGroup, resourcename);
-    await deletePoller.pollUntilDone();
-
+    await client.localRulestacks.beginDeleteAndWait(resourceGroup, resourcename);
     // Verify the resource no longer exists by trying to get it
     try {
       await client.localRulestacks.get(resourceGroup, resourcename);
