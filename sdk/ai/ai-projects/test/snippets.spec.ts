@@ -15,9 +15,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
 import { RestError } from "@azure/core-rest-pipeline";
 import * as path from "path";
+import * as fs from "fs";
 
 describe("snippets", function () {
   let project: AIProjectClient;
+  let deploymentName: string = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+  const filePath = "";
 
   beforeEach(async function (context: VitestTestContext) {
     project = createProjectsClient();
@@ -28,30 +31,70 @@ describe("snippets", function () {
     const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
   });
 
-  it("agentsSample", async function () {
-    const agent = await project.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-    // @ts-preserve-whitespace
-    // Do something with your Agent!
-    // See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
-
-    await project.agents.deleteAgent(agent.id);
-    console.log(`Deleted agent, agent ID: ${agent.id}`);
-  });
-
   it("openAI", async function () {
-    const client = await project.inference.azureOpenAI({
-      // The API version should match the version of the Azure OpenAI resource.
-      apiVersion: "2024-10-21",
-    });
-    const response = await client.chat.completions.create({
+    const openAIClient = await project.getOpenAIClient();
+    const response = await openAIClient.responses.create({
       model: deploymentName,
-      messages: [{ role: "user", content: "How many feet are in a mile?" }],
+      input: "What is the size of France in square miles?",
     });
     console.log("response = ", JSON.stringify(response, null, 2));
+  });
+
+  it("agents", async function () {
+    const openAIClient = await project.getOpenAIClient();
+    const agent = await project.agents.createVersion("my-agent-basic", {
+      kind: "prompt",
+      model: deploymentName,
+      instructions: "You are a helpful assistant that answers general questions",
+    });
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+    const conversation = await openAIClient.conversations.create({
+      items: [
+        { type: "message", role: "user", content: "What is the size of France in square miles?" },
+      ],
+    });
+    console.log(`Created conversation with initial user message (id: ${conversation.id})`);
+
+    // Generate response using the agent
+    console.log("\nGenerating response...");
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+        input: "", // TODO: Remove 'input' once service is fixed
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    console.log(`Response output: ${response.output_text}`);
+
+    // Add a second user message to the conversation
+    console.log("\nAdding a second user message to the conversation...");
+    await openAIClient.conversations.items.create(conversation.id, {
+      items: [{ type: "message", role: "user", content: "And what is the capital city?" }],
+    });
+    console.log("Added a second user message to the conversation");
+
+    // Generate second response
+    console.log("\nGenerating second response...");
+    const response2 = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+        input: "", // TODO: Remove 'input' once service is fixed
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    console.log(`Response output: ${response2.output_text}`);
+
+    // Clean up
+    console.log("\nCleaning up resources...");
+    await openAIClient.conversations.delete(conversation.id);
+    console.log("Conversation deleted");
+
+    await project.agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
   });
 
   it("deployments", async function () {
@@ -218,6 +261,39 @@ describe("snippets", function () {
     await project.datasets.delete(datasetName, VERSION2);
     await project.datasets.delete(datasetName, dataset3.version);
     console.log("All specified Datasets have been deleted.");
+  });
+
+  it("files", async function () {
+    const openAIClient = await project.getOpenAIClient();
+    console.log("Uploading file");
+    const created = await openAIClient.files.create({
+      file: fs.createReadStream(filePath),
+      purpose: "fine-tune",
+    });
+    console.log(`Uploaded file with ID: ${created.id}`);
+    const uploadedFile = await openAIClient.files.retrieve(created.id);
+    console.log("Processed file metadata:\n", JSON.stringify(uploadedFile, null, 2));
+
+    console.log(`Retrieving file content with ID: ${uploadedFile.id}`);
+    const contentResponse = await openAIClient.files.content(uploadedFile.id);
+    const buf = Buffer.from(await contentResponse.arrayBuffer());
+    console.log(buf.toString("utf-8"));
+
+    // 4) List all files
+    console.log("Listing all files:");
+    const filesList = await openAIClient.files.list();
+    for (const f of filesList.data ?? []) {
+      console.log(JSON.stringify(f));
+    }
+
+    // 5) Delete the file
+    console.log(`Deleting file with ID: ${uploadedFile.id}`);
+    const deleted = await openAIClient.files.delete(uploadedFile.id);
+    console.log(
+      `Successfully deleted file: ${deleted?.id || uploadedFile.id}, deleted=${String(
+        deleted?.deleted ?? true,
+      )}`,
+    );
   });
 
   it("indexes", async function () {

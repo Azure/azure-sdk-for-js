@@ -12,7 +12,7 @@ const OpenAI = require("openai").default;
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 require("dotenv/config");
 
-const projectEndpoint = process.env["OPENAI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["OPENAI_AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 async function main() {
   // Create OpenAI client with Azure credentials
