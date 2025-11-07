@@ -4,8 +4,7 @@
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "@azure/identity";
+import { AzureCliCredential } from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AuthorityValidation", function () {
@@ -23,10 +22,7 @@ describe("AuthorityValidation", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("disabled and authenticates", async function () {
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!,
+    const credential = new AzureCliCredential(
       recorder.configureClientOptions({ disableInstanceDiscovery: true }),
     );
 

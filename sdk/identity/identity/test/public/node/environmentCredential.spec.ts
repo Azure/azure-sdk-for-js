@@ -30,6 +30,7 @@ describe("EnvironmentCredential", function () {
     "AZURE_CLIENT_CERTIFICATE_PASSWORD",
     "AZURE_USERNAME",
     "AZURE_PASSWORD",
+    "SKIP_SP_LIVE_TESTS"
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
