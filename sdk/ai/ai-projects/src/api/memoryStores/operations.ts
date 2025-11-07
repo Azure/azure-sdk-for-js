@@ -18,8 +18,8 @@ import {
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
-  MemoryStoreUpdateResult,
-  memoryStoreUpdateResultDeserializer,
+  MemoryStoreUpdateCompletedResult,
+  memoryStoreUpdateCompletedResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -102,14 +102,14 @@ export async function deleteScope(
 export function _getUpdateResultSend(
   context: Client,
   name: string,
-  update_id: string,
+  updateId: string,
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/memory_stores/{name}/updates/{update_id}{?api-version}",
     {
       name: name,
-      update_id: update_id,
+      update_id: updateId,
       "api-version": context.apiVersion,
     },
     {
@@ -142,10 +142,10 @@ export async function _getUpdateResultDeserialize(
 export async function getUpdateResult(
   context: Client,
   name: string,
-  update_id: string,
+  updateId: string,
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreUpdateResponse> {
-  const result = await _getUpdateResultSend(context, name, update_id, options);
+  const result = await _getUpdateResultSend(context, name, updateId, options);
   return _getUpdateResultDeserialize(result);
 }
 
@@ -174,17 +174,17 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversation_id,
+      conversation_id: options?.conversationId,
       items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
-      previous_update_id: options?.previous_update_id,
-      updateDelay: options?.update_delay,
+      previous_update_id: options?.previousUpdateId,
+      update_delay: options?.updateDelay,
     },
   });
 }
 
 export async function _updateMemoriesDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStoreUpdateResult> {
+): Promise<MemoryStoreUpdateCompletedResult> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -199,7 +199,7 @@ export async function _updateMemoriesDeserialize(
     );
   }
 
-  return memoryStoreUpdateResultDeserializer(result.body.result);
+  return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
 }
 
 /** Update memory store with conversation memories. */
@@ -208,12 +208,15 @@ export function updateMemories(
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
+): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-  }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
+  }) as PollerLike<
+    OperationState<MemoryStoreUpdateCompletedResult>,
+    MemoryStoreUpdateCompletedResult
+  >;
 }
 
 export function _searchMemoriesSend(
@@ -241,9 +244,9 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversation_id,
+      conversation_id: options?.conversationId,
       items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
-      previous_search_id: options?.previous_search_id,
+      previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options
         : memorySearchOptionsSerializer(options?.options),

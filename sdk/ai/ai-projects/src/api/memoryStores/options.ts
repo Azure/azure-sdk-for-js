@@ -15,28 +15,28 @@ export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptio
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The conversation ID from which to extract memories. Only one of conversation_id or items should be provided. */
-  conversation_id?: string;
+  conversationId?: string;
   /** Conversation items from which to extract memories. Only one of conversation_id or items should be provided. */
   items?: ItemParamUnion[];
   /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. Cannot be used together with conversation_id. */
-  previous_update_id?: string;
+  previousUpdateId?: string;
   /**
    * Timeout period before processing the memory update in seconds.
    * If a new update request is received during this period, it will cancel the current request and reset the timeout.
    * Set to 0 to immediately trigger the update without delay.
    * Defaults to 300 (5 minutes).
    */
-  update_delay?: number;
+  updateDelay?: number;
 }
 
 /** Optional parameters. */
 export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
   /** The conversation ID for which to search memories. Only one of conversation_id or items should be provided. */
-  conversation_id?: string;
+  conversationId?: string;
   /** Items for which to search for relevant memories. Only one of conversation_id or items should be provided. */
   items?: ItemParamUnion[];
   /** The unique ID of the previous search request, enabling incremental memory search from where the last operation left off. Cannot be used together with conversation_id. */
-  previous_search_id?: string;
+  previousSearchId?: string;
   /** Memory search options. */
   options?: MemorySearchOptions;
 }

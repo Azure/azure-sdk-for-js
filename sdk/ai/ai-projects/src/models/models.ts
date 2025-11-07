@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable tsdoc/syntax */
 
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
@@ -510,7 +507,7 @@ export interface FileSearchTool extends Tool {
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
   /** A filter to apply. */
-  filters?: Filters;
+  filters?: Filters | null;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -985,7 +982,7 @@ export interface MCPTool extends Tool {
    * Optional HTTP headers to send to the MCP server. Use for authentication
    * or other purposes.
    */
-  headers?: Record<string, string>;
+  headers?: Record<string, string> | null;
   /** List of allowed tool names or a filter object. */
   allowed_tools?:
     | (
@@ -1565,7 +1562,7 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: unknown;
+  spec: any;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
@@ -1574,7 +1571,7 @@ export interface OpenApiFunctionDefinition {
   readonly functions?: {
     name: string;
     description?: string;
-    parameters: unknown;
+    parameters: any;
   }[];
 }
 
@@ -2012,7 +2009,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: unknown;
+    parameters: any;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   input_binding: AzureFunctionBinding;
@@ -2043,7 +2040,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: unknown;
+  parameters: any;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -2224,7 +2221,7 @@ export function memorySearchToolSerializer(item: MemorySearchTool): any {
     search_options: !item["search_options"]
       ? item["search_options"]
       : memorySearchOptionsSerializer(item["search_options"]),
-    updateDelay: item["update_delay"],
+    update_delay: item["update_delay"],
   };
 }
 
@@ -2654,7 +2651,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
    * underscores and dashes, with a maximum length of 64.
    */
   name: string;
-  schema: ResponseFormatJsonSchemaSchema;
+  schema: Record<string, any>;
   /**
    * Whether to enable strict schema adherence when generating the output.
    * If set to true, the model will always follow the exact schema defined
@@ -2672,7 +2669,7 @@ export function responseTextFormatConfigurationJsonSchemaSerializer(
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: responseFormatJsonSchemaSchemaSerializer(item["schema"]),
+    schema: item["schema"],
     strict: item["strict"],
   };
 }
@@ -2684,31 +2681,8 @@ export function responseTextFormatConfigurationJsonSchemaDeserializer(
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: responseFormatJsonSchemaSchemaDeserializer(item["schema"]),
+    schema: item["schema"],
     strict: item["strict"],
-  };
-}
-
-/**
- * The schema for the response format, described as a JSON Schema object.
- * Learn how to build JSON schemas [here](https://json-schema.org/).
- */
-export interface ResponseFormatJsonSchemaSchema {
-  /** Additional properties */
-  additionalProperties?: Record<string, any>;
-}
-
-export function responseFormatJsonSchemaSchemaSerializer(
-  item: ResponseFormatJsonSchemaSchema,
-): any {
-  return { ...serializeRecord(item.additionalProperties) };
-}
-
-export function responseFormatJsonSchemaSchemaDeserializer(
-  item: any,
-): ResponseFormatJsonSchemaSchema {
-  return {
-    additionalProperties: serializeRecord(item, []),
   };
 }
 
@@ -2741,7 +2715,7 @@ export interface StructuredInputDefinition {
   /** When provided, the input value is bound to the specified tool arguments. */
   tool_argument_bindings?: ToolArgumentBinding[];
   /** The JSON schema for the structured input (optional). */
-  schema?: unknown;
+  schema?: any;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -2799,11 +2773,6 @@ export function toolArgumentBindingDeserializer(item: any): ToolArgumentBinding 
     tool_name: item["tool_name"],
     argument_name: item["argument_name"],
   };
-}
-
-/** Error response for API failures. */
-export interface ApiErrorResponse {
-  error: ApiError;
 }
 
 /** Error response for API failures. */
@@ -2960,130 +2929,6 @@ export function _agentsPagedResultAgentVersionObjectDeserializer(
 export function agentVersionObjectArrayDeserializer(result: Array<AgentVersionObject>): any[] {
   return result.map((item) => {
     return agentVersionObjectDeserializer(item);
-  });
-}
-
-/** The container operation for a specific version of an agent. */
-export interface AgentContainerOperationObject {
-  /** The ID of the container operation. This id is unique identifier across the system. */
-  id: string;
-  /** The ID of the agent. */
-  agent_id: string;
-  /** The ID of the agent version. */
-  agent_version_id: string;
-  /** The status of the container operation. */
-  status: AgentContainerOperationStatus;
-  /** The error of the container operation, if any. */
-  error?: AgentContainerOperationError;
-  /** The container of the specific version of an agent. */
-  container?: AgentContainerObject;
-}
-
-export function agentContainerOperationObjectDeserializer(
-  item: any,
-): AgentContainerOperationObject {
-  return {
-    id: item["id"],
-    agent_id: item["agent_id"],
-    agent_version_id: item["agent_version_id"],
-    status: item["status"],
-    error: !item["error"] ? item["error"] : agentContainerOperationErrorDeserializer(item["error"]),
-    container: !item["container"]
-      ? item["container"]
-      : agentContainerObjectDeserializer(item["container"]),
-  };
-}
-
-/** Status of the container operation for a specific version of an agent. */
-export type AgentContainerOperationStatus = "NotStarted" | "InProgress" | "Succeeded" | "Failed";
-
-/** The error details of the container operation, if any. */
-export interface AgentContainerOperationError {
-  /** The error code of the container operation, if any. */
-  code: string;
-  /** The error type of the container operation, if any. */
-  type: string;
-  /** The error message of the container operation, if any. */
-  message: string;
-}
-
-export function agentContainerOperationErrorDeserializer(item: any): AgentContainerOperationError {
-  return {
-    code: item["code"],
-    type: item["type"],
-    message: item["message"],
-  };
-}
-
-/** The details of the container of a specific version of an agent. */
-export interface AgentContainerObject {
-  /** The object type, which is always 'agent.container'. */
-  readonly object: "agent.container";
-  /** The status of the container of a specific version of an agent. */
-  readonly status: AgentContainerStatus;
-  /** The maximum number of replicas for the container. Default is 1. */
-  max_replicas?: number;
-  /** The minimum number of replicas for the container. Default is 1. */
-  min_replicas?: number;
-  /** The error message if the container failed to operate, if any. */
-  readonly error_message?: string;
-  /** The creation time of the container. */
-  readonly created_at: Date;
-  /** The last update time of the container. */
-  readonly updated_at: Date;
-}
-
-export function agentContainerObjectDeserializer(item: any): AgentContainerObject {
-  return {
-    object: item["object"],
-    status: item["status"],
-    max_replicas: item["max_replicas"],
-    min_replicas: item["min_replicas"],
-    error_message: item["error_message"],
-    created_at: new Date(item["created_at"]),
-    updated_at: new Date(item["updated_at"]),
-  };
-}
-
-/** Status of the container of a specific version of an agent. */
-export type AgentContainerStatus =
-  | "Starting"
-  | "Running"
-  | "Stopping"
-  | "Stopped"
-  | "Failed"
-  | "Deleting"
-  | "Deleted"
-  | "Updating";
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultAgentContainerOperationObject {
-  /** The requested list of items. */
-  data: AgentContainerOperationObject[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultAgentContainerOperationObjectDeserializer(
-  item: any,
-): _AgentsPagedResultAgentContainerOperationObject {
-  return {
-    data: agentContainerOperationObjectArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function agentContainerOperationObjectArrayDeserializer(
-  result: Array<AgentContainerOperationObject>,
-): any[] {
-  return result.map((item) => {
-    return agentContainerOperationObjectDeserializer(item);
   });
 }
 
@@ -4616,7 +4461,7 @@ export function itemReferenceItemParamSerializer(item: ItemReferenceItemParam): 
 export interface ImageGenToolCallItemParam extends ItemParam {
   type: "image_generation_call";
   /** The generated image encoded in base64. */
-  result?: string;
+  result: string | null;
 }
 
 export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemParam): any {
@@ -4748,7 +4593,7 @@ export interface LocalShellExecAction {
   /** Environment variables to set for the command. */
   env: Record<string, string>;
   /** Optional user to run the command as. */
-  user?: string;
+  user?: string | null;
 }
 
 export function localShellExecActionSerializer(item: LocalShellExecAction): any {
@@ -4791,7 +4636,7 @@ export interface MCPListToolsItemParam extends ItemParam {
   /** The tools available on the server. */
   tools: MCPListToolsTool[];
   /** Error message if the server could not list tools. */
-  error?: string;
+  error?: string | null;
 }
 
 export function mcpListToolsItemParamSerializer(item: MCPListToolsItemParam): any {
@@ -4814,11 +4659,11 @@ export interface MCPListToolsTool {
   /** The name of the tool. */
   name: string;
   /** The description of the tool. */
-  description?: string;
+  description?: string | null;
   /** The JSON schema describing the tool's input. */
   input_schema: any;
   /** Additional annotations about the tool. */
-  annotations?: unknown;
+  annotations?: any | null;
 }
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
@@ -4864,7 +4709,7 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
   /** Whether the request was approved. */
   approve: boolean;
   /** Optional reason for the decision. */
-  reason?: string;
+  reason?: string | null;
 }
 
 export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponseItemParam): any {
@@ -4889,9 +4734,9 @@ export interface MCPCallItemParam extends ItemParam {
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
   /** The output from the tool call. */
-  output?: string;
+  output?: string | null;
   /** The error from the tool call, if any. */
-  error?: string;
+  error?: string | null;
 }
 
 export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
@@ -4909,7 +4754,7 @@ export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
 export interface MemorySearchToolCallItemParam extends ItemParam {
   type: "memory_search_call";
   /** The results returned from the memory search. */
-  results?: MemorySearchItem[];
+  results?: MemorySearchItem[] | null;
 }
 
 export function memorySearchToolCallItemParamSerializer(item: MemorySearchToolCallItemParam): any {
@@ -5066,12 +4911,6 @@ export function chatSummaryMemoryItemDeserializer(item: any): ChatSummaryMemoryI
   };
 }
 
-/** A memory item containing a summary extracted from conversations. */
-export interface ChatSummaryMemoryItem extends MemoryItem {
-  /** The kind of the memory item. */
-  kind: "chat_summary";
-}
-
 export function itemParamUnionArraySerializer(result: Array<ItemParamUnion>): any[] {
   return result.map((item) => {
     return itemParamUnionSerializer(item);
@@ -5171,7 +5010,7 @@ export interface MemoryStoreUpdateResponse {
   /** The update_id the operation was superseded by when status is "superseded". */
   superseded_by?: string;
   /** The result of memory store update operation when status is "completed". */
-  result?: MemoryStoreUpdateResult;
+  result?: MemoryStoreUpdateCompletedResult;
   /** Error object that describes the error when status is "failed". */
   error?: ApiError;
 }
@@ -5181,7 +5020,9 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     update_id: item["update_id"],
     status: item["status"],
     superseded_by: item["superseded_by"],
-    result: !item["result"] ? item["result"] : memoryStoreUpdateResultDeserializer(item["result"]),
+    result: !item["result"]
+      ? item["result"]
+      : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
@@ -5195,14 +5036,16 @@ export type MemoryStoreUpdateStatus =
   | "superseded";
 
 /** Memory update result. */
-export interface MemoryStoreUpdateResult {
+export interface MemoryStoreUpdateCompletedResult {
   /** A list of individual memory operations that were performed during the update. */
   memory_operations: MemoryOperation[];
   /** Usage statistics associated with the memory update operation. */
   usage: MemoryStoreOperationUsage;
 }
 
-export function memoryStoreUpdateResultDeserializer(item: any): MemoryStoreUpdateResult {
+export function memoryStoreUpdateCompletedResultDeserializer(
+  item: any,
+): MemoryStoreUpdateCompletedResult {
   return {
     memory_operations: memoryOperationArrayDeserializer(item["memory_operations"]),
     usage: memoryStoreOperationUsageDeserializer(item["usage"]),

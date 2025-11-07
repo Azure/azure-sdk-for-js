@@ -3,7 +3,6 @@
 
 import { AgentKind } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
-import { AgentDefinitionUnion } from "../../models/models.js";
 
 /** Optional parameters. */
 export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
@@ -54,8 +53,6 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -65,6 +62,8 @@ export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
@@ -100,8 +99,6 @@ export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -111,12 +108,12 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -126,12 +123,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -141,12 +138,12 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -156,47 +153,9 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsGetAgentOptionalParams extends OperationOptions {}
-
-/** Configuration for creating an agent from a definition */
-export type CreateAgentFromDefinitionConfig = {
-  type: "definition";
-  definition: AgentDefinitionUnion;
-  options?: AgentsCreateAgentOptionalParams;
-};
-
-/** Configuration for creating an agent from a manifest */
-export type CreateAgentFromManifestConfig = {
-  type: "manifest";
-  manifestId: string;
-  parameterValues: Record<string, any>;
-  options?: AgentsCreateAgentFromManifestOptionalParams;
-};
-
-/** Configuration for creating an agent */
-export type CreateAgentConfig =
-  | CreateAgentFromDefinitionConfig
-  | CreateAgentFromManifestConfig;
-
-/** Configuration for updating an agent from a definition */
-export type UpdateAgentFromDefinitionConfig = {
-  type: "definition";
-  definition: AgentDefinitionUnion;
-  options?: AgentsUpdateAgentOptionalParams;
-};
-
-/** Configuration for updating an agent from a manifest */
-export type UpdateAgentFromManifestConfig = {
-  type: "manifest";
-  manifestId: string;
-  parameterValues: Record<string, any>;
-  options?: AgentsUpdateAgentFromManifestOptionalParams;
-};
-
-/** Configuration for updating an agent */
-export type UpdateAgentConfig =
-  | UpdateAgentFromDefinitionConfig
-  | UpdateAgentFromManifestConfig;

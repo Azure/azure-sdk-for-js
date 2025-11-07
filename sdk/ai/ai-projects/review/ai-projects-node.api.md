@@ -141,16 +141,18 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
+    createAgent: (name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams) => Promise<AgentObject>;
+    createAgentFromManifest: (name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams) => Promise<AgentObject>;
     createAgentVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     createAgentVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
     deleteAgent: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
     deleteAgentVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
+    getAgent: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
     getAgentVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     listAgents: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
-    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
+    listAgentVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
+    updateAgent: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams) => Promise<AgentObject>;
+    updateAgentFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams) => Promise<AgentObject>;
 }
 
 // @public
@@ -270,12 +272,6 @@ export interface ApiErrorResponse {
 }
 
 // @public
-export interface ApiErrorResponse {
-    // (undocumented)
-    error: ApiError;
-}
-
-// @public
 export interface ApiInnerError {
     code: string;
     innererror?: ApiInnerError;
@@ -351,7 +347,7 @@ export interface AzureFunctionDefinition {
     function: {
         name: string;
         description?: string;
-        parameters: unknown;
+        parameters: any;
     };
     input_binding: AzureFunctionBinding;
     output_binding: AzureFunctionBinding;
@@ -459,11 +455,6 @@ export interface ChartCoordinate {
     size: number;
     x: number;
     y: number;
-}
-
-// @public
-export interface ChatSummaryMemoryItem extends MemoryItem {
-    kind: "chat_summary";
 }
 
 // @public
@@ -753,12 +744,6 @@ export interface CosmosDBIndex extends Index {
     fieldMapping: FieldMapping;
     type: "CosmosDBNoSqlVectorStore";
 }
-
-// Warning: (ae-forgotten-export) The symbol "CreateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "CreateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
 
 // @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
@@ -1223,7 +1208,7 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    filters?: Filters;
+    filters?: Filters | null;
     max_num_results?: number;
     ranking_options?: RankingOptions;
     type: "file_search";
@@ -1331,7 +1316,7 @@ export interface ImageGenTool extends Tool {
 
 // @public
 export interface ImageGenToolCallItemParam extends ItemParam {
-    result?: string;
+    result: string | null;
     // (undocumented)
     type: "image_generation_call";
 }
@@ -1584,7 +1569,7 @@ export interface LocalShellExecAction {
     env: Record<string, string>;
     timeout_ms?: number | null;
     type: "exec";
-    user?: string;
+    user?: string | null;
     working_directory?: string | null;
 }
 
@@ -1652,7 +1637,7 @@ export interface MCPApprovalRequestItemParam extends ItemParam {
 export interface MCPApprovalResponseItemParam extends ItemParam {
     approval_request_id: string;
     approve: boolean;
-    reason?: string;
+    reason?: string | null;
     // (undocumented)
     type: "mcp_approval_response";
 }
@@ -1660,9 +1645,9 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
 // @public
 export interface MCPCallItemParam extends ItemParam {
     arguments: string;
-    error?: string;
+    error?: string | null;
     name: string;
-    output?: string;
+    output?: string | null;
     server_label: string;
     // (undocumented)
     type: "mcp_call";
@@ -1670,7 +1655,7 @@ export interface MCPCallItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsItemParam extends ItemParam {
-    error?: string;
+    error?: string | null;
     server_label: string;
     tools: MCPListToolsTool[];
     // (undocumented)
@@ -1679,8 +1664,8 @@ export interface MCPListToolsItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsTool {
-    annotations?: unknown;
-    description?: string;
+    annotations?: any | null;
+    description?: string | null;
     input_schema: any;
     name: string;
 }
@@ -1690,7 +1675,7 @@ export interface MCPTool extends Tool {
     allowed_tools?: (string[] | {
         tool_names?: string[];
     }) | null;
-    headers?: Record<string, string>;
+    headers?: Record<string, string> | null;
     project_connection_id?: string;
     require_approval?: ({
         always?: {
@@ -1750,7 +1735,7 @@ export interface MemorySearchTool extends Tool {
 
 // @public
 export interface MemorySearchToolCallItemParam extends ItemParam {
-    results?: MemorySearchItem[];
+    results?: MemorySearchItem[] | null;
     // (undocumented)
     type: "memory_search_call";
 }
@@ -1861,24 +1846,24 @@ export interface MemoryStoresOperations {
     getUpdateResult: (name: string, updateId: string, options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
     listMemoryStores: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStoreObject>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
+    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
     updateMemoryStore: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
 }
 
 // @public
 export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-    conversation_id?: string;
+    conversationId?: string;
     items?: ItemParamUnion[];
     options?: MemorySearchOptions;
-    previous_search_id?: string;
+    previousSearchId?: string;
 }
 
 // @public
 export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
-    conversation_id?: string;
+    conversationId?: string;
     items?: ItemParamUnion[];
-    previous_update_id?: string;
-    update_delay?: number;
+    previousUpdateId?: string;
+    updateDelay?: number;
     updateIntervalInMs?: number;
 }
 
@@ -1889,18 +1874,18 @@ export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOp
 }
 
 // @public
-export interface MemoryStoreUpdateResponse {
-    error?: ApiError;
-    result?: MemoryStoreUpdateResult;
-    status: MemoryStoreUpdateStatus;
-    superseded_by?: string;
-    update_id: string;
+export interface MemoryStoreUpdateCompletedResult {
+    memory_operations: MemoryOperation[];
+    usage: MemoryStoreOperationUsage;
 }
 
 // @public
-export interface MemoryStoreUpdateResult {
-    memory_operations: MemoryOperation[];
-    usage: MemoryStoreOperationUsage;
+export interface MemoryStoreUpdateResponse {
+    error?: ApiError;
+    result?: MemoryStoreUpdateCompletedResult;
+    status: MemoryStoreUpdateStatus;
+    superseded_by?: string;
+    update_id: string;
 }
 
 // @public
@@ -1981,10 +1966,10 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: unknown;
+        parameters: any;
     }[];
     name: string;
-    spec: unknown;
+    spec: any;
 }
 
 // @public
@@ -2186,11 +2171,6 @@ export interface RedTeamsOperations {
 }
 
 // @public
-export interface ResponseFormatJsonSchemaSchema {
-    additionalProperties?: Record<string, any>;
-}
-
-// @public
 export interface ResponsesAssistantMessageItemParam extends ResponsesMessageItemParam {
     content: string | ItemContentUnion[];
     role: "assistant";
@@ -2243,7 +2223,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
     description?: string;
     name: string;
     // (undocumented)
-    schema: ResponseFormatJsonSchemaSchema;
+    schema: Record<string, any>;
     strict?: boolean | null;
     type: "json_schema";
 }
@@ -2374,7 +2354,7 @@ export interface StructuredInputDefinition {
     default_value?: any;
     description?: string;
     required?: boolean;
-    schema?: unknown;
+    schema?: any;
     tool_argument_bindings?: ToolArgumentBinding[];
 }
 
@@ -2473,12 +2453,6 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
-
-// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
