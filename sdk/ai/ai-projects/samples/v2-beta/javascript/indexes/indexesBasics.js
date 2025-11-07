@@ -31,8 +31,7 @@ async function main() {
 
   // Create a new Index
   const version = "1.0";
-  const indexInstance = { type: "AzureSearch", name, version };
-  const newIndex = await project.indexes.createOrUpdate(name, indexInstance, version);
+  const newIndex = await project.indexes.createOrUpdate(name, azureAIConnectionConfig, version);
   console.log("Created a new Index:", newIndex);
   console.log(`Get an existing Index version '${newIndex.version}':`);
   const index = await project.indexes.get(name, newIndex.version);

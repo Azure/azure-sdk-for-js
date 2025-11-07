@@ -9,7 +9,7 @@
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
-import type { AzureAISearchIndex, IndexUnion } from "@azure/ai-projects";
+import type { AzureAISearchIndex } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -32,8 +32,7 @@ export async function main(): Promise<void> {
 
   // Create a new Index
   const version = "1.0";
-  const indexInstance = { type: "AzureSearch", name, version } as IndexUnion;
-  const newIndex = await project.indexes.createOrUpdate(name, indexInstance, version);
+  const newIndex = await project.indexes.createOrUpdate(name, azureAIConnectionConfig, version);
   console.log("Created a new Index:", newIndex);
   console.log(`Get an existing Index version '${newIndex.version}':`);
   const index = await project.indexes.get(name, newIndex.version);
