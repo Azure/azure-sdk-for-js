@@ -29,8 +29,8 @@ import {
   type ComputerAction,
 } from "./computerUseUtil.js";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName =
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName =
   process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
   console.log("Creating Computer Use Agent...");
   const agent = await project.agents.createVersion("ComputerUseAgent", {
     kind: "prompt" as const,
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions: `
 You are a computer automation assistant.
 

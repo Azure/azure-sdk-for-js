@@ -13,12 +13,12 @@ import { AIProjectClient } from "@azure/ai-projects";
 
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 async function main(): Promise<void> {
-  const projectClient = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await projectClient.getOpenAIClient();
+  const openAIClient = await project.getOpenAIClient();
 
   // Create conversations
   const conversation1 = await openAIClient.conversations.create();

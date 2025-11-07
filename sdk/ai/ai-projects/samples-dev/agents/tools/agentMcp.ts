@@ -15,8 +15,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
   // The tool requires approval for each operation to ensure user control over external requests
   const agent = await project.agents.createVersion("agent-mcp", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions:
       "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
     tools: [

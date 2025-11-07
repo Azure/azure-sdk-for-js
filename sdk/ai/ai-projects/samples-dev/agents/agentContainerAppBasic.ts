@@ -13,15 +13,15 @@ import { AIProjectClient } from "@azure/ai-projects";
 
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const containerAppResourceId =
   process.env["CONTAINER_APP_RESOURCE_ID"] || "<container app resource id>";
 const ingressSubdomainSuffix =
   process.env["CONTAINER_INGRESS_SUBDOMAIN_SUFFIX"] || "<ingress subdomain suffix>";
 async function main(): Promise<void> {
-  const projectClient = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await projectClient.getOpenAIClient();
-  const agentsClient = projectClient.agents;
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = await project.getOpenAIClient();
+  const agentsClient = project.agents;
 
   const agent = await agentsClient.createVersion("bg-container-app-agent", {
     kind: "container_app",

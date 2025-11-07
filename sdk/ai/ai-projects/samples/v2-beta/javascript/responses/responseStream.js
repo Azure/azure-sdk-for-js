@@ -13,8 +13,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 async function main() {
   // Create OpenAI client with Azure credentials
@@ -24,7 +24,7 @@ async function main() {
   // First, create a non-streaming response
   console.log("Creating initial response...");
   const response = await openAIClient.responses.create({
-    model: modelDeploymentName,
+    model: deploymentName,
     input: "What is the size of France in square miles?",
     stream: false,
   });
@@ -35,7 +35,7 @@ async function main() {
   // Now create a streaming response using the conversation context from the previous response
   console.log("\nCreating streaming response with conversation context...");
   const stream = openAIClient.responses.stream({
-    model: modelDeploymentName,
+    model: deploymentName,
     input: "Now tell me about the capital city of France.",
     previous_response_id: response.id, // Continue the conversation
   });

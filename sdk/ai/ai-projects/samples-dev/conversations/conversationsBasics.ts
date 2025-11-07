@@ -9,24 +9,16 @@
  *
  */
 
+import { AIProjectClient } from "@azure/ai-projects";
 import OpenAI from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import "dotenv/config";
 
-const projectEndpoint = process.env["OPENAI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 export async function main(): Promise<void> {
-  // Create OpenAI client with Azure credentials
-  const credential = new DefaultAzureCredential();
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(credential, scope);
-
-  const openAIClient = new OpenAI({
-    apiKey: await azureADTokenProvider(),
-    baseURL: projectEndpoint,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-  });
-
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = await project.getOpenAIClient();
   console.log("Creating a conversation...");
   const conversation = await openAIClient.conversations.create();
   console.log(`Created conversation, ID: ${conversation.id}`);
