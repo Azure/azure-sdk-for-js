@@ -8284,7 +8284,7 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
 export type PendingUploadType = "None" | "BlobReference";
 
 /** Azure AI Projects API versions */
-export enum KnownVersions {
+export enum KnownApiVersions {
   /** Azure AI API version 2025-05-01. */
   v2025_05_01 = "2025-05-01",
   /** Azure AI API version 2025-05-15-preview. */

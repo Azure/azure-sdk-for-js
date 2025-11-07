@@ -28,4 +28,6 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  UpdateAgentConfig,
 } from "./options.js";

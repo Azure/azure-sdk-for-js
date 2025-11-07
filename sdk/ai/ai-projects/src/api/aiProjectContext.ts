@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
-import { KnownVersions } from "../models/models.js";
+import { KnownApiVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
-  /** Known values of {@link KnownVersions} that the service accepts. */
+  /** Known values of {@link KnownApiVersions} that the service accepts. */
   apiVersion: string;
 }
 
 /** Optional parameters for the client. */
 export interface AIProjectClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
-  /** Known values of {@link KnownVersions} that the service accepts. */
+  /** Known values of {@link KnownApiVersions} that the service accepts. */
   apiVersion?: string;
 }
 

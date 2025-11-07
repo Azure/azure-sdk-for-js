@@ -316,5 +316,5 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
-  KnownVersions,
+  KnownApiVersions as KnownVersions,
 } from "./models.js";
