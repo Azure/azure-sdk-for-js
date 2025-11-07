@@ -1358,7 +1358,7 @@ export interface IndexesListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface IndexesOperations {
-    createOrUpdate: (name: string, index: IndexUnion, version: string, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
+    createOrUpdate: (name: string, version: string, index: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
     list: (options?: IndexesListOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;

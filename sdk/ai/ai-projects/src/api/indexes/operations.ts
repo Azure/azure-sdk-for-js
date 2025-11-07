@@ -31,8 +31,8 @@ import {
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  index: IndexUnion,
   version: string,
+  index: IndexUnion,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -72,11 +72,11 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  index: IndexUnion,
   version: string,
+  index: IndexUnion,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {
-  const result = await _createOrUpdateSend(context, name, index, version, options);
+  const result = await _createOrUpdateSend(context, name, version, index, options);
   return _createOrUpdateDeserialize(result);
 }
 
