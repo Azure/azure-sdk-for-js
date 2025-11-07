@@ -3,6 +3,7 @@
 
 import { AgentKind } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
+import { AgentDefinitionUnion } from "../../models/models.js";
 
 /** Optional parameters. */
 export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
@@ -159,3 +160,43 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsGetAgentOptionalParams extends OperationOptions {}
+
+/** Configuration for creating an agent from a definition */
+export type CreateAgentFromDefinitionConfig = {
+  type: "definition";
+  definition: AgentDefinitionUnion;
+  options?: AgentsCreateAgentOptionalParams;
+};
+
+/** Configuration for creating an agent from a manifest */
+export type CreateAgentFromManifestConfig = {
+  type: "manifest";
+  manifestId: string;
+  parameterValues: Record<string, any>;
+  options?: AgentsCreateAgentFromManifestOptionalParams;
+};
+
+/** Configuration for creating an agent */
+export type CreateAgentConfig =
+  | CreateAgentFromDefinitionConfig
+  | CreateAgentFromManifestConfig;
+
+/** Configuration for updating an agent from a definition */
+export type UpdateAgentFromDefinitionConfig = {
+  type: "definition";
+  definition: AgentDefinitionUnion;
+  options?: AgentsUpdateAgentOptionalParams;
+};
+
+/** Configuration for updating an agent from a manifest */
+export type UpdateAgentFromManifestConfig = {
+  type: "manifest";
+  manifestId: string;
+  parameterValues: Record<string, any>;
+  options?: AgentsUpdateAgentFromManifestOptionalParams;
+};
+
+/** Configuration for updating an agent */
+export type UpdateAgentConfig =
+  | UpdateAgentFromDefinitionConfig
+  | UpdateAgentFromManifestConfig;

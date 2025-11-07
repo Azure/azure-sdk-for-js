@@ -137,8 +137,7 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    create: (name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams) => Promise<AgentObject>;
-    createFromManifest: (name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams) => Promise<AgentObject>;
+    create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
     createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
@@ -147,8 +146,7 @@ export interface AgentsOperations {
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
     listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    update: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams) => Promise<AgentObject>;
-    updateFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams) => Promise<AgentObject>;
+    update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
 }
 
 // @public
@@ -280,10 +278,10 @@ export interface ApiKeyCredentials extends BaseCredentials {
 
 // @public
 export interface ApproximateLocation extends Location {
-    city?: string | null;
-    country?: string | null;
-    region?: string | null;
-    timezone?: string | null;
+    city?: string;
+    country?: string;
+    region?: string;
+    timezone?: string;
     type: "approximate";
 }
 
@@ -337,7 +335,7 @@ export interface AzureFunctionDefinition {
     function: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     };
     inputBinding: AzureFunctionBinding;
     outputBinding: AzureFunctionBinding;
@@ -715,6 +713,12 @@ export interface CosmosDBIndex extends Index {
     type: "CosmosDBNoSqlVectorStore";
 }
 
+// Warning: (ae-forgotten-export) The symbol "CreateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CreateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
+
 // @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
 
@@ -1071,8 +1075,8 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
 export interface EvaluatorDefinition {
-    dataSchema?: any;
-    initParameters?: any;
+    dataSchema?: unknown;
+    initParameters?: unknown;
     metrics?: Record<string, EvaluatorMetric>;
     type: EvaluatorDefinitionType;
 }
@@ -1178,7 +1182,7 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    filters?: Filters | null;
+    filters?: Filters;
     maxNumResults?: number;
     rankingOptions?: RankingOptions;
     type: "file_search";
@@ -1210,7 +1214,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 export interface FunctionTool extends Tool {
     description?: string;
     name: string;
-    parameters?: any;
+    parameters?: unknown;
     strict?: boolean;
     type: "function";
 }
@@ -1279,7 +1283,7 @@ export interface ImageGenTool extends Tool {
 
 // @public
 export interface ImageGenToolCallItemParam extends ItemParam {
-    result: string | null;
+    result?: string;
     type: "image_generation_call";
 }
 
@@ -1450,7 +1454,7 @@ export interface ItemContentInputAudio extends ItemContent {
 // @public
 export interface ItemContentInputFile extends ItemContent {
     fileData?: string;
-    fileId?: string | null;
+    fileId?: string;
     filename?: string;
     type: "input_file";
 }
@@ -1458,8 +1462,8 @@ export interface ItemContentInputFile extends ItemContent {
 // @public
 export interface ItemContentInputImage extends ItemContent {
     detail?: "low" | "high" | "auto";
-    fileId?: string | null;
-    imageUrl?: string | null;
+    fileId?: string;
+    imageUrl?: string;
     type: "input_image";
 }
 
@@ -1515,8 +1519,6 @@ export type ItemType = "message" | "file_search_call" | "function_call" | "funct
 
 // @public
 export enum KnownApiVersions {
-    V20250501 = "2025-05-01",
-    V20250515Preview = "2025-05-15-preview",
     V20251115Preview = "2025-11-15-preview"
 }
 
@@ -1524,10 +1526,10 @@ export enum KnownApiVersions {
 export interface LocalShellExecAction {
     command: string[];
     env: Record<string, string>;
-    timeoutMs?: number | null;
+    timeoutMs?: number;
     type: "exec";
-    user?: string | null;
-    workingDirectory?: string | null;
+    user?: string;
+    workingDirectory?: string;
 }
 
 // @public
@@ -1585,23 +1587,23 @@ export interface MCPApprovalRequestItemParam extends ItemParam {
 export interface MCPApprovalResponseItemParam extends ItemParam {
     approvalRequestId: string;
     approve: boolean;
-    reason?: string | null;
+    reason?: string;
     type: "mcp_approval_response";
 }
 
 // @public
 export interface MCPCallItemParam extends ItemParam {
     arguments: string;
-    error?: string | null;
+    error?: string;
     name: string;
-    output?: string | null;
+    output?: string;
     serverLabel: string;
     type: "mcp_call";
 }
 
 // @public
 export interface MCPListToolsItemParam extends ItemParam {
-    error?: string | null;
+    error?: string;
     serverLabel: string;
     tools: MCPListToolsTool[];
     type: "mcp_list_tools";
@@ -1609,9 +1611,9 @@ export interface MCPListToolsItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsTool {
-    annotations?: any | null;
-    description?: string | null;
-    inputSchema: any;
+    annotations?: unknown;
+    description?: string;
+    inputSchema: unknown;
     name: string;
 }
 
@@ -1620,7 +1622,7 @@ export interface MCPTool extends Tool {
     allowedTools?: string[] | {
         toolNames?: string[];
     };
-    headers?: Record<string, string> | null;
+    headers?: Record<string, string>;
     projectConnectionId?: string;
     requireApproval?: {
         always?: {
@@ -1680,7 +1682,7 @@ export interface MemorySearchTool extends Tool {
 
 // @public
 export interface MemorySearchToolCallItemParam extends ItemParam {
-    results?: MemorySearchItem[] | null;
+    results?: MemorySearchItem[];
     type: "memory_search_call";
 }
 
@@ -1909,10 +1911,10 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     }[];
     name: string;
-    spec: any;
+    spec: unknown;
 }
 
 // @public
@@ -2026,7 +2028,7 @@ export type ReasoningEffort = "low" | "medium" | "high";
 
 // @public
 export interface ReasoningItemParam extends ItemParam {
-    encryptedContent?: string | null;
+    encryptedContent?: string;
     summary: ReasoningItemSummaryPartUnion[];
     type: "reasoning";
 }
@@ -2293,10 +2295,10 @@ export interface SharepointGroundingToolParameters {
 
 // @public
 export interface StructuredInputDefinition {
-    defaultValue?: any;
+    defaultValue?: unknown;
     description?: string;
     required?: boolean;
-    schema?: any;
+    schema?: unknown;
     toolArgumentBindings?: ToolArgumentBinding[];
 }
 
@@ -2391,6 +2393,12 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
+
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
