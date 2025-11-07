@@ -1,17 +1,20 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 1.2.0 (Unreleased)
 
 ### Features Added
 
-- Added `getDeliveryReport` method to `SmsClient` for retrieving delivery reports directly
-- Added delivery report types: `SmsDeliveryReportResult`, `GetDeliveryReportOptions`
-
-### Breaking Changes
-
+- Added delivery report functionality to `SmsClient`:
+  - New `SmsClient.getDeliveryReport` method for retrieving message delivery status
+  - Provides detailed information including delivery status, delivery attempts, and timestamps
+  - Supports tracking partner-generated message IDs via `messagingConnectPartnerMessageId` property
+- Improved MessagingConnect partner integration with standard Azure SDK patterns (changed from 1.2.0-beta.4):
+  - Use `Record<string, unknown>` for partner-specific parameters instead of the previous structured approach
+  - Updated structure: `messagingConnect: { partnerId: "PartnerName", partnerParams: { "apiKey": "your-api-key" } }`
+  - Follows Azure SDK design guidelines for flexible parameter collections
+  - Migration from beta: Change `messagingConnect: { apiKey: "your-api-key", partner: "PartnerName" }` to `messagingConnect: { partnerId: "PartnerName", partnerParams: { "apiKey": "your-api-key" } }`
 - Renamed `OptOutsClient` type to `OptOuts` to align with Azure SDK guidelines for sub-clients
 - Changed `SmsClient.optOuts` property type from `OptOutsClient` to `OptOuts`
-- Modified `MessagingConnectOptions.partnerParams` to `Record<string, unknown>` (breaking change to the API structure)
 
 ## 1.2.0-beta.4 (2025-06-16)
 

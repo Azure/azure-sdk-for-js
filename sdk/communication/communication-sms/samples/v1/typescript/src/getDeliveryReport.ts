@@ -25,8 +25,8 @@ async function main() {
 
   // construct send request
   const sendRequest = {
-    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "+14255551234",
-    to: [process.env.TO_PHONE_NUMBERS || process.env.AZURE_PHONE_NUMBER || "+14255551234"],
+    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
+    to: [process.env.TO_PHONE_NUMBERS || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>"],
     message: "Hello World via SMS with delivery report!",
   };
 
