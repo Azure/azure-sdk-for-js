@@ -8,24 +8,15 @@
  * update, list, and delete conversations using the OpenAI client.
  */
 
-const OpenAI = require("openai").default;
-const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
-const projectEndpoint = process.env["OPENAI_AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 async function main() {
-  // Create OpenAI client with Azure credentials
-  const credential = new DefaultAzureCredential();
-  const scope = "https://ai.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(credential, scope);
-
-  const openAIClient = new OpenAI({
-    apiKey: await azureADTokenProvider(),
-    baseURL: projectEndpoint,
-    defaultQuery: { "api-version": "2025-11-15-preview" },
-  });
-
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = await project.getOpenAIClient();
   console.log("Creating a conversation...");
   const conversation = await openAIClient.conversations.create();
   console.log(`Created conversation, ID: ${conversation.id}`);

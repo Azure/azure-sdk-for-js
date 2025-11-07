@@ -13,12 +13,12 @@ import type { AzureAISearchIndex } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const endpoint = process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const azureAIIndexName = process.env["AZURE_AI_SEARCH_INDEX_NAME"] || "<index name>";
 const azureAIIndexVersion = process.env["AZURE_AI_SEARCH_INDEX_VERSION"] || "<index version>";
 const azureAIConnectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection name>";
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   const name = "my-azure-search-index";
   const azureAIConnectionConfig: AzureAISearchIndex = {
