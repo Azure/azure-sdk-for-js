@@ -1715,8 +1715,8 @@ export function azureAISearchToolResourceSerializer(item: AzureAISearchToolResou
 export function azureAISearchToolResourceDeserializer(item: any): AzureAISearchToolResource {
   return {
     indexes: !item["indexes"]
-      ? item["indexes"] : 
-      aiSearchIndexResourceArrayDeserializer(item["indexes"]),
+      ? item["indexes"]
+      : aiSearchIndexResourceArrayDeserializer(item["indexes"]),
   };
 }
 
@@ -2196,9 +2196,7 @@ export function browserAutomationToolParametersSerializer(
   item: BrowserAutomationToolParameters,
 ): any {
   return {
-    connection: browserAutomationToolConnectionParametersSerializer(
-      item["connection"]
-    ),
+    connection: browserAutomationToolConnectionParametersSerializer(item["connection"]),
   };
 }
 
@@ -2206,9 +2204,7 @@ export function browserAutomationToolParametersDeserializer(
   item: any,
 ): BrowserAutomationToolParameters {
   return {
-    connection: browserAutomationToolConnectionParametersDeserializer(
-      item["connection"]
-    ),
+    connection: browserAutomationToolConnectionParametersDeserializer(item["connection"]),
   };
 }
 
@@ -2393,7 +2389,12 @@ export interface StructuredOutputDefinition {
 }
 
 export function structuredOutputDefinitionSerializer(item: StructuredOutputDefinition): any {
-  return { name: item["name"], description: item["description"], schema: item["schema"], strict: item["strict"] };
+  return {
+    name: item["name"],
+    description: item["description"],
+    schema: item["schema"],
+    strict: item["strict"],
+  };
 }
 
 export function structuredOutputDefinitionDeserializer(item: any): StructuredOutputDefinition {
