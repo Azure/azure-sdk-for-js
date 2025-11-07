@@ -10,8 +10,6 @@ Use it to:
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 - **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
-* **Upload and list files** using methods the `.files` operations.
-* **Run Fine tuning jobs** using methods the `.fineTuning.jobs` operations.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)

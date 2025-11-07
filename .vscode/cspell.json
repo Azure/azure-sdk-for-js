@@ -559,12 +559,6 @@
       "words": [
         "protobuf"
       ]
-    },
-    {
-      "filename": "sdk/ai/ai-projects/review/**/*.md",
-      "words": [
-      "Agentic"
-      ]
     }
   ]
 }
