@@ -16,8 +16,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const mcpProjectConnectionId =
   process.env["MCP_PROJECT_CONNECTION_ID"] || "<mcp project connection id>";
 
@@ -33,7 +33,7 @@ export async function main(): Promise<void> {
   // Token can be created at https://github.com/settings/personal-access-tokens/new
   const agent = await project.agents.createVersion("agent-mcp-connection-auth", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions: "Use MCP tools as needed",
     tools: [
       {

@@ -13,8 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create OpenAI client with Azure credentials
@@ -23,14 +23,14 @@ export async function main(): Promise<void> {
 
   console.log("Creating first response...");
   const response = await openAIClient.responses.create({
-    model: modelDeploymentName,
+    model: deploymentName,
     input: "What is the size of France in square miles?",
   });
   console.log(`Response output: ${response.output_text}`);
 
   console.log("\nCreating second response with context from previous response...");
   const response2 = await openAIClient.responses.create({
-    model: modelDeploymentName,
+    model: deploymentName,
     input: "And what is the capital city?",
     previous_response_id: response.id,
   });

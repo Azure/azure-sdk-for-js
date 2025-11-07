@@ -16,8 +16,8 @@ const path = require("path");
 const { fileURLToPath } = require("url");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 async function main() {
   // Load the file to be indexed for search
@@ -44,7 +44,7 @@ async function main() {
   console.log("\nCreating agent with file search tool...");
   const agent = await project.agents.createVersion("agent-file-search", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions: "You are a helpful assistant that can search through product information.",
     tools: [
       {

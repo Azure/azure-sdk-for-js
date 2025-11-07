@@ -13,7 +13,7 @@ import OpenAI from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import "dotenv/config";
 
-const projectEndpoint = process.env["OPENAI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["OPENAI_AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 export async function main(): Promise<void> {
   // Create OpenAI client with Azure credentials

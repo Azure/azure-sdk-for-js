@@ -13,7 +13,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const containerAppResourceId =
   process.env["CONTAINER_APP_RESOURCE_ID"] || "<container app resource id>";
 const ingressSubdomainSuffix =

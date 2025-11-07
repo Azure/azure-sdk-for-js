@@ -14,8 +14,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 /**
  * Define a function tool for the model to use
@@ -56,7 +56,7 @@ async function main() {
   console.log("Creating agent with function tools...");
   const agent = await project.agents.createVersion("function-tool-agent", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions: "You are a helpful assistant that can use function tools.",
     tools: [funcTool],
   });

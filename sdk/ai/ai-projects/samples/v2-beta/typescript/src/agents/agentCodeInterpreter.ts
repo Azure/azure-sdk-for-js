@@ -13,8 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   // Create response with code interpreter tool
   console.log("Creating response with code interpreter tool...");
   const response = await openAIClient.responses.create({
-    model: modelDeploymentName,
+    model: deploymentName,
     input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
     tools: [{ type: "code_interpreter", container: { type: "auto" } }],
   });

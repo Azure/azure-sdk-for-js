@@ -12,20 +12,20 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const projectClient = new AIProjectClient(projectEndpoint, credential);
   const agent1 = await projectClient.agents.createVersion("bg-crud-agent4", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
   });
   console.log("Created agent id:", agent1.id, "version:", agent1.version, "name:", agent1.name);
   const agent2 = await projectClient.agents.createVersion("bg-crud-agent2", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
   });
   console.log("Created agent id:", agent2.id, "version:", agent2.version, "name:", agent2.name);
 
