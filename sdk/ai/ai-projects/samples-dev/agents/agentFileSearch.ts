@@ -19,8 +19,8 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
 
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
   // Create agent with file search tool
   const agent = await project.agents.createAgentVersion("StreamingFileSearchAgent", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions:
       "You are a helpful assistant that can search through product information and provide detailed responses. Use the file search tool to find relevant information before answering.",
     tools: [
@@ -78,7 +78,7 @@ export async function main(): Promise<void> {
   // Create a streaming response with file search capabilities
   const stream = openAIClient.responses.stream(
     {
-      model: modelDeploymentName,
+      model: deploymentName,
       conversation: conversation.id,
       input: [
         {
@@ -118,7 +118,7 @@ export async function main(): Promise<void> {
   // Demonstrate a follow-up query in the same conversation
   const followUpStream = openAIClient.responses.stream(
     {
-      model: modelDeploymentName,
+      model: deploymentName,
       conversation: conversation.id,
       input: [
         {

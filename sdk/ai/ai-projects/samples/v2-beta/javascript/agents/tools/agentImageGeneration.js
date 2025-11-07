@@ -19,8 +19,8 @@ const path = require("path");
 const { fileURLToPath } = require("url");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 async function main() {
   // Create AI Project client
@@ -32,7 +32,7 @@ async function main() {
   // Create Agent with image generation tool
   const agent = await project.agents.createAgentVersion("agent-image-generation", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions: "Generate images based on user prompts",
     tools: [
       {

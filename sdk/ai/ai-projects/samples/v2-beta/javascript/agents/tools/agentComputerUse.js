@@ -25,9 +25,8 @@ const {
   printFinalOutput,
 } = require("./computerUseUtil.js");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName =
-  process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 async function main() {
   // Initialize state machine
@@ -52,7 +51,7 @@ async function main() {
   console.log("Creating Computer Use Agent...");
   const agent = await project.agents.createAgentVersion("ComputerUseAgent", {
     kind: "prompt",
-    model: modelDeploymentName,
+    model: deploymentName,
     instructions: `
 You are a computer automation assistant.
 
