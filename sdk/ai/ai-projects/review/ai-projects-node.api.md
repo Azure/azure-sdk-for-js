@@ -177,7 +177,6 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 // @public
 export interface AgentVersionObject {
     created_at: Date;
-    // (undocumented)
     definition: AgentDefinitionUnion;
     description?: string;
     id: string;
@@ -286,14 +285,10 @@ export interface ApiKeyCredentials extends BaseCredentials {
 
 // @public
 export interface ApproximateLocation extends Location {
-    // (undocumented)
-    city?: string | null;
-    // (undocumented)
-    country?: string | null;
-    // (undocumented)
-    region?: string | null;
-    // (undocumented)
-    timezone?: string | null;
+    city?: string;
+    country?: string;
+    region?: string;
+    timezone?: string;
     // (undocumented)
     type: "approximate";
 }
@@ -660,7 +655,7 @@ export interface ComputerToolCallSafetyCheck {
 export interface ComputerUsePreviewTool extends Tool {
     display_height: number;
     display_width: number;
-    environment: "windows" | "mac" | "linux" | "ubuntu" | "browser";
+    environment: "windows" | "mac" | "linux" | "browser";
     type: "computer_use_preview";
 }
 
@@ -1238,7 +1233,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FunctionTool extends Tool {
-    description?: string | null;
+    description?: string;
     name: string;
     parameters: any | null;
     strict: boolean | null;
@@ -1267,8 +1262,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     container_protocol_versions: ProtocolVersionRecord[];
     cpu: string;
     environment_variables?: Record<string, string>;
-    // (undocumented)
-    kind: "hosted" | "hosted";
+    kind: "hosted";
     memory: string;
     tools?: ToolUnion[];
 }
@@ -1671,19 +1665,19 @@ export interface MCPListToolsTool {
 
 // @public
 export interface MCPTool extends Tool {
-    allowed_tools?: (string[] | {
+    allowed_tools?: string[] | ({
         tool_names?: string[];
     }) | null;
-    headers?: Record<string, string> | null;
+    headers?: Record<string, string>;
     project_connection_id?: string;
-    require_approval?: ({
+    require_approval?: {
         always?: {
             tool_names?: string[];
         };
         never?: {
             tool_names?: string[];
         };
-    } | "always" | "never") | null;
+    } | "always" | "never";
     server_label: string;
     server_url: string;
     type: "mcp";
@@ -1965,7 +1959,7 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     }[];
     name: string;
     spec: any;

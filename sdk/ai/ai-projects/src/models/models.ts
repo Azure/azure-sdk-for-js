@@ -63,6 +63,7 @@ export interface AgentVersionObject {
   description?: string;
   /** The Unix timestamp (seconds) when the agent was created. */
   created_at: Date;
+  /** The definition of the agent. */
   definition: AgentDefinitionUnion;
 }
 
@@ -194,7 +195,8 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
 
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
-  kind: "hosted" | "hosted";
+  /** The kind of agent definition. */
+  kind: "hosted";
   /**
    * An array of tools the hosted agent's model may call while generating a response. You
    * can specify which tool to use by setting the `tool_choice` parameter.
@@ -470,7 +472,7 @@ export interface FunctionTool extends Tool {
   /** The name of the function to call. */
   name: string;
   /** A description of the function. Used by the model to determine whether or not to call the function. */
-  description?: string | null;
+  description?: string;
   /** A JSON schema object describing the parameters of the function. */
   parameters: any | null;
   /** Whether to enforce strict parameter validation. Default `true`. */
@@ -661,7 +663,7 @@ export interface ComputerUsePreviewTool extends Tool {
   /** The type of the computer use tool. Always `computer_use_preview`. */
   type: "computer_use_preview";
   /** The type of computer environment to control. */
-  environment: "windows" | "mac" | "linux" | "ubuntu" | "browser";
+  environment: "windows" | "mac" | "linux" | "browser";
   /** The width of the computer display. */
   display_width: number;
   /** The height of the computer display. */
@@ -760,10 +762,14 @@ export type LocationType = "approximate";
 /** model interface ApproximateLocation */
 export interface ApproximateLocation extends Location {
   type: "approximate";
-  country?: string | null;
-  region?: string | null;
-  city?: string | null;
-  timezone?: string | null;
+   /** The country of the location. */
+  country?: string;
+  /** The region of the location. */
+  region?: string;
+  /** The city of the location. */
+  city?: string;
+  /** The timezone of the location. */
+  timezone?: string;
 }
 
 export function approximateLocationSerializer(item: ApproximateLocation): any {
@@ -983,31 +989,32 @@ export interface MCPTool extends Tool {
    * Optional HTTP headers to send to the MCP server. Use for authentication
    * or other purposes.
    */
-  headers?: Record<string, string> | null;
+  headers?: Record<string, string>;
   /** List of allowed tool names or a filter object. */
   allowed_tools?:
+    | string[]
     | (
-        | string[]
-        | {
-            tool_names?: string[];
-          }
+        {
+          tool_names?: string[];
+        }
       )
     | null;
   /** Specify which of the MCP server's tools require approval. */
   require_approval?:
-    | (
-        | {
-            always?: {
-              tool_names?: string[];
-            };
-            never?: {
-              tool_names?: string[];
-            };
-          }
-        | "always"
-        | "never"
-      )
-    | null;
+     | {
+        /** A list of tools that always require approval. */
+        always?: {
+          /** List of tool names (snake_case) that always require approval. */
+          tool_names?: string[];
+        };
+        /** A list of tools that never require approval. */
+        never?: {
+          /** List of tool names (snake_case) that never require approval. */
+          tool_names?: string[];
+        };
+      }
+    | "always"
+    | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
 }
@@ -1087,19 +1094,29 @@ export function _mcpToolAllowedTools1Deserializer(item: any): _MCPToolAllowedToo
 
 /** Alias for _MCPToolRequireApproval */
 export type _MCPToolRequireApproval =
-  | {
-      always?: {
-        tool_names?: string[];
-      };
-      never?: {
-        tool_names?: string[];
-      };
-    }
+  {
+    always?: {
+      tool_names?: string[];
+    };
+    never?: {
+      tool_names?: string[];
+    };
+  }
   | "always"
   | "never";
 
 export function _mcpToolRequireApprovalSerializer(item: _MCPToolRequireApproval): any {
-  return item;
+  if (typeof item === "string") {
+    return item;
+  }
+  return {
+    always: !item.always ? item.always : {
+      tool_names: item.always.tool_names
+    },
+    never: !item.never ? item.never : {
+      tool_names: item.never.tool_names
+    }
+  };
 }
 
 export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireApproval {
@@ -1572,7 +1589,7 @@ export interface OpenApiFunctionDefinition {
   readonly functions?: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   }[];
 }
 
