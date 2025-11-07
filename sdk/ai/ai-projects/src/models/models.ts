@@ -5011,7 +5011,7 @@ export interface MemoryStoreUpdateResponse {
   /** The update_id the operation was superseded by when status is "superseded". */
   superseded_by?: string;
   /** The result of memory store update operation when status is "completed". */
-  result?: MemoryStoreUpdateCompletedResult;
+  result?: MemoryStoreUpdateResult;
   /** Error object that describes the error when status is "failed". */
   error?: ApiError;
 }
@@ -5023,7 +5023,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     superseded_by: item["superseded_by"],
     result: !item["result"]
       ? item["result"]
-      : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
+      : MemoryStoreUpdateResultDeserializer(item["result"]),
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
@@ -5037,16 +5037,16 @@ export type MemoryStoreUpdateStatus =
   | "superseded";
 
 /** Memory update result. */
-export interface MemoryStoreUpdateCompletedResult {
+export interface MemoryStoreUpdateResult {
   /** A list of individual memory operations that were performed during the update. */
   memory_operations: MemoryOperation[];
   /** Usage statistics associated with the memory update operation. */
   usage: MemoryStoreOperationUsage;
 }
 
-export function memoryStoreUpdateCompletedResultDeserializer(
+export function MemoryStoreUpdateResultDeserializer(
   item: any,
-): MemoryStoreUpdateCompletedResult {
+): MemoryStoreUpdateResult {
   return {
     memory_operations: memoryOperationArrayDeserializer(item["memory_operations"]),
     usage: memoryStoreOperationUsageDeserializer(item["usage"]),
@@ -5514,26 +5514,26 @@ export interface BlobReference {
   /** ARM ID of the storage account to use. */
   storageAccountArmId: string;
   /** Credential info to access the storage account. */
-  credential: BlobReferenceSasCredential;
+  credential: SasCredential;
 }
 
 export function blobReferenceDeserializer(item: any): BlobReference {
   return {
     blobUri: item["blobUri"],
     storageAccountArmId: item["storageAccountArmId"],
-    credential: blobReferenceSasCredentialDeserializer(item["credential"]),
+    credential: SasCredentialDeserializer(item["credential"]),
   };
 }
 
 /** SAS Credential definition */
-export interface BlobReferenceSasCredential {
+export interface SasCredential {
   /** SAS uri */
   readonly sasUri: string;
   /** Type of credential */
   readonly type: "SAS";
 }
 
-export function blobReferenceSasCredentialDeserializer(item: any): BlobReferenceSasCredential {
+export function SasCredentialDeserializer(item: any): SasCredential {
   return {
     sasUri: item["sasUri"],
     type: item["type"],

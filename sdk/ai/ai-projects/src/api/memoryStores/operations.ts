@@ -18,8 +18,8 @@ import {
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
-  MemoryStoreUpdateCompletedResult,
-  memoryStoreUpdateCompletedResultDeserializer,
+  MemoryStoreUpdateResult,
+  MemoryStoreUpdateResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -184,7 +184,7 @@ export function _updateMemoriesSend(
 
 export async function _updateMemoriesDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStoreUpdateCompletedResult> {
+): Promise<MemoryStoreUpdateResult> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -199,7 +199,7 @@ export async function _updateMemoriesDeserialize(
     );
   }
 
-  return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
+  return MemoryStoreUpdateResultDeserializer(result.body.result);
 }
 
 /** Update memory store with conversation memories. */
@@ -208,14 +208,14 @@ export function updateMemories(
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
+): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
   }) as PollerLike<
-    OperationState<MemoryStoreUpdateCompletedResult>,
-    MemoryStoreUpdateCompletedResult
+    OperationState<MemoryStoreUpdateResult>,
+    MemoryStoreUpdateResult
   >;
 }
 

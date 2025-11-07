@@ -30,7 +30,7 @@ import {
   DeleteMemoryStoreResponse,
   MemoryStoreSearchResponse,
   MemoryStoreUpdateResponse,
-  MemoryStoreUpdateCompletedResult,
+  MemoryStoreUpdateResult,
   MemoryStoreDeleteScopeResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -56,8 +56,8 @@ export interface MemoryStoresOperations {
     scope: string,
     options?: MemoryStoresUpdateMemoriesOptionalParams,
   ) => PollerLike<
-    OperationState<MemoryStoreUpdateCompletedResult>,
-    MemoryStoreUpdateCompletedResult
+    OperationState<MemoryStoreUpdateResult>,
+    MemoryStoreUpdateResult
   >;
   /** Search for relevant memories from a memory store based on conversation context. */
   searchMemories: (

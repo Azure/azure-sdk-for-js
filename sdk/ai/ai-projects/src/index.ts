@@ -195,7 +195,7 @@ export {
   MemoryStoreOperationUsage,
   MemoryStoreUpdateResponse,
   MemoryStoreUpdateStatus,
-  MemoryStoreUpdateCompletedResult,
+  MemoryStoreUpdateResult,
   MemoryOperation,
   MemoryOperationKind,
   MemoryStoreDeleteScopeResponse,
@@ -218,7 +218,7 @@ export {
   PendingUploadRequest,
   PendingUploadResponse,
   BlobReference,
-  BlobReferenceSasCredential,
+  SasCredential,
   DatasetCredential,
   Index,
   IndexUnion,
@@ -324,7 +324,7 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
-  KnownVersions,
+  KnownApiVersions,
 } from "./models/index.js";
 export { AIProjectClientOptionalParams } from "./api/index.js";
 export {

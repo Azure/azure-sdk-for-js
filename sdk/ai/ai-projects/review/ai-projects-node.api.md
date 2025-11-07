@@ -419,14 +419,8 @@ export interface BingGroundingSearchToolParameters {
 // @public
 export interface BlobReference {
     blobUri: string;
-    credential: BlobReferenceSasCredential;
+    credential: SasCredential;
     storageAccountArmId: string;
-}
-
-// @public
-export interface BlobReferenceSasCredential {
-    readonly sasUri: string;
-    readonly type: "SAS";
 }
 
 // @public
@@ -1562,7 +1556,7 @@ export interface ItemReferenceItemParam extends ItemParam {
 export type ItemType = "message" | "file_search_call" | "function_call" | "function_call_output" | "computer_call" | "computer_call_output" | "web_search_call" | "reasoning" | "item_reference" | "image_generation_call" | "code_interpreter_call" | "local_shell_call" | "local_shell_call_output" | "mcp_list_tools" | "mcp_approval_request" | "mcp_approval_response" | "mcp_call" | "structured_outputs" | "workflow_action" | "memory_search_call" | "oauth_consent_request";
 
 // @public
-export enum KnownVersions {
+export enum KnownApiVersions {
     v2025_05_01 = "2025-05-01",
     v2025_05_15_preview = "2025-05-15-preview",
     v2025_11_15_preview = "2025-11-15-preview"
@@ -1851,7 +1845,7 @@ export interface MemoryStoresOperations {
     getUpdateResult: (name: string, updateId: string, options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
     listMemoryStores: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStoreObject>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+    updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
     updateMemoryStore: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
 }
 
@@ -1879,18 +1873,18 @@ export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOp
 }
 
 // @public
-export interface MemoryStoreUpdateCompletedResult {
-    memory_operations: MemoryOperation[];
-    usage: MemoryStoreOperationUsage;
-}
-
-// @public
 export interface MemoryStoreUpdateResponse {
     error?: ApiError;
-    result?: MemoryStoreUpdateCompletedResult;
+    result?: MemoryStoreUpdateResult;
     status: MemoryStoreUpdateStatus;
     superseded_by?: string;
     update_id: string;
+}
+
+// @public
+export interface MemoryStoreUpdateResult {
+    memory_operations: MemoryOperation[];
+    usage: MemoryStoreOperationUsage;
 }
 
 // @public
@@ -2248,7 +2242,7 @@ export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurati
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
-// @public (undocumented)
+// @public
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
@@ -2260,6 +2254,12 @@ export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm"
 
 // @public
 export type SampleType = "EvaluationResultSample";
+
+// @public
+export interface SasCredential {
+    readonly sasUri: string;
+    readonly type: "SAS";
+}
 
 // @public
 export interface SASCredentials extends BaseCredentials {
