@@ -79,7 +79,7 @@ describe("mysql test", () => {
       },
       testPollingOptions,
     );
-    assert.equal(res.name, "czwtestserver");
+    assert.equal(res.name, resourcename);
   });
 
   it("servers update test", async () => {
