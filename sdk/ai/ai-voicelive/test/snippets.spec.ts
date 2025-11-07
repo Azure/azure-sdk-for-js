@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { VoiceLiveClient } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -32,26 +29,25 @@ describe("snippets", () => {
     // Create the client
     const client = new VoiceLiveClient(endpoint, credential);
     // @ts-preserve-whitespace
-    // Connect to the service
-    await client.connect();
+    // Create and connect a session
+    const session = await client.startSession("gpt-4o-mini-realtime-preview");
     // @ts-preserve-whitespace
     // Configure session for voice conversation
-    await client.updateSession({
-      model: "gpt-4o-mini-realtime-preview",
+    await session.updateSession({
+      modalities: ["text", "audio"],
       instructions: "You are a helpful AI assistant. Respond naturally and conversationally.",
       voice: {
-        type: "azure_standard",
+        type: "azure-standard",
         name: "en-US-AvaNeural"
       },
-      turn_detection: {
-        type: "azure_semantic_vad",
+      turnDetection: {
+        type: "server_vad",
         threshold: 0.5,
-        prefix_padding: 300,
-        silence_duration: 500
+        prefixPaddingMs: 300,
+        silenceDurationMs: 500
       },
-      input_audio_format: "pcm16",
-      output_audio_format: "pcm16",
-      modalities: ["text", "audio"]
+      inputAudioFormat: "pcm16",
+      outputAudioFormat: "pcm16"
     });
   });
 
@@ -59,29 +55,25 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
-    await client.connect();
+    const session = await client.startSession("gpt-4o-realtime-preview");
     // @ts-preserve-whitespace
     // Advanced session configuration
-    await client.updateSession({
-      model: "gpt-4o-realtime-preview",
+    await session.updateSession({
+      modalities: ["audio", "text"],
       instructions: "You are a customer service representative. Be helpful and professional.",
       voice: {
-        type: "azure_custom",
+        type: "azure-custom",
         name: "your-custom-voice-name",
-        endpoint_id: "your-custom-voice-endpoint"
+        endpointId: "your-custom-voice-endpoint"
       },
-      turn_detection: {
-        type: "azure_semantic_vad_en",
-        remove_filler_words: true,
-        threshold: 0.6
+      turnDetection: {
+        type: "server_vad",
+        threshold: 0.6,
+        prefixPaddingMs: 200,
+        silenceDurationMs: 300
       },
-      // Enable noise suppression and echo cancellation
-      audio_noise_reduction: {
-        enabled: true
-      },
-      audio_echo_cancellation: {
-        enabled: true
-      }
+      inputAudioFormat: "pcm16",
+      outputAudioFormat: "pcm16"
     });
   });
 
@@ -89,29 +81,31 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
-    await client.connect();
+    const session = await client.startSession("gpt-4o-mini-realtime-preview");
     // @ts-preserve-whitespace
-    // Set up event handlers
-    client.on('server.response.audio.delta', (event) => {
-      // Handle incoming audio chunks
-      const audioData = event.delta;
-      // Play audio using Web Audio API or other audio system
-      playAudioChunk(audioData);
-    });
-    // @ts-preserve-whitespace
-    client.on('server.response.text.delta', (event) => {
-      // Handle incoming text deltas
-      console.log('Assistant:', event.delta);
-    });
-    // @ts-preserve-whitespace
-    client.on('server.conversation.item.input_audio_transcription.completed', (event) => {
-      // Handle user speech transcription
-      console.log('User said:', event.transcript);
+    // Set up event handlers using subscription pattern
+    const subscription = session.subscribe({
+      processResponseAudioDelta: async (event, context) => {
+        // Handle incoming audio chunks
+        const audioData = event.delta;
+        // Play audio using Web Audio API or other audio system
+        playAudioChunk(audioData);
+      },
+      // @ts-preserve-whitespace
+      processResponseTextDelta: async (event, context) => {
+        // Handle incoming text deltas
+        console.log('Assistant:', event.delta);
+      },
+      // @ts-preserve-whitespace
+      processInputAudioTranscriptionCompleted: async (event, context) => {
+        // Handle user speech transcription
+        console.log('User said:', event.transcript);
+      }
     });
     // @ts-preserve-whitespace
     // Send audio data from microphone
     function sendAudioChunk(audioBuffer: ArrayBuffer) {
-      client.sendAudio(audioBuffer);
+      session.sendAudio(audioBuffer);
     }
   });
 
@@ -119,7 +113,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
-    await client.connect();
+    const session = await client.startSession("gpt-4o-mini-realtime-preview");
     // @ts-preserve-whitespace
     // Define available functions
     const tools = [{
@@ -139,30 +133,32 @@ describe("snippets", () => {
     }];
     // @ts-preserve-whitespace
     // Configure session with tools
-    await client.updateSession({
-      model: "gpt-4o-mini-realtime-preview",
+    await session.updateSession({
+      modalities: ["audio", "text"],
       instructions: "You can help users with weather information. Use the get_weather function when needed.",
       tools: tools,
-      tool_choice: "auto"
+      toolChoice: "auto"
     });
     // @ts-preserve-whitespace
     // Handle function calls
-    client.on('server.response.function_call_arguments.done', async (event) => {
-      if (event.name === 'get_weather') {
-        const args = JSON.parse(event.arguments);
-        const weatherData = await getWeatherData(args.location);
-        // @ts-preserve-whitespace
-        // Send function result back
-        await client.addConversationItem({
-          type: "function_call_output",
-          call_id: event.call_id,
-          output: JSON.stringify(weatherData)
-        });
-        // @ts-preserve-whitespace
-        // Request response generation
-        await client.sendEvent({
-          type: "response.create"
-        });
+    const subscription = session.subscribe({
+      processResponseFunctionCallArgumentsDone: async (event, context) => {
+        if (event.name === 'get_weather') {
+          const args = JSON.parse(event.arguments);
+          const weatherData = await getWeatherData(args.location);
+          // @ts-preserve-whitespace
+          // Send function result back
+          await session.addConversationItem({
+            type: "function_call_output",
+            callId: event.callId,
+            output: JSON.stringify(weatherData)
+          });
+          // @ts-preserve-whitespace
+          // Request response generation
+          await session.sendEvent({
+            type: "response.create"
+          });
+        }
       }
     });
   });

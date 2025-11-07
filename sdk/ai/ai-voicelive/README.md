@@ -155,29 +155,25 @@ const endpoint = "https://your-resource.cognitiveservices.azure.com";
 // Create the client
 const client = new VoiceLiveClient(endpoint, credential);
 
-// Connect to the service
-await client.connect();
+// Create and connect a session
+const session = await client.startSession("gpt-4o-mini-realtime-preview");
 
 // Configure session for voice conversation
-await client.sendEvent({
-  type: "session.update",
-  session: {
-    model: "gpt-4o-mini-realtime-preview",
-    instructions: "You are a helpful AI assistant. Respond naturally and conversationally.",
-    voice: {
-      type: "azure_standard",
-      name: "en-US-AvaNeural"
-    },
-    turn_detection: {
-      type: "azure_semantic_vad",
-      threshold: 0.5,
-      prefix_padding: 300,
-      silence_duration: 500
-    },
-    input_audio_format: "pcm16",
-    output_audio_format: "pcm16",
-    modalities: ["text", "audio"]
-  }
+await session.updateSession({
+  modalities: ["text", "audio"],
+  instructions: "You are a helpful AI assistant. Respond naturally and conversationally.",
+  voice: {
+    type: "azure-standard",
+    name: "en-US-AvaNeural",
+  },
+  turnDetection: {
+    type: "server_vad",
+    threshold: 0.5,
+    prefixPaddingMs: 300,
+    silenceDurationMs: 500,
+  },
+  inputAudioFormat: "pcm16",
+  outputAudioFormat: "pcm16",
 });
 ```
 
@@ -186,30 +182,31 @@ await client.sendEvent({
 You can customize various aspects of the voice interaction:
 
 ```ts snippet:ReadmeSampleAdvancedConfiguration
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession("gpt-4o-realtime-preview");
+
 // Advanced session configuration
-await client.sendEvent({
-  type: "session.update", 
-  session: {
-    model: "gpt-4o-realtime-preview",
-    instructions: "You are a customer service representative. Be helpful and professional.",
-    voice: {
-      type: "azure_custom",
-      name: "your-custom-voice-name",
-      endpoint_id: "your-custom-voice-endpoint"
-    },
-    turn_detection: {
-      type: "azure_semantic_vad_en",
-      remove_filler_words: true,
-      threshold: 0.6
-    },
-    // Enable noise suppression and echo cancellation
-    audio_noise_reduction: {
-      enabled: true
-    },
-    audio_echo_cancellation: {
-      enabled: true
-    }
-  }
+await session.updateSession({
+  modalities: ["audio", "text"],
+  instructions: "You are a customer service representative. Be helpful and professional.",
+  voice: {
+    type: "azure-custom",
+    name: "your-custom-voice-name",
+    endpointId: "your-custom-voice-endpoint",
+  },
+  turnDetection: {
+    type: "server_vad",
+    threshold: 0.6,
+    prefixPaddingMs: 200,
+    silenceDurationMs: 300,
+  },
+  inputAudioFormat: "pcm16",
+  outputAudioFormat: "pcm16",
 });
 ```
 
@@ -218,30 +215,37 @@ await client.sendEvent({
 The VoiceLive client provides event-driven communication for real-time interactions:
 
 ```ts snippet:ReadmeSampleEventHandling
-// Set up event handlers
-client.on('server.response.audio.delta', (event) => {
-  // Handle incoming audio chunks
-  const audioData = event.delta;
-  // Play audio using Web Audio API or other audio system
-  playAudioChunk(audioData);
-});
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
 
-client.on('server.response.text.delta', (event) => {
-  // Handle incoming text deltas
-  console.log('Assistant:', event.delta);
-});
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession("gpt-4o-mini-realtime-preview");
 
-client.on('server.conversation.item.input_audio_transcription.completed', (event) => {
-  // Handle user speech transcription
-  console.log('User said:', event.transcript);
+// Set up event handlers using subscription pattern
+const subscription = session.subscribe({
+  processResponseAudioDelta: async (event, context) => {
+    // Handle incoming audio chunks
+    const audioData = event.delta;
+    // Play audio using Web Audio API or other audio system
+    playAudioChunk(audioData);
+  },
+
+  processResponseTextDelta: async (event, context) => {
+    // Handle incoming text deltas
+    console.log("Assistant:", event.delta);
+  },
+
+  processInputAudioTranscriptionCompleted: async (event, context) => {
+    // Handle user speech transcription
+    console.log("User said:", event.transcript);
+  },
 });
 
 // Send audio data from microphone
 function sendAudioChunk(audioBuffer: ArrayBuffer) {
-  client.sendEvent({
-    type: "input_audio_buffer.append",
-    audio: audioBuffer
-  });
+  session.sendAudio(audioBuffer);
 }
 ```
 
@@ -250,55 +254,62 @@ function sendAudioChunk(audioBuffer: ArrayBuffer) {
 Enable your voice assistant to call external functions and tools:
 
 ```ts snippet:ReadmeSampleFunctionCalling
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession("gpt-4o-mini-realtime-preview");
+
 // Define available functions
-const tools = [{
-  type: "function",
-  name: "get_weather",
-  description: "Get current weather for a location",
-  parameters: {
-    type: "object",
-    properties: {
-      location: {
-        type: "string",
-        description: "The city and state or country"
-      }
+const tools = [
+  {
+    type: "function",
+    name: "get_weather",
+    description: "Get current weather for a location",
+    parameters: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "The city and state or country",
+        },
+      },
+      required: ["location"],
     },
-    required: ["location"]
-  }
-}];
+  },
+];
 
 // Configure session with tools
-await client.sendEvent({
-  type: "session.update",
-  session: {
-    model: "gpt-4o-mini-realtime-preview",
-    instructions: "You can help users with weather information. Use the get_weather function when needed.",
-    tools: tools,
-    tool_choice: "auto"
-  }
+await session.updateSession({
+  modalities: ["audio", "text"],
+  instructions:
+    "You can help users with weather information. Use the get_weather function when needed.",
+  tools: tools,
+  toolChoice: "auto",
 });
 
 // Handle function calls
-client.on('server.response.function_call_arguments.done', async (event) => {
-  if (event.name === 'get_weather') {
-    const args = JSON.parse(event.arguments);
-    const weatherData = await getWeatherData(args.location);
-    
-    // Send function result back
-    await client.sendEvent({
-      type: "conversation.item.create",
-      item: {
+const subscription = session.subscribe({
+  processResponseFunctionCallArgumentsDone: async (event, context) => {
+    if (event.name === "get_weather") {
+      const args = JSON.parse(event.arguments);
+      const weatherData = await getWeatherData(args.location);
+
+      // Send function result back
+      await session.addConversationItem({
         type: "function_call_output",
-        call_id: event.call_id,
-        output: JSON.stringify(weatherData)
-      }
-    });
-    
-    // Request response generation
-    await client.sendEvent({
-      type: "response.create"
-    });
-  }
+        callId: event.callId,
+        output: JSON.stringify(weatherData),
+      });
+
+      // Request response generation
+      await session.sendEvent({
+        type: "response.create",
+      });
+    }
+  },
 });
 ```
 
