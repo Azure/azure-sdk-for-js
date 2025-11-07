@@ -802,13 +802,16 @@ export interface DatasetsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsOperations {
-    createOrUpdate: (name: string, datasetVersion: DatasetVersionUnion, version: string, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
+    createOrUpdate: (name: string, version: string, datasetVersion: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) => Promise<DatasetVersionUnion>;
     getCredentials: (name: string, version: string, options?: DatasetsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-    pendingUpload: (name: string, pendingUploadRequest: PendingUploadRequest, version: string, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
+    pendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
+    // Warning: (ae-forgotten-export) The symbol "DatasetUploadOptions" needs to be exported by the entry point index.d.ts
+    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
+    uploadFolder: (name: string, version: string, folderPath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
 }
 
 // @public

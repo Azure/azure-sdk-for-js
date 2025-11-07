@@ -16,6 +16,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
+const { fileURLToPath } = require("url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -29,7 +30,7 @@ async function main() {
   console.log("Creating agent with image generation tool...");
 
   // Create Agent with image generation tool
-  const agent = await project.agents.createVersion("agent-image-generation", {
+  const agent = await project.agents.createAgentVersion("agent-image-generation", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "Generate images based on user prompts",
@@ -64,6 +65,8 @@ async function main() {
   if (imageData && imageData.length > 0 && imageData[0].result) {
     console.log("Downloading generated image...");
 
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     const filename = "microsoft.png";
     const filePath = path.join(__dirname, filename);
 
@@ -78,7 +81,7 @@ async function main() {
 
   // Clean up resources
   console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
+  await project.agents.deleteAgentVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nImage generation sample completed!");

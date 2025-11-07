@@ -21,6 +21,8 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model depl
 
 async function main() {
   // Load the file to be indexed for search
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   const assetFilePath = path.join(__dirname, "../assets/product_info.md");
 
   // Create AI Project client
@@ -42,7 +44,7 @@ async function main() {
 
   // Create agent with file search tool
   console.log("\nCreating agent with file search tool...");
-  const agent = await project.agents.createVersion("agent-file-search", {
+  const agent = await project.agents.createAgentVersion("agent-file-search", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that can search through product information.",
@@ -75,7 +77,7 @@ async function main() {
 
   // Clean up
   console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
+  await project.agents.deleteAgentVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   await openAIClient.vectorStores.delete(vectorStore.id);

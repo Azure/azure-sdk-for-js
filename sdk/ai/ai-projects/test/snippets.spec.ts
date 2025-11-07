@@ -29,7 +29,7 @@ describe("snippets", function () {
   });
 
   it("agentsSample", async function () {
-    const agent = await project.agents.createAgent("gpt-4o", {
+    const agent = await project.agents.createAgentVersionAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
     });
@@ -38,7 +38,7 @@ describe("snippets", function () {
     // Do something with your Agent!
     // See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
 
-    await project.agents.deleteAgent(agent.id);
+    await project.agents.deleteAgentVersionAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 

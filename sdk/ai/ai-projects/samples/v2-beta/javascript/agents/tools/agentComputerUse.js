@@ -50,7 +50,7 @@ async function main() {
   const openAIClient = await project.getOpenAIClient();
 
   console.log("Creating Computer Use Agent...");
-  const agent = await project.agents.createVersion("ComputerUseAgent", {
+  const agent = await project.agents.createAgentVersion("ComputerUseAgent", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: `
@@ -166,7 +166,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   // Clean up resources
   console.log("\nCleaning up...");
-  await project.agents.deleteVersion(agent.name, agent.version);
+  await project.agents.deleteAgentVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nComputer Use Agent sample completed!");

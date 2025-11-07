@@ -120,7 +120,7 @@ export class AIProjectClient {
   public readonly memoryStores: MemoryStoresOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
-    /**
+  /**
    * gets the OpenAI client
    * @returns the OpenAI client
    */

@@ -3,12 +3,11 @@
 
 /**
  * This sample demonstrates how to run Prompt Agent operations
- * using MCP (Model Context Protocol) tools and a synchronous client using a project connection.
+ * using MCP (Model Context Protocol) tools and a synchronous client using authentication
+ * via project connection.
  *
  * @summary This sample demonstrates how to create an agent with MCP tool capabilities using project connection authentication,
  * send requests that trigger MCP approval workflows, handle approval requests, and clean up resources.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +29,7 @@ export async function main(): Promise<void> {
   // Define MCP tool that connects to GitHub Copilot API with project connection authentication
   // The project connection should have Authorization header configured with "Bearer <GitHub PAT token>"
   // Token can be created at https://github.com/settings/personal-access-tokens/new
-  const agent = await project.agents.create("agent-mcp-connection-auth", {
+  const agent = await project.agents.createAgentVersion("agent-mcp-connection-auth", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "Use MCP tools as needed",
@@ -108,7 +107,7 @@ export async function main(): Promise<void> {
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  await project.agents.deleteVersion(agent.name, agent.version);
+  await project.agents.deleteAgentVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   console.log("\nMCP with project connection sample completed!");

@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
 
   // Create agent
   console.log("Creating agent...");
-  const agent = await project.agents.create("my-agent-basic", {
+  const agent = await project.agents.createAgentVersion("my-agent-basic", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that answers general questions",
@@ -77,7 +77,7 @@ export async function main(): Promise<void> {
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  await project.agents.delete(agent.name, agent.version);
+  await project.agents.deleteAgentVersion(agent.name, agent.version);
   console.log("Agent deleted");
 }
 

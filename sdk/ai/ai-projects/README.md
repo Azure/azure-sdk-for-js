@@ -83,7 +83,7 @@ The client uses API version `v1`, refer to the [API documentation][ai_foundry_da
 The `.agents` property on the `AIProjectClient` gives you access to an authenticated `AgentsClient` from the `azure-ai-agents` package. Below we show how to create an agent and delete it. To see what you can do with the `agent` you created, see the [many samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples) associated with the `azure-ai-agents` package.
 
 ```ts snippet:agentsSample
-const agent = await project.agents.createAgent("gpt-4o", {
+const agent = await project.agents.createAgentVersionAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
 });
@@ -91,7 +91,7 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 
 // Do something with your Agent!
 // See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
-await project.agents.deleteAgent(agent.id);
+await project.agents.deleteAgentVersionAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
 

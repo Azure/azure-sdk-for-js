@@ -19,8 +19,8 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const _dirname = path.dirname(fileURLToPath(import.meta.url));
-const assetFilePath = path.resolve(_dirname, "assets", "product_info.md");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
 
 export async function main(): Promise<void> {
   // Create AI Project client
@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
   }
 
   // Create agent with file search tool
-  const agent = await project.agents.create("StreamingFileSearchAgent", {
+  const agent = await project.agents.createAgentVersion("StreamingFileSearchAgent", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions:
@@ -158,7 +158,7 @@ export async function main(): Promise<void> {
   console.log("Conversation deleted");
 
   // Delete the agent
-  await project.agents.deleteVersion(agent.name, agent.version);
+  await project.agents.deleteAgentVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   // Clean up vector store
