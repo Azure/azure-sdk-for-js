@@ -52,7 +52,14 @@ export interface AgentVersionObject {
   version: string;
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
   /** The Unix timestamp (seconds) when the agent was created. */
   createdAt: Date;
@@ -97,7 +104,7 @@ export function agentDefinitionDeserializer(item: any): AgentDefinition {
 
 /** Alias for AgentDefinitionUnion */
 export type AgentDefinitionUnion =
-  | WorkflowDefinition
+  | WorkflowAgentDefinition
   | HostedAgentDefinitionUnion
   | ContainerAppAgentDefinition
   | PromptAgentDefinition
@@ -106,7 +113,7 @@ export type AgentDefinitionUnion =
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
   switch (item.kind) {
     case "workflow":
-      return workflowDefinitionSerializer(item as WorkflowDefinition);
+      return workflowAgentDefinitionSerializer(item as WorkflowAgentDefinition);
 
     case "hosted":
       return hostedAgentDefinitionUnionSerializer(item as HostedAgentDefinitionUnion);
@@ -125,7 +132,7 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
 export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnion {
   switch (item.kind) {
     case "workflow":
-      return workflowDefinitionDeserializer(item as WorkflowDefinition);
+      return workflowAgentDefinitionDeserializer(item as WorkflowAgentDefinition);
 
     case "hosted":
       return hostedAgentDefinitionUnionDeserializer(item as HostedAgentDefinitionUnion);
@@ -160,27 +167,27 @@ export function raiConfigDeserializer(item: any): RaiConfig {
   };
 }
 
-/** The workflow specification in CPSDL format. */
-export interface WorkflowDefinition extends AgentDefinition {
+/** The workflow agent definition. */
+export interface WorkflowAgentDefinition extends AgentDefinition {
   /** The kind of agent definition. */
   kind: "workflow";
-  /** The trigger for the workflow. */
-  trigger?: Record<string, any>;
+  /** The CSDL YAML definition of the workflow. */
+  workflow?: string;
 }
 
-export function workflowDefinitionSerializer(item: WorkflowDefinition): any {
+export function workflowAgentDefinitionSerializer(item: WorkflowAgentDefinition): any {
   return {
     kind: item["kind"],
     rai_config: !item["raiConfig"] ? item["raiConfig"] : raiConfigSerializer(item["raiConfig"]),
-    trigger: item["trigger"],
+    workflow: item["workflow"],
   };
 }
 
-export function workflowDefinitionDeserializer(item: any): WorkflowDefinition {
+export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDefinition {
   return {
     kind: item["kind"],
     raiConfig: !item["rai_config"] ? item["rai_config"] : raiConfigDeserializer(item["rai_config"]),
-    trigger: item["trigger"],
+    workflow: item["workflow"],
   };
 }
 
@@ -538,7 +545,6 @@ export type ToolUnion =
   | BrowserAutomationAgentTool
   | AzureFunctionAgentTool
   | CaptureStructuredOutputsTool
-  | CaptureSemanticEventsTool
   | A2ATool
   | MemorySearchTool
   | Tool;
@@ -595,9 +601,6 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "capture_structured_outputs":
       return captureStructuredOutputsToolSerializer(item as CaptureStructuredOutputsTool);
-
-    case "capture_semantic_events":
-      return captureSemanticEventsToolSerializer(item as CaptureSemanticEventsTool);
 
     case "a2a_preview":
       return a2AToolSerializer(item as A2ATool);
@@ -663,9 +666,6 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "capture_structured_outputs":
       return captureStructuredOutputsToolDeserializer(item as CaptureStructuredOutputsTool);
 
-    case "capture_semantic_events":
-      return captureSemanticEventsToolDeserializer(item as CaptureSemanticEventsTool);
-
     case "a2a_preview":
       return a2AToolDeserializer(item as A2ATool);
 
@@ -695,7 +695,6 @@ export type ToolType =
   | "openapi"
   | "bing_custom_search_preview"
   | "capture_structured_outputs"
-  | "capture_semantic_events"
   | "a2a_preview"
   | "azure_function"
   | "memory_search";
@@ -709,7 +708,7 @@ export interface FunctionTool extends Tool {
   /** A description of the function. Used by the model to determine whether or not to call the function. */
   description?: string;
   /** A JSON schema object describing the parameters of the function. */
-  parameters?: any;
+  parameters?: unknown;
   /** Whether to enforce strict parameter validation. Default `true`. */
   strict?: boolean;
 }
@@ -745,7 +744,7 @@ export interface FileSearchTool extends Tool {
   /** Ranking options for search. */
   rankingOptions?: RankingOptions;
   /** A filter to apply. */
-  filters?: Filters | null;
+  filters?: Filters;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -1005,13 +1004,13 @@ export interface ApproximateLocation extends Location {
   /** The type of the location. Always `approximate`. */
   type: "approximate";
   /** The country of the location. */
-  country?: string | null;
+  country?: string;
   /** The region of the location. */
-  region?: string | null;
+  region?: string;
   /** The city of the location. */
-  city?: string | null;
+  city?: string;
   /** The timezone of the location. */
-  timezone?: string | null;
+  timezone?: string;
 }
 
 export function approximateLocationSerializer(item: ApproximateLocation): any {
@@ -1218,7 +1217,7 @@ export function localShellToolDeserializer(item: any): LocalShellTool {
 
 /**
  * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
+ * (MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp).
  */
 export interface MCPTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
@@ -1231,7 +1230,7 @@ export interface MCPTool extends Tool {
    * Optional HTTP headers to send to the MCP server. Use for authentication
    * or other purposes.
    */
-  headers?: Record<string, string> | null;
+  headers?: Record<string, string>;
   /** List of allowed tool names or a filter object. */
   allowedTools?:
     | string[]
@@ -1457,11 +1456,6 @@ export function bingGroundingAgentToolDeserializer(item: any): BingGroundingAgen
 /** The bing grounding search tool parameters. */
 export interface BingGroundingSearchToolParameters {
   /**
-   * The project connections attached to this tool. There can be a maximum of 1 connection
-   * resource attached to the tool.
-   */
-  projectConnections: ToolProjectConnectionList;
-  /**
    * The search configurations attached to this tool. There can be a maximum of 1
    * search configuration resource attached to the tool.
    */
@@ -1472,7 +1466,6 @@ export function bingGroundingSearchToolParametersSerializer(
   item: BingGroundingSearchToolParameters,
 ): any {
   return {
-    project_connections: toolProjectConnectionListSerializer(item["projectConnections"]),
     search_configurations: bingGroundingSearchConfigurationArraySerializer(
       item["searchConfigurations"],
     ),
@@ -1483,38 +1476,11 @@ export function bingGroundingSearchToolParametersDeserializer(
   item: any,
 ): BingGroundingSearchToolParameters {
   return {
-    projectConnections: toolProjectConnectionListDeserializer(item["project_connections"]),
     searchConfigurations: bingGroundingSearchConfigurationArrayDeserializer(
       item["search_configurations"],
     ),
   };
 }
-
-/** A set of project connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
-export interface ToolProjectConnectionList {
-  /**
-   * The project connections attached to this tool. There can be a maximum of 1 connection
-   * resource attached to the tool.
-   */
-  projectConnections?: ToolProjectConnection[];
-}
-
-export function toolProjectConnectionListSerializer(item: ToolProjectConnectionList): any {
-  return {
-    project_connections: !item["projectConnections"]
-      ? item["projectConnections"]
-      : toolProjectConnectionArraySerializer(item["projectConnections"]),
-  };
-}
-
-export function toolProjectConnectionListDeserializer(item: any): ToolProjectConnectionList {
-  return {
-    projectConnections: !item["project_connections"]
-      ? item["project_connections"]
-      : toolProjectConnectionArrayDeserializer(item["project_connections"]),
-  };
-}
-
 export function toolProjectConnectionArraySerializer(result: Array<ToolProjectConnection>): any[] {
   return result.map((item) => {
     return toolProjectConnectionSerializer(item);
@@ -1571,7 +1537,7 @@ export interface BingGroundingSearchConfiguration {
   setLang?: string;
   /** The number of search results to return in the bing api response */
   count?: number;
-  /** Filter search results by a specific time range. Accepted values: https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters */
+  /** Filter search results by a specific time range. See [accepted values here](https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters). */
   freshness?: string;
 }
 
@@ -1735,22 +1701,22 @@ export interface AzureAISearchToolResource {
    * The indices attached to this agent. There can be a maximum of 1 index
    * resource attached to the agent.
    */
-  indexList?: AISearchIndexResource[];
+  indexes: AISearchIndexResource[];
 }
 
 export function azureAISearchToolResourceSerializer(item: AzureAISearchToolResource): any {
   return {
-    indexList: !item["indexList"]
-      ? item["indexList"]
-      : aiSearchIndexResourceArraySerializer(item["indexList"]),
+    indexes: !item["indexes"]
+      ? !item["indexes"]
+      : aiSearchIndexResourceArraySerializer(item["indexes"]),
   };
 }
 
 export function azureAISearchToolResourceDeserializer(item: any): AzureAISearchToolResource {
   return {
-    indexList: !item["indexList"]
-      ? item["indexList"]
-      : aiSearchIndexResourceArrayDeserializer(item["indexList"]),
+    indexes: !item["indexes"]
+      ? item["indexes"]
+      : aiSearchIndexResourceArrayDeserializer(item["indexes"]),
   };
 }
 
@@ -1771,14 +1737,14 @@ export function aiSearchIndexResourceArrayDeserializer(
 /** A AI Search Index resource. */
 export interface AISearchIndexResource {
   /** An index connection ID in an IndexResource attached to this agent. */
-  projectConnectionId: string;
+  projectConnectionId?: string;
   /** The name of an index in an IndexResource attached to this agent. */
   indexName?: string;
   /** Type of query in an AIIndexResource attached to this agent. */
   queryType?: AzureAISearchQueryType;
   /** Number of documents to retrieve from search and present to the model. */
   topK?: number;
-  /** filter string for search resource. Learn more from here: https://learn.microsoft.com/azure/search/search-filters */
+  /** filter string for search resource. [Learn more here](https://learn.microsoft.com/azure/search/search-filters). */
   filter?: string;
   /** Index asset id for search resource. */
   indexAssetId?: string;
@@ -1787,22 +1753,22 @@ export interface AISearchIndexResource {
 export function aiSearchIndexResourceSerializer(item: AISearchIndexResource): any {
   return {
     project_connection_id: item["projectConnectionId"],
-    indexName: item["indexName"],
-    queryType: item["queryType"],
-    topK: item["topK"],
+    index_name: item["indexName"],
+    query_type: item["queryType"],
+    top_k: item["topK"],
     filter: item["filter"],
-    indexAssetId: item["indexAssetId"],
+    index_asset_id: item["indexAssetId"],
   };
 }
 
 export function aiSearchIndexResourceDeserializer(item: any): AISearchIndexResource {
   return {
     projectConnectionId: item["project_connection_id"],
-    indexName: item["indexName"],
-    queryType: item["queryType"],
-    topK: item["topK"],
+    indexName: item["index_name"],
+    queryType: item["query_type"],
+    topK: item["top_k"],
     filter: item["filter"],
-    indexAssetId: item["indexAssetId"],
+    indexAssetId: item["index_asset_id"],
   };
 }
 
@@ -1843,16 +1809,16 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: any;
+  spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
   defaultParams?: string[];
   /** List of function definitions used by OpenApi tool */
-  functions?: {
+  readonly functions?: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   }[];
 }
 
@@ -1867,9 +1833,6 @@ export function openApiFunctionDefinitionSerializer(item: OpenApiFunctionDefinit
       : item["defaultParams"].map((p: any) => {
           return p;
         }),
-    functions: !item["functions"]
-      ? item["functions"]
-      : _openApiFunctionDefinitionFunctionArraySerializer(item["functions"]),
   };
 }
 
@@ -2058,14 +2021,6 @@ export function openApiManagedSecuritySchemeDeserializer(item: any): OpenApiMana
   };
 }
 
-export function _openApiFunctionDefinitionFunctionArraySerializer(
-  result: Array<_OpenApiFunctionDefinitionFunction>,
-): any[] {
-  return result.map((item) => {
-    return _openApiFunctionDefinitionFunctionSerializer(item);
-  });
-}
-
 export function _openApiFunctionDefinitionFunctionArrayDeserializer(
   result: Array<_OpenApiFunctionDefinitionFunction>,
 ): any[] {
@@ -2081,17 +2036,7 @@ export interface _OpenApiFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
-}
-
-export function _openApiFunctionDefinitionFunctionSerializer(
-  item: _OpenApiFunctionDefinitionFunction,
-): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    parameters: item["parameters"],
-  };
+  parameters: unknown;
 }
 
 export function _openApiFunctionDefinitionFunctionDeserializer(
@@ -2187,7 +2132,7 @@ export interface BingCustomSearchConfiguration {
   setLang?: string;
   /** The number of search results to return in the bing api response */
   count?: number;
-  /** Filter search results by a specific time range. Accepted values: https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters */
+  /** Filter search results by a specific time range. See [accepted values here](https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters). */
   freshness?: string;
 }
 
@@ -2244,16 +2189,14 @@ export function browserAutomationAgentToolDeserializer(item: any): BrowserAutoma
 /** Definition of input parameters for the Browser Automation Tool. */
 export interface BrowserAutomationToolParameters {
   /** The project connection parameters associated with the Browser Automation Tool. */
-  projectConnection: BrowserAutomationToolConnectionParameters;
+  connection: BrowserAutomationToolConnectionParameters;
 }
 
 export function browserAutomationToolParametersSerializer(
   item: BrowserAutomationToolParameters,
 ): any {
   return {
-    project_connection: browserAutomationToolConnectionParametersSerializer(
-      item["projectConnection"],
-    ),
+    connection: browserAutomationToolConnectionParametersSerializer(item["connection"]),
   };
 }
 
@@ -2261,29 +2204,27 @@ export function browserAutomationToolParametersDeserializer(
   item: any,
 ): BrowserAutomationToolParameters {
   return {
-    projectConnection: browserAutomationToolConnectionParametersDeserializer(
-      item["project_connection"],
-    ),
+    connection: browserAutomationToolConnectionParametersDeserializer(item["connection"]),
   };
 }
 
 /** Definition of input parameters for the connection used by the Browser Automation Tool. */
 export interface BrowserAutomationToolConnectionParameters {
   /** The ID of the project connection to your Azure Playwright resource. */
-  id: string;
+  projectConnectionId: string;
 }
 
 export function browserAutomationToolConnectionParametersSerializer(
   item: BrowserAutomationToolConnectionParameters,
 ): any {
-  return { id: item["id"] };
+  return { project_connection_id: item["projectConnectionId"] };
 }
 
 export function browserAutomationToolConnectionParametersDeserializer(
   item: any,
 ): BrowserAutomationToolConnectionParameters {
   return {
-    id: item["id"],
+    projectConnectionId: item["project_connection_id"],
   };
 }
 
@@ -2315,7 +2256,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   inputBinding: AzureFunctionBinding;
@@ -2346,7 +2287,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
+  parameters: unknown;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -2417,118 +2358,51 @@ export function azureFunctionStorageQueueDeserializer(item: any): AzureFunctionS
 export interface CaptureStructuredOutputsTool extends Tool {
   /** The type of the tool. Always `capture_structured_outputs`. */
   type: "capture_structured_outputs";
-  /** Set of structured outputs to capture from the model. */
-  outputs: Record<string, StructuredOutputDefinition>;
+  /** The structured outputs to capture from the model. */
+  outputs: StructuredOutputDefinition;
 }
 
 export function captureStructuredOutputsToolSerializer(item: CaptureStructuredOutputsTool): any {
   return {
     type: item["type"],
-    outputs: structuredOutputDefinitionRecordSerializer(item["outputs"]),
+    outputs: structuredOutputDefinitionSerializer(item["outputs"]),
   };
 }
 
 export function captureStructuredOutputsToolDeserializer(item: any): CaptureStructuredOutputsTool {
   return {
     type: item["type"],
-    outputs: structuredOutputDefinitionRecordDeserializer(item["outputs"]),
+    outputs: structuredOutputDefinitionDeserializer(item["outputs"]),
   };
-}
-
-export function structuredOutputDefinitionRecordSerializer(
-  item: Record<string, StructuredOutputDefinition>,
-): Record<string, any> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : structuredOutputDefinitionSerializer(item[key]);
-  });
-  return result;
-}
-
-export function structuredOutputDefinitionRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, StructuredOutputDefinition> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : structuredOutputDefinitionDeserializer(item[key]);
-  });
-  return result;
 }
 
 /** A structured output that can be produced by the agent. */
 export interface StructuredOutputDefinition {
+  /** The name of the structured output. */
+  name: string;
   /** A description of the output to emit. Used by the model to determine when to emit the output. */
   description?: string;
   /** The JSON schema for the structured output. */
   schema: Record<string, any>;
+  /** Whether to enforce strict validation. Default `true`. */
+  strict?: boolean;
 }
 
 export function structuredOutputDefinitionSerializer(item: StructuredOutputDefinition): any {
-  return { description: item["description"], schema: item["schema"] };
+  return {
+    name: item["name"],
+    description: item["description"],
+    schema: item["schema"],
+    strict: item["strict"],
+  };
 }
 
 export function structuredOutputDefinitionDeserializer(item: any): StructuredOutputDefinition {
   return {
+    name: item["name"],
     description: item["description"],
     schema: item["schema"],
-  };
-}
-
-/** model interface CaptureSemanticEventsTool */
-export interface CaptureSemanticEventsTool extends Tool {
-  /** The type of the tool. Always `capture_semantic_events`. */
-  type: "capture_semantic_events";
-  /** The set of structured events to capture from the model. */
-  events: Record<string, SemanticEventDefinition>;
-}
-
-export function captureSemanticEventsToolSerializer(item: CaptureSemanticEventsTool): any {
-  return {
-    type: item["type"],
-    events: semanticEventDefinitionRecordSerializer(item["events"]),
-  };
-}
-
-export function captureSemanticEventsToolDeserializer(item: any): CaptureSemanticEventsTool {
-  return {
-    type: item["type"],
-    events: semanticEventDefinitionRecordDeserializer(item["events"]),
-  };
-}
-
-export function semanticEventDefinitionRecordSerializer(
-  item: Record<string, SemanticEventDefinition>,
-): Record<string, any> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : semanticEventDefinitionSerializer(item[key]);
-  });
-  return result;
-}
-
-export function semanticEventDefinitionRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, SemanticEventDefinition> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : semanticEventDefinitionDeserializer(item[key]);
-  });
-  return result;
-}
-
-/** An event that can be raised by the agent based on a semantic condition. */
-export interface SemanticEventDefinition {
-  /** A condition that specifies when the event must be raised. Used by the model to determine when to raise the event. */
-  condition: string;
-}
-
-export function semanticEventDefinitionSerializer(item: SemanticEventDefinition): any {
-  return { condition: item["condition"] };
-}
-
-export function semanticEventDefinitionDeserializer(item: any): SemanticEventDefinition {
-  return {
-    condition: item["condition"],
+    strict: item["strict"],
   };
 }
 
@@ -2572,23 +2446,24 @@ export function a2AToolDeserializer(item: any): A2ATool {
 export interface MemorySearchTool extends Tool {
   /** The type of the tool. Always `memory_search`. */
   type: "memory_search";
-  /** The ID of the memory store to use. */
-  memoryStoreId: string;
+  /** The name of the memory store to use. */
+  memoryStoreName: string;
   /**
    * The namespace used to group and isolate memories, such as a user ID.
    * Limits which memories can be retrieved or updated.
+   * Use special variable `{{$userId}}` to scope memories to the current signed-in user.
    */
   scope: string;
   /** Options for searching the memory store. */
   searchOptions?: MemorySearchOptions;
-  /** The amount of time to wait after inactivity before updating memories with messages from the call (e.g., '0s', '5m'). Defaults to '60s'. */
-  updateDelay?: string;
+  /** Time to wait before updating memories after inactivity (seconds). Default 300. */
+  updateDelay?: number;
 }
 
 export function memorySearchToolSerializer(item: MemorySearchTool): any {
   return {
     type: item["type"],
-    memory_store_id: item["memoryStoreId"],
+    memory_store_name: item["memoryStoreName"],
     scope: item["scope"],
     search_options: !item["searchOptions"]
       ? item["searchOptions"]
@@ -2600,7 +2475,7 @@ export function memorySearchToolSerializer(item: MemorySearchTool): any {
 export function memorySearchToolDeserializer(item: any): MemorySearchTool {
   return {
     type: item["type"],
-    memoryStoreId: item["memory_store_id"],
+    memoryStoreName: item["memory_store_name"],
     scope: item["scope"],
     searchOptions: !item["search_options"]
       ? item["search_options"]
@@ -2726,7 +2601,7 @@ export function responseTextFormatConfigurationUnionDeserializer(
  *
  * Configuring `{ "type": "json_schema" }` enables Structured Outputs,
  * which ensures the model will match your supplied JSON schema. Learn more in the
- * [Structured Outputs guide](/docs/guides/structured-outputs).
+ * [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
  *
  * The default format is `{ "type": "text" }` with no additional options.
  *
@@ -2780,7 +2655,7 @@ export function responseTextFormatConfigurationJsonObjectDeserializer(
 
 /**
  * JSON Schema response format. Used to generate structured JSON responses.
- * Learn more about [Structured Outputs](/docs/guides/structured-outputs).
+ * Learn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs).
  */
 export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextFormatConfiguration {
   /** The type of response format being defined. Always `json_schema`. */
@@ -2802,7 +2677,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
    * If set to true, the model will always follow the exact schema defined
    * in the `schema` field. Only a subset of JSON Schema is supported when
    * `strict` is `true`. To learn more, read the [Structured Outputs
-   * guide](/docs/guides/structured-outputs).
+   * guide](https://platform.openai.com/docs/guides/structured-outputs).
    */
   strict?: boolean;
 }
@@ -2879,11 +2754,11 @@ export interface StructuredInputDefinition {
   /** A human-readable description of the input. */
   description?: string;
   /** The default value for the input if no run-time value is provided. */
-  defaultValue?: any;
+  defaultValue?: unknown;
   /** When provided, the input value is bound to the specified tool arguments. */
   toolArgumentBindings?: ToolArgumentBinding[];
   /** The JSON schema for the structured input (optional). */
-  schema?: any;
+  schema?: unknown;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -2943,24 +2818,63 @@ export function toolArgumentBindingDeserializer(item: any): ToolArgumentBinding 
   };
 }
 
+/** Error response for API failures. */
+export interface ApiErrorResponse {
+  error: ApiError;
+}
+
+export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
+  return {
+    error: apiErrorDeserializer(item["error"]),
+  };
+}
+
 /** model interface ApiError */
 export interface ApiError {
   /** The error code. */
   code: string;
-  /** The error message. */
+  /** A human-readable description of the error. */
   message: string;
-  /** The error details. */
-  details?: string;
-  /** The error fields. */
-  errors?: Record<string, string[]>;
+  /** The target of the error, if applicable. */
+  target?: string;
+  /** Additional details about the error. */
+  details: ApiError[];
+  /** The inner error, if any. */
+  innererror?: ApiInnerError;
 }
 
 export function apiErrorDeserializer(item: any): ApiError {
   return {
     code: item["code"],
     message: item["message"],
-    details: item["details"],
-    errors: item["errors"],
+    target: item["target"],
+    details: apiErrorArrayDeserializer(item["details"]),
+    innererror: !item["innererror"]
+      ? item["innererror"]
+      : apiInnerErrorDeserializer(item["innererror"]),
+  };
+}
+
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
+  return result.map((item) => {
+    return apiErrorDeserializer(item);
+  });
+}
+
+/** model interface ApiInnerError */
+export interface ApiInnerError {
+  /** The error code. */
+  code: string;
+  /** The inner error, if any. */
+  innererror?: ApiInnerError;
+}
+
+export function apiInnerErrorDeserializer(item: any): ApiInnerError {
+  return {
+    code: item["code"],
+    innererror: !item["innererror"]
+      ? item["innererror"]
+      : apiInnerErrorDeserializer(item["innererror"]),
   };
 }
 
@@ -3058,130 +2972,6 @@ export function _agentsPagedResultAgentVersionObjectDeserializer(
 export function agentVersionObjectArrayDeserializer(result: Array<AgentVersionObject>): any[] {
   return result.map((item) => {
     return agentVersionObjectDeserializer(item);
-  });
-}
-
-/** The container operation for a specific version of an agent. */
-export interface AgentContainerOperationObject {
-  /** The ID of the container operation. This id is unique identifier across the system. */
-  id: string;
-  /** The ID of the agent. */
-  agentId: string;
-  /** The ID of the agent version. */
-  agentVersionId: string;
-  /** The status of the container operation. */
-  status: AgentContainerOperationStatus;
-  /** The error of the container operation, if any. */
-  error?: AgentContainerOperationError;
-  /** The container of the specific version of an agent. */
-  container?: AgentContainerObject;
-}
-
-export function agentContainerOperationObjectDeserializer(
-  item: any,
-): AgentContainerOperationObject {
-  return {
-    id: item["id"],
-    agentId: item["agent_id"],
-    agentVersionId: item["agent_version_id"],
-    status: item["status"],
-    error: !item["error"] ? item["error"] : agentContainerOperationErrorDeserializer(item["error"]),
-    container: !item["container"]
-      ? item["container"]
-      : agentContainerObjectDeserializer(item["container"]),
-  };
-}
-
-/** Status of the container operation for a specific version of an agent. */
-export type AgentContainerOperationStatus = "NotStarted" | "InProgress" | "Succeeded" | "Failed";
-
-/** The error details of the container operation, if any. */
-export interface AgentContainerOperationError {
-  /** The error code of the container operation, if any. */
-  code: string;
-  /** The error type of the container operation, if any. */
-  type: string;
-  /** The error message of the container operation, if any. */
-  message: string;
-}
-
-export function agentContainerOperationErrorDeserializer(item: any): AgentContainerOperationError {
-  return {
-    code: item["code"],
-    type: item["type"],
-    message: item["message"],
-  };
-}
-
-/** The details of the container of a specific version of an agent. */
-export interface AgentContainerObject {
-  /** The object type, which is always 'agent.container'. */
-  readonly object: "agent.container";
-  /** The status of the container of a specific version of an agent. */
-  readonly status: AgentContainerStatus;
-  /** The maximum number of replicas for the container. Default is 1. */
-  maxReplicas?: number;
-  /** The minimum number of replicas for the container. Default is 1. */
-  minReplicas?: number;
-  /** The error message if the container failed to operate, if any. */
-  readonly errorMessage?: string;
-  /** The creation time of the container. */
-  readonly createdAt: Date;
-  /** The last update time of the container. */
-  readonly updatedAt: Date;
-}
-
-export function agentContainerObjectDeserializer(item: any): AgentContainerObject {
-  return {
-    object: item["object"],
-    status: item["status"],
-    maxReplicas: item["max_replicas"],
-    minReplicas: item["min_replicas"],
-    errorMessage: item["error_message"],
-    createdAt: new Date(item["created_at"]),
-    updatedAt: new Date(item["updated_at"]),
-  };
-}
-
-/** Status of the container of a specific version of an agent. */
-export type AgentContainerStatus =
-  | "Starting"
-  | "Running"
-  | "Stopping"
-  | "Stopped"
-  | "Failed"
-  | "Deleting"
-  | "Deleted"
-  | "Updating";
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultAgentContainerOperationObject {
-  /** The requested list of items. */
-  data: AgentContainerOperationObject[];
-  /** The first ID represented in this list. */
-  firstId?: string;
-  /** The last ID represented in this list. */
-  lastId?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
-}
-
-export function _agentsPagedResultAgentContainerOperationObjectDeserializer(
-  item: any,
-): _AgentsPagedResultAgentContainerOperationObject {
-  return {
-    data: agentContainerOperationObjectArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
-    lastId: item["last_id"],
-    hasMore: item["has_more"],
-  };
-}
-
-export function agentContainerOperationObjectArrayDeserializer(
-  result: Array<AgentContainerOperationObject>,
-): any[] {
-  return result.map((item) => {
-    return agentContainerOperationObjectDeserializer(item);
   });
 }
 
@@ -3380,7 +3170,6 @@ export function itemParamSerializer(item: ItemParam): any {
 
 /** Alias for ItemParamUnion */
 export type ItemParamUnion =
-  | StructuredInputsItemParam
   | ResponsesMessageItemParamUnion
   | FunctionToolCallOutputItemParam
   | FileSearchToolCallItemParam
@@ -3403,9 +3192,6 @@ export type ItemParamUnion =
 
 export function itemParamUnionSerializer(item: ItemParamUnion): any {
   switch (item.type) {
-    case "structured_inputs":
-      return structuredInputsItemParamSerializer(item as StructuredInputsItemParam);
-
     case "message":
       return responsesMessageItemParamUnionSerializer(item as ResponsesMessageItemParamUnion);
 
@@ -3484,24 +3270,10 @@ export type ItemType =
   | "mcp_approval_request"
   | "mcp_approval_response"
   | "mcp_call"
-  | "structured_inputs"
   | "structured_outputs"
-  | "semantic_event"
   | "workflow_action"
   | "memory_search_call"
   | "oauth_consent_request";
-
-/** model interface StructuredInputsItemParam */
-export interface StructuredInputsItemParam extends ItemParam {
-  /** The type of the structured inputs item, which is always 'structured_inputs'. */
-  type: "structured_inputs";
-  /** The structured inputs to the response. */
-  inputs?: Record<string, any>;
-}
-
-export function structuredInputsItemParamSerializer(item: StructuredInputsItemParam): any {
-  return { type: item["type"], inputs: item["inputs"] };
-}
 
 /** A response message item, representing a role and content, as provided as client request parameters. */
 export interface ResponsesMessageItemParam extends ItemParam {
@@ -3701,14 +3473,14 @@ export function itemContentInputTextSerializer(item: ItemContentInputText): any 
   return { type: item["type"], text: item["text"] };
 }
 
-/** An image input to the model. Learn about [image inputs](/docs/guides/vision). */
+/** An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision). */
 export interface ItemContentInputImage extends ItemContent {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
   /** The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL. */
-  imageUrl?: string | null;
+  imageUrl?: string;
   /** The ID of the file to be sent to the model. */
-  fileId?: string | null;
+  fileId?: string;
   /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
   detail?: "low" | "high" | "auto";
 }
@@ -3727,7 +3499,7 @@ export interface ItemContentInputFile extends ItemContent {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
   /** The ID of the file to be sent to the model. */
-  fileId?: string | null;
+  fileId?: string;
   /** The name of the file to be sent to the model. */
   filename?: string;
   /** The content of the file to be sent to the model. */
@@ -4030,7 +3802,7 @@ export function functionToolCallOutputItemParamSerializer(
 
 /**
  * The results of a file search tool call. See the
- * [file search guide](/docs/guides/tools-file-search) for more information.
+ * [file search guide](https://platform.openai.com/docs/guides/tools-file-search) for more information.
  *
  */
 export interface FileSearchToolCallItemParam extends ItemParam {
@@ -4128,7 +3900,7 @@ export function _vectorStoreFileAttributesAdditionalPropertySerializer(
 
 /**
  * A tool call to a computer use tool. See the
- * [computer use guide](/docs/guides/tools-computer-use) for more information.
+ * [computer use guide](https://platform.openai.com/docs/guides/tools-computer-use) for more information.
  *
  */
 export interface ComputerToolCallItemParam extends ItemParam {
@@ -4523,7 +4295,7 @@ export function computerToolCallOutputItemOutputComputerScreenshotSerializer(
 
 /**
  * The results of a web search tool call. See the
- * [web search guide](/docs/guides/tools-web-search) for more information.
+ * [web search guide](https://platform.openai.com/docs/guides/tools-web-search) for more information.
  *
  */
 export interface WebSearchToolCallItemParam extends ItemParam {
@@ -4611,15 +4383,41 @@ export interface WebSearchActionSearch extends WebSearchAction {
   type: "search";
   /** The search query. */
   query: string;
+  /** The sources used in the search. */
+  sources?: WebSearchActionSearchSources[];
 }
 
 export function webSearchActionSearchSerializer(item: WebSearchActionSearch): any {
-  return { type: item["type"], query: item["query"] };
+  return {
+    type: item["type"],
+    query: item["query"],
+    sources: !item["sources"]
+      ? item["sources"]
+      : webSearchActionSearchSourcesArraySerializer(item["sources"]),
+  };
+}
+
+export function webSearchActionSearchSourcesArraySerializer(
+  result: Array<WebSearchActionSearchSources>,
+): any[] {
+  return result.map((item) => {
+    return webSearchActionSearchSourcesSerializer(item);
+  });
+}
+
+/** model interface WebSearchActionSearchSources */
+export interface WebSearchActionSearchSources {
+  type: "url";
+  url: string;
+}
+
+export function webSearchActionSearchSourcesSerializer(item: WebSearchActionSearchSources): any {
+  return { type: item["type"], url: item["url"] };
 }
 
 /**
  * A tool call to run a function. See the
- * [function calling guide](/docs/guides/function-calling) for more information.
+ * [function calling guide](https://platform.openai.com/docs/guides/function-calling) for more information.
  *
  */
 export interface FunctionToolCallItemParam extends ItemParam {
@@ -4646,7 +4444,7 @@ export function functionToolCallItemParamSerializer(item: FunctionToolCallItemPa
  * A description of the chain of thought used by a reasoning model while generating
  * a response. Be sure to include these items in your `input` to the Responses API
  * for subsequent turns of a conversation if you are manually
- * [managing context](/docs/guides/conversation-state).
+ * [managing conversation state](https://platform.openai.com/docs/guides/conversation-state).
  *
  */
 export interface ReasoningItemParam extends ItemParam {
@@ -4656,7 +4454,7 @@ export interface ReasoningItemParam extends ItemParam {
    * The encrypted content of the reasoning item - populated when a response is
    * generated with `reasoning.encrypted_content` in the `include` parameter.
    */
-  encryptedContent?: string | null;
+  encryptedContent?: string;
   /** Reasoning text contents. */
   summary: ReasoningItemSummaryPartUnion[];
 }
@@ -4735,7 +4533,7 @@ export interface ImageGenToolCallItemParam extends ItemParam {
   /** The type of the tool call. Always `image_generation_call`. */
   type: "image_generation_call";
   /** The generated image encoded in base64. */
-  result: string | null;
+  result?: string;
 }
 
 export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemParam): any {
@@ -4865,13 +4663,13 @@ export interface LocalShellExecAction {
   /** The command to run. */
   command: string[];
   /** Optional timeout in milliseconds for the command. */
-  timeoutMs?: number | null;
+  timeoutMs?: number;
   /** Optional working directory to run the command in. */
-  workingDirectory?: string | null;
+  workingDirectory?: string;
   /** Environment variables to set for the command. */
   env: Record<string, string>;
   /** Optional user to run the command as. */
-  user?: string | null;
+  user?: string;
 }
 
 export function localShellExecActionSerializer(item: LocalShellExecAction): any {
@@ -4916,7 +4714,7 @@ export interface MCPListToolsItemParam extends ItemParam {
   /** The tools available on the server. */
   tools: MCPListToolsTool[];
   /** Error message if the server could not list tools. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpListToolsItemParamSerializer(item: MCPListToolsItemParam): any {
@@ -4939,11 +4737,11 @@ export interface MCPListToolsTool {
   /** The name of the tool. */
   name: string;
   /** The description of the tool. */
-  description?: string | null;
+  description?: string;
   /** The JSON schema describing the tool's input. */
-  inputSchema: any;
+  inputSchema: unknown;
   /** Additional annotations about the tool. */
-  annotations?: any | null;
+  annotations?: unknown;
 }
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
@@ -4991,7 +4789,7 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
   /** Whether the request was approved. */
   approve: boolean;
   /** Optional reason for the decision. */
-  reason?: string | null;
+  reason?: string;
 }
 
 export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponseItemParam): any {
@@ -5017,9 +4815,9 @@ export interface MCPCallItemParam extends ItemParam {
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
   /** The output from the tool call. */
-  output?: string | null;
+  output?: string;
   /** The error from the tool call, if any. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
@@ -5038,7 +4836,7 @@ export interface MemorySearchToolCallItemParam extends ItemParam {
   /** The type of the item. Always `memory_search_call`. */
   type: "memory_search_call";
   /** The results returned from the memory search. */
-  results?: MemorySearchItem[] | null;
+  results?: MemorySearchItem[];
 }
 
 export function memorySearchToolCallItemParamSerializer(item: MemorySearchToolCallItemParam): any {
@@ -5087,7 +4885,7 @@ export interface MemoryItem {
   /** The content of the memory. */
   content: string;
   /** The kind of the memory item. */
-  /** The discriminator possible values: user_profile */
+  /** The discriminator possible values: user_profile, chat_summary */
   kind: MemoryItemKind;
 }
 
@@ -5112,12 +4910,15 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 }
 
 /** Alias for MemoryItemUnion */
-export type MemoryItemUnion = UserProfileMemoryItem | MemoryItem;
+export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
 
 export function memoryItemUnionSerializer(item: MemoryItemUnion): any {
   switch (item.kind) {
     case "user_profile":
       return userProfileMemoryItemSerializer(item as UserProfileMemoryItem);
+
+    case "chat_summary":
+      return chatSummaryMemoryItemSerializer(item as ChatSummaryMemoryItem);
 
     default:
       return memoryItemSerializer(item);
@@ -5128,6 +4929,9 @@ export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
   switch (item.kind) {
     case "user_profile":
       return userProfileMemoryItemDeserializer(item as UserProfileMemoryItem);
+
+    case "chat_summary":
+      return chatSummaryMemoryItemDeserializer(item as ChatSummaryMemoryItem);
 
     default:
       return memoryItemDeserializer(item);
@@ -5154,6 +4958,32 @@ export function userProfileMemoryItemSerializer(item: UserProfileMemoryItem): an
 }
 
 export function userProfileMemoryItemDeserializer(item: any): UserProfileMemoryItem {
+  return {
+    memoryId: item["memory_id"],
+    updatedAt: new Date(item["updated_at"] * 1000),
+    scope: item["scope"],
+    content: item["content"],
+    kind: item["kind"],
+  };
+}
+
+/** A memory item containing a summary extracted from conversations. */
+export interface ChatSummaryMemoryItem extends MemoryItem {
+  /** The kind of the memory item. */
+  kind: "chat_summary";
+}
+
+export function chatSummaryMemoryItemSerializer(item: ChatSummaryMemoryItem): any {
+  return {
+    memory_id: item["memoryId"],
+    updated_at: (item["updatedAt"].getTime() / 1000) | 0,
+    scope: item["scope"],
+    content: item["content"],
+    kind: item["kind"],
+  };
+}
+
+export function chatSummaryMemoryItemDeserializer(item: any): ChatSummaryMemoryItem {
   return {
     memoryId: item["memory_id"],
     updatedAt: new Date(item["updated_at"] * 1000),
@@ -5226,7 +5056,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 export interface _MemoryStoreOperationUsageInputTokensDetails {
   /**
    * The number of tokens that were retrieved from the cache.
-   * [More on prompt caching](/docs/guides/prompt-caching).
+   * [More on prompt caching](https://platform.openai.com/docs/guides/prompt-caching).
    */
   cachedTokens: number;
 }
@@ -5375,12 +5205,13 @@ export type ConnectionType =
   | "ApiKey"
   | "AppConfig"
   | "AppInsights"
-  | "CustomKeys";
+  | "CustomKeys"
+  | "RemoteTool";
 
 /** A base class for connection credentials */
 export interface BaseCredentials {
   /** The type of credential used by the connection */
-  /** The discriminator possible values: ApiKey, AAD, CustomKeys, SAS, None */
+  /** The discriminator possible values: ApiKey, AAD, CustomKeys, SAS, None, AgenticIdentityToken */
   readonly type: CredentialType;
 }
 export function connectionDeserializer(item: any): Connection {
@@ -5410,6 +5241,7 @@ export type BaseCredentialsUnion =
   | CustomCredential
   | SASCredentials
   | NoAuthenticationCredentials
+  | AgenticIdentityCredentials
   | BaseCredentials;
 
 export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnion {
@@ -5429,13 +5261,22 @@ export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnio
     case "None":
       return noAuthenticationCredentialsDeserializer(item as NoAuthenticationCredentials);
 
+    case "AgenticIdentityToken":
+      return agenticIdentityCredentialsDeserializer(item as AgenticIdentityCredentials);
+
     default:
       return baseCredentialsDeserializer(item);
   }
 }
 
 /** The credential type used by the connection */
-export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
+export type CredentialType =
+  | "ApiKey"
+  | "AAD"
+  | "SAS"
+  | "CustomKeys"
+  | "None"
+  | "AgenticIdentityToken";
 
 /** API Key Credential definition */
 export interface ApiKeyCredentials extends BaseCredentials {
@@ -5506,6 +5347,18 @@ export function noAuthenticationCredentialsDeserializer(item: any): NoAuthentica
   };
 }
 
+/** Agentic identity credential definition */
+export interface AgenticIdentityCredentials extends BaseCredentials {
+  /** The credential type */
+  readonly type: "AgenticIdentityToken";
+}
+
+export function agenticIdentityCredentialsDeserializer(item: any): AgenticIdentityCredentials {
+  return {
+    type: item["type"],
+  };
+}
+
 /** Paged collection of Connection items */
 export interface _PagedConnection {
   /** The Connection items on this page */
@@ -5556,7 +5409,7 @@ export function datasetVersionUnionArrayDeserializer(result: Array<DatasetVersio
 
 /** DatasetVersion Definition */
 export interface DatasetVersion {
-  /** URI of the data. Example: https://go.microsoft.com/fwlink/?linkid=2202330 */
+  /** URI of the data ([example](https://go.microsoft.com/fwlink/?linkid=2202330)) */
   dataUri: string;
   /** Dataset type */
   /** The discriminator possible values: uri_file, uri_folder */
@@ -5734,7 +5587,7 @@ export function pendingUploadResponseDeserializer(item: any): PendingUploadRespo
 
 /** Blob reference details. */
 export interface BlobReference {
-  /** Blob URI path for client to upload data. Example: https://blob.windows.core.net/Container/Path */
+  /** Blob URI path for client to upload data. Example: `https://blob.windows.core.net/Container/Path` */
   blobUri: string;
   /** ARM ID of the storage account to use. */
   storageAccountArmId: string;
@@ -6278,9 +6131,23 @@ export type AttackStrategy =
   | "rot13"
   | "morse"
   | "url"
-  | "baseline";
+  | "baseline"
+  | "indirect_jailbreak"
+  | "tense"
+  | "multi_turn"
+  | "crescendo";
 /** Risk category for the attack objective. */
-export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm";
+export type RiskCategory =
+  | "HateUnfairness"
+  | "Violence"
+  | "Sexual"
+  | "SelfHarm"
+  | "ProtectedMaterial"
+  | "CodeVulnerability"
+  | "UngroundedAttributes"
+  | "ProhibitedActions"
+  | "SensitiveDataLeakage"
+  | "TaskAdherence";
 
 /** Abstract class for target configuration. */
 export interface TargetConfig {
@@ -6535,7 +6402,7 @@ export function evaluationRuleFilterDeserializer(item: any): EvaluationRuleFilte
 }
 
 /** Type of the evaluation rule event. */
-export type EvaluationRuleEventType = "response.completed" | "manual";
+export type EvaluationRuleEventType = "responseCompleted" | "manual";
 
 /** Paged collection of EvaluationRule items */
 export interface _PagedEvaluationRule {
@@ -6927,6 +6794,12 @@ export function _pagedEvaluatorVersionDeserializer(item: any): _PagedEvaluatorVe
   };
 }
 
+export function evaluatorVersionArraySerializer(result: Array<EvaluatorVersion>): any[] {
+  return result.map((item) => {
+    return evaluatorVersionSerializer(item);
+  });
+}
+
 export function evaluatorVersionArrayDeserializer(result: Array<EvaluatorVersion>): any[] {
   return result.map((item) => {
     return evaluatorVersionDeserializer(item);
@@ -6963,6 +6836,20 @@ export interface EvaluatorVersion {
   tags?: Record<string, string>;
 }
 
+export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
+  return {
+    display_name: item["displayName"],
+    metadata: item["metadata"],
+    evaluator_type: item["evaluatorType"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
+    definition: evaluatorDefinitionUnionSerializer(item["definition"]),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
 export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
   return {
     displayName: item["display_name"],
@@ -6994,11 +6881,20 @@ export interface EvaluatorDefinition {
   /** The discriminator possible values: code, prompt */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  initParameters?: any;
+  initParameters?: unknown;
   /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  dataSchema?: any;
+  dataSchema?: unknown;
   /** List of output metrics produced by this evaluator */
   metrics?: Record<string, EvaluatorMetric>;
+}
+
+export function evaluatorDefinitionSerializer(item: EvaluatorDefinition): any {
+  return {
+    type: item["type"],
+    init_parameters: item["initParameters"],
+    data_schema: item["dataSchema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+  };
 }
 
 export function evaluatorDefinitionDeserializer(item: any): EvaluatorDefinition {
@@ -7017,6 +6913,19 @@ export type EvaluatorDefinitionUnion =
   | CodeBasedEvaluatorDefinition
   | PromptBasedEvaluatorDefinition
   | EvaluatorDefinition;
+
+export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnion): any {
+  switch (item.type) {
+    case "code":
+      return codeBasedEvaluatorDefinitionSerializer(item as CodeBasedEvaluatorDefinition);
+
+    case "prompt":
+      return promptBasedEvaluatorDefinitionSerializer(item as PromptBasedEvaluatorDefinition);
+
+    default:
+      return evaluatorDefinitionSerializer(item);
+  }
+}
 
 export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefinitionUnion {
   switch (item.type) {
@@ -7038,6 +6947,16 @@ export type EvaluatorDefinitionType =
   | "prompt_and_code"
   | "service"
   | "openai_graders";
+
+export function evaluatorMetricRecordSerializer(
+  item: Record<string, EvaluatorMetric>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : evaluatorMetricSerializer(item[key]);
+  });
+  return result;
+}
 
 export function evaluatorMetricRecordDeserializer(
   item: Record<string, any>,
@@ -7063,6 +6982,16 @@ export interface EvaluatorMetric {
   isPrimary?: boolean;
 }
 
+export function evaluatorMetricSerializer(item: EvaluatorMetric): any {
+  return {
+    type: item["type"],
+    desirable_direction: item["desirableDirection"],
+    min_value: item["minValue"],
+    max_value: item["maxValue"],
+    is_primary: item["isPrimary"],
+  };
+}
+
 export function evaluatorMetricDeserializer(item: any): EvaluatorMetric {
   return {
     type: item["type"],
@@ -7086,6 +7015,16 @@ export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
   codeText: string;
 }
 
+export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorDefinition): any {
+  return {
+    type: item["type"],
+    init_parameters: item["initParameters"],
+    data_schema: item["dataSchema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    code_text: item["codeText"],
+  };
+}
+
 export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEvaluatorDefinition {
   return {
     type: item["type"],
@@ -7104,6 +7043,18 @@ export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
   type: "prompt";
   /** The prompt text used for evaluation */
   promptText: string;
+}
+
+export function promptBasedEvaluatorDefinitionSerializer(
+  item: PromptBasedEvaluatorDefinition,
+): any {
+  return {
+    type: item["type"],
+    init_parameters: item["initParameters"],
+    data_schema: item["dataSchema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    prompt_text: item["promptText"],
+  };
 }
 
 export function promptBasedEvaluatorDefinitionDeserializer(
@@ -7127,7 +7078,7 @@ export interface Insight {
   /** Metadata about the insights report. */
   readonly metadata: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state: any;
+  readonly state: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -7168,6 +7119,9 @@ export function insightsMetadataDeserializer(item: any): InsightsMetadata {
     completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
   };
 }
+
+/** Enum describing allowed operation states. */
+export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 /** The request of the insights report. */
 export interface InsightRequest {
@@ -7616,6 +7570,8 @@ export interface InsightCluster {
   label: string;
   /** Suggestion for the cluster */
   suggestion: string;
+  /** The title of the suggestion for the cluster */
+  suggestionTitle: string;
   /** Description of the analysis cluster. */
   description: string;
   /** The weight of the analysis cluster. This indicate number of samples in the cluster. */
@@ -7631,6 +7587,7 @@ export function insightClusterDeserializer(item: any): InsightCluster {
     id: item["id"],
     label: item["label"],
     suggestion: item["suggestion"],
+    suggestionTitle: item["suggestionTitle"],
     description: item["description"],
     weight: item["weight"],
     subClusters: !item["subClusters"]
@@ -8047,7 +8004,7 @@ export function recurrenceScheduleUnionDeserializer(item: any): RecurrenceSchedu
 /** Recurrence type. */
 export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
-/** Hourly recurrencce schedule. */
+/** Hourly recurrence schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
   /** the type of the schedule. */
   type: "Hourly";
@@ -8418,10 +8375,6 @@ export type PendingUploadType = "None" | "BlobReference";
 
 /** Azure AI Projects API versions */
 export enum KnownApiVersions {
-  /** Azure AI API version 2025-05-01. */
-  V20250501 = "2025-05-01",
-  /** Azure AI API version 2025-05-15-preview. */
-  V20250515Preview = "2025-05-15-preview",
   /** Azure AI API version 2025-11-15-preview. */
   V20251115Preview = "2025-11-15-preview",
 }

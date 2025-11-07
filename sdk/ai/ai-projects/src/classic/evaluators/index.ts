@@ -27,11 +27,13 @@ export interface EvaluatorsOperations {
   updateVersion: (
     name: string,
     version: string,
+    evaluatorVersion: EvaluatorVersion,
     options?: EvaluatorsUpdateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Create a new EvaluatorVersion with auto incremented version id */
   createVersion: (
     name: string,
+    evaluatorVersion: EvaluatorVersion,
     options?: EvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
@@ -62,10 +64,14 @@ function _getEvaluators(context: AIProjectContext) {
     updateVersion: (
       name: string,
       version: string,
+      evaluatorVersion: EvaluatorVersion,
       options?: EvaluatorsUpdateVersionOptionalParams,
-    ) => updateVersion(context, name, version, options),
-    createVersion: (name: string, options?: EvaluatorsCreateVersionOptionalParams) =>
-      createVersion(context, name, options),
+    ) => updateVersion(context, name, version, evaluatorVersion, options),
+    createVersion: (
+      name: string,
+      evaluatorVersion: EvaluatorVersion,
+      options?: EvaluatorsCreateVersionOptionalParams,
+    ) => createVersion(context, name, evaluatorVersion, options),
     deleteVersion: (
       name: string,
       version: string,

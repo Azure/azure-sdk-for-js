@@ -3,86 +3,7 @@
 
 import { AgentKind } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
-
-/** Optional parameters. */
-export interface AgentsListAgentVersionContainerOperationsOptionalParams extends OperationOptions {
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: "asc" | "desc";
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
-  after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
-  before?: string;
-}
-
-/** Optional parameters. */
-export interface AgentsListAgentContainerOperationsOptionalParams extends OperationOptions {
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: "asc" | "desc";
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
-  after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
-  before?: string;
-}
-
-/** Optional parameters. */
-export interface AgentsGetAgentContainerOperationOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AgentsGetAgentContainerOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AgentsDeleteAgentContainerOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AgentsStopAgentContainerOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AgentsUpdateAgentContainerOptionalParams extends OperationOptions {
-  /** The minimum number of replicas. */
-  minReplicas?: number;
-  /** The maximum number of replicas. */
-  maxReplicas?: number;
-}
-
-/** Optional parameters. */
-export interface AgentsStartAgentContainerOptionalParams extends OperationOptions {
-  /** The minimum number of replicas. Defaults to 1. */
-  minReplicas?: number;
-  /** The maximum number of replicas. Defaults to 1. */
-  maxReplicas?: number;
-}
+import { AgentDefinitionUnion } from "../../models/models.js";
 
 /** Optional parameters. */
 export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
@@ -120,7 +41,14 @@ export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {}
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
 }
 
@@ -128,7 +56,14 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
 }
 
@@ -167,7 +102,14 @@ export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
 }
 
@@ -175,7 +117,14 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
 }
 
@@ -183,7 +132,14 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
 }
 
@@ -191,9 +147,56 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A human-readable description of the agent. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the agent. */
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
   metadata?: Record<string, string>;
 }
 
 /** Optional parameters. */
 export interface AgentsGetAgentOptionalParams extends OperationOptions {}
+
+/** Configuration for creating an agent from a definition */
+export type CreateAgentFromDefinitionConfig = {
+  type: "definition";
+  definition: AgentDefinitionUnion;
+  options?: AgentsCreateAgentOptionalParams;
+};
+
+/** Configuration for creating an agent from a manifest */
+export type CreateAgentFromManifestConfig = {
+  type: "manifest";
+  manifestId: string;
+  parameterValues: Record<string, any>;
+  options?: AgentsCreateAgentFromManifestOptionalParams;
+};
+
+/** Configuration for creating an agent */
+export type CreateAgentConfig =
+  | CreateAgentFromDefinitionConfig
+  | CreateAgentFromManifestConfig;
+
+/** Configuration for updating an agent from a definition */
+export type UpdateAgentFromDefinitionConfig = {
+  type: "definition";
+  definition: AgentDefinitionUnion;
+  options?: AgentsUpdateAgentOptionalParams;
+};
+
+/** Configuration for updating an agent from a manifest */
+export type UpdateAgentFromManifestConfig = {
+  type: "manifest";
+  manifestId: string;
+  parameterValues: Record<string, any>;
+  options?: AgentsUpdateAgentFromManifestOptionalParams;
+};
+
+/** Configuration for updating an agent */
+export type UpdateAgentConfig =
+  | UpdateAgentFromDefinitionConfig
+  | UpdateAgentFromManifestConfig;

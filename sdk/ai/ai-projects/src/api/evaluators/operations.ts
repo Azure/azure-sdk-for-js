@@ -6,6 +6,7 @@ import {
   _PagedEvaluatorVersion,
   _pagedEvaluatorVersionDeserializer,
   EvaluatorVersion,
+  evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
 } from "../../models/models.js";
 import {
@@ -32,6 +33,7 @@ export function _updateVersionSend(
   context: Client,
   name: string,
   version: string,
+  evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -47,10 +49,12 @@ export function _updateVersionSend(
   );
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
+    body: evaluatorVersionSerializer(evaluatorVersion),
   });
 }
 
@@ -70,15 +74,17 @@ export async function updateVersion(
   context: Client,
   name: string,
   version: string,
+  evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _updateVersionSend(context, name, version, options);
+  const result = await _updateVersionSend(context, name, version, evaluatorVersion, options);
   return _updateVersionDeserialize(result);
 }
 
 export function _createVersionSend(
   context: Client,
   name: string,
+  evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -93,10 +99,12 @@ export function _createVersionSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
+    body: evaluatorVersionSerializer(evaluatorVersion),
   });
 }
 
@@ -115,9 +123,10 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
+  evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _createVersionSend(context, name, options);
+  const result = await _createVersionSend(context, name, evaluatorVersion, options);
   return _createVersionDeserialize(result);
 }
 

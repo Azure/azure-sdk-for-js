@@ -2,14 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  listAgentVersionContainerOperations,
-  listAgentContainerOperations,
-  getAgentContainerOperation,
-  getAgentContainer,
-  deleteAgentContainer,
-  stopAgentContainer,
-  updateAgentContainer,
-  startAgentContainer,
   listAgentVersions,
   deleteAgentVersion,
   getAgentVersion,
@@ -24,14 +16,6 @@ export {
   getAgent,
 } from "./operations.js";
 export {
-  AgentsListAgentVersionContainerOperationsOptionalParams,
-  AgentsListAgentContainerOperationsOptionalParams,
-  AgentsGetAgentContainerOperationOptionalParams,
-  AgentsGetAgentContainerOptionalParams,
-  AgentsDeleteAgentContainerOptionalParams,
-  AgentsStopAgentContainerOptionalParams,
-  AgentsUpdateAgentContainerOptionalParams,
-  AgentsStartAgentContainerOptionalParams,
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
@@ -44,4 +28,6 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  UpdateAgentConfig,
 } from "./options.js";
