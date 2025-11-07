@@ -21,7 +21,7 @@ import type { QueryRangeMapping } from "../queryRangeMapping.js";
  * @internal
  */
 export class ParallelQueryContinuationTokenManager extends BaseContinuationTokenManager {
-  private continuationToken: CompositeQueryContinuationToken;
+  private continuationToken: CompositeQueryContinuationToken | undefined;
 
   constructor(
     collectionLink: string,
@@ -30,49 +30,16 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   ) {
     super(collectionLink, isUnsupportedQueryType);
     if (initialContinuationToken) {
-      this.initializeFromToken(initialContinuationToken);
+      this.continuationToken = parseCompositeQueryContinuationToken(initialContinuationToken);
+      this.rangeList = this.continuationToken.rangeMappings || [];
     }
   }
 
-  protected initializeFromToken(token: string): void {
-    this.continuationToken = parseCompositeQueryContinuationToken(token);
-    this.ranges = this.continuationToken.rangeMappings || [];
-  }
-
-  public createContinuationToken(
+  protected processRangesForPagination(
     pageSize: number,
     _isResponseEmpty: boolean,
-    responseResult?: QueryResponseResult,
-  ): {
-    endIndex: number;
-    continuationToken?: string;
-  } {
-    // Process response data first if provided
-    if (responseResult) {
-      this.processResponseResult(responseResult);
-    }
-
-    this.removeExhaustedRangesFromRanges();
-    const result = this.processRanges(pageSize);
-
-    // Clean up processed data automatically
-    this.cleanProcessedData(result.processedRanges, result.endIndex);
-
-    // Add the continuation token string to the result
-    const tokenString = this.isUnsupportedQueryType
-      ? undefined
-      : this.continuationToken
-        ? serializeCompositeToken(this.continuationToken)
-        : undefined;
-
-    return {
-      endIndex: result.endIndex,
-      continuationToken: tokenString,
-    };
-  }
-
-  private processRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
-    const result = this.partitionRangeManager.processParallelRanges(pageSize);
+  ): { endIndex: number; processedRanges: string[] } {
+    const result = this.partitionManager.processParallelRanges(pageSize);
     if (!result || !result.processedRangeMappings || result.processedRangeMappings.length === 0) {
       return { endIndex: 0, processedRanges: [] };
     }
@@ -92,10 +59,22 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     }
 
     if (result.lastPartitionBeforeCutoff && result.lastPartitionBeforeCutoff.mapping) {
-      this.continuationToken.offset = result.lastPartitionBeforeCutoff.mapping.offset;
-      this.continuationToken.limit = result.lastPartitionBeforeCutoff.mapping.limit;
+      this.continuationToken!.offset = result.lastPartitionBeforeCutoff.mapping.offset;
+      this.continuationToken!.limit = result.lastPartitionBeforeCutoff.mapping.limit;
     }
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
+  }
+
+  protected generateContinuationTokenString(): string | undefined {
+    return this.continuationToken ? serializeCompositeToken(this.continuationToken) : undefined;
+  }
+
+  protected processQuerySpecificResponse(_responseResult: QueryResponseResult): void {
+    // Parallel queries don't need additional response processing
+  }
+
+  protected performQuerySpecificCleanup(_processedRanges: string[], _endIndex: number): void {
+    // Parallel queries don't need additional cleanup
   }
 
   private updateExistingCompositeContinuationToken(
@@ -103,7 +82,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   ): void {
     for (const newRange of rangeMappings) {
       // Check if this range already exists in the token
-      const existingRangeIndex = this.continuationToken.rangeMappings.findIndex(
+      const existingRangeIndex = this.continuationToken!.rangeMappings.findIndex(
         (existingRange) =>
           existingRange.queryRange.min === newRange.queryRange.min &&
           existingRange.queryRange.max === newRange.queryRange.max,
@@ -111,10 +90,10 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
 
       if (existingRangeIndex >= 0) {
         // Range exists - update the continuation token
-        this.continuationToken.rangeMappings[existingRangeIndex] = newRange;
+        this.continuationToken!.rangeMappings[existingRangeIndex] = newRange;
       } else {
         // New range - add to the rangeMappings array
-        this.continuationToken.rangeMappings.push(newRange);
+        this.continuationToken!.rangeMappings.push(newRange);
       }
     }
   }

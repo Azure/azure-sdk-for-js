@@ -65,17 +65,6 @@ export function createCompositeQueryContinuationToken(
     offset,
     limit,
   };
-} /**
- * Adds a range mapping to the continuation token using simplified range format
- * @hidden
- */
-export function addRangeMappingToCompositeToken(
-  token: CompositeQueryContinuationToken,
-  rangeMapping: QueryRangeMapping,
-): void {
-  // Convert the QueryRangeMapping to simplified QueryRangeWithContinuationToken before adding
-  const queryRangeWithToken = convertRangeMappingToQueryRange(rangeMapping);
-  token.rangeMappings.push(queryRangeWithToken);
 }
 
 /**

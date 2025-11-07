@@ -4,7 +4,6 @@
 import { describe, it, assert } from "vitest";
 import {
   createCompositeQueryContinuationToken,
-  addRangeMappingToCompositeToken,
   serializeCompositeToken,
   parseCompositeQueryContinuationToken,
   convertRangeMappingToQueryRange,
@@ -82,45 +81,6 @@ describe.skip("CompositeQueryContinuationToken", () => {
       assert.throws(() => {
         createCompositeQueryContinuationToken(mockRid, undefined as any);
       }, "Range mappings are required to create a continuation token");
-    });
-  });
-
-  describe("addRangeMappingToCompositeToken", () => {
-    it("should add a range mapping to existing token", () => {
-      const token = createCompositeQueryContinuationToken(mockRid, mockRangeMappings);
-      const rangeMapping: QueryRangeMapping = {
-        itemCount: 5,
-        continuationToken: "new-token",
-        partitionKeyRange: createMockPartitionKeyRange("1", "AA", "BB"),
-      };
-
-      addRangeMappingToCompositeToken(token, rangeMapping);
-
-      assert.equal(token.rangeMappings.length, 3); // 2 original + 1 new
-      assert.equal(token.rangeMappings[2].continuationToken, "new-token");
-      assert.equal(token.rangeMappings[2].queryRange.min, "AA");
-      assert.equal(token.rangeMappings[2].queryRange.max, "BB");
-    });
-
-    it("should add multiple range mappings", () => {
-      const token = createCompositeQueryContinuationToken(mockRid, mockRangeMappings);
-      const rangeMapping1: QueryRangeMapping = {
-        itemCount: 5,
-        continuationToken: "token1",
-        partitionKeyRange: createMockPartitionKeyRange("1", "AA", "BB"),
-      };
-      const rangeMapping2: QueryRangeMapping = {
-        itemCount: 3,
-        continuationToken: "token2",
-        partitionKeyRange: createMockPartitionKeyRange("2", "CC", "DD"),
-      };
-
-      addRangeMappingToCompositeToken(token, rangeMapping1);
-      addRangeMappingToCompositeToken(token, rangeMapping2);
-
-      assert.equal(token.rangeMappings.length, 4); // 2 original + 2 new
-      assert.equal(token.rangeMappings[2].continuationToken, "token1");
-      assert.equal(token.rangeMappings[3].continuationToken, "token2");
     });
   });
 

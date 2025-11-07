@@ -29,13 +29,9 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
     // Handle initialization directly - no deferred complexity needed
     if (initialContinuationToken) {
-      this.initializeFromToken(initialContinuationToken);
+      this.continuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
+      this.rangeList = this.continuationToken?.rangeMappings || [];
     }
-  }
-
-  protected initializeFromToken(token: string): void {
-    this.continuationToken = parseOrderByQueryContinuationToken(token);
-    this.ranges = this.continuationToken?.rangeMappings || [];
   }
 
   private setOrderByItemsArray(
@@ -44,21 +40,13 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     this.orderByItemsArray = orderByItemsArray;
   }
 
-  /**
-   * Override to handle ORDER BY specific response data.
-   */
-  protected processResponseResult(responseResult: QueryResponseResult): void {
-    super.processResponseResult(responseResult);
+  protected processQuerySpecificResponse(responseResult: QueryResponseResult): void {
     if (responseResult.orderByItems) {
       this.setOrderByItemsArray(responseResult.orderByItems);
     }
   }
 
-  /**
-   * Override to handle ORDER BY specific data cleanup.
-   */
-  protected cleanProcessedData(processedRanges: string[], endIndex: number): void {
-    super.cleanProcessedData(processedRanges, endIndex);
+  protected performQuerySpecificCleanup(_processedRanges: string[], endIndex: number): void {
     this.sliceOrderByItemsArray(endIndex);
   }
 
@@ -72,39 +60,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  public createContinuationToken(
-    pageSize: number,
-    isResponseEmpty: boolean = false,
-    responseResult?: QueryResponseResult,
-  ): {
-    endIndex: number;
-    continuationToken?: string;
-  } {
-    // Process response data first if provided
-    if (responseResult) {
-      this.processResponseResult(responseResult);
-    }
-
-    this.removeExhaustedRangesFromRanges();
-    const result = this.processRanges(pageSize, isResponseEmpty);
-
-    // Clean up processed data automatically
-    this.cleanProcessedData(result.processedRanges, result.endIndex);
-
-    // Add the continuation token string to the result
-    const tokenString = this.isUnsupportedQueryType
-      ? undefined
-      : this.continuationToken
-        ? serializeOrderByQueryContinuationToken(this.continuationToken)
-        : undefined;
-
-    return {
-      endIndex: result.endIndex,
-      continuationToken: tokenString,
-    };
-  }
-
-  private processRanges(
+  protected processRangesForPagination(
     pageSize: number,
     isResponseEmpty: boolean = false,
   ): { endIndex: number; processedRanges: string[] } {
@@ -112,10 +68,10 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     if (isResponseEmpty && this.continuationToken) {
       let rangeProcessingResult;
 
-      if (this.ranges.length === 0) {
-        rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
+      if (this.rangeList.length === 0) {
+        rangeProcessingResult = this.partitionManager.processOrderByRanges(pageSize);
       } else {
-        rangeProcessingResult = this.partitionRangeManager.processEmptyOrderByRanges(this.ranges);
+        rangeProcessingResult = this.partitionManager.processEmptyOrderByRanges(this.rangeList);
       }
 
       const { lastRangeBeforePageLimit } = rangeProcessingResult;
@@ -135,7 +91,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
 
     // Normal processing path - handle non-empty responses
-    const rangeProcessingResult = this.partitionRangeManager.processOrderByRanges(pageSize);
+    const rangeProcessingResult = this.partitionManager.processOrderByRanges(pageSize);
     const { lastRangeBeforePageLimit } = rangeProcessingResult;
 
     // Check if we have a valid range to continue with
@@ -199,5 +155,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
       endIndex: rangeProcessingResult.endIndex,
       processedRanges: rangeProcessingResult.processedRanges,
     };
+  }
+
+  protected generateContinuationTokenString(): string | undefined {
+    return this.continuationToken
+      ? serializeOrderByQueryContinuationToken(this.continuationToken)
+      : undefined;
   }
 }

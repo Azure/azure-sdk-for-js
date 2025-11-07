@@ -30,25 +30,95 @@ export interface QueryResponseResult {
  * @internal
  */
 export abstract class BaseContinuationTokenManager {
-  protected ranges: QueryRangeWithContinuationToken[] = [];
-  protected partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
-  protected isUnsupportedQueryType: boolean = false;
-  protected collectionLink: string;
+  private ranges: QueryRangeWithContinuationToken[] = [];
+  private readonly partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
+  private readonly isUnsupportedQueryType: boolean = false;
+  protected readonly collectionLink: string;
 
   constructor(collectionLink: string, isUnsupportedQueryType: boolean = false) {
     this.collectionLink = collectionLink;
     this.isUnsupportedQueryType = isUnsupportedQueryType;
   }
 
-  protected abstract initializeFromToken(token: string): void;
-  public abstract createContinuationToken(
+  /**
+   * Provides controlled access to partition range manager for subclasses.
+   * This is the only protected access point needed.
+   */
+  protected get partitionManager(): PartitionRangeManager {
+    return this.partitionRangeManager;
+  }
+
+  /**
+   * Provides controlled access to ranges for subclasses.
+   * Made protected to allow subclass range management.
+   */
+  protected get rangeList(): QueryRangeWithContinuationToken[] {
+    return this.ranges;
+  }
+
+  protected set rangeList(ranges: QueryRangeWithContinuationToken[]) {
+    this.ranges = ranges;
+  }
+
+  /**
+   * Template method for creating continuation tokens.
+   * Handles common processing flow while delegating specific logic to subclasses.
+   */
+  public createContinuationToken(
     pageSize: number,
     isResponseEmpty: boolean,
     responseResult?: QueryResponseResult,
   ): {
     endIndex: number;
     continuationToken?: string;
+  } {
+    // Process response data first if provided
+    if (responseResult) {
+      this.processResponseResult(responseResult);
+    }
+
+    this.removeExhaustedRangesFromRanges();
+    const result = this.processRangesForPagination(pageSize, isResponseEmpty);
+
+    // Clean up processed data automatically
+    this.cleanProcessedData(result.processedRanges, result.endIndex);
+
+    // Generate continuation token string
+    const tokenString = !this.isUnsupportedQueryType
+      ? this.generateContinuationTokenString()
+      : undefined;
+
+    return {
+      endIndex: result.endIndex,
+      continuationToken: tokenString,
+    };
+  }
+
+  /**
+   * Subclasses implement this to handle range processing specific to their query type.
+   */
+  protected abstract processRangesForPagination(
+    pageSize: number,
+    isResponseEmpty: boolean,
+  ): {
+    endIndex: number;
+    processedRanges: string[];
   };
+
+  /**
+   * Subclasses implement this to generate their specific continuation token format.
+   */
+  protected abstract generateContinuationTokenString(): string | undefined;
+
+  /**
+   * Subclasses implement this to handle response-specific data extraction.
+   */
+  protected abstract processQuerySpecificResponse(responseResult: QueryResponseResult): void;
+
+  /**
+   * Subclasses implement this to handle query-specific cleanup.
+   */
+  protected abstract performQuerySpecificCleanup(processedRanges: string[], endIndex: number): void;
 
   private removePartitionRangeMapping(rangeId: string): void {
     this.partitionRangeManager.removePartitionRangeMapping(rangeId);
@@ -56,12 +126,15 @@ export abstract class BaseContinuationTokenManager {
 
   /**
    * Cleans up processed data after a page has been returned.
-   * Handles common cleanup logic and delegates to subclass-specific cleanup.
+   * Handles both common and query-specific cleanup.
    */
-  protected cleanProcessedData(processedRanges: string[], _endIndex: number): void {
+  private cleanProcessedData(processedRanges: string[], endIndex: number): void {
     processedRanges.forEach((rangeId) => {
       this.removePartitionRangeMapping(rangeId);
     });
+
+    // Delegate query-specific cleanup to subclass
+    this.performQuerySpecificCleanup(processedRanges, endIndex);
   }
 
   private setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
@@ -72,7 +145,7 @@ export abstract class BaseContinuationTokenManager {
    * Processes the entire response result and updates the continuation token manager state.
    * This encapsulates all response handling logic in one place.
    */
-  protected processResponseResult(responseResult: QueryResponseResult): void {
+  private processResponseResult(responseResult: QueryResponseResult): void {
     if (!responseResult) {
       return;
     }
@@ -86,10 +159,12 @@ export abstract class BaseContinuationTokenManager {
     if (responseResult.updatedContinuationRanges) {
       this.handlePartitionRangeChanges(responseResult.updatedContinuationRanges);
     }
+
+    // Delegate query-specific processing to subclass
+    this.processQuerySpecificResponse(responseResult);
   }
 
-  // Common range management
-  protected isPartitionExhausted(continuationToken: string | null): boolean {
+  private isPartitionExhausted(continuationToken: string | null): boolean {
     return (
       !continuationToken ||
       continuationToken === "" ||
@@ -98,7 +173,7 @@ export abstract class BaseContinuationTokenManager {
     );
   }
 
-  protected removeExhaustedRangesFromRanges(): void {
+  private removeExhaustedRangesFromRanges(): void {
     if (!this.ranges || !Array.isArray(this.ranges)) {
       return;
     }
@@ -111,8 +186,7 @@ export abstract class BaseContinuationTokenManager {
     });
   }
 
-  // Common partition range change handling
-  protected handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
+  private handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
     if (updatedContinuationRanges && Object.keys(updatedContinuationRanges).length === 0) {
       return;
     }
@@ -121,7 +195,7 @@ export abstract class BaseContinuationTokenManager {
     });
   }
 
-  protected processRangeChange(_rangeKey: string, rangeChange: PartitionRangeUpdate): void {
+  private processRangeChange(_rangeKey: string, rangeChange: PartitionRangeUpdate): void {
     const { oldRange, newRanges, continuationToken } = rangeChange;
     if (newRanges.length === 1) {
       this.handleRangeMerge(oldRange, newRanges[0], continuationToken);

@@ -4,62 +4,64 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { BaseContinuationTokenManager } from "../../../../../src/queryExecutionContext/ContinuationTokenManager/BaseContinuationTokenManager.js";
 import type { QueryResponseResult } from "../../../../../src/queryExecutionContext/ContinuationTokenManager/BaseContinuationTokenManager.js";
-import type {
-  PartitionRangeUpdate,
-  PartitionRangeUpdates,
-} from "../../../../../src/documents/ContinuationToken/PartitionRangeUpdate.js";
+import type { PartitionRangeUpdates } from "../../../../../src/documents/ContinuationToken/PartitionRangeUpdate.js";
 import type { QueryRangeWithContinuationToken } from "../../../../../src/documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { QueryRange } from "../../../../../src/routing/QueryRange.js";
 
 /**
- * Test implementation of BaseContinuationTokenManager for unit testing
+ * Test implementation of BaseContinuationTokenManager for unit testing.
+ * This implementation focuses on testing the partition range split/merge functionality.
  */
 class TestContinuationTokenManager extends BaseContinuationTokenManager {
   constructor(collectionLink: string, initialRanges?: QueryRangeWithContinuationToken[]) {
     super(collectionLink, false);
     if (initialRanges) {
-      this.ranges = [...initialRanges];
+      this.rangeList = [...initialRanges];
     }
   }
 
-  protected initializeFromToken(_token: string): void {
-    // Test implementation - not needed for these tests
-  }
-
-  public createContinuationToken(
+  // Implement required abstract methods for testing
+  protected processRangesForPagination(
     _pageSize: number,
     _isResponseEmpty: boolean,
-    _responseResult?: QueryResponseResult,
-  ): {
-    endIndex: number;
-    continuationToken?: string;
-  } {
-    // Simple test implementation
-    return {
-      endIndex: 0,
-      continuationToken: undefined,
-    };
+  ): { endIndex: number; processedRanges: string[] } {
+    // Simple test implementation - not the focus of these tests
+    return { endIndex: 0, processedRanges: [] };
   }
 
-  // Expose protected methods for testing
-  public testProcessResponseResult(responseResult: QueryResponseResult): void {
-    this.processResponseResult(responseResult);
+  protected generateContinuationTokenString(): string | undefined {
+    // Simple test implementation - not the focus of these tests
+    return undefined;
   }
 
-  public testHandlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
-    this.handlePartitionRangeChanges(updatedContinuationRanges);
+  protected processQuerySpecificResponse(_responseResult: QueryResponseResult): void {
+    // No query-specific processing needed for these tests
   }
 
-  public testProcessRangeChange(rangeKey: string, rangeChange: PartitionRangeUpdate): void {
-    this.processRangeChange(rangeKey, rangeChange);
+  protected performQuerySpecificCleanup(_processedRanges: string[], _endIndex: number): void {
+    // No query-specific cleanup needed for these tests
   }
 
+  // Expose methods needed for testing partition range management
   public getRanges(): QueryRangeWithContinuationToken[] {
-    return this.ranges;
+    return this.rangeList;
   }
 
   public setRanges(ranges: QueryRangeWithContinuationToken[]): void {
-    this.ranges = ranges;
+    this.rangeList = ranges;
+  }
+
+  /**
+   * Test helper to trigger partition range changes processing.
+   * This simulates receiving updated continuation ranges in a query response.
+   */
+  public simulatePartitionRangeUpdates(updatedContinuationRanges: PartitionRangeUpdates): void {
+    const mockResponseResult: QueryResponseResult = {
+      updatedContinuationRanges,
+    };
+
+    // Use the public createContinuationToken method which will trigger the private processing
+    this.createContinuationToken(100, false, mockResponseResult);
   }
 }
 
@@ -174,7 +176,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
       ({ name, updates, expectedTotalRanges, expectedRemovedRanges, expectedNewRanges }) => {
         it(`should handle ${name}`, () => {
           // Act
-          tokenManager.testHandlePartitionRangeChanges(updates);
+          tokenManager.simulatePartitionRangeUpdates(updates);
 
           // Assert
           const ranges = tokenManager.getRanges();
@@ -251,7 +253,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
       ({ name, updates, expectedTotalRanges, expectedRemovedRanges, expectedNewRanges }) => {
         it(`should handle ${name}`, () => {
           // Act
-          tokenManager.testHandlePartitionRangeChanges(updates);
+          tokenManager.simulatePartitionRangeUpdates(updates);
 
           // Assert
           const ranges = tokenManager.getRanges();
@@ -305,7 +307,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
       };
 
       // Act
-      tokenManager.testHandlePartitionRangeChanges(partitionRangeUpdates);
+      tokenManager.simulatePartitionRangeUpdates(partitionRangeUpdates);
 
       // Assert
       const ranges = tokenManager.getRanges();
@@ -415,7 +417,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
             const originalRanges = tokenManager.getRanges();
 
             // Act
-            tokenManager.testHandlePartitionRangeChanges(updates);
+            tokenManager.simulatePartitionRangeUpdates(updates);
 
             // Assert
             const ranges = tokenManager.getRanges();
@@ -464,7 +466,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
         );
 
         // Act
-        tokenManager.testHandlePartitionRangeChanges(partitionRangeUpdates);
+        tokenManager.simulatePartitionRangeUpdates(partitionRangeUpdates);
 
         // Assert
         const newRanges = tokenManager.getRanges();
@@ -502,7 +504,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
       };
 
       // Act
-      tokenManager.testHandlePartitionRangeChanges(partitionRangeUpdates);
+      tokenManager.simulatePartitionRangeUpdates(partitionRangeUpdates);
 
       // Assert
       const ranges = tokenManager.getRanges();
@@ -571,7 +573,7 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
     tokenTestCases.forEach(({ name, updates, expectedTokenCount, expectedToken }) => {
       it(`should correctly assign continuation tokens for ${name}`, () => {
         // Act
-        tokenManager.testHandlePartitionRangeChanges(updates);
+        tokenManager.simulatePartitionRangeUpdates(updates);
 
         // Assert
         const ranges = tokenManager.getRanges();
