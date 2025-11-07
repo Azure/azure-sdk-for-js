@@ -27,8 +27,8 @@ describe("snippets", function () {
   });
 
   it("setup", async function () {
-    const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-    const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
+    const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+    const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
   it("openAI", async function () {
