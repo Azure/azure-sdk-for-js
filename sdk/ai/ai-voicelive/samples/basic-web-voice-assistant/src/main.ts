@@ -127,6 +127,9 @@ class WebVoiceAssistantApp {
       onConversationMessage: (message) => {
         this.addConversationMessage(message);
       },
+      onConversationMessageUpdate: (message) => {
+        this.updateConversationMessage(message);
+      },
       onEventReceived: (event) => {
         this.addEvent(event);
       },
@@ -263,6 +266,72 @@ class WebVoiceAssistantApp {
     messageDiv.appendChild(content);
     
     this.conversationHistory.appendChild(messageDiv);
+    this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
+  }
+
+  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean }): void {
+    if (!message.messageId) {
+      // Fallback to regular message if no ID provided
+      this.addConversationMessage(message);
+      return;
+    }
+
+    // Look for existing message with this ID
+    let existingMessage = document.querySelector(`[data-message-id="${message.messageId}"]`) as HTMLElement;
+    
+    if (!existingMessage) {
+      // Create new message if it doesn't exist
+      existingMessage = document.createElement('div');
+      existingMessage.className = `message ${message.role}`;
+      existingMessage.setAttribute('data-message-id', message.messageId);
+      
+      const timestamp = document.createElement('span');
+      timestamp.className = 'timestamp';
+      timestamp.textContent = `[${message.timestamp.toLocaleTimeString()}] ${message.role}:`;
+      
+      const content = document.createElement('span');
+      content.className = 'content';
+      content.textContent = message.content;
+      
+      // Add streaming indicator if needed
+      if (message.isStreaming) {
+        content.classList.add('streaming');
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        cursor.textContent = '▋';
+        content.appendChild(cursor);
+      }
+      
+      existingMessage.appendChild(timestamp);
+      existingMessage.appendChild(content);
+      
+      this.conversationHistory.appendChild(existingMessage);
+    } else {
+      // Update existing message content
+      const contentSpan = existingMessage.querySelector('.content') as HTMLElement;
+      if (contentSpan) {
+        // Remove any existing cursor
+        const existingCursor = contentSpan.querySelector('.typing-cursor');
+        if (existingCursor) {
+          existingCursor.remove();
+        }
+        
+        contentSpan.textContent = message.content;
+        
+        // Add/remove streaming indicator
+        if (message.isStreaming) {
+          contentSpan.classList.add('streaming');
+          const cursor = document.createElement('span');
+          cursor.className = 'typing-cursor';
+          cursor.textContent = '▋';
+          contentSpan.appendChild(cursor);
+        } else {
+          contentSpan.classList.remove('streaming');
+        }
+      }
+    }
+    
+    // Auto-scroll to bottom
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
   }
 

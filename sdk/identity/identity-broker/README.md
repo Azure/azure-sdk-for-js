@@ -28,7 +28,7 @@ On Linux, the library uses `libsecret` so you may need to install it. Depending 
 - Arch Linux: `sudo pacman -S libsecret`
 
 > [!NOTE] 
-> Brokered authentication is currently only supported on Windows. Linux and macOS aren't yet supported.
+> Brokered authentication is currently only supported on Windows and Linux. macOS isn't yet supported.
 
 ### Install the package
 
@@ -41,7 +41,7 @@ npm install --save @azure/identity-broker
 
 #### Supported environments
 
-Azure Identity plugins for JavaScript support stable (even numbered) versions of Node.js starting from v18. While the plugins may run in other Node.js versions, no support is guaranteed. `@azure/identity-broker` **does not** support browser environments.
+Azure Identity plugins for JavaScript support stable (even numbered) versions of Node.js starting from v20. While the plugins may run in other Node.js versions, no support is guaranteed. `@azure/identity-broker` **does not** support browser environments.
 
 ## Key concepts
 

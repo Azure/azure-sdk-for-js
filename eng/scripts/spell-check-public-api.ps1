@@ -48,13 +48,13 @@ foreach ($serviceDirectory in $directoresToScan) {
   $packageDirectories += Get-ChildItem -Path "$serviceDirectory/*/review" -Directory
 }
 
-$scanGlobs = @()
+$filePaths = @()
 foreach ($directory in $packageDirectories) {
-  $scanGlobs += "$directory/**/*.md"
+  $filePaths += (Get-ChildItem -Path $directory -Filter *.md -Recurse).FullName
 }
 
 $cspellOutput = &"$REPO_ROOT/eng/common/spelling/Invoke-Cspell.ps1" `
-  -ScanGlobs $scanGlobs
+  -FileList $filePaths
 
 if ($LASTEXITCODE) {
   foreach ($log in $cspellOutput) {

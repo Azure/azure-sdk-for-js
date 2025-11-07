@@ -331,18 +331,9 @@
 # ServiceLabel: %Azure Load Testing
 /sdk/loadtesting/ @azure/testing-services
 
-# API review files
-/sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
-
-# Cosmos API review files
-/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
-
 ####################
 # Management Libraries
 ####################
-
-# Managment API review files
-/sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao

@@ -180,19 +180,32 @@ export {
 } from "./models/index.js";
 
 // Main client export
+export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
+
+// Session export
 export {
-  VoiceLiveClient,
-  VoiceLiveClientOptions,
+  VoiceLiveSession,
+  VoiceLiveSessionOptions,
   ConnectOptions,
   SendEventOptions,
   AudioStreamOptions,
-  TurnOptions
-} from "./voiceLiveClient.js";
+  TurnOptions,
+} from "./voiceLiveSession.js";
+
+// Handler-based subscription exports (Azure SDK pattern)
+export type {
+  VoiceLiveSessionHandlers,
+  VoiceLiveSubscription,
+  SubscribeOptions,
+  ConnectionContext,
+  SessionContext,
+  ConnectedEventArgs,
+  DisconnectedEventArgs,
+  ErrorEventArgs,
+} from "./handlers/sessionHandlers.js";
 
 // WebSocket and connection exports
-export {
-  ConnectionState
-} from "./websocket/connectionManager.js";
+export { ConnectionState } from "./websocket/connectionManager.js";
 
 // Error exports
 export {
@@ -201,76 +214,5 @@ export {
   VoiceLiveAuthenticationError,
   VoiceLiveProtocolError,
   VoiceLiveErrorCodes,
-  VoiceLiveErrorClassifier
+  VoiceLiveErrorClassifier,
 } from "./errors/index.js";
-
-// Authentication exports
-export {
-  CredentialHandler,
-  VoiceLiveCredential
-} from "./auth/credentialHandler.js";
-
-// Enhanced event system exports
-export {
-  VoiceLiveEventEmitter,
-  VoiceLiveEventMap,
-  EventListener,
-  ConnectedEventArgs,
-  DisconnectedEventArgs,
-  ReconnectingEventArgs,
-  ReconnectedEventArgs,
-  ErrorEventArgs,
-  RawMessageEventArgs,
-  RawSentEventArgs
-} from "./events/voiceLiveEventEmitter.js";
-
-export {
-  EnhancedVoiceLiveEventEmitter,
-  EventFilter,
-  EventTransform,
-  EventStreamOptions
-} from "./events/enhancedEventEmitter.js";
-
-// Streaming exports
-export {
-  ResponseStreamer,
-  TextStreamChunk,
-  AudioStreamChunk,
-  AnimationStreamChunk,
-  StreamChunk,
-  StreamingOptions
-} from "./streaming/responseStreamer.js";
-
-export {
-  VoiceLiveAsyncIterators,
-  ConversationHistoryOptions,
-  StreamingTextOptions,
-  PagedResult,
-  AsyncIterableWithPages
-} from "./streaming/asyncIterators.js";
-
-// Media processing exports
-export {
-  AudioProcessor,
-  AudioFormat,
-  AudioChunk,
-  AudioProcessingOptions
-} from "./media/audioProcessor.js";
-
-export {
-  VideoProcessor,
-  VideoFrame,
-  AvatarFrame,
-  BlendshapeConfig,
-  VisemeConfig
-} from "./media/videoProcessor.js";
-
-// Avatar management exports
-export {
-  AvatarManager,
-  AvatarConfiguration,
-  AvatarState,
-  AvatarEventHandlers,
-  BlendshapeFrame,
-  VisemeFrame
-} from "./avatar/avatarManager.js";

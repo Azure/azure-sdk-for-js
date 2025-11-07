@@ -46,7 +46,7 @@ import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,
 } from "./websocket/websocketClientLike.js";
-import { abortablePromise } from "./utils/abortablePromise.js";
+import { AckManager } from "./ackManager.js";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -69,7 +69,7 @@ export class WebPubSubClient {
   private readonly _credential: WebPubSubClientCredential;
   private readonly _options: WebPubSubClientOptions;
   private readonly _groupMap: Map<string, WebPubSubGroup>;
-  private readonly _ackMap: Map<number, AckEntity>;
+  private readonly _ackManager: AckManager;
   private readonly _sequenceId: SequenceId;
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
@@ -79,7 +79,6 @@ export class WebPubSubClient {
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
-  private _ackId: number;
   private _activeKeepaliveTask: AbortableTask | undefined;
 
   // connection lifetime
@@ -91,11 +90,6 @@ export class WebPubSubClient {
   private _reconnectionToken?: string;
   private _isInitialConnected = false;
   private _sequenceAckTask?: AbortableTask;
-
-  private nextAckId(): number {
-    this._ackId = this._ackId + 1;
-    return this._ackId;
-  }
 
   /**
    * Create an instance of WebPubSubClient
@@ -127,11 +121,10 @@ export class WebPubSubClient {
 
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
-    this._ackMap = new Map<number, AckEntity>();
+    this._ackManager = new AckManager();
     this._sequenceId = new SequenceId();
 
     this._state = WebPubSubClientState.Stopped;
-    this._ackId = 0;
   }
 
   /**
@@ -620,24 +613,20 @@ export class WebPubSubClient {
 
       client.onmessage((data: any) => {
         const handleAckMessage = (message: AckMessage): void => {
-          if (this._ackMap.has(message.ackId)) {
-            const entity = this._ackMap.get(message.ackId)!;
-            this._ackMap.delete(message.ackId);
-            const isDuplicated: boolean =
-              message.error != null && message.error.name === "Duplicate";
-            if (message.success || isDuplicated) {
-              entity.resolve({
+          const isDuplicated: boolean = message.error != null && message.error.name === "Duplicate";
+          if (message.success || isDuplicated) {
+            this._ackManager.resolveAck(message.ackId, {
+              ackId: message.ackId,
+              isDuplicated: isDuplicated,
+            } as WebPubSubResult);
+          } else {
+            this._ackManager.rejectAck(
+              message.ackId,
+              new SendMessageError("Failed to send message.", {
                 ackId: message.ackId,
-                isDuplicated: isDuplicated,
-              } as WebPubSubResult);
-            } else {
-              entity.reject(
-                new SendMessageError("Failed to send message.", {
-                  ackId: message.ackId,
-                  errorDetail: message.error,
-                } as SendMessageErrorOptions),
-              );
-            }
+                errorDetail: message.error,
+              } as SendMessageErrorOptions),
+            );
           }
         };
 
@@ -843,52 +832,33 @@ export class WebPubSubClient {
     ackId?: number,
     abortSignal?: AbortSignalLike,
   ): Promise<WebPubSubResult> {
-    if (ackId == null) {
-      ackId = this.nextAckId();
-    }
-
-    const message = messageProvider(ackId);
-    if (!this._ackMap.has(ackId)) {
-      this._ackMap.set(ackId, new AckEntity(ackId));
-    }
-    const entity = this._ackMap.get(ackId)!;
+    const { ackId: resolvedAckId, wait } = this._ackManager.registerAck(ackId);
+    const message = messageProvider(resolvedAckId);
 
     try {
       await this._sendMessage(message, abortSignal);
     } catch (error) {
-      this._ackMap.delete(ackId);
+      this._ackManager.discard(resolvedAckId);
 
       let errorMessage: string = "";
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-      throw new SendMessageError(errorMessage, { ackId: ackId });
+      throw new SendMessageError(errorMessage, { ackId: resolvedAckId });
     }
 
-    if (abortSignal) {
-      try {
-        return await abortablePromise(entity.promise(), abortSignal);
-      } catch (err) {
-        if (err instanceof Error && err.name === "AbortError") {
-          throw new SendMessageError("Cancelled by abortSignal", { ackId: ackId });
-        }
-        throw err;
-      }
-    }
-
-    return entity.promise();
+    return wait(abortSignal);
   }
 
   private async _handleConnectionClose(): Promise<void> {
     // Clean ack cache
-    this._ackMap.forEach((value, key) => {
-      if (this._ackMap.delete(key)) {
-        value.reject(
-          new SendMessageError("Connection is disconnected before receive ack from the service", {
-            ackId: value.ackId,
-          } as SendMessageErrorOptions),
-        );
-      }
+    this._ackManager.rejectAll((ackId) => {
+      return new SendMessageError(
+        "Connection is disconnected before receive ack from the service",
+        {
+          ackId,
+        } as SendMessageErrorOptions,
+      );
     });
 
     if (this._isStopping) {
@@ -1150,34 +1120,6 @@ class WebPubSubGroup {
 
   constructor(name: string) {
     this.name = name;
-  }
-}
-
-class AckEntity {
-  private readonly _promise: Promise<WebPubSubResult>;
-  private _resolve?: (value: WebPubSubResult | PromiseLike<WebPubSubResult>) => void;
-  private _reject?: (reason?: any) => void;
-
-  constructor(ackId: number) {
-    this._promise = new Promise<WebPubSubResult>((resolve, reject) => {
-      this._resolve = resolve;
-      this._reject = reject;
-    });
-    this.ackId = ackId;
-  }
-
-  public ackId;
-
-  public promise(): Promise<WebPubSubResult> {
-    return this._promise;
-  }
-
-  public resolve(value: WebPubSubResult | PromiseLike<WebPubSubResult>): void {
-    this._resolve!(value);
-  }
-
-  public reject(reason?: any): void {
-    this._reject!(reason);
   }
 }
 

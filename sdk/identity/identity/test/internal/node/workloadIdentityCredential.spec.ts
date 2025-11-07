@@ -16,6 +16,7 @@ import type { AuthenticationResult } from "@azure/msal-node";
 import { env } from "@azure-tools/test-recorder";
 import path from "node:path";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { readFileSync } from "node:fs";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -52,7 +53,7 @@ describe("WorkloadIdentityCredential", function () {
     await cleanup();
   });
 
-  it("authenticates with WorkloadIdentity Credential", async function () {
+  it("authenticates with WorkloadIdentityCredential", async function () {
     const credential = new WorkloadIdentityCredential({
       tenantId,
       clientId,
@@ -60,14 +61,15 @@ describe("WorkloadIdentityCredential", function () {
     } as WorkloadIdentityCredentialOptions);
     const token = await credential.getToken(scope);
     assert.isNotNull(token);
-    await validateWorkloadIdentityCredential(credential, token!, {
+    validateWorkloadIdentityCredential(credential, token!, {
       clientId,
       tenantId,
       tokenFilePath,
+      expectCustomHttpClient: false,
     });
   });
 
-  it("authenticates with ManagedIdentity Credential", async function () {
+  it("authenticates with ManagedIdentityCredential", async function () {
     vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
     vi.stubEnv("AZURE_CLIENT_ID", clientId);
     vi.stubEnv("AZURE_TENANT_ID", tenantId);
@@ -77,7 +79,7 @@ describe("WorkloadIdentityCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with DefaultAzure Credential", async function () {
+  it("authenticates with DefaultAzureCredential", async function () {
     const credential = new DefaultAzureCredential();
     try {
       const { token, successfulCredential } = await credential["getTokenInternal"](scope);
@@ -98,7 +100,8 @@ describe("WorkloadIdentityCredential", function () {
       vi.restoreAllMocks();
     }
   });
-  it("authenticates with DefaultAzure Credential and client ID", async function () {
+
+  it("authenticates with DefaultAzureCredential and client ID", async function () {
     const credential = new DefaultAzureCredential({
       managedIdentityClientId: "managedIdentityClientId",
       workloadIdentityClientId: "workloadIdentityClientId",
@@ -122,21 +125,111 @@ describe("WorkloadIdentityCredential", function () {
       vi.restoreAllMocks();
     }
   });
+
+  it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=false", async function () {
+    const credential = new WorkloadIdentityCredential({
+      tenantId,
+      clientId,
+      tokenFilePath,
+      enableAzureKubernetesTokenProxy: false,
+    });
+
+    const token = await credential.getToken(scope);
+    assert.isNotNull(token);
+
+    validateWorkloadIdentityCredential(credential, token!, {
+      clientId,
+      tenantId,
+      tokenFilePath,
+      expectCustomHttpClient: false,
+    });
+  });
+
+  it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=true but no env vars", async function () {
+    delete process.env.AZURE_KUBERNETES_TOKEN_PROXY;
+    delete process.env.AZURE_KUBERNETES_CA_DATA;
+    delete process.env.AZURE_KUBERNETES_CA_FILE;
+    delete process.env.AZURE_KUBERNETES_SNI_NAME;
+
+    const credential = new WorkloadIdentityCredential({
+      tenantId,
+      clientId,
+      tokenFilePath,
+      enableAzureKubernetesTokenProxy: true,
+    });
+
+    const token = await credential.getToken(scope);
+    assert.isNotNull(token);
+
+    // No AKS env vars are set, the credential should behave like the default case
+    validateWorkloadIdentityCredential(credential, token!, {
+      clientId,
+      tenantId,
+      tokenFilePath,
+      expectCustomHttpClient: false,
+    });
+  });
+
+  it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=true with env vars", async function () {
+    vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
+
+    const TEST_CERT_PATH = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
+    vi.stubEnv("AZURE_KUBERNETES_CA_DATA", readFileSync(TEST_CERT_PATH, "utf8"));
+
+    const credential = new WorkloadIdentityCredential({
+      tenantId,
+      clientId,
+      tokenFilePath,
+      enableAzureKubernetesTokenProxy: true,
+    });
+
+    const token = await credential.getToken(scope);
+    assert.isNotNull(token);
+
+    validateWorkloadIdentityCredential(credential, token!, {
+      clientId,
+      tenantId,
+      tokenFilePath,
+      expectCustomHttpClient: true,
+    });
+  });
 });
 
 function validateWorkloadIdentityCredential(
   credential: WorkloadIdentityCredential,
   token: AccessToken,
-  options: { clientId: string; tenantId: string; tokenFilePath: string },
+  options: {
+    clientId: string;
+    tenantId: string;
+    tokenFilePath: string;
+    expectCustomHttpClient?: boolean;
+  },
 ): void {
-  const { tenantId: expectedTenantId, tokenFilePath: expectedFederatedTokenFilePath } = options;
+  const {
+    tenantId: expectedTenantId,
+    tokenFilePath: expectedFederatedTokenFilePath,
+    expectCustomHttpClient = false,
+  } = options;
   const actualFederatedTokenFilePath = credential["federatedTokenFilePath"];
   const clientAssertionCredential = credential["client"];
   const actualTenantId = clientAssertionCredential
     ? clientAssertionCredential["tenantId"]
     : undefined;
+
   assert.equal(actualFederatedTokenFilePath, expectedFederatedTokenFilePath);
   assert.equal(actualTenantId, expectedTenantId);
   assert.ok(token?.token);
   assert.ok(token?.expiresOnTimestamp! > Date.now());
+
+  const clientOptions = (clientAssertionCredential as any).options;
+  const hasCustomHttpClient = clientOptions && clientOptions.httpClient !== undefined;
+
+  if (expectCustomHttpClient) {
+    assert.isTrue(
+      hasCustomHttpClient,
+      "Expected identity binding feature used with custom httpClient",
+    );
+  } else {
+    assert.isFalse(hasCustomHttpClient, "Expected no custom httpClient");
+  }
 }

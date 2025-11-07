@@ -696,7 +696,7 @@ describe("BatchingReceiver unit tests", () => {
 
       batchingReceiver.terminate();
 
-      // these are still false because we used setTimeout() (and we're using sinon)
+      // these are still false because we used setTimeout() (and we're using vitest fake timers)
       // so the clock is "frozen"
       assert.isFalse(resolveWasCalled);
       assert.isFalse(rejectWasCalled);

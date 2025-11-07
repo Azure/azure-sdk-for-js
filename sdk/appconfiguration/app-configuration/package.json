@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -87,7 +87,7 @@
     "@azure/keyvault-secrets": "^4.2.0",
     "@microsoft/feature-management": "^2.2.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

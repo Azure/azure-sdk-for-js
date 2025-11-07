@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from './connectionErrors.js';
+export * from "./connectionErrors.js";

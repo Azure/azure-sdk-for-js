@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential, KeyCredential, AccessToken } from '@azure/core-auth';
-import { VoiceLiveAuthenticationError, VoiceLiveErrorCodes } from '../errors/index.js';
-import { logger } from '../logger.js';
+import type { TokenCredential, KeyCredential, AccessToken } from "@azure/core-auth";
+import { VoiceLiveAuthenticationError, VoiceLiveErrorCodes } from "../errors/index.js";
+import { logger } from "../logger.js";
 
 /**
  * Union type for supported credential types
@@ -14,7 +14,7 @@ export type VoiceLiveCredential = TokenCredential | KeyCredential;
  * Type guard to check if credential is a KeyCredential
  */
 function isKeyCredential(credential: VoiceLiveCredential): credential is KeyCredential {
-  return 'key' in credential && typeof (credential as KeyCredential).key === 'string';
+  return "key" in credential && typeof (credential as KeyCredential).key === "string";
 }
 
 /**
@@ -27,19 +27,16 @@ export class CredentialHandler {
   private readonly _credential: VoiceLiveCredential;
   private readonly _isApiKey: boolean;
 
-  constructor(
-    credential: VoiceLiveCredential,
-    scope?: string
-  ) {
+  constructor(credential: VoiceLiveCredential, scope?: string) {
     this._credential = credential;
     this._isApiKey = isKeyCredential(credential);
-    
+
     // Voice Live specific scope - may need adjustment based on actual service
-    this._scope = scope || 'https://cognitiveservices.azure.com/.default';
-    
-    logger.info('CredentialHandler initialized', { 
-      credentialType: this._isApiKey ? 'KeyCredential' : 'TokenCredential',
-      scope: this._scope 
+    this._scope = scope || "https://cognitiveservices.azure.com/.default";
+
+    logger.info("CredentialHandler initialized", {
+      credentialType: this._isApiKey ? "KeyCredential" : "TokenCredential",
+      scope: this._scope,
     });
   }
 
@@ -50,7 +47,7 @@ export class CredentialHandler {
     // For API Key credentials, return the key directly
     if (this._isApiKey) {
       const keyCredential = this._credential as KeyCredential;
-      logger.info('Using API key for authentication');
+      logger.info("Using API key for authentication");
       return keyCredential.key;
     }
 
@@ -63,37 +60,36 @@ export class CredentialHandler {
     }
 
     try {
-      logger.info('Acquiring new access token', { scope: this._scope });
-      
+      logger.info("Acquiring new access token", { scope: this._scope });
+
       // Get new token from credential
       const tokenResponse = await tokenCredential.getToken(this._scope);
-      
+
       if (!tokenResponse) {
         throw new VoiceLiveAuthenticationError(
-          'Failed to acquire access token - credential returned null',
-          VoiceLiveErrorCodes.AUTHENTICATION_FAILED
+          "Failed to acquire access token - credential returned null",
+          VoiceLiveErrorCodes.AUTHENTICATION_FAILED,
         );
       }
 
       this._accessToken = tokenResponse;
 
-      logger.info('Successfully acquired access token', { 
-        expiresAt: new Date(this._accessToken.expiresOnTimestamp)
+      logger.info("Successfully acquired access token", {
+        expiresAt: new Date(this._accessToken.expiresOnTimestamp),
       });
-      
+
       return this._accessToken.token;
-      
     } catch (error) {
-      logger.error('Failed to obtain access token', { error, scope: this._scope });
-      
+      logger.error("Failed to obtain access token", { error, scope: this._scope });
+
       if (error instanceof VoiceLiveAuthenticationError) {
         throw error;
       }
-      
+
       throw new VoiceLiveAuthenticationError(
-        `Failed to obtain access token: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Failed to obtain access token: ${error instanceof Error ? error.message : "Unknown error"}`,
         VoiceLiveErrorCodes.AUTHENTICATION_FAILED,
-        error instanceof Error ? error : new Error(String(error))
+        error instanceof Error ? error : new Error(String(error)),
       );
     }
   }
@@ -101,22 +97,27 @@ export class CredentialHandler {
   /**
    * Builds the WebSocket URL with authentication
    */
-  async getWebSocketUrl(baseEndpoint: string, apiVersion: string): Promise<string> {
+  async getWebSocketUrl(baseEndpoint: string, apiVersion: string, model?: string): Promise<string> {
     const authValue = await this.getAccessToken();
-    
+
     const url = new URL(baseEndpoint);
-    url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
-    url.pathname = '/voice-live/realtime'; // Voice Live WebSocket endpoint path
-    url.searchParams.set('api-version', apiVersion);
-    
+    url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
+    url.pathname = "/voice-live/realtime"; // Voice Live WebSocket endpoint path
+    url.searchParams.set("api-version", apiVersion);
+
+    // Add model parameter if provided
+    if (model) {
+      url.searchParams.set("model", model);
+    }
+
     // For API keys, add as query parameter
     if (this._isApiKey) {
-      url.searchParams.set('api-key', authValue);
+      url.searchParams.set("api-key", authValue);
     } else {
       // For tokens, we'll use headers instead of query params
       // The token will be added in getAuthHeaders()
     }
-    
+
     return url.toString();
   }
 
@@ -125,29 +126,29 @@ export class CredentialHandler {
    */
   async getAuthHeaders(): Promise<Record<string, string>> {
     const authValue = await this.getAccessToken();
-    
+
     const headers: Record<string, string> = {
-      'X-MS-Client-Request-ID': this._generateRequestId(),
-      'User-Agent': 'Azure-Voice-Live-SDK-JS/1.0.0'
+      "X-MS-Client-Request-ID": this._generateRequestId(),
+      "User-Agent": "Azure-Voice-Live-SDK-JS/1.0.0",
     };
 
     // Add appropriate authentication header based on credential type
     if (this._isApiKey) {
       // For API keys, use the X-API-Key header or similar
-      headers['api-key'] = authValue;
+      headers["api-key"] = authValue;
     } else {
       // For tokens, use standard Bearer authorization
-      headers['Authorization'] = `Bearer ${authValue}`;
+      headers["Authorization"] = `Bearer ${authValue}`;
     }
-    
+
     return headers;
   }
 
   /**
    * Returns the type of credential being used
    */
-  get credentialType(): 'key' | 'token' {
-    return this._isApiKey ? 'key' : 'token';
+  get credentialType(): "key" | "token" {
+    return this._isApiKey ? "key" : "token";
   }
 
   /**
@@ -163,19 +164,19 @@ export class CredentialHandler {
   updateApiKey(newKey: string): void {
     if (!this._isApiKey) {
       throw new VoiceLiveAuthenticationError(
-        'Cannot update API key on TokenCredential',
-        VoiceLiveErrorCodes.INVALID_CREDENTIALS
+        "Cannot update API key on TokenCredential",
+        VoiceLiveErrorCodes.INVALID_CREDENTIALS,
       );
     }
-    
+
     const keyCredential = this._credential as KeyCredential;
-    if ('update' in keyCredential && typeof keyCredential.update === 'function') {
+    if ("update" in keyCredential && typeof keyCredential.update === "function") {
       keyCredential.update(newKey);
-      logger.info('API key updated');
+      logger.info("API key updated");
     } else {
       throw new VoiceLiveAuthenticationError(
-        'KeyCredential does not support key updates',
-        VoiceLiveErrorCodes.INVALID_CREDENTIALS
+        "KeyCredential does not support key updates",
+        VoiceLiveErrorCodes.INVALID_CREDENTIALS,
       );
     }
   }
@@ -183,7 +184,7 @@ export class CredentialHandler {
   private _isTokenValid(token: AccessToken): boolean {
     const expiresAt = token.expiresOnTimestamp;
     const now = Date.now();
-    return expiresAt > (now + this._tokenRefreshBuffer);
+    return expiresAt > now + this._tokenRefreshBuffer;
   }
 
   private _generateRequestId(): string {

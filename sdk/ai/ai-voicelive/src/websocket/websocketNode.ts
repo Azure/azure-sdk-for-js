@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import WebSocket from 'ws';
-import { WebSocketState, type VoiceLiveWebSocketLike, type WebSocketFactoryOptions } from './websocketLike.js';
-import { VoiceLiveConnectionError, VoiceLiveErrorCodes } from '../errors/connectionErrors.js';
+import WebSocket from "ws";
+import {
+  WebSocketState,
+  type VoiceLiveWebSocketLike,
+  type WebSocketFactoryOptions,
+} from "./websocketLike.js";
+import { VoiceLiveConnectionError, VoiceLiveErrorCodes } from "../errors/connectionErrors.js";
 
 /**
  * Node.js WebSocket implementation using 'ws' library
@@ -12,7 +16,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
   private _ws?: WebSocket;
   private _url?: string;
   private _options: WebSocketFactoryOptions;
-  
+
   private _onOpen?: () => void;
   private _onClose?: (code: number, reason: string) => void;
   private _onMessage?: (data: string | ArrayBuffer) => void;
@@ -23,24 +27,26 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
       connectionTimeoutMs: 30000,
       maxMessageSize: 1024 * 1024, // 1MB
       compression: true,
-      ...options
+      ...options,
     };
   }
-  
+
   async connect(url: string, protocols?: string[], abortSignal?: AbortSignal): Promise<void> {
     if (this._ws && this._ws.readyState !== WebSocket.CLOSED) {
       throw new VoiceLiveConnectionError(
         "WebSocket is already connected or connecting",
-        VoiceLiveErrorCodes.ALREADY_CONNECTED
+        VoiceLiveErrorCodes.ALREADY_CONNECTED,
       );
     }
 
     return new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
-        reject(new VoiceLiveConnectionError(
-          `WebSocket connection timeout after ${this._options.connectionTimeoutMs}ms`,
-          VoiceLiveErrorCodes.CONNECTION_TIMEOUT
-        ));
+        reject(
+          new VoiceLiveConnectionError(
+            `WebSocket connection timeout after ${this._options.connectionTimeoutMs}ms`,
+            VoiceLiveErrorCodes.CONNECTION_TIMEOUT,
+          ),
+        );
       }, this._options.connectionTimeoutMs);
 
       // Handle abort signal
@@ -49,10 +55,12 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
         if (this._ws) {
           this._ws.terminate();
         }
-        reject(new VoiceLiveConnectionError(
-          "WebSocket connection aborted",
-          VoiceLiveErrorCodes.OPERATION_CANCELLED
-        ));
+        reject(
+          new VoiceLiveConnectionError(
+            "WebSocket connection aborted",
+            VoiceLiveErrorCodes.OPERATION_CANCELLED,
+          ),
+        );
       };
 
       if (abortSignal) {
@@ -67,12 +75,12 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
         this._ws = new WebSocket(url, protocols, {
           headers: this._options.headers,
           maxPayload: this._options.maxMessageSize,
-          perMessageDeflate: this._options.compression
+          perMessageDeflate: this._options.compression,
         });
 
         this._url = url;
 
-        this._ws.on('open', () => {
+        this._ws.on("open", () => {
           clearTimeout(timeoutId);
           if (abortSignal) {
             abortSignal.removeEventListener("abort", abortHandler);
@@ -81,7 +89,7 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           resolve();
         });
 
-        this._ws.on('close', (code: number, reason: Buffer) => {
+        this._ws.on("close", (code: number, reason: Buffer) => {
           clearTimeout(timeoutId);
           if (abortSignal) {
             abortSignal.removeEventListener("abort", abortHandler);
@@ -89,8 +97,8 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           this._onClose?.(code, reason.toString());
         });
 
-        this._ws.on('message', (data: WebSocket.Data) => {
-          if (typeof data === 'string') {
+        this._ws.on("message", (data: WebSocket.Data) => {
+          if (typeof data === "string") {
             this._onMessage?.(data);
           } else if (data instanceof Buffer) {
             // Convert Buffer to ArrayBuffer
@@ -110,37 +118,40 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
           }
         });
 
-        this._ws.on('error', (error: Error) => {
+        this._ws.on("error", (error: Error) => {
           clearTimeout(timeoutId);
           if (abortSignal) {
             abortSignal.removeEventListener("abort", abortHandler);
           }
           this._onError?.(error);
-          reject(new VoiceLiveConnectionError(
-            `WebSocket error: ${error.message}`,
-            VoiceLiveErrorCodes.WEBSOCKET_ERROR,
-            "websocket_connection",
-            true, // Potentially recoverable
-            error
-          ));
+          reject(
+            new VoiceLiveConnectionError(
+              `WebSocket error: ${error.message}`,
+              VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+              "websocket_connection",
+              true, // Potentially recoverable
+              error,
+            ),
+          );
         });
-
       } catch (error) {
         clearTimeout(timeoutId);
         if (abortSignal) {
           abortSignal.removeEventListener("abort", abortHandler);
         }
-        reject(new VoiceLiveConnectionError(
-          `Failed to create WebSocket: ${error instanceof Error ? error.message : 'Unknown error'}`,
-          VoiceLiveErrorCodes.CONNECTION_FAILED,
-          "websocket_creation",
-          false,
-          error instanceof Error ? error : new Error(String(error))
-        ));
+        reject(
+          new VoiceLiveConnectionError(
+            `Failed to create WebSocket: ${error instanceof Error ? error.message : "Unknown error"}`,
+            VoiceLiveErrorCodes.CONNECTION_FAILED,
+            "websocket_creation",
+            false,
+            error instanceof Error ? error : new Error(String(error)),
+          ),
+        );
       }
     });
   }
-  
+
   async disconnect(code: number = 1000, reason?: string): Promise<void> {
     if (!this._ws || this._ws.readyState === WebSocket.CLOSED) {
       return;
@@ -152,35 +163,37 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
       };
 
       if (this._ws!.readyState === WebSocket.CLOSING) {
-        this._ws!.once('close', closeHandler);
+        this._ws!.once("close", closeHandler);
       } else {
-        this._ws!.once('close', closeHandler);
+        this._ws!.once("close", closeHandler);
         this._ws!.close(code, reason);
       }
     });
   }
-  
+
   async send(data: string | ArrayBuffer, abortSignal?: AbortSignal): Promise<void> {
     if (!this._ws || this._ws.readyState !== WebSocket.OPEN) {
       throw new VoiceLiveConnectionError(
         "WebSocket is not connected",
-        VoiceLiveErrorCodes.NOT_CONNECTED
+        VoiceLiveErrorCodes.NOT_CONNECTED,
       );
     }
 
     if (abortSignal?.aborted) {
       throw new VoiceLiveConnectionError(
         "Send operation aborted",
-        VoiceLiveErrorCodes.OPERATION_CANCELLED
+        VoiceLiveErrorCodes.OPERATION_CANCELLED,
       );
     }
 
     return new Promise((resolve, reject) => {
       const abortHandler = (): void => {
-        reject(new VoiceLiveConnectionError(
-          "Send operation aborted",
-          VoiceLiveErrorCodes.OPERATION_CANCELLED
-        ));
+        reject(
+          new VoiceLiveConnectionError(
+            "Send operation aborted",
+            VoiceLiveErrorCodes.OPERATION_CANCELLED,
+          ),
+        );
       };
 
       if (abortSignal) {
@@ -193,20 +206,22 @@ export class VoiceLiveWebSocketNode implements VoiceLiveWebSocketLike {
         }
 
         if (error) {
-          reject(new VoiceLiveConnectionError(
-            `Failed to send WebSocket message: ${error.message}`,
-            VoiceLiveErrorCodes.WEBSOCKET_ERROR,
-            "message_send",
-            true,
-            error
-          ));
+          reject(
+            new VoiceLiveConnectionError(
+              `Failed to send WebSocket message: ${error.message}`,
+              VoiceLiveErrorCodes.WEBSOCKET_ERROR,
+              "message_send",
+              true,
+              error,
+            ),
+          );
         } else {
           resolve();
         }
       });
     });
   }
-  
+
   onOpen(handler: () => void): void {
     this._onOpen = handler;
   }

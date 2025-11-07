@@ -1,43 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyCredential, TokenCredential } from '@azure/core-auth';
-import type { AbortSignalLike } from '@azure/abort-controller';
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
+  RequestSession,
+  ClientEventSessionUpdate,
   ClientEventUnion,
   ClientEventInputAudioBufferAppend,
   ClientEventInputAudioTurnStart,
   ClientEventInputAudioTurnAppend,
   ClientEventInputAudioTurnEnd,
   ConversationRequestItem,
-  ClientEventConversationItemCreate
-} from './models/index.js';
-import { ConnectionManager, ConnectionState } from './websocket/connectionManager.js';
-import { VoiceLiveWebSocketFactory } from './websocket/websocketFactory.js';
-import { VoiceLiveMessageParser } from './protocol/messageParser.js';
-import { CredentialHandler } from './auth/credentialHandler.js';
-import { VoiceLiveConnectionError, VoiceLiveErrorClassifier } from './errors/index.js';
-import { logger } from './logger.js';
-import { EnhancedVoiceLiveEventEmitter } from './events/enhancedEventEmitter.js';
-import { ResponseStreamer } from './streaming/responseStreamer.js';
-import { VoiceLiveAsyncIterators } from './streaming/asyncIterators.js';
-import { AudioProcessor } from './media/audioProcessor.js';
-import { VideoProcessor } from './media/videoProcessor.js';
-import { AvatarManager } from './avatar/avatarManager.js';
+  ClientEventConversationItemCreate,
+  ServerEventUnion,
+} from "./models/index.js";
+import { ConnectionManager, ConnectionState } from "./websocket/connectionManager.js";
+import { VoiceLiveWebSocketFactory } from "./websocket/websocketFactory.js";
+import { VoiceLiveMessageParser } from "./protocol/messageParser.js";
+import { CredentialHandler } from "./auth/credentialHandler.js";
+import { VoiceLiveConnectionError, VoiceLiveErrorClassifier } from "./errors/index.js";
+import { logger } from "./logger.js";
+import type {
+  VoiceLiveSessionHandlers,
+  VoiceLiveSubscription,
+  SubscribeOptions,
+  ConnectionContext,
+  SessionContext,
+  ConnectedEventArgs,
+  DisconnectedEventArgs,
+  ErrorEventArgs,
+} from "./handlers/sessionHandlers.js";
+import { SubscriptionManager } from "./handlers/subscriptionManager.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
   connectionTimeoutMs?: number;
-  /** Maximum number of reconnection attempts */
-  maxReconnectAttempts?: number;
-  /** Base delay for reconnection attempts in milliseconds */
-  reconnectDelayMs?: number;
-  /** Whether to automatically reconnect on connection loss */
-  autoReconnect?: boolean;
   /** Enable debug logging for development */
   enableDebugLogging?: boolean;
 }
 
+export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
+
+export interface StartSessionOptions extends VoiceLiveSessionOptions {}
 export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
@@ -64,7 +69,7 @@ export interface TurnOptions extends SendEventOptions {
 
 /**
  * Represents a WebSocket-based session for real-time voice communication with the Azure VoiceLive service.
- * 
+ *
  * This class manages the connection, handles real-time communication, and provides access to all
  * interactive features including audio streaming, conversation management, and avatar control.
  */
@@ -73,50 +78,45 @@ export class VoiceLiveSession {
   private readonly _credentialHandler: CredentialHandler;
   private readonly _options: Required<VoiceLiveSessionOptions>;
   private readonly _messageParser: VoiceLiveMessageParser;
+  private readonly _model: string;
   private _connectionManager?: ConnectionManager;
   private _sessionId?: string;
   private _activeTurnId?: string;
   private _disposed = false;
 
-  // Real-time features
-  private readonly _eventEmitter: EnhancedVoiceLiveEventEmitter;
-  private readonly _responseStreamer: ResponseStreamer;
-  private readonly _asyncIterators: VoiceLiveAsyncIterators;
-  private readonly _audioProcessor: AudioProcessor;
-  private readonly _videoProcessor: VideoProcessor;
-  private readonly _avatarManager: AvatarManager;
+  // Handler-based subscription management
+  private readonly _subscriptionManager: SubscriptionManager;
 
   /**
    * Creates an instance of VoiceLiveSession.
-   * 
+   *
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
    * @param apiVersion - API version to use for the Voice Live service
+   * @param model - The model name to use for the session
    * @param options - Optional configuration for the session
    */
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
     apiVersion: string,
-    options: VoiceLiveSessionOptions = {}
+    model: string,
+    options: VoiceLiveSessionOptions = {},
   ) {
     this._endpoint = this._normalizeEndpoint(endpoint);
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
+    this._model = model;
 
-    // Initialize real-time features
-    this._eventEmitter = new EnhancedVoiceLiveEventEmitter();
-    this._responseStreamer = new ResponseStreamer(this._eventEmitter);
-    this._asyncIterators = new VoiceLiveAsyncIterators(this._eventEmitter);
-    this._audioProcessor = new AudioProcessor();
-    this._videoProcessor = new VideoProcessor();
-    this._avatarManager = new AvatarManager(this._eventEmitter, this._videoProcessor);
+    // Initialize handler-based subscription management
+    this._subscriptionManager = new SubscriptionManager();
 
-    logger.info('VoiceLiveSession created', {
+    logger.info("VoiceLiveSession created", {
       endpoint: this._endpoint,
+      model: this._model,
       apiVersion: apiVersion,
-      enableDebugLogging: this._options.enableDebugLogging
+      enableDebugLogging: this._options.enableDebugLogging,
     });
   }
 
@@ -127,35 +127,37 @@ export class VoiceLiveSession {
     this._ensureNotDisposed();
 
     if (this.isConnected) {
-      logger.info('VoiceLiveSession already connected');
+      logger.info("VoiceLiveSession already connected");
       return;
     }
 
     try {
-      logger.info('Connecting to Voice Live service', { endpoint: this._endpoint });
+      logger.info("Connecting to Voice Live service", {
+        endpoint: this._endpoint,
+        model: this._model,
+      });
 
-      // Get WebSocket URL with authentication
+      // Get WebSocket URL with authentication and model
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
         this._endpoint,
-        '2025-10-01' // TODO: make this configurable through constructor
+        "2025-10-01", // TODO: make this configurable through constructor
+        this._model,
       );
       const authHeaders = await this._credentialHandler.getAuthHeaders();
 
       // Create connection manager
       const websocketFactory = new VoiceLiveWebSocketFactory();
       this._connectionManager = new ConnectionManager(
-        () => websocketFactory.create({
-          headers: { ...authHeaders },
-          connectionTimeoutMs: this._options.connectionTimeoutMs,
-          compression: true
-        }),
+        () =>
+          websocketFactory.create({
+            headers: { ...authHeaders },
+            connectionTimeoutMs: this._options.connectionTimeoutMs,
+            compression: true,
+          }),
         {
           endpoint: wsUrl,
-          protocols: ['voice-live-realtime'],
-          reconnectAttempts: this._options.autoReconnect ? this._options.maxReconnectAttempts : 0,
-          reconnectDelay: this._options.reconnectDelayMs,
-          connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs
-        }
+          connectionTimeout: options.timeoutMs || this._options.connectionTimeoutMs,
+        },
       );
 
       // Setup connection event handlers
@@ -164,10 +166,9 @@ export class VoiceLiveSession {
       // Connect with proper error handling
       await this._connectionManager.connect(options.abortSignal as AbortSignal);
 
-      logger.info('Successfully connected to Voice Live service');
-
+      logger.info("Successfully connected to Voice Live service");
     } catch (error) {
-      logger.error('Failed to connect to Voice Live service', { error });
+      logger.error("Failed to connect to Voice Live service", { error });
 
       // Use error classification
       if (error instanceof VoiceLiveConnectionError) {
@@ -186,18 +187,36 @@ export class VoiceLiveSession {
       return;
     }
 
-    logger.info('Disconnecting from Voice Live service');
+    logger.info("Disconnecting from Voice Live service");
 
     try {
       await this._connectionManager.disconnect();
     } catch (error) {
-      logger.error('Error during disconnect', { error });
+      logger.error("Error during disconnect", { error });
     } finally {
       this._connectionManager = undefined;
       this._sessionId = undefined;
       this._activeTurnId = undefined;
-      logger.info('Disconnected from Voice Live service');
+      logger.info("Disconnected from Voice Live service");
     }
+  }
+
+  /**
+   * Subscribe to VoiceLive session events using strongly-typed handlers.
+   * This follows the Azure SDK pattern used by EventHub, Service Bus, etc.
+   *
+   * @param handlers - Handler functions for different types of events
+   * @param options - Optional configuration for the subscription
+   * @returns A subscription object that can be used to stop receiving events
+   */
+  subscribe(
+    handlers: VoiceLiveSessionHandlers,
+    _options: SubscribeOptions = {},
+  ): VoiceLiveSubscription {
+    this._ensureNotDisposed();
+
+    logger.info("Creating VoiceLive session subscription");
+    return this._subscriptionManager.createSubscription(handlers);
   }
 
   /**
@@ -209,11 +228,26 @@ export class VoiceLiveSession {
   }
 
   /**
+   * Updates the session configuration with the service.
+   */
+  async updateSession(session: RequestSession, options: SendEventOptions = {}): Promise<void> {
+    this._ensureConnected();
+
+    const updateEvent: ClientEventSessionUpdate = {
+      type: "session.update",
+      session: session,
+      eventId: this._generateEventId(),
+    };
+
+    await this._sendEvent(updateEvent, options);
+  }
+
+  /**
    * Sends audio data to the service using turn-based or buffer-based approach.
    */
   async sendAudio(
     audioData: ArrayBuffer | Uint8Array,
-    options: AudioStreamOptions = {}
+    options: AudioStreamOptions = {},
   ): Promise<void> {
     this._ensureConnected();
 
@@ -222,18 +256,18 @@ export class VoiceLiveSession {
     if (options.turnId) {
       // Turn-based audio
       const appendEvent: ClientEventInputAudioTurnAppend = {
-        type: 'input_audio.turn.append',
+        type: "input_audio.turn.append",
         audio: audioBase64,
         turnId: options.turnId,
-        eventId: this._generateEventId()
+        eventId: this._generateEventId(),
       };
       await this._sendEvent(appendEvent, options);
     } else {
       // Buffer-based audio (VAD mode)
       const bufferEvent: ClientEventInputAudioBufferAppend = {
-        type: 'input_audio_buffer.append',
+        type: "input_audio_buffer.append",
         audio: audioBase64,
-        eventId: this._generateEventId()
+        eventId: this._generateEventId(),
       };
       await this._sendEvent(bufferEvent, options);
     }
@@ -249,9 +283,9 @@ export class VoiceLiveSession {
     this._activeTurnId = turnId;
 
     const startEvent: ClientEventInputAudioTurnStart = {
-      type: 'input_audio.turn.start',
+      type: "input_audio.turn.start",
       turnId: turnId,
-      eventId: this._generateEventId()
+      eventId: this._generateEventId(),
     };
 
     await this._sendEvent(startEvent, options);
@@ -266,16 +300,13 @@ export class VoiceLiveSession {
 
     const targetTurnId = turnId || this._activeTurnId;
     if (!targetTurnId) {
-      throw new VoiceLiveConnectionError(
-        'No active audio turn to end',
-        'INVALID_STATE'
-      );
+      throw new VoiceLiveConnectionError("No active audio turn to end", "INVALID_STATE");
     }
 
     const endEvent: ClientEventInputAudioTurnEnd = {
-      type: 'input_audio.turn.end',
+      type: "input_audio.turn.end",
       turnId: targetTurnId,
-      eventId: this._generateEventId()
+      eventId: this._generateEventId(),
     };
 
     await this._sendEvent(endEvent, options);
@@ -290,14 +321,14 @@ export class VoiceLiveSession {
    */
   async addConversationItem(
     item: ConversationRequestItem,
-    options: SendEventOptions = {}
+    options: SendEventOptions = {},
   ): Promise<void> {
     this._ensureConnected();
 
     const createEvent: ClientEventConversationItemCreate = {
-      type: 'conversation.item.create',
+      type: "conversation.item.create",
       item: item,
-      eventId: this._generateEventId()
+      eventId: this._generateEventId(),
     };
 
     await this._sendEvent(createEvent, options);
@@ -320,61 +351,6 @@ export class VoiceLiveSession {
     return this._activeTurnId;
   }
 
-  // Real-time feature accessors
-
-  /**
-   * Access to enhanced event system with async iteration and filtering
-   */
-  get events(): EnhancedVoiceLiveEventEmitter {
-    return this._eventEmitter;
-  }
-
-  /**
-   * Access to response streaming capabilities
-   */
-  get streaming(): ResponseStreamer {
-    return this._responseStreamer;
-  }
-
-  /**
-   * Access to async iteration patterns for data streaming
-   */
-  get asyncIterators(): VoiceLiveAsyncIterators {
-    return this._asyncIterators;
-  }
-
-  /**
-   * Access to audio processing capabilities
-   */
-  get audioProcessor(): AudioProcessor {
-    return this._audioProcessor;
-  }
-
-  /**
-   * Access to video and avatar processing capabilities
-   */
-  get videoProcessor(): VideoProcessor {
-    return this._videoProcessor;
-  }
-
-  /**
-   * Access to avatar management and animation handling
-   */
-  get avatarManager(): AvatarManager {
-    return this._avatarManager;
-  }
-
-  /**
-   * Wait for a specific event with optional filtering and timeout
-   */
-  async waitForEvent<K extends keyof import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap>(
-    event: K,
-    filter?: (eventData: import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]) => boolean,
-    timeoutMs = 30000
-  ): Promise<import('./events/voiceLiveEventEmitter.js').VoiceLiveEventMap[K]> {
-    return this._eventEmitter.waitForEvent(event, filter, timeoutMs);
-  }
-
   /**
    * Disposes the session and cleans up resources.
    */
@@ -383,38 +359,41 @@ export class VoiceLiveSession {
       return;
     }
 
-    logger.info('Disposing VoiceLiveSession');
+    logger.info("Disposing VoiceLiveSession");
 
     try {
+      // Close all subscriptions first
+      await this._subscriptionManager.closeAll();
+
+      // Then disconnect
       await this.disconnect();
     } catch (error) {
-      logger.error('Error during session disposal', { error });
+      logger.error("Error during session disposal", { error });
     } finally {
       this._disposed = true;
-      logger.info('VoiceLiveSession disposed');
+      logger.info("VoiceLiveSession disposed");
     }
   }
 
   // Private methods
 
-  private _buildDefaultOptions(options: VoiceLiveSessionOptions): Required<VoiceLiveSessionOptions> {
+  private _buildDefaultOptions(
+    options: VoiceLiveSessionOptions,
+  ): Required<VoiceLiveSessionOptions> {
     return {
       connectionTimeoutMs: options.connectionTimeoutMs || 30000,
-      maxReconnectAttempts: options.maxReconnectAttempts || 5,
-      reconnectDelayMs: options.reconnectDelayMs || 1000,
-      autoReconnect: options.autoReconnect ?? true,
-      enableDebugLogging: options.enableDebugLogging ?? false
+      enableDebugLogging: options.enableDebugLogging ?? false,
     };
   }
 
   private _normalizeEndpoint(endpoint: string): string {
     // Ensure endpoint has proper protocol
-    if (!endpoint.startsWith('http://') && !endpoint.startsWith('https://')) {
+    if (!endpoint.startsWith("http://") && !endpoint.startsWith("https://")) {
       endpoint = `https://${endpoint}`;
     }
 
     // Remove trailing slash
-    return endpoint.replace(/\/$/, '');
+    return endpoint.replace(/\/$/, "");
   }
 
   private _setupConnectionEventHandlers(): void {
@@ -422,63 +401,135 @@ export class VoiceLiveSession {
 
     this._connectionManager.updateEventHandlers({
       onStateChange: (state, previousState) => {
-        logger.info('Connection state changed', { state, previousState });
+        logger.info("Connection state changed", { state, previousState });
+
+        // Handle connection state changes for handler-based subscriptions
+        if (state === ConnectionState.Connected && previousState === ConnectionState.Connecting) {
+          this._notifyConnectionEvent("connected", {
+            connectionId: `conn_${Date.now()}`,
+            timestamp: new Date(),
+          });
+        } else if (
+          state === ConnectionState.Disconnected &&
+          previousState === ConnectionState.Connected
+        ) {
+          this._notifyConnectionEvent("disconnected", {
+            code: 1006, // Abnormal closure
+            reason: "Connection lost during session",
+            wasClean: false,
+            timestamp: new Date(),
+          });
+          this._markSessionAsDead(
+            "Connection lost during session - session is permanently unusable",
+          );
+        }
       },
       onMessage: (data) => {
         this._handleIncomingMessage(data);
       },
       onError: (error) => {
-        logger.error('Connection error', { error });
+        logger.error("Connection error - marking session as dead", { error });
+        this._notifyConnectionEvent("error", {
+          error: error,
+          context: "WebSocket connection error",
+          recoverable: false,
+          timestamp: new Date(),
+        });
+        this._markSessionAsDead(`Connection error: ${error.message}`);
       },
-      onReconnectAttempt: (attempt, maxAttempts) => {
-        logger.info('Reconnection attempt', { attempt, maxAttempts });
-      }
     });
+  }
+
+  private _markSessionAsDead(reason: string): void {
+    if (this._disposed) return;
+
+    logger.error("Session marked as permanently dead", { reason });
+
+    // Mark as disposed to prevent further use
+    this._disposed = true;
+
+    // Clean up connection manager
+    this._connectionManager = undefined;
+    this._sessionId = undefined;
+    this._activeTurnId = undefined;
   }
 
   private _handleIncomingMessage(data: string | ArrayBuffer): void {
     try {
-      logger.info('Message received', {
+      logger.info("Message received", {
         type: typeof data,
-        size: typeof data === 'string' ? data.length : data.byteLength
+        size: typeof data === "string" ? data.length : data.byteLength,
       });
 
       // Parse and process the message
       const parsed = this._messageParser.parseIncomingMessage(data);
-      if (parsed && parsed.type === 'server') {
+      if (parsed && parsed.type === "server") {
         // Handle server events
         this._handleServerEvent(parsed.event);
       }
     } catch (error) {
-      logger.error('Error handling incoming message', { error });
+      logger.error("Error handling incoming message", { error });
     }
   }
 
   private _handleServerEvent(event: any): void {
     // Extract session information from events
-    if (event.type === 'session.created' && event.session?.id) {
+    if (event.type === "session.created" && event.session?.id) {
       this._sessionId = event.session.id;
-      logger.info('Session created', { sessionId: this._sessionId });
+      logger.info("Session created", { sessionId: this._sessionId });
     }
 
-    // Emit through enhanced event emitter for real-time features
-    this._eventEmitter.emitServerEvent(event);
+    // Notify handler-based subscriptions
+    this._notifyServerEvent(event);
+  }
+
+  private _notifyConnectionEvent(
+    eventType: "connected" | "disconnected" | "error",
+    args: ConnectedEventArgs | DisconnectedEventArgs | ErrorEventArgs,
+  ): void {
+    const context: ConnectionContext = {
+      endpoint: this._endpoint,
+      sessionId: this._sessionId,
+      timestamp: new Date(),
+      model: this._model,
+    };
+
+    // Fire and forget - don't await to avoid blocking
+    this._subscriptionManager.processConnectionEvent(eventType, args, context).catch((error) => {
+      logger.error("Error processing connection event in handlers", { eventType, error });
+    });
+  }
+
+  private _notifyServerEvent(event: ServerEventUnion): void {
+    if (!this._sessionId) {
+      // Can't notify server events without a session ID
+      return;
+    }
+
+    const context: SessionContext = {
+      endpoint: this._endpoint,
+      sessionId: this._sessionId,
+      timestamp: new Date(),
+      model: this._model,
+      conversationId: undefined, // Could extract from event if available
+    };
+
+    // Fire and forget - don't await to avoid blocking
+    this._subscriptionManager.processServerEvent(event, context).catch((error) => {
+      logger.error("Error processing server event in handlers", { eventType: event.type, error });
+    });
   }
 
   private async _sendEvent(event: ClientEventUnion, options: SendEventOptions): Promise<void> {
     if (!this._connectionManager?.isConnected) {
-      throw new VoiceLiveConnectionError(
-        'Not connected to Voice Live service',
-        'NOT_CONNECTED'
-      );
+      throw new VoiceLiveConnectionError("Not connected to Voice Live service", "NOT_CONNECTED");
     }
 
     try {
       const serialized = this._messageParser.serializeOutgoingMessage(event);
       await this._connectionManager.send(serialized, options.abortSignal as AbortSignal);
 
-      logger.info('Sent event', { type: event.type, eventId: (event as any).eventId });
-
+      logger.info("Sent event", { type: event.type, eventId: (event as any).eventId });
     } catch (error) {
       if (error instanceof VoiceLiveConnectionError) {
         throw error;
@@ -492,8 +543,8 @@ export class VoiceLiveSession {
     this._ensureNotDisposed();
     if (!this.isConnected) {
       throw new VoiceLiveConnectionError(
-        'Must be connected to Voice Live service',
-        'NOT_CONNECTED'
+        "Must be connected to Voice Live service",
+        "NOT_CONNECTED",
       );
     }
   }
@@ -501,8 +552,8 @@ export class VoiceLiveSession {
   private _ensureNotDisposed(): void {
     if (this._disposed) {
       throw new VoiceLiveConnectionError(
-        'Session has been disposed',
-        'INVALID_STATE'
+        "Session is permanently dead and cannot be used. Create a new session to continue.",
+        "SESSION_DEAD",
       );
     }
   }
@@ -517,7 +568,7 @@ export class VoiceLiveSession {
 
   private _arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
     const bytes = buffer instanceof ArrayBuffer ? new Uint8Array(buffer) : buffer;
-    let binary = '';
+    let binary = "";
     for (let i = 0; i < bytes.byteLength; i++) {
       binary += String.fromCharCode(bytes[i]);
     }

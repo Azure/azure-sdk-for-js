@@ -1,13 +1,16 @@
-# 🎉 **Voice Live Web Assistant Sample - READY TO USE!**
+# 🎉 **Voice Live Web Assistant Sample - UPDATED FOR AZURE SDK HANDLER PATTERN!**
 
-A complete web-based voice assistant demonstrating all **Phase 4 real-time features** of the Azure Voice Live SDK for TypeScript.
+A complete web-based voice assistant demonstrating the **Azure SDK handler-based pattern** and all real-time features of the Azure Voice Live SDK for TypeScript.
 
-## ✅ **Status: FULLY FUNCTIONAL**
-- ✅ **Builds successfully** with TypeScript and Vite
-- ✅ **All Phase 4 features** integrated and working
+## ✅ **Status: UPDATED & FUNCTIONAL**
+- ✅ **Uses Azure SDK handler pattern** - follows EventHub/Service Bus model
+- ✅ **Type-safe event handling** - no more fragile string-based events
+- ✅ **Strongly-typed handlers** - compile-time validation of event handlers
+- ✅ **Client as session factory** - lightweight client creates sessions
+- ✅ **Session-based interactions** - all operations happen on sessions
+- ✅ **Proper lifecycle management** - sessions can be disposed properly
 - ✅ **Professional UI** with real-time feedback
 - ✅ **Web Audio API** integration for microphone and speaker
-- ✅ **Event streaming** with filtering and visualization
 - ✅ **Production ready** with error handling and cleanup
 
 ## 🚀 **Quick Start**
@@ -36,19 +39,217 @@ Opens at: **http://localhost:3000**
 2. **Allow microphone access** when prompted
 3. **Start speaking** - the assistant will respond in real-time!
 
-## 🎯 **Phase 4 Features Demonstrated**
+## 🔄 **New Architecture Features Demonstrated**
 
-### **🔄 Enhanced Event System**
-- **Real-time Event Display**: Live feed of all Voice Live events
-- **Event Filtering**: Toggle between all events and important events only
-- **Async Iteration**: Demonstrates `createEventStream()` with filtering
-- **Event Waiting**: Uses `waitForEvent()` for specific event handling
+### **🏭 Client as Session Factory**
+```typescript
+// Create a lightweight client
+const client = new VoiceLiveClient(endpoint, credential);
 
-### **📡 Response Streaming**  
-- **Text Streaming**: Live text updates as assistant generates responses
-- **Audio Streaming**: Real-time audio playback with Web Audio API
-- **Unified Processing**: Combined handling of multiple response types
-- **Async Iterators**: Shows `streamText()`, `streamAudio()`, and `streamAnimation()`
+// Client creates sessions with model specification
+const session = await client.startSession('gpt-4o-realtime-preview', sessionOptions);
+
+// Or with full session configuration
+const sessionConfig = {
+  model: 'gpt-4o-realtime-preview',
+  instructions: 'You are a helpful assistant',
+  modalities: ['audio', 'text'],
+  voice: {
+    type: 'openai',
+    name: 'alloy'
+  }
+};
+const session = await client.startSession(sessionConfig);
+
+// All interactions happen on the session
+await session.sendAudio(audioData);
+await session.updateSession(config);
+
+// Proper cleanup
+await session.dispose();
+```
+
+### **🎯 Complete Conversation Flow with Real-Time Streaming**
+
+The sample now provides fluid, real-time conversation updates:
+
+```typescript
+// ✅ What you'll see in the Conversation area:
+// 1. System message when conversation starts
+// 2. User speech transcribed to text (via Whisper-1)
+// 3. Assistant responses streaming in real-time character by character
+// 4. Typing cursor animation during streaming
+// 5. Proper timestamps and role indicators
+
+const subscription = session.subscribe({
+  processResponseCreated: async (event, context) => {
+    // ✅ Create empty message that will be updated as deltas arrive
+    startStreamingMessage(event.response.id);
+  },
+  
+  processResponseTextDelta: async (event, context) => {
+    // ✅ Update the streaming message in real-time
+    updateStreamingMessage(event.delta);
+  },
+  
+  processResponseDone: async (event, context) => {
+    // ✅ Finalize the message (remove typing cursor)
+    finalizeStreamingMessage();
+  }
+});
+```
+
+**Real-Time Streaming Features:**
+- ✅ **Live Text Updates**: Characters appear as they're generated
+- ✅ **Typing Cursor**: Animated cursor shows active generation
+- ✅ **Smooth Experience**: No waiting for complete responses
+- ✅ **Auto-Scroll**: Conversation view follows the streaming text
+- ✅ **Message Persistence**: Streaming updates modify the same message element
+- ✅ **Visual Feedback**: Clear indication when response is complete
+- ✅ **Real-Time Audio Playback**: Assistant voice plays as audio streams in
+- ✅ **PCM16 Audio Support**: Proper handling of raw audio data from VoiceLive
+- ✅ **Sequential Audio Queue**: Prevents overlapping audio chunks
+- ✅ **Barge-In Support**: User can interrupt assistant responses naturally
+
+### **🛑 Barge-In Functionality**
+
+Natural conversation flow with interruption support:
+
+```typescript
+// When user starts speaking during assistant response:
+processInputAudioBufferSpeechStarted: async (event, context) => {
+  if (this.isPlayingAudio) {
+    // 🛑 Immediately stop audio playback
+    this.clearAudioQueue();
+    
+    // 📝 Show barge-in indicator in conversation
+    showMessage('system', '[Conversation interrupted by user]');
+    
+    // 🎙️ Switch to listening for new user input
+    this.callbacks?.onAssistantStatusChange('interrupted');
+  }
+}
+```
+
+**Barge-In Features:**
+- ✅ **Instant Audio Stop**: Currently playing audio stops immediately
+- ✅ **Queue Clearing**: Pending audio chunks are discarded
+- ✅ **Visual Feedback**: Clear indication of interruption in conversation
+- ✅ **Service Integration**: VoiceLive service handles the protocol-level interruption
+- ✅ **Natural Flow**: New assistant response generated based on interruption
+
+## 🔄 **Azure SDK Handler Pattern**
+
+**Why Handler-Based Events?** Following Azure SDK conventions used by EventHub, Service Bus, etc:
+- **Type Safety**: Handler signatures are enforced by TypeScript
+- **No String Fragility**: No more `events.on('spelling-error-prone-strings')`
+- **Compile-Time Validation**: Wrong handler signatures caught at build time
+- **Familiar Pattern**: Consistent with other Azure SDKs
+
+**Our Approach:**
+```typescript
+// ✅ Azure SDK handler pattern - type-safe and robust
+const subscription = session.subscribe({
+  processConnected: async (args, context) => {
+    console.log('Connected:', context.sessionId);
+  },
+  processError: async (error, context) => {
+    console.log('Session error:', error.error.message);
+  },
+  processResponseDone: async (event, context) => {
+    console.log('Assistant finished response');
+  },
+  processAudioReceived: async (event, context) => {
+    // Stream audio in real-time
+    await playAudio(event.delta);
+  }
+});
+
+// ✅ Proper cleanup
+await subscription.close();
+```
+
+**vs. Old String-Based Pattern:**
+```typescript
+// ❌ Fragile string-based events (old way)
+events.on('server.response.done', handler); // Typo-prone
+events.on('erorr', handler); // Whoops! Typo not caught
+```
+
+### **Key Benefits**
+- ✅ **Separation of Concerns**: Client manages credentials, session manages communication
+- ✅ **Better Resource Management**: Sessions can be properly disposed
+- ✅ **Multiple Sessions**: One client can create multiple sessions
+- ✅ **Cleaner APIs**: More intuitive interaction patterns
+- ✅ **C# SDK Alignment**: Consistent architecture across languages
+- ✅ **Fail-Fast Reliability**: No false promises about connection recovery
+
+## ⚡ **Fail-Fast Connection Policy**
+
+**Why No Auto-Retry?** Real-time conversational AI sessions have complex state that cannot be recovered:
+- **Conversation context** is lost when WebSocket drops
+- **Audio streams** cannot be resumed mid-conversation  
+- **Turn state** and response flows are interrupted
+- **Auto-retry gives false hope** of seamless recovery
+
+**Our Approach:**
+```typescript
+// ❌ No auto-retry options - they give false confidence
+// ❌ No maxReconnectAttempts 
+// ❌ No autoReconnect flag
+
+// ✅ Fail fast and be honest about session death
+const session = await client.startSession('gpt-4o-realtime-preview', {
+  connectionTimeoutMs: 30000 // Only configure initial connection
+});
+
+// ✅ Handle session death explicitly  
+session.events.on('error', (error) => {
+  if (error.code === 'SESSION_DEAD') {
+    console.log('Session permanently dead:', error.message);
+    // App decides: show error, start new session, etc.
+  }
+});
+```
+
+**Benefits:**
+- **Honest about limitations**: No illusion of seamless recovery
+- **Explicit error handling**: Apps must handle session death
+- **Better UX**: Fail fast rather than ghost connections
+- **Simpler logic**: No complex retry state management
+
+## 🎤 **Voice Configuration**
+
+The SDK supports multiple voice providers with proper object structures (not strings):
+
+```typescript
+// OpenAI Voices
+const openAIVoice = {
+  type: 'openai',
+  name: 'alloy' // Options: alloy, echo, shimmer, ash, ballad, coral, sage, verse
+};
+
+// Azure Standard Voices  
+const azureVoice = {
+  type: 'azure-standard',
+  name: 'en-US-AriaNeural'
+};
+
+// Azure Custom Voices
+const customVoice = {
+  type: 'azure-custom',
+  name: 'my-custom-voice',
+  endpointId: 'your-endpoint-id'
+};
+
+// Usage in session configuration
+await session.updateSession({
+  voice: openAIVoice, // Use voice object, not string
+  // ... other config
+});
+```
+
+## 🎯 **Real-time Features Demonstrated**
 
 ### **🎵 Audio Processing**
 - **Format Conversion**: Automatic PCM16 conversion for Voice Live compatibility
