@@ -51,7 +51,7 @@ async function main() {
   }
 
   // Create agent with file search tool
-  const agent = await project.agents.createAgentVersion("StreamingFileSearchAgent", {
+  const agent = await project.agents.createVersion("StreamingFileSearchAgent", {
     kind: "prompt",
     model: deploymentName,
     instructions:
@@ -158,7 +158,7 @@ async function main() {
   console.log("Conversation deleted");
 
   // Delete the agent
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
   // Clean up vector store

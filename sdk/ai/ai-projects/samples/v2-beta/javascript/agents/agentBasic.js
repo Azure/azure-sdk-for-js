@@ -23,7 +23,7 @@ async function main() {
 
   // Create agent
   console.log("Creating agent...");
-  const agent = await project.agents.createAgentVersion("my-agent-basic", {
+  const agent = await project.agents.createVersion("my-agent-basic", {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant that answers general questions",
@@ -77,7 +77,7 @@ async function main() {
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 }
 

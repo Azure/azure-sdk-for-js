@@ -54,7 +54,7 @@ async function main() {
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");
-  const agent = await project.agents.createAgentVersion("function-tool-agent", {
+  const agent = await project.agents.createVersion("function-tool-agent", {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant that can use function tools.",
@@ -122,7 +122,7 @@ async function main() {
 
   // Clean up
   console.log("\nCleaning up resources...");
-  await project.agents.deleteAgentVersion(agent.name, agent.version);
+  await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 }
 

@@ -29,7 +29,7 @@ async function main(): Promise<void> {
   console.log("Created agent id:", agent2.id, "version:", agent2.version, "name:", agent2.name);
 
   // Retrieve Agent by name and version
-  const retrievedAgent1 = await projectClient.agents.getAgentVersion(agent1.name, agent1.version);
+  const retrievedAgent1 = await projectClient.agents.getVersion(agent1.name, agent1.version);
   console.log(
     "Retrieved agent id:",
     retrievedAgent1.id,
@@ -39,7 +39,7 @@ async function main(): Promise<void> {
     retrievedAgent1.name,
   );
   // Retrieve Agent by name (latest version)
-  const latestAgent1 = await projectClient.agents.getAgent("bg-crud-agent1");
+  const latestAgent1 = await projectClient.agents.get("bg-crud-agent1");
   console.log(
     "Retrieved latest agent id:",
     latestAgent1.id,
@@ -48,7 +48,7 @@ async function main(): Promise<void> {
   );
 
   // List all agents
-  const allAgents = projectClient.agents.listAgentVersions(agent1.name);
+  const allAgents = projectClient.agents.listVersions(agent1.name);
   console.log("List all agents:");
   for await (const item of allAgents) {
     console.log("Agent id:", item.id, "name:", item.name, "version:", item.version);
