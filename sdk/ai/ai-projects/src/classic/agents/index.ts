@@ -24,11 +24,9 @@ import {
   AgentsCreateAgentVersionOptionalParams,
   AgentsListAgentsOptionalParams,
   AgentsDeleteAgentOptionalParams,
-  AgentsUpdateAgentFromManifestOptionalParams,
-  AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateAgentOptionalParams,
-  AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  UpdateAgentConfig,
 } from "../../api/agents/options.js";
 import {
   AgentObject,
@@ -79,37 +77,12 @@ export interface AgentsOperations {
     options?: AgentsDeleteAgentOptionalParams,
   ) => Promise<DeleteAgentResponse>;
   /**
-   * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
-   * If no changes, returns the existing agent version.
-   */
-  updateFromManifest: (
-    agentName: string,
-    manifestId: string,
-    parameterValues: Record<string, any>,
-    options?: AgentsUpdateAgentFromManifestOptionalParams,
-  ) => Promise<AgentObject>;
-  /** Creates an agent from a manifest. */
-  createFromManifest: (
-    name: string,
-    manifestId: string,
-    parameterValues: Record<string, any>,
-    options?: AgentsCreateAgentFromManifestOptionalParams,
-  ) => Promise<AgentObject>;
-  /**
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
-  update: (
-    agentName: string,
-    definition: AgentDefinitionUnion,
-    options?: AgentsUpdateAgentOptionalParams,
-  ) => Promise<AgentObject>;
-  /** Creates the agent. */
-  create: (
-    name: string,
-    definition: AgentDefinitionUnion,
-    options?: AgentsCreateAgentOptionalParams,
-  ) => Promise<AgentObject>;
+  update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
+  /** Creates an agent. */
+  create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
   /** Retrieves the agent. */
   get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
 }
@@ -142,28 +115,32 @@ function _getAgents(context: AIProjectContext) {
     list: (options?: AgentsListAgentsOptionalParams) => listAgents(context, options),
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) =>
       deleteAgent(context, agentName, options),
-    updateFromManifest: (
-      agentName: string,
-      manifestId: string,
-      parameterValues: Record<string, any>,
-      options?: AgentsUpdateAgentFromManifestOptionalParams,
-    ) => updateAgentFromManifest(context, agentName, manifestId, parameterValues, options),
-    createFromManifest: (
-      name: string,
-      manifestId: string,
-      parameterValues: Record<string, any>,
-      options?: AgentsCreateAgentFromManifestOptionalParams,
-    ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
-    update: (
-      agentName: string,
-      definition: AgentDefinitionUnion,
-      options?: AgentsUpdateAgentOptionalParams,
-    ) => updateAgent(context, agentName, definition, options),
-    create: (
-      name: string,
-      definition: AgentDefinitionUnion,
-      options?: AgentsCreateAgentOptionalParams,
-    ) => createAgent(context, name, definition, options),
+    update: (agentName: string, config: UpdateAgentConfig): Promise<AgentObject> => {
+      if (config.type === "definition") {
+        return updateAgent(context, agentName, config.definition, config.options);
+      } else {
+        return updateAgentFromManifest(
+          context,
+          agentName,
+          config.manifestId,
+          config.parameterValues,
+          config.options,
+        );
+      }
+    },
+    create: (name: string, config: CreateAgentConfig): Promise<AgentObject> => {
+      if (config.type === "definition") {
+        return createAgent(context, name, config.definition, config.options);
+      } else {
+        return createAgentFromManifest(
+          context,
+          name,
+          config.manifestId,
+          config.parameterValues,
+          config.options,
+        );
+      }
+    },
     get: (agentName: string, options?: AgentsGetAgentOptionalParams) =>
       getAgent(context, agentName, options),
   };

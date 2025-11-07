@@ -341,6 +341,8 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  UpdateAgentConfig,
 } from "./api/agents/index.js";
 export {
   ConnectionsListOptionalParams,

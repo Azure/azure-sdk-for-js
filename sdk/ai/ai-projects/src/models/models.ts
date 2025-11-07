@@ -708,7 +708,7 @@ export interface FunctionTool extends Tool {
   /** A description of the function. Used by the model to determine whether or not to call the function. */
   description?: string;
   /** A JSON schema object describing the parameters of the function. */
-  parameters?: any;
+  parameters?: unknown;
   /** Whether to enforce strict parameter validation. Default `true`. */
   strict?: boolean;
 }
@@ -744,7 +744,7 @@ export interface FileSearchTool extends Tool {
   /** Ranking options for search. */
   rankingOptions?: RankingOptions;
   /** A filter to apply. */
-  filters?: Filters | null;
+  filters?: Filters;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -1004,13 +1004,13 @@ export interface ApproximateLocation extends Location {
   /** The type of the location. Always `approximate`. */
   type: "approximate";
   /** The country of the location. */
-  country?: string | null;
+  country?: string;
   /** The region of the location. */
-  region?: string | null;
+  region?: string;
   /** The city of the location. */
-  city?: string | null;
+  city?: string;
   /** The timezone of the location. */
-  timezone?: string | null;
+  timezone?: string;
 }
 
 export function approximateLocationSerializer(item: ApproximateLocation): any {
@@ -1230,7 +1230,7 @@ export interface MCPTool extends Tool {
    * Optional HTTP headers to send to the MCP server. Use for authentication
    * or other purposes.
    */
-  headers?: Record<string, string> | null;
+  headers?: Record<string, string>;
   /** List of allowed tool names or a filter object. */
   allowedTools?:
     | string[]
@@ -1715,8 +1715,8 @@ export function azureAISearchToolResourceSerializer(item: AzureAISearchToolResou
 export function azureAISearchToolResourceDeserializer(item: any): AzureAISearchToolResource {
   return {
     indexes: !item["indexes"]
-      ? item["indexes"] : 
-      aiSearchIndexResourceArrayDeserializer(item["indexes"]),
+      ? item["indexes"]
+      : aiSearchIndexResourceArrayDeserializer(item["indexes"]),
   };
 }
 
@@ -1809,7 +1809,7 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: any;
+  spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
@@ -1818,7 +1818,7 @@ export interface OpenApiFunctionDefinition {
   readonly functions?: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   }[];
 }
 
@@ -2036,7 +2036,7 @@ export interface _OpenApiFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
+  parameters: unknown;
 }
 
 export function _openApiFunctionDefinitionFunctionDeserializer(
@@ -2196,9 +2196,7 @@ export function browserAutomationToolParametersSerializer(
   item: BrowserAutomationToolParameters,
 ): any {
   return {
-    connection: browserAutomationToolConnectionParametersSerializer(
-      item["connection"]
-    ),
+    connection: browserAutomationToolConnectionParametersSerializer(item["connection"]),
   };
 }
 
@@ -2206,9 +2204,7 @@ export function browserAutomationToolParametersDeserializer(
   item: any,
 ): BrowserAutomationToolParameters {
   return {
-    connection: browserAutomationToolConnectionParametersDeserializer(
-      item["connection"]
-    ),
+    connection: browserAutomationToolConnectionParametersDeserializer(item["connection"]),
   };
 }
 
@@ -2260,7 +2256,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   inputBinding: AzureFunctionBinding;
@@ -2291,7 +2287,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
+  parameters: unknown;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -2393,7 +2389,12 @@ export interface StructuredOutputDefinition {
 }
 
 export function structuredOutputDefinitionSerializer(item: StructuredOutputDefinition): any {
-  return { name: item["name"], description: item["description"], schema: item["schema"], strict: item["strict"] };
+  return {
+    name: item["name"],
+    description: item["description"],
+    schema: item["schema"],
+    strict: item["strict"],
+  };
 }
 
 export function structuredOutputDefinitionDeserializer(item: any): StructuredOutputDefinition {
@@ -2753,11 +2754,11 @@ export interface StructuredInputDefinition {
   /** A human-readable description of the input. */
   description?: string;
   /** The default value for the input if no run-time value is provided. */
-  defaultValue?: any;
+  defaultValue?: unknown;
   /** When provided, the input value is bound to the specified tool arguments. */
   toolArgumentBindings?: ToolArgumentBinding[];
   /** The JSON schema for the structured input (optional). */
-  schema?: any;
+  schema?: unknown;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -3477,9 +3478,9 @@ export interface ItemContentInputImage extends ItemContent {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
   /** The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL. */
-  imageUrl?: string | null;
+  imageUrl?: string;
   /** The ID of the file to be sent to the model. */
-  fileId?: string | null;
+  fileId?: string;
   /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
   detail?: "low" | "high" | "auto";
 }
@@ -3498,7 +3499,7 @@ export interface ItemContentInputFile extends ItemContent {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
   /** The ID of the file to be sent to the model. */
-  fileId?: string | null;
+  fileId?: string;
   /** The name of the file to be sent to the model. */
   filename?: string;
   /** The content of the file to be sent to the model. */
@@ -4453,7 +4454,7 @@ export interface ReasoningItemParam extends ItemParam {
    * The encrypted content of the reasoning item - populated when a response is
    * generated with `reasoning.encrypted_content` in the `include` parameter.
    */
-  encryptedContent?: string | null;
+  encryptedContent?: string;
   /** Reasoning text contents. */
   summary: ReasoningItemSummaryPartUnion[];
 }
@@ -4532,7 +4533,7 @@ export interface ImageGenToolCallItemParam extends ItemParam {
   /** The type of the tool call. Always `image_generation_call`. */
   type: "image_generation_call";
   /** The generated image encoded in base64. */
-  result: string | null;
+  result?: string;
 }
 
 export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemParam): any {
@@ -4662,13 +4663,13 @@ export interface LocalShellExecAction {
   /** The command to run. */
   command: string[];
   /** Optional timeout in milliseconds for the command. */
-  timeoutMs?: number | null;
+  timeoutMs?: number;
   /** Optional working directory to run the command in. */
-  workingDirectory?: string | null;
+  workingDirectory?: string;
   /** Environment variables to set for the command. */
   env: Record<string, string>;
   /** Optional user to run the command as. */
-  user?: string | null;
+  user?: string;
 }
 
 export function localShellExecActionSerializer(item: LocalShellExecAction): any {
@@ -4713,7 +4714,7 @@ export interface MCPListToolsItemParam extends ItemParam {
   /** The tools available on the server. */
   tools: MCPListToolsTool[];
   /** Error message if the server could not list tools. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpListToolsItemParamSerializer(item: MCPListToolsItemParam): any {
@@ -4736,11 +4737,11 @@ export interface MCPListToolsTool {
   /** The name of the tool. */
   name: string;
   /** The description of the tool. */
-  description?: string | null;
+  description?: string;
   /** The JSON schema describing the tool's input. */
-  inputSchema: any;
+  inputSchema: unknown;
   /** Additional annotations about the tool. */
-  annotations?: any | null;
+  annotations?: unknown;
 }
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
@@ -4788,7 +4789,7 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
   /** Whether the request was approved. */
   approve: boolean;
   /** Optional reason for the decision. */
-  reason?: string | null;
+  reason?: string;
 }
 
 export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponseItemParam): any {
@@ -4814,9 +4815,9 @@ export interface MCPCallItemParam extends ItemParam {
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
   /** The output from the tool call. */
-  output?: string | null;
+  output?: string;
   /** The error from the tool call, if any. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
@@ -4835,7 +4836,7 @@ export interface MemorySearchToolCallItemParam extends ItemParam {
   /** The type of the item. Always `memory_search_call`. */
   type: "memory_search_call";
   /** The results returned from the memory search. */
-  results?: MemorySearchItem[] | null;
+  results?: MemorySearchItem[];
 }
 
 export function memorySearchToolCallItemParamSerializer(item: MemorySearchToolCallItemParam): any {
@@ -6880,9 +6881,9 @@ export interface EvaluatorDefinition {
   /** The discriminator possible values: code, prompt */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  initParameters?: any;
+  initParameters?: unknown;
   /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  dataSchema?: any;
+  dataSchema?: unknown;
   /** List of output metrics produced by this evaluator */
   metrics?: Record<string, EvaluatorMetric>;
 }
@@ -8374,10 +8375,6 @@ export type PendingUploadType = "None" | "BlobReference";
 
 /** Azure AI Projects API versions */
 export enum KnownApiVersions {
-  /** Azure AI API version 2025-05-01. */
-  V20250501 = "2025-05-01",
-  /** Azure AI API version 2025-05-15-preview. */
-  V20250515Preview = "2025-05-15-preview",
   /** Azure AI API version 2025-11-15-preview. */
   V20251115Preview = "2025-11-15-preview",
 }
