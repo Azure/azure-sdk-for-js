@@ -1,39 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type {
+  _AgentsPagedResultVectorStore,
+  VectorStore,
+  VectorStoreDeletionStatus,
+} from "../../models/models.js";
 import {
   vectorStoreConfigurationSerializer,
   agentV1ErrorDeserializer,
-  _AgentsPagedResultVectorStore,
   _agentsPagedResultVectorStoreDeserializer,
-  VectorStore,
   vectorStoreDeserializer,
   vectorStoreExpirationPolicySerializer,
   vectorStoreChunkingStrategyRequestUnionSerializer,
-  VectorStoreDeletionStatus,
   vectorStoreDeletionStatusDeserializer,
 } from "../../models/models.js";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   VectorStoresDeleteVectorStoreOptionalParams,
   VectorStoresModifyVectorStoreOptionalParams,
   VectorStoresGetVectorStoreOptionalParams,
   VectorStoresCreateVectorStoreOptionalParams,
   VectorStoresListVectorStoresOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
-import { createPoller } from "../poller.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _deleteVectorStoreSend(
   context: Client,
@@ -88,10 +82,10 @@ export function _modifyVectorStoreSend(
   options: VectorStoresModifyVectorStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}{?api-version}",
+    "/vector_stores/{vectorStoreId}{?api%2Dversion}",
     {
       vectorStoreId: vectorStoreId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,10 +137,10 @@ export function _getVectorStoreSend(
   options: VectorStoresGetVectorStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}{?api-version}",
+    "/vector_stores/{vectorStoreId}{?api%2Dversion}",
     {
       vectorStoreId: vectorStoreId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,48 +230,12 @@ export async function _createVectorStoreDeserialize(
 }
 
 /** Creates a vector store. */
-export async function createVectorStoreInternal(
+export async function createVectorStore(
   context: Client,
   options: VectorStoresCreateVectorStoreOptionalParams = { requestOptions: {} },
 ): Promise<VectorStore> {
   const result = await _createVectorStoreSend(context, options);
   return _createVectorStoreDeserialize(result);
-}
-
-/** Creates a vector store. */
-export function createVectorStore(
-  context: Client,
-  options: VectorStoresCreateVectorStoreOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<VectorStore>, VectorStore> {
-  return createPoller<VectorStore>({
-    initOperation: async () => {
-      return createVectorStoreInternal(context, options);
-    },
-    pollOperation: async (currentResult: VectorStore) => {
-      return getVectorStore(context, currentResult.id, options);
-    },
-    getOperationStatus: getLroOperationStatus,
-    intervalInMs: options.pollingOptions?.intervalInMs,
-  });
-}
-
-/**
- * Creates a vector store and poll.
- */
-export function createVectorStoreAndPoll(
-  context: Client,
-  options: VectorStoresCreateVectorStoreOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<VectorStore>, VectorStore> {
-  return createPoller<VectorStore>({
-    initOperation: async () => {
-      return createVectorStoreInternal(context, options);
-    },
-    pollOperation: async (currentResult: VectorStore) => {
-      return getVectorStore(context, currentResult.id, options);
-    },
-    getOperationStatus: getLroOperationStatus,
-    intervalInMs: options.pollingOptions?.intervalInMs,
-  });
 }
 
 export function _listVectorStoresSend(
@@ -331,17 +289,4 @@ export function listVectorStores(
     ["200"],
     { itemName: "data" },
   );
-}
-
-function getLroOperationStatus(result: VectorStore): OperationStatus {
-  switch (result.status) {
-    case "in_progress":
-      return "running";
-    case "completed":
-      return "succeeded";
-    case "expired":
-      return "failed";
-    default:
-      return "failed";
-  }
 }
