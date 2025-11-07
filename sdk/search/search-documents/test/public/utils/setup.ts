@@ -566,7 +566,7 @@ async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient,
 ): Promise<void> {
- // const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
+  // const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
   const descriptions = documents.map(({ description }) => description).filter(isDefined);
 

@@ -1173,7 +1173,7 @@ export interface SimpleField {
    * The encoding format to interpret the field contents.
    */
   vectorEncodingFormat?: VectorEncodingFormat;
-   /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
+  /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
   sensitivityLabel?: boolean;
 }
 
