@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
   console.log("Creating agent with image generation tool...");
 
   // Create Agent with image generation tool
-  const agent = await project.agents.createVersion("agent-image-generation", {
+  const agent = await project.agents.create("agent-image-generation", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "Generate images based on user prompts",

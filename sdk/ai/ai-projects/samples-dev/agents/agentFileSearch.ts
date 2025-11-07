@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
   }
 
   // Create agent with file search tool
-  const agent = await project.agents.createVersion("StreamingFileSearchAgent", {
+  const agent = await project.agents.create("StreamingFileSearchAgent", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions:

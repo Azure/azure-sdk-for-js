@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
 
   // Create agent with file search tool
   console.log("\nCreating agent with file search tool...");
-  const agent = await project.agents.createVersion("agent-file-search", {
+  const agent = await project.agents.create("agent-file-search", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that can search through product information.",

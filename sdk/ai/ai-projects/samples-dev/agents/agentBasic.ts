@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
 
   // Create agent
   console.log("Creating agent...");
-  const agent = await project.agents.createVersion("my-agent-basic", {
+  const agent = await project.agents.create("my-agent-basic", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that answers general questions",

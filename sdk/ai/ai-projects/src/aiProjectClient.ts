@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
+import OpenAI from "openai";
+import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
@@ -24,41 +25,73 @@ import {
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
+/**
+ * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
+ * @class AIProjectClient
+ * @extends {AIProjectContext}
+ * @description The main client for the AIProjectClient
+ * @constructor
+ * @param {string} endpoint - The endpoint to use
+ * @param {TokenCredential} credential - The credential to use
+ * @param {AIProjectClientOptionalParams} [options] - Optional parameters for the client.
+ * @property {RedTeamsOperations} redTeams - The operation groups for redTeams
+ * @property {DeploymentsOperations} deployments - The operation groups for deployments
+ * @property {IndexesOperations} indexes - The operation groups for indexes
+ * @property {DatasetsOperations} datasets - The operation groups for datasets
+ * @property {ConnectionsOperations} connections - The operation groups for connections
+ * @property {MemoryStoresOperations} memoryStores - The operation groups for memoryStores
+ * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
+ * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client
+ */
 export class AIProjectClient {
-  private _client: AIProjectContext;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
+  private _cognitiveScopeClient: AIProjectContext;
+  private _azureScopeClient: AIProjectContext;
+  private _endpoint: string;
+  private _credential: TokenCredential;
+  private _options: AIProjectClientOptionalParams;
 
   constructor(
-    endpointParam: string,
+    endpoint: string,
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
+    this._endpoint = endpoint;
+    this._credential = credential;
+    this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAIProject(endpointParam, credential, {
+    this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+      credentials: {
+        ...options.credentials,
+        scopes: ["https://cognitiveservices.azure.com/.default"],
+      },
+    });
+    this._azureScopeClient = createAIProject(endpoint, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
-    this.pipeline = this._client.pipeline;
-    this.schedules = _getSchedulesOperations(this._client);
-    this.insights = _getInsightsOperations(this._client);
-    this.evaluators = _getEvaluatorsOperations(this._client);
-    this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._client);
-    this.evaluationRules = _getEvaluationRulesOperations(this._client);
-    this.redTeams = _getRedTeamsOperations(this._client);
-    this.deployments = _getDeploymentsOperations(this._client);
-    this.indexes = _getIndexesOperations(this._client);
-    this.datasets = _getDatasetsOperations(this._client);
-    this.connections = _getConnectionsOperations(this._client);
-    this.memoryStores = _getMemoryStoresOperations(this._client);
-    this.agents = _getAgentsOperations(this._client);
+
+    this.schedules = _getSchedulesOperations(this._cognitiveScopeClient);
+    this.insights = _getInsightsOperations(this._cognitiveScopeClient);
+    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
+    this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._cognitiveScopeClient);
+    this.evaluationRules = _getEvaluationRulesOperations(this._cognitiveScopeClient);
+    this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
+    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
+    this.indexes = _getIndexesOperations(this._azureScopeClient);
+    this.datasets = _getDatasetsOperations(this._azureScopeClient);
+    this.connections = _getConnectionsOperations(this._azureScopeClient);
+    this.memoryStores = _getMemoryStoresOperations(this._cognitiveScopeClient);
+    this.agents = _getAgentsOperations(this._azureScopeClient);
   }
 
   /** The operation groups for schedules */
@@ -85,4 +118,37 @@ export class AIProjectClient {
   public readonly memoryStores: MemoryStoresOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
+    /**
+   * gets the OpenAI client
+   * @returns the OpenAI client
+   */
+  public async getOpenAIClient(): Promise<OpenAI> {
+    const scope = "https://ai.azure.com/.default";
+    const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
+
+    const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
+      apiKey: azureADTokenProvider,
+      baseURL: `${this._endpoint}/openai`,
+      defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
+      dangerouslyAllowBrowser: true,
+    };
+
+    // Check if logging should be enabled via environment variable
+    if (process.env["ENABLE_OPENAI_HTTP_CLIENT"] === "true") {
+      openAIOptions.fetch = (url: string | URL | globalThis.Request, init?: RequestInit) => {
+        console.log("Sending request...", url, JSON.stringify(init, null, 2));
+        return fetch(url, init);
+      };
+    }
+
+    const openaiClient = new OpenAI(openAIOptions);
+    return overwriteOpenAIClient(openaiClient);
+  }
+  /**
+   * gets the endpoint of the client
+   * @returns the endpoint of the client
+   */
+  public get endpoint(): string {
+    return this._endpoint;
+  }
 }

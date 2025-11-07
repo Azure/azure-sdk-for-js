@@ -52,7 +52,7 @@ export async function main(): Promise<void> {
   const openAIClient = await project.getOpenAIClient();
 
   console.log("Creating Computer Use Agent...");
-  const agent = await project.agents.createVersion("ComputerUseAgent", {
+  const agent = await project.agents.create("ComputerUseAgent", {
     kind: "prompt" as const,
     model: modelDeploymentName,
     instructions: `

@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
   console.log("Creating agent with web search tool...");
 
   // Create Agent with web search tool
-  const agent = await project.agents.createVersion("agent-web-search", {
+  const agent = await project.agents.create("agent-web-search", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that can search the web",

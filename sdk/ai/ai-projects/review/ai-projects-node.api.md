@@ -6,10 +6,10 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState as OperationState_2 } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -187,20 +187,21 @@ export interface AgentVersionObject {
     version: string;
 }
 
-// @public (undocumented)
+// @public
 export class AIProjectClient {
-    constructor(endpointParam: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
+    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
+    get endpoint(): string;
     readonly evaluationRules: EvaluationRulesOperations;
     readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
     readonly evaluators: EvaluatorsOperations;
+    getOpenAIClient(): Promise<OpenAI>;
     readonly indexes: IndexesOperations;
     readonly insights: InsightsOperations;
     readonly memoryStores: MemoryStoresOperations;
-    readonly pipeline: Pipeline;
     readonly redTeams: RedTeamsOperations;
     readonly schedules: SchedulesOperations;
 }

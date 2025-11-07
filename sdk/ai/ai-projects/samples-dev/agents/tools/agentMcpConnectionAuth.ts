@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
   // Define MCP tool that connects to GitHub Copilot API with project connection authentication
   // The project connection should have Authorization header configured with "Bearer <GitHub PAT token>"
   // Token can be created at https://github.com/settings/personal-access-tokens/new
-  const agent = await project.agents.createVersion("agent-mcp-connection-auth", {
+  const agent = await project.agents.create("agent-mcp-connection-auth", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "Use MCP tools as needed",

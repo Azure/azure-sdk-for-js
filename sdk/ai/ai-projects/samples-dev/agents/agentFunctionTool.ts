@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");
-  const agent = await project.agents.createVersion("function-tool-agent", {
+  const agent = await project.agents.create("function-tool-agent", {
     kind: "prompt",
     model: modelDeploymentName,
     instructions: "You are a helpful assistant that can use function tools.",
