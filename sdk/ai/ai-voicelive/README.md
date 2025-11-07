@@ -13,8 +13,6 @@ Use the client library to:
 
 > Note: This package supports both browser and Node.js environments. WebSocket connections are used for real-time communication.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-voicelive) | [Package (npm)](https://www.npmjs.com/package/@azure/ai-voicelive) | [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/ai-voicelive?view=azure-node-preview) | [Product documentation](https://learn.microsoft.com/azure/ai-services/speech-service/voice-live-api) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-voicelive/samples)
-
 ## Getting started
 
 ### Currently supported environments
