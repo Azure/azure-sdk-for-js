@@ -67,7 +67,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         displayWidth: 1026,
         displayHeight: 769,
         environment: "windows" as const,
-      },
+      } as any,
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

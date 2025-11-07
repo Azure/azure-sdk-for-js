@@ -17,19 +17,19 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 async function main() {
   const credential = new DefaultAzureCredential();
   const projectClient = new AIProjectClient(projectEndpoint, credential);
-  const agent1 = await projectClient.agents.createVersion("bg-crud-agent4", {
+  const agent1 = await projectClient.agents.createAgentVersion("bg-crud-agent4", {
     kind: "prompt",
     model: deploymentName,
   });
   console.log("Created agent id:", agent1.id, "version:", agent1.version, "name:", agent1.name);
-  const agent2 = await projectClient.agents.createVersion("bg-crud-agent2", {
+  const agent2 = await projectClient.agents.createAgentVersion("bg-crud-agent2", {
     kind: "prompt",
     model: deploymentName,
   });
   console.log("Created agent id:", agent2.id, "version:", agent2.version, "name:", agent2.name);
 
   // Retrieve Agent by name and version
-  const retrievedAgent1 = await projectClient.agents.getVersion(agent1.name, agent1.version);
+  const retrievedAgent1 = await projectClient.agents.getAgentVersion(agent1.name, agent1.version);
   console.log(
     "Retrieved agent id:",
     retrievedAgent1.id,
@@ -39,7 +39,7 @@ async function main() {
     retrievedAgent1.name,
   );
   // Retrieve Agent by name (latest version)
-  const latestAgent1 = await projectClient.agents.get("bg-crud-agent1");
+  const latestAgent1 = await projectClient.agents.getAgent("bg-crud-agent1");
   console.log(
     "Retrieved latest agent id:",
     latestAgent1.id,
@@ -48,14 +48,14 @@ async function main() {
   );
 
   // List all agents
-  const allAgents = projectClient.agents.listVersions(agent1.name);
+  const allAgents = projectClient.agents.listAgentVersions(agent1.name);
   console.log("List all agents:");
   for await (const item of allAgents) {
     console.log("Agent id:", item.id, "name:", item.name, "version:", item.version);
   }
 
   // Delete agent1
-  const result1 = await projectClient.agents.deleteVersion(agent1.name, agent1.version);
+  const result1 = await projectClient.agents.deleteAgentVersion(agent1.name, agent1.version);
   console.log(
     "Deleted agent name:",
     result1.name,
@@ -65,7 +65,7 @@ async function main() {
     result1.deleted,
   );
   // Delete agent2
-  const result2 = await projectClient.agents.deleteVersion(agent2.name, agent2.version);
+  const result2 = await projectClient.agents.deleteAgentVersion(agent2.name, agent2.version);
   console.log(
     "Deleted agent name:",
     result2.name,

@@ -15,7 +15,8 @@ import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
 
-const endpoint = process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint =
+  process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
