@@ -17,6 +17,7 @@ const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret
+    "AZSDK3430", // .id of resource shouldn't just be sanitized to "sanitized" but instead sanitize subscription id and resource group name
   ],
 };
 
