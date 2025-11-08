@@ -18,8 +18,7 @@ import "dotenv/config";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const endpoint =
-  process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 const VERSION1 = "1.0";
@@ -28,7 +27,7 @@ const VERSION2 = "2.0";
 const VERSION3 = "3.0";
 
 async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   // sample files to use in the demonstration
   const sampleFolder = "sample_folder";

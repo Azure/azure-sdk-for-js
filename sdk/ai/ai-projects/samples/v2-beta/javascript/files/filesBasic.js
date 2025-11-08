@@ -15,15 +15,13 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 
-const endpoint =
-  process.env["AZURE_AI_AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
 async function main() {
-  const projectClient = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await projectClient.getOpenAIClient();
+  const openAIClient = await project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create (upload) a file, wait until processed

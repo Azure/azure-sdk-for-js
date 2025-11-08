@@ -10,6 +10,7 @@ Use it to:
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Upload, retrieve, list, and delete files** using the OpenAI client obtained from `.getOpenAIClient()`. upload files to be used for fine-tuning and other AI model operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
+* **Run Fine tuning jobs** using methods the `.fineTuning.jobs` operations.
 
 The client library uses version `2025-11-15-preview` of the AI Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects/rest-api-reference).
 
@@ -68,14 +69,14 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-To construct an `AIProjectsClient`, the `endpoint` can be fetched from [endpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
+To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
+const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
 
 The client uses API version `2025-11-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
