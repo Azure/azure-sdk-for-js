@@ -20,30 +20,39 @@ export class TestParallelQueryExecutionContext
     return docProd1.generation - docProd2.generation;
   }
 
-  protected async processBufferedDocumentProducers(): Promise<void> {
-    // Simple implementation for testing - just process all buffered document producers
-    // This method is called from fillBufferFromBufferQueue in the base class
-    while (this.bufferedDocumentProducersQueue.size() > 0) {
-      const documentProducer = this.bufferedDocumentProducersQueue.deq();
+  /**
+   * Processes a single document producer for testing.
+   * Implements the abstract method from the base class.
+   */
+  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
+    // Fetch items from the document producer
+    const response = await producer.fetchBufferedItems();
+    
+    // Add results to buffer using the helper method
+    this.addToBuffer(response.result);
 
-      // Fetch items from the document producer and add to buffer
-      const response = await documentProducer.fetchBufferedItems();
-      if (response.result && Array.isArray(response.result)) {
-        this.buffer.push(...response.result);
-      }
+    // Update partition mapping for continuation token generation
+    this.updatePartitionMapping({
+      itemCount: response.result?.length || 0,
+      partitionKeyRange: producer.targetPartitionKeyRange,
+      continuationToken: producer.continuationToken,
+    });
 
-      // Update headers (accumulate request charges)
-      if (response.headers) {
-        const currentCharge = parseFloat(this.respHeaders["x-ms-request-charge"] || "0");
-        const newCharge = parseFloat(response.headers["x-ms-request-charge"] || "0");
-        this.respHeaders["x-ms-request-charge"] = (currentCharge + newCharge).toString();
-      }
+    // Merge headers using the base class method
+    this._mergeWithActiveResponseHeaders(response.headers);
 
-      // If the document producer has more results, add it back to the unfilled queue
-      if (documentProducer.hasMoreResults()) {
-        this.unfilledDocumentProducersQueue.enq(documentProducer);
-      }
+    // Handle producer lifecycle
+    if (producer.hasMoreResults()) {
+      this.moveToUnfilledQueue(producer);
     }
+  }
+
+  /**
+   * Determines if processing should continue for testing.
+   * For tests, we process all buffered items like parallel queries.
+   */
+  protected shouldContinueProcessing(): boolean {
+    return true; // Process all buffered items for testing
   }
 
   private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {

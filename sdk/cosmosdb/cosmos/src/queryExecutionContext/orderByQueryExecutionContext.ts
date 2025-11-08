@@ -48,7 +48,6 @@ export class OrderByQueryExecutionContext
     );
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }
-  // Instance members are inherited
 
   // Overriding documentProducerComparator for OrderByQueryExecutionContexts
   /**
@@ -61,55 +60,50 @@ export class OrderByQueryExecutionContext
   }
 
   /**
-   * Processes buffered document producers for OrderBy queries.
-   * Handles item-by-item processing to maintain order.
-   * @returns A promise that resolves when processing is complete.
+   * Processes a document producer for ORDER BY queries.
+   * Handles item-by-item processing to maintain sort order.
    * @hidden
    */
-  protected async processBufferedDocumentProducers(): Promise<void> {
-    let documentProducer; // used to track the last document producer
-    // For OrderBy queries, process one item at a time when we have buffered items
-    // Only process if we either have no more unfilled producers OR we need to maintain order
-    while (
-      this.bufferedDocumentProducersQueue.size() > 0 &&
-      this.unfilledDocumentProducersQueue.isEmpty()
-    ) {
-      documentProducer = this.bufferedDocumentProducersQueue.deq();
-      const { result, headers } = await documentProducer.fetchNextItem();
-      this._mergeWithActiveResponseHeaders(headers);
+  protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
+    const { result, headers } = await producer.fetchNextItem();
+    this._mergeWithActiveResponseHeaders(headers);
 
-      if (result) {
-        this.buffer.push(result);
-        // Update PartitionDataPatchMap
-        const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
-        const isSamePartition =
-          currentPatch?.partitionKeyRange?.id === documentProducer.targetPartitionKeyRange.id;
+    if (result) {
+      this.addToBuffer(result);
 
-        // Check if document producer buffer has more items to determine which continuation token to use
-        const hasMoreBufferedItems = documentProducer.peakNextItem() !== undefined;
-        const continuationTokenToUse = hasMoreBufferedItems
-          ? documentProducer.previousContinuationToken
-          : documentProducer.continuationToken;
+      // Determine which continuation token to use based on buffer state
+      const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
+      const continuationTokenToUse = hasMoreBufferedItems
+        ? producer.previousContinuationToken
+        : producer.continuationToken;
 
-        if (!isSamePartition) {
-          this.partitionDataPatchMap.set((++this.patchCounter).toString(), {
-            itemCount: 1,
-            partitionKeyRange: documentProducer.targetPartitionKeyRange,
-            continuationToken: continuationTokenToUse,
-          });
-        } else if (currentPatch) {
-          currentPatch.itemCount++;
-          currentPatch.continuationToken = continuationTokenToUse;
-        }
-      }
-      if (documentProducer.peakNextItem() !== undefined) {
-        this.bufferedDocumentProducersQueue.enq(documentProducer);
-      } else if (documentProducer.hasMoreResults()) {
-        this.unfilledDocumentProducersQueue.enq(documentProducer);
-      } else {
-        // no more results in document producer
-      }
+      // Use ORDER BY partition mapping with merge logic
+      this.updatePartitionMapping(
+        {
+          itemCount: 1,
+          partitionKeyRange: producer.targetPartitionKeyRange,
+          continuationToken: continuationTokenToUse,
+        },
+        true,
+      ); // true = mergeWithExisting for ORDER BY
     }
+
+    // Handle producer lifecycle for ORDER BY processing
+    if (producer.peakNextItem() !== undefined) {
+      this.requeueProducer(producer);
+    } else if (producer.hasMoreResults()) {
+      this.moveToUnfilledQueue(producer);
+    }
+  }
+
+  /**
+   * Determines if processing should continue for ORDER BY queries.
+   * For ORDER BY, only process when no unfilled producers remain to maintain order.
+   * @hidden
+   */
+  protected shouldContinueProcessing(): boolean {
+    // For ORDER BY, only process when no unfilled producers remain to maintain order
+    return this.isUnfilledQueueEmpty();
   }
 
   /**

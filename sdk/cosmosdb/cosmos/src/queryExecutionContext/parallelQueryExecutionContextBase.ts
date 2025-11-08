@@ -270,11 +270,103 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   ): number;
 
   /**
-   * Processes buffered document producers according to the specific query execution strategy.
-   * This method is implemented by subclasses to handle OrderBy vs Parallel query processing.
+   * Processes buffered document producers using template method pattern.
+   * Delegates actual processing to subclasses while handling common flow.
    * @returns A promise that resolves when processing is complete.
    */
-  protected abstract processBufferedDocumentProducers(): Promise<void>;
+  protected async processBufferedDocumentProducers(): Promise<void> {
+    while (this.hasBufferedProducers() && this.shouldContinueProcessing()) {
+      const producer = this.getNextBufferedProducer();
+      if (!producer) break;
+
+      await this.processDocumentProducer(producer);
+    }
+  }
+
+  /**
+   * Processes a single document producer according to the specific query type.
+   * Subclasses implement this to provide their specific processing behavior.
+   */
+  protected abstract processDocumentProducer(producer: DocumentProducer): Promise<void>;
+
+  /**
+   * Determines if processing should continue based on query-specific rules.
+   * Subclasses implement this to provide their specific continuation logic.
+   */
+  protected abstract shouldContinueProcessing(): boolean;
+
+  /**
+   * Checks if there are buffered document producers ready for processing.
+   * Encapsulates queue size checking.
+   */
+  private hasBufferedProducers(): boolean {
+    return this.bufferedDocumentProducersQueue.size() > 0;
+  }
+
+  /**
+   * Gets the next buffered document producer for processing.
+   * Encapsulates queue dequeuing logic.
+   */
+  private getNextBufferedProducer(): DocumentProducer | undefined {
+    if (this.bufferedDocumentProducersQueue.size() > 0) {
+      return this.bufferedDocumentProducersQueue.deq();
+    }
+    return undefined;
+  }
+
+  /**
+   * Adds items to the result buffer. Handles both single items and arrays.
+   */
+  protected addToBuffer(items: any[] | any): void {
+    if (Array.isArray(items)) {
+      if (items.length > 0) {
+        this.buffer.push(...items);
+      }
+    } else if (items) {
+      this.buffer.push(items);
+    }
+  }
+
+  /**
+   * Updates partition mapping - creates new entry or merges with existing for ORDER BY queries.
+   */
+  protected updatePartitionMapping(mapping: QueryRangeMapping, mergeWithExisting = false): void {
+    if (mergeWithExisting) {
+      // ORDER BY logic: try to merge with current partition
+      const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
+      const isSamePartition = currentPatch?.partitionKeyRange?.id === mapping.partitionKeyRange.id;
+
+      if (isSamePartition && currentPatch) {
+        currentPatch.itemCount += mapping.itemCount;
+        currentPatch.continuationToken = mapping.continuationToken;
+        return;
+      }
+    }
+
+    // Create new partition mapping entry
+    this.partitionDataPatchMap.set((++this.patchCounter).toString(), mapping);
+  }
+
+  /**
+   * Moves a producer to the unfilled queue for later processing.
+   */
+  protected moveToUnfilledQueue(producer: DocumentProducer): void {
+    this.unfilledDocumentProducersQueue.enq(producer);
+  }
+
+  /**
+   * Re-queues a producer to the buffered queue for further processing.
+   */
+  protected requeueProducer(producer: DocumentProducer): void {
+    this.bufferedDocumentProducersQueue.enq(producer);
+  }
+
+  /**
+   * Checks if the unfilled queue is empty (used by ORDER BY for processing control).
+   */
+  protected isUnfilledQueueEmpty(): boolean {
+    return this.unfilledDocumentProducersQueue.size() === 0;
+  }
 
   /**
    * Compares two document producers based on their partition key ranges and EPK values.
