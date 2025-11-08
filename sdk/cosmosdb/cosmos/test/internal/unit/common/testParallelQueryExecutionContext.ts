@@ -11,8 +11,7 @@ import type { DiagnosticNodeInternal } from "../../../../src/diagnostics/Diagnos
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext
-{
+  implements ExecutionContext {
   public documentProducerComparator(
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
@@ -27,7 +26,7 @@ export class TestParallelQueryExecutionContext
   protected async processDocumentProducer(producer: DocumentProducer): Promise<void> {
     // Fetch items from the document producer
     const response = await producer.fetchBufferedItems();
-    
+
     // Add results to buffer using the helper method
     this.addToBuffer(response.result);
 
