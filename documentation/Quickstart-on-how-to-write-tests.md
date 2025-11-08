@@ -153,7 +153,7 @@ After running the test cases, you need to push your recordings into assets repo.
 > pnpm test
 
 # Windows with PowerShell
-> $env: TEST MODE="record"
+> $env:TEST_MODE="record"
 > pnpm test
 
 # Linux / Mac
@@ -182,7 +182,7 @@ If we have existing recordings, then the tests have been run against generated t
 > pnpm test
 
 # Windows with PowerShell
-> $env: TEST MODE="playback"
+> $env:TEST_MODE="playback"
 > pnpm test
 
 # Linux / Mac

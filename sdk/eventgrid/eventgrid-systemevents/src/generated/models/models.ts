@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and (de)serializers.
+ * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
 export interface ApiCenterApiDefinitionAddedEventData {
   /** API definition title. */
@@ -920,7 +925,7 @@ export function avsScriptExecutionStartedEventDataDeserializer(
 export interface AvsScriptExecutionFinishedEventData
   extends AvsScriptExecutionEventData {
   /** Named outputs of completed execution, if any. */
-  namedOutputs: Record<string, string>;
+  readonly namedOutputs: Record<string, string>;
 }
 
 export function avsScriptExecutionFinishedEventDataDeserializer(
@@ -1176,9 +1181,9 @@ export function microsoftTeamsAppIdentifierModelDeserializer(
 /** Custom Context of Incoming Call */
 export interface AcsIncomingCallCustomContext {
   /** Sip Headers for incoming call */
-  sipHeaders: Record<string, string>;
+  readonly sipHeaders: Record<string, string>;
   /** Voip Headers for incoming call */
-  voipHeaders: Record<string, string>;
+  readonly voipHeaders: Record<string, string>;
 }
 
 export function acsIncomingCallCustomContextDeserializer(
@@ -1502,6 +1507,23 @@ export function acsCallParticipantRemovedEventDataDeserializer(
   };
 }
 
+/** Schema of common properties of all thread-level chat events */
+export interface AcsChatEventInThreadBase {
+  /** The transaction id will be used as co-relation vector */
+  transactionId?: string;
+  /** The chat thread id */
+  threadId: string;
+}
+
+export function acsChatEventInThreadBaseDeserializer(
+  item: any,
+): AcsChatEventInThreadBase {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+  };
+}
+
 /** Schema of common properties of all chat events */
 export interface AcsChatEventBase {
   /** The communication identifier of the target user */
@@ -1517,23 +1539,6 @@ export function acsChatEventBaseDeserializer(item: any): AcsChatEventBase {
     recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["recipientCommunicationIdentifier"],
     ),
-    transactionId: item["transactionId"],
-    threadId: item["threadId"],
-  };
-}
-
-/** Schema of common properties of all thread-level chat events */
-export interface AcsChatEventInThreadBase {
-  /** The transaction id will be used as co-relation vector */
-  transactionId?: string;
-  /** The chat thread id */
-  threadId: string;
-}
-
-export function acsChatEventInThreadBaseDeserializer(
-  item: any,
-): AcsChatEventInThreadBase {
-  return {
     transactionId: item["transactionId"],
     threadId: item["threadId"],
   };
@@ -1581,7 +1586,7 @@ export interface AcsChatMessageReceivedEventData
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
 }
 
 export function acsChatMessageReceivedEventDataDeserializer(
@@ -1646,7 +1651,7 @@ export interface AcsChatAzureBotCommandReceivedInThreadEventData
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
 }
 
 export function acsChatAzureBotCommandReceivedInThreadEventDataDeserializer(
@@ -1674,7 +1679,7 @@ export interface AcsChatTypingIndicatorReceivedInThreadEventData
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
 }
 
 export function acsChatTypingIndicatorReceivedInThreadEventDataDeserializer(
@@ -1702,7 +1707,7 @@ export interface AcsChatMessageReceivedInThreadEventData
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
 }
 
 export function acsChatMessageReceivedInThreadEventDataDeserializer(
@@ -1729,7 +1734,7 @@ export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
   /** The time at which the message was edited */
   editTime: Date;
 }
@@ -1763,7 +1768,7 @@ export interface AcsChatMessageEditedInThreadEventData
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
   /** The time at which the message was edited */
   editTime: Date;
 }
@@ -1841,6 +1846,29 @@ export function acsChatMessageDeletedInThreadEventDataDeserializer(
   };
 }
 
+/** Schema of the chat thread participant */
+export interface AcsChatThreadParticipant {
+  /** The name of the user */
+  displayName?: string;
+  /** The communication identifier of the user */
+  participantCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The metadata of the user */
+  readonly metadata?: Record<string, string>;
+}
+
+export function acsChatThreadParticipantDeserializer(
+  item: any,
+): AcsChatThreadParticipant {
+  return {
+    displayName: item["displayName"],
+    participantCommunicationIdentifier:
+      communicationIdentifierModelDeserializer(
+        item["participantCommunicationIdentifier"],
+      ),
+    metadata: item["metadata"],
+  };
+}
+
 /** Schema of common properties of all chat thread events */
 export interface AcsChatThreadEventBase extends AcsChatEventBase {
   /** The original creation time of the thread */
@@ -1871,7 +1899,7 @@ export interface AcsChatThreadCreatedWithUserEventData
   /** The thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   readonly participants: AcsChatThreadParticipant[];
 }
@@ -1906,29 +1934,6 @@ export function acsChatThreadParticipantArrayDeserializer(
   });
 }
 
-/** Schema of the chat thread participant */
-export interface AcsChatThreadParticipant {
-  /** The name of the user */
-  displayName?: string;
-  /** The communication identifier of the user */
-  participantCommunicationIdentifier: CommunicationIdentifierModel;
-  /** The metadata of the user */
-  metadata?: Record<string, string>;
-}
-
-export function acsChatThreadParticipantDeserializer(
-  item: any,
-): AcsChatThreadParticipant {
-  return {
-    displayName: item["displayName"],
-    participantCommunicationIdentifier:
-      communicationIdentifierModelDeserializer(
-        item["participantCommunicationIdentifier"],
-      ),
-    metadata: item["metadata"],
-  };
-}
-
 /** Schema of common properties of all chat thread events */
 export interface AcsChatThreadEventInThreadBase
   extends AcsChatEventInThreadBase {
@@ -1957,7 +1962,7 @@ export interface AcsChatThreadCreatedEventData
   /** The thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   readonly participants: AcsChatThreadParticipant[];
 }
@@ -2040,7 +2045,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData
   /** The time at which the properties of the thread were updated */
   editTime: Date;
   /** The thread metadata */
-  metadata?: Record<string, string>;
+  readonly metadata?: Record<string, string>;
   /** The updated thread properties */
   properties: Record<string, any>;
 }
@@ -2075,7 +2080,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData
   /** The updated thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  readonly metadata: Record<string, string>;
 }
 
 export function acsChatThreadPropertiesUpdatedEventDataDeserializer(
@@ -2617,9 +2622,9 @@ export interface AcsRouterJobEventData extends AcsRouterEventData {
   /** Router Job events Queue Id */
   queueId?: string;
   /** Router Job events Labels */
-  labels: Record<string, string>;
+  readonly labels: Record<string, string>;
   /** Router Jobs events Tags */
-  tags: Record<string, string>;
+  readonly tags: Record<string, string>;
 }
 
 export function acsRouterJobEventDataDeserializer(
@@ -2754,7 +2759,7 @@ export interface AcsRouterQueueDetails {
   /** Router Queue Name */
   name?: string;
   /** Router Queue Labels */
-  labels: Record<string, string>;
+  readonly labels: Record<string, string>;
 }
 
 export function acsRouterQueueDetailsDeserializer(
@@ -3239,13 +3244,13 @@ export interface AcsRouterWorkerOfferAcceptedEventData
   /** Router Worker Offer Accepted Job Priority */
   jobPriority?: number;
   /** Router Worker Offer Accepted Worker Labels */
-  workerLabels: Record<string, string>;
+  readonly workerLabels: Record<string, string>;
   /** Router Worker Offer Accepted Worker Tags */
-  workerTags: Record<string, string>;
+  readonly workerTags: Record<string, string>;
   /** Router Worker Offer Accepted Job Labels */
-  jobLabels: Record<string, string>;
+  readonly jobLabels: Record<string, string>;
   /** Router Worker Offer Accepted Job Tags */
-  jobTags: Record<string, string>;
+  readonly jobTags: Record<string, string>;
 }
 
 export function acsRouterWorkerOfferAcceptedEventDataDeserializer(
@@ -3321,17 +3326,17 @@ export interface AcsRouterWorkerOfferIssuedEventData
   /** Router Worker Offer Issued Job Priority */
   jobPriority?: number;
   /** Router Worker Offer Issued Worker Labels */
-  workerLabels: Record<string, string>;
+  readonly workerLabels: Record<string, string>;
   /** Router Worker Offer Issued Time in UTC */
   offeredOn: Date;
   /** Router Worker Offer Issued Expiration Time in UTC */
   expiresOn: Date;
   /** Router Worker Offer Issued Worker Tags */
-  workerTags: Record<string, string>;
+  readonly workerTags: Record<string, string>;
   /** Router Worker Offer Issued Job Labels */
-  jobLabels: Record<string, string>;
+  readonly jobLabels: Record<string, string>;
   /** Router Worker Offer Issued Job Tags */
-  jobTags: Record<string, string>;
+  readonly jobTags: Record<string, string>;
 }
 
 export function acsRouterWorkerOfferIssuedEventDataDeserializer(
@@ -3387,9 +3392,9 @@ export interface AcsRouterWorkerRegisteredEventData {
   /** Router Worker Register Total Capacity */
   totalCapacity?: number;
   /** Router Worker Registered Labels */
-  labels: Record<string, string>;
+  readonly labels: Record<string, string>;
   /** Router Worker Registered Tags */
-  tags: Record<string, string>;
+  readonly tags: Record<string, string>;
 }
 
 export function acsRouterWorkerRegisteredEventDataDeserializer(
@@ -3456,9 +3461,9 @@ export interface AcsRouterWorkerUpdatedEventData {
   /** Router Worker Updated Total Capacity */
   totalCapacity?: number;
   /** Router Worker Updated Labels */
-  labels: Record<string, string>;
+  readonly labels: Record<string, string>;
   /** Router Worker Updated Tags */
-  tags: Record<string, string>;
+  readonly tags: Record<string, string>;
   /** Router Worker Properties Updated */
   readonly updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
@@ -4721,9 +4726,9 @@ export interface DeviceTelemetryEvent {
   /** The content of the message from the device. */
   body: Record<string, any>;
   /** Application properties are user-defined strings that can be added to the message. These fields are optional. */
-  properties: Record<string, string>;
+  readonly properties: Record<string, string>;
   /** System properties help identify contents and source of the messages. */
-  systemProperties: Record<string, string>;
+  readonly systemProperties: Record<string, string>;
 }
 
 export function deviceTelemetryEventDeserializer(
@@ -6111,50 +6116,6 @@ export function redisImportRDBCompletedEventDataDeserializer(
   };
 }
 
-/** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteSuccess event. This is raised when a resource create or update operation succeeds. */
-export interface ResourceWriteSuccessEventData {
-  /** The tenant ID of the resource. */
-  tenantId?: string;
-  /** The subscription ID of the resource. */
-  subscriptionId?: string;
-  /** The resource group of the resource. */
-  resourceGroup?: string;
-  /** The resource provider performing the operation. */
-  resourceProvider?: string;
-  /** The URI of the resource in the operation. */
-  resourceUrl?: string;
-  /** The operation that was performed. */
-  operationName?: string;
-  /** The status of the operation. */
-  status?: string;
-  /** The requested authorization for the operation. */
-  authorization: ResourceAuthorization;
-  /** The properties of the claims. */
-  claims: Record<string, string>;
-  /** An operation ID used for troubleshooting. */
-  correlationId?: string;
-  /** The details of the operation. */
-  httpRequest: ResourceHttpRequest;
-}
-
-export function resourceWriteSuccessEventDataDeserializer(
-  item: any,
-): ResourceWriteSuccessEventData {
-  return {
-    tenantId: item["tenantId"],
-    subscriptionId: item["subscriptionId"],
-    resourceGroup: item["resourceGroup"],
-    resourceProvider: item["resourceProvider"],
-    resourceUrl: item["resourceUri"],
-    operationName: item["operationName"],
-    status: item["status"],
-    authorization: resourceAuthorizationDeserializer(item["authorization"]),
-    claims: item["claims"],
-    correlationId: item["correlationId"],
-    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
-  };
-}
-
 /** The details of the authorization for the resource. */
 export interface ResourceAuthorization {
   /** The scope of the authorization. */
@@ -6162,7 +6123,7 @@ export interface ResourceAuthorization {
   /** The action being requested. */
   action?: string;
   /** The evidence for the authorization. */
-  evidence: Record<string, string>;
+  readonly evidence: Record<string, string>;
 }
 
 export function resourceAuthorizationDeserializer(
@@ -6198,6 +6159,50 @@ export function resourceHttpRequestDeserializer(
   };
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteSuccess event. This is raised when a resource create or update operation succeeds. */
+export interface ResourceWriteSuccessEventData {
+  /** The tenant ID of the resource. */
+  tenantId?: string;
+  /** The subscription ID of the resource. */
+  subscriptionId?: string;
+  /** The resource group of the resource. */
+  resourceGroup?: string;
+  /** The resource provider performing the operation. */
+  resourceProvider?: string;
+  /** The URI of the resource in the operation. */
+  resourceUrl?: string;
+  /** The operation that was performed. */
+  operationName?: string;
+  /** The status of the operation. */
+  status?: string;
+  /** The requested authorization for the operation. */
+  authorization: ResourceAuthorization;
+  /** The properties of the claims. */
+  readonly claims: Record<string, string>;
+  /** An operation ID used for troubleshooting. */
+  correlationId?: string;
+  /** The details of the operation. */
+  httpRequest: ResourceHttpRequest;
+}
+
+export function resourceWriteSuccessEventDataDeserializer(
+  item: any,
+): ResourceWriteSuccessEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUrl: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteFailure event. This is raised when a resource create or update operation fails. */
 export interface ResourceWriteFailureEventData {
   /** The tenant ID of the resource. */
@@ -6217,7 +6222,7 @@ export interface ResourceWriteFailureEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6261,7 +6266,7 @@ export interface ResourceWriteCancelEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6305,7 +6310,7 @@ export interface ResourceDeleteSuccessEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6349,7 +6354,7 @@ export interface ResourceDeleteFailureEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6393,7 +6398,7 @@ export interface ResourceDeleteCancelEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6437,7 +6442,7 @@ export interface ResourceActionSuccessEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6481,7 +6486,7 @@ export interface ResourceActionFailureEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -6525,7 +6530,7 @@ export interface ResourceActionCancelEventData {
   /** The requested authorization for the operation. */
   authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: Record<string, string>;
+  readonly claims: Record<string, string>;
   /** An operation ID used for troubleshooting. */
   correlationId?: string;
   /** The details of the operation. */
@@ -7994,12 +7999,12 @@ export interface EventGridMqttClientCreatedOrUpdatedEventData
   createdOn: Date;
   /**
    * Time the client resource is last updated based on the provider's UTC time. If
-   * the client resource was never updated, this value is identical to the value of
-   * the 'createdOn' property.
+   *   the client resource was never updated, this value is identical to the value of
+   *   the 'createdOn' property.
    */
   updatedOn: Date;
   /** The key-value attributes that are assigned to the client resource. */
-  attributes: Record<string, string>;
+  readonly attributes: Record<string, string>;
 }
 
 export function eventGridMqttClientCreatedOrUpdatedEventDataDeserializer(
@@ -8193,9 +8198,9 @@ export interface ResourceNotificationsResourceUpdatedDetails {
   /** the location of the resource for which the event is being emitted */
   location?: string;
   /** the tags on the resource for which the event is being emitted */
-  tags?: Record<string, string>;
+  readonly tags?: Record<string, string>;
   /** properties in the payload of the resource for which the event is being emitted */
-  properties?: Record<string, any>;
+  readonly properties?: Record<string, any>;
 }
 
 export function resourceNotificationsResourceUpdatedDetailsDeserializer(
@@ -8371,5 +8376,94 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
       item["operationalInfo"],
     ),
     apiVersion: item["apiVersion"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateCreated event. */
+export interface ResourceNotificationsAksResourcesFleetGateCreatedEventData
+  extends ResourceNotificationsResourceUpdatedEventData {}
+
+export function resourceNotificationsAksResourcesFleetGateCreatedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsAksResourcesFleetGateCreatedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated event. */
+export interface ResourceNotificationsAksResourcesFleetGateUpdatedEventData
+  extends ResourceNotificationsResourceUpdatedEventData {}
+
+export function resourceNotificationsAksResourcesFleetGateUpdatedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsAksResourcesFleetGateUpdatedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.AKSResources.FleetGateDeleted event. */
+export interface ResourceNotificationsAksResourcesFleetGateDeletedEventData {
+  /** resourceInfo details for deleted event */
+  resourceInfo: {
+    id: string;
+    name: string;
+    type: string;
+    properties: Record<string, any>;
+  };
+  /** details about operational info */
+  operationalInfo: ResourceNotificationsOperationalDetails;
+  /** api version of the resource properties bag */
+  apiVersion: string;
+}
+
+export function resourceNotificationsAksResourcesFleetGateDeletedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsAksResourcesFleetGateDeletedEventData {
+  return {
+    resourceInfo:
+      _resourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfoDeserializer(
+        item["resourceInfo"],
+      ),
+    operationalInfo: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
+
+/** model interface _ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo */
+export interface _ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo {
+  /** id of the resource for which the event is being emitted */
+  id: string;
+  /** name of the resource for which the event is being emitted */
+  name: string;
+  /** the type of the resource for which the event is being emitted */
+  type: string;
+  /** properties in the payload of the resource for which the event is being emitted */
+  readonly properties: Record<string, any>;
+}
+
+export function _resourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfoDeserializer(
+  item: any,
+): _ResourceNotificationsAksResourcesFleetGateDeletedEventDataResourceInfo {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    properties: item["properties"],
   };
 }
