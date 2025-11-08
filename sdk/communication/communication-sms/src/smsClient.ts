@@ -252,13 +252,17 @@ export class SmsClient {
     options: SmsSendOptions = { enableDeliveryReport: false },
   ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("SmsClient-Send", operationOptions, async (updatedOptions: OperationOptions) => {
-      const response = await this.api.sms.send(
-        generateSendMessageRequest(sendRequest, restOptions),
-        updatedOptions,
-      );
-      return response.value;
-    });
+    return tracingClient.withSpan(
+      "SmsClient-Send",
+      operationOptions,
+      async (updatedOptions: OperationOptions) => {
+        const response = await this.api.sms.send(
+          generateSendMessageRequest(sendRequest, restOptions),
+          updatedOptions,
+        );
+        return response.value;
+      },
+    );
   }
 
   /**

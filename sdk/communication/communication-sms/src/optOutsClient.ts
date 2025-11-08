@@ -135,20 +135,24 @@ export class OptOutsClientImpl implements OptOutsClient {
     options: RemoveOptions = {},
   ): Promise<OptOutRemoveResult[]> {
     const { operationOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("OptOuts-Remove", operationOptions, async (updatedOptions: OperationOptions) => {
-      const response = await this.api.optOuts.remove(
-        generateOptOutRequest(from, to),
-        updatedOptions,
-      );
+    return tracingClient.withSpan(
+      "OptOuts-Remove",
+      operationOptions,
+      async (updatedOptions: OperationOptions) => {
+        const response = await this.api.optOuts.remove(
+          generateOptOutRequest(from, to),
+          updatedOptions,
+        );
 
-      return response.value.map((optOutResponseItem: OptOutResponseItem) => {
-        return {
-          to: optOutResponseItem.to,
-          httpStatusCode: optOutResponseItem.httpStatusCode,
-          errorMessage: optOutResponseItem.errorMessage ?? "",
-        };
-      });
-    });
+        return response.value.map((optOutResponseItem: OptOutResponseItem) => {
+          return {
+            to: optOutResponseItem.to,
+            httpStatusCode: optOutResponseItem.httpStatusCode,
+            errorMessage: optOutResponseItem.errorMessage ?? "",
+          };
+        });
+      },
+    );
   }
 
   /**
@@ -164,17 +168,24 @@ export class OptOutsClientImpl implements OptOutsClient {
     options: AddOptions = {},
   ): Promise<OptOutAddResult[]> {
     const { operationOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("OptOuts-Add", operationOptions, async (updatedOptions: OperationOptions) => {
-      const response = await this.api.optOuts.add(generateOptOutRequest(from, to), updatedOptions);
+    return tracingClient.withSpan(
+      "OptOuts-Add",
+      operationOptions,
+      async (updatedOptions: OperationOptions) => {
+        const response = await this.api.optOuts.add(
+          generateOptOutRequest(from, to),
+          updatedOptions,
+        );
 
-      return response.value.map((optOutResponseItem: OptOutResponseItem) => {
-        return {
-          to: optOutResponseItem.to,
-          httpStatusCode: optOutResponseItem.httpStatusCode,
-          errorMessage: optOutResponseItem.errorMessage ?? "",
-        };
-      });
-    });
+        return response.value.map((optOutResponseItem: OptOutResponseItem) => {
+          return {
+            to: optOutResponseItem.to,
+            httpStatusCode: optOutResponseItem.httpStatusCode,
+            errorMessage: optOutResponseItem.errorMessage ?? "",
+          };
+        });
+      },
+    );
   }
 
   /**
@@ -190,20 +201,24 @@ export class OptOutsClientImpl implements OptOutsClient {
     options: CheckOptions = {},
   ): Promise<OptOutCheckResult[]> {
     const { operationOptions } = extractOperationOptions(options);
-    return tracingClient.withSpan("OptOuts-Check", operationOptions, async (updatedOptions: OperationOptions) => {
-      const response = await this.api.optOuts.check(
-        generateOptOutRequest(from, to),
-        updatedOptions,
-      );
+    return tracingClient.withSpan(
+      "OptOuts-Check",
+      operationOptions,
+      async (updatedOptions: OperationOptions) => {
+        const response = await this.api.optOuts.check(
+          generateOptOutRequest(from, to),
+          updatedOptions,
+        );
 
-      return response.value.map((optOutResponseItem: OptOutResponseItem) => {
-        return {
-          to: optOutResponseItem.to,
-          isOptedOut: optOutResponseItem.isOptedOut ?? false,
-          httpStatusCode: optOutResponseItem.httpStatusCode,
-          errorMessage: optOutResponseItem.errorMessage ?? "",
-        };
-      });
-    });
+        return response.value.map((optOutResponseItem: OptOutResponseItem) => {
+          return {
+            to: optOutResponseItem.to,
+            isOptedOut: optOutResponseItem.isOptedOut ?? false,
+            httpStatusCode: optOutResponseItem.httpStatusCode,
+            errorMessage: optOutResponseItem.errorMessage ?? "",
+          };
+        });
+      },
+    );
   }
 }
