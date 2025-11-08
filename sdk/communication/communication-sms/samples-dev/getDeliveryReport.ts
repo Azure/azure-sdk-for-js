@@ -44,6 +44,10 @@ export async function main(): Promise<void> {
 
       // Get delivery report for this message
       const messageId = sendResult.messageId;
+      if (!messageId) {
+        console.log("No message ID returned, skipping delivery report check.");
+        continue;
+      }
       console.log(`\nFetching delivery report for message ID: ${messageId}`);
 
       try {

@@ -235,11 +235,11 @@ if (sendResults[0].successful && sendResults[0].messageId) {
     console.log("Status Details:", deliveryReport.deliveryStatusDetails);
     console.log("Tag:", deliveryReport.tag);
     console.log("Delivery Attempts:", deliveryReport.deliveryAttempts);
-  } catch (error) {
+  } catch (error: any) {
     if (error.statusCode === 404) {
       console.log("Delivery report not yet available - check again later");
     } else {
-      throw error;
+      console.error("Error retrieving delivery report:", error);
     }
   }
 }

@@ -6,7 +6,7 @@
  */
 
 import type { SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
-import { SmsClient, ServiceVersion } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import "dotenv/config";
