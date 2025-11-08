@@ -9,8 +9,7 @@
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
-import OpenAI from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";

@@ -15,7 +15,8 @@ import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint =
+  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 // The following OSS models are supported for supervised fine-tuning:
 // "ministral-3b"
 // "llama-3.3-70b"
