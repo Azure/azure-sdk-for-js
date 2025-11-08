@@ -38,16 +38,16 @@ describe("snippets", () => {
       instructions: "You are a helpful AI assistant. Respond naturally and conversationally.",
       voice: {
         type: "azure-standard",
-        name: "en-US-AvaNeural"
+        name: "en-US-AvaNeural",
       },
       turnDetection: {
         type: "server_vad",
         threshold: 0.5,
         prefixPaddingMs: 300,
-        silenceDurationMs: 500
+        silenceDurationMs: 500,
       },
       inputAudioFormat: "pcm16",
-      outputAudioFormat: "pcm16"
+      outputAudioFormat: "pcm16",
     });
   });
 
@@ -64,16 +64,16 @@ describe("snippets", () => {
       voice: {
         type: "azure-custom",
         name: "your-custom-voice-name",
-        endpointId: "your-custom-voice-endpoint"
+        endpointId: "your-custom-voice-endpoint",
       },
       turnDetection: {
         type: "server_vad",
         threshold: 0.6,
         prefixPaddingMs: 200,
-        silenceDurationMs: 300
+        silenceDurationMs: 300,
       },
       inputAudioFormat: "pcm16",
-      outputAudioFormat: "pcm16"
+      outputAudioFormat: "pcm16",
     });
   });
 
@@ -94,13 +94,13 @@ describe("snippets", () => {
       // @ts-preserve-whitespace
       processResponseTextDelta: async (event, context) => {
         // Handle incoming text deltas
-        console.log('Assistant:', event.delta);
+        console.log("Assistant:", event.delta);
       },
       // @ts-preserve-whitespace
       processInputAudioTranscriptionCompleted: async (event, context) => {
         // Handle user speech transcription
-        console.log('User said:', event.transcript);
-      }
+        console.log("User said:", event.transcript);
+      },
     });
     // @ts-preserve-whitespace
     // Send audio data from microphone
@@ -116,34 +116,37 @@ describe("snippets", () => {
     const session = await client.startSession("gpt-4o-mini-realtime-preview");
     // @ts-preserve-whitespace
     // Define available functions
-    const tools = [{
-      type: "function",
-      name: "get_weather",
-      description: "Get current weather for a location",
-      parameters: {
-        type: "object",
-        properties: {
-          location: {
-            type: "string",
-            description: "The city and state or country"
-          }
+    const tools = [
+      {
+        type: "function",
+        name: "get_weather",
+        description: "Get current weather for a location",
+        parameters: {
+          type: "object",
+          properties: {
+            location: {
+              type: "string",
+              description: "The city and state or country",
+            },
+          },
+          required: ["location"],
         },
-        required: ["location"]
-      }
-    }];
+      },
+    ];
     // @ts-preserve-whitespace
     // Configure session with tools
     await session.updateSession({
       modalities: ["audio", "text"],
-      instructions: "You can help users with weather information. Use the get_weather function when needed.",
+      instructions:
+        "You can help users with weather information. Use the get_weather function when needed.",
       tools: tools,
-      toolChoice: "auto"
+      toolChoice: "auto",
     });
     // @ts-preserve-whitespace
     // Handle function calls
     const subscription = session.subscribe({
       processResponseFunctionCallArgumentsDone: async (event, context) => {
-        if (event.name === 'get_weather') {
+        if (event.name === "get_weather") {
           const args = JSON.parse(event.arguments);
           const weatherData = await getWeatherData(args.location);
           // @ts-preserve-whitespace
@@ -151,15 +154,15 @@ describe("snippets", () => {
           await session.addConversationItem({
             type: "function_call_output",
             callId: event.callId,
-            output: JSON.stringify(weatherData)
+            output: JSON.stringify(weatherData),
           });
           // @ts-preserve-whitespace
           // Request response generation
           await session.sendEvent({
-            type: "response.create"
+            type: "response.create",
           });
         }
-      }
+      },
     });
   });
 
