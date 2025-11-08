@@ -47,7 +47,7 @@ describe("DeviceRegistry Schema Registry tests", () => {
     await recorder.stop();
   });
   it("schema registry CRUD operations tests", async () => {
-    const schemaRegistryName = "test-sr-js";
+    const schemaRegistryName = "sr-js-test";
 
     // Create Schema Registry
     const srProperties: SchemaRegistry = {
@@ -112,10 +112,12 @@ describe("DeviceRegistry Schema Registry tests", () => {
     }
     assert.ok(srListResults.length > 0);
 
+    // Wait for 2 minutes. Uncomment during test run so you can add role assignment
     // await new Promise(resolve => {
-    //   console.log("Pausing for 2 minutes... add role assignment to Schema Registry");
+    //   console.log("Pausing for 2 minutes... add role assignment to Schema Registry. Principal ID: " + srGetResult.identity!.principalId);
     //   setTimeout(resolve, 120000);
-    // }); // Wait for 2 minutes. Uncomment during test run so you can add role assignment
+    // });
+    // console.log("Continuing with Schema Registry tests...");
 
     // Create Schema
     const schemaName = "testschema";
