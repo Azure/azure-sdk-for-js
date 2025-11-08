@@ -207,7 +207,7 @@ export class AIProjectClient {
 
 // @public
 export interface AIProjectClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    apiVersion?: KnownApiVersions;
 }
 
 // @public

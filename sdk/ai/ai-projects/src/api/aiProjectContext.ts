@@ -9,24 +9,24 @@ import { TokenCredential } from "@azure/core-auth";
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownApiVersions} that the service accepts. */
-  apiVersion: string;
+  apiVersion: KnownApiVersions;
 }
 
 /** Optional parameters for the client. */
 export interface AIProjectClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownApiVersions} that the service accepts. */
-  apiVersion?: string;
+  apiVersion?: KnownApiVersions;
 }
 
 export function createAIProject(
-  endpointParam: string,
+  endpoint: string,
   credential: TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
-  const endpointUrl = options.endpoint ?? String(endpointParam);
+  const endpointUrl = options.endpoint ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-projects/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-projects/2.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -40,7 +40,7 @@ export function createAIProject(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-11-15-preview";
+  const apiVersion = options.apiVersion ?? KnownApiVersions.v2025_11_15_preview;
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
