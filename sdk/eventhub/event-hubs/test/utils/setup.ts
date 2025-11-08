@@ -7,10 +7,10 @@ import type { MockServerOptions } from "@azure-tools/mock-hub";
 import { MockEventHub } from "@azure-tools/mock-hub";
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
-import type { GlobalSetupContext } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
 import type { AzureLogLevel } from "@azure/logger";
+import type { TestProject } from "vitest/node";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
@@ -62,7 +62,7 @@ function getAzureLogLevel(): AzureLogLevel | undefined {
   return val as AzureLogLevel | undefined;
 }
 
-export default async function ({ provide }: GlobalSetupContext) {
+export default async function ({ provide }: TestProject) {
   if (process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() === "live") {
     const kvUri = assertEnvironmentVariable("KEYVAULT_URI");
     const eventHubConnectionStringSecretName = assertEnvironmentVariable(
