@@ -180,7 +180,7 @@ export interface AgentVersionObject {
     definition: AgentDefinitionUnion;
     description?: string;
     id: string;
-    metadata: Record<string, string> | null;
+    metadata: Record<string, string>;
     name: string;
     object: "agent.version";
     version: string;
@@ -511,9 +511,9 @@ export interface CodeInterpreterToolAuto {
 
 // @public
 export interface CodeInterpreterToolCallItemParam extends ItemParam {
-    code: string | null;
+    code: string;
     container_id: string;
-    outputs: CodeInterpreterOutputUnion[] | null;
+    outputs: CodeInterpreterOutputUnion[];
     // (undocumented)
     type: "code_interpreter_call";
 }
@@ -1202,7 +1202,7 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    filters?: Filters | null;
+    filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
     type: "file_search";
@@ -1218,7 +1218,7 @@ export interface FileSearchToolCallItemParam extends ItemParam {
         filename?: string;
         attributes?: VectorStoreFileAttributes;
         score?: number;
-    }[] | null;
+    }[];
     // (undocumented)
     type: "file_search_call";
 }
@@ -1235,8 +1235,8 @@ export interface FolderDatasetVersion extends DatasetVersion {
 export interface FunctionTool extends Tool {
     description?: string;
     name: string;
-    parameters: any | null;
-    strict: boolean | null;
+    parameters: any;
+    strict: boolean;
     type: "function";
 }
 
@@ -1309,7 +1309,7 @@ export interface ImageGenTool extends Tool {
 
 // @public
 export interface ImageGenToolCallItemParam extends ItemParam {
-    result: string | null;
+    result: string;
     // (undocumented)
     type: "image_generation_call";
 }
@@ -1483,7 +1483,7 @@ export interface ItemContentInputAudio extends ItemContent {
 // @public
 export interface ItemContentInputFile extends ItemContent {
     file_data?: string;
-    file_id?: string | null;
+    file_id?: string;
     filename?: string;
     type: "input_file";
 }
@@ -1491,8 +1491,8 @@ export interface ItemContentInputFile extends ItemContent {
 // @public
 export interface ItemContentInputImage extends ItemContent {
     detail?: "low" | "high" | "auto";
-    file_id?: string | null;
-    image_url?: string | null;
+    file_id?: string;
+    image_url?: string;
     type: "input_image";
 }
 
@@ -1560,10 +1560,10 @@ export enum KnownApiVersions {
 export interface LocalShellExecAction {
     command: string[];
     env: Record<string, string>;
-    timeout_ms?: number | null;
+    timeout_ms?: number;
     type: "exec";
-    user?: string | null;
-    working_directory?: string | null;
+    user?: string;
+    working_directory?: string;
 }
 
 // @public
@@ -1630,7 +1630,7 @@ export interface MCPApprovalRequestItemParam extends ItemParam {
 export interface MCPApprovalResponseItemParam extends ItemParam {
     approval_request_id: string;
     approve: boolean;
-    reason?: string | null;
+    reason?: string;
     // (undocumented)
     type: "mcp_approval_response";
 }
@@ -1638,9 +1638,9 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
 // @public
 export interface MCPCallItemParam extends ItemParam {
     arguments: string;
-    error?: string | null;
+    error?: string;
     name: string;
-    output?: string | null;
+    output?: string;
     server_label: string;
     // (undocumented)
     type: "mcp_call";
@@ -1648,7 +1648,7 @@ export interface MCPCallItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsItemParam extends ItemParam {
-    error?: string | null;
+    error?: string;
     server_label: string;
     tools: MCPListToolsTool[];
     // (undocumented)
@@ -1657,8 +1657,8 @@ export interface MCPListToolsItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsTool {
-    annotations?: any | null;
-    description?: string | null;
+    annotations?: any;
+    description?: string;
     input_schema: any;
     name: string;
 }
@@ -1667,7 +1667,7 @@ export interface MCPListToolsTool {
 export interface MCPTool extends Tool {
     allowed_tools?: string[] | ({
         tool_names?: string[];
-    }) | null;
+    });
     headers?: Record<string, string>;
     project_connection_id?: string;
     require_approval?: {
@@ -1728,7 +1728,7 @@ export interface MemorySearchTool extends Tool {
 
 // @public
 export interface MemorySearchToolCallItemParam extends ItemParam {
-    results?: MemorySearchItem[] | null;
+    results?: MemorySearchItem[];
     // (undocumented)
     type: "memory_search_call";
 }
@@ -2028,19 +2028,19 @@ export type PendingUploadType = "None" | "BlobReference";
 
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
-    instructions?: string | null;
+    instructions?: string;
     // (undocumented)
     kind: "prompt";
     model: string;
     // (undocumented)
-    reasoning?: Reasoning | null;
+    reasoning?: Reasoning;
     structured_inputs?: Record<string, StructuredInputDefinition>;
-    temperature?: number | null;
+    temperature?: number;
     text?: {
         format?: ResponseTextFormatConfigurationUnion;
     };
     tools?: ToolUnion[];
-    top_p?: number | null;
+    top_p?: number;
 }
 
 // @public
@@ -2070,9 +2070,9 @@ export interface RankingOptions {
 // @public
 export interface Reasoning {
     // (undocumented)
-    effort?: ReasoningEffort | null;
-    generate_summary?: ("auto" | "concise" | "detailed") | null;
-    summary?: ("auto" | "concise" | "detailed") | null;
+    effort?: ReasoningEffort;
+    generate_summary?: "auto" | "concise" | "detailed";
+    summary?: "auto" | "concise" | "detailed";
 }
 
 // @public
@@ -2080,7 +2080,7 @@ export type ReasoningEffort = "low" | "medium" | "high";
 
 // @public
 export interface ReasoningItemParam extends ItemParam {
-    encrypted_content?: string | null;
+    encrypted_content?: string;
     summary: ReasoningItemSummaryPartUnion[];
     // (undocumented)
     type: "reasoning";
@@ -2217,7 +2217,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
     name: string;
     // (undocumented)
     schema: Record<string, any>;
-    strict?: boolean | null;
+    strict?: boolean;
     type: "json_schema";
 }
 
@@ -2362,7 +2362,7 @@ export interface StructuredOutputDefinition {
     description: string;
     name: string;
     schema: Record<string, any>;
-    strict: boolean | null;
+    strict: boolean;
 }
 
 // @public
@@ -2507,7 +2507,7 @@ export type WebSearchActionUnion = WebSearchActionFind | WebSearchActionOpenPage
 export interface WebSearchPreviewTool extends Tool {
     search_context_size?: "low" | "medium" | "high";
     type: "web_search_preview";
-    user_location?: LocationUnion | null;
+    user_location?: LocationUnion;
 }
 
 // @public

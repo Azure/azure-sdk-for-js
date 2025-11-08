@@ -6,7 +6,11 @@
 
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
-/** model interface AgentObject */
+
+/**
+ * Represents an agent object.
+ * Contains the agent's unique identifier, name, and version information.
+ */
 export interface AgentObject {
   /** The object type, which is always 'agent'. */
   object: "agent";
@@ -29,7 +33,10 @@ export function agentObjectDeserializer(item: any): AgentObject {
   };
 }
 
-/** model interface _AgentObjectVersions */
+
+/**
+ * Helper interface for agent version references.
+ */
 export interface _AgentObjectVersions {
   latest: AgentVersionObject;
 }
@@ -40,7 +47,11 @@ export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersion
   };
 }
 
-/** model interface AgentVersionObject */
+
+/**
+ * Represents a specific version of an agent.
+ * Includes metadata, versioning, creation time, and agent definition.
+ */
 export interface AgentVersionObject {
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -50,7 +61,7 @@ export interface AgentVersionObject {
    * Keys are strings with a maximum length of 64 characters. Values are strings
    * with a maximum length of 512 characters.
    */
-  metadata: Record<string, string> | null;
+  metadata: Record<string, string>;
   /** The object type, which is always 'agent.version'. */
   object: "agent.version";
   /** The unique identifier of the agent version. */
@@ -80,7 +91,10 @@ export function agentVersionObjectDeserializer(item: any): AgentVersionObject {
   };
 }
 
-/** model interface AgentDefinition */
+/**
+ * Base definition interface for agents.
+ * Contains the agent kind and optional RAI configuration.
+ */
 export interface AgentDefinition {
   kind: AgentKind;
   /** Configuration for Responsible AI (RAI) content filtering and safety features. */
@@ -103,7 +117,10 @@ export function agentDefinitionDeserializer(item: any): AgentDefinition {
   };
 }
 
-/** Alias for AgentDefinitionUnion */
+/**
+ * Union type for all agent definition types.
+ * Supports workflow, hosted, container app, and prompt agents.
+ */
 export type AgentDefinitionUnion =
   | WorkflowAgentDefinition
   | HostedAgentDefinitionUnion
@@ -149,7 +166,10 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
   }
 }
 
-/** Type of AgentKind */
+/**
+ * Defines the type/kind of agent.
+ * Determines which agent definition structure is used.
+ */
 export type AgentKind = "prompt" | "hosted" | "container_app" | "workflow";
 
 /** Configuration for Responsible AI (RAI) content filtering and safety features. */
@@ -465,7 +485,11 @@ export type ToolType =
   | "azure_function"
   | "memory_search";
 
-/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+/**
+ * Function tool definition for agents.
+ * Allows the model to call functions defined in your code.
+ * Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
+ */
 export interface FunctionTool extends Tool {
   /** The type of the function tool. Always `function`. */
   type: "function";
@@ -474,9 +498,9 @@ export interface FunctionTool extends Tool {
   /** A description of the function. Used by the model to determine whether or not to call the function. */
   description?: string;
   /** A JSON schema object describing the parameters of the function. */
-  parameters: any | null;
+  parameters: any;
   /** Whether to enforce strict parameter validation. Default `true`. */
-  strict: boolean | null;
+  strict: boolean;
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -499,7 +523,11 @@ export function functionToolDeserializer(item: any): FunctionTool {
   };
 }
 
-/** A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search). */
+/**
+ * File search tool definition for agents.
+ * Searches for relevant content from uploaded files.
+ * Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search).
+ */
 export interface FileSearchTool extends Tool {
   /** The type of the file search tool. Always `file_search`. */
   type: "file_search";
@@ -510,7 +538,7 @@ export interface FileSearchTool extends Tool {
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
   /** A filter to apply. */
-  filters?: Filters | null;
+  filters?: Filters;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -541,7 +569,10 @@ export function fileSearchToolDeserializer(item: any): FileSearchTool {
   };
 }
 
-/** model interface RankingOptions */
+/**
+ * Ranking options for file search.
+ * Controls which ranker to use and the score threshold for results.
+ */
 export interface RankingOptions {
   /** The ranker to use for the file search. */
   ranker?: "auto" | "default-2024-11-15";
@@ -560,7 +591,10 @@ export function rankingOptionsDeserializer(item: any): RankingOptions {
   };
 }
 
-/** Alias for Filters */
+/**
+ * Filter types for file search.
+ * Can be either a comparison filter or a compound filter combining multiple filters.
+ */
 export type Filters = ComparisonFilter | CompoundFilter;
 
 export function filtersSerializer(item: Filters): any {
@@ -571,7 +605,10 @@ export function filtersDeserializer(item: any): Filters {
   return item;
 }
 
-/** A filter used to compare a specified attribute key to a given value using a defined comparison operation. */
+/**
+ * Comparison filter for file search.
+ * Compares a specified attribute key to a given value using a comparison operation.
+ */
 export interface ComparisonFilter {
   /**
    * Specifies the comparison operator:
@@ -611,7 +648,10 @@ export function _comparisonFilterValueDeserializer(item: any): _ComparisonFilter
   return item;
 }
 
-/** Combine multiple filters using `and` or `or`. */
+/**
+ * Compound filter for file search.
+ * Combines multiple filters using logical AND or OR operations.
+ */
 export interface CompoundFilter {
   /** Type of operation: `and` or `or`. */
   type: "and" | "or";
@@ -688,12 +728,15 @@ export function computerUsePreviewToolDeserializer(item: any): ComputerUsePrevie
   };
 }
 
-/** Note: web_search is not yet available via Azure OpenAI. */
+/**
+ * Web search tool definition for agents.
+ * Note: web_search is not yet available via Azure OpenAI.
+ */
 export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
   /** The user's location. */
-  user_location?: LocationUnion | null;
+  user_location?: LocationUnion;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
 }
@@ -718,7 +761,9 @@ export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewToo
   };
 }
 
-/** model interface Location */
+/**
+ * Base interface for location information.
+ */
 export interface Location {
   type: LocationType;
 }
@@ -756,13 +801,18 @@ export function locationUnionDeserializer(item: any): LocationUnion {
   }
 }
 
-/** Type of LocationType */
+/**
+ * Type discriminator for location.
+ */
 export type LocationType = "approximate";
 
-/** model interface ApproximateLocation */
+/**
+ * Approximate location information for web search.
+ * Includes country, region, city, and timezone.
+ */
 export interface ApproximateLocation extends Location {
   type: "approximate";
-   /** The country of the location. */
+  /** The country of the location. */
   country?: string;
   /** The region of the location. */
   region?: string;
@@ -792,7 +842,10 @@ export function approximateLocationDeserializer(item: any): ApproximateLocation 
   };
 }
 
-/** A tool that runs Python code to help generate a response to a prompt. */
+/**
+ * Code interpreter tool definition for agents.
+ * Runs Python code to help generate responses to prompts.
+ */
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
@@ -863,7 +916,10 @@ export function codeInterpreterToolAutoDeserializer(item: any): CodeInterpreterT
   };
 }
 
-/** A tool that generates images using a model like `gpt-image-1`. */
+/**
+ * Image generation tool definition for agents.
+ * Generates images using a model like `gpt-image-1`.
+ */
 export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
@@ -939,7 +995,10 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
   };
 }
 
-/** model interface _ImageGenToolInputImageMask */
+/**
+ * Input image mask configuration for image generation tool.
+ * Can specify either a base64-encoded image URL or a file ID.
+ */
 export interface _ImageGenToolInputImageMask {
   /** Base64-encoded mask image. */
   image_url?: string;
@@ -958,7 +1017,10 @@ export function _imageGenToolInputImageMaskDeserializer(item: any): _ImageGenToo
   };
 }
 
-/** A tool that allows the model to execute shell commands in a local environment. */
+/**
+ * Local shell tool definition for agents.
+ * Allows the model to execute shell commands in a local environment.
+ */
 export interface LocalShellTool extends Tool {
   /** The type of the local shell tool. Always `local_shell`. */
   type: "local_shell";
@@ -975,8 +1037,9 @@ export function localShellToolDeserializer(item: any): LocalShellTool {
 }
 
 /**
- * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp).
+ * MCP (Model Context Protocol) tool definition for agents.
+ * Gives the model access to additional tools via remote MCP servers.
+ * [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp).
  */
 export interface MCPTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
@@ -997,8 +1060,7 @@ export interface MCPTool extends Tool {
         {
           tool_names?: string[];
         }
-      )
-    | null;
+      );
   /** Specify which of the MCP server's tools require approval. */
   require_approval?:
      | {
@@ -2147,7 +2209,10 @@ export function captureStructuredOutputsToolDeserializer(item: any): CaptureStru
   };
 }
 
-/** A structured output that can be produced by the agent. */
+/**
+ * A structured output definition for agents.
+ * Defines a named output schema that the agent can produce.
+ */
 export interface StructuredOutputDefinition {
   /** The name of the structured output. */
   name: string;
@@ -2156,7 +2221,7 @@ export interface StructuredOutputDefinition {
   /** The JSON schema for the structured output. */
   schema: Record<string, any>;
   /** Whether to enforce strict validation. Default `true`. */
-  strict: boolean | null;
+  strict: boolean;
 }
 
 export function structuredOutputDefinitionSerializer(item: StructuredOutputDefinition): any {
@@ -2387,18 +2452,21 @@ export function containerAppAgentDefinitionDeserializer(item: any): ContainerApp
   };
 }
 
-/** The prompt agent definition */
+/**
+ * Prompt-based agent definition.
+ * Defines an agent that uses a language model with custom instructions and tools.
+ */
 export interface PromptAgentDefinition extends AgentDefinition {
   kind: "prompt";
   /** The model deployment to use for this agent. */
   model: string;
   /** A system (or developer) message inserted into the model's context. */
-  instructions?: string | null;
+  instructions?: string;
   /**
    * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
    * We generally recommend altering this or `top_p` but not both.
    */
-  temperature?: number | null;
+  temperature?: number;
   /**
    * An alternative to sampling with temperature, called nucleus sampling,
    * where the model considers the results of the tokens with top_p probability
@@ -2407,8 +2475,8 @@ export interface PromptAgentDefinition extends AgentDefinition {
    *
    * We generally recommend altering this or `temperature` but not both.
    */
-  top_p?: number | null;
-  reasoning?: Reasoning | null;
+  top_p?: number;
+  reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
    * can specify which tool to use by setting the `tool_choice` parameter.
@@ -2464,15 +2532,15 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * Configuration options for [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
-  effort?: ReasoningEffort | null;
+  effort?: ReasoningEffort;
   /**
    * A summary of the reasoning performed by the model. This can be
    * useful for debugging and understanding the model's reasoning process.
    * One of `auto`, `concise`, or `detailed`.
    */
-  summary?: ("auto" | "concise" | "detailed") | null;
+  summary?: "auto" | "concise" | "detailed";
   /** **Deprecated**: use `summary` instead. A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`. */
-  generate_summary?: ("auto" | "concise" | "detailed") | null;
+  generate_summary?: "auto" | "concise" | "detailed";
 }
 
 export function reasoningSerializer(item: Reasoning): any {
@@ -2677,7 +2745,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
    * `strict` is `true`. To learn more, read the [Structured Outputs
    * guide](https://platform.openai.com/docs/guides/structured-outputs).
    */
-  strict?: boolean | null;
+  strict?: boolean;
 }
 
 export function responseTextFormatConfigurationJsonSchemaSerializer(
@@ -3446,14 +3514,17 @@ export function itemContentInputTextSerializer(item: ItemContentInputText): any 
   return { type: item["type"], text: item["text"] };
 }
 
-/** An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision). */
+/**
+ * Image input content for messages.
+ * Learn about [image inputs](https://platform.openai.com/docs/guides/vision).
+ */
 export interface ItemContentInputImage extends ItemContent {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
   /** The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL. */
-  image_url?: string | null;
+  image_url?: string;
   /** The ID of the file to be sent to the model. */
-  file_id?: string | null;
+  file_id?: string;
   /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
   detail?: "low" | "high" | "auto";
 }
@@ -3467,12 +3538,15 @@ export function itemContentInputImageSerializer(item: ItemContentInputImage): an
   };
 }
 
-/** A file input to the model. */
+/**
+ * File input content for messages.
+ * Can specify a file by ID or provide inline file data.
+ */
 export interface ItemContentInputFile extends ItemContent {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
   /** The ID of the file to be sent to the model. */
-  file_id?: string | null;
+  file_id?: string;
   /** The name of the file to be sent to the model. */
   filename?: string;
   /** The content of the file to be sent to the model. */
@@ -3764,24 +3838,22 @@ export function functionToolCallOutputItemParamSerializer(
 }
 
 /**
- * The results of a file search tool call. See the
- * [file search guide](https://platform.openai.com/docs/guides/tools-file-search) for more information.
- *
+ * File search tool call item.
+ * Contains queries and results from a file search operation.
+ * See the [file search guide](https://platform.openai.com/docs/guides/tools-file-search) for more information.
  */
 export interface FileSearchToolCallItemParam extends ItemParam {
   type: "file_search_call";
   /** The queries used to search for files. */
   queries: string[];
   /** The results of the file search tool call. */
-  results?:
-    | {
+  results?: {
         file_id?: string;
         text?: string;
         filename?: string;
         attributes?: VectorStoreFileAttributes;
         score?: number;
-      }[]
-    | null;
+      }[];
 }
 
 export function fileSearchToolCallItemParamSerializer(item: FileSearchToolCallItemParam): any {
@@ -4393,11 +4465,11 @@ export function functionToolCallItemParamSerializer(item: FunctionToolCallItemPa
 }
 
 /**
- * A description of the chain of thought used by a reasoning model while generating
- * a response. Be sure to include these items in your `input` to the Responses API
+ * Reasoning item parameter for o-series models.
+ * Contains the chain of thought used by a reasoning model while generating a response.
+ * Be sure to include these items in your `input` to the Responses API
  * for subsequent turns of a conversation if you are manually
  * [managing conversation state](https://platform.openai.com/docs/guides/conversation-state).
- *
  */
 export interface ReasoningItemParam extends ItemParam {
   type: "reasoning";
@@ -4405,7 +4477,7 @@ export interface ReasoningItemParam extends ItemParam {
    * The encrypted content of the reasoning item - populated when a response is
    * generated with `reasoning.encrypted_content` in the `include` parameter.
    */
-  encrypted_content?: string | null;
+  encrypted_content?: string;
   /** Reasoning text contents. */
   summary: ReasoningItemSummaryPartUnion[];
 }
@@ -4473,13 +4545,13 @@ export function itemReferenceItemParamSerializer(item: ItemReferenceItemParam): 
 }
 
 /**
- * An image generation request made by the model.
- *
+ * Image generation tool call item.
+ * Contains the request made by the model to generate an image.
  */
 export interface ImageGenToolCallItemParam extends ItemParam {
   type: "image_generation_call";
   /** The generated image encoded in base64. */
-  result: string | null;
+  result: string;
 }
 
 export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemParam): any {
@@ -4487,20 +4559,19 @@ export function imageGenToolCallItemParamSerializer(item: ImageGenToolCallItemPa
 }
 
 /**
- * A tool call to run code.
- *
+ * Code interpreter tool call item.
+ * Contains code execution request and outputs from the code interpreter.
  */
 export interface CodeInterpreterToolCallItemParam extends ItemParam {
   type: "code_interpreter_call";
   /** The ID of the container used to run the code. */
   container_id: string;
-  /** The code to run, or null if not available. */
-  code: string | null;
+  /** The code to run. */
+  code: string;
   /**
    * The outputs generated by the code interpreter, such as logs or images.
-   * Can be null if no outputs are available.
    */
-  outputs: CodeInterpreterOutputUnion[] | null;
+  outputs: CodeInterpreterOutputUnion[];
 }
 
 export function codeInterpreterToolCallItemParamSerializer(
@@ -4598,20 +4669,23 @@ export function localShellToolCallItemParamSerializer(item: LocalShellToolCallIt
   };
 }
 
-/** Execute a shell command on the server. */
+/**
+ * Execute a shell command action.
+ * Defines the command, environment, and execution context for local shell execution.
+ */
 export interface LocalShellExecAction {
   /** The type of the local shell action. Always `exec`. */
   type: "exec";
   /** The command to run. */
   command: string[];
   /** Optional timeout in milliseconds for the command. */
-  timeout_ms?: number | null;
+  timeout_ms?: number;
   /** Optional working directory to run the command in. */
-  working_directory?: string | null;
+  working_directory?: string;
   /** Environment variables to set for the command. */
   env: Record<string, string>;
   /** Optional user to run the command as. */
-  user?: string | null;
+  user?: string;
 }
 
 export function localShellExecActionSerializer(item: LocalShellExecAction): any {
@@ -4644,8 +4718,8 @@ export function localShellToolCallOutputItemParamSerializer(
 }
 
 /**
- * A list of tools available on an MCP server.
- *
+ * MCP tool list item.
+ * Contains the list of tools available on an MCP server.
  */
 export interface MCPListToolsItemParam extends ItemParam {
   type: "mcp_list_tools";
@@ -4654,7 +4728,7 @@ export interface MCPListToolsItemParam extends ItemParam {
   /** The tools available on the server. */
   tools: MCPListToolsTool[];
   /** Error message if the server could not list tools. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpListToolsItemParamSerializer(item: MCPListToolsItemParam): any {
@@ -4672,16 +4746,19 @@ export function mcpListToolsToolArraySerializer(result: Array<MCPListToolsTool>)
   });
 }
 
-/** A tool available on an MCP server. */
+/**
+ * A tool available on an MCP server.
+ * Describes a single tool with its name, description, input schema, and annotations.
+ */
 export interface MCPListToolsTool {
   /** The name of the tool. */
   name: string;
   /** The description of the tool. */
-  description?: string | null;
+  description?: string;
   /** The JSON schema describing the tool's input. */
   input_schema: any;
   /** Additional annotations about the tool. */
-  annotations?: any | null;
+  annotations?: any;
 }
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
@@ -4717,8 +4794,8 @@ export function mcpApprovalRequestItemParamSerializer(item: MCPApprovalRequestIt
 }
 
 /**
- * A response to an MCP approval request.
- *
+ * MCP approval response item.
+ * Contains the response to an MCP tool approval request.
  */
 export interface MCPApprovalResponseItemParam extends ItemParam {
   type: "mcp_approval_response";
@@ -4727,7 +4804,7 @@ export interface MCPApprovalResponseItemParam extends ItemParam {
   /** Whether the request was approved. */
   approve: boolean;
   /** Optional reason for the decision. */
-  reason?: string | null;
+  reason?: string;
 }
 
 export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponseItemParam): any {
@@ -4740,8 +4817,8 @@ export function mcpApprovalResponseItemParamSerializer(item: MCPApprovalResponse
 }
 
 /**
- * An invocation of a tool on an MCP server.
- *
+ * MCP tool call item.
+ * Contains an invocation of a tool on an MCP server with its arguments and results.
  */
 export interface MCPCallItemParam extends ItemParam {
   type: "mcp_call";
@@ -4752,9 +4829,9 @@ export interface MCPCallItemParam extends ItemParam {
   /** A JSON string of the arguments passed to the tool. */
   arguments: string;
   /** The output from the tool call. */
-  output?: string | null;
+  output?: string;
   /** The error from the tool call, if any. */
-  error?: string | null;
+  error?: string;
 }
 
 export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
@@ -4768,11 +4845,14 @@ export function mcpCallItemParamSerializer(item: MCPCallItemParam): any {
   };
 }
 
-/** model interface MemorySearchToolCallItemParam */
+/**
+ * Memory search tool call item.
+ * Contains results from a memory store search operation.
+ */
 export interface MemorySearchToolCallItemParam extends ItemParam {
   type: "memory_search_call";
   /** The results returned from the memory search. */
-  results?: MemorySearchItem[] | null;
+  results?: MemorySearchItem[];
 }
 
 export function memorySearchToolCallItemParamSerializer(item: MemorySearchToolCallItemParam): any {
