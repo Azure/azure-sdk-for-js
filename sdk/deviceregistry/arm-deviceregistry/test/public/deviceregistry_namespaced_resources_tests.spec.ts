@@ -73,7 +73,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           endpoints: {
             myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
-              endpointType: "azure-iot-edge",
+              endpointType: "Microsoft.Devices/IoTHubs",
               resourceId: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.IotHub/namespaces/contoso-hub-namespace1`,
             },
           },
@@ -100,7 +100,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           endpoints: {
             myendpoint2: {
               address: "https://myendpoint2.westeurope-1.iothub.azure.net",
-              endpointType: "azure-iot-edge",
+              endpointType: "Microsoft.Devices/IoTHubs",
               resourceId: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.IotHub/namespaces/contoso-hub-namespace2`,
             },
           },
@@ -163,7 +163,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           inbound: {
             myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
-              endpointType: "azure-iot-edge",
+              endpointType: "Microsoft.Devices/IoTHubs",
             },
           },
         },
@@ -366,7 +366,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           inbound: {
             myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
-              endpointType: "azure-iot-edge",
+              endpointType: "Microsoft.Devices/IoTHubs",
             },
           },
         },
@@ -641,7 +641,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
           endpoints: {
             myendpoint1: {
               address: "https://myendpoint1.westeurope-1.iothub.azure.net",
-              endpointType: "azure-iot-edge",
+              endpointType: "Microsoft.Devices/IoTHubs",
               resourceId: `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.IotHub/namespaces/contoso-hub-namespace1`,
             },
           },
