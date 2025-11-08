@@ -55,10 +55,7 @@ export interface MemoryStoresOperations {
     name: string,
     scope: string,
     options?: MemoryStoresUpdateMemoriesOptionalParams,
-  ) => PollerLike<
-    OperationState<MemoryStoreUpdateResult>,
-    MemoryStoreUpdateResult
-  >;
+  ) => PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
   /** Search for relevant memories from a memory store based on conversation context. */
   searchMemories: (
     name: string,

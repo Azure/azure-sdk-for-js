@@ -213,10 +213,7 @@ export function updateMemories(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-  }) as PollerLike<
-    OperationState<MemoryStoreUpdateResult>,
-    MemoryStoreUpdateResult
-  >;
+  }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
 }
 
 export function _searchMemoriesSend(

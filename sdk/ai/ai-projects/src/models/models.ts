@@ -6,7 +6,6 @@
 
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
-
 /**
  * Represents an agent object.
  * Contains the agent's unique identifier, name, and version information.
@@ -33,7 +32,6 @@ export function agentObjectDeserializer(item: any): AgentObject {
   };
 }
 
-
 /**
  * Helper interface for agent version references.
  */
@@ -46,7 +44,6 @@ export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersion
     latest: agentVersionObjectDeserializer(item["latest"]),
   };
 }
-
 
 /**
  * Represents a specific version of an agent.
@@ -1056,14 +1053,12 @@ export interface MCPTool extends Tool {
   /** List of allowed tool names or a filter object. */
   allowed_tools?:
     | string[]
-    | (
-        {
-          tool_names?: string[];
-        }
-      );
+    | {
+        tool_names?: string[];
+      };
   /** Specify which of the MCP server's tools require approval. */
   require_approval?:
-     | {
+    | {
         /** A list of tools that always require approval. */
         always?: {
           /** List of tool names (snake_case) that always require approval. */
@@ -1156,14 +1151,14 @@ export function _mcpToolAllowedTools1Deserializer(item: any): _MCPToolAllowedToo
 
 /** Alias for _MCPToolRequireApproval */
 export type _MCPToolRequireApproval =
-  {
-    always?: {
-      tool_names?: string[];
-    };
-    never?: {
-      tool_names?: string[];
-    };
-  }
+  | {
+      always?: {
+        tool_names?: string[];
+      };
+      never?: {
+        tool_names?: string[];
+      };
+    }
   | "always"
   | "never";
 
@@ -1172,12 +1167,16 @@ export function _mcpToolRequireApprovalSerializer(item: _MCPToolRequireApproval)
     return item;
   }
   return {
-    always: !item.always ? item.always : {
-      tool_names: item.always.tool_names
-    },
-    never: !item.never ? item.never : {
-      tool_names: item.never.tool_names
-    }
+    always: !item.always
+      ? item.always
+      : {
+          tool_names: item.always.tool_names,
+        },
+    never: !item.never
+      ? item.never
+      : {
+          tool_names: item.never.tool_names,
+        },
   };
 }
 
@@ -2748,7 +2747,6 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
   strict?: boolean;
 }
 
-
 /**
  * The schema for the response format, described as a JSON Schema object.
  * Learn how to build JSON schemas [here](https://json-schema.org/).
@@ -3872,12 +3870,12 @@ export interface FileSearchToolCallItemParam extends ItemParam {
   queries: string[];
   /** The results of the file search tool call. */
   results?: {
-        file_id?: string;
-        text?: string;
-        filename?: string;
-        attributes?: VectorStoreFileAttributes;
-        score?: number;
-      }[];
+    file_id?: string;
+    text?: string;
+    filename?: string;
+    attributes?: VectorStoreFileAttributes;
+    score?: number;
+  }[];
 }
 
 export function fileSearchToolCallItemParamSerializer(item: FileSearchToolCallItemParam): any {
@@ -5144,9 +5142,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     update_id: item["update_id"],
     status: item["status"],
     superseded_by: item["superseded_by"],
-    result: !item["result"]
-      ? item["result"]
-      : MemoryStoreUpdateResultDeserializer(item["result"]),
+    result: !item["result"] ? item["result"] : MemoryStoreUpdateResultDeserializer(item["result"]),
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
@@ -5167,9 +5163,7 @@ export interface MemoryStoreUpdateResult {
   usage: MemoryStoreOperationUsage;
 }
 
-export function MemoryStoreUpdateResultDeserializer(
-  item: any,
-): MemoryStoreUpdateResult {
+export function MemoryStoreUpdateResultDeserializer(item: any): MemoryStoreUpdateResult {
   return {
     memory_operations: memoryOperationArrayDeserializer(item["memory_operations"]),
     usage: memoryStoreOperationUsageDeserializer(item["usage"]),
