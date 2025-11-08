@@ -3,75 +3,92 @@
 import { ErrorResponse } from "../request/ErrorResponse.js";
 
 /**
- * Validates continuation token usage for unsupported query types
+ * Represents a query type that doesn't support continuation tokens
+ * @internal
+ */
+export interface UnsupportedQueryType {
+  readonly name: string;
+  readonly isPresent: boolean;
+  readonly errorMessage: string;
+}
+
+/**
+ * Validates continuation token usage against multiple query types
  * @param continuationToken - The continuation token if provided
- * @param isNonStreamingOrderBy - Whether this is a non-streaming ORDER BY query
- * @param isGroupByQuery - Whether this is a GROUP BY query
- * @param isUnorderedDistinctQuery - Whether this is an unordered DISTINCT query
- * @param isHybridSearchQuery - Whether this is a hybrid search query
+ * @param unsupportedQueryTypes - Array of query types that don't support continuation tokens
  * @hidden
  */
 export function validateContinuationTokenUsage(
   continuationToken: string | undefined,
-  isNonStreamingOrderBy: boolean,
-  isGroupByQuery: boolean,
-  isUnorderedDistinctQuery: boolean,
-  isHybridSearchQuery: boolean = false,
+  unsupportedQueryTypes: UnsupportedQueryType[],
 ): void {
   if (!continuationToken) {
     return;
   }
 
-  if (isNonStreamingOrderBy) {
-    throw new ErrorResponse(getNonStreamingOrderByErrorMessage());
-  }
-
-  if (isGroupByQuery) {
-    throw new ErrorResponse(getGroupByErrorMessage());
-  }
-
-  if (isUnorderedDistinctQuery) {
-    throw new ErrorResponse(getUnorderedDistinctErrorMessage());
-  }
-
-  if (isHybridSearchQuery) {
-    throw new ErrorResponse(getHybridSearchErrorMessage());
+  // Find the first unsupported query type that is present
+  const conflictingQueryType = unsupportedQueryTypes.find(queryType => queryType.isPresent);
+  
+  if (conflictingQueryType) {
+    throw new ErrorResponse(conflictingQueryType.errorMessage);
   }
 }
 
-/** @hidden */
-function getNonStreamingOrderByErrorMessage(): string {
-  return (
-    "Continuation tokens are not supported for non-streaming ORDER BY queries. " +
-    "These queries must process all results to ensure correct ordering and cannot be resumed from an intermediate state. " +
-    "Consider removing the continuation token and using fetchAll() instead for complete results."
-  );
-}
+/**
+ * Factory functions for creating unsupported query type descriptors
+ * @internal
+ */
+export const QueryTypes = {
+  nonStreamingOrderBy: (isPresent: boolean): UnsupportedQueryType => ({
+    name: "NonStreamingOrderBy",
+    isPresent,
+    errorMessage: (
+      "Continuation tokens are not supported for non-streaming ORDER BY queries. " +
+      "These queries must process all results to ensure correct ordering and cannot be resumed from an intermediate state. " +
+      "Consider removing the continuation token and using fetchAll() instead for complete results."
+    ),
+  }),
 
-/** @hidden */
-function getGroupByErrorMessage(): string {
-  return (
-    "Continuation tokens are not supported for GROUP BY queries. " +
-    "These queries must process all results to compute aggregations and cannot be resumed from an intermediate state. " +
-    "Consider removing the continuation token and using fetchAll() instead for complete results."
-  );
-}
+  groupBy: (isPresent: boolean): UnsupportedQueryType => ({
+    name: "GroupBy",
+    isPresent,
+    errorMessage: (
+      "Continuation tokens are not supported for GROUP BY queries. " +
+      "These queries must process all results to compute aggregations and cannot be resumed from an intermediate state. " +
+      "Consider removing the continuation token and using fetchAll() instead for complete results."
+    ),
+  }),
 
-/** @hidden */
-function getUnorderedDistinctErrorMessage(): string {
-  return (
-    "Continuation tokens are not supported for unordered DISTINCT queries. " +
-    "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
-    "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported."
-  );
-}
+  unorderedDistinct: (isPresent: boolean): UnsupportedQueryType => ({
+    name: "UnorderedDistinct", 
+    isPresent,
+    errorMessage: (
+      "Continuation tokens are not supported for unordered DISTINCT queries. " +
+      "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
+      "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported."
+    ),
+  }),
 
-/** @hidden */
-function getHybridSearchErrorMessage(): string {
-  return (
-    "Continuation tokens are not supported for hybrid search queries. " +
-    "Hybrid search queries require processing and ranking of all component query results " +
-    "to compute accurate Reciprocal Rank Fusion (RRF) scores and cannot be resumed from an intermediate state. " +
-    "Consider removing the continuation token and using fetchAll() instead for complete results."
-  );
-}
+  hybridSearch: (isPresent: boolean): UnsupportedQueryType => ({
+    name: "HybridSearch",
+    isPresent,
+    errorMessage: (
+      "Continuation tokens are not supported for hybrid search queries. " +
+      "Hybrid search queries require processing and ranking of all component query results " +
+      "to compute accurate Reciprocal Rank Fusion (RRF) scores and cannot be resumed from an intermediate state. " +
+      "Consider removing the continuation token and using fetchAll() instead for complete results."
+    ),
+  }),
+
+  // Easy to add new unsupported query types here
+  vectorSearch: (isPresent: boolean): UnsupportedQueryType => ({
+    name: "VectorSearch",
+    isPresent,
+    errorMessage: (
+      "Continuation tokens are not supported for vector search queries. " +
+      "Vector search queries require processing similarity calculations across all data " +
+      "and cannot be resumed from an intermediate state. " +
+      "Consider removing the continuation token and using fetchAll() instead for complete results."
+    ),
+  }),
+} as const;

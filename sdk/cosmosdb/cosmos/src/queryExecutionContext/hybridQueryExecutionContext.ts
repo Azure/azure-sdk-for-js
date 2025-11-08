@@ -22,7 +22,7 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.j
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { type ParallelQueryResult } from "./parallelQueryResult.js";
-import { validateContinuationTokenUsage } from "./QueryValidationHelper.js";
+import { validateContinuationTokenUsage, QueryTypes } from "./QueryValidationHelper.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -60,7 +60,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private allPartitionsRanges: QueryRange[],
   ) {
     // TODO: move to queryiterator: Validate continuation token usage - hybrid queries don't support continuation tokens
-    validateContinuationTokenUsage(this.options.continuationToken, false, false, false, true);
+    validateContinuationTokenUsage(this.options.continuationToken, [
+      QueryTypes.hybridSearch(true), // Hybrid queries always don't support continuation tokens
+    ]);
 
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
@@ -459,9 +461,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         typeof this.query === "string"
           ? componentQueryInfo.rewrittenQuery
           : {
-              query: componentQueryInfo.rewrittenQuery,
-              parameters: this.query?.parameters ?? [],
-            };
+            query: componentQueryInfo.rewrittenQuery,
+            parameters: this.query?.parameters ?? [],
+          };
       const executionContext = new PipelinedQueryExecutionContext(
         this.clientContext,
         this.collectionLink,

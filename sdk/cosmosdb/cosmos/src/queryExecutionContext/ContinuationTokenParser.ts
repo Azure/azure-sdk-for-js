@@ -18,10 +18,7 @@ export interface ContinuationTokenFields {
  * @returns Object containing offset, limit, and hashedLastResult if present
  * @internal
  */
-export function parseContinuationTokenFields(continuationToken?: string): ContinuationTokenFields {
-  if (!continuationToken) {
-    return {};
-  }
+export function parseContinuationTokenFields(continuationToken: string): ContinuationTokenFields {
 
   try {
     const parsed = JSON.parse(continuationToken);
@@ -32,8 +29,7 @@ export function parseContinuationTokenFields(continuationToken?: string): Contin
       hashedLastResult: parsed.hashedLastResult,
     };
   } catch (error) {
-    // If parsing fails, return empty object
-    console.warn("Failed to parse continuation token:", error);
-    return {};
+    // If parsing fails, throw a proper error
+    throw new Error(`Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`);
   }
 }

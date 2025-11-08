@@ -21,7 +21,7 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
-import { validateContinuationTokenUsage } from "./QueryValidationHelper.js";
+import { validateContinuationTokenUsage, QueryTypes } from "./QueryValidationHelper.js";
 import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 
@@ -65,12 +65,17 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0;
 
     // Check if this is an unordered DISTINCT query
-    const isUnorderedDistinctQuery =
-      partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
+    const isUnorderedDistinctQuery = partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
     // Determine if this query type supports continuation tokens
-    this.isContinuationTokenUnsupportedQueryType =
-      isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
+    this.isContinuationTokenUnsupportedQueryType = isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
+
+    // Validate continuation token usage for unsupported query types
+    validateContinuationTokenUsage(this.options.continuationToken, [
+      QueryTypes.nonStreamingOrderBy(this.nonStreamingOrderBy),
+      QueryTypes.groupBy(isGroupByQuery),
+      QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
+    ]);
 
     if (this.options.enableQueryControl) {
       this.continuationTokenManager = ContinuationTokenManagerFactory.create(
@@ -84,13 +89,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Parse continuation token fields once for reuse in pipeline construction
     const queryContinuationFields = parseContinuationTokenFields(this.options.continuationToken);
 
-    // Validate continuation token usage for unsupported query types
-    validateContinuationTokenUsage(
-      this.options.continuationToken,
-      this.nonStreamingOrderBy,
-      isGroupByQuery,
-      isUnorderedDistinctQuery,
-    );
+
 
     // Pick between parallel vs order by execution context
     // TODO: Currently we don't get any field from backend to determine streaming queries
@@ -110,7 +109,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
+          `is not allowed`,
         );
       }
 
@@ -395,8 +394,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-          "with your vector search query.",
+        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+        "with your vector search query.",
       );
     }
     return;
