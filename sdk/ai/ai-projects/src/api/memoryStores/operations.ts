@@ -19,7 +19,7 @@ import {
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
   MemoryStoreUpdateResult,
-  memoryStoreUpdateResultDeserializer,
+  MemoryStoreUpdateResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -199,7 +199,7 @@ export async function _updateMemoriesDeserialize(
     );
   }
 
-  return memoryStoreUpdateResultDeserializer(result.body.result);
+  return MemoryStoreUpdateResultDeserializer(result.body.result);
 }
 
 /** Update memory store with conversation memories. */

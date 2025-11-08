@@ -78,13 +78,13 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/agents/agentBasic.js
+node dist/agents\agentBasic.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AZURE_AI_PROJECT_ENDPOINT="<azure ai project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/agents/agentBasic.js
+cross-env AZURE_AI_PROJECT_ENDPOINT="<azure ai project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/agents\agentBasic.js
 ```
 
 ## Next Steps

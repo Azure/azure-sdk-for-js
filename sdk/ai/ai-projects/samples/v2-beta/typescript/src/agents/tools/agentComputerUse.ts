@@ -28,8 +28,7 @@ import {
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName =
-  process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Initialize state machine
@@ -66,7 +65,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         displayWidth: 1026,
         displayHeight: 769,
         environment: "windows" as const,
-      },
+      } as any,
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

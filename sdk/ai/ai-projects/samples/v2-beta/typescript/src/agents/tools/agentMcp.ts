@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
         serverLabel: "api-specs",
         serverUrl: "https://gitmcp.io/Azure/azure-rest-api-specs",
         requireApproval: "always",
-      },
+      } as any,
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

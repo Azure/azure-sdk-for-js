@@ -54,7 +54,7 @@ export async function main(): Promise<void> {
       {
         type: "file_search",
         vectorStoreIds: [vectorStore.id],
-      },
+      } as any,
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

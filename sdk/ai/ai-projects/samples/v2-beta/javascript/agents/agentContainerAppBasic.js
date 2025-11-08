@@ -25,14 +25,14 @@ async function main() {
 
   const agent = await agentsClient.createVersion("bg-container-app-agent", {
     kind: "container_app",
-    containerProtocolVersions: [
+    container_protocol_versions: [
       {
         protocol: "responses",
         version: "1",
       },
     ],
-    containerAppResourceId: containerAppResourceId,
-    ingressSubdomainSuffix: ingressSubdomainSuffix,
+    container_app_resource_id: containerAppResourceId,
+    ingress_subdomain_suffix: ingressSubdomainSuffix,
   });
 
   console.log("Created agent id:", agent.id, "version:", agent.version, "name:", agent.name);

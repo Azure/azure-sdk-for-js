@@ -16,6 +16,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
+const { fileURLToPath } = require("url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -64,6 +65,8 @@ async function main() {
   if (imageData && imageData.length > 0 && imageData[0].result) {
     console.log("Downloading generated image...");
 
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     const filename = "microsoft.png";
     const filePath = path.join(__dirname, filename);
 

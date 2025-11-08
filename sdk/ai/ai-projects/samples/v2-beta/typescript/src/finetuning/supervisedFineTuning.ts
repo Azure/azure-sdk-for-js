@@ -15,7 +15,8 @@ import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint =
+  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const modelName = process.env["MODEL_NAME"] || "gpt-4.1";
 const trainingFilePath = path.join(__dirname, "data", "training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "validation_set.jsonl");
