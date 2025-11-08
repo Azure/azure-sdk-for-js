@@ -75,7 +75,8 @@ To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [p
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const projectEndpoint =
+  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
 
@@ -94,9 +95,9 @@ Update the `api_version` value with one found in the "Data plane - inference" ro
 ```ts snippet:openAI
 const openAIClient = await project.getOpenAIClient();
 const response = await openAIClient.responses.create({
-    model: deploymentName,
-    input: "What is the size of France in square miles?",
-  });
+  model: deploymentName,
+  input: "What is the size of France in square miles?",
+});
 console.log("response = ", JSON.stringify(response, null, 2));
 ```
 
@@ -110,18 +111,17 @@ OpenAI Responses protocol, so you will likely need to get an `OpenAI` client to 
 ```ts snippet:agents
 const openAIClient = await project.getOpenAIClient();
 const agent = await project.agents.createVersion("my-agent-basic", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: "You are a helpful assistant that answers general questions",
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+  kind: "prompt",
+  model: deploymentName,
+  instructions: "You are a helpful assistant that answers general questions",
+});
+console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 const conversation = await openAIClient.conversations.create({
   items: [
     { type: "message", role: "user", content: "What is the size of France in square miles?" },
   ],
 });
 console.log(`Created conversation with initial user message (id: ${conversation.id})`);
-
 // Generate response using the agent
 console.log("\nGenerating response...");
 const response = await openAIClient.responses.create(
@@ -134,14 +134,12 @@ const response = await openAIClient.responses.create(
   },
 );
 console.log(`Response output: ${response.output_text}`);
-
 // Add a second user message to the conversation
 console.log("\nAdding a second user message to the conversation...");
 await openAIClient.conversations.items.create(conversation.id, {
   items: [{ type: "message", role: "user", content: "And what is the capital city?" }],
 });
 console.log("Added a second user message to the conversation");
-
 // Generate second response
 console.log("\nGenerating second response...");
 const response2 = await openAIClient.responses.create(
@@ -154,12 +152,10 @@ const response2 = await openAIClient.responses.create(
   },
 );
 console.log(`Response output: ${response2.output_text}`);
-
 // Clean up
 console.log("\nCleaning up resources...");
 await openAIClient.conversations.delete(conversation.id);
 console.log("Conversation deleted");
-
 await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
@@ -343,7 +339,7 @@ console.log("All specified Datasets have been deleted.");
 The code below shows some Files operations using the OpenAI client, which allow you to upload, retrieve, list, and delete files. These operations are useful for working with files that can be used for fine-tuning and other AI model operations. Full samples can be found under the "files" folder in the [package samples][samples].
 
 ```ts snippet:files
-const openAIClient = await projectClient.getOpenAIClient();
+const openAIClient = await project.getOpenAIClient();
 console.log("Uploading file");
 const created = await openAIClient.files.create({
   file: fs.createReadStream(filePath),
@@ -352,26 +348,21 @@ const created = await openAIClient.files.create({
 console.log(`Uploaded file with ID: ${created.id}`);
 const uploadedFile = await openAIClient.files.retrieve(created.id);
 console.log("Processed file metadata:\n", JSON.stringify(uploadedFile, null, 2));
-
 console.log(`Retrieving file content with ID: ${uploadedFile.id}`);
 const contentResponse = await openAIClient.files.content(uploadedFile.id);
 const buf = Buffer.from(await contentResponse.arrayBuffer());
 console.log(buf.toString("utf-8"));
-
 // 4) List all files
 console.log("Listing all files:");
 const filesList = await openAIClient.files.list();
 for (const f of filesList.data ?? []) {
   console.log(JSON.stringify(f));
 }
-
 // 5) Delete the file
 console.log(`Deleting file with ID: ${uploadedFile.id}`);
 const deleted = await openAIClient.files.delete(uploadedFile.id);
 console.log(
-  `Successfully deleted file: ${deleted?.id || uploadedFile.id}, deleted=${String(
-    deleted?.deleted ?? true,
-  )}`,
+  `Successfully deleted file: ${deleted?.id || uploadedFile.id}, deleted=${String(deleted?.deleted ?? true)}`,
 );
 ```
 

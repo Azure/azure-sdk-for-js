@@ -1663,9 +1663,9 @@ export interface MCPListToolsTool {
 
 // @public
 export interface MCPTool extends Tool {
-    allowed_tools?: string[] | ({
+    allowed_tools?: string[] | {
         tool_names?: string[];
-    });
+    };
     headers?: Record<string, string>;
     project_connection_id?: string;
     require_approval?: {
