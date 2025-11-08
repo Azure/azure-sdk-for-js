@@ -325,7 +325,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.fetchBuffer.length > 0) {
-      const { endIndex, continuationToken } = this.continuationTokenManager.createContinuationToken(
+      const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
         this.fetchBuffer.length === 0,
       );
@@ -342,7 +342,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     mergeHeaders(this.fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {
-      const { continuationToken } = this.continuationTokenManager.createContinuationToken(
+      const { continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
         true, // isResponseEmpty = true
         response?.result, // Pass response data for processing
@@ -352,7 +352,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
 
     this.fetchBuffer = response.result.buffer;
-    const { endIndex, continuationToken } = this.continuationTokenManager.createContinuationToken(
+    const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
       this.pageSize,
       false, // isResponseEmpty = false
       response.result, // Pass response data for processing

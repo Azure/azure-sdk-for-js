@@ -60,8 +60,8 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
       updatedContinuationRanges,
     };
 
-    // Use the public createContinuationToken method which will trigger the private processing
-    this.createContinuationToken(100, false, mockResponseResult);
+    // Use the public paginateResults method which will trigger the private processing
+    this.paginateResults(100, false, mockResponseResult);
   }
 }
 

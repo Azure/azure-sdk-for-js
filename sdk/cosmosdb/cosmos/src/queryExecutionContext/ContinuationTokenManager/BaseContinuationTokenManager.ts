@@ -64,7 +64,7 @@ export abstract class BaseContinuationTokenManager {
    * Template method for creating continuation tokens.
    * Handles common processing flow while delegating specific logic to subclasses.
    */
-  public createContinuationToken(
+  public paginateResults(
     pageSize: number,
     isResponseEmpty: boolean,
     responseResult?: QueryResponseResult,
