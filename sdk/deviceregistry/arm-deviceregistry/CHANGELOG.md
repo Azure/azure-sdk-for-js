@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (2025-10-23)
+## 1.1.0 (2025-11-10)
 
 ### Features Added
   - Added operation group NamespaceAssetsOperations
