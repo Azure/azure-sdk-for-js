@@ -413,6 +413,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
     console.log("Updating namespace discovered device...");
     const nsDiscoveredDeviceUpdateProperties: NamespaceDiscoveredDeviceUpdate = {
       properties: {
+        discoveryId: nsDiscoveredDeviceProperties.properties!.discoveryId,
         operatingSystemVersion: "11",
       },
     };
