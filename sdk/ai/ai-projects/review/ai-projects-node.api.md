@@ -620,9 +620,7 @@ export interface ComputerToolCallOutputItemOutput {
 
 // @public
 export interface ComputerToolCallOutputItemOutputComputerScreenshot extends ComputerToolCallOutputItemOutput {
-    // (undocumented)
     file_id?: string;
-    // (undocumented)
     image_url?: string;
     // (undocumented)
     type: "computer_screenshot";
@@ -2215,8 +2213,10 @@ export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextF
 export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextFormatConfiguration {
     description?: string;
     name: string;
+    // Warning: (ae-forgotten-export) The symbol "ResponseFormatJsonSchemaSchema" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    schema: Record<string, any>;
+    schema: ResponseFormatJsonSchemaSchema;
     strict?: boolean;
     type: "json_schema";
 }

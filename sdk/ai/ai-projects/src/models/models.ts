@@ -2737,7 +2737,7 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
    * underscores and dashes, with a maximum length of 64.
    */
   name: string;
-  schema: Record<string, any>;
+  schema: ResponseFormatJsonSchemaSchema;
   /**
    * Whether to enable strict schema adherence when generating the output.
    * If set to true, the model will always follow the exact schema defined
@@ -2748,6 +2748,30 @@ export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextF
   strict?: boolean;
 }
 
+
+/**
+ * The schema for the response format, described as a JSON Schema object.
+ * Learn how to build JSON schemas [here](https://json-schema.org/).
+ */
+export interface ResponseFormatJsonSchemaSchema {
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function responseFormatJsonSchemaSchemaSerializer(
+  item: ResponseFormatJsonSchemaSchema,
+): any {
+  return { ...serializeRecord(item.additionalProperties) };
+}
+
+export function responseFormatJsonSchemaSchemaDeserializer(
+  item: any,
+): ResponseFormatJsonSchemaSchema {
+  return {
+    additionalProperties: serializeRecord(item, []),
+  };
+}
+
 export function responseTextFormatConfigurationJsonSchemaSerializer(
   item: ResponseTextFormatConfigurationJsonSchema,
 ): any {
@@ -2755,7 +2779,7 @@ export function responseTextFormatConfigurationJsonSchemaSerializer(
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: item["schema"],
+    schema: responseFormatJsonSchemaSchemaDeserializer(item["schema"]),
     strict: item["strict"],
   };
 }
@@ -4306,7 +4330,9 @@ export type ComputerToolCallOutputItemOutputType = "computer_screenshot";
 export interface ComputerToolCallOutputItemOutputComputerScreenshot
   extends ComputerToolCallOutputItemOutput {
   type: "computer_screenshot";
+  /** The URL of the screenshot image. */
   image_url?: string;
+  /** The ID of the screenshot file. */
   file_id?: string;
 }
 
