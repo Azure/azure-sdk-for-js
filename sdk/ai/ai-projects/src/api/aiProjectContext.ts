@@ -40,7 +40,7 @@ export function createAIProject(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? KnownApiVersions.V20251115Preview;
+  const apiVersion = options.apiVersion ?? KnownApiVersions.v2025_11_15_preview;
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
