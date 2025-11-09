@@ -21,7 +21,7 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
-import { validateContinuationTokenUsage, QueryTypes } from "./QueryValidationHelper.js";
+import { rejectContinuationTokenForUnsupportedQueries, QueryTypes } from "./QueryValidationHelper.js";
 import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 
@@ -35,8 +35,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-  private isContinuationTokenUnsupportedQueryType = false;
-  private continuationTokenManager: BaseContinuationTokenManager;
+  private continuationTokenManager?: BaseContinuationTokenManager;
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
@@ -68,28 +67,28 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const isUnorderedDistinctQuery = partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
     // Determine if this query type supports continuation tokens
-    this.isContinuationTokenUnsupportedQueryType = isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy;
+    const querySupportsTokens = !isUnorderedDistinctQuery && !isGroupByQuery && !this.nonStreamingOrderBy;
 
-    // Validate continuation token usage for unsupported query types
-    validateContinuationTokenUsage(this.options.continuationToken, [
-      QueryTypes.nonStreamingOrderBy(this.nonStreamingOrderBy),
-      QueryTypes.groupBy(isGroupByQuery),
-      QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
-    ]);
+    // Reject continuation token usage for unsupported query types
+    if (!querySupportsTokens) {
+      rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
+        QueryTypes.nonStreamingOrderBy(this.nonStreamingOrderBy),
+        QueryTypes.groupBy(isGroupByQuery),
+        QueryTypes.unorderedDistinct(isUnorderedDistinctQuery),
+      ]);
+    }
 
-    if (this.options.enableQueryControl) {
+    // Only create continuation token manager for supported queries when query control is enabled
+    if (this.options.enableQueryControl && querySupportsTokens) {
       this.continuationTokenManager = ContinuationTokenManagerFactory.create(
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
-        this.isContinuationTokenUnsupportedQueryType,
       );
     }
 
     // Parse continuation token fields once for reuse in pipeline construction
     const queryContinuationFields = parseContinuationTokenFields(this.options.continuationToken);
-
-
 
     // Pick between parallel vs order by execution context
     // TODO: Currently we don't get any field from backend to determine streaming queries
@@ -287,16 +286,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private async _enableQueryControlFetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
-    // For unsupported query types, use simplified buffer-only logic
-    if (this.isContinuationTokenUnsupportedQueryType) {
-      return this._handleContinuationUnsupportedQueryFetch(diagnosticNode);
+    // Use continuation token logic if manager was created (supported queries)
+    // Otherwise use simplified buffer-only logic (unsupported queries)
+    if (this.continuationTokenManager) {
+      return this._handleQueryFetch(diagnosticNode);
+    } else {
+      return this._handleSimpleBufferFetch(diagnosticNode);
     }
-
-    // For supported query types, use full continuation token logic
-    return this._handleQueryFetch(diagnosticNode);
   }
 
-  private async _handleContinuationUnsupportedQueryFetch(
+  private async _handleSimpleBufferFetch(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     // Return buffered data if available

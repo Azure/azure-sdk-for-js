@@ -26,9 +26,8 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
   constructor(
     collectionLink: string,
     initialContinuationToken?: string,
-    isUnsupportedQueryType: boolean = false,
   ) {
-    super(collectionLink, isUnsupportedQueryType);
+    super(collectionLink);
     if (initialContinuationToken) {
       this.continuationToken = parseCompositeQueryContinuationToken(initialContinuationToken);
       this.rangeList = this.continuationToken.rangeMappings || [];

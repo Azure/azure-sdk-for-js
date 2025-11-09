@@ -12,10 +12,10 @@ import { OrderByQueryContinuationTokenManager } from "./OrderByQueryContinuation
 export const ContinuationTokenManagerFactory = {
   /**
    * Creates the appropriate continuation token manager based on query type.
+   * Only call this for queries that support continuation tokens.
    * @param collectionLink - Collection link/RID
    * @param initialContinuationToken - Optional initial continuation token
    * @param isOrderByQuery - Whether this is an ORDER BY query
-   * @param isUnsupportedQueryType - Whether this query type doesn't support continuation tokens
    * @returns Appropriate continuation token manager instance
    * @internal
    */
@@ -23,19 +23,16 @@ export const ContinuationTokenManagerFactory = {
     collectionLink: string,
     initialContinuationToken?: string,
     isOrderByQuery: boolean = false,
-    isUnsupportedQueryType: boolean = false,
   ): BaseContinuationTokenManager {
     if (isOrderByQuery) {
       return new OrderByQueryContinuationTokenManager(
         collectionLink,
         initialContinuationToken,
-        isUnsupportedQueryType,
       );
     } else {
       return new ParallelQueryContinuationTokenManager(
         collectionLink,
         initialContinuationToken,
-        isUnsupportedQueryType,
       );
     }
   },

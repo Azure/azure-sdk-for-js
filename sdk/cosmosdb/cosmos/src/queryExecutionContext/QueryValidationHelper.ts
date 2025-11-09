@@ -13,12 +13,13 @@ export interface UnsupportedQueryType {
 }
 
 /**
- * Validates continuation token usage against multiple query types
+ * Rejects continuation token usage for unsupported query types
  * @param continuationToken - The continuation token if provided
  * @param unsupportedQueryTypes - Array of query types that don't support continuation tokens
+ * @throws ErrorResponse if continuation token is provided for any unsupported query type
  * @hidden
  */
-export function validateContinuationTokenUsage(
+export function rejectContinuationTokenForUnsupportedQueries(
   continuationToken: string | undefined,
   unsupportedQueryTypes: UnsupportedQueryType[],
 ): void {
@@ -28,7 +29,7 @@ export function validateContinuationTokenUsage(
 
   // Find the first unsupported query type that is present
   const conflictingQueryType = unsupportedQueryTypes.find(queryType => queryType.isPresent);
-  
+
   if (conflictingQueryType) {
     throw new ErrorResponse(conflictingQueryType.errorMessage);
   }
@@ -60,7 +61,7 @@ export const QueryTypes = {
   }),
 
   unorderedDistinct: (isPresent: boolean): UnsupportedQueryType => ({
-    name: "UnorderedDistinct", 
+    name: "UnorderedDistinct",
     isPresent,
     errorMessage: (
       "Continuation tokens are not supported for unordered DISTINCT queries. " +

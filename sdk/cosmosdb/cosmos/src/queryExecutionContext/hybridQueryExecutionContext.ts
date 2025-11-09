@@ -22,7 +22,7 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.j
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { type ParallelQueryResult } from "./parallelQueryResult.js";
-import { validateContinuationTokenUsage, QueryTypes } from "./QueryValidationHelper.js";
+import { rejectContinuationTokenForUnsupportedQueries, QueryTypes } from "./QueryValidationHelper.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -59,8 +59,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
-    // TODO: move to queryiterator: Validate continuation token usage - hybrid queries don't support continuation tokens
-    validateContinuationTokenUsage(this.options.continuationToken, [
+    // TODO: move to queryiterator: Reject continuation token usage - hybrid queries don't support continuation tokens
+    rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
       QueryTypes.hybridSearch(true), // Hybrid queries always don't support continuation tokens
     ]);
 

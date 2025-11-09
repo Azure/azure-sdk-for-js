@@ -32,12 +32,10 @@ export interface QueryResponseResult {
 export abstract class BaseContinuationTokenManager {
   private ranges: QueryRangeWithContinuationToken[] = [];
   private readonly partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
-  private readonly isUnsupportedQueryType: boolean = false;
   protected readonly collectionLink: string;
 
-  constructor(collectionLink: string, isUnsupportedQueryType: boolean = false) {
+  constructor(collectionLink: string) {
     this.collectionLink = collectionLink;
-    this.isUnsupportedQueryType = isUnsupportedQueryType;
   }
 
   /**
@@ -83,10 +81,8 @@ export abstract class BaseContinuationTokenManager {
     // Clean up processed data automatically
     this.cleanProcessedData(result.processedRanges, result.endIndex);
 
-    // Generate continuation token string
-    const tokenString = !this.isUnsupportedQueryType
-      ? this.generateContinuationTokenString()
-      : undefined;
+    // Generate continuation token string (always generate since we only create managers for supported queries)
+    const tokenString = this.generateContinuationTokenString();
 
     return {
       endIndex: result.endIndex,

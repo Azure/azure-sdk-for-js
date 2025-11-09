@@ -23,9 +23,8 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   constructor(
     collectionLink: string,
     initialContinuationToken?: string,
-    isUnsupportedQueryType: boolean = false,
   ) {
-    super(collectionLink, isUnsupportedQueryType);
+    super(collectionLink);
 
     // Handle initialization directly - no deferred complexity needed
     if (initialContinuationToken) {
