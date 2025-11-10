@@ -1383,7 +1383,7 @@ export interface SessionContext extends ConnectionContext {
 
 // @public
 export interface SubscribeOptions {
-    abortSignal?: AbortSignal;
+    abortSignal?: AbortSignalLike;
     includeAudioEvents?: boolean;
     includeServerEvents?: boolean;
     includeTextEvents?: boolean;
@@ -1521,7 +1521,6 @@ export class VoiceLiveConnectionError extends Error {
     readonly context: string;
     readonly recoverable: boolean;
     readonly timestamp: Date;
-    toJSON(): Record<string, any>;
 }
 
 // @public

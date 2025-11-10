@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import {
   WebSocketState,
   type VoiceLiveWebSocketLike,
@@ -29,7 +30,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
     };
   }
 
-  async connect(url: string, protocols?: string[], abortSignal?: AbortSignal): Promise<void> {
+  async connect(url: string, protocols?: string[], abortSignal?: AbortSignalLike): Promise<void> {
     if (this._ws && this._ws.readyState !== WebSocket.CLOSED) {
       throw new VoiceLiveConnectionError(
         "WebSocket is already connected or connecting",
@@ -168,7 +169,7 @@ export class VoiceLiveWebSocketBrowser implements VoiceLiveWebSocketLike {
     });
   }
 
-  async send(data: string | ArrayBuffer, abortSignal?: AbortSignal): Promise<void> {
+  async send(data: string | ArrayBuffer, abortSignal?: AbortSignalLike): Promise<void> {
     if (!this._ws || this._ws.readyState !== WebSocket.OPEN) {
       throw new VoiceLiveConnectionError(
         "WebSocket is not connected",

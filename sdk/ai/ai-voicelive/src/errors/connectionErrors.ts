@@ -70,21 +70,11 @@ export class VoiceLiveConnectionError extends Error {
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, VoiceLiveConnectionError);
     }
-  }
 
-  /**
-   * Returns a JSON representation of the error
-   */
-  toJSON(): Record<string, any> {
-    return {
-      name: this.name,
-      message: this.message,
-      code: this.code,
-      context: this.context,
-      recoverable: this.recoverable,
-      timestamp: this.timestamp,
-      stack: this.stack,
-    };
+    // Make properties enumerable for JSON.stringify (following Azure SDK pattern)
+    Object.defineProperty(this, "message", { enumerable: true });
+    Object.defineProperty(this, "name", { enumerable: true });
+    Object.defineProperty(this, "stack", { enumerable: true });
   }
 }
 

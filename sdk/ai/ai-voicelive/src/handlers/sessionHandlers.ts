@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   ServerEventUnion,
   ServerEventError,
@@ -107,7 +108,7 @@ export interface ErrorEventArgs {
  */
 export interface SubscribeOptions {
   /** Signal to abort the subscription */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
   /** Whether to include detailed server events (default: true) */
   includeServerEvents?: boolean;
   /** Whether to include audio events (default: true) */
