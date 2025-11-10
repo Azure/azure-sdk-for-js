@@ -373,26 +373,6 @@ describe("VoiceLive End-to-End Integration", () => {
           call_id: callId,
           output: output
         }));
-      },
-
-      onServerEvent: (eventType: string, handler: (event: any) => void) => {
-        mockWebSocket.onMessage((data) => {
-          if (typeof data === 'string') {
-            try {
-              const event = JSON.parse(data);
-              if (event.type === eventType) {
-                handler(event);
-              }
-            } catch {
-              // Ignore invalid JSON
-            }
-          }
-        });
-
-        // Return unsubscribe function
-        return () => {
-          // In a real implementation, this would remove the specific handler
-        };
       }
     };
 
