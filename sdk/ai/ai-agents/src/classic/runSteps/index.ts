@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { RunStep } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import { listRunSteps, getRunStep } from "../../api/runSteps/operations.js";
+import type {
   RunStepsListRunStepsOptionalParams,
   RunStepsGetRunStepOptionalParams,
 } from "../../api/runSteps/options.js";
-import { listRunSteps, getRunStep } from "../../api/runSteps/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RunStep } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RunSteps operations. */
 export interface RunStepsOperations {
   /** Gets a list of run steps from a thread run. */
-  list: (
+  listRunSteps: (
     threadId: string,
     runId: string,
     options?: RunStepsListRunStepsOptionalParams,
   ) => PagedAsyncIterableIterator<RunStep>;
   /** Retrieves a single run step from a thread run. */
-  get: (
+  getRunStep: (
     threadId: string,
     runId: string,
     stepId: string,
@@ -29,9 +29,9 @@ export interface RunStepsOperations {
 
 function _getRunSteps(context: AgentsContext) {
   return {
-    list: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) =>
+    listRunSteps: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) =>
       listRunSteps(context, threadId, runId, options),
-    get: (
+    getRunStep: (
       threadId: string,
       runId: string,
       stepId: string,

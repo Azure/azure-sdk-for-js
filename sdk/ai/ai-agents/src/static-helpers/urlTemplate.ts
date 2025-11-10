@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-param-reassign */
-
 // ---------------------
 // interfaces
 // ---------------------
@@ -76,7 +73,11 @@ function getExpandedValue(option: ValueOptions): string {
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (named && varName) {
         vals.push(`${encodeURIComponent(varName)}`);
-        val === "" ? vals.push(ifEmpty) : vals.push("=");
+        if (val === "") {
+          vals.push(ifEmpty);
+        } else {
+          vals.push("=");
+        }
       }
       vals.push(encodeComponent(val, reserved, op));
       isFirst = false;
@@ -91,7 +92,11 @@ function getExpandedValue(option: ValueOptions): string {
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (key) {
         vals.push(`${encodeURIComponent(key)}`);
-        named && val === "" ? vals.push(ifEmpty) : vals.push("=");
+        if (named && val === "") {
+          vals.push(ifEmpty);
+        } else {
+          vals.push("=");
+        }
       }
       vals.push(encodeComponent(val, reserved, op));
       isFirst = false;
@@ -146,7 +151,11 @@ function getVarValue(option: ValueOptions): string | undefined {
     if (named && varName) {
       // No need to encode varName considering it is already encoded
       vals.push(varName);
-      val === "" ? vals.push(ifEmpty) : vals.push("=");
+      if (val === "") {
+        vals.push(ifEmpty);
+      } else {
+        vals.push("=");
+      }
     }
     if (modifier && modifier !== "*") {
       val = val.substring(0, parseInt(modifier, 10));
@@ -168,13 +177,14 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  return template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
     let op;
     if (["+", "#", ".", "/", ";", "?", "&"].includes(expr[0])) {
-      ((op = expr[0]), (expr = expr.slice(1)));
+      op = expr[0];
+      expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
     const result = [];
@@ -196,5 +206,22 @@ export function expandUrlTemplate(
       }
     }
     return result.join("");
+  });
+
+  return normalizeUnreserved(result);
+}
+
+/**
+ * Normalize an expanded URI by decoding percent-encoded unreserved characters.
+ * RFC 3986 unreserved: "-" / "." / "~"
+ */
+function normalizeUnreserved(uri: string): string {
+  return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
+    const char = String.fromCharCode(parseInt(hex, 16));
+    // Decode only if it's unreserved
+    if (/[\-.~]/.test(char)) {
+      return char;
+    }
+    return match; // leave other encodings intact
   });
 }
