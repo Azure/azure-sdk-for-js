@@ -35,9 +35,9 @@ export async function main(): Promise<void> {
     tools: [
       {
         type: "mcp",
-        serverLabel: "api-specs",
-        serverUrl: "https://gitmcp.io/Azure/azure-rest-api-specs",
-        requireApproval: "always",
+        server_label: "api-specs",
+        server_url: "https://gitmcp.io/Azure/azure-rest-api-specs",
+        require_approval: "always",
       } as any,
     ],
   });
