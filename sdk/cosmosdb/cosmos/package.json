@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.6.0",
+  "version": "4.7.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -86,7 +86,7 @@
     "@types/node": "catalog:",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "assertion-error": "^2.0.1",
     "cross-env": "catalog:",

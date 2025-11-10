@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import * as zlib from "zlib";
 
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
 import {
   SimpleTokenCredential,
   base64encode,
@@ -16,12 +19,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type {
-  StorageSharedKeyCredential,
-  BlobClient,
-  ContainerClient,
-  BlobServiceClient,
-} from "../../src/index.js";
+import type { BlobClient, ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   BlockBlobClient,
   newPipeline,
@@ -29,7 +27,6 @@ import {
   BlobSASPermissions,
   getBlobServiceAccountAudience,
   SASProtocol,
-  AnonymousCredential,
 } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
@@ -510,7 +507,7 @@ describe("syncUploadFromURL", () => {
     // Validate source and destination blob content match.
     const downloadRes = await blockBlobClient.download();
     const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(content)), 0);
   });
 
   it("syncUploadFromURL - source bear token and destination account key", async () => {
@@ -568,7 +565,7 @@ describe("syncUploadFromURL", () => {
     // Validate source and destination blob content match.
     const downloadRes = await blockBlobClient.download();
     const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate source and desintation BlobHttpHeaders match.
     assert.deepStrictEqual(downloadRes.cacheControl, srcHttpHeaders.blobCacheControl);
@@ -592,7 +589,7 @@ describe("syncUploadFromURL", () => {
     // Validate source and destination blob content match.
     const downloadRes = await blockBlobClient.download();
     const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate BlobHttpHeaders merged.
     assert.deepStrictEqual(downloadRes.cacheControl, srcHttpHeaders.blobCacheControl);
@@ -628,7 +625,7 @@ describe("syncUploadFromURL", () => {
     // Validate source and destination blob content match.
     const downloadRes = await blockBlobClient.download();
     const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate tags set correctly
     const getTagsRes = await blockBlobClient.getTags();
@@ -650,7 +647,7 @@ describe("syncUploadFromURL", () => {
     // Validate source and destination blob content match.
     const downloadRes = await blockBlobClient.download();
     const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate tags set correctly
     const getTagsRes = await blockBlobClient.getTags();
@@ -723,7 +720,7 @@ describe("syncUploadFromURL", () => {
     // Validate source and destination blob content match.
     const downloadRes = await blockBlobClient.download();
     const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
-    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(content)), 0);
 
     // Validate BlobHttpHeaders merged.
     assert.deepStrictEqual(downloadRes.cacheControl, undefined);
@@ -817,6 +814,6 @@ describe("syncUploadFromURL", () => {
       assert.deepStrictEqual(err.code, "OperationTimedOut");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 });

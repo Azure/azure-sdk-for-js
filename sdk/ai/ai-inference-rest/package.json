@@ -104,7 +104,7 @@
     "@opentelemetry/instrumentation": "^0.200.0",
     "@opentelemetry/sdk-trace-node": "^2.0.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "autorest": "catalog:",
     "cross-env": "catalog:",

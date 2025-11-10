@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a specified connection created by this management group.
- *
- * @summary Get a specified connection created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerConnectionManagementGroupGet.json
- */
-
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Get a specified connection created by this management group.
+ *
+ * @summary Get a specified connection created by this management group.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerConnectionManagementGroupGet.json
+ */
 async function getManagementGroupNetworkManagerConnection(): Promise<void> {
   const managementGroupId = "managementGroupA";
   const networkManagerConnectionName = "TestNMConnection";

@@ -83,7 +83,7 @@
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "buffer": "^6.0.3",
     "chai": "catalog:testing",

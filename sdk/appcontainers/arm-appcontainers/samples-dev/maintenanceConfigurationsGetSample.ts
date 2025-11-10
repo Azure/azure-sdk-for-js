@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the maintenance configuration of a ManagedEnvironment .
  *
  * @summary Gets the maintenance configuration of a ManagedEnvironment .
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironment_MaintenanceConfigurations_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/ManagedEnvironment_MaintenanceConfigurations_Get.json
  */
 async function managedEnvironmentMaintenanceConfigurationsGet(): Promise<void> {
   const subscriptionId =
