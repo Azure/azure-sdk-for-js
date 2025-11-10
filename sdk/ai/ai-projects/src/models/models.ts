@@ -1748,7 +1748,7 @@ export function openApiAuthDetailsUnionDeserializer(item: any): OpenApiAuthDetai
 /**
  * Authentication type for OpenApi endpoint. Allowed types are:
  * - Anonymous (no authentication required)
- * - Project Connection (requires project_connection_id to endpoint, as setup in AI Foundry)
+ * - Project Connection (requires project_connection_id to endpoint, as setup in Microsoft Foundry)
  * - Managed_Identity (requires audience for identity based auth)
  */
 export type OpenApiAuthType = "anonymous" | "project_connection" | "managed_identity";
@@ -6844,7 +6844,7 @@ export function evaluatorVersionArrayDeserializer(result: Array<EvaluatorVersion
 
 /** Evaluator Definition */
 export interface EvaluatorVersion {
-  /** Display Name for evaluator. It helps to find the evaluator easily in AI Foundry. It does not need to be unique. */
+  /** Display Name for evaluator. It helps to find the evaluator easily in Microsoft Foundry. It does not need to be unique. */
   display_name?: string;
   /** Metadata about the evaluator */
   metadata?: Record<string, string>;
