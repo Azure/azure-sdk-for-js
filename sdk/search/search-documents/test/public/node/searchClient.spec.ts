@@ -113,7 +113,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       }) as const;
 
     it("search with speller", async () => {
-      const searchResults = await searchClient.search("budjet", {
+      const searchResults = await searchClient.search("budjet", undefined, undefined, {
         skip: 0,
         top: 5,
         includeTotalCount: true,
@@ -124,7 +124,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     });
 
     it("search with semantic ranking", async () => {
-      const searchResults = await searchClient.search("luxury", {
+      const searchResults = await searchClient.search("luxury", undefined, undefined, {
         ...baseSemanticOptions(),
         skip: 0,
         top: 5,
@@ -143,7 +143,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
           debugMode: "semantic",
         },
       } as const;
-      const searchResults = await searchClient.search("luxury", options);
+      const searchResults = await searchClient.search("luxury", undefined, undefined, options);
       for await (const result of searchResults.results) {
         assert.deepEqual(
           {
@@ -190,6 +190,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       } as const;
       const searchResults = await searchClient.search(
         "What are the most luxurious hotels?",
+        undefined,
+        undefined,
         options,
       );
 
@@ -220,7 +222,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     });
 
     it("search returns the correct search result", async () => {
-      const searchResults = await searchClient.search("budget", {
+      const searchResults = await searchClient.search("budget", undefined, undefined, {
         skip: 0,
         top: 5,
         includeTotalCount: true,
@@ -233,7 +235,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       // This part of the test is only for types. This doesn't need to be called.
       // eslint-disable-next-line no-unused-expressions
       async () => {
-        const response = await searchClient.search("asdf", {
+        const response = await searchClient.search("asdf", undefined, undefined, {
           select: ["address/city"],
         });
         for await (const result of response.results) {
@@ -282,13 +284,13 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
 
       const selectPromises = [
-        searchClient.search("New", {
+        searchClient.search("New", undefined, undefined, {
           select,
         }),
-        searchClient.search("New", {
+        searchClient.search("New", undefined, undefined, {
           select: selectNarrowed,
         }),
-        searchClient.search("New", {
+        searchClient.search("New", undefined, undefined, {
           select: ["hotelId", "address/city", "rooms/type"],
         }),
       ];
@@ -320,13 +322,13 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       const searchFieldsNarrowed = ["address/city"] as const;
 
       const searchFieldsPromises = [
-        searchClient.search("New", {
+        searchClient.search("New", undefined, undefined, {
           searchFields,
         }),
-        searchClient.search("New", {
+        searchClient.search("New", undefined, undefined, {
           searchFields: searchFieldsNarrowed,
         }),
-        searchClient.search("New", {
+        searchClient.search("New", undefined, undefined, {
           searchFields: ["address/city"],
         }),
       ];
@@ -347,7 +349,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     });
 
     it("search returns zero results for invalid query", async () => {
-      const searchResults = await searchClient.search("garbxyz", {
+      const searchResults = await searchClient.search("garbxyz", undefined, undefined, {
         skip: 0,
         top: 5,
         includeTotalCount: true,
@@ -525,7 +527,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     });
 
     it("search with semantic error handling", async () => {
-      const searchResults = await searchClient.search("luxury", {
+      const searchResults = await searchClient.search("luxury", undefined, undefined, {
         ...baseSemanticOptions(),
         select: ["hotelId"],
       });
@@ -549,7 +551,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
 
       const embedding = embeddings.data[0].embedding;
 
-      const searchResults = await searchClient.search("*", {
+      const searchResults = await searchClient.search("*", undefined, undefined, {
         vectorSearchOptions: {
           queries: [
             {
@@ -583,7 +585,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
 
       const embedding = embeddings.data[0].embedding;
 
-      const searchResults = await searchClient.search("*", {
+      const searchResults = await searchClient.search("*", undefined, undefined, {
         vectorSearchOptions: {
           queries: [
             {
@@ -623,7 +625,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       );
 
       const embedding = embeddings.data[0].embedding;
-      const searchResults = await searchClient.search("*", {
+      const searchResults = await searchClient.search("*", undefined, undefined, {
         vectorSearchOptions: {
           queries: [
             {

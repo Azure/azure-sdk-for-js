@@ -108,6 +108,9 @@ export interface GetDocumentOptions<
    * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
    */
   xMsQuerySourceAuthorization?: string;
+
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
 }
 
 /**
@@ -447,6 +450,9 @@ export interface BaseSearchRequestOptions<
    * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
    */
   xMsQuerySourceAuthorization?: string;
+
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  xMsEnableElevatedRead?: boolean;
 }
 
 /**

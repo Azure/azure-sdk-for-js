@@ -511,9 +511,17 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    */
   public async search<TFields extends SelectFields<TModel>>(
     searchText?: string,
+    querySourceAuthorization?: string,
+    enableElevatedRead?: boolean,
     options?: SearchOptions<TModel, TFields>,
   ): Promise<SearchDocumentsResult<TModel, TFields>> {
-    const { span, updatedOptions } = createSpan("SearchClient-search", options);
+    const preOptions: SearchOptions<TModel, TFields> = {
+      ...(options ?? {}),
+      xMsEnableElevatedRead: enableElevatedRead,
+      xMsQuerySourceAuthorization: querySourceAuthorization,
+    };
+
+    const { span, updatedOptions } = createSpan("SearchClient-search", preOptions);
 
     try {
       const pageResult = await this.searchDocuments<TFields>(searchText, updatedOptions);
@@ -618,9 +626,18 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    */
   public async getDocument<TFields extends SelectFields<TModel>>(
     key: string,
+    querySourceAuthorization?: string,
+    enableElevatedRead?: boolean,
     options: GetDocumentOptions<TModel, TFields> = {},
   ): Promise<NarrowedModel<TModel, TFields>> {
-    const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
+    const preOptions: GetDocumentOptions<TModel, TFields> = {
+      ...(options ?? {}),
+      xMsEnableElevatedRead: enableElevatedRead,
+      xMsQuerySourceAuthorization: querySourceAuthorization,
+    };
+
+    const { span, updatedOptions } = createSpan("SearchClient-getDocument", preOptions);
+
     try {
       const result = await this.client.documents.get(key, {
         ...updatedOptions,

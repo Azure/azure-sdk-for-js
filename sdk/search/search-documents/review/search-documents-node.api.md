@@ -361,6 +361,7 @@ export interface BaseSearchRequestOptions<TModel extends object, TFields extends
     speller?: QuerySpeller;
     top?: number;
     vectorSearchOptions?: VectorSearchOptions<TModel>;
+    xMsEnableElevatedRead?: boolean;
     xMsQuerySourceAuthorization?: string;
 }
 
@@ -1013,6 +1014,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 // @public
 export interface GetDocumentOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> extends OperationOptions {
     selectedFields?: SelectArray<TFields>;
+    xMsEnableElevatedRead?: boolean;
     xMsQuerySourceAuthorization?: string;
 }
 
@@ -1617,7 +1619,7 @@ export class KnowledgeRetrievalClient {
     readonly knowledgeBaseName: string;
     readonly pipeline: Pipeline;
     // (undocumented)
-    retrieveKnowledge(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveKnowledgeOptions): Promise<KnowledgeBaseRetrievalResponse>;
+    retrieveKnowledge(retrievalRequest: KnowledgeBaseRetrievalRequest, querySourceAuthorization?: string, options?: RetrieveKnowledgeOptions): Promise<KnowledgeBaseRetrievalResponse>;
     readonly serviceVersion: string;
 }
 
@@ -3375,14 +3377,14 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     deleteDocuments(documents: TModel[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof TModel, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<TFields extends SelectFields<TModel>>(key: string, options?: GetDocumentOptions<TModel, TFields>): Promise<NarrowedModel<TModel, TFields>>;
+    getDocument<TFields extends SelectFields<TModel>>(key: string, querySourceAuthorization?: string, enableElevatedRead?: boolean, options?: GetDocumentOptions<TModel, TFields>): Promise<NarrowedModel<TModel, TFields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<TModel>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: TModel[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: TModel[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
-    search<TFields extends SelectFields<TModel>>(searchText?: string, options?: SearchOptions<TModel, TFields>): Promise<SearchDocumentsResult<TModel, TFields>>;
+    search<TFields extends SelectFields<TModel>>(searchText?: string, querySourceAuthorization?: string, enableElevatedRead?: boolean, options?: SearchOptions<TModel, TFields>): Promise<SearchDocumentsResult<TModel, TFields>>;
     readonly serviceVersion: string;
     suggest<TFields extends SelectFields<TModel> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<TModel, TFields>): Promise<SuggestDocumentsResult<TModel, TFields>>;
     uploadDocuments(documents: TModel[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
