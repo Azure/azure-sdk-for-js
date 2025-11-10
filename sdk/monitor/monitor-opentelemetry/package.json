@@ -76,7 +76,7 @@
     "@azure/logger": "^1.1.4",
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.36",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
-    "@microsoft/applicationinsights-web-snippet": "^1.2.1",
+    "@microsoft/applicationinsights-web-snippet": "^1.2.2",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/api-logs": "^0.204.0",
     "@opentelemetry/core": "^2.1.0",

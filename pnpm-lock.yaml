@@ -20674,7 +20674,7 @@ importers:
         specifier: ^1.0.0-beta.7
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@microsoft/applicationinsights-web-snippet':
-        specifier: ^1.2.1
+        specifier: ^1.2.2
         version: 1.2.2
       '@opentelemetry/api':
         specifier: ^1.9.0
