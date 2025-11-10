@@ -17,13 +17,27 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
 
   // Event handlers
   private _onOpenHandler?: () => void;
-  private _onCloseHandler?: (code?: number, reason?: string) => void;
+  private _onCloseHandler?: (code: number, reason: string) => void;
   private _onMessageHandler?: (data: string | ArrayBuffer) => void;
   private _onErrorHandler?: (error: Error) => void;
 
   constructor() {
     // Start in open state for testing convenience
     this._state = 1; // WebSocketState.Open
+  }
+
+  /**
+   * Get if WebSocket is connected (for VoiceLiveWebSocketLike compatibility)
+   */
+  get isConnected(): boolean {
+    return this._state === 1; // WebSocketState.Open
+  }
+
+  /**
+   * Get WebSocket ready state (for VoiceLiveWebSocketLike compatibility)
+   */
+  get readyState(): number {
+    return this._state;
   }
 
   /**
@@ -61,7 +75,7 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
     await new Promise(resolve => setTimeout(resolve, 1));
     
     this._state = 3; // WebSocketState.Closed
-    this._onCloseHandler?.(code, reason);
+    this._onCloseHandler?.(code || 1000, reason || "Normal close");
   }
 
   /**
@@ -90,7 +104,7 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   /**
    * Register close event handler
    */
-  onClose(handler: (code?: number, reason?: string) => void): void {
+  onClose(handler: (code: number, reason: string) => void): void {
     this._onCloseHandler = handler;
   }
 

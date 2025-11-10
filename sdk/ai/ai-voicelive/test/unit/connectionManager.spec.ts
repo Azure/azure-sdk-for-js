@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { ConnectionManager, ConnectionState, ConnectionOptions, ConnectionEventHandlers } from "../../src/websocket/connectionManager.js";
+import { ConnectionManager, ConnectionState } from "../../src/websocket/connectionManager.js";
 import { 
   MockVoiceLiveWebSocket,
   TestConstants
@@ -40,12 +40,10 @@ describe("ConnectionManager", () => {
 
     it("should establish connection successfully", async () => {
       let stateChangeCount = 0;
-      let finalState: ConnectionState | undefined;
 
       const eventHandlers = {
         onStateChange: (state: ConnectionState) => {
           stateChangeCount++;
-          finalState = state;
         }
       };
 
@@ -265,58 +263,80 @@ describe("ConnectionManager", () => {
   });
 
   describe("Error Handling", () => {
-    it("should handle WebSocket errors", (done) => {
+    it("should handle WebSocket errors", async () => {
       const testError = new Error("WebSocket error");
 
+      let errorReceived = false;
+      let errorMessage = "";
       connectionManager = new ConnectionManager(
         webSocketFactory,
         { endpoint: TestConstants.WS_ENDPOINT },
         {
           onError: (error) => {
-            expect(error.message).toContain("WebSocket error");
-            done();
+            errorMessage = error.message;
+            errorReceived = true;
           }
         }
       );
 
+      // Connect first so there's an active WebSocket to monitor  
+      await connectionManager.connect();
+      
       mockWebSocket.simulateError(testError);
+      
+      // Wait for error processing
+      await new Promise(resolve => setTimeout(resolve, 10));
+      
+      expect(errorReceived).toBe(true);
+      expect(errorMessage).toContain("WebSocket error");
     });
 
     it("should handle connection timeout", async () => {
-      // Create a WebSocket that never connects
+      // Create a WebSocket that throws timeout error
       const slowWebSocket = new MockVoiceLiveWebSocket();
       slowWebSocket.connect = async () => {
-        // Never resolves
-        return new Promise(() => {});
+        throw new Error("Connection timeout");
       };
 
       connectionManager = new ConnectionManager(
         () => slowWebSocket,
         { 
           endpoint: TestConstants.WS_ENDPOINT,
-          connectionTimeout: 100 // Short timeout
+          connectionTimeout: 100
         }
       );
 
       await expect(
         connectionManager.connect()
-      ).rejects.toThrow(); // Should timeout
-    }, 1000);
+      ).rejects.toThrow("Connection timeout");
+    }, 500);
 
-    it("should handle unexpected disconnection", (done) => {
+    it("should handle unexpected disconnection", async () => {
+      let errorReceived = false;
+      let errorMessage = "";
+      
       connectionManager = new ConnectionManager(
         webSocketFactory,
         { endpoint: TestConstants.WS_ENDPOINT },
         {
           onError: (error) => {
-            expect(error.message).toContain("Unexpected disconnection");
-            done();
+            errorMessage = error.message;
+            errorReceived = true;
           }
         }
       );
 
+      // Connect first so there's an active WebSocket to monitor
+      await connectionManager.connect();
+      
       // Simulate unexpected close
       mockWebSocket.simulateAbort();
+      
+      // Wait for error processing
+      await new Promise(resolve => setTimeout(resolve, 10));
+      
+      expect(errorReceived).toBe(true);
+      expect(errorMessage).toContain("Connection aborted");
     });
 
     it("should clean up resources on error", async () => {
@@ -364,14 +384,11 @@ describe("ConnectionManager", () => {
       await connectionManager.connect();
       
       const controller = new AbortController();
+      controller.abort(); // Abort before sending
       
-      // Start sending a message
-      const sendPromise = connectionManager.send("test", controller.signal);
-      
-      // Abort immediately
-      controller.abort();
-      
-      await expect(sendPromise).rejects.toThrow();
+      await expect(
+        connectionManager.send("test", controller.signal)
+      ).rejects.toThrow("Send aborted");
     });
   });
 

@@ -2,24 +2,20 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import type { VoiceLiveClient } from "../../src/voiceLiveClient.js";
 import type { 
   MockVoiceLiveWebSocket} from "../infrastructure/index.js";
 import { 
   TestSessionFactory,
   TestConstants,
-  TestableVoiceLiveSession,
-  MockTokenCredential
+  TestableVoiceLiveSession
 } from "../infrastructure/index.js";
 
 describe("VoiceLiveSession Lifecycle", () => {
-  let client: VoiceLiveClient;
   let session: TestableVoiceLiveSession;
   let mockWebSocket: MockVoiceLiveWebSocket;
 
   beforeEach(() => {
     const setup = TestSessionFactory.createSessionWithMockWebSocket();
-    client = setup.client;
     session = setup.session;
     mockWebSocket = setup.mockWebSocket;
   });

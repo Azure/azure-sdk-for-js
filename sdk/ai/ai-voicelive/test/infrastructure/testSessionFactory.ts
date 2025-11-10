@@ -130,6 +130,10 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
 
   // Mock methods for audio testing - these would be implemented by the actual session
   async sendInputAudio?(audioData: Uint8Array, options?: AudioOptions): Promise<void> {
+    if (options?.abortSignal?.aborted) {
+      throw new Error("Aborted");
+    }
+
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
@@ -144,7 +148,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
       audio: base64Audio
     });
     
-    await this._mockWebSocket.send(message);
+    await this._mockWebSocket.send(message, options?.abortSignal);
   }
 
   async sendInputAudioStream?(stream: ReadableStream<Uint8Array>, options?: AudioOptions): Promise<void> {

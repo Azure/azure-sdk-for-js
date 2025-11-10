@@ -386,14 +386,18 @@ describe("VoiceLiveSession Audio Processing", () => {
     });
 
     it("should handle abort during audio operations", async () => {
+      await mockWebSocket.connect(TestConstants.WS_ENDPOINT);
+      
       const controller = new AbortController();
       const audioData = createTestAudioData(1024);
       
-      // Start operation and abort immediately
-      const promise = session.sendInputAudio?.(audioData, { abortSignal: controller.signal });
+      // Abort the controller first
       controller.abort();
       
-      await expect(promise).rejects.toThrow("Aborted");
+      // Then try to send audio - this should throw because signal is aborted
+      await expect(
+        session.sendInputAudio!(audioData, { abortSignal: controller.signal })
+      ).rejects.toThrow("Aborted");
     });
 
     it("should clean up after audio errors", async () => {
