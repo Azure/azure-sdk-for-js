@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
     tools: [
       {
         type: "web_search_preview",
-        userLocation: {
+        user_location: {
           type: "approximate",
           country: "GB",
           city: "London",

@@ -36,10 +36,10 @@ export async function main(): Promise<void> {
     tools: [
       {
         type: "mcp",
-        serverLabel: "api-specs",
-        serverUrl: "https://api.githubcopilot.com/mcp",
-        requireApproval: "always",
-        projectConnectionId: mcpProjectConnectionId,
+        server_label: "api-specs",
+        server_url: "https://api.githubcopilot.com/mcp",
+        require_approval: "always",
+        project_connection_id: mcpProjectConnectionId,
       } as any,
     ],
   });

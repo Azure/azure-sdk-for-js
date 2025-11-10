@@ -177,9 +177,7 @@ export type CreateAgentFromManifestConfig = {
 };
 
 /** Configuration for creating an agent */
-export type CreateAgentConfig =
-  | CreateAgentFromDefinitionConfig
-  | CreateAgentFromManifestConfig;
+export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
 
 /** Configuration for updating an agent from a definition */
 export type UpdateAgentFromDefinitionConfig = {
@@ -197,6 +195,4 @@ export type UpdateAgentFromManifestConfig = {
 };
 
 /** Configuration for updating an agent */
-export type UpdateAgentConfig =
-  | UpdateAgentFromDefinitionConfig
-  | UpdateAgentFromManifestConfig;
+export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
