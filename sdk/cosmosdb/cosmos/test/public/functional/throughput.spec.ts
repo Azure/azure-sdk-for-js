@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Container } from "../../../src/index.js";
-import { OperationType, ResourceType, Constants } from "../../../src/common/index.js";
-import { CosmosClient } from "../../../src/index.js";
+import { OperationType, ResourceType, Constants, StatusCodes } from "../../../src/common/index.js";
+import {
+  ChangeFeedStartFrom,
+  CosmosClient,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+} from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { PriorityLevel } from "../../../src/documents/PriorityLevel.js";
@@ -222,5 +227,120 @@ describe("testThroughputBucketForBulk", async () => {
       },
     ];
     container.items.bulk(operations, {}, { throughputBucket: 4 });
+  });
+});
+
+describe("testThroughputBucketForChangeFeed", async () => {
+  let container: Container;
+  beforeAll(async () => {
+    const dbId = addEntropy("throughputBucketDb");
+    const containerId = addEntropy("throughputBucketContainer");
+    const client = new CosmosClient({
+      endpoint,
+      key: masterKey,
+      plugins: [
+        {
+          on: "request",
+          plugin: async (context, diagNode, next) => {
+            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
+            if (
+              context.resourceType === ResourceType.item &&
+              context.operationType === OperationType.Query
+            ) {
+              assert.ok(context.headers[Constants.HttpHeaders.ThroughputBucket] === 4);
+            }
+            const response = await next(context);
+            return response;
+          },
+        },
+      ],
+    });
+
+    // create database
+    await client.databases.create({ id: dbId });
+    const database = client.database(dbId);
+    // create container
+    await database.containers.create({
+      id: containerId,
+      throughput: 21000,
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: PartitionKeyDefinitionVersion.V2,
+      },
+    });
+    container = database.container(containerId);
+    for (let i = 0; i < 10; i++) {
+      await container.items.create({
+        id: "sample1" + i.toString(),
+        key1: "sample1",
+        key2: "sample1",
+      });
+      await container.items.create({
+        id: "sample2" + i.toString(),
+        key1: "sample2",
+        key2: "sample2",
+      });
+    }
+  });
+
+  afterAll(async () => {
+    if (container) {
+      await container.database.delete();
+    }
+  });
+
+  it("test throughput bucketing in change feed for partition key", async () => {
+    const iterator = container.items.getChangeFeedIterator({
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["sample1", "sample1"]),
+      throughputBucket: 4,
+      maxItemCount: 5,
+    });
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === StatusCodes.NotModified) {
+        break;
+      }
+    }
+  });
+  it("test throughput bucketing in change feed for partial hpk", async () => {
+    const iterator = container.items.getChangeFeedIterator({
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["sample1"]),
+      maxItemCount: 5,
+      throughputBucket: 4,
+    });
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === StatusCodes.NotModified) {
+        break;
+      }
+    }
+  });
+  it("test throughput bucketing in change feed for entire container", async () => {
+    const iterator = container.items.getChangeFeedIterator({
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+      maxItemCount: 5,
+      throughputBucket: 4,
+    });
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === StatusCodes.NotModified) {
+        break;
+      }
+    }
+  });
+  it("test throughput bucketing in changefeed for a feed range", async () => {
+    const ranges = await container.getFeedRanges();
+    const iterator = container.items.getChangeFeedIterator({
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(ranges[1]),
+      throughputBucket: 4,
+      maxItemCount: 5,
+    });
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === StatusCodes.NotModified) {
+        break;
+      }
+    }
   });
 });
