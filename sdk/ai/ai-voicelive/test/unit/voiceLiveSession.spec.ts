@@ -163,58 +163,80 @@ describe("VoiceLiveSession Lifecycle", () => {
       await mockWebSocket.connect(TestConstants.WS_ENDPOINT);
     });
 
-    it("should receive simulated inbound messages", (done) => {
+    it("should receive simulated inbound messages", async () => {
       const testMessage = JSON.stringify({
         type: "session.created",
         session: { id: "test-session" }
       });
 
+      let messageReceived = false;
+      let receivedData: any;
+
       mockWebSocket.onMessage((data) => {
-        expect(data).toBe(testMessage);
-        done();
+        receivedData = data;
+        messageReceived = true;
       });
 
       mockWebSocket.enqueueInboundMessage(testMessage);
+      
+      // Wait for message processing
+      await new Promise(resolve => setTimeout(resolve, 10));
+      
+      expect(messageReceived).toBe(true);
+      expect(receivedData).toBe(testMessage);
     });
 
-    it("should handle multiple inbound messages", (done) => {
+    it("should handle multiple inbound messages", async () => {
       const messages = [
         JSON.stringify({ type: "session.created", session: { id: "test1" } }),
         JSON.stringify({ type: "session.updated", session: { id: "test1" } })
       ];
 
-      let receivedCount = 0;
+      const receivedMessages: any[] = [];
       mockWebSocket.onMessage((data) => {
-        expect(typeof data).toBe("string");
-        receivedCount++;
-        
-        if (receivedCount === messages.length) {
-          done();
-        }
+        receivedMessages.push(data);
       });
 
       messages.forEach(msg => mockWebSocket.enqueueInboundMessage(msg));
+      
+      // Wait for message processing
+      await new Promise(resolve => setTimeout(resolve, 20));
+      
+      expect(receivedMessages).toHaveLength(messages.length);
     });
 
-    it("should simulate connection errors", (done) => {
+    it("should simulate connection errors", async () => {
       const testError = new Error("Connection lost");
 
+      let errorReceived = false;
       mockWebSocket.onError((error) => {
         expect(error).toBe(testError);
-        done();
+        errorReceived = true;
       });
 
       mockWebSocket.simulateError(testError);
+      
+      // Wait a bit for error processing
+      await new Promise(resolve => setTimeout(resolve, 10));
+      expect(errorReceived).toBe(true);
     });
 
-    it("should simulate connection close events", (done) => {
+    it("should simulate connection close events", async () => {
+      let closeReceived = false;
+      let receivedCode: number | undefined;
+      let receivedReason: string | undefined;
+
       mockWebSocket.onClose((code, reason) => {
-        expect(code).toBe(1001);
-        expect(reason).toBe("Going away");
-        done();
+        receivedCode = code;
+        receivedReason = reason;
+        closeReceived = true;
       });
 
-      mockWebSocket.disconnect(1001, "Going away");
+      await mockWebSocket.disconnect(1001, "Going away");
+      
+      expect(closeReceived).toBe(true);
+      expect(receivedCode).toBe(1001);
+      expect(receivedReason).toBe("Going away");
     });
   });
 

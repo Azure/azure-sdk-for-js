@@ -2,52 +2,76 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { VoiceLiveClient } from "../src/voiceLiveClient.js";
-
-// Mock credential for testing
-const mockCredential = {
-  async getToken(_scopes: string | string[]) {
-    return {
-      token: "mock-token",
-      expiresOnTimestamp: Date.now() + 3600000,
-    };
-  },
-};
+import { VoiceLiveClient } from "../../src/voiceLiveClient.js";
+import { MockTokenCredential } from "../infrastructure/index.js";
 
 describe("VoiceLiveClient", () => {
   it("should create a client instance", () => {
-    const client = new VoiceLiveClient("https://test.voicelive.azure.com", mockCredential, {
-      enableDebugLogging: true,
-    });
+    const client = new VoiceLiveClient(
+      "https://test.voicelive.azure.com", 
+      new MockTokenCredential(), 
+      { apiVersion: "2025-10-01" }
+    );
 
     expect(client).toBeInstanceOf(VoiceLiveClient);
-    expect(client.isConnected).toBe(false);
-    expect(client.sessionId).toBeUndefined();
-    expect(client.activeTurnId).toBeUndefined();
+    expect(client.endpoint).toBe("https://test.voicelive.azure.com");
+    expect(client.apiVersion).toBe("2025-10-01");
   });
 
-  it("should have proper connection state before connecting", () => {
-    const client = new VoiceLiveClient("https://test.voicelive.azure.com", mockCredential);
+  it("should normalize endpoint URLs correctly", () => {
+    // Test without protocol
+    const client1 = new VoiceLiveClient("test.voicelive.azure.com", new MockTokenCredential());
+    expect(client1.endpoint).toBe("https://test.voicelive.azure.com");
 
-    expect(client.connectionState).toBe("disconnected");
-    expect(client.isConnected).toBe(false);
+    // Test with trailing slash
+    const client2 = new VoiceLiveClient("https://test.voicelive.azure.com/", new MockTokenCredential());
+    expect(client2.endpoint).toBe("https://test.voicelive.azure.com");
   });
 
-  it("should support audio streaming options", () => {
-    const client = new VoiceLiveClient("https://test.voicelive.azure.com", mockCredential);
-
-    // Test that methods exist (they will throw since not connected, but that's expected)
-    expect(typeof client.sendAudio).toBe("function");
-    expect(typeof client.startAudioTurn).toBe("function");
-    expect(typeof client.endAudioTurn).toBe("function");
+  it("should use default API version when none provided", () => {
+    const client = new VoiceLiveClient("https://test.voicelive.azure.com", new MockTokenCredential());
+    expect(client.apiVersion).toBe("2025-10-01");
   });
 
-  it("should support session and conversation management", () => {
-    const client = new VoiceLiveClient("https://test.voicelive.azure.com", mockCredential);
+  it("should create sessions with model string", () => {
+    const client = new VoiceLiveClient("https://test.voicelive.azure.com", new MockTokenCredential());
+    const session = client.createSession("gpt-4o-realtime-preview");
+    
+    expect(session).toBeDefined();
+  });
 
-    // Test that methods exist
-    expect(typeof client.updateSession).toBe("function");
-    expect(typeof client.addConversationItem).toBe("function");
-    expect(typeof client.sendEvent).toBe("function");
+  it("should create sessions with session config", () => {
+    const client = new VoiceLiveClient("https://test.voicelive.azure.com", new MockTokenCredential());
+    const sessionConfig = {
+      model: "gpt-4o-realtime-preview",
+      voice: "alloy"
+    };
+    const session = client.createSession(sessionConfig);
+    
+    expect(session).toBeDefined();
+  });
+
+  it("should throw error when creating session without model", () => {
+    const client = new VoiceLiveClient("https://test.voicelive.azure.com", new MockTokenCredential());
+    
+    expect(() => {
+      client.createSession({} as any);
+    }).toThrow("Model name is required");
+  });
+
+  it("should have startSession method for creating and connecting", () => {
+    const client = new VoiceLiveClient("https://test.voicelive.azure.com", new MockTokenCredential());
+    
+    expect(typeof client.startSession).toBe("function");
+  });
+
+  it("should apply custom API version from options", () => {
+    const client = new VoiceLiveClient(
+      "https://test.voicelive.azure.com", 
+      new MockTokenCredential(),
+      { apiVersion: "2024-10-01" }
+    );
+    
+    expect(client.apiVersion).toBe("2024-10-01");
   });
 });

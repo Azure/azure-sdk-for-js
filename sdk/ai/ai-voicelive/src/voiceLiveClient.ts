@@ -3,11 +3,12 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { RequestSession } from "./models/index.js";
-import {
+import type {
   CreateSessionOptions,
   StartSessionOptions,
-  VoiceLiveSession,
-  VoiceLiveSessionOptions,
+  VoiceLiveSessionOptions} from "./voiceLiveSession.js";
+import {
+  VoiceLiveSession
 } from "./voiceLiveSession.js";
 import { logger } from "./logger.js";
 

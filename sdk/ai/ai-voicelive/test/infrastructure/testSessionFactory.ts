@@ -20,9 +20,11 @@ interface AudioOptions {
  * Mock credential for testing
  */
 export class MockTokenCredential implements TokenCredential {
+  constructor(private _token?: string) {}
+
   async getToken(_scopes: string | string[]): Promise<{ token: string; expiresOnTimestamp: number }> {
     return {
-      token: "mock-token-" + Date.now(),
+      token: this._token || "mock-token-" + Date.now(),
       expiresOnTimestamp: Date.now() + 3600000, // 1 hour from now
     };
   }
@@ -211,6 +213,174 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     });
     
     await this._mockWebSocket.send(message);
+  }
+
+  // Additional mock methods for testing
+  async configureSession?(config: any): Promise<void> {
+    if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
+      throw new Error("Session not connected");
+    }
+    
+    const message = JSON.stringify({
+      type: "session.update",
+      session: config
+    });
+    
+    await this._mockWebSocket.send(message);
+  }
+
+  async addConversationItem?(item: any): Promise<void> {
+    if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
+      throw new Error("Session not connected");
+    }
+    
+    const message = JSON.stringify({
+      type: TestConstants.EVENT_TYPES.CONVERSATION_ITEM_CREATE,
+      item: item
+    });
+    
+    await this._mockWebSocket.send(message);
+  }
+
+  async createResponse?(): Promise<void> {
+    if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
+      throw new Error("Session not connected");
+    }
+    
+    const message = JSON.stringify({
+      type: TestConstants.EVENT_TYPES.RESPONSE_CREATE
+    });
+    
+    await this._mockWebSocket.send(message);
+  }
+
+  async sendFunctionCallOutput?(callId: string, output: string): Promise<void> {
+    if (!callId) throw new Error("Call ID is required");
+    if (!output) throw new Error("Function output is required");
+    
+    if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
+      throw new Error("Session not connected");
+    }
+    
+    const message = JSON.stringify({
+      type: TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
+      call_id: callId,
+      output: output
+    });
+    
+    await this._mockWebSocket.send(message);
+    
+    // Remove from active calls
+    const activeCalls = (this as any)._activeFunctionCalls || [];
+    const index = activeCalls.findIndex((call: any) => call.callId === callId);
+    if (index >= 0) {
+      activeCalls.splice(index, 1);
+    }
+  }
+
+  async sendFunctionCallOutputChunk?(callId: string, chunk: string): Promise<void> {
+    if (!callId) throw new Error("Call ID is required");
+    if (!chunk) throw new Error("Chunk is required");
+    
+    if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
+      throw new Error("Session not connected");
+    }
+    
+    const message = JSON.stringify({
+      type: TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
+      call_id: callId,
+      output: chunk,
+      is_chunk: true
+    });
+    
+    await this._mockWebSocket.send(message);
+  }
+
+  async sendFunctionCallOutputBinary?(callId: string, data: Uint8Array): Promise<void> {
+    if (!callId) throw new Error("Call ID is required");
+    if (!data) throw new Error("Data is required");
+    
+    const base64Data = audioToBase64(data);
+    await this.sendFunctionCallOutput!(callId, base64Data);
+  }
+
+  onServerEvent?(eventType: string, handler: (event: any) => void): () => void {
+    if (!this._mockWebSocket) {
+      throw new Error("No WebSocket available");
+    }
+
+    const messageHandler = (data: any) => {
+      if (typeof data === 'string') {
+        try {
+          const event = JSON.parse(data);
+          if (event.type === eventType) {
+            handler(event);
+            
+            // Track function calls
+            if (event.type === TestConstants.EVENT_TYPES.FUNCTION_CALL_ARGUMENTS_DONE) {
+              const activeCalls = (this as any)._activeFunctionCalls || [];
+              activeCalls.push({
+                callId: event.call_id,
+                functionName: event.name,
+                arguments: event.arguments
+              });
+              (this as any)._activeFunctionCalls = activeCalls;
+            }
+          }
+        } catch {
+          // Ignore invalid JSON
+        }
+      }
+    };
+
+    this._mockWebSocket.onMessage(messageHandler);
+    (this as any)._messageHandlers = (this as any)._messageHandlers || [];
+    (this as any)._messageHandlers.push(messageHandler);
+
+    // Return unsubscribe function
+    return () => {
+      // In a real implementation, this would remove the specific handler
+    };
+  }
+
+  onError?(handler: (error: Error) => void): () => void {
+    if (!this._mockWebSocket) {
+      throw new Error("No WebSocket available");
+    }
+
+    this._mockWebSocket.onError(handler);
+    
+    // Return unsubscribe function
+    return () => {
+      // In a real implementation, this would remove the specific handler
+    };
+  }
+
+  async waitForFunctionCall?(callId: string, timeoutMs: number = 5000): Promise<any> {
+    const startTime = Date.now();
+    
+    while (Date.now() - startTime < timeoutMs) {
+      const activeCalls = (this as any)._activeFunctionCalls || [];
+      const call = activeCalls.find((c: any) => c.callId === callId);
+      if (call) {
+        return call;
+      }
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    
+    throw new Error("Function call timeout");
+  }
+
+  getActiveFunctionCalls?(): any[] {
+    return (this as any)._activeFunctionCalls || [];
+  }
+
+  async cancelFunctionCall?(callId: string): Promise<void> {
+    const activeCalls = (this as any)._activeFunctionCalls || [];
+    const index = activeCalls.findIndex((call: any) => call.callId === callId);
+    if (index >= 0) {
+      activeCalls.splice(index, 1);
+    }
   }
 }
 
