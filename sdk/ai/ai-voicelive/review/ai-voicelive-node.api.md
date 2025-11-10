@@ -1521,7 +1521,6 @@ export class VoiceLiveConnectionError extends Error {
     readonly context: string;
     readonly recoverable: boolean;
     readonly timestamp: Date;
-    toJSON(): Record<string, any>;
 }
 
 // @public
