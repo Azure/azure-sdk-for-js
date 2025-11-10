@@ -164,7 +164,7 @@ export class VoiceLiveSession {
       this._setupConnectionEventHandlers();
 
       // Connect with proper error handling
-      await this._connectionManager.connect(options.abortSignal as AbortSignal);
+      await this._connectionManager.connect(options.abortSignal);
 
       logger.info("Successfully connected to Voice Live service");
     } catch (error) {
@@ -527,7 +527,7 @@ export class VoiceLiveSession {
 
     try {
       const serialized = this._messageParser.serializeOutgoingMessage(event);
-      await this._connectionManager.send(serialized, options.abortSignal as AbortSignal);
+      await this._connectionManager.send(serialized, options.abortSignal);
 
       logger.info("Sent event", { type: event.type, eventId: (event as any).eventId });
     } catch (error) {

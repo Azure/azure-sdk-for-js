@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
+
 /**
  * WebSocket ready state enumeration matching standard WebSocket values
  */
@@ -32,7 +34,7 @@ export interface VoiceLiveWebSocketLike {
   /**
    * Establishes WebSocket connection to the specified URL
    */
-  connect(url: string, protocols?: string[], abortSignal?: AbortSignal): Promise<void>;
+  connect(url: string, protocols?: string[], abortSignal?: AbortSignalLike): Promise<void>;
 
   /**
    * Closes the WebSocket connection
@@ -42,7 +44,7 @@ export interface VoiceLiveWebSocketLike {
   /**
    * Sends data through the WebSocket connection
    */
-  send(data: string | ArrayBuffer, abortSignal?: AbortSignal): Promise<void>;
+  send(data: string | ArrayBuffer, abortSignal?: AbortSignalLike): Promise<void>;
 
   /**
    * Registers handler for connection open event

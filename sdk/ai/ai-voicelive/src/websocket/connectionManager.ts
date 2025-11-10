@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { VoiceLiveWebSocketLike } from "./websocketLike.js";
 import {
   VoiceLiveConnectionError,
@@ -65,7 +66,7 @@ export class ConnectionManager {
   /**
    * Initiates a WebSocket connection
    */
-  async connect(abortSignal?: AbortSignal): Promise<void> {
+  async connect(abortSignal?: AbortSignalLike): Promise<void> {
     if (this._state === ConnectionState.Connected) {
       return;
     }
@@ -124,7 +125,7 @@ export class ConnectionManager {
   /**
    * Disconnects the WebSocket connection
    */
-  async disconnect(_abortSignal?: AbortSignal): Promise<void> {
+  async disconnect(_abortSignal?: AbortSignalLike): Promise<void> {
     if (this._state === ConnectionState.Disconnected) {
       return;
     }
@@ -146,7 +147,7 @@ export class ConnectionManager {
   /**
    * Sends data through the WebSocket connection
    */
-  async send(data: string | ArrayBuffer, abortSignal?: AbortSignal): Promise<void> {
+  async send(data: string | ArrayBuffer, abortSignal?: AbortSignalLike): Promise<void> {
     if (!this._websocket || this._state !== ConnectionState.Connected) {
       throw new VoiceLiveConnectionError(
         "Cannot send message: WebSocket not connected",
