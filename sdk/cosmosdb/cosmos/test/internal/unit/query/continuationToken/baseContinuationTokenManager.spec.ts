@@ -14,7 +14,7 @@ import { QueryRange } from "../../../../../src/routing/QueryRange.js";
  */
 class TestContinuationTokenManager extends BaseContinuationTokenManager {
   constructor(collectionLink: string, initialRanges?: QueryRangeWithContinuationToken[]) {
-    super(collectionLink, false);
+    super(collectionLink);
     if (initialRanges) {
       this.rangeList = [...initialRanges];
     }
@@ -25,12 +25,10 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     _pageSize: number,
     _isResponseEmpty: boolean,
   ): { endIndex: number; processedRanges: string[] } {
-    // Simple test implementation - not the focus of these tests
     return { endIndex: 0, processedRanges: [] };
   }
 
   protected generateContinuationTokenString(): string | undefined {
-    // Simple test implementation - not the focus of these tests
     return undefined;
   }
 

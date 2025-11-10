@@ -59,8 +59,13 @@ export abstract class BaseContinuationTokenManager {
   }
 
   /**
-   * Template method for creating continuation tokens.
-   * Handles common processing flow while delegating specific logic to subclasses.
+   * Processes query results and generates continuation tokens for pagination.
+   * Handles response data processing, range management, and token generation.
+   *
+   * @param pageSize - Maximum number of items to return in this page
+   * @param isResponseEmpty - Whether the current response contains no data
+   * @param responseResult - Optional response data containing partition mappings and query-specific data
+   * @returns Object containing the end index for slicing results and optional continuation token for next page
    */
   public paginateResults(
     pageSize: number,
@@ -70,7 +75,6 @@ export abstract class BaseContinuationTokenManager {
     endIndex: number;
     continuationToken?: string;
   } {
-    // Process response data first if provided
     if (responseResult) {
       this.processResponseResult(responseResult);
     }
@@ -78,10 +82,7 @@ export abstract class BaseContinuationTokenManager {
     this.removeExhaustedRangesFromRanges();
     const result = this.processRangesForPagination(pageSize, isResponseEmpty);
 
-    // Clean up processed data automatically
     this.cleanProcessedData(result.processedRanges, result.endIndex);
-
-    // Generate continuation token string (always generate since we only create managers for supported queries)
     const tokenString = this.generateContinuationTokenString();
 
     return {
@@ -90,9 +91,6 @@ export abstract class BaseContinuationTokenManager {
     };
   }
 
-  /**
-   * Subclasses implement this to handle range processing specific to their query type.
-   */
   protected abstract processRangesForPagination(
     pageSize: number,
     isResponseEmpty: boolean,
@@ -101,19 +99,8 @@ export abstract class BaseContinuationTokenManager {
     processedRanges: string[];
   };
 
-  /**
-   * Subclasses implement this to generate their specific continuation token format.
-   */
   protected abstract generateContinuationTokenString(): string | undefined;
-
-  /**
-   * Subclasses implement this to handle response-specific data extraction.
-   */
   protected abstract processQuerySpecificResponse(responseResult: QueryResponseResult): void;
-
-  /**
-   * Subclasses implement this to handle query-specific cleanup.
-   */
   protected abstract performQuerySpecificCleanup(processedRanges: string[], endIndex: number): void;
 
   private removePartitionRangeMapping(rangeId: string): void {

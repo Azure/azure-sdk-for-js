@@ -84,11 +84,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
           });
         });
       }
-      // const targetFilter = this.createTargetRangeFilterCondition(
-      //   (queryInfo?.orderByItems as any[]) || [],
-      //   queryInfo?.rid as string,
-      //   queryInfo,
-      // );
 
       result.rangeTokenPairs.push({
         range: targetRange,
@@ -141,7 +136,17 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     }
 
     // Extract sort orders from query info
-    const sortOrders = this.extractSortOrders(queryInfo);
+    let sortOrders: string[];
+    try {
+      sortOrders = this.extractSortOrders(queryInfo);
+    } catch (error) {
+      // If we can't extract sort orders, we cannot create reliable filter conditions
+      throw new Error(
+        `Unable to resume ORDER BY query from continuation token. The ORDER BY sort direction configuration ` +
+          `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
+          `Please retry the query without a continuation token. Original error: ${error}`,
+      );
+    }
 
     // Extract orderByExpressions from nested structure
     let orderByExpressions: any[] | undefined;
@@ -179,19 +184,30 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         continue;
       }
 
-      // Determine the field path from ORDER BY expressions in query plan
-      const fieldPath = this.extractFieldPath(queryInfo, i);
+      try {
+        // Determine the field path from ORDER BY expressions in query plan
+        const fieldPath = this.extractFieldPath(queryInfo, i);
 
-      // Create the comparison condition based on sort order and range position
-      const condition = this.createComparisonCondition(
-        fieldPath,
-        orderByItem.item,
-        sortOrder,
-        rangePosition,
-      );
+        // Create the comparison condition based on sort order and range position
+        const condition = this.createComparisonCondition(
+          fieldPath,
+          orderByItem.item,
+          sortOrder,
+          rangePosition,
+        );
 
-      if (condition) {
-        filterConditions.push(condition);
+        if (condition) {
+          filterConditions.push(condition);
+        }
+      } catch (error) {
+        // If we can't extract field path for ORDER BY expressions, we cannot safely resume from continuation token
+        // This would lead to incorrect query results, so we must fail the entire request
+        throw new Error(
+          `Unable to resume ORDER BY query from continuation token. The ORDER BY field configuration ` +
+            `in the query plan is invalid or incompatible with the continuation token format. ` +
+            `This may indicate a client version mismatch or corrupted continuation token. ` +
+            `Please retry the query without a continuation token. Original error: ${error}`,
+        );
       }
     }
 
@@ -202,21 +218,17 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
   /**
    * Extracts sort orders from query info
+   * @throws Error if sort order information is missing or invalid
    */
   private extractSortOrders(queryInfo?: Record<string, unknown>): string[] {
     if (!queryInfo) {
-      return [];
+      throw new Error("Query information is required to determine ORDER BY sort directions");
     }
 
     // Try multiple paths to find orderBy due to nested structure
     let orderBy: any[] | undefined;
 
-    // Direct path
-    if (queryInfo.orderBy && Array.isArray(queryInfo.orderBy)) {
-      orderBy = queryInfo.orderBy;
-    }
-    // Nested path: queryInfo.quereyInfo.queryInfo.orderBy
-    else if (
+    if (
       queryInfo.quereyInfo &&
       (queryInfo.quereyInfo as any).queryInfo &&
       (queryInfo.quereyInfo as any).queryInfo.orderBy &&
@@ -225,25 +237,31 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       orderBy = (queryInfo.quereyInfo as any).queryInfo.orderBy;
     }
 
-    if (orderBy) {
-      return orderBy.map((order) => {
-        if (typeof order === "string") {
-          return order;
-        }
-        // Handle object format if needed
-        if (order && typeof order === "object") {
-          return order.direction || order.order || order.sortOrder || "Ascending";
-        }
-        return "Ascending";
-      });
+    if (!orderBy) {
+      throw new Error("ORDER BY sort direction information is missing from query plan");
     }
 
-    // Fallback: assume ascending order
-    return ["Ascending"];
+    return orderBy.map((order, index) => {
+      if (typeof order === "string") {
+        return order;
+      }
+      // Handle object format if needed
+      if (order && typeof order === "object") {
+        const sortOrder =
+          (order as any).direction || (order as any).order || (order as any).sortOrder;
+        if (sortOrder) {
+          return sortOrder;
+        }
+      }
+      throw new Error(
+        `ORDER BY sort direction at position ${index + 1} has an invalid format in the query plan`,
+      );
+    });
   }
 
   /**
    * Extracts field path from ORDER BY expressions in query plan
+   * @throws Error if orderByExpressions are not found or index is out of bounds or expression format is invalid
    */
   private extractFieldPath(queryInfo: Record<string, unknown> | undefined, index: number): string {
     // Try multiple paths to find orderByExpressions due to nested structure
@@ -251,8 +269,11 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     if (queryInfo) {
       // Direct path
-      // TODO: make it simple
-      if (
+      if (queryInfo.orderByExpressions && Array.isArray(queryInfo.orderByExpressions)) {
+        orderByExpressions = queryInfo.orderByExpressions;
+      }
+      // Nested path: queryInfo.quereyInfo.queryInfo.orderByExpressions
+      else if (
         queryInfo.quereyInfo &&
         typeof queryInfo.quereyInfo === "object" &&
         (queryInfo.quereyInfo as any).queryInfo &&
@@ -264,16 +285,13 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     }
 
     if (!orderByExpressions) {
-      console.warn(`No orderByExpressions found in query info for index ${index}`);
-      return `orderByField${index}`;
+      throw new Error("ORDER BY field information is missing from query plan");
     }
 
     if (index >= orderByExpressions.length) {
-      console.warn(
-        `Index ${index} is out of bounds for orderByExpressions array of length ${orderByExpressions.length}`,
+      throw new Error(
+        `ORDER BY field configuration mismatch: expected at least ${index + 1} fields but found ${orderByExpressions.length}`,
       );
-      // TODO: throw an error here
-      return `orderByField${index}`;
     }
 
     const expression = orderByExpressions[index];
@@ -297,12 +315,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       }
     }
 
-    console.warn(
-      `Could not extract field path from orderByExpressions at index ${index}:`,
-      expression,
+    throw new Error(
+      `ORDER BY field at position ${index + 1} has an unrecognized format in the query plan`,
     );
-    // TODO: throw an error here
-    return `orderByField${index}`;
   }
 
   /**

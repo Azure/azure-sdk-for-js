@@ -310,6 +310,247 @@ describe("OrderByQueryRangeStrategy", function () {
         expect(rightPair?.filteringCondition).toBeDefined();
         expect(leftPair?.filteringCondition).not.toBe(rightPair?.filteringCondition);
       });
+
+      it("should throw error when ORDER BY expressions are missing", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithoutExpressions = {
+          orderBy: ["Ascending"],
+          orderByItems: [{ item: "testValue" }],
+          // Missing quereyInfo.queryInfo.orderByExpressions
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithoutExpressions);
+        }).toThrow(/Unable to resume ORDER BY query from continuation token/);
+      });
+
+      it("should throw error when ORDER BY expression index is out of bounds", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithMismatchedFields = {
+          orderBy: ["Ascending", "Descending"], // 2 sort orders
+          orderByItems: [{ item: "testValue1" }, { item: "testValue2" }], // 2 items
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: ["c.field1"], // Only 1 expression - mismatch!
+            },
+          },
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithMismatchedFields);
+        }).toThrow(/Unable to resume ORDER BY query from continuation token/);
+      });
+
+      it("should throw error when ORDER BY expression format is invalid", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithInvalidExpression = {
+          orderBy: ["Ascending"],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: [
+                {
+                  // Invalid format - no expression, path, or field property
+                  type: "PropertyRef",
+                  someOtherProperty: "value",
+                },
+              ],
+            },
+          },
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithInvalidExpression);
+        }).toThrow(/Unable to resume ORDER BY query from continuation token/);
+      });
+
+      it("should work with valid string-format ORDER BY expressions", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithStringExpression = {
+          orderBy: ["Ascending"],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: ["c.field1"], // String format
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(
+          ranges,
+          contRanges,
+          queryInfoWithStringExpression,
+        );
+        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
+      });
+
+      it("should work with valid object-format ORDER BY expressions", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithObjectExpression = {
+          orderBy: ["Ascending"],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: [
+                {
+                  expression: "c.field1",
+                  type: "PropertyRef",
+                },
+              ], // Object format with expression property
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(
+          ranges,
+          contRanges,
+          queryInfoWithObjectExpression,
+        );
+        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
+      });
+
+      it("should work with object-format using path property", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithPathExpression = {
+          orderBy: ["Ascending"],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: [
+                {
+                  path: "/field1", // Path format (will remove leading slash)
+                  type: "PropertyRef",
+                },
+              ],
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(
+          ranges,
+          contRanges,
+          queryInfoWithPathExpression,
+        );
+        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
+      });
+
+      it("should work with object-format using field property", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithFieldExpression = {
+          orderBy: ["Ascending"],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: [
+                {
+                  field: "field1", // Field format
+                  type: "PropertyRef",
+                },
+              ],
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(
+          ranges,
+          contRanges,
+          queryInfoWithFieldExpression,
+        );
+        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
+      });
+
+      it("should throw error when sort order information is missing", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithoutSortOrder = {
+          // Missing orderBy field entirely
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithoutSortOrder);
+        }).toThrow(/Unable to resume ORDER BY query from continuation token.*sort direction/);
+      });
+
+      it("should throw error when sort order format is invalid", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithInvalidSortOrder = {
+          orderBy: [
+            {
+              // Invalid format - no direction, order, or sortOrder property
+              someOtherProperty: "value",
+            },
+          ],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, queryInfoWithInvalidSortOrder);
+        }).toThrow(/Unable to resume ORDER BY query from continuation token.*sort direction/);
+      });
+
+      it("should throw error when queryInfo is undefined", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        expect(() => {
+          strategy.filterPartitionRanges(ranges, contRanges, undefined);
+        }).toThrow(/Unable to resume ORDER BY query from continuation token.*sort direction/);
+      });
+
+      it("should work with object-format sort orders", function () {
+        const ranges = [createRange("1", "", "AA")];
+        const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
+
+        const queryInfoWithObjectSortOrder = {
+          orderBy: [{ direction: "Descending" }],
+          orderByItems: [{ item: "testValue" }],
+          quereyInfo: {
+            queryInfo: {
+              orderByExpressions: ["c.field1"],
+            },
+          },
+        };
+
+        const result = strategy.filterPartitionRanges(
+          ranges,
+          contRanges,
+          queryInfoWithObjectSortOrder,
+        );
+        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs[0].filteringCondition).toBeDefined();
+      });
     });
   });
 
