@@ -8,14 +8,12 @@ import tls from "node:tls";
 import jwt from "jsonwebtoken";
 import ms from "ms";
 import { randomUUID } from "@azure/core-util";
-import { env } from "@azure-tools/test-recorder";
 
 /**
  * Check if the service principal tests should be skipped
  */
 export function shouldRunSPTest(): boolean {
-  console.log("Status of SKIP_SP_LIVE_TESTS:", env.SKIP_SP_LIVE_TESTS);
-  return env.SKIP_SP_LIVE_TESTS === "true";
+  return process.env.SKIP_SP_LIVE_TESTS?.toLowerCase() === "true";
 }
 
 export async function createJWTTokenFromCertificate(
