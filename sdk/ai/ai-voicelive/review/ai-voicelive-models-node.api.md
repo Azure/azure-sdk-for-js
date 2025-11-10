@@ -95,7 +95,7 @@ export interface AzureSemanticDetection extends EouDetection {
     // (undocumented)
     model: "semantic_detection_v1";
     thresholdLevel?: EouThresholdLevel;
-    timeoutMs?: number;
+    timeoutInMs?: number;
 }
 
 // @public
@@ -103,7 +103,7 @@ export interface AzureSemanticDetectionEn extends EouDetection {
     // (undocumented)
     model: "semantic_detection_v1_en";
     thresholdLevel?: EouThresholdLevel;
-    timeoutMs?: number;
+    timeoutInMs?: number;
 }
 
 // @public
@@ -111,7 +111,7 @@ export interface AzureSemanticDetectionMultilingual extends EouDetection {
     // (undocumented)
     model: "semantic_detection_v1_multilingual";
     thresholdLevel?: EouThresholdLevel;
-    timeoutMs?: number;
+    timeoutInMs?: number;
 }
 
 // @public
@@ -127,13 +127,13 @@ export interface AzureSemanticVad extends TurnDetection {
     // (undocumented)
     languages?: string[];
     // (undocumented)
-    prefixPaddingMs?: number;
+    prefixPaddingInMs?: number;
     // (undocumented)
     removeFillerWords?: boolean;
     // (undocumented)
-    silenceDurationMs?: number;
+    silenceDurationInMs?: number;
     // (undocumented)
-    speechDurationMs?: number;
+    speechDurationInMs?: number;
     // (undocumented)
     threshold?: number;
     // (undocumented)
@@ -151,13 +151,13 @@ export interface AzureSemanticVadEn extends TurnDetection {
     // (undocumented)
     interruptResponse?: boolean;
     // (undocumented)
-    prefixPaddingMs?: number;
+    prefixPaddingInMs?: number;
     // (undocumented)
     removeFillerWords?: boolean;
     // (undocumented)
-    silenceDurationMs?: number;
+    silenceDurationInMs?: number;
     // (undocumented)
-    speechDurationMs?: number;
+    speechDurationInMs?: number;
     // (undocumented)
     threshold?: number;
     // (undocumented)
@@ -177,13 +177,13 @@ export interface AzureSemanticVadMultilingual extends TurnDetection {
     // (undocumented)
     languages?: string[];
     // (undocumented)
-    prefixPaddingMs?: number;
+    prefixPaddingInMs?: number;
     // (undocumented)
     removeFillerWords?: boolean;
     // (undocumented)
-    silenceDurationMs?: number;
+    silenceDurationInMs?: number;
     // (undocumented)
-    speechDurationMs?: number;
+    speechDurationInMs?: number;
     // (undocumented)
     threshold?: number;
     // (undocumented)
@@ -265,7 +265,7 @@ export interface ClientEventConversationItemRetrieve extends ClientEvent {
 
 // @public
 export interface ClientEventConversationItemTruncate extends ClientEvent {
-    audioEndMs: number;
+    audioEndInMs: number;
     contentIndex: number;
     itemId: string;
     type: "conversation.item.truncate";
@@ -983,7 +983,7 @@ export interface ServerEventConversationItemRetrieved extends ServerEvent {
 
 // @public
 export interface ServerEventConversationItemTruncated extends ServerEvent {
-    audioEndMs: number;
+    audioEndInMs: number;
     contentIndex: number;
     // (undocumented)
     eventId?: string;
@@ -1020,14 +1020,14 @@ export interface ServerEventInputAudioBufferCommitted extends ServerEvent {
 
 // @public
 export interface ServerEventInputAudioBufferSpeechStarted extends ServerEvent {
-    audioStartMs: number;
+    audioStartInMs: number;
     itemId: string;
     type: "input_audio_buffer.speech_started";
 }
 
 // @public
 export interface ServerEventInputAudioBufferSpeechStopped extends ServerEvent {
-    audioEndMs: number;
+    audioEndInMs: number;
     itemId: string;
     type: "input_audio_buffer.speech_stopped";
 }
@@ -1065,7 +1065,7 @@ export interface ServerEventResponseAnimationBlendshapeDone extends ServerEvent 
 // @public
 export interface ServerEventResponseAnimationVisemeDelta extends ServerEvent {
     // (undocumented)
-    audioOffsetMs: number;
+    audioOffsetInMs: number;
     // (undocumented)
     contentIndex: number;
     // (undocumented)
@@ -1116,9 +1116,9 @@ export interface ServerEventResponseAudioDone extends ServerEvent {
 // @public
 export interface ServerEventResponseAudioTimestampDelta extends ServerEvent {
     // (undocumented)
-    audioDurationMs: number;
+    audioDurationInMs: number;
     // (undocumented)
-    audioOffsetMs: number;
+    audioOffsetInMs: number;
     // (undocumented)
     contentIndex: number;
     // (undocumented)
@@ -1299,9 +1299,9 @@ export interface ServerVad extends TurnDetection {
     // (undocumented)
     interruptResponse?: boolean;
     // (undocumented)
-    prefixPaddingMs?: number;
+    prefixPaddingInMs?: number;
     // (undocumented)
-    silenceDurationMs?: number;
+    silenceDurationInMs?: number;
     // (undocumented)
     threshold?: number;
     // (undocumented)
