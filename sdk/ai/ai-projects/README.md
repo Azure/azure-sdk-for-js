@@ -35,7 +35,6 @@ The client library uses version `2025-11-15-preview` of the AI Foundry [data pla
   - [Dataset operations](#dataset-operations)
   - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
-- [Tracing](#tracing)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -402,11 +401,6 @@ for await (const i of allIndexes) {
 console.log("Delete the Index versions created above:");
 await project.indexes.delete(indexName, version);
 ```
-## Tracing
-
-**Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
-
-You can add an Application Insights Azure resource to your Azure AI Foundry project. See the Tracing tab in your AI Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
 
 ## Troubleshooting
 
