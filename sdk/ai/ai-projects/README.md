@@ -1,6 +1,6 @@
 # Azure AI Projects client library for JavaScript
 
-The AI Projects client library provides easy access to resources in your Azure AI Foundry project.
+The AI Projects client library provides easy access to resources in your Microsoft Foundry project.
 Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
@@ -11,7 +11,7 @@ Use it to:
 - **Upload, retrieve, list, and delete files** using the OpenAI client obtained from `.getOpenAIClient()`. upload files to be used for fine-tuning and other AI model operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 
-The client library uses version `2025-11-15-preview` of the AI Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects/rest-api-reference).
+The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects/rest-api-reference).
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
@@ -48,7 +48,7 @@ The client library uses version `2025-11-15-preview` of the AI Foundry [data pla
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
-- A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
+- A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 
 ### Authorization
 
@@ -85,7 +85,7 @@ The client uses API version `2025-11-15-preview`, refer to the [API documentatio
 
 ### Performing Responses operations using OpenAI client
 
-Your Azure AI Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
+Your Microsoft Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [OpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
 
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
@@ -160,7 +160,7 @@ console.log("Agent deleted");
 ```
 ### Deployments operations
 
-The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your AI Foundry Projects. These models can be seen in the "Models + endpoints" tab in your AI Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
+The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your Microsoft Foundry Projects. These models can be seen in the "Models + endpoints" tab in your Microsoft Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
 
 ```ts snippet:deployments
 import { ModelDeployment } from "@azure/ai-projects";
@@ -219,7 +219,7 @@ if (deployments.length > 0) {
 
 ### Connections operations
 
-The code below shows some Connection operations, which allow you to enumerate the Azure Resources connected to your AI Foundry Projects. These connections can be seen in the "Management Center", in the "Connected resources" tab in your AI Foundry Project. Full samples can be found under the "connections" folder in the [package samples][samples].
+The code below shows some Connection operations, which allow you to enumerate the Azure Resources connected to your Microsoft Foundry Projects. These connections can be seen in the "Management Center", in the "Connected resources" tab in your Microsoft Foundry Project. Full samples can be found under the "connections" folder in the [package samples][samples].
 
 ```ts snippet:connections
 import { Connection } from "@azure/ai-projects";
@@ -406,7 +406,7 @@ await project.indexes.delete(indexName, version);
 
 **Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
 
-You can add an Application Insights Azure resource to your Azure AI Foundry project. See the Tracing tab in your AI Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
+You can add an Application Insights Azure resource to your Microsoft Foundry project. See the Tracing tab in your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
 
 ## Troubleshooting
 
