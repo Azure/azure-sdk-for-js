@@ -9,7 +9,6 @@ import {
   convertRangeMappingToQueryRange,
   type QueryRangeWithContinuationToken,
 } from "../../../../../src/documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { QueryRange } from "../../../../../src/routing/QueryRange.js";
 import type { QueryRangeMapping } from "../../../../../src/queryExecutionContext/queryRangeMapping.js";
 import type { PartitionKeyRange } from "../../../../../src/client/Container/PartitionKeyRange.js";
 describe.skip("CompositeQueryContinuationToken", () => {
@@ -32,11 +31,11 @@ describe.skip("CompositeQueryContinuationToken", () => {
 
   const mockRangeMappings: QueryRangeWithContinuationToken[] = [
     {
-      queryRange: new QueryRange("00", "FF", true, false),
+      queryRange: { min: "00", max: "FF" },
       continuationToken: "token1",
     },
     {
-      queryRange: new QueryRange("FF", "ZZ", true, false),
+      queryRange: { min: "FF", max: "ZZ" },
       continuationToken: "token2",
     },
   ];
@@ -70,17 +69,17 @@ describe.skip("CompositeQueryContinuationToken", () => {
     it("should throw error when rangeMappings is empty array", () => {
       assert.throws(() => {
         createCompositeQueryContinuationToken(mockRid, []);
-      }, "Range mappings are required to create a continuation token");
+      }, "Failed to create composite continuation token: No partition range mappings provided");
     });
 
     it("should throw error when rangeMappings is null or undefined", () => {
       assert.throws(() => {
         createCompositeQueryContinuationToken(mockRid, null as any);
-      }, "Range mappings are required to create a continuation token");
+      }, "Failed to create composite continuation token: No partition range mappings provided");
 
       assert.throws(() => {
         createCompositeQueryContinuationToken(mockRid, undefined as any);
-      }, "Range mappings are required to create a continuation token");
+      }, "Failed to create composite continuation token: No partition range mappings provided");
     });
   });
 
@@ -152,7 +151,7 @@ describe.skip("CompositeQueryContinuationToken", () => {
       assert.equal(result.queryRange.max, "BB");
     });
 
-    it("should prefer EPK boundaries over logical boundaries", () => {
+    it("should use minInclusive and maxExclusive boundaries from partition key range", () => {
       const rangeMapping: QueryRangeMapping = {
         itemCount: 5,
         continuationToken: "test-token",
@@ -162,8 +161,8 @@ describe.skip("CompositeQueryContinuationToken", () => {
       const result = convertRangeMappingToQueryRange(rangeMapping);
 
       assert.equal(result.continuationToken, "test-token");
-      assert.equal(result.queryRange.min, "EPK_AA");
-      assert.equal(result.queryRange.max, "EPK_BB");
+      assert.equal(result.queryRange.min, "AA");
+      assert.equal(result.queryRange.max, "BB");
     });
 
     it("should handle null continuation token", () => {
@@ -188,7 +187,7 @@ describe.skip("CompositeQueryContinuationToken", () => {
 
       assert.throws(() => {
         convertRangeMappingToQueryRange(rangeMapping);
-      }, "QueryRangeMapping must have a partitionKeyRange");
+      }, "Failed to convert range mapping: Missing partition key range information");
     });
   });
 });

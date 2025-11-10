@@ -56,7 +56,11 @@ export function createCompositeQueryContinuationToken(
   limit?: number,
 ): CompositeQueryContinuationToken {
   if (!rangeMappings || rangeMappings.length === 0) {
-    throw new Error("Range mappings are required to create a continuation token");
+    throw new Error(
+      "Failed to create composite continuation token: No partition range mappings provided. " +
+        "This typically indicates an issue with query execution context initialization or partition key range resolution. " +
+        "Ensure the query is properly configured and the container has valid partition ranges.",
+    );
   }
 
   return {
@@ -111,7 +115,11 @@ export function convertRangeMappingToQueryRange(
   rangeMapping: QueryRangeMapping,
 ): QueryRangeWithContinuationToken {
   if (!rangeMapping.partitionKeyRange) {
-    throw new Error("QueryRangeMapping must have a partitionKeyRange");
+    throw new Error(
+      "Failed to convert range mapping: Missing partition key range information. " +
+        "The QueryRangeMapping object must contain a valid partitionKeyRange with min and max boundaries. " +
+        "This may indicate an incomplete partition key range resolution during query setup.",
+    );
   }
 
   const pkRange = rangeMapping.partitionKeyRange;

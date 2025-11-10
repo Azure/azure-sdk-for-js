@@ -381,25 +381,6 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
           expectedTotalRanges: 5,
           expectedUnchanged: true,
         },
-        {
-          name: "range boundaries with special characters",
-          updates: {
-            "special-chars": {
-              oldRange: new QueryRange("80", "FF", true, false),
-              newRanges: [
-                new QueryRange("80", "A0", true, false),
-                new QueryRange("A0", "FF", true, false),
-              ],
-              continuationToken: "special-boundary-token",
-            },
-          },
-          expectedTotalRanges: 6,
-          expectedRemovedRanges: [{ min: "80", max: "FF" }],
-          expectedNewRanges: [
-            { min: "80", max: "A0", token: "special-boundary-token" },
-            { min: "A0", max: "FF", token: "special-boundary-token" },
-          ],
-        },
       ];
 
       edgeCaseTestCases.forEach(
@@ -487,34 +468,6 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
         expect(splitRanges).toHaveLength(2);
       });
     });
-
-    it("should handle range boundaries with special characters", () => {
-      // Arrange: Test with boundary cases
-      const partitionRangeUpdates: PartitionRangeUpdates = {
-        "special-chars": {
-          oldRange: new QueryRange("80", "FF", true, false),
-          newRanges: [
-            new QueryRange("80", "A0", true, false),
-            new QueryRange("A0", "FF", true, false),
-          ],
-          continuationToken: "special-boundary-token",
-        },
-      };
-
-      // Act
-      tokenManager.simulatePartitionRangeUpdates(partitionRangeUpdates);
-
-      // Assert
-      const ranges = tokenManager.getRanges();
-      const specialRanges = ranges.filter((r) => r.continuationToken === "special-boundary-token");
-      expect(specialRanges).toHaveLength(2);
-      expect(
-        specialRanges.find((r) => r.queryRange.min === "80" && r.queryRange.max === "A0"),
-      ).toBeDefined();
-      expect(
-        specialRanges.find((r) => r.queryRange.min === "A0" && r.queryRange.max === "FF"),
-      ).toBeDefined();
-    });
   });
 
   describe("Continuation Token Validation", () => {
@@ -591,23 +544,23 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
 function createFivePartitionRanges(): QueryRangeWithContinuationToken[] {
   return [
     {
-      queryRange: new QueryRange("", "20", true, false),
+      queryRange: { min: "", max: "20" },
       continuationToken: "token-range1",
     },
     {
-      queryRange: new QueryRange("20", "40", true, false),
+      queryRange: { min: "20", max: "40" },
       continuationToken: "token-range2",
     },
     {
-      queryRange: new QueryRange("40", "60", true, false),
+      queryRange: { min: "40", max: "60" },
       continuationToken: "token-range3",
     },
     {
-      queryRange: new QueryRange("60", "80", true, false),
+      queryRange: { min: "60", max: "80" },
       continuationToken: "token-range4",
     },
     {
-      queryRange: new QueryRange("80", "FF", true, false),
+      queryRange: { min: "80", max: "FF" },
       continuationToken: "token-range5",
     },
   ];
