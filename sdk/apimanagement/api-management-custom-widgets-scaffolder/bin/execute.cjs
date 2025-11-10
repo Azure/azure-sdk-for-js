@@ -112,6 +112,9 @@ const validateMiscConfig = {
     },
 };
 const promptWidgetConfig = async (partial) => {
+    const prefilledAnswers = {
+        displayName: partial.displayName ?? "",
+    };
     const inquirerImport = await import('inquirer');
     const inquirer = inquirerImport.default;
     return inquirer.prompt([
@@ -131,9 +134,12 @@ const promptWidgetConfig = async (partial) => {
                 { name: "TypeScript", value: "typescript" },
             ],
         },
-    ], partial);
+    ], prefilledAnswers);
 };
 const promptServiceInformation = async (partial) => {
+    const prefilledAnswers = {
+        managementApiEndpoint: partial.managementApiEndpoint ?? "",
+    };
     const inquirerImport = await import('inquirer');
     const inquirer = inquirerImport.default;
     return inquirer.prompt([
@@ -167,7 +173,7 @@ const promptServiceInformation = async (partial) => {
             type: "input",
             message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
         },
-    ], partial);
+    ], prefilledAnswers);
 };
 const promptMiscConfig = async (partial) => {
     const inquirerImport = await import('inquirer');
