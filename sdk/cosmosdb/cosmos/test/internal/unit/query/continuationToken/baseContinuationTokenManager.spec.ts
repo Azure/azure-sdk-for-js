@@ -344,129 +344,130 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
       tokenManager.setRanges(initialRanges);
     });
 
-    describe("Edge Cases and Error Scenarios", () => {
-      beforeEach(() => {
-        const initialRanges = createFivePartitionRanges();
-        tokenManager.setRanges(initialRanges);
-      });
+    interface EdgeCaseTestCase {
+      name: string;
+      updates: PartitionRangeUpdates;
+      expectedTotalRanges: number;
+      expectedUnchanged?: boolean;
+      expectedRemovedRanges?: Array<{ min: string; max: string }>;
+      expectedNewRanges?: Array<{ min: string; max: string; token: string }>;
+    }
 
-      const edgeCaseTestCases = [
-        {
-          name: "empty partition range updates",
-          updates: {},
-          expectedTotalRanges: 5,
-          expectedUnchanged: true,
-        },
-        {
-          name: "range update with empty newRanges array",
-          updates: {
-            "empty-ranges": {
-              oldRange: new QueryRange("", "20", true, false),
-              newRanges: [] as QueryRange[],
-              continuationToken: "empty-ranges-token",
-            },
+    const edgeCaseTestCases: EdgeCaseTestCase[] = [
+      {
+        name: "empty partition range updates",
+        updates: {},
+        expectedTotalRanges: 5,
+        expectedUnchanged: true,
+      },
+      {
+        name: "range update with empty newRanges array",
+        updates: {
+          "empty-ranges": {
+            oldRange: new QueryRange("", "20", true, false),
+            newRanges: [] as QueryRange[],
+            continuationToken: "empty-ranges-token",
           },
-          expectedTotalRanges: 4,
-          expectedRemovedRanges: [{ min: "", max: "20" }],
         },
-        {
-          name: "nonexistent range update",
-          updates: {
-            nonexistent: {
-              oldRange: new QueryRange("90", "95", true, false),
-              newRanges: [new QueryRange("90", "A0", true, false)],
-              continuationToken: "should-not-apply",
-            },
+        expectedTotalRanges: 4,
+        expectedRemovedRanges: [{ min: "", max: "20" }],
+      },
+      {
+        name: "nonexistent range update",
+        updates: {
+          nonexistent: {
+            oldRange: new QueryRange("90", "95", true, false),
+            newRanges: [new QueryRange("90", "A0", true, false)],
+            continuationToken: "should-not-apply",
           },
-          expectedTotalRanges: 5,
-          expectedUnchanged: true,
         },
-      ];
+        expectedTotalRanges: 5,
+        expectedUnchanged: true,
+      },
+    ];
 
-      edgeCaseTestCases.forEach(
-        ({
-          name,
-          updates,
-          expectedTotalRanges,
-          expectedUnchanged,
-          expectedRemovedRanges,
-          expectedNewRanges,
-        }) => {
-          it(`should handle ${name}`, () => {
-            const originalRanges = tokenManager.getRanges();
-
-            // Act
-            tokenManager.simulatePartitionRangeUpdates(updates);
-
-            // Assert
-            const ranges = tokenManager.getRanges();
-            expect(ranges).toHaveLength(expectedTotalRanges);
-
-            if (expectedUnchanged) {
-              expect(ranges).toEqual(originalRanges);
-            } else {
-              // Verify removed ranges
-              expectedRemovedRanges?.forEach(({ min, max }) => {
-                const removedRange = ranges.find(
-                  (r) => r.queryRange.min === min && r.queryRange.max === max,
-                );
-                expect(removedRange).toBeUndefined();
-              });
-
-              // Verify new ranges
-              expectedNewRanges?.forEach(({ min, max, token }) => {
-                const newRange = ranges.find(
-                  (r) => r.queryRange.min === min && r.queryRange.max === max,
-                );
-                expect(newRange).toBeDefined();
-                expect(newRange?.continuationToken).toBe(token);
-              });
-            }
-          });
-        },
-      );
-
-      it("should preserve other ranges when specific ranges are updated", () => {
-        // Arrange: Update only one range
-        const partitionRangeUpdates: PartitionRangeUpdates = {
-          "middle-range": {
-            oldRange: new QueryRange("40", "60", true, false),
-            newRanges: [
-              new QueryRange("40", "50", true, false),
-              new QueryRange("50", "60", true, false),
-            ],
-            continuationToken: "preserve-others-token",
-          },
-        };
-
+    edgeCaseTestCases.forEach((testCase) => {
+      const {
+        name,
+        updates,
+        expectedTotalRanges,
+        expectedUnchanged,
+        expectedRemovedRanges,
+        expectedNewRanges,
+      } = testCase;
+      it(`should handle ${name}`, () => {
         const originalRanges = tokenManager.getRanges();
-        const unaffectedRanges = originalRanges.filter(
-          (r) => !(r.queryRange.min === "40" && r.queryRange.max === "60"),
-        );
 
         // Act
-        tokenManager.simulatePartitionRangeUpdates(partitionRangeUpdates);
+        tokenManager.simulatePartitionRangeUpdates(updates);
 
         // Assert
-        const newRanges = tokenManager.getRanges();
+        const ranges = tokenManager.getRanges();
+        expect(ranges).toHaveLength(expectedTotalRanges);
 
-        // Verify unaffected ranges are preserved
-        unaffectedRanges.forEach((originalRange) => {
-          const preservedRange = newRanges.find(
-            (r) =>
-              r.queryRange.min === originalRange.queryRange.min &&
-              r.queryRange.max === originalRange.queryRange.max &&
-              r.continuationToken === originalRange.continuationToken,
-          );
-          expect(preservedRange).toBeDefined();
-        });
+        if (expectedUnchanged) {
+          expect(ranges).toEqual(originalRanges);
+        } else {
+          // Verify removed ranges
+          expectedRemovedRanges?.forEach((removedRange) => {
+            const { min, max } = removedRange;
+            const foundRange = ranges.find(
+              (r) => r.queryRange.min === min && r.queryRange.max === max,
+            );
+            expect(foundRange).toBeUndefined();
+          });
 
-        // Verify the split happened
-        const splitRanges = newRanges.filter(
-          (r) => r.continuationToken === "preserve-others-token",
-        );
-        expect(splitRanges).toHaveLength(2);
+          // Verify new ranges
+          expectedNewRanges?.forEach((newRange) => {
+            const { min, max, token } = newRange;
+            const foundRange = ranges.find(
+              (r) => r.queryRange.min === min && r.queryRange.max === max,
+            );
+            expect(foundRange).toBeDefined();
+            expect(foundRange?.continuationToken).toBe(token);
+          });
+        }
       });
+    });
+
+    it("should preserve other ranges when specific ranges are updated", () => {
+      // Arrange: Update only one range
+      const partitionRangeUpdates: PartitionRangeUpdates = {
+        "middle-range": {
+          oldRange: new QueryRange("40", "60", true, false),
+          newRanges: [
+            new QueryRange("40", "50", true, false),
+            new QueryRange("50", "60", true, false),
+          ],
+          continuationToken: "preserve-others-token",
+        },
+      };
+
+      const originalRanges = tokenManager.getRanges();
+      const unaffectedRanges = originalRanges.filter(
+        (r) => !(r.queryRange.min === "40" && r.queryRange.max === "60"),
+      );
+
+      // Act
+      tokenManager.simulatePartitionRangeUpdates(partitionRangeUpdates);
+
+      // Assert
+      const newRanges = tokenManager.getRanges();
+
+      // Verify unaffected ranges are preserved
+      unaffectedRanges.forEach((originalRange) => {
+        const preservedRange = newRanges.find(
+          (r) =>
+            r.queryRange.min === originalRange.queryRange.min &&
+            r.queryRange.max === originalRange.queryRange.max &&
+            r.continuationToken === originalRange.continuationToken,
+        );
+        expect(preservedRange).toBeDefined();
+      });
+
+      // Verify the split happened
+      const splitRanges = newRanges.filter((r) => r.continuationToken === "preserve-others-token");
+      expect(splitRanges).toHaveLength(2);
     });
   });
 
@@ -528,40 +529,42 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
 
         // Assert
         const ranges = tokenManager.getRanges();
-        const tokenRanges = ranges.filter((r) => r.continuationToken === expectedToken);
+        const tokenRanges = ranges.filter(
+          (r: QueryRangeWithContinuationToken) => r.continuationToken === expectedToken,
+        );
         expect(tokenRanges).toHaveLength(expectedTokenCount);
-        tokenRanges.forEach((range) => {
+        tokenRanges.forEach((range: QueryRangeWithContinuationToken) => {
           expect(range.continuationToken).toBe(expectedToken);
         });
       });
     });
   });
-});
 
-/**
- * Helper function to create initial set of 5 partition ranges for testing
- */
-function createFivePartitionRanges(): QueryRangeWithContinuationToken[] {
-  return [
-    {
-      queryRange: { min: "", max: "20" },
-      continuationToken: "token-range1",
-    },
-    {
-      queryRange: { min: "20", max: "40" },
-      continuationToken: "token-range2",
-    },
-    {
-      queryRange: { min: "40", max: "60" },
-      continuationToken: "token-range3",
-    },
-    {
-      queryRange: { min: "60", max: "80" },
-      continuationToken: "token-range4",
-    },
-    {
-      queryRange: { min: "80", max: "FF" },
-      continuationToken: "token-range5",
-    },
-  ];
-}
+  /**
+   * Helper function to create initial set of 5 partition ranges for testing
+   */
+  function createFivePartitionRanges(): QueryRangeWithContinuationToken[] {
+    return [
+      {
+        queryRange: { min: "", max: "20" },
+        continuationToken: "token-range1",
+      },
+      {
+        queryRange: { min: "20", max: "40" },
+        continuationToken: "token-range2",
+      },
+      {
+        queryRange: { min: "40", max: "60" },
+        continuationToken: "token-range3",
+      },
+      {
+        queryRange: { min: "60", max: "80" },
+        continuationToken: "token-range4",
+      },
+      {
+        queryRange: { min: "80", max: "FF" },
+        continuationToken: "token-range5",
+      },
+    ];
+  }
+});
