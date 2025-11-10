@@ -1416,112 +1416,112 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, eve
 
 // @public
 export interface KeyVaultAccessPolicyChangedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public

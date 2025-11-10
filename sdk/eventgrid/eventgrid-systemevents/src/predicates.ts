@@ -1,18 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  KeyVaultCertificateNewVersionCreatedEventData,
-  KeyVaultCertificateNearExpiryEventData,
-  KeyVaultCertificateExpiredEventData,
-  KeyVaultKeyNewVersionCreatedEventData,
-  KeyVaultKeyNearExpiryEventData,
-  KeyVaultKeyExpiredEventData,
-  KeyVaultSecretNewVersionCreatedEventData,
-  KeyVaultSecretNearExpiryEventData,
-  KeyVaultAccessPolicyChangedEventData,
-  KeyVaultSecretExpiredEventData,
-} from "./models.js";
 
 import type {
   AcsCallEndedEventData,
@@ -76,6 +64,16 @@ import type {
   IotHubDeviceDeletedEventData,
   IotHubDeviceDisconnectedEventData,
   IotHubDeviceTelemetryEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultAccessPolicyChangedEventData,
+  KeyVaultSecretExpiredEventData,
   MachineLearningServicesDatasetDriftDetectedEventData,
   MachineLearningServicesModelDeployedEventData,
   MachineLearningServicesModelRegisteredEventData,
@@ -201,9 +199,9 @@ import type {
   ResourceNotificationsAksResourcesFleetGateCreatedEventData,
   ResourceNotificationsAksResourcesFleetGateUpdatedEventData,
   ResourceNotificationsAksResourcesFleetGateDeletedEventData,
-} from "./generated/models/index.js";
+} from "./models/index.js";
 
-import type { CloudEvent, EventGridEvent } from "./models.js";
+import type { CloudEvent, EventGridEvent } from "./events.js";
 
 /**
  * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an

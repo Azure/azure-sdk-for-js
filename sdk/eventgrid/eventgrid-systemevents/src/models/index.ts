@@ -351,11 +351,4 @@ export {
   ResourceNotificationsAksResourcesFleetGateCreatedEventData,
   ResourceNotificationsAksResourcesFleetGateUpdatedEventData,
   ResourceNotificationsAksResourcesFleetGateDeletedEventData,
-} from "./models/index.js";
-
-export {
-  CloudEvent,
-  EventGridEvent,
-} from "./events.js";
-
-export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates.js";
+} from "./models.js";
