@@ -445,6 +445,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       feedOptions.useLatestVersionFeed = false;
     }
 
+    if (this.changeFeedOptions.throughputBucket) {
+      feedOptions.throughputBucket = this.changeFeedOptions.throughputBucket;
+    }
+
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
       await this.container.checkAndInitializeEncryption();

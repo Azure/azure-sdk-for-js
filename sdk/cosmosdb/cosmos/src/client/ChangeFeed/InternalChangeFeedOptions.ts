@@ -21,4 +21,6 @@ export interface InternalChangeFeedIteratorOptions {
   startFromNow?: boolean;
 
   excludedLocations?: string[];
+
+  throughputBucket?: number;
 }

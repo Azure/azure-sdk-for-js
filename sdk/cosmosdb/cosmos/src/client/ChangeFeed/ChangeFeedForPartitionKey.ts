@@ -191,6 +191,9 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     if (this.clientContext.enableEncryption) {
       feedOptions.containerRid = this.container._rid;
     }
+    if (this.changeFeedOptions.throughputBucket) {
+      feedOptions.throughputBucket = this.changeFeedOptions.throughputBucket;
+    }
     try {
       const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
       const partitionKeyRangeId = await computePartitionKeyRangeId(

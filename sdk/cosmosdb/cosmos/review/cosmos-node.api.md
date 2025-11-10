@@ -85,6 +85,7 @@ export interface ChangeFeedIteratorOptions {
     excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public
