@@ -10,7 +10,6 @@ Use it to:
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Upload, retrieve, list, and delete files** using the OpenAI client obtained from `.getOpenAIClient()`. upload files to be used for fine-tuning and other AI model operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
-* **Run Fine tuning jobs** using methods the `.fineTuning.jobs` operations.
 
 The client library uses version `2025-11-15-preview` of the AI Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects/rest-api-reference).
 
