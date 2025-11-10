@@ -23,7 +23,9 @@ interface AudioOptions {
 export class MockTokenCredential implements TokenCredential {
   constructor(private _token?: string) {}
 
-  async getToken(_scopes: string | string[]): Promise<{ token: string; expiresOnTimestamp: number }> {
+  async getToken(
+    _scopes: string | string[],
+  ): Promise<{ token: string; expiresOnTimestamp: number }> {
     return {
       token: this._token || "mock-token-" + Date.now(),
       expiresOnTimestamp: Date.now() + 3600000, // 1 hour from now
@@ -52,7 +54,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     endpoint: string,
     credential: TokenCredential | KeyCredential,
     apiVersion: string = "2025-10-01",
-    model: string = TestConstants.MODEL_NAME
+    model: string = TestConstants.MODEL_NAME,
   ) {
     super(endpoint, credential, apiVersion, model);
   }
@@ -80,27 +82,27 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
    */
   async connectWithMock(mockWebSocket: MockVoiceLiveWebSocket): Promise<void> {
     this._mockWebSocket = mockWebSocket;
-    
+
     // Simulate connection setup
     await mockWebSocket.connect(TestConstants.WS_ENDPOINT);
-    
+
     // Set up event handlers
     mockWebSocket.onOpen(() => {
       // Session is now connected
     });
-    
+
     mockWebSocket.onMessage((data) => {
       // Handle incoming messages
-      if (typeof data === 'string') {
+      if (typeof data === "string") {
         this.handleIncomingMessage(data);
       }
     });
-    
+
     mockWebSocket.onError((error) => {
       // Handle errors
       this.handleConnectionError(error);
     });
-    
+
     mockWebSocket.onClose((code, reason) => {
       // Handle connection close
       this.handleConnectionClose(code, reason);
@@ -140,32 +142,35 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     if (!audioData) {
       throw new Error("Invalid audio data");
     }
-    
+
     const base64Audio = audioToBase64(audioData);
     const message = JSON.stringify({
       type: TestConstants.EVENT_TYPES.INPUT_AUDIO_BUFFER_APPEND,
-      audio: base64Audio
+      audio: base64Audio,
     });
-    
+
     await this._mockWebSocket.send(message, options?.abortSignal);
   }
 
-  async sendInputAudioStream?(stream: ReadableStream<Uint8Array>, options?: AudioOptions): Promise<void> {
+  async sendInputAudioStream?(
+    stream: ReadableStream<Uint8Array>,
+    options?: AudioOptions,
+  ): Promise<void> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const reader = stream.getReader();
-    
+
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         if (value) {
           await this.sendInputAudio!(value, options);
         }
@@ -179,17 +184,17 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     // Check if already in turn
     if ((this as any)._activeTurnId) {
       throw new Error("Audio turn already active");
     }
-    
+
     const turnId = "test-turn-id-" + Date.now();
     const message = JSON.stringify({
-      type: TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_START
+      type: TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_START,
     });
-    
+
     await this._mockWebSocket.send(message);
     (this as any)._activeTurnId = turnId;
     return turnId;
@@ -199,15 +204,15 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     if (!(this as any)._activeTurnId) {
       throw new Error("No active audio turn");
     }
-    
+
     const message = JSON.stringify({
-      type: TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_END
+      type: TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_END,
     });
-    
+
     await this._mockWebSocket.send(message);
     (this as any)._activeTurnId = undefined;
   }
@@ -216,11 +221,11 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const message = JSON.stringify({
-      type: "input_audio_buffer.clear"
+      type: "input_audio_buffer.clear",
     });
-    
+
     await this._mockWebSocket.send(message);
   }
 
@@ -229,28 +234,28 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const message = JSON.stringify({
       type: "session.update",
-      session: config
+      session: config,
     });
-    
+
     await this._mockWebSocket.send(message);
   }
 
   async addConversationItem(
     item: ConversationRequestItem,
-    _options: SendEventOptions = {}
+    _options: SendEventOptions = {},
   ): Promise<void> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const message = JSON.stringify({
       type: TestConstants.EVENT_TYPES.CONVERSATION_ITEM_CREATE,
-      item: item
+      item: item,
     });
-    
+
     await this._mockWebSocket.send(message);
   }
 
@@ -258,11 +263,11 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const message = JSON.stringify({
-      type: TestConstants.EVENT_TYPES.RESPONSE_CREATE
+      type: TestConstants.EVENT_TYPES.RESPONSE_CREATE,
     });
-    
+
     await this._mockWebSocket.send(message);
   }
 
@@ -276,19 +281,19 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
   async sendFunctionCallOutput?(callId: string, output: string): Promise<void> {
     if (!callId) throw new Error("Call ID is required");
     if (!output) throw new Error("Function output is required");
-    
+
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const message = JSON.stringify({
       type: TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
       call_id: callId,
-      output: output
+      output: output,
     });
-    
+
     await this._mockWebSocket.send(message);
-    
+
     // Remove from active calls
     const activeCalls = (this as any)._activeFunctionCalls || [];
     const index = activeCalls.findIndex((call: any) => call.callId === callId);
@@ -300,25 +305,25 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
   async sendFunctionCallOutputChunk?(callId: string, chunk: string): Promise<void> {
     if (!callId) throw new Error("Call ID is required");
     if (!chunk) throw new Error("Chunk is required");
-    
+
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
-    
+
     const message = JSON.stringify({
       type: TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
       call_id: callId,
       output: chunk,
-      is_chunk: true
+      is_chunk: true,
     });
-    
+
     await this._mockWebSocket.send(message);
   }
 
   async sendFunctionCallOutputBinary?(callId: string, data: Uint8Array): Promise<void> {
     if (!callId) throw new Error("Call ID is required");
     if (!data) throw new Error("Data is required");
-    
+
     const base64Data = audioToBase64(data);
     await this.sendFunctionCallOutput!(callId, base64Data);
   }
@@ -329,19 +334,19 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     }
 
     const messageHandler = (data: string | ArrayBuffer): void => {
-      if (typeof data === 'string') {
+      if (typeof data === "string") {
         try {
           const event = JSON.parse(data);
           if (event.type === eventType) {
             handler(event);
-            
+
             // Track function calls
             if (event.type === TestConstants.EVENT_TYPES.FUNCTION_CALL_ARGUMENTS_DONE) {
               const activeCalls = (this as any)._activeFunctionCalls || [];
               activeCalls.push({
                 callId: event.call_id,
                 functionName: event.name,
-                arguments: event.arguments
+                arguments: event.arguments,
               });
               (this as any)._activeFunctionCalls = activeCalls;
             }
@@ -353,7 +358,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     };
 
     this._mockWebSocket.onMessage(messageHandler);
-    
+
     // Store handlers for cleanup
     if (!(this as any)._messageHandlers) {
       (this as any)._messageHandlers = [];
@@ -372,7 +377,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     }
 
     this._mockWebSocket.onError(handler);
-    
+
     // Return unsubscribe function
     return () => {
       // In a real implementation, this would remove the specific handler
@@ -381,16 +386,16 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
 
   async waitForFunctionCall?(callId: string, timeoutMs: number = 5000): Promise<any> {
     const startTime = Date.now();
-    
+
     while (Date.now() - startTime < timeoutMs) {
       const activeCalls = (this as any)._activeFunctionCalls || [];
       const call = activeCalls.find((c: any) => c.callId === callId);
       if (call) {
         return call;
       }
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     }
-    
+
     throw new Error("Function call timeout");
   }
 
@@ -416,14 +421,12 @@ export class TestSessionFactory {
    */
   static createTestClient(
     endpoint: string = TestConstants.ENDPOINT,
-    useTokenCredential: boolean = true
+    useTokenCredential: boolean = true,
   ): VoiceLiveClient {
-    const credential = useTokenCredential 
-      ? new MockTokenCredential() 
-      : new MockKeyCredential();
-    
+    const credential = useTokenCredential ? new MockTokenCredential() : new MockKeyCredential();
+
     return new VoiceLiveClient(endpoint, credential, {
-      apiVersion: "2024-10-01-preview"
+      apiVersion: "2024-10-01-preview",
     });
   }
 
@@ -441,23 +444,25 @@ export class TestSessionFactory {
       TestConstants.ENDPOINT,
       credential,
       "2025-10-01",
-      TestConstants.MODEL_NAME
+      TestConstants.MODEL_NAME,
     );
     const mockWebSocket = new MockVoiceLiveWebSocket();
-    
+
     session.setMockWebSocket(mockWebSocket);
-    
+
     return {
       session,
       mockWebSocket,
-      client
+      client,
     };
   }
 
   /**
    * Create a session factory function that returns mock WebSocket
    */
-  static createMockWebSocketFactory(mockWebSocket: MockVoiceLiveWebSocket): () => MockVoiceLiveWebSocket {
+  static createMockWebSocketFactory(
+    mockWebSocket: MockVoiceLiveWebSocket,
+  ): () => MockVoiceLiveWebSocket {
     return () => mockWebSocket;
   }
 
@@ -470,10 +475,10 @@ export class TestSessionFactory {
     client: VoiceLiveClient;
   } {
     const { session, mockWebSocket, client } = this.createSessionWithMockWebSocket();
-    
+
     // Pre-configure the session for typical test scenarios
     // Add any default configuration here
-    
+
     return { session, mockWebSocket, client };
   }
 
@@ -481,12 +486,12 @@ export class TestSessionFactory {
    * Wait for session to reach a specific state
    */
   static async waitForSessionState(
-    session: VoiceLiveSession, 
-    targetState: string, 
-    timeoutMs: number = TestConstants.DEFAULT_TIMEOUT_MS
+    session: VoiceLiveSession,
+    targetState: string,
+    timeoutMs: number = TestConstants.DEFAULT_TIMEOUT_MS,
   ): Promise<void> {
     const startTime = Date.now();
-    
+
     while (Date.now() - startTime < timeoutMs) {
       // Check session state - this depends on the actual session API
       // For now, we'll use a placeholder
@@ -494,9 +499,9 @@ export class TestSessionFactory {
       if (currentState === targetState) {
         return;
       }
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     }
-    
+
     throw new Error(`Timeout waiting for session state: ${targetState}`);
   }
 
@@ -525,26 +530,26 @@ export class SessionTestUtils {
    */
   static async verifyConnectionSequence(
     mockWebSocket: MockVoiceLiveWebSocket,
-    expectedMessageTypes: string[]
+    expectedMessageTypes: string[],
   ): Promise<void> {
     // Wait for all expected messages
     await mockWebSocket.waitForMessages(expectedMessageTypes.length);
-    
+
     const sentMessages = mockWebSocket.getSentMessages();
-    
+
     if (sentMessages.length !== expectedMessageTypes.length) {
       throw new Error(
-        `Expected ${expectedMessageTypes.length} messages, got ${sentMessages.length}`
+        `Expected ${expectedMessageTypes.length} messages, got ${sentMessages.length}`,
       );
     }
-    
+
     for (let i = 0; i < expectedMessageTypes.length; i++) {
       const message = sentMessages[i];
       const messageType = JSON.parse(message).type;
-      
+
       if (messageType !== expectedMessageTypes[i]) {
         throw new Error(
-          `Expected message ${i} to be type '${expectedMessageTypes[i]}', got '${messageType}'`
+          `Expected message ${i} to be type '${expectedMessageTypes[i]}', got '${messageType}'`,
         );
       }
     }
@@ -555,12 +560,12 @@ export class SessionTestUtils {
    */
   static async simulateServerEvents(
     mockWebSocket: MockVoiceLiveWebSocket,
-    events: string[]
+    events: string[],
   ): Promise<void> {
     for (const event of events) {
       mockWebSocket.enqueueInboundMessage(event);
       // Small delay between events to simulate realistic timing
-      await new Promise(resolve => setTimeout(resolve, 1));
+      await new Promise((resolve) => setTimeout(resolve, 1));
     }
   }
 
@@ -569,11 +574,11 @@ export class SessionTestUtils {
    */
   static extractSessionConfig(mockWebSocket: MockVoiceLiveWebSocket): any {
     const sessionUpdateMessages = mockWebSocket.getMessagesByType("session.update");
-    
+
     if (sessionUpdateMessages.length === 0) {
       throw new Error("No session.update messages found");
     }
-    
+
     return sessionUpdateMessages[sessionUpdateMessages.length - 1].session;
   }
 }

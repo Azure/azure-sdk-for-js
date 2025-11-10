@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import type { 
-  MockVoiceLiveWebSocket} from "../infrastructure/index.js";
-import { 
+import type { MockVoiceLiveWebSocket } from "../infrastructure/index.js";
+import {
   TestSessionFactory,
   TestConstants,
-  TestableVoiceLiveSession
+  TestableVoiceLiveSession,
 } from "../infrastructure/index.js";
 
 describe("VoiceLiveSession Lifecycle", () => {
@@ -48,39 +47,39 @@ describe("VoiceLiveSession Lifecycle", () => {
   describe("Connection Management", () => {
     it("should establish WebSocket connection", async () => {
       await session.connectWithMock(mockWebSocket);
-      
+
       expect(mockWebSocket.state).toBe(1); // WebSocketState.Open
     });
 
     it("should handle connection with abort signal", async () => {
       const controller = new AbortController();
-      
+
       // Start connection
       const connectPromise = mockWebSocket.connect(
-        TestConstants.WS_ENDPOINT, 
-        undefined, 
-        controller.signal
+        TestConstants.WS_ENDPOINT,
+        undefined,
+        controller.signal,
       );
-      
+
       // Don't abort - let it complete
       await connectPromise;
-      
+
       expect(mockWebSocket.state).toBe(1); // WebSocketState.Open
     });
 
     it("should handle aborted connection", async () => {
       const controller = new AbortController();
       controller.abort(); // Abort immediately
-      
+
       await expect(
-        mockWebSocket.connect(TestConstants.WS_ENDPOINT, undefined, controller.signal)
+        mockWebSocket.connect(TestConstants.WS_ENDPOINT, undefined, controller.signal),
       ).rejects.toThrow("Connection aborted");
     });
 
     it("should disconnect cleanly", async () => {
       await mockWebSocket.connect(TestConstants.WS_ENDPOINT);
       expect(mockWebSocket.state).toBe(1); // Open
-      
+
       await mockWebSocket.disconnect(1000, "Normal closure");
       expect(mockWebSocket.state).toBe(3); // Closed
     });
@@ -94,7 +93,7 @@ describe("VoiceLiveSession Lifecycle", () => {
     it("should send messages through WebSocket", async () => {
       const testMessage = JSON.stringify({
         type: "test.message",
-        data: "hello world"
+        data: "hello world",
       });
 
       await mockWebSocket.send(testMessage);
@@ -108,7 +107,7 @@ describe("VoiceLiveSession Lifecycle", () => {
       const messages = [
         JSON.stringify({ type: "message1", data: "first" }),
         JSON.stringify({ type: "message2", data: "second" }),
-        JSON.stringify({ type: "message3", data: "third" })
+        JSON.stringify({ type: "message3", data: "third" }),
       ];
 
       for (const message of messages) {
@@ -147,7 +146,7 @@ describe("VoiceLiveSession Lifecycle", () => {
 
     it("should handle invalid JSON messages gracefully", async () => {
       await mockWebSocket.send("invalid json {");
-      
+
       // Should not throw, and should not count as any message type
       expect(mockWebSocket.getMessageCountByType("any")).toBe(0);
       expect(mockWebSocket.getSentMessages()).toHaveLength(1);
@@ -162,7 +161,7 @@ describe("VoiceLiveSession Lifecycle", () => {
     it("should receive simulated inbound messages", async () => {
       const testMessage = JSON.stringify({
         type: "session.created",
-        session: { id: "test-session" }
+        session: { id: "test-session" },
       });
 
       let messageReceived = false;
@@ -174,10 +173,10 @@ describe("VoiceLiveSession Lifecycle", () => {
       });
 
       mockWebSocket.enqueueInboundMessage(testMessage);
-      
+
       // Wait for message processing
-      await new Promise(resolve => setTimeout(resolve, 10));
-      
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
       expect(messageReceived).toBe(true);
       expect(receivedData).toBe(testMessage);
     });
@@ -185,7 +184,7 @@ describe("VoiceLiveSession Lifecycle", () => {
     it("should handle multiple inbound messages", async () => {
       const messages = [
         JSON.stringify({ type: "session.created", session: { id: "test1" } }),
-        JSON.stringify({ type: "session.updated", session: { id: "test1" } })
+        JSON.stringify({ type: "session.updated", session: { id: "test1" } }),
       ];
 
       const receivedMessages: any[] = [];
@@ -193,11 +192,11 @@ describe("VoiceLiveSession Lifecycle", () => {
         receivedMessages.push(data);
       });
 
-      messages.forEach(msg => mockWebSocket.enqueueInboundMessage(msg));
-      
+      messages.forEach((msg) => mockWebSocket.enqueueInboundMessage(msg));
+
       // Wait for message processing
-      await new Promise(resolve => setTimeout(resolve, 20));
-      
+      await new Promise((resolve) => setTimeout(resolve, 20));
+
       expect(receivedMessages).toHaveLength(messages.length);
     });
 
@@ -211,9 +210,9 @@ describe("VoiceLiveSession Lifecycle", () => {
       });
 
       mockWebSocket.simulateError(testError);
-      
+
       // Wait a bit for error processing
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       expect(errorReceived).toBe(true);
     });
 
@@ -229,7 +228,7 @@ describe("VoiceLiveSession Lifecycle", () => {
       });
 
       await mockWebSocket.disconnect(1001, "Going away");
-      
+
       expect(closeReceived).toBe(true);
       expect(receivedCode).toBe(1001);
       expect(receivedReason).toBe("Going away");
@@ -247,14 +246,14 @@ describe("VoiceLiveSession Lifecycle", () => {
 
       // Wait for 3 messages
       await mockWebSocket.waitForMessages(3, 1000);
-      
+
       expect(mockWebSocket.getSentMessages()).toHaveLength(3);
     });
 
     it("should timeout when waiting for messages", async () => {
-      await expect(
-        mockWebSocket.waitForMessages(5, 100)
-      ).rejects.toThrow("Timeout waiting for 5 messages");
+      await expect(mockWebSocket.waitForMessages(5, 100)).rejects.toThrow(
+        "Timeout waiting for 5 messages",
+      );
     });
 
     it("should wait for specific message type", async () => {
@@ -266,15 +265,15 @@ describe("VoiceLiveSession Lifecycle", () => {
 
       // Wait for the target message type
       const message = await mockWebSocket.waitForMessageType("target", 1000);
-      
+
       expect(message.type).toBe("target");
       expect(message.data).toBe("found");
     });
 
     it("should timeout when waiting for message type", async () => {
-      await expect(
-        mockWebSocket.waitForMessageType("nonexistent", 100)
-      ).rejects.toThrow("Timeout waiting for message type: nonexistent");
+      await expect(mockWebSocket.waitForMessageType("nonexistent", 100)).rejects.toThrow(
+        "Timeout waiting for message type: nonexistent",
+      );
     });
 
     it("should clear sent messages", async () => {
@@ -291,7 +290,7 @@ describe("VoiceLiveSession Lifecycle", () => {
 
       const lastMessage = mockWebSocket.getLastSentMessage();
       expect(lastMessage).toBeDefined();
-      
+
       const parsed = JSON.parse(lastMessage!);
       expect(parsed.type).toBe("last");
     });
@@ -300,19 +299,15 @@ describe("VoiceLiveSession Lifecycle", () => {
   describe("Error Conditions", () => {
     it("should throw when sending on closed WebSocket", async () => {
       await mockWebSocket.disconnect();
-      
-      await expect(
-        mockWebSocket.send("test message")
-      ).rejects.toThrow("WebSocket is not open");
+
+      await expect(mockWebSocket.send("test message")).rejects.toThrow("WebSocket is not open");
     });
 
     it("should handle abort signal during send", async () => {
       const controller = new AbortController();
       controller.abort();
 
-      await expect(
-        mockWebSocket.send("test", controller.signal)
-      ).rejects.toThrow("Send aborted");
+      await expect(mockWebSocket.send("test", controller.signal)).rejects.toThrow("Send aborted");
     });
 
     it("should simulate abort during operation", async () => {
@@ -322,7 +317,7 @@ describe("VoiceLiveSession Lifecycle", () => {
       });
 
       mockWebSocket.simulateAbort();
-      
+
       expect(mockWebSocket.state).toBe(3); // Closed
       expect(errorReceived).toBe(true);
     });

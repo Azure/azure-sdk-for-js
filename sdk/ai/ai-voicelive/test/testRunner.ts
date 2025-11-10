@@ -19,26 +19,26 @@ describe("VoiceLive Test Suite Overview", () => {
     const testAreas = [
       "WebSocket mocking infrastructure",
       "Session lifecycle management",
-      "Audio processing and streaming", 
+      "Audio processing and streaming",
       "Function calling workflows",
       "Connection management",
       "Error handling and recovery",
       "Performance and scalability",
-      "Integration testing"
+      "Integration testing",
     ];
 
     expect(testAreas).toHaveLength(8);
-    
+
     // Each area should have corresponding test files
     const expectedTestFiles = [
       "test/infrastructure/mockWebSocket.ts",
-      "test/infrastructure/testSessionFactory.ts", 
+      "test/infrastructure/testSessionFactory.ts",
       "test/infrastructure/testConstants.ts",
       "test/unit/voiceLiveSession.spec.ts",
       "test/unit/connectionManager.spec.ts",
       "test/unit/audioProcessing.spec.ts",
       "test/unit/functionCalling.spec.ts",
-      "test/integration/sessionWorkflow.spec.ts"
+      "test/integration/sessionWorkflow.spec.ts",
     ];
 
     expect(expectedTestFiles).toHaveLength(8);
@@ -58,7 +58,7 @@ export const TestSuiteStats = {
     performance: 8, // Performance and scalability tests
     errorHandling: 15, // Error scenarios and edge cases
     realTime: 25, // Audio streaming and real-time features
-    functionCalling: 15 // Function calling specific tests
+    functionCalling: 15, // Function calling specific tests
   },
   mockingCapabilities: {
     webSocketMocking: true,
@@ -66,8 +66,8 @@ export const TestSuiteStats = {
     stateSimulation: true,
     errorSimulation: true,
     timeoutTesting: true,
-    concurrencyTesting: true
-  }
+    concurrencyTesting: true,
+  },
 };
 
 /**
@@ -79,10 +79,10 @@ export class TestRunner {
     try {
       // Validate vitest is available
       const vitestAvailable = typeof describe !== "undefined" && typeof it !== "undefined";
-      
+
       // Validate our mock infrastructure
       const infrastructureAvailable = true; // In module context, import is always available
-      
+
       return vitestAvailable && infrastructureAvailable;
     } catch (error) {
       console.error("Test environment validation failed:", error);
@@ -96,21 +96,21 @@ export class TestRunner {
       "test/infrastructure/mockWebSocket.ts",
       "test/infrastructure/testSessionFactory.ts",
       "test/infrastructure/simple.spec.ts",
-      
-      // Unit tests  
+
+      // Unit tests
       "test/unit/voiceLiveSession.spec.ts",
-      "test/unit/connectionManager.spec.ts", 
+      "test/unit/connectionManager.spec.ts",
       "test/unit/audioProcessing.spec.ts",
       "test/unit/functionCalling.spec.ts",
-      
+
       // Integration tests
       "test/integration/sessionWorkflow.spec.ts",
-      
+
       // Existing tests
       "test/public/voiceLiveClient.spec.ts",
-      "test/public/realTimeFeatures.spec.ts", 
+      "test/public/realTimeFeatures.spec.ts",
       "test/public/sampleTest.spec.ts",
-      "test/snippets.spec.ts"
+      "test/snippets.spec.ts",
     ];
   }
 
@@ -122,23 +122,23 @@ export class TestRunner {
       coverageAreas: {
         "WebSocket infrastructure": "95%", // Comprehensive mocking
         "Session management": "90%", // Lifecycle, state, configuration
-        "Audio processing": "85%", // Streaming, encoding, turn management  
+        "Audio processing": "85%", // Streaming, encoding, turn management
         "Function calling": "80%", // Tool registration, execution, workflow
         "Error handling": "85%", // Connection errors, timeouts, recovery
         "Real-time features": "75%", // Streaming, events, subscriptions
         "Performance testing": "70%", // Load, concurrency, scalability
-        "Integration testing": "80%" // End-to-end workflows
+        "Integration testing": "80%", // End-to-end workflows
       },
       comparedToCSharp: {
         testInfrastructure: "Feature parity achieved",
         sessionManagement: "Core features ported",
-        audioProcessing: "Audio streaming implemented", 
+        audioProcessing: "Audio streaming implemented",
         functionCalling: "Workflow testing added",
         errorHandling: "Comprehensive error scenarios",
         liveService: "Mocked - ready for live implementation",
         logging: "To be implemented",
-        validation: "Basic validation added"
-      }
+        validation: "Basic validation added",
+      },
     };
   }
 }
@@ -151,29 +151,29 @@ export const TestInstructions = {
     "1. Ensure Node.js 20+ is installed",
     "2. Navigate to /git3/azure-sdk-for-js/sdk/ai/ai-voicelive",
     "3. Run 'npm install' to install dependencies",
-    "4. Verify TypeScript compilation with 'npm run build'"
+    "4. Verify TypeScript compilation with 'npm run build'",
   ],
-  
+
   execution: [
     "1. Run all tests: npm test",
-    "2. Run unit tests only: npm run test:node", 
+    "2. Run unit tests only: npm run test:node",
     "3. Run specific test file: npx vitest run test/unit/voiceLiveSession.spec.ts",
     "4. Run tests in watch mode: npx vitest --watch",
-    "5. Generate coverage report: npx vitest --coverage"
+    "5. Generate coverage report: npx vitest --coverage",
   ],
-  
+
   troubleshooting: [
     "1. If TypeScript errors occur, check import paths and dependencies",
     "2. If WebSocket mocking fails, verify MockVoiceLiveWebSocket implementation",
     "3. If test timeouts occur, increase timeout values in test configurations",
-    "4. For integration test failures, check mock session method implementations"
+    "4. For integration test failures, check mock session method implementations",
   ],
-  
+
   extending: [
     "1. Add new test files in appropriate directories (unit/integration)",
     "2. Use TestSessionFactory for consistent session setup",
     "3. Use TestConstants for shared test data and configuration",
     "4. Follow existing patterns for WebSocket mocking and message verification",
-    "5. Add performance tests for new features requiring load testing"
-  ]
+    "5. Add performance tests for new features requiring load testing",
+  ],
 };

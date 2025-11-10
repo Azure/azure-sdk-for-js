@@ -2,16 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import type {
-  TestableVoiceLiveSession
-} from "../infrastructure/index.js";
+import type { TestableVoiceLiveSession } from "../infrastructure/index.js";
 import type { UserMessageItem, AssistantMessageItem } from "../../src/models/index.js";
-import { 
-  TestSessionFactory, 
+import {
+  TestSessionFactory,
   MockVoiceLiveWebSocket,
   TestConstants,
   createSessionCreatedEvent,
-  createTestAudioData
+  createTestAudioData,
 } from "../infrastructure/index.js";
 
 describe("VoiceLive End-to-End Integration", () => {
@@ -46,11 +44,11 @@ describe("VoiceLive End-to-End Integration", () => {
             parameters: {
               type: "object",
               properties: {
-                location: { type: "string" }
-              }
-            }
-          }
-        ]
+                location: { type: "string" },
+              },
+            },
+          },
+        ],
       });
 
       // Step 3: Simulate server acknowledging session creation
@@ -59,17 +57,17 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // Step 4: Start audio turn and send audio data
       await session.startAudioTurn?.();
-      
+
       const audioData = createTestAudioData(1024);
       await session.sendInputAudio?.(audioData);
-      
+
       await session.endAudioTurn?.();
 
       // Step 5: Create conversation item
       await session.addConversationItem?.({
         type: "message",
         role: "user",
-        content: [{ type: "input_text", text: TestConstants.SAMPLE_USER_MESSAGE }]
+        content: [{ type: "input_text", text: TestConstants.SAMPLE_USER_MESSAGE }],
       } as UserMessageItem);
 
       // Step 6: Request response
@@ -77,11 +75,11 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // Verify the complete message sequence
       const sentMessages = mockWebSocket.getSentMessages();
-      
+
       // Should have: session.update, turn.start, audio.append, turn.end, conversation.item.create, response.create
       expect(sentMessages.length).toBeGreaterThanOrEqual(6);
 
-      const messageTypes = sentMessages.map(msg => JSON.parse(msg).type);
+      const messageTypes = sentMessages.map((msg) => JSON.parse(msg).type);
       expect(messageTypes).toContain("session.update");
       expect(messageTypes).toContain(TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_START);
       expect(messageTypes).toContain(TestConstants.EVENT_TYPES.INPUT_AUDIO_BUFFER_APPEND);
@@ -96,18 +94,20 @@ describe("VoiceLive End-to-End Integration", () => {
       // Configure with function tool
       await session.configureSession?.({
         model: TestConstants.MODEL_NAME,
-        tools: [{
-          name: TestConstants.SAMPLE_FUNCTION_NAME,
-          description: TestConstants.SAMPLE_FUNCTION_DESCRIPTION,
-          parameters: { type: "object", properties: {} }
-        }]
+        tools: [
+          {
+            name: TestConstants.SAMPLE_FUNCTION_NAME,
+            description: TestConstants.SAMPLE_FUNCTION_DESCRIPTION,
+            parameters: { type: "object", properties: {} },
+          },
+        ],
       });
 
       // User asks a question that requires function calling
       await session.addConversationItem?.({
         type: "message",
         role: "user",
-        content: [{ type: "input_text", text: "What's the weather like?" }]
+        content: [{ type: "input_text", text: "What's the weather like?" }],
       } as UserMessageItem);
 
       await session.createResponse?.();
@@ -118,7 +118,7 @@ describe("VoiceLive End-to-End Integration", () => {
         event_id: TestConstants.SAMPLE_EVENT_ID,
         call_id: TestConstants.SAMPLE_CALL_ID,
         name: TestConstants.SAMPLE_FUNCTION_NAME,
-        arguments: TestConstants.SAMPLE_FUNCTION_ARGS
+        arguments: TestConstants.SAMPLE_FUNCTION_ARGS,
       });
 
       mockWebSocket.enqueueInboundMessage(functionCallEvent);
@@ -133,11 +133,15 @@ describe("VoiceLive End-to-End Integration", () => {
       await session.createResponse?.();
 
       // Verify function calling sequence
-      const outputMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT);
+      const outputMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
+      );
       expect(outputMessages).toHaveLength(1);
       expect(outputMessages[0].output).toBe(functionResult);
 
-      const responseMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.RESPONSE_CREATE);
+      const responseMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.RESPONSE_CREATE,
+      );
       expect(responseMessages.length).toBeGreaterThanOrEqual(2); // Initial + after function
     });
 
@@ -149,29 +153,35 @@ describe("VoiceLive End-to-End Integration", () => {
         model: TestConstants.MODEL_NAME,
         voice: TestConstants.VOICE_NAME,
         input_audio_format: "pcm16",
-        output_audio_format: "pcm16"
+        output_audio_format: "pcm16",
       });
 
       // Simulate continuous audio streaming
       const audioChunks = Array.from({ length: 5 }, (_, _i) => createTestAudioData(512));
-      
+
       await session.startAudioTurn?.();
 
       for (const chunk of audioChunks) {
         await session.sendInputAudio?.(chunk);
         // Small delay to simulate real-time streaming
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await new Promise((resolve) => setTimeout(resolve, 10));
       }
 
       await session.endAudioTurn?.();
 
       // Verify streaming behavior
-      const audioMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.INPUT_AUDIO_BUFFER_APPEND);
+      const audioMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.INPUT_AUDIO_BUFFER_APPEND,
+      );
       expect(audioMessages).toHaveLength(5);
 
       // Verify turn management
-      const turnStartMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_START);
-      const turnEndMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_END);
+      const turnStartMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_START,
+      );
+      const turnEndMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_END,
+      );
       expect(turnStartMessages).toHaveLength(1);
       expect(turnEndMessages).toHaveLength(1);
     });
@@ -181,17 +191,17 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // Start normal operation
       await session.startAudioTurn?.();
-      
+
       // Simulate connection error
       const error = new Error("Network error");
       mockWebSocket.simulateError(error);
-      
+
       // Clear the turn state to simulate error recovery
       session.clearActiveTurn?.();
 
       // Should be able to reconnect and continue
       await session.connectWithMock(new MockVoiceLiveWebSocket());
-      
+
       // Should be able to start new operations
       await expect(session.startAudioTurn?.()).resolves.not.toThrow();
     });
@@ -208,8 +218,8 @@ describe("VoiceLive End-to-End Integration", () => {
       await session.startAudioTurn?.();
 
       // Send 50 audio chunks rapidly
-      const promises = Array.from({ length: iterations }, () => 
-        session.sendInputAudio?.(audioChunk)
+      const promises = Array.from({ length: iterations }, () =>
+        session.sendInputAudio?.(audioChunk),
       );
 
       await Promise.all(promises);
@@ -222,7 +232,9 @@ describe("VoiceLive End-to-End Integration", () => {
       expect(duration).toBeLessThan(5000); // 5 seconds
 
       // Verify all audio was sent
-      const audioMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.INPUT_AUDIO_BUFFER_APPEND);
+      const audioMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.INPUT_AUDIO_BUFFER_APPEND,
+      );
       expect(audioMessages).toHaveLength(iterations);
     });
 
@@ -235,14 +247,14 @@ describe("VoiceLive End-to-End Integration", () => {
         session.addConversationItem?.({
           type: "message",
           role: "user",
-          content: [{ type: "input_text", text: "Hello" }]
+          content: [{ type: "input_text", text: "Hello" }],
         } as UserMessageItem),
         session.addConversationItem?.({
           type: "message",
-          role: "assistant", 
-          content: [{ type: "text", text: "Hi there!" }]
+          role: "assistant",
+          content: [{ type: "text", text: "Hi there!" }],
         } as AssistantMessageItem),
-        session.createResponse?.()
+        session.createResponse?.(),
       ];
 
       await Promise.all(operations);
@@ -256,17 +268,19 @@ describe("VoiceLive End-to-End Integration", () => {
       await session.connectWithMock(mockWebSocket);
 
       const itemCount = 100;
-      const addItemPromises = Array.from({ length: itemCount }, (_, i) => 
+      const addItemPromises = Array.from({ length: itemCount }, (_, i) =>
         session.addConversationItem?.({
           type: "message",
           role: i % 2 === 0 ? "user" : "assistant",
-          content: [{ type: i % 2 === 0 ? "input_text" : "text", text: `Message ${i}` }]
-        } as (UserMessageItem | AssistantMessageItem))
+          content: [{ type: i % 2 === 0 ? "input_text" : "text", text: `Message ${i}` }],
+        } as UserMessageItem | AssistantMessageItem),
       );
 
       await Promise.all(addItemPromises);
 
-      const itemMessages = mockWebSocket.getMessagesByType(TestConstants.EVENT_TYPES.CONVERSATION_ITEM_CREATE);
+      const itemMessages = mockWebSocket.getMessagesByType(
+        TestConstants.EVENT_TYPES.CONVERSATION_ITEM_CREATE,
+      );
       expect(itemMessages).toHaveLength(itemCount);
     });
   });
@@ -295,7 +309,7 @@ describe("VoiceLive End-to-End Integration", () => {
         JSON.stringify({ type: "session.created", session: { id: "test" } }),
         JSON.stringify({ type: "session.updated", session: { id: "test" } }),
         JSON.stringify({ type: "response.done", response: { id: "resp1" } }),
-        JSON.stringify({ type: "session.created", session: { id: "test2" } })
+        JSON.stringify({ type: "session.created", session: { id: "test2" } }),
       ];
 
       for (const event of events) {
@@ -303,18 +317,18 @@ describe("VoiceLive End-to-End Integration", () => {
       }
 
       // Wait for event processing
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(receivedEvents).toHaveLength(4);
-      expect(receivedEvents.filter(e => e.type === "session.created")).toHaveLength(2);
-      expect(receivedEvents.filter(e => e.type === "session.updated")).toHaveLength(1);
-      expect(receivedEvents.filter(e => e.type === "response.done")).toHaveLength(1);
+      expect(receivedEvents.filter((e) => e.type === "session.created")).toHaveLength(2);
+      expect(receivedEvents.filter((e) => e.type === "session.updated")).toHaveLength(1);
+      expect(receivedEvents.filter((e) => e.type === "response.done")).toHaveLength(1);
     });
 
     it("should handle event subscription cleanup", async () => {
       // Enable test mode for predictable timing
       mockWebSocket.setTestMode(true);
-      
+
       await session.connectWithMock(mockWebSocket);
 
       let eventCount = 0;
@@ -324,20 +338,20 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // Send event
       mockWebSocket.enqueueInboundMessage(JSON.stringify({ type: "session.updated" }));
-      await new Promise(resolve => setTimeout(resolve, 20));
+      await new Promise((resolve) => setTimeout(resolve, 20));
       expect(eventCount).toBe(1);
 
       // Unsubscribe
       unsubscribe?.();
-      
+
       // Wait a bit more to ensure unsubscribe is processed
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       // Send another event
       mockWebSocket.enqueueInboundMessage(JSON.stringify({ type: "session.updated" }));
-      await new Promise(resolve => setTimeout(resolve, 20));
+      await new Promise((resolve) => setTimeout(resolve, 20));
       expect(eventCount).toBe(1); // Should not have increased
-      
+
       // Restore async mode for other tests
       mockWebSocket.setTestMode(false);
     });
@@ -348,32 +362,40 @@ describe("VoiceLive End-to-End Integration", () => {
     // Add comprehensive mock implementations
     const mockMethods = {
       configureSession: async (config: any) => {
-        await mockWebSocket.send(JSON.stringify({
-          type: "session.update",
-          session: config
-        }));
+        await mockWebSocket.send(
+          JSON.stringify({
+            type: "session.update",
+            session: config,
+          }),
+        );
       },
 
       addConversationItem: async (item: any) => {
-        await mockWebSocket.send(JSON.stringify({
-          type: TestConstants.EVENT_TYPES.CONVERSATION_ITEM_CREATE,
-          item: item
-        }));
+        await mockWebSocket.send(
+          JSON.stringify({
+            type: TestConstants.EVENT_TYPES.CONVERSATION_ITEM_CREATE,
+            item: item,
+          }),
+        );
       },
 
       createResponse: async () => {
-        await mockWebSocket.send(JSON.stringify({
-          type: TestConstants.EVENT_TYPES.RESPONSE_CREATE
-        }));
+        await mockWebSocket.send(
+          JSON.stringify({
+            type: TestConstants.EVENT_TYPES.RESPONSE_CREATE,
+          }),
+        );
       },
 
       sendFunctionCallOutput: async (callId: string, output: string) => {
-        await mockWebSocket.send(JSON.stringify({
-          type: TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
-          call_id: callId,
-          output: output
-        }));
-      }
+        await mockWebSocket.send(
+          JSON.stringify({
+            type: TestConstants.EVENT_TYPES.FUNCTION_CALL_OUTPUT,
+            call_id: callId,
+            output: output,
+          }),
+        );
+      },
     };
 
     // Apply mock methods to session

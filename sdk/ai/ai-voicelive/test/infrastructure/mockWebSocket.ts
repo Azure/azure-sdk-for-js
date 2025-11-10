@@ -46,10 +46,10 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
     }
 
     this._state = 0; // WebSocketState.Connecting
-    
+
     // Simulate connection delay
-    await new Promise(resolve => setTimeout(resolve, 1));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1));
+
     if (abortSignal?.aborted) {
       throw new Error("Connection aborted");
     }
@@ -65,10 +65,10 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
     if (this._state === 3) return; // Already closed
 
     this._state = 2; // WebSocketState.Closing
-    
+
     // Simulate close delay
-    await new Promise(resolve => setTimeout(resolve, 1));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1));
+
     this._state = 3; // WebSocketState.Closed
     this._onCloseHandler?.(code ?? 1000, reason ?? "Normal close");
   }
@@ -77,7 +77,8 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    * Mock send - captures messages for assertion
    */
   async send(data: string | ArrayBuffer, abortSignal?: AbortSignal): Promise<void> {
-    if (this._state !== 1) { // Not open
+    if (this._state !== 1) {
+      // Not open
       throw new Error("WebSocket is not open");
     }
 
@@ -171,7 +172,7 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    * Get count of messages of a specific type
    */
   getMessageCountByType(messageType: string): number {
-    return this._sentMessages.filter(msg => {
+    return this._sentMessages.filter((msg) => {
       try {
         const parsed = JSON.parse(msg);
         return parsed.type === messageType;
@@ -186,7 +187,7 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    */
   getMessagesByType(messageType: string): any[] {
     return this._sentMessages
-      .filter(msg => {
+      .filter((msg) => {
         try {
           const parsed = JSON.parse(msg);
           return parsed.type === messageType;
@@ -194,7 +195,7 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
           return false;
         }
       })
-      .map(msg => JSON.parse(msg));
+      .map((msg) => JSON.parse(msg));
   }
 
   /**
@@ -210,17 +211,17 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   enqueueInboundMessage(message: string): void {
     if (this._testMode) {
       // Synchronous delivery for predictable testing
-      this._onMessageHandlers.forEach(handler => handler(message));
+      this._onMessageHandlers.forEach((handler) => handler(message));
     } else {
       // Async delivery for realistic simulation
       const currentHandlers = [...this._onMessageHandlers];
-      
+
       // Simulate message delivery
       setTimeout(() => {
         if (currentHandlers.length > 0) {
           // Only call handlers that were active when message was enqueued
           // and are still active (not unsubscribed)
-          currentHandlers.forEach(handler => {
+          currentHandlers.forEach((handler) => {
             if (this._onMessageHandlers.includes(handler)) {
               handler(message);
             }
@@ -250,12 +251,12 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    */
   async waitForMessages(count: number, timeoutMs = 5000): Promise<void> {
     const startTime = Date.now();
-    
+
     while (this._sentMessages.length < count) {
       if (Date.now() - startTime > timeoutMs) {
         throw new Error(`Timeout waiting for ${count} messages. Got ${this._sentMessages.length}`);
       }
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     }
   }
 
@@ -264,15 +265,15 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    */
   async waitForMessageType(messageType: string, timeoutMs = 5000): Promise<any> {
     const startTime = Date.now();
-    
+
     while (Date.now() - startTime < timeoutMs) {
       const messages = this.getMessagesByType(messageType);
       if (messages.length > 0) {
         return messages[messages.length - 1];
       }
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     }
-    
+
     throw new Error(`Timeout waiting for message type: ${messageType}`);
   }
 }

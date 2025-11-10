@@ -28,7 +28,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
   it("should support creating sessions with real-time configuration", () => {
     const realtimeConfig = {
       model: "gpt-4o-realtime-preview",
-      voice: "alloy"
+      voice: "alloy",
       // Note: audio format properties would be part of session options, not the RequestSession
     };
 
@@ -42,12 +42,9 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
   });
 
   it("should handle various model configurations", () => {
-    const models = [
-      "gpt-4o-realtime-preview",
-      "gpt-4o-realtime-preview-2024-10-01"
-    ];
+    const models = ["gpt-4o-realtime-preview", "gpt-4o-realtime-preview-2024-10-01"];
 
-    models.forEach(model => {
+    models.forEach((model) => {
       const session = client.createSession(model);
       expect(session).toBeDefined();
     });
@@ -55,11 +52,11 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
 
   it("should support voice configuration options", () => {
     const voiceOptions = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
-    
-    voiceOptions.forEach(voice => {
+
+    voiceOptions.forEach((voice) => {
       const session = client.createSession({
         model: "gpt-4o-realtime-preview",
-        voice: voice
+        voice: voice,
       });
       expect(session).toBeDefined();
     });
@@ -92,11 +89,11 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
           parameters: {
             type: "object",
             properties: {
-              location: { type: "string" }
-            }
-          }
-        }
-      ]
+              location: { type: "string" },
+            },
+          },
+        },
+      ],
     };
 
     const session = client.createSession(sessionWithTools);
@@ -108,7 +105,7 @@ describe("VoiceLiveClient Real-time Capabilities", () => {
       model: "gpt-4o-realtime-preview",
       temperature: 0.7,
       max_tokens: 1000,
-      voice: "alloy"
+      voice: "alloy",
     };
 
     const session = client.createSession(sessionConfig);

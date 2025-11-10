@@ -6,10 +6,9 @@ import type { RequestSession } from "./models/index.js";
 import type {
   CreateSessionOptions,
   StartSessionOptions,
-  VoiceLiveSessionOptions} from "./voiceLiveSession.js";
-import {
-  VoiceLiveSession
+  VoiceLiveSessionOptions,
 } from "./voiceLiveSession.js";
+import { VoiceLiveSession } from "./voiceLiveSession.js";
 import { logger } from "./logger.js";
 
 export interface VoiceLiveClientOptions {
