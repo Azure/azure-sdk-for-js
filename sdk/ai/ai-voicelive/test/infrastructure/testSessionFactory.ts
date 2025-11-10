@@ -3,7 +3,8 @@
 
 import { VoiceLiveClient } from "../../src/voiceLiveClient.js";
 import { VoiceLiveSession } from "../../src/voiceLiveSession.js";
-import type { SendEventOptions, TurnOptions, AudioStreamOptions } from "../../src/voiceLiveSession.js";
+import type { SendEventOptions, TurnOptions } from "../../src/voiceLiveSession.js";
+import type { ConversationRequestItem } from "../../src/models/index.js";
 import { MockVoiceLiveWebSocket } from "./mockWebSocket.js";
 import { TestConstants, audioToBase64 } from "./testConstants.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
@@ -109,7 +110,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
   /**
    * Handle incoming message (protected method that we'll expose for testing)
    */
-  private handleIncomingMessage(message: string): void {
+  private handleIncomingMessage(_message: string): void {
     // This would normally be handled by the session's message processing logic
     // For testing, we can expose this or use events to verify message handling
   }
@@ -117,15 +118,17 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
   /**
    * Handle connection error (protected method that we'll expose for testing)
    */
-  private handleConnectionError(error: Error): void {
-    // Error handling logic
+  private handleConnectionError(_error: Error): void {
+    // Error handling logic - clear active turn on error
+    (this as any)._activeTurnId = undefined;
   }
 
   /**
    * Handle connection close (protected method that we'll expose for testing)
    */
-  private handleConnectionClose(code?: number, reason?: string): void {
-    // Connection close handling logic
+  private handleConnectionClose(_code?: number, _reason?: string): void {
+    // Connection close handling logic - clear active turn on close
+    (this as any)._activeTurnId = undefined;
   }
 
   // Mock methods for audio testing - these would be implemented by the actual session
@@ -172,7 +175,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     }
   }
 
-  async startAudioTurn?(options?: TurnOptions): Promise<void> {
+  async startAudioTurn(_options: TurnOptions = {}): Promise<string> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
@@ -182,15 +185,17 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
       throw new Error("Audio turn already active");
     }
     
+    const turnId = "test-turn-id-" + Date.now();
     const message = JSON.stringify({
       type: TestConstants.EVENT_TYPES.INPUT_AUDIO_TURN_START
     });
     
     await this._mockWebSocket.send(message);
-    (this as any)._activeTurnId = "test-turn-id";
+    (this as any)._activeTurnId = turnId;
+    return turnId;
   }
 
-  async endAudioTurn?(options?: TurnOptions): Promise<void> {
+  async endAudioTurn(_turnId?: string, _options: SendEventOptions = {}): Promise<void> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
@@ -207,7 +212,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     (this as any)._activeTurnId = undefined;
   }
 
-  async clearInputAudioBuffer?(options?: SendEventOptions): Promise<void> {
+  async clearInputAudioBuffer(_options: SendEventOptions = {}): Promise<void> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
@@ -233,7 +238,10 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     await this._mockWebSocket.send(message);
   }
 
-  async addConversationItem?(item: any): Promise<void> {
+  async addConversationItem(
+    item: ConversationRequestItem,
+    _options: SendEventOptions = {}
+  ): Promise<void> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
@@ -256,6 +264,13 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     });
     
     await this._mockWebSocket.send(message);
+  }
+
+  /**
+   * Clear active turn state for testing (simulates error recovery)
+   */
+  clearActiveTurn(): void {
+    (this as any)._activeTurnId = undefined;
   }
 
   async sendFunctionCallOutput?(callId: string, output: string): Promise<void> {
@@ -338,12 +353,16 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
     };
 
     this._mockWebSocket.onMessage(messageHandler);
-    (this as any)._messageHandlers = (this as any)._messageHandlers || [];
+    
+    // Store handlers for cleanup
+    if (!(this as any)._messageHandlers) {
+      (this as any)._messageHandlers = [];
+    }
     (this as any)._messageHandlers.push(messageHandler);
 
-    // Return unsubscribe function
+    // Return unsubscribe function that actually removes the handler
     return () => {
-      // In a real implementation, this would remove the specific handler
+      this._mockWebSocket?.removeMessageHandler?.(messageHandler);
     };
   }
 

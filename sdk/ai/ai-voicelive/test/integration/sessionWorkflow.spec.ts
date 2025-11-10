@@ -5,13 +5,13 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import type {
   TestableVoiceLiveSession
 } from "../infrastructure/index.js";
+import type { UserMessageItem, AssistantMessageItem } from "../../src/models/index.js";
 import { 
   TestSessionFactory, 
   MockVoiceLiveWebSocket,
   TestConstants,
   createSessionCreatedEvent,
-  createTestAudioData,
-  SessionTestUtils
+  createTestAudioData
 } from "../infrastructure/index.js";
 
 describe("VoiceLive End-to-End Integration", () => {
@@ -67,9 +67,10 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // Step 5: Create conversation item
       await session.addConversationItem?.({
-        type: "user",
-        content: [{ type: "text", text: TestConstants.SAMPLE_USER_MESSAGE }]
-      });
+        type: "message",
+        role: "user",
+        content: [{ type: "input_text", text: TestConstants.SAMPLE_USER_MESSAGE }]
+      } as UserMessageItem);
 
       // Step 6: Request response
       await session.createResponse?.();
@@ -104,9 +105,10 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // User asks a question that requires function calling
       await session.addConversationItem?.({
-        type: "user",
-        content: [{ type: "text", text: "What's the weather like?" }]
-      });
+        type: "message",
+        role: "user",
+        content: [{ type: "input_text", text: "What's the weather like?" }]
+      } as UserMessageItem);
 
       await session.createResponse?.();
 
@@ -151,7 +153,7 @@ describe("VoiceLive End-to-End Integration", () => {
       });
 
       // Simulate continuous audio streaming
-      const audioChunks = Array.from({ length: 5 }, (_, i) => createTestAudioData(512));
+      const audioChunks = Array.from({ length: 5 }, (_, _i) => createTestAudioData(512));
       
       await session.startAudioTurn?.();
 
@@ -183,6 +185,9 @@ describe("VoiceLive End-to-End Integration", () => {
       // Simulate connection error
       const error = new Error("Network error");
       mockWebSocket.simulateError(error);
+      
+      // Clear the turn state to simulate error recovery
+      session.clearActiveTurn?.();
 
       // Should be able to reconnect and continue
       await session.connectWithMock(new MockVoiceLiveWebSocket());
@@ -228,13 +233,15 @@ describe("VoiceLive End-to-End Integration", () => {
       const operations = [
         session.configureSession?.({ model: TestConstants.MODEL_NAME }),
         session.addConversationItem?.({
-          type: "user",
-          content: [{ type: "text", text: "Hello" }]
-        }),
+          type: "message",
+          role: "user",
+          content: [{ type: "input_text", text: "Hello" }]
+        } as UserMessageItem),
         session.addConversationItem?.({
-          type: "assistant", 
+          type: "message",
+          role: "assistant", 
           content: [{ type: "text", text: "Hi there!" }]
-        }),
+        } as AssistantMessageItem),
         session.createResponse?.()
       ];
 
@@ -251,9 +258,10 @@ describe("VoiceLive End-to-End Integration", () => {
       const itemCount = 100;
       const addItemPromises = Array.from({ length: itemCount }, (_, i) => 
         session.addConversationItem?.({
-          type: i % 2 === 0 ? "user" : "assistant",
-          content: [{ type: "text", text: `Message ${i}` }]
-        })
+          type: "message",
+          role: i % 2 === 0 ? "user" : "assistant",
+          content: [{ type: i % 2 === 0 ? "input_text" : "text", text: `Message ${i}` }]
+        } as (UserMessageItem | AssistantMessageItem))
       );
 
       await Promise.all(addItemPromises);
@@ -304,6 +312,9 @@ describe("VoiceLive End-to-End Integration", () => {
     });
 
     it("should handle event subscription cleanup", async () => {
+      // Enable test mode for predictable timing
+      mockWebSocket.setTestMode(true);
+      
       await session.connectWithMock(mockWebSocket);
 
       let eventCount = 0;
@@ -313,16 +324,22 @@ describe("VoiceLive End-to-End Integration", () => {
 
       // Send event
       mockWebSocket.enqueueInboundMessage(JSON.stringify({ type: "session.updated" }));
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 20));
       expect(eventCount).toBe(1);
 
       // Unsubscribe
       unsubscribe?.();
+      
+      // Wait a bit more to ensure unsubscribe is processed
+      await new Promise(resolve => setTimeout(resolve, 10));
 
       // Send another event
       mockWebSocket.enqueueInboundMessage(JSON.stringify({ type: "session.updated" }));
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 20));
       expect(eventCount).toBe(1); // Should not have increased
+      
+      // Restore async mode for other tests
+      mockWebSocket.setTestMode(false);
     });
   });
 

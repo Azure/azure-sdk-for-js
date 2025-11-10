@@ -74,17 +74,35 @@ export function createTestAudioData(sizeBytes: number): Uint8Array {
 }
 
 /**
- * Helper to encode audio data as base64
+ * Helper to encode audio data as base64 (browser-compatible)
  */
 export function audioToBase64(audioData: Uint8Array): string {
-  return Buffer.from(audioData).toString('base64');
+  if (typeof Buffer !== 'undefined') {
+    // Node.js environment
+    return Buffer.from(audioData).toString('base64');
+  } else {
+    // Browser environment - use btoa with proper encoding
+    const binaryString = Array.from(audioData, byte => String.fromCharCode(byte)).join('');
+    return btoa(binaryString);
+  }
 }
 
 /**
- * Helper to decode base64 audio data
+ * Helper to decode base64 audio data (browser-compatible)
  */
 export function base64ToAudio(base64: string): Uint8Array {
-  return new Uint8Array(Buffer.from(base64, 'base64'));
+  if (typeof Buffer !== 'undefined') {
+    // Node.js environment
+    return new Uint8Array(Buffer.from(base64, 'base64'));
+  } else {
+    // Browser environment - use atob with proper decoding
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+  }
 }
 
 /**

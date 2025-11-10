@@ -9,16 +9,13 @@ import type { VoiceLiveWebSocketLike, WebSocketState } from "../../src/websocket
  */
 export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   private _state: WebSocketState = 1; // WebSocketState.Open
-  private _inboundQueue: string[] = [];
   private _sentMessages: string[] = [];
-  private _closeCode?: number;
-  private _closeReason?: string;
-  private _aborted = false;
+  private _testMode = false;
 
   // Event handlers
   private _onOpenHandler?: () => void;
   private _onCloseHandler?: (code: number, reason: string) => void;
-  private _onMessageHandler?: (data: string | ArrayBuffer) => void;
+  private _onMessageHandlers: Array<(data: string | ArrayBuffer) => void> = [];
   private _onErrorHandler?: (error: Error) => void;
 
   constructor() {
@@ -43,7 +40,7 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   /**
    * Mock connection - immediately resolves for testing
    */
-  async connect(url: string, protocols?: string[], abortSignal?: AbortSignal): Promise<void> {
+  async connect(_url: string, _protocols?: string[], abortSignal?: AbortSignal): Promise<void> {
     if (abortSignal?.aborted) {
       throw new Error("Connection aborted");
     }
@@ -68,14 +65,12 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
     if (this._state === 3) return; // Already closed
 
     this._state = 2; // WebSocketState.Closing
-    this._closeCode = code;
-    this._closeReason = reason;
     
     // Simulate close delay
     await new Promise(resolve => setTimeout(resolve, 1));
     
     this._state = 3; // WebSocketState.Closed
-    this._onCloseHandler?.(code || 1000, reason || "Normal close");
+    this._onCloseHandler?.(code ?? 1000, reason ?? "Normal close");
   }
 
   /**
@@ -112,7 +107,17 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    * Register message event handler
    */
   onMessage(handler: (data: string | ArrayBuffer) => void): void {
-    this._onMessageHandler = handler;
+    this._onMessageHandlers.push(handler);
+  }
+
+  /**
+   * Remove specific message handler
+   */
+  removeMessageHandler(handler: (data: string | ArrayBuffer) => void): void {
+    const index = this._onMessageHandlers.indexOf(handler);
+    if (index > -1) {
+      this._onMessageHandlers.splice(index, 1);
+    }
   }
 
   /**
@@ -128,8 +133,15 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
   removeAllListeners(): void {
     this._onOpenHandler = undefined;
     this._onCloseHandler = undefined;
-    this._onMessageHandler = undefined;
+    this._onMessageHandlers = [];
     this._onErrorHandler = undefined;
+  }
+
+  /**
+   * Set test mode for predictable message delivery timing
+   */
+  setTestMode(enabled: boolean): void {
+    this._testMode = enabled;
   }
 
   // Test utility methods
@@ -196,16 +208,26 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    * Enqueue an inbound message to be delivered to the message handler
    */
   enqueueInboundMessage(message: string): void {
-    this._inboundQueue.push(message);
-    // Simulate message delivery
-    setTimeout(() => {
-      if (this._onMessageHandler && this._inboundQueue.length > 0) {
-        const msg = this._inboundQueue.shift();
-        if (msg) {
-          this._onMessageHandler(msg);
+    if (this._testMode) {
+      // Synchronous delivery for predictable testing
+      this._onMessageHandlers.forEach(handler => handler(message));
+    } else {
+      // Async delivery for realistic simulation
+      const currentHandlers = [...this._onMessageHandlers];
+      
+      // Simulate message delivery
+      setTimeout(() => {
+        if (currentHandlers.length > 0) {
+          // Only call handlers that were active when message was enqueued
+          // and are still active (not unsubscribed)
+          currentHandlers.forEach(handler => {
+            if (this._onMessageHandlers.includes(handler)) {
+              handler(message);
+            }
+          });
         }
-      }
-    }, 1);
+      }, 1);
+    }
   }
 
   /**
@@ -219,7 +241,6 @@ export class MockVoiceLiveWebSocket implements VoiceLiveWebSocketLike {
    * Simulate abort during operation
    */
   simulateAbort(): void {
-    this._aborted = true;
     this._state = 3; // WebSocketState.Closed
     this.simulateError(new Error("Connection aborted"));
   }

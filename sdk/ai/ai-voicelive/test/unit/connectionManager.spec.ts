@@ -42,7 +42,7 @@ describe("ConnectionManager", () => {
       let stateChangeCount = 0;
 
       const eventHandlers = {
-        onStateChange: (state: ConnectionState) => {
+        onStateChange: (_state: ConnectionState) => {
           stateChangeCount++;
         }
       };
