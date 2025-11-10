@@ -97,7 +97,7 @@
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",
     "rimraf": "catalog:",
-    "rollup": "^4.0.0",
+    "rollup": "^4.53.1",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
