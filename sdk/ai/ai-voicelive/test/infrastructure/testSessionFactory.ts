@@ -225,7 +225,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
   }
 
   // Additional mock methods for testing
-  async configureSession?(config: any): Promise<void> {
+  async configureSession?(config: Record<string, unknown>): Promise<void> {
     if (!this._mockWebSocket || this._mockWebSocket.state !== 1) {
       throw new Error("Session not connected");
     }
@@ -328,7 +328,7 @@ export class TestableVoiceLiveSession extends VoiceLiveSession {
       throw new Error("No WebSocket available");
     }
 
-    const messageHandler = (data: any) => {
+    const messageHandler = (data: string | ArrayBuffer): void => {
       if (typeof data === 'string') {
         try {
           const event = JSON.parse(data);
