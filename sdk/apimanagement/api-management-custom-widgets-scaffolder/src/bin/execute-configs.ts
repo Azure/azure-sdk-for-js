@@ -27,8 +27,8 @@ export const prefixUrlProtocol = (value: string): string =>
 
 const validateRequired =
   (name: string, msg: string = `The “${name}” parameter is required.`) =>
-    (input: unknown) =>
-      (input != null && input !== "") || msg;
+  (input: unknown) =>
+    (input != null && input !== "") || msg;
 
 const validateUrl =
   (
@@ -38,14 +38,14 @@ const validateUrl =
         input,
       )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`,
   ) =>
-    (input: string) => {
-      try {
-        new URL(prefixUrlProtocol(input));
-        return true;
-      } catch (e) {
-        return msg(prefixUrlProtocol(input));
-      }
-    };
+  (input: string) => {
+    try {
+      new URL(prefixUrlProtocol(input));
+      return true;
+    } catch (e) {
+      return msg(prefixUrlProtocol(input));
+    }
+  };
 
 export type ReplaceTypesPreserveOptional<T extends Record<any, any>, V> = {
   [Key in keyof T]: T[Key] extends undefined ? V | undefined : V;
@@ -102,7 +102,7 @@ export const validateMiscConfig: Validate<Options> = {
 export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promise<WidgetConfig> => {
   const prefilledAnswers: Pick<WidgetConfig, "displayName"> = {
     displayName: partial.displayName ?? "",
-  }
+  };
   const inquirerImport = await import("inquirer");
   const inquirer = inquirerImport.default;
   return inquirer.prompt(
@@ -133,7 +133,7 @@ export const promptServiceInformation = async (
 ): Promise<ServiceInformation> => {
   const prefilledAnswers: Pick<ServiceInformation, "managementApiEndpoint"> = {
     managementApiEndpoint: partial.managementApiEndpoint ?? "",
-  }
+  };
   const inquirerImport = await import("inquirer");
   const inquirer = inquirerImport.default;
   return inquirer.prompt(
