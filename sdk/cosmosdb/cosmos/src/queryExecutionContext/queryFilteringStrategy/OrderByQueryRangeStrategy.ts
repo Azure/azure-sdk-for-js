@@ -49,9 +49,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       // It is assumed that range mapping array is going to contain only range
       const targetRange: PartitionKeyRange = targetRangeMapping;
 
-      // Set the target partition ID for filter context identification
-      result.targetPartitionId = targetRange.id;
-
       const targetContinuationToken =
         continuationRanges[continuationRanges.length - 1].continuationToken;
 
@@ -140,7 +137,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     rangePosition: "left" | "right",
   ): string {
     if (!orderByItems || orderByItems.length === 0) {
-      console.warn(`No order by items found for creating ${rangePosition} range filter`);
       return "";
     }
 
@@ -161,12 +157,10 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     }
 
     if (sortOrders.length === 0) {
-      console.warn("No sort orders found in query info");
       return "";
     }
 
     if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
-      console.warn(`No orderByExpressions found in query info for ${rangePosition} range filter`);
       return "";
     }
 
@@ -182,7 +176,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const sortOrder = sortOrders[i];
 
       if (!orderByItem || orderByItem.item === undefined) {
-        console.warn(`Skipping order by item at index ${i} - invalid or undefined`);
         continue;
       }
 

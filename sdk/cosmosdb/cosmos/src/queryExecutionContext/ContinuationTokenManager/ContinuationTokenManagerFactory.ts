@@ -25,15 +25,9 @@ export const ContinuationTokenManagerFactory = {
     isOrderByQuery: boolean = false,
   ): BaseContinuationTokenManager {
     if (isOrderByQuery) {
-      return new OrderByQueryContinuationTokenManager(
-        collectionLink,
-        initialContinuationToken,
-      );
+      return new OrderByQueryContinuationTokenManager(collectionLink, initialContinuationToken);
     } else {
-      return new ParallelQueryContinuationTokenManager(
-        collectionLink,
-        initialContinuationToken,
-      );
+      return new ParallelQueryContinuationTokenManager(collectionLink, initialContinuationToken);
     }
   },
 };

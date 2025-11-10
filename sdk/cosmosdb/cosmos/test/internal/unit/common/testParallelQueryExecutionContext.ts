@@ -11,7 +11,8 @@ import type { DiagnosticNodeInternal } from "../../../../src/diagnostics/Diagnos
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+  implements ExecutionContext
+{
   public documentProducerComparator(
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,

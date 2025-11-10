@@ -216,10 +216,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const startEpk = matchingContinuationRange?.epkMin;
             const endEpk = matchingContinuationRange?.epkMax;
 
-            // Only apply filter to target partition (the one from which continuation originated)
-            // Use the partitionTargetRange.id directly for comparison since that's what we're processing
-            const isTargetPartition = filterResult.targetPartitionId === partitionTargetRange.id;
-            const partitionFilterContext = isTargetPartition ? filterContext : undefined;
+            // Only apply filter to target partition for ORDER BY queries
+            // For ORDER BY queries, the target partition is the last range in continuation ranges
+            let partitionFilterContext: FilterContext | undefined;
+            if (filterContext && this.getQueryType() === QueryExecutionContextType.OrderBy) {
+              const targetPartitionId =
+                continuationRanges.length > 0 &&
+                continuationRanges[continuationRanges.length - 1].range
+                  ? continuationRanges[continuationRanges.length - 1].range.id
+                  : undefined;
+              const isTargetPartition = targetPartitionId === partitionTargetRange.id;
+              partitionFilterContext = isTargetPartition ? filterContext : undefined;
+            }
 
             const documentProducer = this._createTargetPartitionQueryExecutionContext(
               partitionTargetRange,

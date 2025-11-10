@@ -72,7 +72,6 @@ describe("OrderByQueryRangeStrategy", function () {
         expect(result.rangeTokenPairs.length).toBe(1);
         expect(result.rangeTokenPairs[0].range.id).toBe("1");
         expect(result.rangeTokenPairs[0].continuationToken).toBe("token1");
-        expect(result.targetPartitionId).toBe("1");
       });
 
       it("should handle single target range with different continuation range", function () {
@@ -82,7 +81,6 @@ describe("OrderByQueryRangeStrategy", function () {
 
         // The method should return both the target range and the continuation range
         expect(result.rangeTokenPairs.length).toBe(2);
-        expect(result.targetPartitionId).toBe("1");
       });
     });
 
@@ -97,7 +95,6 @@ describe("OrderByQueryRangeStrategy", function () {
         const result = strategy.filterPartitionRanges(ranges, [contRange]);
 
         expect(result.rangeTokenPairs.length).toBe(3);
-        expect(result.targetPartitionId).toBe("2");
 
         // Target range should have continuation token
         const targetPair = result.rangeTokenPairs.find((p) => p.range.id === "2");
@@ -119,7 +116,6 @@ describe("OrderByQueryRangeStrategy", function () {
         const result = strategy.filterPartitionRanges([leftRange1, leftRange2], [contRange]);
 
         expect(result.rangeTokenPairs.length).toBe(3);
-        expect(result.targetPartitionId).toBe("3");
       });
 
       it("should handle only right ranges", function () {
@@ -131,7 +127,6 @@ describe("OrderByQueryRangeStrategy", function () {
         const result = strategy.filterPartitionRanges([rightRange1, rightRange2], [contRange]);
 
         expect(result.rangeTokenPairs.length).toBe(3);
-        expect(result.targetPartitionId).toBe("1");
       });
     });
 
@@ -145,7 +140,6 @@ describe("OrderByQueryRangeStrategy", function () {
 
         // When ranges have overlapping boundaries, some may be filtered out
         expect(result.rangeTokenPairs.length).toBe(1);
-        expect(result.targetPartitionId).toBe("1");
       });
 
       it("should handle adjacent ranges", function () {
@@ -157,7 +151,6 @@ describe("OrderByQueryRangeStrategy", function () {
         const result = strategy.filterPartitionRanges([range1, range2, range3], [contRange]);
 
         expect(result.rangeTokenPairs.length).toBe(3);
-        expect(result.targetPartitionId).toBe("2");
       });
 
       it("should handle overlapping boundaries", function () {
@@ -170,7 +163,6 @@ describe("OrderByQueryRangeStrategy", function () {
 
         // When ranges have overlapping boundaries, filtering logic may exclude some ranges
         expect(result.rangeTokenPairs.length).toBe(1);
-        expect(result.targetPartitionId).toBe("1");
       });
 
       it("should handle FF (maximum) boundary", function () {
@@ -181,7 +173,6 @@ describe("OrderByQueryRangeStrategy", function () {
         const result = strategy.filterPartitionRanges([range1, range2], [contRange]);
 
         expect(result.rangeTokenPairs.length).toBe(2);
-        expect(result.targetPartitionId).toBe("2");
       });
     });
 
@@ -197,7 +188,6 @@ describe("OrderByQueryRangeStrategy", function () {
         ];
 
         const result = strategy.filterPartitionRanges(ranges, contRanges);
-        expect(result.targetPartitionId).toBe("2");
 
         const targetPair = result.rangeTokenPairs.find((p) => p.range.id === "2");
         expect(targetPair?.continuationToken).toBe("token2");
@@ -231,7 +221,6 @@ describe("OrderByQueryRangeStrategy", function () {
 
         const result = strategy.filterPartitionRanges(ranges, contRanges);
         expect(result.rangeTokenPairs.length).toBe(2);
-        expect(result.targetPartitionId).toBe("1");
       });
     });
 
@@ -249,7 +238,6 @@ describe("OrderByQueryRangeStrategy", function () {
 
         const result = strategy.filterPartitionRanges(ranges, [contRange]);
         expect(result.rangeTokenPairs.length).toBe(100);
-        expect(result.targetPartitionId).toBe("50");
       });
     });
 

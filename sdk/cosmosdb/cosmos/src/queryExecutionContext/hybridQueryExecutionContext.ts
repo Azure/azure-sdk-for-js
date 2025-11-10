@@ -22,7 +22,10 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.j
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { type ParallelQueryResult } from "./parallelQueryResult.js";
-import { rejectContinuationTokenForUnsupportedQueries, QueryTypes } from "./QueryValidationHelper.js";
+import {
+  rejectContinuationTokenForUnsupportedQueries,
+  QueryTypes,
+} from "./QueryValidationHelper.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -461,9 +464,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         typeof this.query === "string"
           ? componentQueryInfo.rewrittenQuery
           : {
-            query: componentQueryInfo.rewrittenQuery,
-            parameters: this.query?.parameters ?? [],
-          };
+              query: componentQueryInfo.rewrittenQuery,
+              parameters: this.query?.parameters ?? [],
+            };
       const executionContext = new PipelinedQueryExecutionContext(
         this.clientContext,
         this.collectionLink,

@@ -20,10 +20,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   private continuationToken: OrderByQueryContinuationToken | undefined;
   private orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined;
 
-  constructor(
-    collectionLink: string,
-    initialContinuationToken?: string,
-  ) {
+  constructor(collectionLink: string, initialContinuationToken?: string) {
     super(collectionLink);
 
     // Handle initialization directly - no deferred complexity needed

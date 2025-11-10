@@ -2,33 +2,46 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { validateContinuationTokenUsage } from "../../../../../src/queryExecutionContext/QueryValidationHelper.js";
+import {
+  rejectContinuationTokenForUnsupportedQueries,
+  QueryTypes,
+} from "../../../../../src/queryExecutionContext/QueryValidationHelper.js";
 import { ErrorResponse } from "../../../../../src/request/ErrorResponse.js";
 
 describe("QueryValidationHelper", () => {
-  describe("validateContinuationTokenUsage", () => {
+  describe("rejectContinuationTokenForUnsupportedQueries", () => {
     describe("when continuation token is not provided", () => {
       it("should not throw for undefined continuation token", () => {
         assert.doesNotThrow(() => {
-          validateContinuationTokenUsage(undefined, false, false, false, false);
+          rejectContinuationTokenForUnsupportedQueries(undefined, []);
         });
       });
 
-      it("should not throw for undefined continuation token with all query types true", () => {
+      it("should not throw for undefined continuation token with all query types present", () => {
         assert.doesNotThrow(() => {
-          validateContinuationTokenUsage(undefined, true, true, true, true);
+          rejectContinuationTokenForUnsupportedQueries(undefined, [
+            QueryTypes.nonStreamingOrderBy(true),
+            QueryTypes.groupBy(true),
+            QueryTypes.unorderedDistinct(true),
+            QueryTypes.hybridSearch(true),
+          ]);
         });
       });
 
       it("should not throw for empty string continuation token", () => {
         assert.doesNotThrow(() => {
-          validateContinuationTokenUsage("", false, false, false, false);
+          rejectContinuationTokenForUnsupportedQueries("", []);
         });
       });
 
-      it("should not throw for empty string continuation token with all query types true", () => {
+      it("should not throw for empty string continuation token with all query types present", () => {
         assert.doesNotThrow(() => {
-          validateContinuationTokenUsage("", true, true, true, true);
+          rejectContinuationTokenForUnsupportedQueries("", [
+            QueryTypes.nonStreamingOrderBy(true),
+            QueryTypes.groupBy(true),
+            QueryTypes.unorderedDistinct(true),
+            QueryTypes.hybridSearch(true),
+          ]);
         });
       });
     });
@@ -39,19 +52,23 @@ describe("QueryValidationHelper", () => {
       describe("for supported query types", () => {
         it("should not throw for regular queries", () => {
           assert.doesNotThrow(() => {
-            validateContinuationTokenUsage(validToken, false, false, false, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, []);
           });
         });
 
         it("should not throw for streaming ORDER BY queries", () => {
           assert.doesNotThrow(() => {
-            validateContinuationTokenUsage(validToken, false, false, false, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, [
+              QueryTypes.nonStreamingOrderBy(false),
+            ]);
           });
         });
 
         it("should not throw for ordered DISTINCT queries", () => {
           assert.doesNotThrow(() => {
-            validateContinuationTokenUsage(validToken, false, false, false, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, [
+              QueryTypes.unorderedDistinct(false),
+            ]);
           });
         });
       });
@@ -59,7 +76,10 @@ describe("QueryValidationHelper", () => {
       describe("for non-streaming ORDER BY queries", () => {
         it("should throw ErrorResponse for non-streaming ORDER BY", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, true, false, false, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for non-streaming ORDER BY queries",
           );
@@ -67,7 +87,9 @@ describe("QueryValidationHelper", () => {
 
         it("should include detailed error message for non-streaming ORDER BY", () => {
           try {
-            validateContinuationTokenUsage(validToken, true, false, false, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, [
+              QueryTypes.nonStreamingOrderBy(true),
+            ]);
             assert.fail("Expected error to be thrown");
           } catch (error: any) {
             assert.instanceOf(error, ErrorResponse);
@@ -88,7 +110,13 @@ describe("QueryValidationHelper", () => {
 
         it("should prioritize non-streaming ORDER BY error over other query types", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, true, true, true, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(true),
+                QueryTypes.groupBy(true),
+                QueryTypes.unorderedDistinct(true),
+                QueryTypes.hybridSearch(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for non-streaming ORDER BY queries",
           );
@@ -98,7 +126,8 @@ describe("QueryValidationHelper", () => {
       describe("for GROUP BY queries", () => {
         it("should throw ErrorResponse for GROUP BY", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, true, false, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [QueryTypes.groupBy(true)]),
             ErrorResponse,
             "Continuation tokens are not supported for GROUP BY queries",
           );
@@ -106,7 +135,7 @@ describe("QueryValidationHelper", () => {
 
         it("should include detailed error message for GROUP BY", () => {
           try {
-            validateContinuationTokenUsage(validToken, false, true, false, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, [QueryTypes.groupBy(true)]);
             assert.fail("Expected error to be thrown");
           } catch (error: any) {
             assert.instanceOf(error, ErrorResponse);
@@ -127,7 +156,12 @@ describe("QueryValidationHelper", () => {
 
         it("should prioritize GROUP BY error over unordered DISTINCT", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, true, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(false),
+                QueryTypes.groupBy(true),
+                QueryTypes.unorderedDistinct(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for GROUP BY queries",
           );
@@ -137,7 +171,10 @@ describe("QueryValidationHelper", () => {
       describe("for unordered DISTINCT queries", () => {
         it("should throw ErrorResponse for unordered DISTINCT", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, false, true, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.unorderedDistinct(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for unordered DISTINCT queries",
           );
@@ -145,7 +182,9 @@ describe("QueryValidationHelper", () => {
 
         it("should include detailed error message for unordered DISTINCT", () => {
           try {
-            validateContinuationTokenUsage(validToken, false, false, true, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, [
+              QueryTypes.unorderedDistinct(true),
+            ]);
             assert.fail("Expected error to be thrown");
           } catch (error: any) {
             assert.instanceOf(error, ErrorResponse);
@@ -169,7 +208,10 @@ describe("QueryValidationHelper", () => {
       describe("for hybrid search queries", () => {
         it("should throw ErrorResponse for hybrid search", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, false, false, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.hybridSearch(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for hybrid search queries",
           );
@@ -177,7 +219,9 @@ describe("QueryValidationHelper", () => {
 
         it("should include detailed error message for hybrid search", () => {
           try {
-            validateContinuationTokenUsage(validToken, false, false, false, true);
+            rejectContinuationTokenForUnsupportedQueries(validToken, [
+              QueryTypes.hybridSearch(true),
+            ]);
             assert.fail("Expected error to be thrown");
           } catch (error: any) {
             assert.instanceOf(error, ErrorResponse);
@@ -202,33 +246,57 @@ describe("QueryValidationHelper", () => {
       });
 
       describe("error precedence", () => {
-        it("should check non-streaming ORDER BY first", () => {
+        it("should check first query type in array first", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, true, true, true, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(true),
+                QueryTypes.groupBy(true),
+                QueryTypes.unorderedDistinct(true),
+                QueryTypes.hybridSearch(true),
+              ]),
             ErrorResponse,
             /non-streaming ORDER BY/,
           );
         });
 
-        it("should check GROUP BY second when non-streaming ORDER BY is false", () => {
+        it("should check GROUP BY when non-streaming ORDER BY is false", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, true, true, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(false),
+                QueryTypes.groupBy(true),
+                QueryTypes.unorderedDistinct(true),
+                QueryTypes.hybridSearch(true),
+              ]),
             ErrorResponse,
             /GROUP BY/,
           );
         });
 
-        it("should check unordered DISTINCT third", () => {
+        it("should check unordered DISTINCT when others are false", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, false, true, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(false),
+                QueryTypes.groupBy(false),
+                QueryTypes.unorderedDistinct(true),
+                QueryTypes.hybridSearch(true),
+              ]),
             ErrorResponse,
             /unordered DISTINCT/,
           );
         });
 
-        it("should check hybrid search last", () => {
+        it("should check hybrid search when others are false", () => {
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, false, false, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(false),
+                QueryTypes.groupBy(false),
+                QueryTypes.unorderedDistinct(false),
+                QueryTypes.hybridSearch(true),
+              ]),
             ErrorResponse,
             /hybrid search/,
           );
@@ -238,7 +306,10 @@ describe("QueryValidationHelper", () => {
       describe("edge cases", () => {
         it("should handle whitespace-only continuation token as valid", () => {
           assert.throws(
-            () => validateContinuationTokenUsage("   ", true, false, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries("   ", [
+                QueryTypes.nonStreamingOrderBy(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for non-streaming ORDER BY queries",
           );
@@ -247,7 +318,8 @@ describe("QueryValidationHelper", () => {
         it("should handle very long continuation token", () => {
           const longToken = "a".repeat(10000);
           assert.throws(
-            () => validateContinuationTokenUsage(longToken, false, true, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(longToken, [QueryTypes.groupBy(true)]),
             ErrorResponse,
             "Continuation tokens are not supported for GROUP BY queries",
           );
@@ -256,7 +328,10 @@ describe("QueryValidationHelper", () => {
         it("should handle special characters in continuation token", () => {
           const specialToken = "token-with-!@#$%^&*()_+[]{}|;':\",./<>?";
           assert.throws(
-            () => validateContinuationTokenUsage(specialToken, false, false, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(specialToken, [
+                QueryTypes.unorderedDistinct(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for unordered DISTINCT queries",
           );
@@ -265,7 +340,10 @@ describe("QueryValidationHelper", () => {
         it("should handle unicode characters in continuation token", () => {
           const unicodeToken = "token-with-🚀-unicode-中文-مرحبا";
           assert.throws(
-            () => validateContinuationTokenUsage(unicodeToken, true, false, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(unicodeToken, [
+                QueryTypes.nonStreamingOrderBy(true),
+              ]),
             ErrorResponse,
             "Continuation tokens are not supported for non-streaming ORDER BY queries",
           );
@@ -273,30 +351,56 @@ describe("QueryValidationHelper", () => {
       });
 
       describe("combination scenarios", () => {
-        it("should validate multiple false flags correctly", () => {
+        it("should validate empty array correctly", () => {
           assert.doesNotThrow(() => {
-            validateContinuationTokenUsage(validToken, false, false, false, false);
+            rejectContinuationTokenForUnsupportedQueries(validToken, []);
+          });
+        });
+
+        it("should validate all false query types correctly", () => {
+          assert.doesNotThrow(() => {
+            rejectContinuationTokenForUnsupportedQueries(validToken, [
+              QueryTypes.nonStreamingOrderBy(false),
+              QueryTypes.groupBy(false),
+              QueryTypes.unorderedDistinct(false),
+              QueryTypes.hybridSearch(false),
+            ]);
           });
         });
 
         it("should validate mixed boolean values correctly", () => {
           // Only unordered DISTINCT is true
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, false, true),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(false),
+                QueryTypes.groupBy(false),
+                QueryTypes.unorderedDistinct(true),
+              ]),
             ErrorResponse,
             /unordered DISTINCT/,
           );
 
           // Only GROUP BY is true
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, false, true, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(false),
+                QueryTypes.groupBy(true),
+                QueryTypes.unorderedDistinct(false),
+              ]),
             ErrorResponse,
             /GROUP BY/,
           );
 
           // Only non-streaming ORDER BY is true
           assert.throws(
-            () => validateContinuationTokenUsage(validToken, true, false, false),
+            () =>
+              rejectContinuationTokenForUnsupportedQueries(validToken, [
+                QueryTypes.nonStreamingOrderBy(true),
+                QueryTypes.groupBy(false),
+                QueryTypes.unorderedDistinct(false),
+              ]),
             ErrorResponse,
             /non-streaming ORDER BY/,
           );
@@ -309,7 +413,9 @@ describe("QueryValidationHelper", () => {
 
       it("should provide actionable guidance in non-streaming ORDER BY error", () => {
         try {
-          validateContinuationTokenUsage(token, true, false, false, false);
+          rejectContinuationTokenForUnsupportedQueries(token, [
+            QueryTypes.nonStreamingOrderBy(true),
+          ]);
           assert.fail("Expected error to be thrown");
         } catch (error: any) {
           const message = error.message;
@@ -322,7 +428,7 @@ describe("QueryValidationHelper", () => {
 
       it("should provide actionable guidance in GROUP BY error", () => {
         try {
-          validateContinuationTokenUsage(token, false, true, false, false);
+          rejectContinuationTokenForUnsupportedQueries(token, [QueryTypes.groupBy(true)]);
           assert.fail("Expected error to be thrown");
         } catch (error: any) {
           const message = error.message;
@@ -335,7 +441,7 @@ describe("QueryValidationHelper", () => {
 
       it("should provide actionable guidance in unordered DISTINCT error", () => {
         try {
-          validateContinuationTokenUsage(token, false, false, true, false);
+          rejectContinuationTokenForUnsupportedQueries(token, [QueryTypes.unorderedDistinct(true)]);
           assert.fail("Expected error to be thrown");
         } catch (error: any) {
           const message = error.message;
@@ -348,7 +454,7 @@ describe("QueryValidationHelper", () => {
 
       it("should provide actionable guidance in hybrid search error", () => {
         try {
-          validateContinuationTokenUsage(token, false, false, false, true);
+          rejectContinuationTokenForUnsupportedQueries(token, [QueryTypes.hybridSearch(true)]);
           assert.fail("Expected error to be thrown");
         } catch (error: any) {
           const message = error.message;
@@ -357,6 +463,30 @@ describe("QueryValidationHelper", () => {
           assert.include(message, "Reciprocal Rank Fusion (RRF) scores");
           assert.include(message, "intermediate state");
         }
+      });
+    });
+
+    describe("QueryTypes factory functions", () => {
+      it("should create proper query type descriptors", () => {
+        const nonStreaming = QueryTypes.nonStreamingOrderBy(true);
+        assert.equal(nonStreaming.name, "NonStreamingOrderBy");
+        assert.equal(nonStreaming.isPresent, true);
+        assert.include(nonStreaming.errorMessage, "non-streaming ORDER BY");
+
+        const groupBy = QueryTypes.groupBy(false);
+        assert.equal(groupBy.name, "GroupBy");
+        assert.equal(groupBy.isPresent, false);
+        assert.include(groupBy.errorMessage, "GROUP BY");
+
+        const unorderedDistinct = QueryTypes.unorderedDistinct(true);
+        assert.equal(unorderedDistinct.name, "UnorderedDistinct");
+        assert.equal(unorderedDistinct.isPresent, true);
+        assert.include(unorderedDistinct.errorMessage, "unordered DISTINCT");
+
+        const hybridSearch = QueryTypes.hybridSearch(false);
+        assert.equal(hybridSearch.name, "HybridSearch");
+        assert.equal(hybridSearch.isPresent, false);
+        assert.include(hybridSearch.errorMessage, "hybrid search");
       });
     });
   });

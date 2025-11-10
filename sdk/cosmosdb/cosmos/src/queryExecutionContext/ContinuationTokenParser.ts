@@ -19,7 +19,6 @@ export interface ContinuationTokenFields {
  * @internal
  */
 export function parseContinuationTokenFields(continuationToken: string): ContinuationTokenFields {
-
   try {
     const parsed = JSON.parse(continuationToken);
 
@@ -30,6 +29,8 @@ export function parseContinuationTokenFields(continuationToken: string): Continu
     };
   } catch (error) {
     // If parsing fails, throw a proper error
-    throw new Error(`Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }
