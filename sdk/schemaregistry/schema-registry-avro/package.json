@@ -76,7 +76,7 @@
     "@azure/identity": "catalog:internal",
     "@rollup/plugin-inject": "catalog:testing",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "buffer": "^6.0.3",
     "cross-env": "catalog:",

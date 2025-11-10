@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.29.1",
+  "version": "12.30.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -117,7 +117,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/storage-file-share": "^12.27.0",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

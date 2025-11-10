@@ -95,7 +95,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/service-bus": "^7.9.5",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
