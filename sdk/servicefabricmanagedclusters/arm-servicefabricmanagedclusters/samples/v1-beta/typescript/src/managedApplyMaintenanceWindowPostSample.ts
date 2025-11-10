@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be applied.
  *
  * @summary action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be applied.
- * x-ms-original-file: 2025-06-01-preview/ManagedApplyMaintenanceWindowPost_example.json
+ * x-ms-original-file: 2025-10-01-preview/ManagedApplyMaintenanceWindowPost_example.json
  */
 async function applyMaintenanceWindowStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

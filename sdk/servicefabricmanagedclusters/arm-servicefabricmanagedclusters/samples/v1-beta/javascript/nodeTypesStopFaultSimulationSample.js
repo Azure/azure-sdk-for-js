@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to stops a fault simulation on the node type.
  *
  * @summary stops a fault simulation on the node type.
- * x-ms-original-file: 2025-06-01-preview/faultSimulation/NodeTypeStopFaultSimulation_example.json
+ * x-ms-original-file: 2025-10-01-preview/faultSimulation/NodeTypeStopFaultSimulation_example.json
  */
 async function stopNodeTypeFaultSimulation() {
   const credential = new DefaultAzureCredential();

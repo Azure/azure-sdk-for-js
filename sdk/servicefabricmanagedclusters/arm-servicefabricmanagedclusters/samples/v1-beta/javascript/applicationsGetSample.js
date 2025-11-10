@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Service Fabric managed application resource created or in the process of being created in the Service Fabric cluster resource.
  *
  * @summary get a Service Fabric managed application resource created or in the process of being created in the Service Fabric cluster resource.
- * x-ms-original-file: 2025-06-01-preview/ApplicationGetOperation_example.json
+ * x-ms-original-file: 2025-10-01-preview/ApplicationGetOperation_example.json
  */
 async function getAnApplication() {
   const credential = new DefaultAzureCredential();
