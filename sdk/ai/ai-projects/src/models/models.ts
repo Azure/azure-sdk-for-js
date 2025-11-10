@@ -495,7 +495,7 @@ export interface FunctionTool extends Tool {
   /** A description of the function. Used by the model to determine whether or not to call the function. */
   description?: string;
   /** A JSON schema object describing the parameters of the function. */
-  parameters: any;
+  parameters: unknown;
   /** Whether to enforce strict parameter validation. Default `true`. */
   strict: boolean;
 }
@@ -1641,7 +1641,7 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: any;
+  spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
@@ -1868,7 +1868,7 @@ export interface _OpenApiFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
+  parameters: unknown;
 }
 
 export function _openApiFunctionDefinitionFunctionDeserializer(
@@ -2088,7 +2088,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: any;
+    parameters: unknown;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   input_binding: AzureFunctionBinding;
@@ -2119,7 +2119,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: any;
+  parameters: unknown;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -2819,11 +2819,11 @@ export interface StructuredInputDefinition {
   /** A human-readable description of the input. */
   description?: string;
   /** The default value for the input if no run-time value is provided. */
-  default_value?: any;
+  default_value?: unknown;
   /** When provided, the input value is bound to the specified tool arguments. */
   tool_argument_bindings?: ToolArgumentBinding[];
   /** The JSON schema for the structured input (optional). */
-  schema?: any;
+  schema?: unknown;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -4780,9 +4780,9 @@ export interface MCPListToolsTool {
   /** The description of the tool. */
   description?: string;
   /** The JSON schema describing the tool's input. */
-  input_schema: any;
+  input_schema: unknown;
   /** Additional annotations about the tool. */
-  annotations?: any;
+  annotations?: unknown;
 }
 
 export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
@@ -6917,9 +6917,9 @@ export interface EvaluatorDefinition {
   /** The discriminator possible values: code, prompt */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  init_parameters?: any;
+  init_parameters?: unknown;
   /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  data_schema?: any;
+  data_schema?: unknown;
   /** List of output metrics produced by this evaluator */
   metrics?: Record<string, EvaluatorMetric>;
 }

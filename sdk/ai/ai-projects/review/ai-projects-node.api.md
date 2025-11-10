@@ -343,7 +343,7 @@ export interface AzureFunctionDefinition {
     function: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     };
     input_binding: AzureFunctionBinding;
     output_binding: AzureFunctionBinding;
@@ -1093,8 +1093,8 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
 export interface EvaluatorDefinition {
-    data_schema?: any;
-    init_parameters?: any;
+    data_schema?: unknown;
+    init_parameters?: unknown;
     metrics?: Record<string, EvaluatorMetric>;
     type: EvaluatorDefinitionType;
 }
@@ -1233,7 +1233,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 export interface FunctionTool extends Tool {
     description?: string;
     name: string;
-    parameters: any;
+    parameters: unknown;
     strict: boolean;
     type: "function";
 }
@@ -1655,9 +1655,9 @@ export interface MCPListToolsItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsTool {
-    annotations?: any;
+    annotations?: unknown;
     description?: string;
-    input_schema: any;
+    input_schema: unknown;
     name: string;
 }
 
@@ -1960,7 +1960,7 @@ export interface OpenApiFunctionDefinition {
         parameters: unknown;
     }[];
     name: string;
-    spec: any;
+    spec: unknown;
 }
 
 // @public
@@ -2350,10 +2350,10 @@ export interface SharepointGroundingToolParameters {
 
 // @public
 export interface StructuredInputDefinition {
-    default_value?: any;
+    default_value?: unknown;
     description?: string;
     required?: boolean;
-    schema?: any;
+    schema?: unknown;
     tool_argument_bindings?: ToolArgumentBinding[];
 }
 
