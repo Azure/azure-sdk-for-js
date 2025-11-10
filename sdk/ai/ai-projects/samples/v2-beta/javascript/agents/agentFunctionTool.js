@@ -35,7 +35,7 @@ const funcTool = {
         },
       },
       required: ["sign"],
-      additionalProperties: false,
+      additional_properties: false,
     },
   },
 };

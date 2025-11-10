@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
     tools: [
       {
         type: "file_search",
-        vectorStoreIds: [vectorStore.id],
+        vector_store_ids: [vectorStore.id],
       } as any,
     ],
   });

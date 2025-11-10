@@ -63,8 +63,8 @@ Be direct and efficient. When you reach the search results page, read and descri
     tools: [
       {
         type: "computer_use_preview",
-        displayWidth: 1026,
-        displayHeight: 769,
+        display_width: 1026,
+        display_height: 769,
         environment: "windows",
       },
     ],

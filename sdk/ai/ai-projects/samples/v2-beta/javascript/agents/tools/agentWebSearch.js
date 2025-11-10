@@ -31,7 +31,7 @@ async function main() {
     tools: [
       {
         type: "web_search_preview",
-        userLocation: {
+        user_location: {
           type: "approximate",
           country: "GB",
           city: "London",
