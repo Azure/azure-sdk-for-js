@@ -113,6 +113,7 @@ const validateMiscConfig = {
 };
 const promptWidgetConfig = async (partial) => {
     const prefilledAnswers = {
+        ...partial,
         displayName: partial.displayName ?? "",
     };
     const inquirerImport = await import('inquirer');
@@ -138,6 +139,7 @@ const promptWidgetConfig = async (partial) => {
 };
 const promptServiceInformation = async (partial) => {
     const prefilledAnswers = {
+        ...partial,
         managementApiEndpoint: partial.managementApiEndpoint ?? "",
     };
     const inquirerImport = await import('inquirer');

@@ -101,6 +101,7 @@ export const validateMiscConfig: Validate<Options> = {
 
 export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promise<WidgetConfig> => {
   const prefilledAnswers: Pick<WidgetConfig, "displayName"> = {
+    ...partial,
     displayName: partial.displayName ?? "",
   };
   const inquirerImport = await import("inquirer");
@@ -132,6 +133,7 @@ export const promptServiceInformation = async (
   partial: Partial<ServiceInformation>,
 ): Promise<ServiceInformation> => {
   const prefilledAnswers: Pick<ServiceInformation, "managementApiEndpoint"> = {
+    ...partial,
     managementApiEndpoint: partial.managementApiEndpoint ?? "",
   };
   const inquirerImport = await import("inquirer");
