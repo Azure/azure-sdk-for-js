@@ -50,9 +50,6 @@ async function main() {
       input: "Generate an image of Microsoft logo.",
     },
     {
-      headers: {
-        "x-ms-oai-image-generation-deployment": "gpt-image-1", // required for image generation
-      },
       body: { agent: { name: agent.name, type: "agent_reference" } },
     },
   );

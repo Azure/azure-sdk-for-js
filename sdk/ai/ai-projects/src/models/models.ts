@@ -5278,7 +5278,7 @@ export type BaseCredentialsUnion =
   | ApiKeyCredentials
   | EntraIDCredentials
   | CustomCredential
-  | SASTokenCredentials 
+  | SASTokenCredentials
   | NoAuthenticationCredentials
   | AgenticIdentityCredentials
   | BaseCredentials;
