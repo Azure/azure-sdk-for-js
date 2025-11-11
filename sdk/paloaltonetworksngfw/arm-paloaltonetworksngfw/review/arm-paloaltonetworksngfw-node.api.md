@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionEnum = string;
@@ -688,8 +688,8 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GlobalRulestack {
-    beginCommit(globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams): Promise<SimplePollerLike<OperationState<GlobalRulestackCommitResponse>, GlobalRulestackCommitResponse>>;
-    beginCommitAndWait(globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams): Promise<GlobalRulestackCommitResponse>;
+    beginCommit(globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCommitAndWait(globalRulestackName: string, options?: GlobalRulestackCommitOptionalParams): Promise<void>;
     beginCreateOrUpdate(globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GlobalRulestackCreateOrUpdateResponse>, GlobalRulestackCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(globalRulestackName: string, resource: GlobalRulestackResource, options?: GlobalRulestackCreateOrUpdateOptionalParams): Promise<GlobalRulestackCreateOrUpdateResponse>;
     beginDelete(globalRulestackName: string, options?: GlobalRulestackDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -708,19 +708,10 @@ export interface GlobalRulestack {
 }
 
 // @public
-export interface GlobalRulestackCommitHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
 export interface GlobalRulestackCommitOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type GlobalRulestackCommitResponse = GlobalRulestackCommitHeaders;
 
 // @public
 export interface GlobalRulestackCreateOrUpdateHeaders {
@@ -1284,8 +1275,8 @@ export interface LocalRulestackResourceUpdateProperties {
 
 // @public
 export interface LocalRulestacks {
-    beginCommit(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams): Promise<SimplePollerLike<OperationState<LocalRulestacksCommitResponse>, LocalRulestacksCommitResponse>>;
-    beginCommitAndWait(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams): Promise<LocalRulestacksCommitResponse>;
+    beginCommit(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCommitAndWait(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksCommitOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LocalRulestacksCreateOrUpdateResponse>, LocalRulestacksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, localRulestackName: string, resource: LocalRulestackResource, options?: LocalRulestacksCreateOrUpdateOptionalParams): Promise<LocalRulestacksCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -1306,19 +1297,10 @@ export interface LocalRulestacks {
 }
 
 // @public
-export interface LocalRulestacksCommitHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
 export interface LocalRulestacksCommitOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type LocalRulestacksCommitResponse = LocalRulestacksCommitHeaders;
 
 // @public
 export interface LocalRulestacksCreateOrUpdateHeaders {

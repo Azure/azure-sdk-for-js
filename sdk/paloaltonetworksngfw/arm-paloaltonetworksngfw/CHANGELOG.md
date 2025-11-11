@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2025-11-07)
+## 1.2.0 (2025-11-11)
 
 ### Features Added
   - Added operation group MetricsObjectFirewall
@@ -16,12 +16,10 @@
   - Added Interface FqdnListGlobalRulestackDeleteHeaders
   - Added Interface FqdnListLocalRulestackCreateOrUpdateHeaders
   - Added Interface FqdnListLocalRulestackDeleteHeaders
-  - Added Interface GlobalRulestackCommitHeaders
   - Added Interface GlobalRulestackCreateOrUpdateHeaders
   - Added Interface GlobalRulestackDeleteHeaders
   - Added Interface LocalRulesCreateOrUpdateHeaders
   - Added Interface LocalRulesDeleteHeaders
-  - Added Interface LocalRulestacksCommitHeaders
   - Added Interface LocalRulestacksCreateOrUpdateHeaders
   - Added Interface LocalRulestacksDeleteHeaders
   - Added Interface MetricsObjectFirewallCreateOrUpdateHeaders
@@ -57,8 +55,6 @@
   - Interface FirewallStatusResource has a new optional parameter strataCloudManagerInfo
   - Interface NetworkProfile has a new optional parameter privateSourceNatRulesDestination
   - Added Type Alias EnableStatus
-  - Added Type Alias GlobalRulestackCommitResponse
-  - Added Type Alias LocalRulestacksCommitResponse
   - Added Type Alias LocalRulestacksListAppIdsNextResponse
   - Added Type Alias LocalRulestacksListCountriesNextResponse
   - Added Type Alias LocalRulestacksListPredefinedUrlCategoriesNextResponse
@@ -75,10 +71,6 @@
   - Added Type Alias RegistrationStatus
   - Added Enum KnownEnableStatus
   - Added Enum KnownRegistrationStatus
-
-### Breaking Changes
-  - Operation GlobalRulestack.beginCommitAndWait has a new signature
-  - Operation LocalRulestacks.beginCommitAndWait has a new signature
 
     
 ## 1.1.0 (2023-11-15)

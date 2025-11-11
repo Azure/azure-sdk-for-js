@@ -6,8 +6,8 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
 import {
   GlobalRulestackImpl,
   CertificateObjectGlobalRulestackImpl,
@@ -26,7 +26,7 @@ import {
   LocalRulesImpl,
   PrefixListLocalRulestackImpl,
 } from "./operations/index.js";
-import {
+import type {
   GlobalRulestack,
   CertificateObjectGlobalRulestack,
   FqdnListGlobalRulestack,
@@ -44,7 +44,7 @@ import {
   LocalRules,
   PrefixListLocalRulestack,
 } from "./operationsInterfaces/index.js";
-import { PaloAltoNetworksCloudngfwOptionalParams } from "./models/index.js";
+import type { PaloAltoNetworksCloudngfwOptionalParams } from "./models/index.js";
 
 export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
   $host: string;
@@ -92,7 +92,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/2.0.0`;
+    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
