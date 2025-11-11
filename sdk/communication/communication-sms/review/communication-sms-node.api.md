@@ -38,13 +38,6 @@ export interface MessagingConnectOptions {
 }
 
 // @public
-export interface OptOutAddResult {
-    errorMessage?: string;
-    httpStatusCode: number;
-    to: string;
-}
-
-// @public
 export interface OptOutCheckResult {
     errorMessage?: string;
     httpStatusCode: number;
@@ -53,7 +46,7 @@ export interface OptOutCheckResult {
 }
 
 // @public
-export interface OptOutRemoveResult {
+export interface OptOutOperationResult {
     errorMessage?: string;
     httpStatusCode: number;
     to: string;
@@ -61,9 +54,9 @@ export interface OptOutRemoveResult {
 
 // @public
 export interface OptOutsClient {
-    add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+    add(from: string, to: string[], options?: AddOptions): Promise<OptOutOperationResult[]>;
     check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
-    remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
+    remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutOperationResult[]>;
 }
 
 // @public
