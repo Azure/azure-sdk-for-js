@@ -192,8 +192,8 @@
 
 # PRLabel: %Synapse
 # ServiceLabel: %Synapse
-# AzureSdkOwners: @joheredi
-/sdk/synapse/ @joheredi
+# AzureSdkOwners: @joheredi @wanyang7
+/sdk/synapse/ @joheredi @wanyang7
 
 # PRLabel: %Tables
 /sdk/tables/ @joheredi @jeremymeng
@@ -1507,7 +1507,7 @@
 # ServiceOwners:          @shahbj79 @mit2nil @aygoya @ganganarayanan
 
 # ServiceLabel: %Service Attention %Synapse
-# ServiceOwners:          @zesluo
+# ServiceOwners:          @zesluo @wanyang7
 
 # ServiceLabel: %Service Attention %Tables
 # ServiceOwners:          @klaaslanghout
