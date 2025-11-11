@@ -8,14 +8,12 @@
  *
  * @summary This sample demonstrates how to create an agent with Azure AI Search tool capabilities,
  * send queries to search indexed content, and process streaming responses with citations.
- *
- * @azsdk-weight 100
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
-import * as readline from "readline";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+const readline = require("readline");
+require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
@@ -23,7 +21,7 @@ const aiSearchProjectConnectionId =
   process.env["AI_SEARCH_PROJECT_CONNECTION_ID"] || "<ai search project connection id>";
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
 
-export async function main(): Promise<void> {
+async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
@@ -59,7 +57,7 @@ export async function main(): Promise<void> {
     output: process.stdout,
   });
 
-  const userInput = await new Promise<string>((resolve) => {
+  const userInput = await new Promise((resolve) => {
     rl.question(
       "Enter your question for the AI Search agent available in the index (e.g., 'Tell me about the mental health services available from Premera'): \n",
       (answer) => {
@@ -124,3 +122,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

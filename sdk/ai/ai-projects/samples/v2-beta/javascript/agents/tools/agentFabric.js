@@ -10,17 +10,17 @@
  * send queries to Fabric data sources, and clean up resources.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
-import * as readline from "readline";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+const readline = require("readline");
+require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const fabricProjectConnectionId =
   process.env["FABRIC_PROJECT_CONNECTION_ID"] || "<fabric project connection id>";
 
-export async function main(): Promise<void> {
+async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
     additionalPolicies: [
@@ -66,7 +66,7 @@ export async function main(): Promise<void> {
     output: process.stdout,
   });
 
-  const userInput = await new Promise<string>((resolve) => {
+  const userInput = await new Promise((resolve) => {
     rl.question(
       "Enter your question for Fabric (e.g., 'Tell me about sales records'): \n",
       (answer) => {
@@ -103,3 +103,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

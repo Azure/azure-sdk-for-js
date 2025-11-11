@@ -8,8 +8,6 @@
  *
  * @summary This sample demonstrates how to create an agent with Azure AI Search tool capabilities,
  * send queries to search indexed content, and process streaming responses with citations.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
