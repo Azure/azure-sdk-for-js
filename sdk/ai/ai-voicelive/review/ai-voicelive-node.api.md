@@ -1411,10 +1411,10 @@ export interface Tool {
 }
 
 // @public
-export type ToolChoice = ToolChoiceLiteral | ToolChoiceObjectUnion;
+export type ToolChoice = ToolChoiceLiteral | ToolChoiceSelectionUnion;
 
 // @public
-export interface ToolChoiceFunctionObject extends ToolChoiceObject {
+export interface ToolChoiceFunctionSelection extends ToolChoiceSelection {
     // (undocumented)
     name: string;
     // (undocumented)
@@ -1425,13 +1425,13 @@ export interface ToolChoiceFunctionObject extends ToolChoiceObject {
 export type ToolChoiceLiteral = string;
 
 // @public
-export interface ToolChoiceObject {
+export interface ToolChoiceSelection {
     // (undocumented)
     type: ToolType;
 }
 
 // @public
-export type ToolChoiceObjectUnion = ToolChoiceFunctionObject | ToolChoiceObject;
+export type ToolChoiceSelectionUnion = ToolChoiceFunctionSelection | ToolChoiceSelection;
 
 // @public
 export type ToolType = string;

@@ -17,7 +17,9 @@ export interface VoiceLiveErrorDetails {
   eventId?: string;
 }
 
-export function voiceLiveErrorDetailsDeserializer(item: any): VoiceLiveErrorDetails {
+export function voiceLiveErrorDetailsDeserializer(
+  item: any,
+): VoiceLiveErrorDetails {
   return {
     code: item["code"],
     message: item["message"],
@@ -94,37 +96,59 @@ export type ClientEventUnion =
 export function clientEventUnionSerializer(item: ClientEventUnion): any {
   switch (item.type) {
     case "session.update":
-      return clientEventSessionUpdateSerializer(item as ClientEventSessionUpdate);
+      return clientEventSessionUpdateSerializer(
+        item as ClientEventSessionUpdate,
+      );
 
     case "session.avatar.connect":
-      return clientEventSessionAvatarConnectSerializer(item as ClientEventSessionAvatarConnect);
+      return clientEventSessionAvatarConnectSerializer(
+        item as ClientEventSessionAvatarConnect,
+      );
 
     case "input_audio.turn.start":
-      return clientEventInputAudioTurnStartSerializer(item as ClientEventInputAudioTurnStart);
+      return clientEventInputAudioTurnStartSerializer(
+        item as ClientEventInputAudioTurnStart,
+      );
 
     case "input_audio.turn.append":
-      return clientEventInputAudioTurnAppendSerializer(item as ClientEventInputAudioTurnAppend);
+      return clientEventInputAudioTurnAppendSerializer(
+        item as ClientEventInputAudioTurnAppend,
+      );
 
     case "input_audio.turn.end":
-      return clientEventInputAudioTurnEndSerializer(item as ClientEventInputAudioTurnEnd);
+      return clientEventInputAudioTurnEndSerializer(
+        item as ClientEventInputAudioTurnEnd,
+      );
 
     case "input_audio.turn.cancel":
-      return clientEventInputAudioTurnCancelSerializer(item as ClientEventInputAudioTurnCancel);
+      return clientEventInputAudioTurnCancelSerializer(
+        item as ClientEventInputAudioTurnCancel,
+      );
 
     case "input_audio.clear":
-      return clientEventInputAudioClearSerializer(item as ClientEventInputAudioClear);
+      return clientEventInputAudioClearSerializer(
+        item as ClientEventInputAudioClear,
+      );
 
     case "input_audio_buffer.append":
-      return clientEventInputAudioBufferAppendSerializer(item as ClientEventInputAudioBufferAppend);
+      return clientEventInputAudioBufferAppendSerializer(
+        item as ClientEventInputAudioBufferAppend,
+      );
 
     case "input_audio_buffer.commit":
-      return clientEventInputAudioBufferCommitSerializer(item as ClientEventInputAudioBufferCommit);
+      return clientEventInputAudioBufferCommitSerializer(
+        item as ClientEventInputAudioBufferCommit,
+      );
 
     case "input_audio_buffer.clear":
-      return clientEventInputAudioBufferClearSerializer(item as ClientEventInputAudioBufferClear);
+      return clientEventInputAudioBufferClearSerializer(
+        item as ClientEventInputAudioBufferClear,
+      );
 
     case "conversation.item.create":
-      return clientEventConversationItemCreateSerializer(item as ClientEventConversationItemCreate);
+      return clientEventConversationItemCreateSerializer(
+        item as ClientEventConversationItemCreate,
+      );
 
     case "conversation.item.truncate":
       return clientEventConversationItemTruncateSerializer(
@@ -132,13 +156,19 @@ export function clientEventUnionSerializer(item: ClientEventUnion): any {
       );
 
     case "conversation.item.delete":
-      return clientEventConversationItemDeleteSerializer(item as ClientEventConversationItemDelete);
+      return clientEventConversationItemDeleteSerializer(
+        item as ClientEventConversationItemDelete,
+      );
 
     case "response.create":
-      return clientEventResponseCreateSerializer(item as ClientEventResponseCreate);
+      return clientEventResponseCreateSerializer(
+        item as ClientEventResponseCreate,
+      );
 
     case "response.cancel":
-      return clientEventResponseCancelSerializer(item as ClientEventResponseCancel);
+      return clientEventResponseCancelSerializer(
+        item as ClientEventResponseCancel,
+      );
 
     case "conversation.item.retrieve":
       return clientEventConversationItemRetrieveSerializer(
@@ -227,7 +257,9 @@ export interface ClientEventSessionUpdate extends ClientEvent {
   session: RequestSession;
 }
 
-export function clientEventSessionUpdateSerializer(item: ClientEventSessionUpdate): any {
+export function clientEventSessionUpdateSerializer(
+  item: ClientEventSessionUpdate,
+): any {
   return {
     type: item["type"],
     event_id: item["eventId"],
@@ -289,7 +321,9 @@ export function requestSessionSerializer(item: RequestSession): any {
       : item["modalities"].map((p: any) => {
           return p;
         }),
-    animation: !item["animation"] ? item["animation"] : animationSerializer(item["animation"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : animationSerializer(item["animation"]),
     voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
     instructions: item["instructions"],
     input_audio_sampling_rate: item["inputAudioSamplingRate"],
@@ -304,23 +338,31 @@ export function requestSessionSerializer(item: RequestSession): any {
     input_audio_echo_cancellation: !item["inputAudioEchoCancellation"]
       ? item["inputAudioEchoCancellation"]
       : audioEchoCancellationSerializer(item["inputAudioEchoCancellation"]),
-    avatar: !item["avatar"] ? item["avatar"] : avatarConfigSerializer(item["avatar"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : avatarConfigSerializer(item["avatar"]),
     input_audio_transcription: !item["inputAudioTranscription"]
       ? item["inputAudioTranscription"]
-      : audioInputTranscriptionOptionsSerializer(item["inputAudioTranscription"]),
+      : audioInputTranscriptionOptionsSerializer(
+          item["inputAudioTranscription"],
+        ),
     output_audio_timestamp_types: !item["outputAudioTimestampTypes"]
       ? item["outputAudioTimestampTypes"]
       : item["outputAudioTimestampTypes"].map((p: any) => {
           return p;
         }),
-    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : toolUnionArraySerializer(item["tools"]),
     tool_choice: !item["toolChoice"]
       ? item["toolChoice"]
       : toolChoiceSerializer(item["toolChoice"]),
     temperature: item["temperature"],
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
-      : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
+      : _requestSessionMaxResponseOutputTokensSerializer(
+          item["maxResponseOutputTokens"],
+        ),
   };
 }
 
@@ -788,7 +830,9 @@ export function turnDetectionUnionSerializer(item: TurnDetectionUnion): any {
       return azureSemanticVadEnSerializer(item as AzureSemanticVadEn);
 
     case "azure_semantic_vad_multilingual":
-      return azureSemanticVadMultilingualSerializer(item as AzureSemanticVadMultilingual);
+      return azureSemanticVadMultilingualSerializer(
+        item as AzureSemanticVadMultilingual,
+      );
 
     default:
       return turnDetectionSerializer(item);
@@ -807,7 +851,9 @@ export function turnDetectionUnionDeserializer(item: any): TurnDetectionUnion {
       return azureSemanticVadEnDeserializer(item as AzureSemanticVadEn);
 
     case "azure_semantic_vad_multilingual":
-      return azureSemanticVadMultilingualDeserializer(item as AzureSemanticVadMultilingual);
+      return azureSemanticVadMultilingualDeserializer(
+        item as AzureSemanticVadMultilingual,
+      );
 
     default:
       return turnDetectionDeserializer(item);
@@ -899,7 +945,9 @@ export function eouDetectionUnionSerializer(item: EouDetectionUnion): any {
       return azureSemanticDetectionSerializer(item as AzureSemanticDetection);
 
     case "semantic_detection_v1_en":
-      return azureSemanticDetectionEnSerializer(item as AzureSemanticDetectionEn);
+      return azureSemanticDetectionEnSerializer(
+        item as AzureSemanticDetectionEn,
+      );
 
     case "semantic_detection_v1_multilingual":
       return azureSemanticDetectionMultilingualSerializer(
@@ -917,7 +965,9 @@ export function eouDetectionUnionDeserializer(item: any): EouDetectionUnion {
       return azureSemanticDetectionDeserializer(item as AzureSemanticDetection);
 
     case "semantic_detection_v1_en":
-      return azureSemanticDetectionEnDeserializer(item as AzureSemanticDetectionEn);
+      return azureSemanticDetectionEnDeserializer(
+        item as AzureSemanticDetectionEn,
+      );
 
     case "semantic_detection_v1_multilingual":
       return azureSemanticDetectionMultilingualDeserializer(
@@ -938,7 +988,9 @@ export interface AzureSemanticDetection extends EouDetection {
   timeoutInMs?: number;
 }
 
-export function azureSemanticDetectionSerializer(item: AzureSemanticDetection): any {
+export function azureSemanticDetectionSerializer(
+  item: AzureSemanticDetection,
+): any {
   return {
     model: item["model"],
     threshold_level: item["thresholdLevel"],
@@ -946,7 +998,9 @@ export function azureSemanticDetectionSerializer(item: AzureSemanticDetection): 
   };
 }
 
-export function azureSemanticDetectionDeserializer(item: any): AzureSemanticDetection {
+export function azureSemanticDetectionDeserializer(
+  item: any,
+): AzureSemanticDetection {
   return {
     model: item["model"],
     thresholdLevel: item["threshold_level"],
@@ -987,7 +1041,9 @@ export interface AzureSemanticDetectionEn extends EouDetection {
   timeoutInMs?: number;
 }
 
-export function azureSemanticDetectionEnSerializer(item: AzureSemanticDetectionEn): any {
+export function azureSemanticDetectionEnSerializer(
+  item: AzureSemanticDetectionEn,
+): any {
   return {
     model: item["model"],
     threshold_level: item["thresholdLevel"],
@@ -995,7 +1051,9 @@ export function azureSemanticDetectionEnSerializer(item: AzureSemanticDetectionE
   };
 }
 
-export function azureSemanticDetectionEnDeserializer(item: any): AzureSemanticDetectionEn {
+export function azureSemanticDetectionEnDeserializer(
+  item: any,
+): AzureSemanticDetectionEn {
   return {
     model: item["model"],
     thresholdLevel: item["threshold_level"],
@@ -1154,7 +1212,9 @@ export interface AzureSemanticVadMultilingual extends TurnDetection {
   interruptResponse?: boolean;
 }
 
-export function azureSemanticVadMultilingualSerializer(item: AzureSemanticVadMultilingual): any {
+export function azureSemanticVadMultilingualSerializer(
+  item: AzureSemanticVadMultilingual,
+): any {
   return {
     type: item["type"],
     threshold: item["threshold"],
@@ -1176,7 +1236,9 @@ export function azureSemanticVadMultilingualSerializer(item: AzureSemanticVadMul
   };
 }
 
-export function azureSemanticVadMultilingualDeserializer(item: any): AzureSemanticVadMultilingual {
+export function azureSemanticVadMultilingualDeserializer(
+  item: any,
+): AzureSemanticVadMultilingual {
   return {
     type: item["type"],
     threshold: item["threshold"],
@@ -1208,7 +1270,9 @@ export function audioNoiseReductionSerializer(item: AudioNoiseReduction): any {
   return { type: item["type"] };
 }
 
-export function audioNoiseReductionDeserializer(item: any): AudioNoiseReduction {
+export function audioNoiseReductionDeserializer(
+  item: any,
+): AudioNoiseReduction {
   return {
     type: item["type"],
   };
@@ -1220,11 +1284,15 @@ export interface AudioEchoCancellation {
   type: "server_echo_cancellation";
 }
 
-export function audioEchoCancellationSerializer(item: AudioEchoCancellation): any {
+export function audioEchoCancellationSerializer(
+  item: AudioEchoCancellation,
+): any {
   return { type: item["type"] };
 }
 
-export function audioEchoCancellationDeserializer(item: any): AudioEchoCancellation {
+export function audioEchoCancellationDeserializer(
+  item: any,
+): AudioEchoCancellation {
   return {
     type: item["type"],
   };
@@ -1252,7 +1320,9 @@ export function avatarConfigSerializer(item: AvatarConfig): any {
     character: item["character"],
     style: item["style"],
     customized: item["customized"],
-    video: !item["video"] ? item["video"] : videoParamsSerializer(item["video"]),
+    video: !item["video"]
+      ? item["video"]
+      : videoParamsSerializer(item["video"]),
   };
 }
 
@@ -1264,7 +1334,9 @@ export function avatarConfigDeserializer(item: any): AvatarConfig {
     character: item["character"],
     style: item["style"],
     customized: item["customized"],
-    video: !item["video"] ? item["video"] : videoParamsDeserializer(item["video"]),
+    video: !item["video"]
+      ? item["video"]
+      : videoParamsDeserializer(item["video"]),
   };
 }
 
@@ -1334,7 +1406,9 @@ export function videoParamsSerializer(item: VideoParams): any {
     resolution: !item["resolution"]
       ? item["resolution"]
       : videoResolutionSerializer(item["resolution"]),
-    background: !item["background"] ? item["background"] : backgroundSerializer(item["background"]),
+    background: !item["background"]
+      ? item["background"]
+      : backgroundSerializer(item["background"]),
     gop_size: item["gopSize"],
   };
 }
@@ -1582,7 +1656,7 @@ export function functionToolDeserializer(item: any): FunctionTool {
  * The combined set of available representations for a voicelive tool_choice parameter, encompassing both string
  * literal options like 'auto' as well as structured references to defined tools.
  */
-export type ToolChoice = ToolChoiceLiteral | ToolChoiceObjectUnion;
+export type ToolChoice = ToolChoiceLiteral | ToolChoiceSelectionUnion;
 
 export function toolChoiceSerializer(item: ToolChoice): any {
   return item;
@@ -1614,54 +1688,70 @@ export enum KnownToolChoiceLiteral {
 export type ToolChoiceLiteral = string;
 
 /** A base representation for a voicelive tool_choice selecting a named tool. */
-export interface ToolChoiceObject {
+export interface ToolChoiceSelection {
   type: ToolType;
 }
 
-export function toolChoiceObjectSerializer(item: ToolChoiceObject): any {
+export function toolChoiceSelectionSerializer(item: ToolChoiceSelection): any {
   return { type: item["type"] };
 }
 
-export function toolChoiceObjectDeserializer(item: any): ToolChoiceObject {
+export function toolChoiceSelectionDeserializer(
+  item: any,
+): ToolChoiceSelection {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for ToolChoiceObjectUnion */
-export type ToolChoiceObjectUnion = ToolChoiceFunctionObject | ToolChoiceObject;
+/** Alias for ToolChoiceSelectionUnion */
+export type ToolChoiceSelectionUnion =
+  | ToolChoiceFunctionSelection
+  | ToolChoiceSelection;
 
-export function toolChoiceObjectUnionSerializer(item: ToolChoiceObjectUnion): any {
+export function toolChoiceSelectionUnionSerializer(
+  item: ToolChoiceSelectionUnion,
+): any {
   switch (item.type) {
     case "function":
-      return toolChoiceFunctionObjectSerializer(item as ToolChoiceFunctionObject);
+      return toolChoiceFunctionSelectionSerializer(
+        item as ToolChoiceFunctionSelection,
+      );
 
     default:
-      return toolChoiceObjectSerializer(item);
+      return toolChoiceSelectionSerializer(item);
   }
 }
 
-export function toolChoiceObjectUnionDeserializer(item: any): ToolChoiceObjectUnion {
+export function toolChoiceSelectionUnionDeserializer(
+  item: any,
+): ToolChoiceSelectionUnion {
   switch (item.type) {
     case "function":
-      return toolChoiceFunctionObjectDeserializer(item as ToolChoiceFunctionObject);
+      return toolChoiceFunctionSelectionDeserializer(
+        item as ToolChoiceFunctionSelection,
+      );
 
     default:
-      return toolChoiceObjectDeserializer(item);
+      return toolChoiceSelectionDeserializer(item);
   }
 }
 
 /** The representation of a voicelive tool_choice selecting a named function tool. */
-export interface ToolChoiceFunctionObject extends ToolChoiceObject {
+export interface ToolChoiceFunctionSelection extends ToolChoiceSelection {
   type: "function";
   name: string;
 }
 
-export function toolChoiceFunctionObjectSerializer(item: ToolChoiceFunctionObject): any {
+export function toolChoiceFunctionSelectionSerializer(
+  item: ToolChoiceFunctionSelection,
+): any {
   return { type: item["type"], name: item["name"] };
 }
 
-export function toolChoiceFunctionObjectDeserializer(item: any): ToolChoiceFunctionObject {
+export function toolChoiceFunctionSelectionDeserializer(
+  item: any,
+): ToolChoiceFunctionSelection {
   return {
     type: item["type"],
     name: item["name"],
@@ -1752,7 +1842,9 @@ export interface ClientEventInputAudioTurnEnd extends ClientEvent {
   turnId: string;
 }
 
-export function clientEventInputAudioTurnEndSerializer(item: ClientEventInputAudioTurnEnd): any {
+export function clientEventInputAudioTurnEndSerializer(
+  item: ClientEventInputAudioTurnEnd,
+): any {
   return {
     type: item["type"],
     event_id: item["eventId"],
@@ -1784,7 +1876,9 @@ export interface ClientEventInputAudioClear extends ClientEvent {
   type: "input_audio.clear";
 }
 
-export function clientEventInputAudioClearSerializer(item: ClientEventInputAudioClear): any {
+export function clientEventInputAudioClearSerializer(
+  item: ClientEventInputAudioClear,
+): any {
   return { type: item["type"], event_id: item["eventId"] };
 }
 
@@ -1888,7 +1982,9 @@ export function clientEventConversationItemCreateSerializer(
     type: item["type"],
     event_id: item["eventId"],
     previous_item_id: item["previousItemId"],
-    item: !item["item"] ? item["item"] : conversationRequestItemUnionSerializer(item["item"]),
+    item: !item["item"]
+      ? item["item"]
+      : conversationRequestItemUnionSerializer(item["item"]),
   };
 }
 
@@ -1898,11 +1994,15 @@ export interface ConversationRequestItem {
   id?: string;
 }
 
-export function conversationRequestItemSerializer(item: ConversationRequestItem): any {
+export function conversationRequestItemSerializer(
+  item: ConversationRequestItem,
+): any {
   return { type: item["type"], id: item["id"] };
 }
 
-export function conversationRequestItemDeserializer(item: any): ConversationRequestItem {
+export function conversationRequestItemDeserializer(
+  item: any,
+): ConversationRequestItem {
   return {
     type: item["type"],
     id: item["id"],
@@ -1916,7 +2016,9 @@ export type ConversationRequestItemUnion =
   | FunctionCallOutputItem
   | ConversationRequestItem;
 
-export function conversationRequestItemUnionSerializer(item: ConversationRequestItemUnion): any {
+export function conversationRequestItemUnionSerializer(
+  item: ConversationRequestItemUnion,
+): any {
   switch (item.type) {
     case "message":
       return messageItemUnionSerializer(item as MessageItemUnion);
@@ -1932,7 +2034,9 @@ export function conversationRequestItemUnionSerializer(item: ConversationRequest
   }
 }
 
-export function conversationRequestItemUnionDeserializer(item: any): ConversationRequestItemUnion {
+export function conversationRequestItemUnionDeserializer(
+  item: any,
+): ConversationRequestItemUnion {
   switch (item.type) {
     case "message":
       return messageItemUnionDeserializer(item as MessageItemUnion);
@@ -2086,7 +2190,9 @@ export type MessageContentPartUnion =
   | OutputTextContentPart
   | MessageContentPart;
 
-export function messageContentPartUnionSerializer(item: MessageContentPartUnion): any {
+export function messageContentPartUnionSerializer(
+  item: MessageContentPartUnion,
+): any {
   switch (item.type) {
     case "input_text":
       return inputTextContentPartSerializer(item as InputTextContentPart);
@@ -2102,7 +2208,9 @@ export function messageContentPartUnionSerializer(item: MessageContentPartUnion)
   }
 }
 
-export function messageContentPartUnionDeserializer(item: any): MessageContentPartUnion {
+export function messageContentPartUnionDeserializer(
+  item: any,
+): MessageContentPartUnion {
   switch (item.type) {
     case "input_text":
       return inputTextContentPartDeserializer(item as InputTextContentPart);
@@ -2139,11 +2247,15 @@ export interface InputTextContentPart extends MessageContentPart {
   text: string;
 }
 
-export function inputTextContentPartSerializer(item: InputTextContentPart): any {
+export function inputTextContentPartSerializer(
+  item: InputTextContentPart,
+): any {
   return { type: item["type"], text: item["text"] };
 }
 
-export function inputTextContentPartDeserializer(item: any): InputTextContentPart {
+export function inputTextContentPartDeserializer(
+  item: any,
+): InputTextContentPart {
   return {
     type: item["type"],
     text: item["text"],
@@ -2157,7 +2269,9 @@ export interface InputAudioContentPart extends MessageContentPart {
   transcript?: string;
 }
 
-export function inputAudioContentPartSerializer(item: InputAudioContentPart): any {
+export function inputAudioContentPartSerializer(
+  item: InputAudioContentPart,
+): any {
   return {
     type: item["type"],
     audio: item["audio"],
@@ -2165,7 +2279,9 @@ export function inputAudioContentPartSerializer(item: InputAudioContentPart): an
   };
 }
 
-export function inputAudioContentPartDeserializer(item: any): InputAudioContentPart {
+export function inputAudioContentPartDeserializer(
+  item: any,
+): InputAudioContentPart {
   return {
     type: item["type"],
     audio: item["audio"],
@@ -2181,11 +2297,15 @@ export interface OutputTextContentPart extends MessageContentPart {
   text: string;
 }
 
-export function outputTextContentPartSerializer(item: OutputTextContentPart): any {
+export function outputTextContentPartSerializer(
+  item: OutputTextContentPart,
+): any {
   return { type: item["type"], text: item["text"] };
 }
 
-export function outputTextContentPartDeserializer(item: any): OutputTextContentPart {
+export function outputTextContentPartDeserializer(
+  item: any,
+): OutputTextContentPart {
   return {
     type: item["type"],
     text: item["text"],
@@ -2265,7 +2385,9 @@ export interface AssistantMessageItem extends MessageItem {
   role: "assistant";
 }
 
-export function assistantMessageItemSerializer(item: AssistantMessageItem): any {
+export function assistantMessageItemSerializer(
+  item: AssistantMessageItem,
+): any {
   return {
     type: item["type"],
     role: item["role"],
@@ -2275,7 +2397,9 @@ export function assistantMessageItemSerializer(item: AssistantMessageItem): any 
   };
 }
 
-export function assistantMessageItemDeserializer(item: any): AssistantMessageItem {
+export function assistantMessageItemDeserializer(
+  item: any,
+): AssistantMessageItem {
   return {
     type: item["type"],
     role: item["role"],
@@ -2324,7 +2448,9 @@ export interface FunctionCallOutputItem extends ConversationRequestItem {
   status?: ItemParamStatus;
 }
 
-export function functionCallOutputItemSerializer(item: FunctionCallOutputItem): any {
+export function functionCallOutputItemSerializer(
+  item: FunctionCallOutputItem,
+): any {
   return {
     type: item["type"],
     id: item["id"],
@@ -2334,7 +2460,9 @@ export function functionCallOutputItemSerializer(item: FunctionCallOutputItem): 
   };
 }
 
-export function functionCallOutputItemDeserializer(item: any): FunctionCallOutputItem {
+export function functionCallOutputItemDeserializer(
+  item: any,
+): FunctionCallOutputItem {
   return {
     type: item["type"],
     id: item["id"],
@@ -2430,7 +2558,9 @@ export interface ClientEventResponseCreate extends ClientEvent {
   additionalInstructions?: string;
 }
 
-export function clientEventResponseCreateSerializer(item: ClientEventResponseCreate): any {
+export function clientEventResponseCreateSerializer(
+  item: ClientEventResponseCreate,
+): any {
   return {
     type: item["type"],
     event_id: item["eventId"],
@@ -2496,7 +2626,9 @@ export interface ResponseCreateParams {
   maxOutputTokens?: number | "inf";
 }
 
-export function responseCreateParamsSerializer(item: ResponseCreateParams): any {
+export function responseCreateParamsSerializer(
+  item: ResponseCreateParams,
+): any {
   return {
     commit: item["commit"],
     cancel_previous: item["cancelPrevious"],
@@ -2514,7 +2646,9 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
     instructions: item["instructions"],
     voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
     output_audio_format: item["outputAudioFormat"],
-    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : toolUnionArraySerializer(item["tools"]),
     tool_choice: item["toolChoice"],
     temperature: item["temperature"],
     max_output_tokens: !item["maxOutputTokens"]
@@ -2523,13 +2657,17 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
   };
 }
 
-export function responseCreateParamsDeserializer(item: any): ResponseCreateParams {
+export function responseCreateParamsDeserializer(
+  item: any,
+): ResponseCreateParams {
   return {
     commit: item["commit"],
     cancelPrevious: item["cancel_previous"],
     appendInputItems: !item["append_input_items"]
       ? item["append_input_items"]
-      : conversationRequestItemUnionArrayDeserializer(item["append_input_items"]),
+      : conversationRequestItemUnionArrayDeserializer(
+          item["append_input_items"],
+        ),
     inputItems: !item["input_items"]
       ? item["input_items"]
       : conversationRequestItemUnionArrayDeserializer(item["input_items"]),
@@ -2541,12 +2679,16 @@ export function responseCreateParamsDeserializer(item: any): ResponseCreateParam
     instructions: item["instructions"],
     voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
     outputAudioFormat: item["output_audio_format"],
-    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : toolUnionArrayDeserializer(item["tools"]),
     toolChoice: item["tool_choice"],
     temperature: item["temperature"],
     maxOutputTokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
-      : _responseCreateParamsMaxOutputTokensDeserializer(item["max_output_tokens"]),
+      : _responseCreateParamsMaxOutputTokensDeserializer(
+          item["max_output_tokens"],
+        ),
   };
 }
 
@@ -2596,7 +2738,9 @@ export interface ClientEventResponseCancel extends ClientEvent {
   responseId?: string;
 }
 
-export function clientEventResponseCancelSerializer(item: ClientEventResponseCancel): any {
+export function clientEventResponseCancelSerializer(
+  item: ClientEventResponseCancel,
+): any {
   return {
     type: item["type"],
     event_id: item["eventId"],
@@ -2637,7 +2781,9 @@ export function sessionBaseDeserializer(item: any): SessionBase {
 /** The item to add to the conversation. */
 export interface ConversationItemBase {}
 
-export function conversationItemBaseSerializer(item: ConversationItemBase): any {
+export function conversationItemBaseSerializer(
+  item: ConversationItemBase,
+): any {
   return item;
 }
 
@@ -2701,8 +2847,12 @@ export function responseDeserializer(item: any): Response {
     statusDetails: !item["status_details"]
       ? item["status_details"]
       : responseStatusDetailsUnionDeserializer(item["status_details"]),
-    output: !item["output"] ? item["output"] : responseItemUnionArrayDeserializer(item["output"]),
-    usage: !item["usage"] ? item["usage"] : tokenUsageDeserializer(item["usage"]),
+    output: !item["output"]
+      ? item["output"]
+      : responseItemUnionArrayDeserializer(item["output"]),
+    usage: !item["usage"]
+      ? item["usage"]
+      : tokenUsageDeserializer(item["usage"]),
     conversationId: item["conversation_id"],
     voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
     modalities: !item["modalities"]
@@ -2750,7 +2900,9 @@ export interface ResponseStatusDetails {
   type: ResponseStatus;
 }
 
-export function responseStatusDetailsDeserializer(item: any): ResponseStatusDetails {
+export function responseStatusDetailsDeserializer(
+  item: any,
+): ResponseStatusDetails {
   return {
     type: item["type"],
   };
@@ -2763,13 +2915,19 @@ export type ResponseStatusDetailsUnion =
   | ResponseFailedDetails
   | ResponseStatusDetails;
 
-export function responseStatusDetailsUnionDeserializer(item: any): ResponseStatusDetailsUnion {
+export function responseStatusDetailsUnionDeserializer(
+  item: any,
+): ResponseStatusDetailsUnion {
   switch (item.type) {
     case "cancelled":
-      return responseCancelledDetailsDeserializer(item as ResponseCancelledDetails);
+      return responseCancelledDetailsDeserializer(
+        item as ResponseCancelledDetails,
+      );
 
     case "incomplete":
-      return responseIncompleteDetailsDeserializer(item as ResponseIncompleteDetails);
+      return responseIncompleteDetailsDeserializer(
+        item as ResponseIncompleteDetails,
+      );
 
     case "failed":
       return responseFailedDetailsDeserializer(item as ResponseFailedDetails);
@@ -2785,7 +2943,9 @@ export interface ResponseCancelledDetails extends ResponseStatusDetails {
   reason: string;
 }
 
-export function responseCancelledDetailsDeserializer(item: any): ResponseCancelledDetails {
+export function responseCancelledDetailsDeserializer(
+  item: any,
+): ResponseCancelledDetails {
   return {
     type: item["type"],
     reason: item["reason"],
@@ -2798,7 +2958,9 @@ export interface ResponseIncompleteDetails extends ResponseStatusDetails {
   reason: string;
 }
 
-export function responseIncompleteDetailsDeserializer(item: any): ResponseIncompleteDetails {
+export function responseIncompleteDetailsDeserializer(
+  item: any,
+): ResponseIncompleteDetails {
   return {
     type: item["type"],
     reason: item["reason"],
@@ -2811,14 +2973,18 @@ export interface ResponseFailedDetails extends ResponseStatusDetails {
   error: any;
 }
 
-export function responseFailedDetailsDeserializer(item: any): ResponseFailedDetails {
+export function responseFailedDetailsDeserializer(
+  item: any,
+): ResponseFailedDetails {
   return {
     type: item["type"],
     error: item["error"],
   };
 }
 
-export function responseItemUnionArrayDeserializer(result: Array<ResponseItemUnion>): any[] {
+export function responseItemUnionArrayDeserializer(
+  result: Array<ResponseItemUnion>,
+): any[] {
   return result.map((item) => {
     return responseItemUnionDeserializer(item);
   });
@@ -2852,10 +3018,14 @@ export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
       return responseMessageItemDeserializer(item as ResponseMessageItem);
 
     case "function_call":
-      return responseFunctionCallItemDeserializer(item as ResponseFunctionCallItem);
+      return responseFunctionCallItemDeserializer(
+        item as ResponseFunctionCallItem,
+      );
 
     case "function_call_output":
-      return responseFunctionCallOutputItemDeserializer(item as ResponseFunctionCallOutputItem);
+      return responseFunctionCallOutputItemDeserializer(
+        item as ResponseFunctionCallOutputItem,
+      );
 
     default:
       return responseItemDeserializer(item);
@@ -2870,7 +3040,9 @@ export interface ResponseMessageItem extends ResponseItem {
   status: ResponseItemStatus;
 }
 
-export function responseMessageItemDeserializer(item: any): ResponseMessageItem {
+export function responseMessageItemDeserializer(
+  item: any,
+): ResponseMessageItem {
   return {
     type: item["type"],
     id: item["id"],
@@ -2881,13 +3053,17 @@ export function responseMessageItemDeserializer(item: any): ResponseMessageItem 
   };
 }
 
-export function contentPartUnionArraySerializer(result: Array<ContentPartUnion>): any[] {
+export function contentPartUnionArraySerializer(
+  result: Array<ContentPartUnion>,
+): any[] {
   return result.map((item) => {
     return contentPartUnionSerializer(item);
   });
 }
 
-export function contentPartUnionArrayDeserializer(result: Array<ContentPartUnion>): any[] {
+export function contentPartUnionArrayDeserializer(
+  result: Array<ContentPartUnion>,
+): any[] {
   return result.map((item) => {
     return contentPartUnionDeserializer(item);
   });
@@ -2935,13 +3111,19 @@ export function contentPartUnionDeserializer(item: any): ContentPartUnion {
       return requestTextContentPartDeserializer(item as RequestTextContentPart);
 
     case "input_audio":
-      return requestAudioContentPartDeserializer(item as RequestAudioContentPart);
+      return requestAudioContentPartDeserializer(
+        item as RequestAudioContentPart,
+      );
 
     case "text":
-      return responseTextContentPartDeserializer(item as ResponseTextContentPart);
+      return responseTextContentPartDeserializer(
+        item as ResponseTextContentPart,
+      );
 
     case "audio":
-      return responseAudioContentPartDeserializer(item as ResponseAudioContentPart);
+      return responseAudioContentPartDeserializer(
+        item as ResponseAudioContentPart,
+      );
 
     default:
       return contentPartDeserializer(item);
@@ -2954,11 +3136,15 @@ export interface RequestTextContentPart extends ContentPart {
   text?: string;
 }
 
-export function requestTextContentPartSerializer(item: RequestTextContentPart): any {
+export function requestTextContentPartSerializer(
+  item: RequestTextContentPart,
+): any {
   return { type: item["type"], text: item["text"] };
 }
 
-export function requestTextContentPartDeserializer(item: any): RequestTextContentPart {
+export function requestTextContentPartDeserializer(
+  item: any,
+): RequestTextContentPart {
   return {
     type: item["type"],
     text: item["text"],
@@ -2971,11 +3157,15 @@ export interface RequestAudioContentPart extends ContentPart {
   transcript?: string;
 }
 
-export function requestAudioContentPartSerializer(item: RequestAudioContentPart): any {
+export function requestAudioContentPartSerializer(
+  item: RequestAudioContentPart,
+): any {
   return { type: item["type"], transcript: item["transcript"] };
 }
 
-export function requestAudioContentPartDeserializer(item: any): RequestAudioContentPart {
+export function requestAudioContentPartDeserializer(
+  item: any,
+): RequestAudioContentPart {
   return {
     type: item["type"],
     transcript: item["transcript"],
@@ -2988,7 +3178,9 @@ export interface ResponseTextContentPart extends ContentPart {
   text?: string;
 }
 
-export function responseTextContentPartDeserializer(item: any): ResponseTextContentPart {
+export function responseTextContentPartDeserializer(
+  item: any,
+): ResponseTextContentPart {
   return {
     type: item["type"],
     text: item["text"],
@@ -3001,7 +3193,9 @@ export interface ResponseAudioContentPart extends ContentPart {
   transcript?: string;
 }
 
-export function responseAudioContentPartDeserializer(item: any): ResponseAudioContentPart {
+export function responseAudioContentPartDeserializer(
+  item: any,
+): ResponseAudioContentPart {
   return {
     type: item["type"],
     transcript: item["transcript"],
@@ -3038,7 +3232,9 @@ export interface ResponseFunctionCallItem extends ResponseItem {
   status: ResponseItemStatus;
 }
 
-export function responseFunctionCallItemDeserializer(item: any): ResponseFunctionCallItem {
+export function responseFunctionCallItemDeserializer(
+  item: any,
+): ResponseFunctionCallItem {
   return {
     type: item["type"],
     id: item["id"],
@@ -3088,8 +3284,12 @@ export function tokenUsageDeserializer(item: any): TokenUsage {
     totalTokens: item["total_tokens"],
     inputTokens: item["input_tokens"],
     outputTokens: item["output_tokens"],
-    inputTokenDetails: inputTokenDetailsDeserializer(item["input_token_details"]),
-    outputTokenDetails: outputTokenDetailsDeserializer(item["output_token_details"]),
+    inputTokenDetails: inputTokenDetailsDeserializer(
+      item["input_token_details"],
+    ),
+    outputTokenDetails: outputTokenDetailsDeserializer(
+      item["output_token_details"],
+    ),
   };
 }
 
@@ -3110,7 +3310,9 @@ export function inputTokenDetailsDeserializer(item: any): InputTokenDetails {
     cachedTokens: item["cached_tokens"],
     textTokens: item["text_tokens"],
     audioTokens: item["audio_tokens"],
-    cachedTokensDetails: cachedTokenDetailsDeserializer(item["cached_tokens_details"]),
+    cachedTokensDetails: cachedTokenDetailsDeserializer(
+      item["cached_tokens_details"],
+    ),
   };
 }
 
@@ -3147,7 +3349,9 @@ export function outputTokenDetailsDeserializer(item: any): OutputTokenDetails {
 /** Alias for _ResponseMaxOutputTokens */
 export type _ResponseMaxOutputTokens = number | "inf";
 
-export function _responseMaxOutputTokensDeserializer(item: any): _ResponseMaxOutputTokens {
+export function _responseMaxOutputTokensDeserializer(
+  item: any,
+): _ResponseMaxOutputTokens {
   return item;
 }
 
@@ -3211,10 +3415,14 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
       return serverEventErrorDeserializer(item as ServerEventError);
 
     case "session.created":
-      return serverEventSessionCreatedDeserializer(item as ServerEventSessionCreated);
+      return serverEventSessionCreatedDeserializer(
+        item as ServerEventSessionCreated,
+      );
 
     case "session.updated":
-      return serverEventSessionUpdatedDeserializer(item as ServerEventSessionUpdated);
+      return serverEventSessionUpdatedDeserializer(
+        item as ServerEventSessionUpdated,
+      );
 
     case "session.avatar.connecting":
       return serverEventSessionAvatarConnectingDeserializer(
@@ -3267,10 +3475,14 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
       );
 
     case "response.created":
-      return serverEventResponseCreatedDeserializer(item as ServerEventResponseCreated);
+      return serverEventResponseCreatedDeserializer(
+        item as ServerEventResponseCreated,
+      );
 
     case "response.done":
-      return serverEventResponseDoneDeserializer(item as ServerEventResponseDone);
+      return serverEventResponseDoneDeserializer(
+        item as ServerEventResponseDone,
+      );
 
     case "response.output_item.added":
       return serverEventResponseOutputItemAddedDeserializer(
@@ -3293,10 +3505,14 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
       );
 
     case "response.text.delta":
-      return serverEventResponseTextDeltaDeserializer(item as ServerEventResponseTextDelta);
+      return serverEventResponseTextDeltaDeserializer(
+        item as ServerEventResponseTextDelta,
+      );
 
     case "response.text.done":
-      return serverEventResponseTextDoneDeserializer(item as ServerEventResponseTextDone);
+      return serverEventResponseTextDoneDeserializer(
+        item as ServerEventResponseTextDone,
+      );
 
     case "response.audio_transcript.delta":
       return serverEventResponseAudioTranscriptDeltaDeserializer(
@@ -3309,10 +3525,14 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
       );
 
     case "response.audio.delta":
-      return serverEventResponseAudioDeltaDeserializer(item as ServerEventResponseAudioDelta);
+      return serverEventResponseAudioDeltaDeserializer(
+        item as ServerEventResponseAudioDelta,
+      );
 
     case "response.audio.done":
-      return serverEventResponseAudioDoneDeserializer(item as ServerEventResponseAudioDone);
+      return serverEventResponseAudioDoneDeserializer(
+        item as ServerEventResponseAudioDone,
+      );
 
     case "response.animation_blendshapes.delta":
       return serverEventResponseAnimationBlendshapeDeltaDeserializer(
@@ -3520,7 +3740,9 @@ export interface ServerEventErrorDetails {
   eventId?: string;
 }
 
-export function serverEventErrorDetailsDeserializer(item: any): ServerEventErrorDetails {
+export function serverEventErrorDetailsDeserializer(
+  item: any,
+): ServerEventErrorDetails {
   return {
     type: item["type"],
     code: item["code"],
@@ -3541,7 +3763,9 @@ export interface ServerEventSessionCreated extends ServerEvent {
   session: ResponseSession;
 }
 
-export function serverEventSessionCreatedDeserializer(item: any): ServerEventSessionCreated {
+export function serverEventSessionCreatedDeserializer(
+  item: any,
+): ServerEventSessionCreated {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -3607,7 +3831,9 @@ export function responseSessionSerializer(item: ResponseSession): any {
       : item["modalities"].map((p: any) => {
           return p;
         }),
-    animation: !item["animation"] ? item["animation"] : animationSerializer(item["animation"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : animationSerializer(item["animation"]),
     voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
     instructions: item["instructions"],
     input_audio_sampling_rate: item["inputAudioSamplingRate"],
@@ -3622,24 +3848,34 @@ export function responseSessionSerializer(item: ResponseSession): any {
     input_audio_echo_cancellation: !item["inputAudioEchoCancellation"]
       ? item["inputAudioEchoCancellation"]
       : audioEchoCancellationSerializer(item["inputAudioEchoCancellation"]),
-    avatar: !item["avatar"] ? item["avatar"] : avatarConfigSerializer(item["avatar"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : avatarConfigSerializer(item["avatar"]),
     input_audio_transcription: !item["inputAudioTranscription"]
       ? item["inputAudioTranscription"]
-      : audioInputTranscriptionOptionsSerializer(item["inputAudioTranscription"]),
+      : audioInputTranscriptionOptionsSerializer(
+          item["inputAudioTranscription"],
+        ),
     output_audio_timestamp_types: !item["outputAudioTimestampTypes"]
       ? item["outputAudioTimestampTypes"]
       : item["outputAudioTimestampTypes"].map((p: any) => {
           return p;
         }),
-    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : toolUnionArraySerializer(item["tools"]),
     tool_choice: !item["toolChoice"]
       ? item["toolChoice"]
       : toolChoiceSerializer(item["toolChoice"]),
     temperature: item["temperature"],
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
-      : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
-    agent: !item["agent"] ? item["agent"] : agentConfigSerializer(item["agent"]),
+      : _requestSessionMaxResponseOutputTokensSerializer(
+          item["maxResponseOutputTokens"],
+        ),
+    agent: !item["agent"]
+      ? item["agent"]
+      : agentConfigSerializer(item["agent"]),
     id: item["id"],
   };
 }
@@ -3652,7 +3888,9 @@ export function responseSessionDeserializer(item: any): ResponseSession {
       : item["modalities"].map((p: any) => {
           return p;
         }),
-    animation: !item["animation"] ? item["animation"] : animationDeserializer(item["animation"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : animationDeserializer(item["animation"]),
     voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
     instructions: item["instructions"],
     inputAudioSamplingRate: item["input_audio_sampling_rate"],
@@ -3666,25 +3904,37 @@ export function responseSessionDeserializer(item: any): ResponseSession {
       : audioNoiseReductionDeserializer(item["input_audio_noise_reduction"]),
     inputAudioEchoCancellation: !item["input_audio_echo_cancellation"]
       ? item["input_audio_echo_cancellation"]
-      : audioEchoCancellationDeserializer(item["input_audio_echo_cancellation"]),
-    avatar: !item["avatar"] ? item["avatar"] : avatarConfigDeserializer(item["avatar"]),
+      : audioEchoCancellationDeserializer(
+          item["input_audio_echo_cancellation"],
+        ),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : avatarConfigDeserializer(item["avatar"]),
     inputAudioTranscription: !item["input_audio_transcription"]
       ? item["input_audio_transcription"]
-      : audioInputTranscriptionOptionsDeserializer(item["input_audio_transcription"]),
+      : audioInputTranscriptionOptionsDeserializer(
+          item["input_audio_transcription"],
+        ),
     outputAudioTimestampTypes: !item["output_audio_timestamp_types"]
       ? item["output_audio_timestamp_types"]
       : item["output_audio_timestamp_types"].map((p: any) => {
           return p;
         }),
-    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
+    tools: !item["tools"]
+      ? item["tools"]
+      : toolUnionArrayDeserializer(item["tools"]),
     toolChoice: !item["tool_choice"]
       ? item["tool_choice"]
       : toolChoiceDeserializer(item["tool_choice"]),
     temperature: item["temperature"],
     maxResponseOutputTokens: !item["max_response_output_tokens"]
       ? item["max_response_output_tokens"]
-      : _requestSessionMaxResponseOutputTokensDeserializer(item["max_response_output_tokens"]),
-    agent: !item["agent"] ? item["agent"] : agentConfigDeserializer(item["agent"]),
+      : _requestSessionMaxResponseOutputTokensDeserializer(
+          item["max_response_output_tokens"],
+        ),
+    agent: !item["agent"]
+      ? item["agent"]
+      : agentConfigDeserializer(item["agent"]),
     id: item["id"],
   };
 }
@@ -3733,7 +3983,9 @@ export interface ServerEventSessionUpdated extends ServerEvent {
   session: ResponseSession;
 }
 
-export function serverEventSessionUpdatedDeserializer(item: any): ServerEventSessionUpdated {
+export function serverEventSessionUpdatedDeserializer(
+  item: any,
+): ServerEventSessionUpdated {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -3897,7 +4149,9 @@ export function serverEventConversationItemCreatedDeserializer(
     type: item["type"],
     eventId: item["event_id"],
     previousItemId: item["previous_item_id"],
-    item: !item["item"] ? item["item"] : responseItemUnionDeserializer(item["item"]),
+    item: !item["item"]
+      ? item["item"]
+      : responseItemUnionDeserializer(item["item"]),
   };
 }
 
@@ -3912,7 +4166,8 @@ export function serverEventConversationItemCreatedDeserializer(
  * The transcript may diverge somewhat from the model's interpretation, and
  * should be treated as a rough guide.
  */
-export interface ServerEventConversationItemInputAudioTranscriptionCompleted extends ServerEvent {
+export interface ServerEventConversationItemInputAudioTranscriptionCompleted
+  extends ServerEvent {
   /**
    * The event type, must be
    * `conversation.item.input_audio_transcription.completed`.
@@ -3943,7 +4198,8 @@ export function serverEventConversationItemInputAudioTranscriptionCompletedDeser
  * request for a user message failed. These events are separate from other
  * `error` events so that the client can identify the related Item.
  */
-export interface ServerEventConversationItemInputAudioTranscriptionFailed extends ServerEvent {
+export interface ServerEventConversationItemInputAudioTranscriptionFailed
+  extends ServerEvent {
   /**
    * The event type, must be
    * `conversation.item.input_audio_transcription.failed`.
@@ -4033,7 +4289,9 @@ export interface ServerEventResponseCreated extends ServerEvent {
   response: Response;
 }
 
-export function serverEventResponseCreatedDeserializer(item: any): ServerEventResponseCreated {
+export function serverEventResponseCreatedDeserializer(
+  item: any,
+): ServerEventResponseCreated {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -4052,7 +4310,9 @@ export interface ServerEventResponseDone extends ServerEvent {
   response: Response;
 }
 
-export function serverEventResponseDoneDeserializer(item: any): ServerEventResponseDone {
+export function serverEventResponseDoneDeserializer(
+  item: any,
+): ServerEventResponseDone {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -4079,7 +4339,9 @@ export function serverEventResponseOutputItemAddedDeserializer(
     eventId: item["event_id"],
     responseId: item["response_id"],
     outputIndex: item["output_index"],
-    item: !item["item"] ? item["item"] : responseItemUnionDeserializer(item["item"]),
+    item: !item["item"]
+      ? item["item"]
+      : responseItemUnionDeserializer(item["item"]),
   };
 }
 
@@ -4105,7 +4367,9 @@ export function serverEventResponseOutputItemDoneDeserializer(
     eventId: item["event_id"],
     responseId: item["response_id"],
     outputIndex: item["output_index"],
-    item: !item["item"] ? item["item"] : responseItemUnionDeserializer(item["item"]),
+    item: !item["item"]
+      ? item["item"]
+      : responseItemUnionDeserializer(item["item"]),
   };
 }
 
@@ -4191,7 +4455,9 @@ export interface ServerEventResponseTextDelta extends ServerEvent {
   delta: string;
 }
 
-export function serverEventResponseTextDeltaDeserializer(item: any): ServerEventResponseTextDelta {
+export function serverEventResponseTextDeltaDeserializer(
+  item: any,
+): ServerEventResponseTextDelta {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -4222,7 +4488,9 @@ export interface ServerEventResponseTextDone extends ServerEvent {
   text: string;
 }
 
-export function serverEventResponseTextDoneDeserializer(item: any): ServerEventResponseTextDone {
+export function serverEventResponseTextDoneDeserializer(
+  item: any,
+): ServerEventResponseTextDone {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -4348,7 +4616,9 @@ export interface ServerEventResponseAudioDone extends ServerEvent {
   contentIndex: number;
 }
 
-export function serverEventResponseAudioDoneDeserializer(item: any): ServerEventResponseAudioDone {
+export function serverEventResponseAudioDoneDeserializer(
+  item: any,
+): ServerEventResponseAudioDone {
   return {
     type: item["type"],
     eventId: item["event_id"],
@@ -4360,7 +4630,8 @@ export function serverEventResponseAudioDoneDeserializer(item: any): ServerEvent
 }
 
 /** Represents a delta update of blendshape animation frames for a specific output of a response. */
-export interface ServerEventResponseAnimationBlendshapeDelta extends ServerEvent {
+export interface ServerEventResponseAnimationBlendshapeDelta
+  extends ServerEvent {
   type: "response.animation_blendshapes.delta";
   responseId: string;
   itemId: string;
@@ -4380,13 +4651,17 @@ export function serverEventResponseAnimationBlendshapeDeltaDeserializer(
     itemId: item["item_id"],
     outputIndex: item["output_index"],
     contentIndex: item["content_index"],
-    frames: _serverEventResponseAnimationBlendshapeDeltaFramesDeserializer(item["frames"]),
+    frames: _serverEventResponseAnimationBlendshapeDeltaFramesDeserializer(
+      item["frames"],
+    ),
     frameIndex: item["frame_index"],
   };
 }
 
 /** Alias for _ServerEventResponseAnimationBlendshapeDeltaFrames */
-export type _ServerEventResponseAnimationBlendshapeDeltaFrames = number[][] | string;
+export type _ServerEventResponseAnimationBlendshapeDeltaFrames =
+  | number[][]
+  | string;
 
 export function _serverEventResponseAnimationBlendshapeDeltaFramesDeserializer(
   item: any,
@@ -4395,7 +4670,8 @@ export function _serverEventResponseAnimationBlendshapeDeltaFramesDeserializer(
 }
 
 /** Indicates the completion of blendshape animation processing for a specific output of a response. */
-export interface ServerEventResponseAnimationBlendshapeDone extends ServerEvent {
+export interface ServerEventResponseAnimationBlendshapeDone
+  extends ServerEvent {
   type: "response.animation_blendshapes.done";
   responseId: string;
   itemId: string;
@@ -4515,7 +4791,8 @@ export function serverEventResponseAnimationVisemeDoneDeserializer(
 }
 
 /** Returned when the text value of an input audio transcription content part is updated. */
-export interface ServerEventConversationItemInputAudioTranscriptionDelta extends ServerEvent {
+export interface ServerEventConversationItemInputAudioTranscriptionDelta
+  extends ServerEvent {
   /** The event type, must be `conversation.item.input_audio_transcription.delta`. */
   type: "conversation.item.input_audio_transcription.delta";
   /** The ID of the item. */
@@ -4543,7 +4820,9 @@ export function serverEventConversationItemInputAudioTranscriptionDeltaDeseriali
   };
 }
 
-export function logProbPropertiesArrayDeserializer(result: Array<LogProbProperties>): any[] {
+export function logProbPropertiesArrayDeserializer(
+  result: Array<LogProbProperties>,
+): any[] {
   return result.map((item) => {
     return logProbPropertiesDeserializer(item);
   });
@@ -4563,12 +4842,15 @@ export function serverEventConversationItemRetrievedDeserializer(
   return {
     type: item["type"],
     eventId: item["event_id"],
-    item: !item["item"] ? item["item"] : responseItemUnionDeserializer(item["item"]),
+    item: !item["item"]
+      ? item["item"]
+      : responseItemUnionDeserializer(item["item"]),
   };
 }
 
 /** Returned when the model-generated function call arguments are updated. */
-export interface ServerEventResponseFunctionCallArgumentsDelta extends ServerEvent {
+export interface ServerEventResponseFunctionCallArgumentsDelta
+  extends ServerEvent {
   /** The event type, must be `response.function_call_arguments.delta`. */
   type: "response.function_call_arguments.delta";
   /** The ID of the response. */
@@ -4601,7 +4883,8 @@ export function serverEventResponseFunctionCallArgumentsDeltaDeserializer(
  * Returned when the model-generated function call arguments are done streaming.
  * Also emitted when a Response is interrupted, incomplete, or cancelled.
  */
-export interface ServerEventResponseFunctionCallArgumentsDone extends ServerEvent {
+export interface ServerEventResponseFunctionCallArgumentsDone
+  extends ServerEvent {
   /** The event type, must be `response.function_call_arguments.done`. */
   type: "response.function_call_arguments.done";
   /** The ID of the response. */
