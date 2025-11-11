@@ -3,20 +3,26 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to gets the private link resources supported for the managed hsm pool.
+ * This sample demonstrates how to Gets the private link resources supported for the managed hsm pool.
  *
- * @summary gets the private link resources supported for the managed hsm pool.
- * x-ms-original-file: 2025-05-01/ManagedHsm_listPrivateLinkResources.json
+ * @summary Gets the private link resources supported for the managed hsm pool.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/ManagedHsm_listPrivateLinkResources.json
  */
 async function keyVaultListPrivateLinkResources(): Promise<void> {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
+  const name = "sample-mhsm";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.mhsmPrivateLinkResources.listByMhsmResource(
-    "sample-group",
-    "sample-mhsm",
+    resourceGroupName,
+    name,
   );
   console.log(result);
 }

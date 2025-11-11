@@ -1,20 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultManagementClient } from "@azure/arm-keyvault";
+import type {
+  VaultPatchParameters} from "@azure/arm-keyvault";
+import {
+  KeyVaultManagementClient,
+} from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to update a key vault in the specified subscription.
+ * This sample demonstrates how to Update a key vault in the specified subscription.
  *
- * @summary update a key vault in the specified subscription.
- * x-ms-original-file: 2025-05-01/updateVault.json
+ * @summary Update a key vault in the specified subscription.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/updateVault.json
  */
 async function updateAnExistingVault(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.vaults.update("sample-resource-group", "sample-vault", {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-resource-group";
+  const vaultName = "sample-vault";
+  const parameters: VaultPatchParameters = {
     properties: {
       accessPolicies: [
         {
@@ -54,7 +62,16 @@ async function updateAnExistingVault(): Promise<void> {
               "recover",
               "purge",
             ],
-            secrets: ["get", "list", "set", "delete", "backup", "restore", "recover", "purge"],
+            secrets: [
+              "get",
+              "list",
+              "set",
+              "delete",
+              "backup",
+              "restore",
+              "recover",
+              "purge",
+            ],
           },
           tenantId: "00000000-0000-0000-0000-000000000000",
         },
@@ -66,7 +83,14 @@ async function updateAnExistingVault(): Promise<void> {
       sku: { name: "standard", family: "A" },
       tenantId: "00000000-0000-0000-0000-000000000000",
     },
-  });
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.update(
+    resourceGroupName,
+    vaultName,
+    parameters,
+  );
   console.log(result);
 }
 

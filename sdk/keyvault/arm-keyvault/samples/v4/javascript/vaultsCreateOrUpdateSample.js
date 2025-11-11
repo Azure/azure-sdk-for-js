@@ -3,18 +3,20 @@
 
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to create or update a key vault in the specified subscription.
+ * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
- * @summary create or update a key vault in the specified subscription.
- * x-ms-original-file: 2025-05-01/createVault.json
+ * @summary Create or update a key vault in the specified subscription.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/createVault.json
  */
 async function createANewVaultOrUpdateAnExistingVault() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.vaults.createOrUpdate("sample-resource-group", "sample-vault", {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-resource-group";
+  const vaultName = "sample-vault";
+  const parameters = {
     location: "westus",
     properties: {
       accessPolicies: [
@@ -67,21 +69,29 @@ async function createANewVaultOrUpdateAnExistingVault() {
       sku: { name: "standard", family: "A" },
       tenantId: "00000000-0000-0000-0000-000000000000",
     },
-  });
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    parameters,
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to create or update a key vault in the specified subscription.
+ * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
- * @summary create or update a key vault in the specified subscription.
- * x-ms-original-file: 2025-05-01/createVaultWithNetworkAcls.json
+ * @summary Create or update a key vault in the specified subscription.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/createVaultWithNetworkAcls.json
  */
 async function createOrUpdateAVaultWithNetworkAcls() {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.vaults.createOrUpdate("sample-resource-group", "sample-vault", {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-resource-group";
+  const vaultName = "sample-vault";
+  const parameters = {
     location: "westus",
     properties: {
       enabledForDeployment: true,
@@ -100,7 +110,14 @@ async function createOrUpdateAVaultWithNetworkAcls() {
       sku: { name: "standard", family: "A" },
       tenantId: "00000000-0000-0000-0000-000000000000",
     },
-  });
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    parameters,
+  );
   console.log(result);
 }
 

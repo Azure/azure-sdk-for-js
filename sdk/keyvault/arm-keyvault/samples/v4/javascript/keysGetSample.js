@@ -3,18 +3,23 @@
 
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to gets the current version of the specified key from the specified key vault.
+ * This sample demonstrates how to Gets the current version of the specified key from the specified key vault.
  *
- * @summary gets the current version of the specified key from the specified key vault.
- * x-ms-original-file: 2025-05-01/getKey.json
+ * @summary Gets the current version of the specified key from the specified key vault.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/getKey.json
  */
 async function getAKey() {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
+  const vaultName = "sample-vault-name";
+  const keyName = "sample-key-name";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.keys.get("sample-group", "sample-vault-name", "sample-key-name");
+  const result = await client.keys.get(resourceGroupName, vaultName, keyName);
   console.log(result);
 }
 

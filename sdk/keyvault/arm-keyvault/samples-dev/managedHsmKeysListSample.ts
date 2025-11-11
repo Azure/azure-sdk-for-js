@@ -3,27 +3,35 @@
 
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to lists the keys in the specified managed HSM.
+ * This sample demonstrates how to Lists the keys in the specified managed HSM.
  *
- * @summary lists the keys in the specified managed HSM.
- * x-ms-original-file: 2025-05-01/managedHsmListKeys.json
+ * @summary Lists the keys in the specified managed HSM.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/managedHsmListKeys.json
  */
-async function listKeysInTheManagedHSM(): Promise<void> {
+async function listKeysInTheManagedHsm(): Promise<void> {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
+  const name = "sample-managedhsm-name";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.managedHsmKeys.list("sample-group", "sample-managedhsm-name")) {
+  for await (const item of client.managedHsmKeys.list(
+    resourceGroupName,
+    name,
+  )) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listKeysInTheManagedHSM();
+  await listKeysInTheManagedHsm();
 }
 
 main().catch(console.error);

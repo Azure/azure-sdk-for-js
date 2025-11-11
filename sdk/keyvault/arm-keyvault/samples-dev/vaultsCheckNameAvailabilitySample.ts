@@ -1,23 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultManagementClient } from "@azure/arm-keyvault";
+import type {
+  VaultCheckNameAvailabilityParameters} from "@azure/arm-keyvault";
+import {
+  KeyVaultManagementClient,
+} from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to checks that the vault name is valid and is not already in use.
+ * This sample demonstrates how to Checks that the vault name is valid and is not already in use.
  *
- * @summary checks that the vault name is valid and is not already in use.
- * x-ms-original-file: 2025-05-01/checkVaultNameAvailability.json
+ * @summary Checks that the vault name is valid and is not already in use.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/checkVaultNameAvailability.json
  */
 async function validateAVaultName(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.vaults.checkNameAvailability({
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const vaultName: VaultCheckNameAvailabilityParameters = {
     name: "sample-vault",
     type: "Microsoft.KeyVault/vaults",
-  });
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.checkNameAvailability(vaultName);
   console.log(result);
 }
 

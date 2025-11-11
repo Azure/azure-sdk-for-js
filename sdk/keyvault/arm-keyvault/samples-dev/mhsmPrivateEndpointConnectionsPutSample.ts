@@ -1,31 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultManagementClient } from "@azure/arm-keyvault";
+import type {
+  MhsmPrivateEndpointConnection} from "@azure/arm-keyvault";
+import {
+  KeyVaultManagementClient,
+} from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to updates the specified private endpoint connection associated with the managed hsm pool.
+ * This sample demonstrates how to Updates the specified private endpoint connection associated with the managed hsm pool.
  *
- * @summary updates the specified private endpoint connection associated with the managed hsm pool.
- * x-ms-original-file: 2025-05-01/ManagedHsm_putPrivateEndpointConnection.json
+ * @summary Updates the specified private endpoint connection associated with the managed hsm pool.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2025-05-01/examples/ManagedHsm_putPrivateEndpointConnection.json
  */
 async function managedHsmPutPrivateEndpointConnection(): Promise<void> {
+  const subscriptionId =
+    process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-group";
+  const name = "sample-mhsm";
+  const privateEndpointConnectionName = "sample-pec";
+  const properties: MhsmPrivateEndpointConnection = {
+    privateLinkServiceConnectionState: {
+      description: "My name is Joe and I'm approving this.",
+      status: "Approved",
+    },
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.mhsmPrivateEndpointConnections.put(
-    "sample-group",
-    "sample-mhsm",
-    "sample-pec",
-    {
-      properties: {
-        privateLinkServiceConnectionState: {
-          description: "My name is Joe and I'm approving this.",
-          status: "Approved",
-        },
-      },
-    },
+    resourceGroupName,
+    name,
+    privateEndpointConnectionName,
+    properties,
   );
   console.log(result);
 }

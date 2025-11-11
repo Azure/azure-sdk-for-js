@@ -1,113 +1,51 @@
 # Release History
 
-## 4.0.0 (2025-10-16)
+## 4.0.0 (2025-11-11)
 
 ### Features Added
-  - Added operation ManagedHsmsOperations.createOrUpdate
-  - Added operation ManagedHsmsOperations.delete
-  - Added operation ManagedHsmsOperations.purgeDeleted
-  - Added operation ManagedHsmsOperations.update
-  - Added operation MhsmPrivateEndpointConnectionsOperations.delete
-  - Added operation PrivateEndpointConnectionsOperations.delete
-  - Added operation VaultsOperations.createOrUpdate
-  - Added operation VaultsOperations.purgeDeleted
-  - Added Interface MhsmPrivateEndpointConnectionProperties
-  - Added Interface MhsmPrivateLinkResourceProperties
   - Added Interface MhsmServiceTagRule
-  - Added Interface OperationProperties
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
   - Added Interface Permissions
-  - Added Interface PrivateEndpointConnectionProperties
-  - Added Interface PrivateLinkResourceProperties
   - Added Interface ProxyResource
-  - Added Interface RestorePollerOptions
   - Added Interface TrackedResource
+  - Added Interface VaultsCreateOrUpdateHeaders
+  - Added Interface VaultsPurgeDeletedHeaders
   - Interface DeletedManagedHsm has a new optional parameter systemData
   - Interface DeletedVault has a new optional parameter systemData
   - Interface Key has a new optional parameter systemData
   - Interface ManagedHsmKey has a new optional parameter systemData
+  - Interface ManagedHsmsCreateOrUpdateHeaders has a new optional parameter retryAfter
+  - Interface ManagedHsmsDeleteHeaders has a new optional parameter retryAfter
+  - Interface ManagedHsmsPurgeDeletedHeaders has a new optional parameter retryAfter
+  - Interface ManagedHsmsUpdateHeaders has a new optional parameter retryAfter
   - Interface MhsmNetworkRuleSet has a new optional parameter serviceTags
-  - Interface MhsmPrivateEndpointConnection has a new optional parameter properties
-  - Interface MhsmPrivateEndpointConnectionItem has a new optional parameter properties
-  - Interface MhsmPrivateLinkResource has a new optional parameter properties
-  - Interface Operation has a new optional parameter operationProperties
-  - Interface PrivateEndpointConnection has a new optional parameter properties
+  - Interface MhsmPrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
   - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateEndpointConnectionItem has a new optional parameter properties
-  - Interface PrivateLinkResource has a new optional parameter properties
   - Interface PrivateLinkResource has a new optional parameter systemData
   - Interface Resource has a new optional parameter systemData
   - Interface Secret has a new optional parameter systemData
-  - Added Type Alias AzureSupportedClouds
   - Added Type Alias CreatedByType
-  - Added Enum AzureClouds
   - Added Enum KnownCreatedByType
   - Added Enum KnownReason
-  - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation ManagedHsms.beginCreateOrUpdate
-  - Removed operation ManagedHsms.beginCreateOrUpdateAndWait
-  - Removed operation ManagedHsms.beginDelete
-  - Removed operation ManagedHsms.beginDeleteAndWait
-  - Removed operation ManagedHsms.beginPurgeDeleted
-  - Removed operation ManagedHsms.beginPurgeDeletedAndWait
-  - Removed operation ManagedHsms.beginUpdate
-  - Removed operation ManagedHsms.beginUpdateAndWait
-  - Removed operation MhsmPrivateEndpointConnections.beginDelete
-  - Removed operation MhsmPrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation PrivateEndpointConnections.beginDelete
-  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation Vaults.beginCreateOrUpdate
-  - Removed operation Vaults.beginCreateOrUpdateAndWait
-  - Removed operation Vaults.beginPurgeDeleted
-  - Removed operation Vaults.beginPurgeDeletedAndWait
   - Operation ManagedHsms.checkMhsmNameAvailability has a new signature
   - Operation Vaults.checkNameAvailability has a new signature
   - Removed Interface Permissions_2
   - Removed Interface ProxyResourceWithoutSystemData
-  - Interface Key has a new required parameter properties
-  - Interface ManagedHsmKey has a new required parameter properties
-  - Interface Key no longer has parameter attributes
-  - Interface Key no longer has parameter curveName
-  - Interface Key no longer has parameter keyOps
-  - Interface Key no longer has parameter keySize
-  - Interface Key no longer has parameter keyUri
-  - Interface Key no longer has parameter keyUriWithVersion
-  - Interface Key no longer has parameter kty
-  - Interface Key no longer has parameter releasePolicy
-  - Interface Key no longer has parameter rotationPolicy
-  - Interface ManagedHsmKey no longer has parameter attributes
-  - Interface ManagedHsmKey no longer has parameter curveName
-  - Interface ManagedHsmKey no longer has parameter keyOps
-  - Interface ManagedHsmKey no longer has parameter keySize
-  - Interface ManagedHsmKey no longer has parameter keyUri
-  - Interface ManagedHsmKey no longer has parameter keyUriWithVersion
-  - Interface ManagedHsmKey no longer has parameter kty
-  - Interface ManagedHsmKey no longer has parameter releasePolicy
-  - Interface ManagedHsmKey no longer has parameter rotationPolicy
-  - Interface MhsmPrivateEndpointConnection no longer has parameter privateEndpoint
-  - Interface MhsmPrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
-  - Interface MhsmPrivateEndpointConnection no longer has parameter provisioningState
-  - Interface MhsmPrivateEndpointConnectionItem no longer has parameter privateEndpoint
-  - Interface MhsmPrivateEndpointConnectionItem no longer has parameter privateLinkServiceConnectionState
-  - Interface MhsmPrivateEndpointConnectionItem no longer has parameter provisioningState
-  - Interface MhsmPrivateLinkResource no longer has parameter groupId
-  - Interface MhsmPrivateLinkResource no longer has parameter requiredMembers
-  - Interface MhsmPrivateLinkResource no longer has parameter requiredZoneNames
-  - Interface Operation no longer has parameter serviceSpecification
-  - Interface PrivateEndpointConnection no longer has parameter privateEndpoint
-  - Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
-  - Interface PrivateEndpointConnection no longer has parameter provisioningState
-  - Interface PrivateEndpointConnectionItem no longer has parameter privateEndpoint
-  - Interface PrivateEndpointConnectionItem no longer has parameter privateLinkServiceConnectionState
-  - Interface PrivateEndpointConnectionItem no longer has parameter provisioningState
-  - Interface PrivateLinkResource no longer has parameter groupId
-  - Interface PrivateLinkResource no longer has parameter requiredMembers
-  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
+  - Parameter value of interface DeletedManagedHsmListResult is now required
+  - Parameter value of interface DeletedVaultListResult is now required
+  - Parameter value of interface KeyListResult is now required
+  - Parameter value of interface ManagedHsmKeyListResult is now required
+  - Parameter value of interface ManagedHsmListResult is now required
+  - Parameter value of interface MhsmPrivateEndpointConnectionsListResult is now required
+  - Parameter value of interface MhsmRegionsListResult is now required
+  - Parameter value of interface OperationListResult is now required
+  - Parameter value of interface PrivateEndpointConnectionListResult is now required
+  - Parameter value of interface ResourceListResult is now required
+  - Parameter value of interface SecretListResult is now required
+  - Parameter value of interface VaultListResult is now required
   - Removed Type Alias IdentityType
   - Type alias "Reason" has been changed
   - Removed Enum KnownIdentityType
