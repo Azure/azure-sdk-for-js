@@ -353,10 +353,7 @@ export {
   ResourceNotificationsAksResourcesFleetGateDeletedEventData,
 } from "./models/index.js";
 
-export {
-  CloudEvent,
-  EventGridEvent,
-} from "./events.js";
+export { CloudEvent, EventGridEvent } from "./events.js";
 
 import type { SystemEventNameToEventData } from "./nameMapping.js";
 export type { SystemEventNameToEventData };
