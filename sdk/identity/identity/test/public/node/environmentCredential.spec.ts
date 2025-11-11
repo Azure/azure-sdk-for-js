@@ -19,7 +19,7 @@ import { shouldRunSPTest } from "./utils/utils.js";
 
 expect.extend({ toSupportTracing });
 
-describe("EnvironmentCredential", function () {
+describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   const environmentVariableNames = [
@@ -52,7 +52,7 @@ describe("EnvironmentCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it.skipIf(shouldRunSPTest())("authenticates with a client secret on the environment variables", async function () {
+  it("authenticates with a client secret on the environment variables", async function () {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -104,7 +104,7 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it.skipIf(shouldRunSPTest())("finds and uses client username/password environment variables", async () => {
+  it("finds and uses client username/password environment variables", async () => {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
