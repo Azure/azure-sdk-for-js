@@ -105,16 +105,9 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   // Main interaction loop with deterministic completion
   const maxIterations = 10; // Allow enough iterations for completion
-  let iteration = 0;
 
-  while (true) {
-    if (iteration >= maxIterations) {
-      console.log(`\nReached maximum iterations (${maxIterations}). Stopping.`);
-      break;
-    }
-
-    iteration++;
-    console.log(`\n--- Iteration ${iteration} ---`);
+  for (let iteration = 0; iteration < maxIterations; iteration++) {
+    console.log(`\n--- Iteration ${iteration + 1} ---`);
 
     // Check for computer calls in the response
     const computerCalls = response.output.filter((item: any) => item.type === "computer_call");
