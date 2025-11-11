@@ -280,6 +280,12 @@
 # ServiceLabel: %AI Agents
 # ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
+# PRLabel: %Voice Live
+/sdk/ai/ai-voicelive @rhurey @xitzhang
+
+# ServiceLabel: %Voice Live
+# ServiceOwners: @rhurey @xitzhang
+
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
