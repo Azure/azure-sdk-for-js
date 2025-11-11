@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-deviceregistry",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A generated SDK for DeviceRegistryManagementClient.",
   "engines": {
     "node": ">=20.0.0"
