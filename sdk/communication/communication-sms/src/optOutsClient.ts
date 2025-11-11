@@ -31,27 +31,9 @@ export interface OptOutCheckResult {
 }
 
 /**
- * The result of Opt Out Add request.
+ * The result of Opt Out Add or Remove operations.
  */
-export interface OptOutAddResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
- * The result of Opt Out Remove request.
- */
-export interface OptOutRemoveResult {
+export interface OptOutOperationResult {
   /**
    * The recipient's phone number in E.164 format.
    */
@@ -92,7 +74,7 @@ export interface OptOutsClient {
    * @param to - The recipient's phone numbers
    * @param options - Additional request options
    */
-  add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+  add(from: string, to: string[], options?: AddOptions): Promise<OptOutOperationResult[]>;
   /**
    * Checks if phone numbers are in the optouts list.
    *
@@ -108,7 +90,7 @@ export interface OptOutsClient {
    * @param to - The recipient's phone numbers
    * @param options - Additional request options
    */
-  remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
+  remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutOperationResult[]>;
 }
 
 /**
@@ -133,7 +115,7 @@ export class OptOutsClientImpl implements OptOutsClient {
     from: string,
     to: string[],
     options: RemoveOptions = {},
-  ): Promise<OptOutRemoveResult[]> {
+  ): Promise<OptOutOperationResult[]> {
     const { operationOptions } = extractOperationOptions(options);
     return tracingClient.withSpan(
       "OptOuts-Remove",
@@ -166,7 +148,7 @@ export class OptOutsClientImpl implements OptOutsClient {
     from: string,
     to: string[],
     options: AddOptions = {},
-  ): Promise<OptOutAddResult[]> {
+  ): Promise<OptOutOperationResult[]> {
     const { operationOptions } = extractOperationOptions(options);
     return tracingClient.withSpan(
       "OptOuts-Add",

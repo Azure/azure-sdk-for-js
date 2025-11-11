@@ -17,8 +17,7 @@ export type {
 export type { OptOutsClient } from "./optOutsClient.js";
 export type {
   OptOutCheckResult,
-  OptOutAddResult,
-  OptOutRemoveResult,
+  OptOutOperationResult,
   CheckOptions,
   AddOptions,
   RemoveOptions,

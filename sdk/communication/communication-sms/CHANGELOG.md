@@ -18,6 +18,18 @@
   - Changed from property access (`client.optOuts`) to method access (`client.getOptOutsClient()`)
   - Migration: Change `client.optOuts.check()` to `client.getOptOutsClient().check()` (same for `add()` and `remove()`)
 
+### Other Changes
+
+- **Redesigned Opt-Out Management API response types for improved consistency and developer experience**:
+  - `OptOutAddResult` and `OptOutRemoveResult` have been unified into a single `OptOutOperationResult` type since they were functionally identical
+  - `OptOutCheckResult` remains unchanged as it includes the unique `isOptedOut` property for check operations
+  - Updated method signatures:
+    - `OptOutsClient.check()` continues to return `Promise<OptOutCheckResult[]>`
+    - `OptOutsClient.add()` and `OptOutsClient.remove()` now return `Promise<OptOutOperationResult[]>`
+  - **Migration guide**:
+    - Replace `OptOutAddResult` and `OptOutRemoveResult` with `OptOutOperationResult` for Add and Remove operations
+    - No changes needed for `OptOutCheckResult` used in Check operations
+  - This change eliminates duplicate types and provides consistent naming across all opt-out operations
 
 ## 1.2.0-beta.4 (2025-06-16)
 
