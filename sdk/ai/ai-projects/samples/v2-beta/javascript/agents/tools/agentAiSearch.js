@@ -22,7 +22,6 @@ const aiSearchProjectConnectionId =
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
 
 async function main() {
-  // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = await project.getOpenAIClient();
 

@@ -92,7 +92,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentCodeInterpreter.ts
 [agents_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentFileSearch.ts
 [agents_tools_agentcomputeruse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentComputerUse.ts
-[agents_tools_agentfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentFabric.ts
 [agents_tools_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentFileSearch.ts
 [agents_tools_agentimagegeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentImageGeneration.ts
 [agents_tools_agentmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentMcp.ts

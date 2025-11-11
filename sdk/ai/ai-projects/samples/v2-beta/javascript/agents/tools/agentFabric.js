@@ -21,7 +21,6 @@ const fabricProjectConnectionId =
   process.env["FABRIC_PROJECT_CONNECTION_ID"] || "<fabric project connection id>";
 
 async function main() {
-  // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
     additionalPolicies: [
       {
