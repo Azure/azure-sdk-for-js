@@ -1,12 +1,16 @@
 # Release History
 
-## 2.0.0-beta.1 (2025-10-24)
+## 2.0.0-beta.1 (Unreleased)
 
 ### Breaking changes
 
-- add `agents` route 
-- remove `inference` route
-- remove `telemetry` route
+- add `project.agents` route, built on top OpenAI's "Responses" protocol
+- add `project.getOpenAIClient` method to get an authenticated OpenAI client for your AI Foundry Project
+- add `project.redTeams` route
+- remove `project.inference` route
+- remove `project.telemetry` route
+- remove `project.getAzureOpenAIClient` method
+- remove `project.enableTelemetry` method
 
 ## 1.0.1 (2025-10-15)
 

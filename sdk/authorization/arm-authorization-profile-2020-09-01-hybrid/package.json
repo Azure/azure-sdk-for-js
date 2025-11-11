@@ -34,7 +34,7 @@
     "@azure/identity": "catalog:internal",
     "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",

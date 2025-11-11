@@ -343,7 +343,7 @@ export interface AzureFunctionDefinition {
     function: {
         name: string;
         description?: string;
-        parameters: any;
+        parameters: unknown;
     };
     input_binding: AzureFunctionBinding;
     output_binding: AzureFunctionBinding;
@@ -1093,8 +1093,8 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
 export interface EvaluatorDefinition {
-    data_schema?: any;
-    init_parameters?: any;
+    data_schema?: unknown;
+    init_parameters?: unknown;
     metrics?: Record<string, EvaluatorMetric>;
     type: EvaluatorDefinitionType;
 }
@@ -1233,7 +1233,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 export interface FunctionTool extends Tool {
     description?: string;
     name: string;
-    parameters: any;
+    parameters: unknown;
     strict: boolean;
     type: "function";
 }
@@ -1655,9 +1655,9 @@ export interface MCPListToolsItemParam extends ItemParam {
 
 // @public
 export interface MCPListToolsTool {
-    annotations?: any;
+    annotations?: unknown;
     description?: string;
-    input_schema: any;
+    input_schema: unknown;
     name: string;
 }
 
@@ -1830,15 +1830,15 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
 
 // @public
 export interface MemoryStoresOperations {
-    createMemoryStore: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
-    deleteMemoryStore: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    delete: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
     deleteScope: (name: string, scope: string, options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    getMemoryStore: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
     getUpdateResult: (name: string, updateId: string, options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    listMemoryStores: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStoreObject>;
+    list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStoreObject>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
+    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
     updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
-    updateMemoryStore: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
 }
 
 // @public
@@ -1960,7 +1960,7 @@ export interface OpenApiFunctionDefinition {
         parameters: unknown;
     }[];
     name: string;
-    spec: any;
+    spec: unknown;
 }
 
 // @public
@@ -2350,10 +2350,10 @@ export interface SharepointGroundingToolParameters {
 
 // @public
 export interface StructuredInputDefinition {
-    default_value?: any;
+    default_value?: unknown;
     description?: string;
     required?: boolean;
-    schema?: any;
+    schema?: unknown;
     tool_argument_bindings?: ToolArgumentBinding[];
 }
 

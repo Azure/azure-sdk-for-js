@@ -338,6 +338,9 @@ export {
   ResourceNotificationsResourceDeletedEventData,
   ResourceNotificationsResourceDeletedDetails,
   ResourceNotificationsResourceManagementDeletedEventData,
+  ResourceNotificationsAksResourcesFleetGateCreatedEventData,
+  ResourceNotificationsAksResourcesFleetGateUpdatedEventData,
+  ResourceNotificationsAksResourcesFleetGateDeletedEventData,
 } from "./generated/index.js";
 
 export {
