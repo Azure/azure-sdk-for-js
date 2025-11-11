@@ -46,16 +46,18 @@ describe("Azure Kubernetes Integration test", function () {
     assert.isTrue(responseObj.success);
   });
 
-  it.skipIf(!isLiveMode())("can authenticate using user-assigned managed identity", async function () {
+  it.skipIf(!isLiveMode())(
+    "can authenticate using user-assigned managed identity",
+    async function () {
+      const response = runCommand(
+        "kubectl",
+        `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity/user-assigned`,
+      );
 
-    const response = runCommand(
-      "kubectl",
-      `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity/user-assigned`,
-    );
-
-    const responseObj = JSON.parse(response);
-    assert.isTrue(responseObj.success);
-  });
+      const responseObj = JSON.parse(response);
+      assert.isTrue(responseObj.success);
+    },
+  );
 });
 
 function runCommand(command: string, args: string = ""): any {

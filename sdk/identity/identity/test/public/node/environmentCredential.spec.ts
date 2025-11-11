@@ -64,37 +64,43 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it.skipIf(isLiveMode())("authenticates with a client certificate on the environment variables", async function () {
-    // Live test run not supported on CI at the moment. Locally should work though.
-    // The following environment variables must be set for this to work.
-    // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
-    process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-    process.env.AZURE_CLIENT_CERTIFICATE_PATH =
-      cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+  it.skipIf(isLiveMode())(
+    "authenticates with a client certificate on the environment variables",
+    async function () {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      // The following environment variables must be set for this to work.
+      // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+      process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+      process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+      process.env.AZURE_CLIENT_CERTIFICATE_PATH =
+        cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
+      const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
-    const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-  });
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    },
+  );
 
-  it.skipIf(isLiveMode())("authenticates with a client certificate and password on the environment variables", async function () {
-    // Live test run not supported on CI at the moment. Locally should work though.
-    // The following environment variables must be set for this to work.
-    // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
-    process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-    process.env.AZURE_CLIENT_CERTIFICATE_PATH =
-      cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert-password.pem";
-    process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD = "password";
+  it.skipIf(isLiveMode())(
+    "authenticates with a client certificate and password on the environment variables",
+    async function () {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      // The following environment variables must be set for this to work.
+      // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+      process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+      process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+      process.env.AZURE_CLIENT_CERTIFICATE_PATH =
+        cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert-password.pem";
+      process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD = "password";
 
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+      const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
-    const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-  });
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    },
+  );
 
   it("finds and uses client username/password environment variables", async () => {
     // The following environment variables must be set for this to work.
@@ -129,19 +135,22 @@ describe("EnvironmentCredential", function () {
     }).toSupportTracing(["EnvironmentCredential.getToken"]);
   });
 
-  it.skipIf(isLiveMode())("supports tracing with environment client certificate", async function () {
-    // Live test run not supported on CI at the moment. Locally should work though.
-    await expect(async (tracingOptions: GetTokenOptions) => {
-      // The following environment variables must be set for this to work.
-      // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-      process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
-      process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-      process.env.AZURE_CLIENT_CERTIFICATE_PATH =
-        cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
-      const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
-      await credential.getToken(scope, tracingOptions);
-    }).toSupportTracing(["EnvironmentCredential.getToken"]);
-  });
+  it.skipIf(isLiveMode())(
+    "supports tracing with environment client certificate",
+    async function () {
+      // Live test run not supported on CI at the moment. Locally should work though.
+      await expect(async (tracingOptions: GetTokenOptions) => {
+        // The following environment variables must be set for this to work.
+        // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+        process.env.AZURE_CLIENT_CERTIFICATE_PATH =
+          cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
+        const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+        await credential.getToken(scope, tracingOptions);
+      }).toSupportTracing(["EnvironmentCredential.getToken"]);
+    },
+  );
 
   it("supports tracing with environment username/password", async () => {
     await expect(async (tracingOptions: GetTokenOptions) => {
