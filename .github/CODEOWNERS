@@ -47,10 +47,10 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms @juniwang @RichardChen820
+/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhiyuanliang-ms @RichardChen820
 
 # ServiceLabel: %App Configuration
-# AzureSdkOwners:  @minhanh-phan
+# AzureSdkOwners:  @minhanh-phan @zhiyuanliang-ms
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
@@ -169,10 +169,10 @@
 # AzureSdkOwners:  @KarishmaGhiya @maorleger @minhanh-phan
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @maorleger @timovv @Azure/azure-sdk-write-keyvault
+/sdk/keyvault/ @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %KeyVault
-# AzureSdkOwners:  @maorleger @timovv @Azure/azure-sdk-write-keyvault
+# AzureSdkOwners:  @Azure/azure-sdk-write-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger
@@ -331,18 +331,9 @@
 # ServiceLabel: %Azure Load Testing
 /sdk/loadtesting/ @azure/testing-services
 
-# API review files
-/sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
-
-# Cosmos API review files
-/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
-
 ####################
 # Management Libraries
 ####################
-
-# Managment API review files
-/sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
@@ -1342,7 +1333,7 @@
 # ServiceOwners:          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-# ServiceOwners:          @cheathamb36 @chen-karen @vickm @Azure/azure-sdk-write-keyvault
+# ServiceOwners:          @chen-karen @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 # ServiceOwners:          @NarayanThiru
@@ -1687,12 +1678,13 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 #########################
 # Eng Sys and CODEOWNERS
 #########################
-/eng/                  @mikeharder @weshaggard @benbp
-/eng/common/           @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-/.config/1espt/ @benbp @weshaggard
-/.github/workflows/    @Azure/azure-sdk-eng
-/.github/CODEOWNERS    @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+/eng/                                    @mikeharder @weshaggard @benbp
+/eng/common/                             @Azure/azure-sdk-eng
+/eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+/.config/1espt/                          @benbp @weshaggard
+/.github/workflows/                      @Azure/azure-sdk-eng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+/.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao

@@ -72,9 +72,9 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    assert.ok(metrics.getMeterProvider());
-    assert.ok(trace.getTracerProvider());
-    assert.ok(logs.getLoggerProvider());
+    assert.isDefined(metrics.getMeterProvider());
+    assert.isDefined(trace.getTracerProvider());
+    assert.isDefined(logs.getLoggerProvider());
   });
 
   it("should shutdown azureMonitor - sync", () => {
@@ -184,16 +184,16 @@ describe("Main functions", () => {
     const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const features = Number(output["feature"]);
     const instrumentations = Number(output["instrumentation"]);
-    assert.ok(!(features & StatsbeatFeature.AAD_HANDLING), "AAD_HANDLING is set");
-    assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
-    assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
+    assert.notOk(features & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING is set");
+    assert.notOk(features & StatsbeatFeature.DISK_RETRY, "DISK_RETRY is set");
+    assert.notOk(features & StatsbeatFeature.BROWSER_SDK_LOADER, "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
     assert.strictEqual(features, 8);
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
     );
-    assert.ok(!(features & StatsbeatFeature.SHIM), "SHIM is set");
+    assert.notOk(features & StatsbeatFeature.SHIM, "SHIM is set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MONGODB, "MONGODB not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
@@ -233,7 +233,7 @@ describe("Main functions", () => {
     assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
     assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
     assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
-    assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
+    assert.notOk(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER, "BROWSER_SDK_LOADER is set");
     assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
   });
 
@@ -312,7 +312,7 @@ describe("Main functions", () => {
     const resource = (span as any)["resource"]["attributes"];
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
-      assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
+      assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
     });
   });
 
@@ -336,7 +336,7 @@ describe("Main functions", () => {
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
-      assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
+      assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
     });
   });
 
@@ -355,7 +355,7 @@ describe("Main functions", () => {
     const resource = (span as any)["resource"]["_rawAttributes"];
     console.log(resource);
     Object.keys(resource || {}).forEach((attr) => {
-      assert.ok(!attr.includes("process"));
+      assert.isTrue(!attr.includes("process"));
     });
   });
 
@@ -524,11 +524,11 @@ describe("Main functions", () => {
 
     // Get the internal SDK instance
     const internalSdk = _getSdkInstance();
-    assert.ok(internalSdk, "Internal SDK should be available");
+    assert.isDefined(internalSdk, "Internal SDK should be available");
 
     // Access the meter provider from the SDK
     const meterProvider = internalSdk["_meterProvider"];
-    assert.ok(meterProvider, "MeterProvider should be available from SDK");
+    assert.isDefined(meterProvider, "MeterProvider should be available from SDK");
 
     // Extract metric readers from the meter provider's internal structure
     const sharedState = meterProvider["_sharedState"];
@@ -546,7 +546,7 @@ describe("Main functions", () => {
       metricReaders,
       `MetricReaders should be available from MeterProvider via property: ${foundProperty}`,
     );
-    assert.ok(Array.isArray(metricReaders), "MetricReaders should be an array");
+    assert.isTrue(Array.isArray(metricReaders), "MetricReaders should be an array");
 
     // Should have exactly 2 metric readers: Azure Monitor + OTLP
     assert.strictEqual(
@@ -585,8 +585,8 @@ describe("Main functions", () => {
       }
     }
 
-    assert.ok(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
-    assert.ok(hasOTLPReader, "Should have OTLP metric reader");
+    assert.isTrue(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
+    assert.isTrue(hasOTLPReader, "Should have OTLP metric reader");
 
     void shutdownAzureMonitor();
   });

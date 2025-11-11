@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
   PrivateEndpointConnectionsGetOptionalParams,
@@ -16,7 +16,7 @@ import {
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse
+  PrivateEndpointConnectionsDeleteResponse,
 } from "../models/index.js";
 
 /** Interface representing a PrivateEndpointConnections. */
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): Promise<PrivateEndpointConnectionsListResponse>;
   /**
    * Get private endpoint connection properties
@@ -43,7 +43,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the status of a private endpoint connection with the specified name
@@ -58,7 +58,7 @@ export interface PrivateEndpointConnections {
     resourceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsUpdateResponse>,
@@ -78,7 +78,7 @@ export interface PrivateEndpointConnections {
     resourceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateResponse>;
   /**
    * Delete private endpoint connection with the specified name
@@ -91,7 +91,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsDeleteResponse>,
@@ -109,6 +109,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }

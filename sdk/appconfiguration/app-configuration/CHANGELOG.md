@@ -1,20 +1,32 @@
 # Release History
 
-## 1.9.2 (Unreleased)
+## 1.10.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Support snapshot reference [#36105](https://github.com/Azure/azure-sdk-for-js/pull/36105)
+  - New type for SnapshotReference - `ConfigurationSetting<SnapshotReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseSnapshotReference` methods to access the properties (to translate `ConfigurationSetting` into the type above).
+  - Helper method `isSnapshotReference` checks the contentType and return boolean values.
+
+- Support `requirement_type` for feature flag. [#36104](https://github.com/Azure/azure-sdk-for-js/pull/36104)
 
 ### Bugs Fixed
 
 ### Other Changes
 
+## 1.9.2 (2025-11-05)
+
+### Other Changes
+
+- Added internal pipeline policy to normalize (case-insensitive alphabetical) ordering of query parameters for deterministic request URLs. [#36344](https://github.com/Azure/azure-sdk-for-js/pull/36344)
+
 ## 1.9.0 (2025-04-08)
 
 ### Features Added
- - Include all the changes from 1.9.0-beta.1 version
- 
+
+- Include all the changes from 1.9.0-beta.1 version
+
 ### Other Changes
 
 - Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
@@ -144,7 +156,6 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
-
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
@@ -181,7 +192,6 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ### Features Added
 
 - Special configuration settings - feature flag and secret reference are now supported. 🎉
-
   - For types, use `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`.
   - Use `parseFeatureFlag` and `parseSecretReference` methods to parse the configuration settings into feature flag and secret reference respectively.
 

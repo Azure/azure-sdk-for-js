@@ -20,6 +20,7 @@ import type {
   ClientCertificatePEMCertificate,
   ClientCertificatePEMCertificatePath,
 } from "./clientCertificateCredentialModels.js";
+import { extractPemCertificateKeys } from "../util/certificatesUtils.js";
 
 const credentialName = "ClientCertificateCredential";
 const logger = credentialLogger(credentialName);
@@ -203,22 +204,7 @@ export async function parseCertificate(
   const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
   const x5c = sendCertificateChain ? certificateContents : undefined;
 
-  const certificatePattern =
-    /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
-  const publicKeys: string[] = [];
-
-  // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
-  let match;
-  do {
-    match = certificatePattern.exec(certificateContents);
-    if (match) {
-      publicKeys.push(match[3]);
-    }
-  } while (match);
-
-  if (publicKeys.length === 0) {
-    throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
-  }
+  const publicKeys = extractPemCertificateKeys(certificateContents);
 
   const thumbprint = createHash("sha1") // CodeQL [SM04514] Needed for backward compatibility reason
     .update(Buffer.from(publicKeys[0], "base64"))
