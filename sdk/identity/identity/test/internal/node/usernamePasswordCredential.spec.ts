@@ -96,12 +96,9 @@ describe("UsernamePasswordCredential (internal)", function () {
     expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (ctx) {
+  it.skipIf(isPlaybackMode())("authenticates (with allowLoggingAccountIdentifiers set to true)", async function () {
     const { clientId, password, tenantId, username } = getUsernamePasswordStaticResources();
-    if (isPlaybackMode()) {
-      // The recorder clears the access tokens.
-      ctx.skip();
-    }
+    // The recorder clears the access tokens.
     const credential = new UsernamePasswordCredential(tenantId, clientId, username, password, {
       loggingOptions: { allowLoggingAccountIdentifiers: true },
     });

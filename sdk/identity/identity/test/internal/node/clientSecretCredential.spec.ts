@@ -54,11 +54,8 @@ describe("ClientSecretCredential (internal)", function () {
     );
   });
 
-  it("Authenticates with tenantId on getToken", async function (ctx) {
+  it.skipIf(isLiveMode())("Authenticates with tenantId on getToken", async function () {
     // The live environment isn't ready for this test
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
@@ -70,11 +67,8 @@ describe("ClientSecretCredential (internal)", function () {
     expect(doGetTokenSpy).toHaveBeenCalledOnce();
   });
 
-  it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (ctx) {
-    if (isLiveMode() || isPlaybackMode()) {
-      // The recorder clears the access tokens.
-      ctx.skip();
-    }
+  it.skipIf(isLiveMode() || isPlaybackMode())("authenticates (with allowLoggingAccountIdentifiers set to true)", async function () {
+    // The recorder clears the access tokens.
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,

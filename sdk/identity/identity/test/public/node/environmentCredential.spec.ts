@@ -64,11 +64,8 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a client certificate on the environment variables", async function (ctx) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      ctx.skip();
-    }
+  it.skipIf(isLiveMode())("authenticates with a client certificate on the environment variables", async function () {
+    // Live test run not supported on CI at the moment. Locally should work though.
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -82,11 +79,8 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a client certificate and password on the environment variables", async function (ctx) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      ctx.skip();
-    }
+  it.skipIf(isLiveMode())("authenticates with a client certificate and password on the environment variables", async function () {
+    // Live test run not supported on CI at the moment. Locally should work though.
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -135,11 +129,8 @@ describe("EnvironmentCredential", function () {
     }).toSupportTracing(["EnvironmentCredential.getToken"]);
   });
 
-  it("supports tracing with environment client certificate", async function (ctx) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      ctx.skip();
-    }
+  it.skipIf(isLiveMode())("supports tracing with environment client certificate", async function () {
+    // Live test run not supported on CI at the moment. Locally should work though.
     await expect(async (tracingOptions: GetTokenOptions) => {
       // The following environment variables must be set for this to work.
       // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.

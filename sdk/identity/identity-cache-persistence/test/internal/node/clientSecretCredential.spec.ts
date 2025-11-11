@@ -39,7 +39,7 @@ describe("ClientSecretCredential (internal)", () => {
   it("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      ctx.skip();
+      return ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -77,7 +77,7 @@ describe("ClientSecretCredential (internal)", () => {
   it.skip("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      ctx.skip();
+      return ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {

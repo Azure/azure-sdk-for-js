@@ -7,8 +7,7 @@ import { describe, it, assert } from "vitest";
 
 describe("AzureFunctions Integration test", function () {
   // TODO: Reenable the test https://github.com/Azure/azure-sdk-for-js/issues/35416
-  it("test the Azure Functions endpoint where the sync MI credential is used.", async function (ctx) {
-    ctx.skip();
+  it.skip("test the Azure Functions endpoint where the sync MI credential is used.", async function () {
     const baseUri = baseUrl();
     const client = new ServiceClient({ baseUri: baseUri });
     const pipelineRequest = createPipelineRequest({

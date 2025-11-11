@@ -34,7 +34,7 @@ describe("MultiTenantAuthentication", function () {
     if (!tenantId || !clientId || !clientSecret) {
       // multi-tenant credentials live in a shared keyvault whose values are mounted in CI, but not in local dev
       console.log("Multi-tenant credentials not provided, skipping test");
-      ctx.skip();
+      return ctx.skip();
     }
 
     const credential = new ClientSecretCredential(

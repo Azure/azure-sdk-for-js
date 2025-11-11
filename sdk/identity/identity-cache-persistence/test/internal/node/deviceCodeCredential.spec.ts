@@ -38,11 +38,11 @@ describe("DeviceCodeCredential (internal)", () => {
   it("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      ctx.skip();
+      return ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      ctx.skip();
+      return ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -70,11 +70,11 @@ describe("DeviceCodeCredential (internal)", () => {
   it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      ctx.skip();
+      return ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      ctx.skip();
+      return ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
@@ -110,11 +110,11 @@ describe("DeviceCodeCredential (internal)", () => {
   it("allows passing an authenticationRecord to avoid further manual authentications", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      ctx.skip();
+      return ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      ctx.skip();
+      return ctx.skip();
     }
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
