@@ -5278,7 +5278,7 @@ export type BaseCredentialsUnion =
   | ApiKeyCredentials
   | EntraIDCredentials
   | CustomCredential
-  | SASCredentials
+  | SASTokenCredentials 
   | NoAuthenticationCredentials
   | AgenticIdentityCredentials
   | BaseCredentials;
@@ -5295,7 +5295,7 @@ export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnio
       return customCredentialDeserializer(item as CustomCredential);
 
     case "SAS":
-      return sasCredentialsDeserializer(item as SASCredentials);
+      return sasCredentialsDeserializer(item as SASTokenCredentials);
 
     case "None":
       return noAuthenticationCredentialsDeserializer(item as NoAuthenticationCredentials);
@@ -5322,7 +5322,7 @@ export interface ApiKeyCredentials extends BaseCredentials {
   /** The credential type */
   readonly type: "ApiKey";
   /** API Key */
-  readonly apiKey?: string;
+  readonly apiKey: string;
 }
 
 export function apiKeyCredentialsDeserializer(item: any): ApiKeyCredentials {
@@ -5360,14 +5360,14 @@ export function customCredentialDeserializer(item: any): CustomCredential {
 }
 
 /** Shared Access Signature (SAS) credential definition */
-export interface SASCredentials extends BaseCredentials {
+export interface SASTokenCredentials extends BaseCredentials {
   /** The credential type */
   readonly type: "SAS";
   /** SAS token */
-  readonly sasToken?: string;
+  readonly sasToken: string;
 }
 
-export function sasCredentialsDeserializer(item: any): SASCredentials {
+export function sasCredentialsDeserializer(item: any): SASTokenCredentials {
   return {
     type: item["type"],
     sasToken: item["SAS"],

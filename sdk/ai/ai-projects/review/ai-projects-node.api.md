@@ -141,7 +141,6 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    // Warning: (ae-forgotten-export) The symbol "CreateAgentConfig" needs to be exported by the entry point index.d.ts
     create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
     createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
@@ -151,7 +150,6 @@ export interface AgentsOperations {
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
     list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
     listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateAgentConfig" needs to be exported by the entry point index.d.ts
     update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
 }
 
@@ -279,7 +277,7 @@ export interface ApiInnerError {
 
 // @public
 export interface ApiKeyCredentials extends BaseCredentials {
-    readonly apiKey?: string;
+    readonly apiKey: string;
     readonly type: "ApiKey";
 }
 
@@ -368,7 +366,7 @@ export interface BaseCredentials {
 }
 
 // @public
-export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASCredentials | NoAuthenticationCredentials | AgenticIdentityCredentials | BaseCredentials;
+export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityCredentials | BaseCredentials;
 
 // @public
 export interface BingCustomSearchAgentTool extends Tool {
@@ -734,6 +732,12 @@ export interface CosmosDBIndex extends Index {
     type: "CosmosDBNoSqlVectorStore";
 }
 
+// Warning: (ae-forgotten-export) The symbol "CreateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CreateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
+
 // @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
 
@@ -797,7 +801,6 @@ export interface DatasetsOperations {
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     pendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DatasetUploadOptions" needs to be exported by the entry point index.d.ts
     uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
     uploadFolder: (name: string, version: string, folderPath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
 }
@@ -808,6 +811,12 @@ export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
 
 // @public
 export type DatasetType = "uri_file" | "uri_folder";
+
+// @public
+export interface DatasetUploadOptions {
+    connectionName?: string;
+    filePattern?: RegExp;
+}
 
 // @public
 export interface DatasetVersion {
@@ -2162,6 +2171,11 @@ export interface RedTeamsOperations {
 }
 
 // @public
+export interface ResponseFormatJsonSchemaSchema {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
 export interface ResponsesAssistantMessageItemParam extends ResponsesMessageItemParam {
     content: string | ItemContentUnion[];
     role: "assistant";
@@ -2213,8 +2227,6 @@ export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextF
 export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextFormatConfiguration {
     description?: string;
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "ResponseFormatJsonSchemaSchema" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     schema: ResponseFormatJsonSchemaSchema;
     strict?: boolean;
@@ -2256,8 +2268,8 @@ export interface SasCredential {
 }
 
 // @public
-export interface SASCredentials extends BaseCredentials {
-    readonly sasToken?: string;
+export interface SASTokenCredentials extends BaseCredentials {
+    readonly sasToken: string;
     readonly type: "SAS";
 }
 
@@ -2452,6 +2464,12 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
+
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {

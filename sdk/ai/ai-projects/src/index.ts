@@ -207,7 +207,7 @@ export {
   ApiKeyCredentials,
   EntraIDCredentials,
   CustomCredential,
-  SASCredentials,
+  SASTokenCredentials,
   NoAuthenticationCredentials,
   AgenticIdentityCredentials,
   DatasetVersion,
@@ -324,9 +324,10 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
+  ResponseFormatJsonSchemaSchema,
   KnownApiVersions,
 } from "./models/index.js";
-export { AIProjectClientOptionalParams } from "./api/index.js";
+export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export {
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
@@ -340,6 +341,8 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  UpdateAgentConfig,
 } from "./api/agents/index.js";
 export {
   ConnectionsListOptionalParams,

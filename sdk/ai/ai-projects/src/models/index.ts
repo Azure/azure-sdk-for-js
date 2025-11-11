@@ -199,7 +199,7 @@ export {
   ApiKeyCredentials,
   EntraIDCredentials,
   CustomCredential,
-  SASCredentials,
+  SASTokenCredentials,
   NoAuthenticationCredentials,
   AgenticIdentityCredentials,
   DatasetVersion,
@@ -316,5 +316,6 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
+  ResponseFormatJsonSchemaSchema,
   KnownApiVersions,
 } from "./models.js";
