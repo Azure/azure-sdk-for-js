@@ -47,10 +47,10 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms @juniwang @RichardChen820
+/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhiyuanliang-ms @RichardChen820
 
 # ServiceLabel: %App Configuration
-# AzureSdkOwners:  @minhanh-phan
+# AzureSdkOwners:  @minhanh-phan @zhiyuanliang-ms
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
@@ -1678,12 +1678,13 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 #########################
 # Eng Sys and CODEOWNERS
 #########################
-/eng/                  @mikeharder @weshaggard @benbp
-/eng/common/           @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-/.config/1espt/ @benbp @weshaggard
-/.github/workflows/    @Azure/azure-sdk-eng
-/.github/CODEOWNERS    @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+/eng/                                    @mikeharder @weshaggard @benbp
+/eng/common/                             @Azure/azure-sdk-eng
+/eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+/.config/1espt/                          @benbp @weshaggard
+/.github/workflows/                      @Azure/azure-sdk-eng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+/.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao
