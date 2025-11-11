@@ -1,104 +1,23 @@
 {
   "name": "@azure/arm-servicelinker",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "3.0.0-beta.1",
   "description": "A generated SDK for ServiceLinkerManagementClient.",
-  "version": "2.2.0-beta.3",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
-  "license": "MIT",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
   "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/serviceLinkerManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicelinker/arm-servicelinker",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview"
-  },
-  "type": "module",
+  "autoPublish": false,
   "tshy": {
-    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/configurationNames": "./src/api/configurationNames/index.ts",
+      "./api/connector": "./src/api/connector/index.ts",
+      "./api/linker": "./src/api/linker/index.ts",
+      "./api/linkers": "./src/api/linkers/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -108,10 +27,99 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
+  "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicelinker/arm-servicelinker/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/serviceLinkerManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-servicelinker",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -131,6 +139,135 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/configurationNames": {
+      "browser": {
+        "types": "./dist/browser/api/configurationNames/index.d.ts",
+        "default": "./dist/browser/api/configurationNames/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/configurationNames/index.d.ts",
+        "default": "./dist/react-native/api/configurationNames/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/configurationNames/index.d.ts",
+        "default": "./dist/esm/api/configurationNames/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/configurationNames/index.d.ts",
+        "default": "./dist/commonjs/api/configurationNames/index.js"
+      }
+    },
+    "./api/connector": {
+      "browser": {
+        "types": "./dist/browser/api/connector/index.d.ts",
+        "default": "./dist/browser/api/connector/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/connector/index.d.ts",
+        "default": "./dist/react-native/api/connector/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/connector/index.d.ts",
+        "default": "./dist/esm/api/connector/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/connector/index.d.ts",
+        "default": "./dist/commonjs/api/connector/index.js"
+      }
+    },
+    "./api/linker": {
+      "browser": {
+        "types": "./dist/browser/api/linker/index.d.ts",
+        "default": "./dist/browser/api/linker/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/linker/index.d.ts",
+        "default": "./dist/react-native/api/linker/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/linker/index.d.ts",
+        "default": "./dist/esm/api/linker/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/linker/index.d.ts",
+        "default": "./dist/commonjs/api/linker/index.js"
+      }
+    },
+    "./api/linkers": {
+      "browser": {
+        "types": "./dist/browser/api/linkers/index.d.ts",
+        "default": "./dist/browser/api/linkers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/linkers/index.d.ts",
+        "default": "./dist/react-native/api/linkers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/linkers/index.d.ts",
+        "default": "./dist/esm/api/linkers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/linkers/index.d.ts",
+        "default": "./dist/commonjs/api/linkers/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
-  }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

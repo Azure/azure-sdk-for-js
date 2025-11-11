@@ -1,0 +1,4 @@
+directory: specification/servicelinker/ServiceLinker.Management
+commit: 0e3900b050a2b449ab87d65ccb5413a362489eec
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
