@@ -10,8 +10,8 @@ import {
 export { AIProjectClient } from "./aiProjectClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  AgentObject,
-  AgentVersionObject,
+  Agent,
+  AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
   AgentKind,
@@ -87,7 +87,7 @@ export {
   ResponseTextFormatConfigurationUnion,
   ResponseTextFormatConfigurationType,
   ResponseTextFormatConfigurationText,
-  ResponseTextFormatConfigurationJsonObject,
+  ResponseTextFormatConfigurationJson,
   ResponseTextFormatConfigurationJsonSchema,
   StructuredInputDefinition,
   ToolArgumentBinding,
@@ -101,7 +101,7 @@ export {
   MemoryStoreKind,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemoryStoreObject,
+  MemoryStore,
   DeleteMemoryStoreResponse,
   ItemParam,
   ItemParamUnion,

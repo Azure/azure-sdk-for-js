@@ -3,9 +3,9 @@
 
 import { AIProjectContext as Client } from "../index.js";
 import {
-  AgentObject,
+  Agent,
   agentObjectDeserializer,
-  AgentVersionObject,
+  AgentVersion,
   agentVersionObjectDeserializer,
   agentDefinitionUnionSerializer,
   AgentDefinitionUnion,
@@ -91,7 +91,7 @@ export function listAgentVersions(
   context: Client,
   agentName: string,
   options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AgentVersionObject> {
+): PagedAsyncIterableIterator<AgentVersion> {
   return buildPagedAsyncIterator(
     context,
     () => _listAgentVersionsSend(context, agentName, options),
@@ -179,7 +179,7 @@ export function _getAgentVersionSend(
 
 export async function _getAgentVersionDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentVersionObject> {
+): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -196,7 +196,7 @@ export async function getAgentVersion(
   agentName: string,
   agentVersion: string,
   options: AgentsGetAgentVersionOptionalParams = { requestOptions: {} },
-): Promise<AgentVersionObject> {
+): Promise<AgentVersion> {
   const result = await _getAgentVersionSend(context, agentName, agentVersion, options);
   return _getAgentVersionDeserialize(result);
 }
@@ -234,7 +234,7 @@ export function _createAgentVersionSend(
 
 export async function _createAgentVersionDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentVersionObject> {
+): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -251,7 +251,7 @@ export async function createAgentVersion(
   agentName: string,
   definition: AgentDefinitionUnion,
   options: AgentsCreateAgentVersionOptionalParams = { requestOptions: {} },
-): Promise<AgentVersionObject> {
+): Promise<AgentVersion> {
   const result = await _createAgentVersionSend(context, agentName, definition, options);
   return _createAgentVersionDeserialize(result);
 }
@@ -300,7 +300,7 @@ export async function _listAgentsDeserialize(
 export function listAgents(
   context: Client,
   options: AgentsListAgentsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AgentObject> {
+): PagedAsyncIterableIterator<Agent> {
   return buildPagedAsyncIterator(
     context,
     () => _listAgentsSend(context, options),
@@ -392,7 +392,7 @@ export function _updateAgentFromManifestSend(
 
 export async function _updateAgentFromManifestDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentObject> {
+): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -413,7 +413,7 @@ export async function updateAgentFromManifest(
   manifestId: string,
   parameterValues: Record<string, any>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
-): Promise<AgentObject> {
+): Promise<Agent> {
   const result = await _updateAgentFromManifestSend(
     context,
     agentName,
@@ -459,7 +459,7 @@ export function _createAgentFromManifestSend(
 
 export async function _createAgentFromManifestDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentObject> {
+): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -477,7 +477,7 @@ export async function createAgentFromManifest(
   manifestId: string,
   parameterValues: Record<string, any>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
-): Promise<AgentObject> {
+): Promise<Agent> {
   const result = await _createAgentFromManifestSend(
     context,
     name,
@@ -519,7 +519,7 @@ export function _updateAgentSend(
   });
 }
 
-export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<AgentObject> {
+export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -539,7 +539,7 @@ export async function updateAgent(
   agentName: string,
   definition: AgentDefinitionUnion,
   options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
-): Promise<AgentObject> {
+): Promise<Agent> {
   const result = await _updateAgentSend(context, agentName, definition, options);
   return _updateAgentDeserialize(result);
 }
@@ -575,7 +575,7 @@ export function _createAgentSend(
   });
 }
 
-export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<AgentObject> {
+export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -592,7 +592,7 @@ export async function createAgent(
   name: string,
   definition: AgentDefinitionUnion,
   options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
-): Promise<AgentObject> {
+): Promise<Agent> {
   const result = await _createAgentSend(context, name, definition, options);
   return _createAgentDeserialize(result);
 }
@@ -621,7 +621,7 @@ export function _getAgentSend(
   });
 }
 
-export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<AgentObject> {
+export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -637,7 +637,7 @@ export async function getAgent(
   context: Client,
   agentName: string,
   options: AgentsGetAgentOptionalParams = { requestOptions: {} },
-): Promise<AgentObject> {
+): Promise<Agent> {
   const result = await _getAgentSend(context, agentName, options);
   return _getAgentDeserialize(result);
 }
@@ -679,7 +679,7 @@ export function _createAgentVersionFromManifestSend(
 
 export async function _createAgentVersionFromManifestDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentVersionObject> {
+): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -699,7 +699,7 @@ export async function createAgentVersionFromManifest(
   options: AgentsCreateAgentVersionFromManifestOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentVersionObject> {
+): Promise<AgentVersion> {
   const result = await _createAgentVersionFromManifestSend(
     context,
     agentName,

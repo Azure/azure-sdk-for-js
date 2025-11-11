@@ -10,7 +10,7 @@ import { serializeRecord } from "../static-helpers/serialization/serialize-recor
  * Represents an agent object.
  * Contains the agent's unique identifier, name, and version information.
  */
-export interface AgentObject {
+export interface Agent {
   /** The object type, which is always 'agent'. */
   object: "agent";
   /** The unique identifier of the agent. */
@@ -19,11 +19,11 @@ export interface AgentObject {
   name: string;
   /** The latest version of the agent. */
   versions: {
-    latest: AgentVersionObject;
+    latest: AgentVersion;
   };
 }
 
-export function agentObjectDeserializer(item: any): AgentObject {
+export function agentObjectDeserializer(item: any): Agent {
   return {
     object: item["object"],
     id: item["id"],
@@ -35,11 +35,11 @@ export function agentObjectDeserializer(item: any): AgentObject {
 /**
  * Helper interface for agent version references.
  */
-export interface _AgentObjectVersions {
-  latest: AgentVersionObject;
+export interface _AgentVersions {
+  latest: AgentVersion;
 }
 
-export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersions {
+export function _agentObjectVersionsDeserializer(item: any): _AgentVersions {
   return {
     latest: agentVersionObjectDeserializer(item["latest"]),
   };
@@ -49,7 +49,7 @@ export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersion
  * Represents a specific version of an agent.
  * Includes metadata, versioning, creation time, and agent definition.
  */
-export interface AgentVersionObject {
+export interface AgentVersion {
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -75,7 +75,7 @@ export interface AgentVersionObject {
   definition: AgentDefinitionUnion;
 }
 
-export function agentVersionObjectDeserializer(item: any): AgentVersionObject {
+export function agentVersionObjectDeserializer(item: any): AgentVersion {
   return {
     metadata: item["metadata"],
     object: item["object"],
@@ -2612,7 +2612,7 @@ export function responseTextFormatConfigurationDeserializer(
 /** Alias for ResponseTextFormatConfigurationUnion */
 export type ResponseTextFormatConfigurationUnion =
   | ResponseTextFormatConfigurationText
-  | ResponseTextFormatConfigurationJsonObject
+  | ResponseTextFormatConfigurationJson
   | ResponseTextFormatConfigurationJsonSchema
   | ResponseTextFormatConfiguration;
 
@@ -2627,7 +2627,7 @@ export function responseTextFormatConfigurationUnionSerializer(
 
     case "json_object":
       return responseTextFormatConfigurationJsonObjectSerializer(
-        item as ResponseTextFormatConfigurationJsonObject,
+        item as ResponseTextFormatConfigurationJson,
       );
 
     case "json_schema":
@@ -2651,7 +2651,7 @@ export function responseTextFormatConfigurationUnionDeserializer(
 
     case "json_object":
       return responseTextFormatConfigurationJsonObjectDeserializer(
-        item as ResponseTextFormatConfigurationJsonObject,
+        item as ResponseTextFormatConfigurationJson,
       );
 
     case "json_schema":
@@ -2700,20 +2700,20 @@ export function responseTextFormatConfigurationTextDeserializer(
   };
 }
 
-/** model interface ResponseTextFormatConfigurationJsonObject */
-export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextFormatConfiguration {
+/** model interface ResponseTextFormatConfigurationJson */
+export interface ResponseTextFormatConfigurationJson extends ResponseTextFormatConfiguration {
   type: "json_object";
 }
 
 export function responseTextFormatConfigurationJsonObjectSerializer(
-  item: ResponseTextFormatConfigurationJsonObject,
+  item: ResponseTextFormatConfigurationJson,
 ): any {
   return { type: item["type"] };
 }
 
 export function responseTextFormatConfigurationJsonObjectDeserializer(
   item: any,
-): ResponseTextFormatConfigurationJsonObject {
+): ResponseTextFormatConfigurationJson {
   return {
     type: item["type"],
   };
@@ -2964,7 +2964,7 @@ export function deleteAgentResponseDeserializer(item: any): DeleteAgentResponse 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultAgentObject {
   /** The requested list of items. */
-  data: AgentObject[];
+  data: Agent[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -2984,7 +2984,7 @@ export function _agentsPagedResultAgentObjectDeserializer(
   };
 }
 
-export function agentObjectArrayDeserializer(result: Array<AgentObject>): any[] {
+export function agentObjectArrayDeserializer(result: Array<Agent>): any[] {
   return result.map((item) => {
     return agentObjectDeserializer(item);
   });
@@ -3014,7 +3014,7 @@ export function deleteAgentVersionResponseDeserializer(item: any): DeleteAgentVe
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultAgentVersionObject {
   /** The requested list of items. */
-  data: AgentVersionObject[];
+  data: AgentVersion[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -3034,7 +3034,7 @@ export function _agentsPagedResultAgentVersionObjectDeserializer(
   };
 }
 
-export function agentVersionObjectArrayDeserializer(result: Array<AgentVersionObject>): any[] {
+export function agentVersionObjectArrayDeserializer(result: Array<AgentVersion>): any[] {
   return result.map((item) => {
     return agentVersionObjectDeserializer(item);
   });
@@ -3144,7 +3144,7 @@ export function memoryStoreDefaultOptionsDeserializer(item: any): MemoryStoreDef
 }
 
 /** A memory store that can store and retrieve user memories. */
-export interface MemoryStoreObject {
+export interface MemoryStore {
   /** The object type, which is always 'memory_store'. */
   object: "memory_store";
   /** The unique identifier of the memory store. */
@@ -3163,7 +3163,7 @@ export interface MemoryStoreObject {
   definition: MemoryStoreDefinitionUnion;
 }
 
-export function memoryStoreObjectDeserializer(item: any): MemoryStoreObject {
+export function memoryStoreObjectDeserializer(item: any): MemoryStore {
   return {
     object: item["object"],
     id: item["id"],
@@ -3177,9 +3177,9 @@ export function memoryStoreObjectDeserializer(item: any): MemoryStoreObject {
 }
 
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultMemoryStoreObject {
+export interface _AgentsPagedResultMemoryStore {
   /** The requested list of items. */
-  data: MemoryStoreObject[];
+  data: MemoryStore[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -3190,7 +3190,7 @@ export interface _AgentsPagedResultMemoryStoreObject {
 
 export function _agentsPagedResultMemoryStoreObjectDeserializer(
   item: any,
-): _AgentsPagedResultMemoryStoreObject {
+): _AgentsPagedResultMemoryStore {
   return {
     data: memoryStoreObjectArrayDeserializer(item["data"]),
     first_id: item["first_id"],
@@ -3199,7 +3199,7 @@ export function _agentsPagedResultMemoryStoreObjectDeserializer(
   };
 }
 
-export function memoryStoreObjectArrayDeserializer(result: Array<MemoryStoreObject>): any[] {
+export function memoryStoreObjectArrayDeserializer(result: Array<MemoryStore>): any[] {
   return result.map((item) => {
     return memoryStoreObjectDeserializer(item);
   });

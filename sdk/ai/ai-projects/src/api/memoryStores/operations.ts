@@ -7,9 +7,9 @@ import {
   apiErrorResponseDeserializer,
   memoryStoreDefinitionUnionSerializer,
   MemoryStoreDefinitionUnion,
-  MemoryStoreObject,
+  MemoryStore,
   memoryStoreObjectDeserializer,
-  _AgentsPagedResultMemoryStoreObject,
+  _AgentsPagedResultMemoryStore,
   _agentsPagedResultMemoryStoreObjectDeserializer,
   DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
@@ -350,7 +350,7 @@ export function _listMemoryStoresSend(
 
 export async function _listMemoryStoresDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultMemoryStoreObject> {
+): Promise<_AgentsPagedResultMemoryStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -365,7 +365,7 @@ export async function _listMemoryStoresDeserialize(
 export function listMemoryStores(
   context: Client,
   options: MemoryStoresListMemoryStoresOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MemoryStoreObject> {
+): PagedAsyncIterableIterator<MemoryStore> {
   return buildPagedAsyncIterator(
     context,
     () => _listMemoryStoresSend(context, options),
@@ -401,7 +401,7 @@ export function _getMemoryStoreSend(
 
 export async function _getMemoryStoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStoreObject> {
+): Promise<MemoryStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -417,7 +417,7 @@ export async function getMemoryStore(
   context: Client,
   name: string,
   options: MemoryStoresGetMemoryStoreOptionalParams = { requestOptions: {} },
-): Promise<MemoryStoreObject> {
+): Promise<MemoryStore> {
   const result = await _getMemoryStoreSend(context, name, options);
   return _getMemoryStoreDeserialize(result);
 }
@@ -450,7 +450,7 @@ export function _updateMemoryStoreSend(
 
 export async function _updateMemoryStoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStoreObject> {
+): Promise<MemoryStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -466,7 +466,7 @@ export async function updateMemoryStore(
   context: Client,
   name: string,
   options: MemoryStoresUpdateMemoryStoreOptionalParams = { requestOptions: {} },
-): Promise<MemoryStoreObject> {
+): Promise<MemoryStore> {
   const result = await _updateMemoryStoreSend(context, name, options);
   return _updateMemoryStoreDeserialize(result);
 }
@@ -504,7 +504,7 @@ export function _createMemoryStoreSend(
 
 export async function _createMemoryStoreDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStoreObject> {
+): Promise<MemoryStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -521,7 +521,7 @@ export async function createMemoryStore(
   name: string,
   definition: MemoryStoreDefinitionUnion,
   options: MemoryStoresCreateMemoryStoreOptionalParams = { requestOptions: {} },
-): Promise<MemoryStoreObject> {
+): Promise<MemoryStore> {
   const result = await _createMemoryStoreSend(context, name, definition, options);
   return _createMemoryStoreDeserialize(result);
 }

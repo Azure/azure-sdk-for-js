@@ -22,6 +22,16 @@ export interface A2ATool extends Tool {
 }
 
 // @public
+export interface Agent {
+    id: string;
+    name: string;
+    object: "agent";
+    versions: {
+        latest: AgentVersion;
+    };
+}
+
+// @public
 export interface AgentClusterInsightResult extends InsightResult {
     // (undocumented)
     clusterInsight: ClusterInsightResult;
@@ -60,16 +70,6 @@ export interface AgentId {
 
 // @public
 export type AgentKind = "prompt" | "hosted" | "container_app" | "workflow";
-
-// @public
-export interface AgentObject {
-    id: string;
-    name: string;
-    object: "agent";
-    versions: {
-        latest: AgentVersionObject;
-    };
-}
 
 // @public
 export type AgentProtocol = "activity_protocol" | "responses";
@@ -141,16 +141,16 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
-    createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
+    create: (name: string, config: CreateAgentConfig) => Promise<Agent>;
+    createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersion>;
+    createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
-    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
-    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
+    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
+    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersion>;
+    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
+    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
+    update: (agentName: string, config: UpdateAgentConfig) => Promise<Agent>;
 }
 
 // @public
@@ -173,7 +173,7 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 }
 
 // @public
-export interface AgentVersionObject {
+export interface AgentVersion {
     created_at: Date;
     definition: AgentDefinitionUnion;
     description?: string;
@@ -1741,6 +1741,18 @@ export interface MemorySearchToolCallItemParam extends ItemParam {
 }
 
 // @public
+export interface MemoryStore {
+    created_at: Date;
+    definition: MemoryStoreDefinitionUnion;
+    description?: string;
+    id: string;
+    metadata?: Record<string, string>;
+    name: string;
+    object: "memory_store";
+    updated_at: Date;
+}
+
+// @public
 export interface MemoryStoreDefaultDefinition extends MemoryStoreDefinition {
     chat_model: string;
     embedding_model: string;
@@ -1773,18 +1785,6 @@ export interface MemoryStoreDeleteScopeResponse {
 
 // @public
 export type MemoryStoreKind = "default";
-
-// @public
-export interface MemoryStoreObject {
-    created_at: Date;
-    definition: MemoryStoreDefinitionUnion;
-    description?: string;
-    id: string;
-    metadata?: Record<string, string>;
-    name: string;
-    object: "memory_store";
-    updated_at: Date;
-}
 
 // @public
 export interface MemoryStoreOperationUsage {
@@ -1839,14 +1839,14 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
 
 // @public
 export interface MemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
     delete: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
     deleteScope: (name: string, scope: string, options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
     getUpdateResult: (name: string, updateId: string, options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStoreObject>;
+    list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
     updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
 }
 
@@ -2218,7 +2218,7 @@ export interface ResponseTextFormatConfiguration {
 }
 
 // @public
-export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextFormatConfiguration {
+export interface ResponseTextFormatConfigurationJson extends ResponseTextFormatConfiguration {
     // (undocumented)
     type: "json_object";
 }
@@ -2243,7 +2243,7 @@ export interface ResponseTextFormatConfigurationText extends ResponseTextFormatC
 export type ResponseTextFormatConfigurationType = "text" | "json_schema" | "json_object";
 
 // @public
-export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurationText | ResponseTextFormatConfigurationJsonObject | ResponseTextFormatConfigurationJsonSchema | ResponseTextFormatConfiguration;
+export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurationText | ResponseTextFormatConfigurationJson | ResponseTextFormatConfigurationJsonSchema | ResponseTextFormatConfiguration;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;

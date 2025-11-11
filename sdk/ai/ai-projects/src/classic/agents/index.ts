@@ -29,8 +29,8 @@ import {
   UpdateAgentConfig,
 } from "../../api/agents/options.js";
 import {
-  AgentObject,
-  AgentVersionObject,
+  Agent,
+  AgentVersion,
   AgentDefinitionUnion,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
@@ -43,7 +43,7 @@ export interface AgentsOperations {
   listVersions: (
     agentName: string,
     options?: AgentsListAgentVersionsOptionalParams,
-  ) => PagedAsyncIterableIterator<AgentVersionObject>;
+  ) => PagedAsyncIterableIterator<AgentVersion>;
   /** Deletes a specific version of an agent. */
   deleteVersion: (
     agentName: string,
@@ -55,22 +55,22 @@ export interface AgentsOperations {
     agentName: string,
     agentVersion: string,
     options?: AgentsGetAgentVersionOptionalParams,
-  ) => Promise<AgentVersionObject>;
+  ) => Promise<AgentVersion>;
   /** Create a new agent version from a manifest. */
   createVersionFromManifest: (
     agentName: string,
     manifestId: string,
     parameterValues: Record<string, any>,
     options?: AgentsCreateAgentVersionFromManifestOptionalParams,
-  ) => Promise<AgentVersionObject>;
+  ) => Promise<AgentVersion>;
   /** Create a new agent version. */
   createVersion: (
     agentName: string,
     definition: AgentDefinitionUnion,
     options?: AgentsCreateAgentVersionOptionalParams,
-  ) => Promise<AgentVersionObject>;
+  ) => Promise<AgentVersion>;
   /** Returns the list of all agents. */
-  list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
+  list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
   /** Deletes an agent. */
   delete: (
     agentName: string,
@@ -80,11 +80,11 @@ export interface AgentsOperations {
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
-  update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
+  update: (agentName: string, config: UpdateAgentConfig) => Promise<Agent>;
   /** Creates an agent. */
-  create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
+  create: (name: string, config: CreateAgentConfig) => Promise<Agent>;
   /** Retrieves the agent. */
-  get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
+  get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
 }
 
 function _getAgents(context: AIProjectContext) {
@@ -115,7 +115,7 @@ function _getAgents(context: AIProjectContext) {
     list: (options?: AgentsListAgentsOptionalParams) => listAgents(context, options),
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) =>
       deleteAgent(context, agentName, options),
-    update: (agentName: string, config: UpdateAgentConfig): Promise<AgentObject> => {
+    update: (agentName: string, config: UpdateAgentConfig): Promise<Agent> => {
       if (config.type === "definition") {
         return updateAgent(context, agentName, config.definition, config.options);
       } else {
@@ -128,7 +128,7 @@ function _getAgents(context: AIProjectContext) {
         );
       }
     },
-    create: (name: string, config: CreateAgentConfig): Promise<AgentObject> => {
+    create: (name: string, config: CreateAgentConfig): Promise<Agent> => {
       if (config.type === "definition") {
         return createAgent(context, name, config.definition, config.options);
       } else {
