@@ -378,7 +378,6 @@ export interface BaseVectorQuery<TModel extends object> {
     filterOverride?: string;
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
-    oversampling?: number;
     perDocumentVectorLimit?: number;
     threshold?: VectorThreshold;
     weight?: number;
@@ -393,9 +392,7 @@ export interface BaseVectorSearchAlgorithmConfiguration {
 // @public
 export interface BaseVectorSearchCompression {
     compressionName: string;
-    defaultOversampling?: number;
     kind: "scalarQuantization" | "binaryQuantization";
-    rerankWithOriginalVectors?: boolean;
     rescoringOptions?: RescoringOptions;
     truncationDimension?: number;
 }
@@ -3296,7 +3293,6 @@ export interface RemoteSharePointKnowledgeSourceParams extends BaseKnowledgeSour
 
 // @public
 export interface RescoringOptions {
-    defaultOversampling?: number;
     enableRescoring?: boolean;
     rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }

@@ -63,7 +63,6 @@ export async function createIndex(
       compressionName: "vector-search-compression-configuration",
       kind: "scalarQuantization",
       parameters: { quantizedDataType: "int8" },
-      // rerankWithOriginalVectors: true,
     },
   ];
   await Promise.all(
