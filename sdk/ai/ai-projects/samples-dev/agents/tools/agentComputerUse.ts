@@ -105,7 +105,6 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   // Main interaction loop with deterministic completion
   const maxIterations = 10; // Allow enough iterations for completion
-  let iteration = 0;
 
   while (iteration < maxIterations) {
     iteration++;
