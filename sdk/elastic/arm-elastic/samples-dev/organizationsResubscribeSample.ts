@@ -6,31 +6,29 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
+ * This sample demonstrates how to Resubscribe the Elasticsearch Organization.
  *
- * @summary Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/TagRules_Delete.json
+ * @summary Resubscribe the Elasticsearch Organization.
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/Organizations_Resubscribe.json
  */
-async function tagRulesDelete(): Promise<void> {
+async function organizationsResubscribe(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
-  const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.tagRules.beginDeleteAndWait(
+  const result = await client.organizations.beginResubscribeAndWait(
     resourceGroupName,
     monitorName,
-    ruleSetName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await tagRulesDelete();
+  await organizationsResubscribe();
 }
 
 main().catch(console.error);

@@ -6,31 +6,32 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
+ * This sample demonstrates how to List all subscriptions currently being monitored by the Elastic monitor resource, helping you manage observability.
  *
- * @summary Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/TagRules_Delete.json
+ * @summary List all subscriptions currently being monitored by the Elastic monitor resource, helping you manage observability.
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2025-06-01/examples/MonitoredSubscriptions_List.json
  */
-async function tagRulesDelete(): Promise<void> {
+async function monitorsGetMonitoredSubscriptions(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
-  const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.tagRules.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (const item of client.monitoredSubscriptions.list(
     resourceGroupName,
     monitorName,
-    ruleSetName,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await tagRulesDelete();
+  await monitorsGetMonitoredSubscriptions();
 }
 
 main().catch(console.error);
