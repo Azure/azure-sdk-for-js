@@ -147,7 +147,7 @@ console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 
 ## Troubleshooting
 
-See the Azure Identity [troubleshooting guide][https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md] for details on how to diagnose various failure scenarios.
+See the Azure Identity [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md) for details on how to diagnose various failure scenarios.
 
 ### Logging
 
