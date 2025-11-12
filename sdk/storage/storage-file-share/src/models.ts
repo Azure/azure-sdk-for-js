@@ -7,6 +7,7 @@ import { logger } from "./log.js";
 import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels.js";
 import type { StoragePipelineOptions } from "./Pipeline.js";
 import type { FileDownloadHeaders } from "./generatedModels.js";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -134,7 +135,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 export interface FileHttpHeaders {

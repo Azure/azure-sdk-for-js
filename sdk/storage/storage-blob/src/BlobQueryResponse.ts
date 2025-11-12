@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 
 import type {
   BlobDownloadResponseModel,
@@ -394,7 +395,7 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    *
    * @readonly
    */
-  public get readableStreamBody(): NodeJS.ReadableStream | undefined {
+  public get readableStreamBody(): NodeJSReadableStream | undefined {
     return isNodeLike ? this.blobDownloadStream : undefined;
   }
 

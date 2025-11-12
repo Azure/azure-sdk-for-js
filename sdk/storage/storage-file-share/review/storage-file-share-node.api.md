@@ -18,6 +18,7 @@ import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
@@ -1336,6 +1337,8 @@ export interface NfsFileMode {
 // @public
 export type NfsFileType = string;
 
+export { NodeJSReadableStream }
+
 // @public
 export type OwnerCopyMode = "source" | "override";
 
@@ -1392,7 +1395,7 @@ export interface RangeModel {
 // @public
 export type RawFileDownloadResponse = FileDownloadHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 export { RequestPolicy as IHttpClient }

@@ -55,6 +55,7 @@ export {
   StorageSharedKeyCredentialPolicy,
   BlobServiceProperties as DataLakeServiceProperties,
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
+  NodeJSReadableStream,
 } from "@azure/storage-blob";
 export { CommonOptions } from "./StorageClient.js";
 export { SasIPRange } from "./sas/SasIPRange.js";

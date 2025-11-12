@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import type {
   CopyStatusType,
   FileDownloadHeaders,
@@ -396,7 +397,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    *
    * @readonly
    */
-  public get readableStreamBody(): NodeJS.ReadableStream | undefined {
+  public get readableStreamBody(): NodeJSReadableStream | undefined {
     return isNodeLike ? this.fileDownloadStream : undefined;
   }
 
