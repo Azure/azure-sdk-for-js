@@ -789,6 +789,9 @@
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
