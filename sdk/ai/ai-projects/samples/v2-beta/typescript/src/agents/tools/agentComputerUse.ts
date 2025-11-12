@@ -105,12 +105,7 @@ Be direct and efficient. When you reach the search results page, read and descri
   const maxIterations = 10; // Allow enough iterations for completion
   let iteration = 0;
 
-  while (true) {
-    if (iteration >= maxIterations) {
-      console.log(`\nReached maximum iterations (${maxIterations}). Stopping.`);
-      break;
-    }
-
+  while (iteration < maxIterations) {
     iteration++;
     console.log(`\n--- Iteration ${iteration} ---`);
 
@@ -160,6 +155,10 @@ Be direct and efficient. When you reach the search results page, read and descri
     );
 
     console.log(`Follow-up response received (ID: ${response.id})`);
+  }
+
+  if (iteration >= maxIterations) {
+    console.log(`\nReached maximum iterations (${maxIterations}). Stopping.`);
   }
 
   // Clean up resources

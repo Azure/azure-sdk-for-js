@@ -22,6 +22,16 @@ export interface A2ATool extends Tool {
 }
 
 // @public
+export interface Agent {
+    id: string;
+    name: string;
+    object: "agent";
+    versions: {
+        latest: AgentVersion;
+    };
+}
+
+// @public
 export interface AgentClusterInsightResult extends InsightResult {
     // (undocumented)
     clusterInsight: ClusterInsightResult;
@@ -60,16 +70,6 @@ export interface AgentId {
 
 // @public
 export type AgentKind = "prompt" | "hosted" | "container_app" | "workflow";
-
-// @public
-export interface AgentObject {
-    id: string;
-    name: string;
-    object: "agent";
-    versions: {
-        latest: AgentVersionObject;
-    };
-}
 
 // @public
 export type AgentProtocol = "activity_protocol" | "responses";
@@ -141,18 +141,15 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    // Warning: (ae-forgotten-export) The symbol "CreateAgentConfig" needs to be exported by the entry point index.d.ts
-    create: (name: string, config: CreateAgentConfig) => Promise<AgentObject>;
-    createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersionObject>;
+    create: (name: string, config: CreateAgentConfig) => Promise<Agent>;
+    createVersion: (agentName: string, config: CreateAgentVersionConfig) => Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<AgentObject>;
-    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersionObject>;
-    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<AgentObject>;
-    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersionObject>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateAgentConfig" needs to be exported by the entry point index.d.ts
-    update: (agentName: string, config: UpdateAgentConfig) => Promise<AgentObject>;
+    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
+    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersion>;
+    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
+    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
+    update: (agentName: string, config: UpdateAgentConfig) => Promise<Agent>;
 }
 
 // @public
@@ -175,7 +172,7 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 }
 
 // @public
-export interface AgentVersionObject {
+export interface AgentVersion {
     created_at: Date;
     definition: AgentDefinitionUnion;
     description?: string;
@@ -279,7 +276,7 @@ export interface ApiInnerError {
 
 // @public
 export interface ApiKeyCredentials extends BaseCredentials {
-    readonly apiKey?: string;
+    readonly apiKey: string;
     readonly type: "ApiKey";
 }
 
@@ -368,7 +365,7 @@ export interface BaseCredentials {
 }
 
 // @public
-export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASCredentials | NoAuthenticationCredentials | AgenticIdentityCredentials | BaseCredentials;
+export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityCredentials | BaseCredentials;
 
 // @public
 export interface BingCustomSearchAgentTool extends Tool {
@@ -735,6 +732,42 @@ export interface CosmosDBIndex extends Index {
 }
 
 // @public
+export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
+
+// @public
+export type CreateAgentFromDefinitionConfig = {
+    type: "definition";
+    definition: AgentDefinitionUnion;
+    options?: AgentsCreateAgentOptionalParams;
+};
+
+// @public
+export type CreateAgentFromManifestConfig = {
+    type: "manifest";
+    manifestId: string;
+    parameterValues: Record<string, any>;
+    options?: AgentsCreateAgentFromManifestOptionalParams;
+};
+
+// @public
+export type CreateAgentVersionConfig = CreateAgentVersionFromDefinitionConfig | CreateAgentVersionFromManifestConfig;
+
+// @public
+export type CreateAgentVersionFromDefinitionConfig = {
+    type: "definition";
+    definition: AgentDefinitionUnion;
+    options?: AgentsCreateAgentVersionOptionalParams;
+};
+
+// @public
+export type CreateAgentVersionFromManifestConfig = {
+    type: "manifest";
+    manifestId: string;
+    parameterValues: Record<string, any>;
+    options?: AgentsCreateAgentVersionFromManifestOptionalParams;
+};
+
+// @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
 
 // @public
@@ -797,7 +830,6 @@ export interface DatasetsOperations {
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     pendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DatasetUploadOptions" needs to be exported by the entry point index.d.ts
     uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
     uploadFolder: (name: string, version: string, folderPath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
 }
@@ -808,6 +840,12 @@ export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
 
 // @public
 export type DatasetType = "uri_file" | "uri_folder";
+
+// @public
+export interface DatasetUploadOptions {
+    connectionName?: string;
+    filePattern?: RegExp;
+}
 
 // @public
 export interface DatasetVersion {
@@ -1732,6 +1770,18 @@ export interface MemorySearchToolCallItemParam extends ItemParam {
 }
 
 // @public
+export interface MemoryStore {
+    created_at: Date;
+    definition: MemoryStoreDefinitionUnion;
+    description?: string;
+    id: string;
+    metadata?: Record<string, string>;
+    name: string;
+    object: "memory_store";
+    updated_at: Date;
+}
+
+// @public
 export interface MemoryStoreDefaultDefinition extends MemoryStoreDefinition {
     chat_model: string;
     embedding_model: string;
@@ -1764,18 +1814,6 @@ export interface MemoryStoreDeleteScopeResponse {
 
 // @public
 export type MemoryStoreKind = "default";
-
-// @public
-export interface MemoryStoreObject {
-    created_at: Date;
-    definition: MemoryStoreDefinitionUnion;
-    description?: string;
-    id: string;
-    metadata?: Record<string, string>;
-    name: string;
-    object: "memory_store";
-    updated_at: Date;
-}
 
 // @public
 export interface MemoryStoreOperationUsage {
@@ -1830,14 +1868,14 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
 
 // @public
 export interface MemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
     delete: (name: string, options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
     deleteScope: (name: string, scope: string, options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
     getUpdateResult: (name: string, updateId: string, options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStoreObject>;
+    list: (options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
     searchMemories: (name: string, scope: string, options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStoreObject>;
+    update: (name: string, options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
     updateMemories: (name: string, scope: string, options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
 }
 
@@ -2162,6 +2200,11 @@ export interface RedTeamsOperations {
 }
 
 // @public
+export interface ResponseFormatJsonSchemaSchema {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
 export interface ResponsesAssistantMessageItemParam extends ResponsesMessageItemParam {
     content: string | ItemContentUnion[];
     role: "assistant";
@@ -2204,7 +2247,7 @@ export interface ResponseTextFormatConfiguration {
 }
 
 // @public
-export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextFormatConfiguration {
+export interface ResponseTextFormatConfigurationJson extends ResponseTextFormatConfiguration {
     // (undocumented)
     type: "json_object";
 }
@@ -2213,8 +2256,6 @@ export interface ResponseTextFormatConfigurationJsonObject extends ResponseTextF
 export interface ResponseTextFormatConfigurationJsonSchema extends ResponseTextFormatConfiguration {
     description?: string;
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "ResponseFormatJsonSchemaSchema" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     schema: ResponseFormatJsonSchemaSchema;
     strict?: boolean;
@@ -2231,7 +2272,7 @@ export interface ResponseTextFormatConfigurationText extends ResponseTextFormatC
 export type ResponseTextFormatConfigurationType = "text" | "json_schema" | "json_object";
 
 // @public
-export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurationText | ResponseTextFormatConfigurationJsonObject | ResponseTextFormatConfigurationJsonSchema | ResponseTextFormatConfiguration;
+export type ResponseTextFormatConfigurationUnion = ResponseTextFormatConfigurationText | ResponseTextFormatConfigurationJson | ResponseTextFormatConfigurationJsonSchema | ResponseTextFormatConfiguration;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
@@ -2256,8 +2297,8 @@ export interface SasCredential {
 }
 
 // @public
-export interface SASCredentials extends BaseCredentials {
-    readonly sasToken?: string;
+export interface SASTokenCredentials extends BaseCredentials {
+    readonly sasToken: string;
     readonly type: "SAS";
 }
 
@@ -2452,6 +2493,24 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
+
+// @public
+export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
+
+// @public
+export type UpdateAgentFromDefinitionConfig = {
+    type: "definition";
+    definition: AgentDefinitionUnion;
+    options?: AgentsUpdateAgentOptionalParams;
+};
+
+// @public
+export type UpdateAgentFromManifestConfig = {
+    type: "manifest";
+    manifestId: string;
+    parameterValues: Record<string, any>;
+    options?: AgentsUpdateAgentFromManifestOptionalParams;
+};
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {

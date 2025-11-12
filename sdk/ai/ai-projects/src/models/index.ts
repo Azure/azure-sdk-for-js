@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export {
-  AgentObject,
-  AgentVersionObject,
+  Agent,
+  AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
   AgentKind,
@@ -79,7 +79,7 @@ export {
   ResponseTextFormatConfigurationUnion,
   ResponseTextFormatConfigurationType,
   ResponseTextFormatConfigurationText,
-  ResponseTextFormatConfigurationJsonObject,
+  ResponseTextFormatConfigurationJson,
   ResponseTextFormatConfigurationJsonSchema,
   StructuredInputDefinition,
   ToolArgumentBinding,
@@ -93,7 +93,7 @@ export {
   MemoryStoreKind,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemoryStoreObject,
+  MemoryStore,
   DeleteMemoryStoreResponse,
   ItemParam,
   ItemParamUnion,
@@ -199,7 +199,7 @@ export {
   ApiKeyCredentials,
   EntraIDCredentials,
   CustomCredential,
-  SASCredentials,
+  SASTokenCredentials,
   NoAuthenticationCredentials,
   AgenticIdentityCredentials,
   DatasetVersion,
@@ -316,5 +316,6 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
+  ResponseFormatJsonSchemaSchema,
   KnownApiVersions,
 } from "./models.js";

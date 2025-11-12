@@ -16,7 +16,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agents/agentBasic.ts][agents_agentbasic]                                     | This sample demonstrates how to create an agent, create a conversation, generate responses using the agent, and clean up resources.                                                                                                                                                              |
 | [agents/agentCodeInterpreter.ts][agents_agentcodeinterpreter]                 | This sample demonstrates how to create a response with code interpreter tool to solve mathematical equations.                                                                                                                                                                                    |
 | [agents/agentFileSearch.ts][agents_agentfilesearch]                           | This sample demonstrates how to create an agent with file search capabilities, upload documents to a vector store, and stream responses that include file search results.                                                                                                                        |
+| [agents/tools/agentAiSearch.ts][agents_tools_agentaisearch]                   | This sample demonstrates how to create an agent with Azure AI Search tool capabilities, send queries to search indexed content, and process streaming responses with citations.                                                                                                                  |
 | [agents/tools/agentComputerUse.ts][agents_tools_agentcomputeruse]             | This sample demonstrates how to create a Computer Use Agent that can interact with computer interfaces through simulated actions and screenshots.                                                                                                                                                |
+| [agents/tools/agentFabric.ts][agents_tools_agentfabric]                       | This sample demonstrates how to create an agent with Microsoft Fabric tool capabilities, send queries to Fabric data sources, and clean up resources.                                                                                                                                            |
 | [agents/tools/agentFileSearch.ts][agents_tools_agentfilesearch]               | This sample demonstrates how to create a vector store, upload a file, create an agent with file search capabilities, generate responses, and clean up resources.                                                                                                                                 |
 | [agents/tools/agentImageGeneration.ts][agents_tools_agentimagegeneration]     | This sample demonstrates how to create an agent with ImageGenTool configured for image generation, make requests to generate images from text prompts, extract base64-encoded image data from the response, decode and save the generated image to a local file, and clean up created resources. |
 | [agents/tools/agentMcp.ts][agents_tools_agentmcp]                             | This sample demonstrates how to create an agent with MCP tool capabilities, send requests that trigger MCP approval workflows, handle approval requests, and clean up resources.                                                                                                                 |
@@ -74,13 +76,13 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/agents\agentBasic.js
+node dist/agents/agentBasic.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AZURE_AI_PROJECT_ENDPOINT="<azure ai project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/agents\agentBasic.js
+cross-env AZURE_AI_PROJECT_ENDPOINT="<azure ai project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/agents/agentBasic.js
 ```
 
 ## Next Steps
@@ -90,7 +92,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentBasic.ts
 [agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentCodeInterpreter.ts
 [agents_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/agentFileSearch.ts
+[agents_tools_agentaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentAiSearch.ts
 [agents_tools_agentcomputeruse]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentComputerUse.ts
+[agents_tools_agentfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentFabric.ts
 [agents_tools_agentfilesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentFileSearch.ts
 [agents_tools_agentimagegeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentImageGeneration.ts
 [agents_tools_agentmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2-beta/typescript/src/agents/tools/agentMcp.ts

@@ -10,8 +10,8 @@ import {
 export { AIProjectClient } from "./aiProjectClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  AgentObject,
-  AgentVersionObject,
+  Agent,
+  AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
   AgentKind,
@@ -87,7 +87,7 @@ export {
   ResponseTextFormatConfigurationUnion,
   ResponseTextFormatConfigurationType,
   ResponseTextFormatConfigurationText,
-  ResponseTextFormatConfigurationJsonObject,
+  ResponseTextFormatConfigurationJson,
   ResponseTextFormatConfigurationJsonSchema,
   StructuredInputDefinition,
   ToolArgumentBinding,
@@ -101,7 +101,7 @@ export {
   MemoryStoreKind,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemoryStoreObject,
+  MemoryStore,
   DeleteMemoryStoreResponse,
   ItemParam,
   ItemParamUnion,
@@ -207,7 +207,7 @@ export {
   ApiKeyCredentials,
   EntraIDCredentials,
   CustomCredential,
-  SASCredentials,
+  SASTokenCredentials,
   NoAuthenticationCredentials,
   AgenticIdentityCredentials,
   DatasetVersion,
@@ -324,9 +324,10 @@ export {
   AgentId,
   AgentReference,
   PendingUploadType,
+  ResponseFormatJsonSchemaSchema,
   KnownApiVersions,
 } from "./models/index.js";
-export { AIProjectClientOptionalParams } from "./api/index.js";
+export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export {
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
@@ -340,6 +341,15 @@ export {
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetAgentOptionalParams,
+  CreateAgentConfig,
+  CreateAgentFromDefinitionConfig,
+  CreateAgentFromManifestConfig,
+  UpdateAgentConfig,
+  UpdateAgentFromDefinitionConfig,
+  UpdateAgentFromManifestConfig,
+  CreateAgentVersionConfig,
+  CreateAgentVersionFromDefinitionConfig,
+  CreateAgentVersionFromManifestConfig,
 } from "./api/agents/index.js";
 export {
   ConnectionsListOptionalParams,

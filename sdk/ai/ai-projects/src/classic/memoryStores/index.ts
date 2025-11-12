@@ -26,7 +26,7 @@ import {
 } from "../../api/memoryStores/options.js";
 import {
   MemoryStoreDefinitionUnion,
-  MemoryStoreObject,
+  MemoryStore,
   DeleteMemoryStoreResponse,
   MemoryStoreSearchResponse,
   MemoryStoreUpdateResponse,
@@ -70,23 +70,20 @@ export interface MemoryStoresOperations {
   /** List all memory stores. */
   list: (
     options?: MemoryStoresListMemoryStoresOptionalParams,
-  ) => PagedAsyncIterableIterator<MemoryStoreObject>;
+  ) => PagedAsyncIterableIterator<MemoryStore>;
   /** Retrieve a memory store. */
-  get: (
-    name: string,
-    options?: MemoryStoresGetMemoryStoreOptionalParams,
-  ) => Promise<MemoryStoreObject>;
+  get: (name: string, options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
   /** Update a memory store. */
   update: (
     name: string,
     options?: MemoryStoresUpdateMemoryStoreOptionalParams,
-  ) => Promise<MemoryStoreObject>;
+  ) => Promise<MemoryStore>;
   /** Create a memory store. */
   create: (
     name: string,
     definition: MemoryStoreDefinitionUnion,
     options?: MemoryStoresCreateMemoryStoreOptionalParams,
-  ) => Promise<MemoryStoreObject>;
+  ) => Promise<MemoryStore>;
 }
 
 function _getMemoryStores(context: AIProjectContext) {
