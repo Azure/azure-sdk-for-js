@@ -13,8 +13,10 @@ import { AIProjectClient } from "@azure/ai-projects";
 import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
+import { fileURLToPath } from "url";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
 export async function main(): Promise<void> {
