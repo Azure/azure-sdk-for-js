@@ -15,6 +15,7 @@ import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
+// Skipping due to test failures: https://github.com/Azure/azure-sdk-for-js/issues/36549
 describe.skip("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
