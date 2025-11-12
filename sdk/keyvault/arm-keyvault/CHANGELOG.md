@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2025-11-11)
+## 4.0.0 (2025-11-12)
 
 ### Features Added
   - Added Interface MhsmServiceTagRule
@@ -30,22 +30,9 @@
 ### Breaking Changes
   - Operation ManagedHsms.checkMhsmNameAvailability has a new signature
   - Operation Vaults.checkNameAvailability has a new signature
-  - Removed Interface Permissions_2
   - Removed Interface ProxyResourceWithoutSystemData
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
-  - Parameter value of interface DeletedManagedHsmListResult is now required
-  - Parameter value of interface DeletedVaultListResult is now required
-  - Parameter value of interface KeyListResult is now required
-  - Parameter value of interface ManagedHsmKeyListResult is now required
-  - Parameter value of interface ManagedHsmListResult is now required
-  - Parameter value of interface MhsmPrivateEndpointConnectionsListResult is now required
-  - Parameter value of interface MhsmRegionsListResult is now required
-  - Parameter value of interface OperationListResult is now required
-  - Parameter value of interface PrivateEndpointConnectionListResult is now required
-  - Parameter value of interface ResourceListResult is now required
-  - Parameter value of interface SecretListResult is now required
-  - Parameter value of interface VaultListResult is now required
   - Removed Type Alias IdentityType
   - Type alias "Reason" has been changed
   - Removed Enum KnownIdentityType

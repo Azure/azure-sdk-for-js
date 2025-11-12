@@ -66,24 +66,24 @@ export interface ManagedHsms {
   ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse>;
   /**
    * Gets the specified deleted managed HSM.
-   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getDeleted(
-    location: string,
     name: string,
+    location: string,
     options?: ManagedHsmsGetDeletedOptionalParams,
   ): Promise<ManagedHsmsGetDeletedResponse>;
   /**
    * Permanently deletes the specified managed HSM.
-   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   beginPurgeDeleted(
-    location: string,
     name: string,
+    location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -93,13 +93,13 @@ export interface ManagedHsms {
   >;
   /**
    * Permanently deletes the specified managed HSM.
-   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   beginPurgeDeletedAndWait(
-    location: string,
     name: string,
+    location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<ManagedHsmsPurgeDeletedResponse>;
   /**

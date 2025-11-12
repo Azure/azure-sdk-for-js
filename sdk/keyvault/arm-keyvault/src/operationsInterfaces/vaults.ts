@@ -76,35 +76,35 @@ export interface Vaults {
   ): Promise<VaultsCheckNameAvailabilityResponse>;
   /**
    * Gets the deleted Azure key vault.
-   * @param location The name of the Azure region.
    * @param vaultName The name of the vault.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getDeleted(
-    location: string,
     vaultName: string,
+    location: string,
     options?: VaultsGetDeletedOptionalParams,
   ): Promise<VaultsGetDeletedResponse>;
   /**
    * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param location The name of the Azure region.
    * @param vaultName The name of the vault.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   beginPurgeDeleted(
-    location: string,
     vaultName: string,
+    location: string,
     options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param location The name of the Azure region.
    * @param vaultName The name of the vault.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   beginPurgeDeletedAndWait(
-    location: string,
     vaultName: string,
+    location: string,
     options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<void>;
   /**

@@ -314,30 +314,30 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Gets the deleted Azure key vault.
-   * @param location The name of the Azure region.
    * @param vaultName The name of the vault.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getDeleted(
-    location: string,
     vaultName: string,
+    location: string,
     options?: VaultsGetDeletedOptionalParams,
   ): Promise<VaultsGetDeletedResponse> {
     return this.client.sendOperationRequest(
-      { location, vaultName, options },
+      { vaultName, location, options },
       getDeletedOperationSpec,
     );
   }
 
   /**
    * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param location The name of the Azure region.
    * @param vaultName The name of the vault.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   async beginPurgeDeleted(
-    location: string,
     vaultName: string,
+    location: string,
     options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -379,7 +379,7 @@ export class VaultsImpl implements Vaults {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { location, vaultName, options },
+      args: { vaultName, location, options },
       spec: purgeDeletedOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -393,16 +393,16 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param location The name of the Azure region.
    * @param vaultName The name of the vault.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   async beginPurgeDeletedAndWait(
-    location: string,
     vaultName: string,
+    location: string,
     options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginPurgeDeleted(location, vaultName, options);
+    const poller = await this.beginPurgeDeleted(vaultName, location, options);
     return poller.pollUntilDone();
   }
 

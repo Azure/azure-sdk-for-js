@@ -14,11 +14,11 @@ require("dotenv/config");
 async function retrieveADeletedVault() {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const location = "westus";
   const vaultName = "sample-vault";
+  const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.vaults.getDeleted(location, vaultName);
+  const result = await client.vaults.getDeleted(vaultName, location);
   console.log(result);
 }
 

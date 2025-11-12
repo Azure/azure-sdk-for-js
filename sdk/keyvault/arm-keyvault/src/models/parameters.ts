@@ -100,13 +100,10 @@ export const subscriptionId: OperationURLParameter = {
   },
 };
 
-export const location: OperationURLParameter = {
-  parameterPath: "location",
+export const name: OperationURLParameter = {
+  parameterPath: "name",
   mapper: {
-    constraints: {
-      MinLength: 1,
-    },
-    serializedName: "location",
+    serializedName: "name",
     required: true,
     type: {
       name: "String",
@@ -114,10 +111,13 @@ export const location: OperationURLParameter = {
   },
 };
 
-export const name: OperationURLParameter = {
-  parameterPath: "name",
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
-    serializedName: "name",
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
     required: true,
     type: {
       name: "String",

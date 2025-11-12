@@ -15,11 +15,11 @@ async function retrieveADeletedManagedHsm(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
-  const location = "westus";
   const name = "hsm1";
+  const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.managedHsms.getDeleted(location, name);
+  const result = await client.managedHsms.getDeleted(name, location);
   console.log(result);
 }
 

@@ -15,13 +15,13 @@ async function purgeADeletedVault(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
-  const location = "westus";
   const vaultName = "sample-vault";
+  const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.vaults.beginPurgeDeletedAndWait(
-    location,
     vaultName,
+    location,
   );
   console.log(result);
 }

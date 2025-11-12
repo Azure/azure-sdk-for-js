@@ -14,11 +14,11 @@ require("dotenv/config");
 async function purgeAManagedHsmPool() {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const location = "westus";
   const name = "hsm1";
+  const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
-  const result = await client.managedHsms.beginPurgeDeletedAndWait(location, name);
+  const result = await client.managedHsms.beginPurgeDeletedAndWait(name, location);
   console.log(result);
 }
 

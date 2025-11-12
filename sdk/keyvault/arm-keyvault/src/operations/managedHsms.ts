@@ -252,27 +252,27 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Gets the specified deleted managed HSM.
-   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getDeleted(
-    location: string,
     name: string,
+    location: string,
     options?: ManagedHsmsGetDeletedOptionalParams,
   ): Promise<ManagedHsmsGetDeletedResponse> {
-    return this.client.sendOperationRequest({ location, name, options }, getDeletedOperationSpec);
+    return this.client.sendOperationRequest({ name, location, options }, getDeletedOperationSpec);
   }
 
   /**
    * Permanently deletes the specified managed HSM.
-   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   async beginPurgeDeleted(
-    location: string,
     name: string,
+    location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -319,7 +319,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { location, name, options },
+      args: { name, location, options },
       spec: purgeDeletedOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -336,16 +336,16 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Permanently deletes the specified managed HSM.
-   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   async beginPurgeDeletedAndWait(
-    location: string,
     name: string,
+    location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<ManagedHsmsPurgeDeletedResponse> {
-    const poller = await this.beginPurgeDeleted(location, name, options);
+    const poller = await this.beginPurgeDeleted(name, location, options);
     return poller.pollUntilDone();
   }
 
@@ -737,8 +737,8 @@ const getDeletedOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
     Parameters.name,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -767,8 +767,8 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
     Parameters.name,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
