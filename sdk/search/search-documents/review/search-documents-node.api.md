@@ -2113,6 +2113,12 @@ export enum KnownKnowledgeBaseModelKind {
 }
 
 // @public
+export enum KnownKnowledgeRetrievalOutputMode {
+    AnswerSynthesis = "answerSynthesis",
+    ExtractiveData = "extractiveData"
+}
+
+// @public
 export enum KnownKnowledgeSourceKind {
     AzureBlob = "azureBlob",
     IndexedOneLake = "indexedOneLake",
