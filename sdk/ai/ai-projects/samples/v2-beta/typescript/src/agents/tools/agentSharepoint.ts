@@ -88,7 +88,6 @@ export async function main(): Promise<void> {
       }
     } else if (event.type === "response.completed") {
       console.log("\nFollow-up completed!");
-      console.log(`Full response: ${event.response.output_text}`);
     }
   }
 

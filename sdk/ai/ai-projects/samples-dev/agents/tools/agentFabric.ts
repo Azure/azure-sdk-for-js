@@ -13,7 +13,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { PromptAgentDefinition, AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
 
