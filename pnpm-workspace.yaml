@@ -58,3 +58,5 @@ minimumReleaseAgeExclude:
   - '@azure/*'
   - '@azure-rest/*'
   - '@microsoft/*'
+  - '@azure-tools/*'
+  - '@typespec/*'
