@@ -54,3 +54,7 @@ catalogs:
 linkWorkspacePackages: true
 
 minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@azure/*'
+  - '@azure-rest/*'
+  - '@microsoft/*'
