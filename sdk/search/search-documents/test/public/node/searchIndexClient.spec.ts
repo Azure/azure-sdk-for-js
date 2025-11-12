@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
@@ -14,7 +15,7 @@ import type {
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src/index.js";
-import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
+import { AzureKeyCredential, SearchClient, SearchIndexClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
@@ -25,6 +26,7 @@ import {
   deleteSynonymMaps,
   WAIT_TIME,
 } from "../utils/setup.js";
+import { AssertionError } from "assert";
 
 describe("SearchIndexClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
@@ -69,7 +71,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
-    let TEST_AGENT_NAME: string;
+    let TEST_BASE_NAME: string;
     let azureOpenAIParameters: AzureOpenAIParameters;
     let knowledgeBase: KnowledgeBase;
     let knowledgeSource: KnowledgeSource;
@@ -77,17 +79,17 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
-      TEST_AGENT_NAME = createRandomIndexName();
+      TEST_BASE_NAME = createRandomIndexName();
       ({
         indexClient,
         indexName: TEST_INDEX_NAME,
-        agentName: TEST_AGENT_NAME,
+        baseName: TEST_BASE_NAME,
         azureOpenAIParameters,
       } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
         TEST_INDEX_NAME,
-        TEST_AGENT_NAME,
+        TEST_BASE_NAME,
       ));
       knowledgeSource = {
         kind: "searchIndex",
@@ -402,6 +404,81 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       } finally {
         await indexClient.deleteIndex(index);
       }
+    });
+
+  });
+
+  describe("preview", () => {
+    let recorder: Recorder;
+    let indexClient: SearchIndexClient;
+    let index: SearchIndex;
+
+    beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      ({
+        indexClient,
+      } = await createClients<Hotel>(
+        defaultServiceVersion,
+        recorder,
+        "",
+        ""
+      ));
+      index = {
+        name: "content-security-test",
+        purviewEnabled: true,
+        fields: [
+          {
+            type: "Edm.String",
+            name: "id",
+            key: true,
+          },
+          {
+            name: "sensitivityLabel",
+            type: "Edm.String",
+            filterable: false,
+            sortable: false,
+            facetable: true,
+            sensitivityLabel: true
+          }
+        ]
+      };
+      await indexClient.createOrUpdateIndex(index);
+      await delay(WAIT_TIME);
+    });
+
+    afterEach(async () => {
+      await indexClient.deleteIndex(index.name);
+      await recorder?.stop();
+    });
+
+    it("verify content security indexes", async () => {
+       const documents = [
+        { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
+        { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
+        { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
+        { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" }
+      ];
+
+      const searchClient: SearchClient<{id: string, sensitivityLabel: string}> = new SearchClient(
+        indexClient.endpoint,
+        index.name,
+        createTestCredential(),
+      );
+
+      await searchClient.uploadDocuments(documents);
+      await delay(WAIT_TIME);
+      
+      // Test that search with invalid authorization token throws an error
+      let errorThrown = false;
+      try {
+        await searchClient.search("*", "Invalid token", true);
+      } catch (ex: any) {
+        errorThrown = true;
+        // Verify it's an auth related error
+        assert.isTrue(ex.message.includes("Invalid header"));
+      }
+      assert.isTrue(errorThrown, "Expected search with invalid header to throw an error");
+
     });
   });
 });

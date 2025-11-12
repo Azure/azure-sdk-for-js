@@ -19,7 +19,7 @@ export interface Clients<IndexModel extends object> {
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
-  agentName: string;
+  baseName: string;
   openAIClient: OpenAIClient;
   knowledgeRetrievalClient: KnowledgeRetrievalClient;
   azureOpenAIParameters: AzureOpenAIParameters;
@@ -95,13 +95,13 @@ export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string,
-  agentName: string,
+  baseName: string,
 ): Promise<Clients<IndexModel>> {
   const recorderOptions = createRecorderStartOptions();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  agentName = recorder.variable("TEST_AGENT_NAME", agentName);
+  baseName = recorder.variable("TEST_BASE_NAME", baseName);
 
   const credential = createTestCredential();
 
@@ -143,7 +143,7 @@ export async function createClients<IndexModel extends object>(
   );
   const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
     endPoint,
-    agentName,
+    baseName,
     credential,
     recorder.configureClientOptions({}),
   );
@@ -155,7 +155,7 @@ export async function createClients<IndexModel extends object>(
     openAIClient,
     knowledgeRetrievalClient,
     indexName,
-    agentName,
+    baseName,
     azureOpenAIParameters,
   };
 }

@@ -194,6 +194,7 @@ export {
   InputFieldMappingEntry,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
+  KnownKnowledgeRetrievalOutputMode,
   KnowledgeRetrievalOutputMode,
   KnowledgeRetrievalReasoningEffort,
   KnowledgeSourceContentExtractionMode,
