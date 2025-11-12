@@ -5,6 +5,7 @@ import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
 import type { ParallelQueryResult } from "../parallelQueryResult.js";
 import { createParallelQueryResult } from "../parallelQueryResult.js";
+import type { OrderByItemWithRid } from "../ContinuationTokenManager/BaseContinuationTokenManager.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
@@ -19,7 +20,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-  ) {}
+  ) { }
   /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
@@ -30,7 +31,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
-    const orderByItemsArray: { orderByItems: any[]; _rid: string }[] = []; // Store order by items for each item
+    const orderByItemsArray: OrderByItemWithRid[] = []; // Store order by items for each item
 
     const response = await this.executionContext.fetchMore(diagnosticNode);
     if (

@@ -84,7 +84,7 @@ describe("PipelineQueryExecutionContext", () => {
       value: value,
     });
 
-    it("should fetch more with enableQueryControl false as deafult", async () => {
+    it("should fetch more with enableQueryControl false as default", async () => {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -123,7 +123,7 @@ describe("PipelineQueryExecutionContext", () => {
       assert.strictEqual(result[2].id, "3");
     });
 
-    it("should fetch more when empty resutls are retuned initially by document producers", async () => {
+    it("should fetch more when empty results are returned initially by document producers", async () => {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -255,17 +255,21 @@ describe("PipelineQueryExecutionContext", () => {
       );
 
       // Mock the continuation token manager to avoid range mapping errors
-      context["continuationTokenManager"] = {
-        getUnsupportedQueryType: vi.fn().mockReturnValue(false),
-        hasUnprocessedRanges: vi.fn().mockReturnValue(false),
-        processRangesForCurrentPage: vi.fn().mockReturnValue({
-          endIndex: 0,
-          processedRanges: [],
-        }),
-        setContinuationTokenInHeaders: vi.fn(),
-        removePartitionRangeMapping: vi.fn(),
-        sliceOrderByItemsArray: vi.fn(),
-      } as any;
+      Object.defineProperty(context, "continuationTokenManager", {
+        value: {
+          getUnsupportedQueryType: vi.fn().mockReturnValue(false),
+          hasUnprocessedRanges: vi.fn().mockReturnValue(false),
+          processRangesForCurrentPage: vi.fn().mockReturnValue({
+            endIndex: 0,
+            processedRanges: [],
+          }),
+          setContinuationTokenInHeaders: vi.fn(),
+          removePartitionRangeMapping: vi.fn(),
+          sliceOrderByItemsArray: vi.fn(),
+        } as any,
+        writable: false,
+        configurable: true,
+      });
 
       let i = 0;
       context["endpoint"] = {
@@ -300,17 +304,21 @@ describe("PipelineQueryExecutionContext", () => {
 
       // Second call should return data
       // Update mocks for second call
-      context["continuationTokenManager"] = {
-        getUnsupportedQueryType: vi.fn().mockReturnValue(false),
-        hasUnprocessedRanges: vi.fn().mockReturnValue(false),
-        processRangesForCurrentPage: vi.fn().mockReturnValue({
-          endIndex: 3,
-          processedRanges: [],
-        }),
-        setContinuationTokenInHeaders: vi.fn(),
-        removePartitionRangeMapping: vi.fn(),
-        sliceOrderByItemsArray: vi.fn(),
-      } as any;
+      Object.defineProperty(context, "continuationTokenManager", {
+        value: {
+          getUnsupportedQueryType: vi.fn().mockReturnValue(false),
+          hasUnprocessedRanges: vi.fn().mockReturnValue(false),
+          processRangesForCurrentPage: vi.fn().mockReturnValue({
+            endIndex: 3,
+            processedRanges: [],
+          }),
+          setContinuationTokenInHeaders: vi.fn(),
+          removePartitionRangeMapping: vi.fn(),
+          sliceOrderByItemsArray: vi.fn(),
+        } as any,
+        writable: false,
+        configurable: true,
+      });
 
       const response2 = await context.fetchMore(createDummyDiagnosticNode());
       const result2 = response2.result;
@@ -331,17 +339,21 @@ describe("PipelineQueryExecutionContext", () => {
       );
 
       // Mock the continuation token manager to avoid range mapping errors
-      context["continuationTokenManager"] = {
-        getUnsupportedQueryType: vi.fn().mockReturnValue(false),
-        hasUnprocessedRanges: vi.fn().mockReturnValue(false),
-        processRangesForCurrentPage: vi.fn().mockReturnValue({
-          endIndex: 2, // Return only maxItemCount items
-          processedRanges: [],
-        }),
-        setContinuationTokenInHeaders: vi.fn(),
-        removePartitionRangeMapping: vi.fn(),
-        sliceOrderByItemsArray: vi.fn(),
-      } as any;
+      Object.defineProperty(context, "continuationTokenManager", {
+        value: {
+          getUnsupportedQueryType: vi.fn().mockReturnValue(false),
+          hasUnprocessedRanges: vi.fn().mockReturnValue(false),
+          processRangesForCurrentPage: vi.fn().mockReturnValue({
+            endIndex: 2, // Return only maxItemCount items
+            processedRanges: [],
+          }),
+          setContinuationTokenInHeaders: vi.fn(),
+          removePartitionRangeMapping: vi.fn(),
+          sliceOrderByItemsArray: vi.fn(),
+        } as any,
+        writable: false,
+        configurable: true,
+      });
 
       context["endpoint"] = {
         fetchMore: async () => {

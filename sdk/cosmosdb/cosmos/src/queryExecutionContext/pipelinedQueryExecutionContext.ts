@@ -38,7 +38,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-  private continuationTokenManager?: BaseContinuationTokenManager;
+  private readonly continuationTokenManager?: BaseContinuationTokenManager;
 
   constructor(
     private clientContext: ClientContext,
@@ -53,23 +53,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!this.options.maxItemCount) {
       this.options.maxItemCount = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
-    this.pageSize = options["maxItemCount"];
+    this.pageSize = this.options.maxItemCount;
 
-    const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
+    const sortOrders = partitionedQueryExecutionInfo.queryInfo!.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
 
     // Pick between Nonstreaming and streaming endpoints
-    this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
+    this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo!.hasNonStreamingOrderBy;
 
     // Check if this is a GROUP BY query
     const isGroupByQuery =
-      Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length > 0 ||
-      partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
-      partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0;
+      Object.keys(partitionedQueryExecutionInfo.queryInfo!.groupByAliasToAggregateType).length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo!.aggregates!.length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo!.groupByExpressions!.length > 0;
 
     // Check if this is an unordered DISTINCT query
     const isUnorderedDistinctQuery =
-      partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
+      partitionedQueryExecutionInfo.queryInfo!.distinctType === "Unordered";
 
     // Determine if this query type supports continuation tokens
     const querySupportsTokens =
@@ -116,7 +116,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
+          `is not allowed`,
         );
       }
 
@@ -401,8 +401,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-          "with your vector search query.",
+        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+        "with your vector search query.",
       );
     }
     return;

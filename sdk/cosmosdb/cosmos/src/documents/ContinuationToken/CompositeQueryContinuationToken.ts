@@ -6,9 +6,8 @@ import type { QueryRangeMapping } from "../../queryExecutionContext/queryRangeMa
 
 /**
  * @hidden
- * Simplified query range for continuation tokens
  */
-export interface SimplifiedQueryRange {
+export interface RangeBoundary {
   /**
    * Minimum boundary (inclusive)
    */
@@ -58,8 +57,8 @@ export function createCompositeQueryContinuationToken(
   if (!rangeMappings || rangeMappings.length === 0) {
     throw new Error(
       "Failed to create composite continuation token: No partition range mappings provided. " +
-        "This typically indicates an issue with query execution context initialization or partition key range resolution. " +
-        "Ensure the query is properly configured and the container has valid partition ranges.",
+      "This typically indicates an issue with query execution context initialization or partition key range resolution. " +
+      "Ensure the query is properly configured and the container has valid partition ranges.",
     );
   }
 
@@ -97,7 +96,7 @@ export interface QueryRangeWithContinuationToken {
   /**
    * The simplified query range containing min/max boundaries
    */
-  queryRange: SimplifiedQueryRange;
+  queryRange: RangeBoundary;
 
   /**
    * The continuation token for this specific range
@@ -117,15 +116,15 @@ export function convertRangeMappingToQueryRange(
   if (!rangeMapping.partitionKeyRange) {
     throw new Error(
       "Failed to convert range mapping: Missing partition key range information. " +
-        "The QueryRangeMapping object must contain a valid partitionKeyRange with min and max boundaries. " +
-        "This may indicate an incomplete partition key range resolution during query setup.",
+      "The QueryRangeMapping object must contain a valid partitionKeyRange with min and max boundaries. " +
+      "This may indicate an incomplete partition key range resolution during query setup.",
     );
   }
 
   const pkRange = rangeMapping.partitionKeyRange;
 
   // Create simplified range assuming min is inclusive and max is exclusive
-  const simplifiedRange: SimplifiedQueryRange = {
+  const simplifiedRange: RangeBoundary = {
     min: pkRange.minInclusive,
     max: pkRange.maxExclusive,
   };
@@ -155,7 +154,7 @@ export function convertRangeMappingsToQueryRangesWithTokens(
  * @hidden
  */
 export function convertSimplifiedRangeToQueryRange(
-  simplifiedRange: SimplifiedQueryRange,
+  simplifiedRange: RangeBoundary,
 ): QueryRange {
   return new QueryRange(
     simplifiedRange.min,

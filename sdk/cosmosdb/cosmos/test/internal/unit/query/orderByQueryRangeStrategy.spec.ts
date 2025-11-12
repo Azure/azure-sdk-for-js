@@ -200,7 +200,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfo = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: ["c.field1"],
@@ -289,7 +289,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const ranges = [leftRange, targetRange, rightRange];
 
         const queryInfo = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: ["c.field1"],
@@ -316,7 +316,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithoutExpressions = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               // Missing orderByExpressions
@@ -335,7 +335,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithMismatchedFields = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending", "Descending"], // 2 sort orders
               orderByExpressions: ["c.field1"], // Only 1 expression - mismatch!
@@ -354,7 +354,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithInvalidExpression = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: [
@@ -379,7 +379,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithStringExpression = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: ["c.field1"], // String format
@@ -402,7 +402,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithObjectExpression = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: [
@@ -430,7 +430,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithPathExpression = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: [
@@ -458,7 +458,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithFieldExpression = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: ["Ascending"],
               orderByExpressions: [
@@ -486,7 +486,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithoutSortOrder = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               // Missing orderBy field entirely
               orderByExpressions: ["c.field1"],
@@ -505,7 +505,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithInvalidSortOrder = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: [
                 {
@@ -539,7 +539,7 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithObjectSortOrder = {
-          quereyInfo: {
+          queryInfo: {
             queryInfo: {
               orderBy: [{ direction: "Descending" }],
               orderByExpressions: ["c.field1"],

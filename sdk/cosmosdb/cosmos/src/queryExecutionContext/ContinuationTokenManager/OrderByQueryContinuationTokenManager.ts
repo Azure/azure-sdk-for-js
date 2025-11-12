@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js";
-import type { QueryResponseResult } from "./BaseContinuationTokenManager.js";
+import type { QueryResponseResult, OrderByItemWithRid } from "./BaseContinuationTokenManager.js";
 import type { OrderByQueryContinuationToken } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import {
   createOrderByQueryContinuationToken,
@@ -18,7 +18,7 @@ import { convertRangeMappingToQueryRange } from "../../documents/ContinuationTok
  */
 export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenManager {
   private continuationToken: OrderByQueryContinuationToken | undefined;
-  private orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined;
+  private orderByItemsArray: OrderByItemWithRid[] | undefined;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
     super(collectionLink);
@@ -30,9 +30,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  private setOrderByItemsArray(
-    orderByItemsArray: { orderByItems: any[]; _rid: string }[] | undefined,
-  ): void {
+  private setOrderByItemsArray(orderByItemsArray: OrderByItemWithRid[] | undefined): void {
     this.orderByItemsArray = orderByItemsArray;
   }
 

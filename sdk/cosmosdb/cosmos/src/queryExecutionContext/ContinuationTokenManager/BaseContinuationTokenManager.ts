@@ -4,13 +4,29 @@
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
 import type {
   QueryRangeWithContinuationToken,
-  SimplifiedQueryRange,
+  RangeBoundary,
 } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
 import { PartitionRangeManager } from "../PartitionRangeManager.js";
+
+/**
+ * Represents an ORDER BY item with its associated document resource ID.
+ * Used for tracking ORDER BY criteria and document identity in sorted query results.
+ * @internal
+ */
+export interface OrderByItemWithRid {
+  /**
+   * The ORDER BY values for this document
+   */
+  orderByItems: any[];
+  /**
+   * The resource ID (_rid) of the document
+   */
+  _rid: string;
+}
 
 /**
  * Interface representing the result portion of a query response that contains
@@ -20,7 +36,7 @@ import { PartitionRangeManager } from "../PartitionRangeManager.js";
 export interface QueryResponseResult {
   partitionKeyRangeMap?: Map<string, QueryRangeMapping>;
   updatedContinuationRanges?: PartitionRangeUpdates;
-  orderByItems?: { orderByItems: any[]; _rid: string }[];
+  orderByItems?: OrderByItemWithRid[];
   buffer?: any[];
 }
 
@@ -202,7 +218,7 @@ export abstract class BaseContinuationTokenManager {
     const existingMapping = this.ranges[existingMappingIndex];
 
     // Create new simplified QueryRange with updated boundaries
-    const updatedQueryRange: SimplifiedQueryRange = {
+    const updatedQueryRange: RangeBoundary = {
       min: newRange.min,
       max: newRange.max,
     };
@@ -227,7 +243,7 @@ export abstract class BaseContinuationTokenManager {
 
   private createNewRangeMapping(partitionKeyRange: any, continuationToken: string): void {
     // Create new simplified QueryRange
-    const queryRange: SimplifiedQueryRange = {
+    const queryRange: RangeBoundary = {
       min: partitionKeyRange.min,
       max: partitionKeyRange.max,
     };

@@ -143,8 +143,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       // If we can't extract sort orders, we cannot create reliable filter conditions
       throw new Error(
         `Unable to resume ORDER BY query from continuation token. The ORDER BY sort direction configuration ` +
-          `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
-          `Please retry the query without a continuation token. Original error: ${error}`,
+        `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
+        `Please retry the query without a continuation token. Original error: ${error}`,
       );
     }
 
@@ -152,13 +152,13 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     let orderByExpressions: any[] | undefined;
     if (
       queryInfo &&
-      queryInfo.quereyInfo &&
-      typeof queryInfo.quereyInfo === "object" &&
-      (queryInfo.quereyInfo as any).queryInfo &&
-      (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-      Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
+      queryInfo.queryInfo &&
+      typeof queryInfo.queryInfo === "object" &&
+      (queryInfo.queryInfo as any).queryInfo &&
+      (queryInfo.queryInfo as any).queryInfo.orderByExpressions &&
+      Array.isArray((queryInfo.queryInfo as any).queryInfo.orderByExpressions)
     ) {
-      orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
+      orderByExpressions = (queryInfo.queryInfo as any).queryInfo.orderByExpressions;
     }
 
     if (sortOrders.length === 0) {
@@ -168,8 +168,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
       throw new Error(
         "Unable to resume ORDER BY query from continuation token. The ORDER BY field configuration " +
-          "in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. " +
-          "Please retry the query without a continuation token.",
+        "in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. " +
+        "Please retry the query without a continuation token.",
       );
     }
 
@@ -204,9 +204,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         // This would lead to incorrect query results, so we must fail the entire request
         throw new Error(
           `Unable to resume ORDER BY query from continuation token. The ORDER BY field configuration ` +
-            `in the query plan is invalid or incompatible with the continuation token format. ` +
-            `This may indicate a client version mismatch or corrupted continuation token. ` +
-            `Please retry the query without a continuation token. Original error: ${error}`,
+          `in the query plan is invalid or incompatible with the continuation token format. ` +
+          `This may indicate a client version mismatch or corrupted continuation token. ` +
+          `Please retry the query without a continuation token. Original error: ${error}`,
         );
       }
     }
@@ -225,18 +225,18 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       throw new Error("Query information is required to determine ORDER BY sort directions");
     }
 
-    // Extract orderBy from the nested structure: queryInfo.quereyInfo.queryInfo.orderBy
+    // Extract orderBy from the nested structure: queryInfo.queryInfo.queryInfo.orderBy
     let orderBy: any[] | undefined;
 
     if (
-      queryInfo.quereyInfo &&
-      typeof queryInfo.quereyInfo === "object" &&
-      (queryInfo.quereyInfo as any).queryInfo &&
-      typeof (queryInfo.quereyInfo as any).queryInfo === "object" &&
-      (queryInfo.quereyInfo as any).queryInfo.orderBy &&
-      Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderBy)
+      queryInfo.queryInfo &&
+      typeof queryInfo.queryInfo === "object" &&
+      (queryInfo.queryInfo as any).queryInfo &&
+      typeof (queryInfo.queryInfo as any).queryInfo === "object" &&
+      (queryInfo.queryInfo as any).queryInfo.orderBy &&
+      Array.isArray((queryInfo.queryInfo as any).queryInfo.orderBy)
     ) {
-      orderBy = (queryInfo.quereyInfo as any).queryInfo.orderBy;
+      orderBy = (queryInfo.queryInfo as any).queryInfo.orderBy;
     }
 
     if (!orderBy) {
@@ -274,15 +274,15 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       if (queryInfo.orderByExpressions && Array.isArray(queryInfo.orderByExpressions)) {
         orderByExpressions = queryInfo.orderByExpressions;
       }
-      // Nested path: queryInfo.quereyInfo.queryInfo.orderByExpressions
+      // Nested path: queryInfo.queryInfo.queryInfo.orderByExpressions
       else if (
-        queryInfo.quereyInfo &&
-        typeof queryInfo.quereyInfo === "object" &&
-        (queryInfo.quereyInfo as any).queryInfo &&
-        (queryInfo.quereyInfo as any).queryInfo.orderByExpressions &&
-        Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderByExpressions)
+        queryInfo.queryInfo &&
+        typeof queryInfo.queryInfo === "object" &&
+        (queryInfo.queryInfo as any).queryInfo &&
+        (queryInfo.queryInfo as any).queryInfo.orderByExpressions &&
+        Array.isArray((queryInfo.queryInfo as any).queryInfo.orderByExpressions)
       ) {
-        orderByExpressions = (queryInfo.quereyInfo as any).queryInfo.orderByExpressions;
+        orderByExpressions = (queryInfo.queryInfo as any).queryInfo.orderByExpressions;
       }
     }
 

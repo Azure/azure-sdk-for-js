@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
+import type { OrderByItemWithRid } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
 
 /**
  * Represents the result structure returned by parallel query execution contexts
@@ -21,13 +22,13 @@ export interface ParallelQueryResult {
   /**
    * Updated continuation ranges after partition split/merge operations
    */
-  updatedContinuationRanges: Record<string, any>;
+  updatedContinuationRanges?: Record<string, any>;
 
   /**
    * Optional array of orderBy items corresponding to each item in the buffer
    * Used for ORDER BY queries to track sorting criteria
    */
-  orderByItems?: { orderByItems: any[]; _rid: string }[];
+  orderByItems?: OrderByItemWithRid[];
 }
 
 /**
@@ -43,7 +44,7 @@ export function createParallelQueryResult(
   buffer: any[],
   partitionKeyRangeMap: Map<string, QueryRangeMapping>,
   updatedContinuationRanges?: Record<string, any>,
-  orderByItems?: { orderByItems: any[]; _rid: string }[],
+  orderByItems?: OrderByItemWithRid[],
 ): ParallelQueryResult {
   const result: ParallelQueryResult = {
     buffer,
