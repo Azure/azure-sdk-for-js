@@ -75,6 +75,6 @@ extends:
                   -packageName ${{parameters.PackageName}}
                   -pkgVersion ${{parameters.PkgVersion}}
                   -tagName ${{parameters.TagName}}
-                  -npmToken "$(azure-sdk-npm-token)"
+                  -npmToken "$(azure-sdk-npm-token-granular)"
                   -reason "${{parameters.Reason}}"
                 pwsh: true
