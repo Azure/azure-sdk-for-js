@@ -1659,7 +1659,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
-/**/tsconfig.json @Azure/azure-sdk-for-js-core
+/sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
