@@ -98,7 +98,6 @@
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
-    "azure-ai-decorators": "https://github.com/glecaros/pkg/raw/refs/heads/main/azure-ai-decorators-v0.1.2.tgz",
     "vitest": "catalog:testing"
   },
   "scripts": {

@@ -142,8 +142,7 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 // @public
 export interface AgentsOperations {
     create: (name: string, config: CreateAgentConfig) => Promise<Agent>;
-    createVersion: (agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams) => Promise<AgentVersion>;
-    createVersionFromManifest: (agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams) => Promise<AgentVersion>;
+    createVersion: (agentName: string, config: CreateAgentVersionConfig) => Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
     get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
@@ -732,11 +731,41 @@ export interface CosmosDBIndex extends Index {
     type: "CosmosDBNoSqlVectorStore";
 }
 
-// Warning: (ae-forgotten-export) The symbol "CreateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "CreateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type CreateAgentConfig = CreateAgentFromDefinitionConfig | CreateAgentFromManifestConfig;
+
+// @public
+export type CreateAgentFromDefinitionConfig = {
+    type: "definition";
+    definition: AgentDefinitionUnion;
+    options?: AgentsCreateAgentOptionalParams;
+};
+
+// @public
+export type CreateAgentFromManifestConfig = {
+    type: "manifest";
+    manifestId: string;
+    parameterValues: Record<string, any>;
+    options?: AgentsCreateAgentFromManifestOptionalParams;
+};
+
+// @public
+export type CreateAgentVersionConfig = CreateAgentVersionFromDefinitionConfig | CreateAgentVersionFromManifestConfig;
+
+// @public
+export type CreateAgentVersionFromDefinitionConfig = {
+    type: "definition";
+    definition: AgentDefinitionUnion;
+    options?: AgentsCreateAgentVersionOptionalParams;
+};
+
+// @public
+export type CreateAgentVersionFromManifestConfig = {
+    type: "manifest";
+    manifestId: string;
+    parameterValues: Record<string, any>;
+    options?: AgentsCreateAgentVersionFromManifestOptionalParams;
+};
 
 // @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken";
@@ -2465,11 +2494,23 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 // @public
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
-// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromDefinitionConfig" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "UpdateAgentFromManifestConfig" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
+
+// @public
+export type UpdateAgentFromDefinitionConfig = {
+    type: "definition";
+    definition: AgentDefinitionUnion;
+    options?: AgentsUpdateAgentOptionalParams;
+};
+
+// @public
+export type UpdateAgentFromManifestConfig = {
+    type: "manifest";
+    manifestId: string;
+    parameterValues: Record<string, any>;
+    options?: AgentsUpdateAgentFromManifestOptionalParams;
+};
 
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {

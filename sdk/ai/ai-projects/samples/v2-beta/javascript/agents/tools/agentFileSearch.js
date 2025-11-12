@@ -67,7 +67,7 @@ async function main() {
       input: "Tell me about Contoso products",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference", input: "" } },
+      body: { agent: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response: ${response.output_text}`);

@@ -196,3 +196,21 @@ export type UpdateAgentFromManifestConfig = {
 
 /** Configuration for updating an agent */
 export type UpdateAgentConfig = UpdateAgentFromDefinitionConfig | UpdateAgentFromManifestConfig;
+
+/** Configuration for creating an agent version from a definition */
+export type CreateAgentVersionFromDefinitionConfig = {
+  type: "definition";
+  definition: AgentDefinitionUnion;
+  options?: AgentsCreateAgentVersionOptionalParams;
+};
+
+/** Configuration for creating an agent version from a manifest */
+export type CreateAgentVersionFromManifestConfig = {
+  type: "manifest";
+  manifestId: string;
+  parameterValues: Record<string, any>;
+  options?: AgentsCreateAgentVersionFromManifestOptionalParams;
+};
+
+/** Configuration for creating an agent version */
+export type CreateAgentVersionConfig = CreateAgentVersionFromDefinitionConfig | CreateAgentVersionFromManifestConfig;

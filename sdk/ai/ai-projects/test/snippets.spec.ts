@@ -61,7 +61,6 @@ describe("snippets", function () {
     const response = await openAIClient.responses.create(
       {
         conversation: conversation.id,
-        input: "", // TODO: Remove 'input' once service is fixed
       },
       {
         body: { agent: { name: agent.name, type: "agent_reference" } },
@@ -81,7 +80,6 @@ describe("snippets", function () {
     const response2 = await openAIClient.responses.create(
       {
         conversation: conversation.id,
-        input: "", // TODO: Remove 'input' once service is fixed
       },
       {
         body: { agent: { name: agent.name, type: "agent_reference" } },

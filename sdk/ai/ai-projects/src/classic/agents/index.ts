@@ -20,18 +20,16 @@ import {
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
-  AgentsCreateAgentVersionFromManifestOptionalParams,
-  AgentsCreateAgentVersionOptionalParams,
   AgentsListAgentsOptionalParams,
   AgentsDeleteAgentOptionalParams,
   AgentsGetAgentOptionalParams,
   CreateAgentConfig,
   UpdateAgentConfig,
+  CreateAgentVersionConfig,
 } from "../../api/agents/options.js";
 import {
   Agent,
   AgentVersion,
-  AgentDefinitionUnion,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
 } from "../../models/models.js";
@@ -56,19 +54,8 @@ export interface AgentsOperations {
     agentVersion: string,
     options?: AgentsGetAgentVersionOptionalParams,
   ) => Promise<AgentVersion>;
-  /** Create a new agent version from a manifest. */
-  createVersionFromManifest: (
-    agentName: string,
-    manifestId: string,
-    parameterValues: Record<string, any>,
-    options?: AgentsCreateAgentVersionFromManifestOptionalParams,
-  ) => Promise<AgentVersion>;
   /** Create a new agent version. */
-  createVersion: (
-    agentName: string,
-    definition: AgentDefinitionUnion,
-    options?: AgentsCreateAgentVersionOptionalParams,
-  ) => Promise<AgentVersion>;
+  createVersion: (agentName: string, config: CreateAgentVersionConfig) => Promise<AgentVersion>;
   /** Returns the list of all agents. */
   list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
   /** Deletes an agent. */
@@ -101,17 +88,19 @@ function _getAgents(context: AIProjectContext) {
       agentVersion: string,
       options?: AgentsGetAgentVersionOptionalParams,
     ) => getAgentVersion(context, agentName, agentVersion, options),
-    createVersionFromManifest: (
-      agentName: string,
-      manifestId: string,
-      parameterValues: Record<string, any>,
-      options?: AgentsCreateAgentVersionFromManifestOptionalParams,
-    ) => createAgentVersionFromManifest(context, agentName, manifestId, parameterValues, options),
-    createVersion: (
-      agentName: string,
-      definition: AgentDefinitionUnion,
-      options?: AgentsCreateAgentVersionOptionalParams,
-    ) => createAgentVersion(context, agentName, definition, options),
+    createVersion: (agentName: string, config: CreateAgentVersionConfig): Promise<AgentVersion> => {
+      if (config.type === "definition") {
+        return createAgentVersion(context, agentName, config.definition, config.options);
+      } else {
+        return createAgentVersionFromManifest(
+          context,
+          agentName,
+          config.manifestId,
+          config.parameterValues,
+          config.options,
+        );
+      }
+    },
     list: (options?: AgentsListAgentsOptionalParams) => listAgents(context, options),
     delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) =>
       deleteAgent(context, agentName, options),
