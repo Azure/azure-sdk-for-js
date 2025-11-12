@@ -128,12 +128,11 @@ export class PartitionRangeManager {
     for (const [rangeId, _] of this.partitionKeyRangeMap) {
       processedRanges.push(rangeId);
     }
-    console.log("Processed ranges for empty response:", processedRanges);
     // search for matching range in the map(min max value exact match) and return that as lastRangeBeforePageLimit
     for (const [_, mapping] of this.partitionKeyRangeMap) {
       if (
-        mapping.partitionKeyRange.minInclusive === ranges[0].queryRange.min &&
-        mapping.partitionKeyRange.maxExclusive === ranges[0].queryRange.max
+        mapping.partitionKeyRange!.minInclusive === ranges[0].queryRange.min &&
+        mapping.partitionKeyRange!.maxExclusive === ranges[0].queryRange.max
       ) {
         lastRangeBeforePageLimit = mapping;
         break;

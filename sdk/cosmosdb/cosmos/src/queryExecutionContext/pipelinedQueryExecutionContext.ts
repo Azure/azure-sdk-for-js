@@ -333,7 +333,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (this.fetchBuffer.length > 0) {
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
-        this.fetchBuffer.length === 0,
+        false,
       );
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);

@@ -1122,10 +1122,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       // Debug: Show what we collected
 
-      if (allResults.length > 0) {
-        if (allResults.length > 10) {
-        }
-      }
 
       // Validate ordering is maintained across continuation boundaries
       for (let i = 1; i < allResults.length; i++) {
@@ -1169,11 +1165,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         const count = categoryDistribution.get(item.category) || 0;
         categoryDistribution.set(item.category, count + 1);
       });
-
-      if (allResults.length > 0) {
-        if (allResults.length > 10) {
-        }
-      }
 
       // Validate we got data from multiple partitions
       expect(categoriesEncountered.size).toBeGreaterThan(1);
@@ -1735,9 +1726,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
           currentQueryIterator = multiPartitionContainer2.items.query(query, fuzzedOptions);
         } else {
-          if (!sessionToken) {
-          } else {
-          }
           break;
         }
 
@@ -1880,8 +1868,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             sessionToken = response.continuationToken;
           }
         }
-        if (lastAmountInSession !== undefined) {
-        }
+        
 
         // If we have a continuation token, create a new iterator
         if (sessionToken && currentQueryIterator.hasMoreResults()) {
@@ -1914,9 +1901,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
           currentQueryIterator = multiPartitionContainer2.items.query(query, fuzzedOptions);
         } else {
-          if (!sessionToken) {
-          } else {
-          }
+      
           break;
         }
       }
