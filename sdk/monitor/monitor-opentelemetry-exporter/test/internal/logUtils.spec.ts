@@ -189,7 +189,7 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
-      
+
       // Verify the message is properly serialized JSON, not "[object Object]"
       const actualMessage = (envelope?.data?.baseData as MessageData)?.message;
       assert.notStrictEqual(actualMessage, "[object Object]");
