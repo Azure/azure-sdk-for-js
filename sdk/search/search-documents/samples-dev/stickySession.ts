@@ -50,7 +50,7 @@ async function main(): Promise<void> {
     // performance degradation. Be sure to use a distinct `sessionId` for each sticky session.
     const ratingQueries = [2, 4];
     for (const rating of ratingQueries) {
-      const response = await searchClient.search("*", {
+      const response = await searchClient.search("*", undefined, undefined, {
         filter: odata`rating ge ${rating}`,
         sessionId,
       });
