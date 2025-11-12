@@ -8,6 +8,8 @@
 
 - Add support for multiuser permissions in unix.
 
+- Add support for log message serialization for complex objects.
+
 ## 1.0.0-beta.35 (2025-09-16)
 
 ### Other Changes
