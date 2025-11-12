@@ -47,10 +47,10 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms @juniwang @RichardChen820
+/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhiyuanliang-ms @RichardChen820
 
 # ServiceLabel: %App Configuration
-# AzureSdkOwners:  @minhanh-phan
+# AzureSdkOwners:  @minhanh-phan @zhiyuanliang-ms
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
@@ -192,8 +192,8 @@
 
 # PRLabel: %Synapse
 # ServiceLabel: %Synapse
-# AzureSdkOwners: @joheredi
-/sdk/synapse/ @joheredi
+# AzureSdkOwners: @joheredi @wanyang7
+/sdk/synapse/ @joheredi @wanyang7
 
 # PRLabel: %Tables
 /sdk/tables/ @joheredi @jeremymeng
@@ -778,6 +778,9 @@
 
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
@@ -1507,7 +1510,7 @@
 # ServiceOwners:          @shahbj79 @mit2nil @aygoya @ganganarayanan
 
 # ServiceLabel: %Service Attention %Synapse
-# ServiceOwners:          @zesluo
+# ServiceOwners:          @zesluo @wanyang7
 
 # ServiceLabel: %Service Attention %Tables
 # ServiceOwners:          @klaaslanghout
@@ -1656,7 +1659,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
-/**/tsconfig.json @Azure/azure-sdk-for-js-core
+/sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
@@ -1678,12 +1681,13 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao
 #########################
 # Eng Sys and CODEOWNERS
 #########################
-/eng/                  @mikeharder @weshaggard @benbp
-/eng/common/           @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-/.config/1espt/ @benbp @weshaggard
-/.github/workflows/    @Azure/azure-sdk-eng
-/.github/CODEOWNERS    @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+/eng/                                    @mikeharder @weshaggard @benbp
+/eng/common/                             @Azure/azure-sdk-eng
+/eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+/.config/1espt/                          @benbp @weshaggard
+/.github/workflows/                      @Azure/azure-sdk-eng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+/.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao

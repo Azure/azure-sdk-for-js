@@ -62,7 +62,7 @@ describe("UsernamePasswordCredential (internal)", () => {
     await credential.getToken(scope);
     const result = await persistence?.load();
     const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+    assert.isDefined(parsedResult.AccessToken);
   });
 
   it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
@@ -96,7 +96,7 @@ describe("UsernamePasswordCredential (internal)", () => {
     // The cache should have a token a this point
     const result = await persistence?.load();
     const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+    assert.isDefined(parsedResult.AccessToken);
 
     await credential.getToken(scope);
     expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);

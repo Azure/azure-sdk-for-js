@@ -62,8 +62,8 @@ describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with a client certificate on the environment variables", async function (ctx) {
@@ -80,8 +80,8 @@ describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with a client certificate and password on the environment variables", async function (ctx) {
@@ -100,8 +100,8 @@ describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("finds and uses client username/password environment variables", async () => {
@@ -176,10 +176,9 @@ describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "CredentialUnavailableError");
-    assert.ok(
-      error.message.indexOf(
-        "EnvironmentCredential is unavailable. No underlying credential could be used.",
-      ) > -1,
+    assert.include(
+      error.message,
+      "EnvironmentCredential is unavailable. No underlying credential could be used.",
     );
   });
 
@@ -191,6 +190,6 @@ describe.skipIf(shouldRunSPTest())("EnvironmentCredential", function () {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AuthenticationError");
-    assert.ok(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);
+    assert.include(error.message, "EnvironmentCredential authentication failed.");
   });
 });

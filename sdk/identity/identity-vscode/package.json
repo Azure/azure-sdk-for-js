@@ -51,7 +51,7 @@
   "dependencies": {
     "@azure/identity": "^4.11.0",
     "@azure/msal-node": "^3.2.2",
-    "@azure/msal-node-extensions": "^1.5.20",
+    "@azure/msal-node-extensions": "^1.5.24",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -73,6 +73,16 @@
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Identity Visual Studio Code Plugin",
+    "productSlugs": [
+      "entra",
+      "entra-id"
+    ],
+    "requiredResources": {
+      "Microsoft Entra App Registration": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app"
+    }
   },
   "type": "module",
   "tshy": {

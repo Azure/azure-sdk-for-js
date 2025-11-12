@@ -8,7 +8,7 @@ Run `npm run generate:client` to generate code.
 
 ```yaml
 package-name: "@azure/synapse-artifacts"
-package-version: "1.0.0-beta.16"
+package-version: "1.0.0-beta.17"
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION
 security-scopes: https://dev.azuresynapse.net/.default
