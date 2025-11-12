@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all network security perimeters in a subscription.
  *
  * @summary List all network security perimeters in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkSecurityPerimeterListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkSecurityPerimeterListAll.json
  */
 async function networkSecurityPerimetersList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

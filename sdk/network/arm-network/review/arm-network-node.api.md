@@ -21,6 +21,9 @@ export interface AadAuthenticationParameters {
 export type Access = string;
 
 // @public
+export type AccessMode = string;
+
+// @public
 export type AccessRuleDirection = string;
 
 // @public
@@ -432,6 +435,7 @@ export interface ApplicationGatewayBackendHttpSettings extends SubResource {
 
 // @public
 export interface ApplicationGatewayBackendSettings extends SubResource {
+    enableL4ClientIpPreservation?: boolean;
     readonly etag?: string;
     hostName?: string;
     name?: string;
@@ -642,6 +646,7 @@ export interface ApplicationGatewayLoadDistributionTarget extends SubResource {
 export interface ApplicationGatewayOnDemandProbe {
     backendAddressPool?: SubResource;
     backendHttpSettings?: SubResource;
+    enableProbeProxyProtocolHeader?: boolean;
     host?: string;
     match?: ApplicationGatewayProbeHealthResponseMatch;
     path?: string;
@@ -789,6 +794,7 @@ export type ApplicationGatewayPrivateLinkResourcesListResponse = ApplicationGate
 
 // @public
 export interface ApplicationGatewayProbe extends SubResource {
+    enableProbeProxyProtocolHeader?: boolean;
     readonly etag?: string;
     host?: string;
     interval?: number;
@@ -2302,6 +2308,13 @@ export interface BreakOutCategoryPolicies {
 }
 
 // @public
+export interface CertificateAuthentication {
+    inboundAuthCertificateChain?: string[];
+    inboundAuthCertificateSubjectName?: string;
+    outboundAuthCertificate?: string;
+}
+
+// @public
 export interface CheckDnsNameAvailabilityOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2456,6 +2469,9 @@ export type ConnectedGroupAddressOverlap = string;
 
 // @public
 export type ConnectedGroupPrivateEndpointsScale = string;
+
+// @public
+export type ConnectionAuthenticationType = string;
 
 // @public
 export interface ConnectionMonitor {
@@ -6595,6 +6611,12 @@ export enum KnownAccess {
 }
 
 // @public
+export enum KnownAccessMode {
+    Default = "Default",
+    Restricted = "Restricted"
+}
+
+// @public
 export enum KnownAccessRuleDirection {
     Inbound = "Inbound",
     Outbound = "Outbound"
@@ -7031,6 +7053,12 @@ export enum KnownConnectedGroupAddressOverlap {
 export enum KnownConnectedGroupPrivateEndpointsScale {
     HighScale = "HighScale",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownConnectionAuthenticationType {
+    Certificate = "Certificate",
+    PSK = "PSK"
 }
 
 // @public
@@ -7644,6 +7672,12 @@ export enum KnownLoadBalancerOutboundRuleProtocol {
 }
 
 // @public
+export enum KnownLoadBalancerScope {
+    Private = "Private",
+    Public = "Public"
+}
+
+// @public
 export enum KnownLoadBalancerSkuName {
     Basic = "Basic",
     Gateway = "Gateway",
@@ -8021,6 +8055,12 @@ export enum KnownRouteNextHopType {
     VirtualAppliance = "VirtualAppliance",
     VirtualNetworkGateway = "VirtualNetworkGateway",
     VnetLocal = "VnetLocal"
+}
+
+// @public
+export enum KnownRouteTableUsageMode {
+    ManagedOnly = "ManagedOnly",
+    UseExisting = "UseExisting"
 }
 
 // @public
@@ -8677,6 +8717,7 @@ export interface LoadBalancer extends Resource {
     probes?: Probe[];
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
+    scope?: LoadBalancerScope;
     sku?: LoadBalancerSku;
 }
 
@@ -8954,6 +8995,9 @@ export interface LoadBalancers {
     migrateToIpBased(groupName: string, loadBalancerName: string, options?: LoadBalancersMigrateToIpBasedOptionalParams): Promise<LoadBalancersMigrateToIpBasedResponse>;
     updateTags(resourceGroupName: string, loadBalancerName: string, parameters: TagsObject, options?: LoadBalancersUpdateTagsOptionalParams): Promise<LoadBalancersUpdateTagsResponse>;
 }
+
+// @public
+export type LoadBalancerScope = string;
 
 // @public
 export interface LoadBalancersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -10454,6 +10498,7 @@ export interface NetworkManagerRoutingConfiguration extends ChildResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
+    routeTableUsageMode?: RouteTableUsageMode;
     readonly systemData?: SystemData;
 }
 
@@ -12705,6 +12750,7 @@ export type PrivateEndpointVNetPolicies = string;
 
 // @public
 export interface PrivateLinkService extends Resource {
+    accessMode?: AccessMode;
     readonly alias?: string;
     autoApproval?: PrivateLinkServicePropertiesAutoApproval;
     destinationIPAddress?: string;
@@ -14018,6 +14064,9 @@ export interface RouteTablesUpdateTagsOptionalParams extends coreClient.Operatio
 
 // @public
 export type RouteTablesUpdateTagsResponse = RouteTable;
+
+// @public
+export type RouteTableUsageMode = string;
 
 // @public
 export interface RoutingConfiguration {
@@ -16388,7 +16437,9 @@ export interface VirtualNetworkGatewayAutoScaleConfiguration {
 
 // @public
 export interface VirtualNetworkGatewayConnection extends Resource {
+    authenticationType?: ConnectionAuthenticationType;
     authorizationKey?: string;
+    certificateAuthentication?: CertificateAuthentication;
     connectionMode?: VirtualNetworkGatewayConnectionMode;
     connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
     readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;

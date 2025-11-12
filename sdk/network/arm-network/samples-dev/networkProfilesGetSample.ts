@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified network profile in a specified resource group.
  *
  * @summary Gets the specified network profile in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkProfileGetConfigOnly.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkProfileGetConfigOnly.json
  */
 async function getNetworkProfile(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getNetworkProfile(): Promise<void> {
  * This sample demonstrates how to Gets the specified network profile in a specified resource group.
  *
  * @summary Gets the specified network profile in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkProfileGetWithContainerNic.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkProfileGetWithContainerNic.json
  */
 async function getNetworkProfileWithContainerNetworkInterfaces(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

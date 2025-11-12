@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a security user rule collection.
  *
  * @summary Creates or updates a security user rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerSecurityUserRuleCollectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerSecurityUserRuleCollectionPut.json
  */
 async function createOrUpdateASecurityUserRuleCollection(): Promise<void> {
   const subscriptionId =

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified virtual network.
  *
  * @summary Deletes the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/VirtualNetworkDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/VirtualNetworkDelete.json
  */
 async function deleteVirtualNetwork(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a NVA connection.
  *
  * @summary Deletes a NVA connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkVirtualApplianceConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkVirtualApplianceConnectionDelete.json
  */
 async function networkVirtualApplianceConnectionDelete(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all available request headers.
  *
  * @summary Lists all available request headers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/ApplicationGatewayAvailableRequestHeadersGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/ApplicationGatewayAvailableRequestHeadersGet.json
  */
 async function getAvailableRequestHeaders(): Promise<void> {
   const subscriptionId =

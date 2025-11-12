@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get specified scope connection created by this Network Manager.
  *
  * @summary Get specified scope connection created by this Network Manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-10-01/examples/NetworkManagerScopeConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2025-01-01/examples/NetworkManagerScopeConnectionGet.json
  */
 async function getNetworkManagerScopeConnection(): Promise<void> {
   const subscriptionId =
