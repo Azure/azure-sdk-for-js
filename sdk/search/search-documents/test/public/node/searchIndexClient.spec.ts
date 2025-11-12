@@ -405,7 +405,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         await indexClient.deleteIndex(index);
       }
     });
-
   });
 
   describe("preview", () => {
@@ -415,14 +414,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
-      ({
-        indexClient,
-      } = await createClients<Hotel>(
-        defaultServiceVersion,
-        recorder,
-        "",
-        ""
-      ));
+      ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, "", ""));
       index = {
         name: "content-security-test",
         purviewEnabled: true,
@@ -438,9 +430,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
             filterable: false,
             sortable: false,
             facetable: true,
-            sensitivityLabel: true
-          }
-        ]
+            sensitivityLabel: true,
+          },
+        ],
       };
       await indexClient.createOrUpdateIndex(index);
       await delay(WAIT_TIME);
@@ -452,14 +444,14 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
 
     it("verify content security indexes", async () => {
-       const documents = [
+      const documents = [
         { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
         { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
         { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
-        { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" }
+        { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
       ];
 
-      const searchClient: SearchClient<{id: string, sensitivityLabel: string}> = new SearchClient(
+      const searchClient: SearchClient<{ id: string; sensitivityLabel: string }> = new SearchClient(
         indexClient.endpoint,
         index.name,
         createTestCredential(),
@@ -467,7 +459,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
 
       await searchClient.uploadDocuments(documents);
       await delay(WAIT_TIME);
-      
+
       // Test that search with invalid authorization token throws an error
       let errorThrown = false;
       try {
@@ -478,7 +470,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         assert.isTrue(ex.message.includes("Invalid header"));
       }
       assert.isTrue(errorThrown, "Expected search with invalid header to throw an error");
-
     });
   });
 });

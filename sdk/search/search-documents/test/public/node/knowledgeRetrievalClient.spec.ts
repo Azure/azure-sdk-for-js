@@ -100,11 +100,9 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
     });
 
     it("create webKnowledgeSource and query knowledge base", { timeout: 60000 }, async () => {
-
       const webKnowledgeSource: WebKnowledgeSource = {
         kind: "web",
         name: "web-ks",
-
       };
 
       await indexClient.createOrUpdateKnowledgeSource(webKnowledgeSource.name, webKnowledgeSource);
@@ -149,15 +147,17 @@ describe("KnowledgeRetrievalClient", { timeout: 20_000 }, () => {
       await indexClient.deleteKnowledgeSource("web-ks");
     });
 
-     it("CRUD  remote sharepoint knowledge source", { timeout: 60000 }, async () => {
-
+    it("CRUD  remote sharepoint knowledge source", { timeout: 60000 }, async () => {
       const remoteSharePointKnowledgeSource: RemoteSharePointKnowledgeSource = {
         kind: "remoteSharePoint",
         name: "remotesharepoint-ks",
-        remoteSharePointParameters: {}
+        remoteSharePointParameters: {},
       };
 
-      await indexClient.createOrUpdateKnowledgeSource(remoteSharePointKnowledgeSource.name, remoteSharePointKnowledgeSource);
+      await indexClient.createOrUpdateKnowledgeSource(
+        remoteSharePointKnowledgeSource.name,
+        remoteSharePointKnowledgeSource,
+      );
 
       await indexClient.createKnowledgeBase({
         name: `${TEST_BASE_NAME}-remotesharepoint`,
