@@ -10,5 +10,5 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
    * 'close' event (unless emitClose is set to false). After this call,
    * internal resources will be released.
    */
-  destroy(error?: Error): void;
+  destroy(error?: Error): this;
 }

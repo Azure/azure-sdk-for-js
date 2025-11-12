@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
 ### Breaking Changes
 
 ### Bugs Fixed

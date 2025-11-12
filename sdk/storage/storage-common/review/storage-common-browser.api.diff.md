@@ -27,7 +27,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 -export interface NodeJSReadableStream extends NodeJS.ReadableStream {
--    destroy(error?: Error): void;
+-    destroy(error?: Error): this;
 -}
 -
 -// @public

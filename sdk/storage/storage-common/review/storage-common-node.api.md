@@ -64,7 +64,7 @@ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): Reque
 
 // @public
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
-    destroy(error?: Error): void;
+    destroy(error?: Error): this;
 }
 
 // @public
