@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { tmpdir } from "node:os";
-import { basename, join } from "node:path";
+import { tmpdir, userInfo } from "node:os";
+import { basename, join, dirname } from "node:path";
+import { createHash } from "node:crypto";
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
@@ -18,7 +19,7 @@ import type { TelemetryItem as Envelope } from "../../../generated/index.js";
  * @internal
  */
 export class FileSystemPersist implements PersistentStorage {
-  static TEMPDIR_PREFIX = "ot-azure-exporter-";
+  static TEMPDIR_PREFIX = "opentelemetry-nodejs-";
   static FILENAME_SUFFIX = ".ai.json";
 
   fileRetemptionPeriod = 2 * 24 * 60 * 60 * 1000; // 2 days
@@ -57,11 +58,9 @@ export class FileSystemPersist implements PersistentStorage {
       );
     }
     if (this._enabled) {
-      this._tempDirectory = join(
-        this._options?.storageDirectory || tmpdir(),
-        "Microsoft",
-        "AzureMonitor",
-        FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
+      this._tempDirectory = getStorageDirectory(
+        this._instrumentationKey,
+        this._options?.storageDirectory,
       );
 
       // Starts file cleanup task
@@ -235,4 +234,70 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
   }
+}
+
+/**
+ * Return the deterministic local storage path for a given instrumentation key.
+ *
+ * On shared Linux hosts the first user to create `/tmp/Microsoft/AzureMonitor` can
+ * block others because the directory inherits that user's `umask`. This is avoided by
+ * inserting a hash of the instrumentation key, user name, process name, and
+ * application directory, giving each user their own subdirectory, e.g.
+ * `/tmp/Microsoft-AzureMonitor-1234...../opentelemetry-nodejs-<ikey>`.
+ *
+ * @param instrumentationKey - Application Insights instrumentation key.
+ * @param storageDirectory - Optional custom storage directory path. If not provided, system temp directory is used.
+ * @returns Absolute path to the storage directory.
+ * @internal
+ */
+export function getStorageDirectory(
+  instrumentationKey: string,
+  storageDirectory: string | undefined,
+): string {
+  let userSegment: string;
+  let processName: string;
+  let applicationDirectory: string;
+  try {
+    const user = userInfo();
+    userSegment = user.username;
+  } catch (error) {
+    userSegment = "";
+  }
+  if (process.title.length > 0) {
+    processName = process.title;
+  } else {
+    processName = "";
+  }
+  const applicationDir = dirname(process.cwd() || process.argv[1]);
+  if (applicationDir) {
+    applicationDirectory = applicationDir;
+  } else {
+    applicationDirectory = "";
+  }
+  const hash_input = `${instrumentationKey}|${userSegment}|${processName}|${applicationDirectory}`;
+
+  let subDirectory: string;
+  try {
+    subDirectory = createHash("sha256").update(hash_input).digest("hex");
+  } catch (error) {
+    let hash = 5381;
+    for (let i = 0; i < hash_input.length; i++) {
+      const char = hash_input.charCodeAt(i);
+      hash = (hash << 5) + hash + char;
+      hash = hash & hash;
+    }
+    subDirectory = Math.abs(hash).toString(16);
+  }
+
+  let sharedRoot: string;
+  if (storageDirectory) {
+    sharedRoot = storageDirectory;
+  } else {
+    sharedRoot = tmpdir();
+  }
+  return join(
+    sharedRoot,
+    "Microsoft-AzureMonitor-" + subDirectory,
+    FileSystemPersist.TEMPDIR_PREFIX + instrumentationKey,
+  );
 }

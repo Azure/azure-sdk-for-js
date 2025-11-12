@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Fetch the report summary of a single storage task assignment's instances
  *
  * @summary Fetch the report summary of a single storage task assignment's instances
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentInstancesReportSummary.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentInstancesReportSummary.json
  */
 async function listStorageTaskAssignmentInstancesReportSummary() {
   const subscriptionId =

@@ -100,6 +100,10 @@ export const validateMiscConfig: Validate<Options> = {
 };
 
 export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promise<WidgetConfig> => {
+  const prefilledAnswers: Pick<WidgetConfig, "displayName"> = {
+    ...partial,
+    displayName: partial.displayName ?? "",
+  };
   const inquirerImport = await import("inquirer");
   const inquirer = inquirerImport.default;
   return inquirer.prompt(
@@ -121,13 +125,17 @@ export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promis
         ],
       },
     ],
-    partial,
+    prefilledAnswers,
   );
 };
 
 export const promptServiceInformation = async (
   partial: Partial<ServiceInformation>,
 ): Promise<ServiceInformation> => {
+  const prefilledAnswers: Pick<ServiceInformation, "managementApiEndpoint"> = {
+    ...partial,
+    managementApiEndpoint: partial.managementApiEndpoint ?? "",
+  };
   const inquirerImport = await import("inquirer");
   const inquirer = inquirerImport.default;
   return inquirer.prompt(
@@ -163,7 +171,7 @@ export const promptServiceInformation = async (
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
       },
     ],
-    partial,
+    prefilledAnswers,
   );
 };
 

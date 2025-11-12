@@ -1,6 +1,6 @@
 # Release History
 
-## 12.29.1 (Unreleased)
+## 12.30.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Refactor to import and re-export common APIs from `@azure/storage-common`
+
+## 12.29.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
 
 ## 12.28.0 (2025-07-22)
 

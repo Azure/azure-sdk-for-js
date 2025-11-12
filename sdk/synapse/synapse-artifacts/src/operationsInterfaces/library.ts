@@ -27,14 +27,14 @@ import type {
 export interface Library {
   /**
    * Lists Library.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource>;
   /**
    * Flush Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   beginFlush(
     libraryName: string,
@@ -42,15 +42,15 @@ export interface Library {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Flush Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   beginFlushAndWait(libraryName: string, options?: LibraryFlushOptionalParams): Promise<void>;
   /**
    * Get Operation result for Library
-   * @param operationId - operation id for which status is requested
-   * @param options - The options parameters.
+   * @param operationId operation id for which status is requested
+   * @param options The options parameters.
    */
   getOperationResult(
     operationId: string,
@@ -58,9 +58,9 @@ export interface Library {
   ): Promise<LibraryGetOperationResultResponse>;
   /**
    * Delete Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   beginDelete(
     libraryName: string,
@@ -68,23 +68,23 @@ export interface Library {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   beginDeleteAndWait(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<void>;
   /**
    * Get Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse>;
   /**
    * Creates a library with the library name.
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   beginCreate(
     libraryName: string,
@@ -92,18 +92,18 @@ export interface Library {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates a library with the library name.
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   beginCreateAndWait(libraryName: string, options?: LibraryCreateOptionalParams): Promise<void>;
   /**
    * Append the content to the library resource created using the create operation. The maximum content
    * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param content - Library file chunk.
-   * @param options - The options parameters.
+   * @param content Library file chunk.
+   * @param options The options parameters.
    */
   append(
     libraryName: string,

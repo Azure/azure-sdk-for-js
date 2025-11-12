@@ -48,7 +48,7 @@ describe("Utility Helpers Node.js only", () => {
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
-      assert.ok(error);
+      assert.isDefined(error);
     }
   });
 

@@ -144,7 +144,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     // Verify the command includes --no-prompt to prevent hanging on debug prompts
     const command = azdCommands[0];
-    assert.ok(command.includes("--no-prompt"), "Command should include --no-prompt flag");
+    assert.isTrue(command.includes("--no-prompt"), "Command should include --no-prompt flag");
     assert.deepEqual(azdCommands, [
       "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
