@@ -1,5 +1,49 @@
 # Release History
 
+## 1.0.0-beta.4 (2025-11-12)
+
+### Breaking Changes
+
+- **Removed Certificate Management APIs and Types:**
+  - Removed all certificate management operations and types, including:
+    - `CreateCertificate`, `CreateCertificateParameters`, `CreateCertificate201Response`, `DeleteCertificate`, `DeleteCertificateParameters`, `DeleteCertificate202Response`, `CancelCertificateDeletion`, `CancelCertificateDeletionParameters`, `ListCertificates`, `ListCertificatesParameters`, `ListCertificates200Response`, `GetCertificate`, `GetCertificateParameters`, `GetCertificate200Response`, and all related types such as `BatchCertificate`, `BatchCertificateOutput`, `BatchCertificateReference`, `BatchCertificateReferenceOutput`, etc.
+  - Removed all related response types, query/parameter types, and helper functions for certificate operations.
+  - Removed certificate-related fields from model types, such as `certificateReferences` and `targetNodeCommunicationMode` from `BatchPoolCreateOptions`, `BatchPoolSpecification`, `BatchPoolSpecificationOutput`, `BatchPoolUpdateOptions`, and `BatchPoolReplaceOptions`.
+
+- **Removed/Changed Node Communication Mode:**
+  - Removed `BatchNodeCommunicationMode` and related types and fields from all models.
+
+### Features Added
+
+- **Job level FIFO**
+  - Added `BatchJobDefaultOrder` and `BatchJobDefaultOrderOutput` types.
+  - Extended `BatchTaskSchedulingPolicy` and `BatchTaskSchedulingPolicyOutput` with a new `jobDefaultOrder` property to support job-level FIFO scheduling.
+
+- **CMK support on Pools**
+  - Added `DiskCustomerManagedKey`, `DiskCustomerManagedKeyOutput`, `DiskEncryptionSetParameters`, and `DiskEncryptionSetParametersOutput` for customer-managed key (CMK) support on pools.
+  - Extended `DiskEncryptionConfiguration` and `DiskEncryptionConfigurationOutput` with a new `customerManagedKey` property.
+  - Extended `ManagedDisk` and `ManagedDiskOutput` with a new `diskEncryptionSet` property.
+  - Added `BatchPoolIdentityReference` and `BatchPoolIdentityReferenceOutput` for referencing managed identities in disk encryption scenarios.
+
+- **IPv6 support on Pools**
+  - Added `ipv6Address` to `BatchNodeOutput`.
+  - Added `ipv6RemoteLoginIPAddress` and `ipv6RemoteLoginPort` to `BatchNodeRemoteLoginSettingsOutput`.
+
+- **Metadata Security Protocol Support on Pools**
+  - Added `HostEndpointSettings`, `HostEndpointSettingsOutput`, `HostEndpointSettingsModeTypes`, and `HostEndpointSettingsModeTypesOutput`.
+  - Added `ProxyAgentSettings` and `ProxyAgentSettingsOutput`.
+  - Extended `SecurityProfile` and `SecurityProfileOutput` with a new `proxyAgentSettings` property for metadata security protocol support.
+
+- **IP Tag Support**
+  - Added `IPFamily`, `IPFamilyOutput`, `IPTag`, and `IPTagOutput` types.
+  - Extended `BatchPublicIpAddressConfiguration` and `BatchPublicIpAddressConfigurationOutput` with new `ipFamilies` and `ipTags` properties for IP tag support.
+
+### Other Changes
+
+- Many model output types now have required (non-optional) and/or `readonly` properties for improved type safety and clarity. For example, fields like `creationTime`, `id`, `eTag`, `state`, `stateTransitionTime`, and `url` in `BatchJobOutput`, `BatchJobScheduleOutput`, `BatchNodeOutput`, `BatchPoolOutput`, and `BatchTaskOutput` are now required and/or readonly.
+- Removed all certificate-related routes from the client path definitions.
+- Removed all `isUnexpected` helper functions for certificate-related responses.
+
 ## 1.0.0-beta.3 (2025-07-18)
 
 ### Breaking Changes

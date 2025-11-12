@@ -39,7 +39,7 @@ describe.skip("VisualStudioCodeCredential", () => {
 
     const token = await cred.getToken(scope);
 
-    assert.ok(token.expiresOnTimestamp);
-    assert.ok(token.token);
+    assert.isDefined(token.expiresOnTimestamp);
+    assert.isDefined(token.token);
   });
 });

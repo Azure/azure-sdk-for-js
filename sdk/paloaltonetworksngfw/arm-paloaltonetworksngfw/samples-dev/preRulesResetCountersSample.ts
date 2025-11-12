@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  PreRulesResetCountersOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
+  PaloAltoNetworksCloudngfw,
+} from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 /**
  * This sample demonstrates how to Reset counters
  *
  * @summary Reset counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_resetCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_resetCounters_MaximumSet_Gen.json
  */
-
-import type { PreRulesResetCountersOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 async function preRulesResetCountersMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
@@ -20,7 +22,11 @@ async function preRulesResetCountersMaximumSetGen(): Promise<void> {
   const options: PreRulesResetCountersOptionalParams = { firewallName };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.preRules.resetCounters(globalRulestackName, priority, options);
+  const result = await client.preRules.resetCounters(
+    globalRulestackName,
+    priority,
+    options,
+  );
   console.log(result);
 }
 
@@ -28,14 +34,17 @@ async function preRulesResetCountersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Reset counters
  *
  * @summary Reset counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_resetCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2025-10-08/examples/PreRules_resetCounters_MinimumSet_Gen.json
  */
 async function preRulesResetCountersMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
-  const result = await client.preRules.resetCounters(globalRulestackName, priority);
+  const result = await client.preRules.resetCounters(
+    globalRulestackName,
+    priority,
+  );
   console.log(result);
 }
 

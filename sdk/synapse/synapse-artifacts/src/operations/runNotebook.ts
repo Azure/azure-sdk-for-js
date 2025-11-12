@@ -26,8 +26,161 @@ import type {
   RunNotebookGetSnapshotOptionalParams,
   RunNotebookGetSnapshotResponse,
 } from "../models/index.js";
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
+/** Class containing RunNotebook operations. */
+export class RunNotebookImpl implements RunNotebook {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class RunNotebook class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Run notebook
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param runNotebookRequest Run notebook request payload.
+   * @param options The options parameters.
+   */
+  async beginCreateRun(
+    runId: string,
+    runNotebookRequest: RunNotebookRequest,
+    options?: RunNotebookCreateRunOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<RunNotebookCreateRunResponse> => {
+      return tracingClient.withSpan("ArtifactsClient.beginCreateRun", options ?? {}, async () => {
+        return this.client.sendOperationRequest(
+          args,
+          spec,
+        ) as Promise<RunNotebookCreateRunResponse>;
+      });
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { runId, runNotebookRequest, options },
+      spec: createRunOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      RunNotebookCreateRunResponse,
+      OperationState<RunNotebookCreateRunResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Run notebook
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param runNotebookRequest Run notebook request payload.
+   * @param options The options parameters.
+   */
+  async beginCreateRunAndWait(
+    runId: string,
+    runNotebookRequest: RunNotebookRequest,
+    options?: RunNotebookCreateRunOptionalParams,
+  ): Promise<RunNotebookCreateRunResponse> {
+    const poller = await this.beginCreateRun(runId, runNotebookRequest, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get RunNotebook Status for run id.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param options The options parameters.
+   */
+  async getStatus(
+    runId: string,
+    options?: RunNotebookGetStatusOptionalParams,
+  ): Promise<RunNotebookGetStatusResponse> {
+    return tracingClient.withSpan("ArtifactsClient.getStatus", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { runId, options },
+        getStatusOperationSpec,
+      ) as Promise<RunNotebookGetStatusResponse>;
+    });
+  }
+
+  /**
+   * Cancel notebook run.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param options The options parameters.
+   */
+  async cancelRun(
+    runId: string,
+    options?: RunNotebookCancelRunOptionalParams,
+  ): Promise<RunNotebookCancelRunResponse> {
+    return tracingClient.withSpan("ArtifactsClient.cancelRun", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { runId, options },
+        cancelRunOperationSpec,
+      ) as Promise<RunNotebookCancelRunResponse>;
+    });
+  }
+
+  /**
+   * Get RunNotebook Snapshot for run id.
+   * @param runId Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
+   *              actions, this is the same ID used in Create Run.
+   * @param options The options parameters.
+   */
+  async getSnapshot(
+    runId: string,
+    options?: RunNotebookGetSnapshotOptionalParams,
+  ): Promise<RunNotebookGetSnapshotResponse> {
+    return tracingClient.withSpan("ArtifactsClient.getSnapshot", options ?? {}, async (options) => {
+      return this.client.sendOperationRequest(
+        { runId, options },
+        getSnapshotOperationSpec,
+      ) as Promise<RunNotebookGetSnapshotResponse>;
+    });
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -114,172 +267,3 @@ const getSnapshotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing RunNotebook operations. */
-export class RunNotebookImpl implements RunNotebook {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class RunNotebook class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Run notebook
-   * @param runId - Notebook run id.
-   * @param runNotebookRequest - Run notebook request payload.
-   * @param options - The options parameters.
-   */
-  async beginCreateRun(
-    runId: string,
-    runNotebookRequest: RunNotebookRequest,
-    options?: RunNotebookCreateRunOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<RunNotebookCreateRunResponse> => {
-      return tracingClient.withSpan("ArtifactsClient.beginCreateRun", options ?? {}, async () => {
-        return this.client.sendOperationRequest(
-          args,
-          spec,
-        ) as Promise<RunNotebookCreateRunResponse>;
-      });
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: RunNotebookCreateRunResponse;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { runId, runNotebookRequest, options },
-      spec: createRunOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      RunNotebookCreateRunResponse,
-      OperationState<RunNotebookCreateRunResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Run notebook
-   * @param runId - Notebook run id.
-   * @param runNotebookRequest - Run notebook request payload.
-   * @param options - The options parameters.
-   */
-  async beginCreateRunAndWait(
-    runId: string,
-    runNotebookRequest: RunNotebookRequest,
-    options?: RunNotebookCreateRunOptionalParams,
-  ): Promise<RunNotebookCreateRunResponse> {
-    const poller = await this.beginCreateRun(runId, runNotebookRequest, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get RunNotebook Status for run id.
-   * @param runId - Notebook run id.
-   * @param options - The options parameters.
-   */
-  async getStatus(
-    runId: string,
-    options?: RunNotebookGetStatusOptionalParams,
-  ): Promise<RunNotebookGetStatusResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getStatus",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { runId, updatedOptions },
-          getStatusOperationSpec,
-        ) as Promise<RunNotebookGetStatusResponse>;
-      },
-    );
-  }
-
-  /**
-   * Cancel notebook run.
-   * @param runId - Notebook run id.
-   * @param options - The options parameters.
-   */
-  async cancelRun(
-    runId: string,
-    options?: RunNotebookCancelRunOptionalParams,
-  ): Promise<RunNotebookCancelRunResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.cancelRun",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { runId, updatedOptions },
-          cancelRunOperationSpec,
-        ) as Promise<RunNotebookCancelRunResponse>;
-      },
-    );
-  }
-
-  /**
-   * Get RunNotebook Snapshot for run id.
-   * @param runId - Notebook run id.
-   * @param options - The options parameters.
-   */
-  async getSnapshot(
-    runId: string,
-    options?: RunNotebookGetSnapshotOptionalParams,
-  ): Promise<RunNotebookGetSnapshotResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getSnapshot",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { runId, updatedOptions },
-          getSnapshotOperationSpec,
-        ) as Promise<RunNotebookGetSnapshotResponse>;
-      },
-    );
-  }
-}

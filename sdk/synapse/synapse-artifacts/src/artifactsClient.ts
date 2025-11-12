@@ -68,10 +68,10 @@ export class ArtifactsClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the ArtifactsClient class.
-   * @param credentials - Subscription credentials which uniquely identify client subscription.
-   * @param endpoint - The workspace development endpoint, for example
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param endpoint The workspace development endpoint, for example
    *                 `https://myworkspace.dev.azuresynapse.net`.
-   * @param options - The parameter options
+   * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
@@ -94,7 +94,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.16`;
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.17`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,7 +125,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     if (
       !options ||
       !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length === 0 ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({

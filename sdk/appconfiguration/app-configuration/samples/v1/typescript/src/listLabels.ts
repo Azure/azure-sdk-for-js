@@ -91,7 +91,7 @@ export async function main() {
     }
   }
 
-  cleanupSampleValues(["listLabelsSample"], client);
+  await cleanupSampleValues(["listLabelsSample"], client);
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {

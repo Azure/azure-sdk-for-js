@@ -70,28 +70,26 @@ function getBrandVersionString(brands: BrowserBrand[]): BrowserBrand | undefined
  */
 export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
   const localNavigator = globalThis.navigator as NavigatorEx;
-  let osPlatform = "unknown";
+  let osInfo = "unknown";
   if (localNavigator?.userAgentData) {
     const entropyValues = await localNavigator.userAgentData.getHighEntropyValues([
       "architecture",
       "platformVersion",
     ]);
-    osPlatform = `${entropyValues.architecture}-${entropyValues.platform}-${entropyValues.platformVersion}`;
+    osInfo = `${entropyValues.platform} ${entropyValues.platformVersion}; ${entropyValues.architecture}`;
 
     // Get the brand and version
     const brand = getBrandVersionString(localNavigator.userAgentData.brands);
     if (brand) {
-      map.set(brand.brand, brand.version);
+      map.set(brand.brand, `${brand.version} (${osInfo})`);
     }
   } else if (localNavigator?.platform) {
-    osPlatform = localNavigator.platform;
+    osInfo = localNavigator.platform;
     const brand = getBrowserInfo(localNavigator.userAgent);
     if (brand) {
-      map.set(brand.brand, brand.version);
+      map.set(brand.brand, `${brand.version} (${osInfo})`);
     }
   } else if (typeof globalThis.EdgeRuntime === "string") {
-    map.set("EdgeRuntime", globalThis.EdgeRuntime);
+    map.set("EdgeRuntime", `${globalThis.EdgeRuntime} (${osInfo})`);
   }
-
-  map.set("OS", osPlatform);
 }
