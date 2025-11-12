@@ -86,7 +86,7 @@ async function main(): Promise<void> {
     const select = ["hotelName"] as const;
 
     const searchResults = await searchClient.search("luxury", undefined, undefined, {
-      select, 
+      select,
       searchFields,
       includeTotalCount: true,
     });

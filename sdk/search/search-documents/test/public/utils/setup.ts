@@ -565,7 +565,6 @@ async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient,
 ): Promise<void> {
-
   const descriptions = documents.map(({ description }) => description).filter(isDefined);
 
   const embeddingsArray = await openAIClient.getEmbeddings("text-embedding-ada-002", descriptions);
