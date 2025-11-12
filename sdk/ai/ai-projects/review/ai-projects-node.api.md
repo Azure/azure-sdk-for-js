@@ -1154,8 +1154,8 @@ export interface EvaluatorsOperations {
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteVersion: (name: string, version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
     getVersion: (name: string, version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listLatestVersions: (options?: EvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions: (name: string, options?: EvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions(name: string, options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions(options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
 
@@ -1554,8 +1554,6 @@ export type ItemType = "message" | "file_search_call" | "function_call" | "funct
 
 // @public
 export enum KnownApiVersions {
-    v2025_05_01 = "2025-05-01",
-    v2025_05_15_preview = "2025-05-15-preview",
     v2025_11_15_preview = "2025-11-15-preview"
 }
 
