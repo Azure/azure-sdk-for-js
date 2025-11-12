@@ -26,7 +26,6 @@ import {
   deleteSynonymMaps,
   WAIT_TIME,
 } from "../utils/setup.js";
-import { AssertionError } from "assert";
 
 describe("SearchIndexClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
