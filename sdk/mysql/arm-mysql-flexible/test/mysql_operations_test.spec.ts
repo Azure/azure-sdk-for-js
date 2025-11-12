@@ -39,7 +39,7 @@ describe("mysql test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = subscriptionId = env.SUBSCRIPTION_ID || "";
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MySQLManagementFlexibleServerClient(
