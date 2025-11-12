@@ -19,7 +19,8 @@ const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName =
+  process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 async function main() {
   // Create AI Project client

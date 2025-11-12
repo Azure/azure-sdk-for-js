@@ -23,28 +23,19 @@ import {
   loadScreenshotAssets,
   handleComputerActionAndTakeScreenshot,
   printFinalOutput,
-  type Screenshots,
   type ComputerAction,
 } from "./computerUseUtil.js";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["COMPUTER_USE_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Initialize state machine
   let currentState = SearchState.INITIAL;
 
   // Load screenshot assets
-  let screenshots: Screenshots;
-  try {
-    screenshots = loadScreenshotAssets();
-    console.log("Successfully loaded screenshot assets");
-  } catch (error) {
-    console.error(
-      "Failed to load required screenshot assets. Please ensure the asset files exist in ../assets/",
-    );
-    throw error;
-  }
+  const screenshots = loadScreenshotAssets();
+  console.log("Successfully loaded screenshot assets");
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
@@ -65,7 +56,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         display_width: 1026,
         display_height: 769,
         environment: "windows" as const,
-      } as any,
+      },
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
@@ -110,15 +101,18 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log(`\n--- Iteration ${iteration} ---`);
 
     // Check for computer calls in the response
-    const computerCalls = response.output.filter((item: any) => item.type === "computer_call");
+    const computerCalls = response.output.filter(item => item.type === "computer_call");
 
     if (computerCalls.length === 0) {
-      printFinalOutput(response as any);
+      printFinalOutput({
+        output: response.output,
+        status: response.status ?? "",
+      });
       break;
     }
 
     // Process the first computer call
-    const computerCall = computerCalls[0] as any;
+    const computerCall = computerCalls[0];
     const action: ComputerAction = computerCall.action;
     const callId: string = computerCall.call_id;
 
