@@ -57,10 +57,7 @@ async function main() {
     ],
   };
 
-  const agent = await project.agents.createVersion("MyFabricAgent", {
-    type: "definition",
-    definition: agentDefintion,
-  });
+  const agent = await project.agents.createVersion("MyFabricAgent", agentDefintion);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input

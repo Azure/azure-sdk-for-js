@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
 
   console.log("Creating agent with Microsoft Fabric tool...");
 
-  const agentDefintion: PromptAgentDefinition = {
+  const agentDefintion = {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant.",
@@ -57,12 +57,9 @@ export async function main(): Promise<void> {
         },
       },
     ],
-  };
+  } as any;
 
-  const agent = await project.agents.createVersion("MyFabricAgent", {
-    type: "definition",
-    definition: agentDefintion,
-  });
+  const agent = await project.agents.createVersion("MyFabricAgent", agentDefintion);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input

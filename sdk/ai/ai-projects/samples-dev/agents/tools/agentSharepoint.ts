@@ -39,18 +39,15 @@ export async function main(): Promise<void> {
     },
   };
 
-  const agentDefintion: PromptAgentDefinition = {
+  const agentDefintion = {
     kind: "prompt",
     model: deploymentName,
     instructions:
       "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.",
     tools: [sharepointTool],
-  };
+  } as any;
 
-  const agent = await project.agents.createVersion("MyAgent", {
-    type: "definition",
-    definition: agentDefintion,
-  });
+  const agent = await project.agents.createVersion("MyAgent", agentDefintion);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Send initial request that will trigger the SharePoint tool

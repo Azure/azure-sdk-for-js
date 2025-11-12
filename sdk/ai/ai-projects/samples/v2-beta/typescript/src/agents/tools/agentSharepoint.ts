@@ -8,8 +8,6 @@
  *
  * @summary This sample demonstrates how to create an agent with SharePoint tool capabilities,
  * search SharePoint content, and process streaming responses with citations.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,18 +37,15 @@ export async function main(): Promise<void> {
     },
   };
 
-  const agentDefintion: PromptAgentDefinition = {
+  const agentDefintion = {
     kind: "prompt",
     model: deploymentName,
     instructions:
       "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.",
-    tools: [ sharepointTool ],
-  };
+    tools: [sharepointTool],
+  } as any;
 
-  const agent = await project.agents.createVersion("MyAgent", {
-    type: "definition",
-    definition: agentDefintion,
-  });
+  const agent = await project.agents.createVersion("MyAgent", agentDefintion);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Send initial request that will trigger the SharePoint tool
