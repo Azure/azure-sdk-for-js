@@ -39,8 +39,7 @@ async function main() {
 
   console.log("Creating agent with Microsoft Fabric tool...");
 
-  // Define Microsoft Fabric tool that connects to Fabric data sources
-  const agent = await project.agents.createVersion("MyFabricAgent", {
+  const agentDefintion = {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant.",
@@ -56,6 +55,11 @@ async function main() {
         },
       },
     ],
+  };
+
+  const agent = await project.agents.createVersion("MyFabricAgent", {
+    type: "definition",
+    definition: agentDefintion,
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 

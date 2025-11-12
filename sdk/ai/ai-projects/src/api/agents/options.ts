@@ -213,4 +213,6 @@ export type CreateAgentVersionFromManifestConfig = {
 };
 
 /** Configuration for creating an agent version */
-export type CreateAgentVersionConfig = CreateAgentVersionFromDefinitionConfig | CreateAgentVersionFromManifestConfig;
+export type CreateAgentVersionConfig =
+  | CreateAgentVersionFromDefinitionConfig
+  | CreateAgentVersionFromManifestConfig;
