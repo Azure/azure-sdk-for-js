@@ -166,17 +166,17 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     }
 
     if (!orderByExpressions || !Array.isArray(orderByExpressions)) {
-      return "";
+      throw new Error(
+        "Unable to resume ORDER BY query from continuation token. The ORDER BY field configuration " +
+          "in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. " +
+          "Please retry the query without a continuation token.",
+      );
     }
 
     const filterConditions: string[] = [];
 
     // Process each order by item to create filter conditions
-    for (
-      let i = 0;
-      i < orderByItems.length && i < sortOrders.length && i < orderByExpressions.length;
-      i++
-    ) {
+    for (let i = 0; i < orderByItems.length && i < sortOrders.length; i++) {
       const orderByItem = orderByItems[i];
       const sortOrder = sortOrders[i];
 
@@ -225,12 +225,14 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       throw new Error("Query information is required to determine ORDER BY sort directions");
     }
 
-    // Try multiple paths to find orderBy due to nested structure
+    // Extract orderBy from the nested structure: queryInfo.quereyInfo.queryInfo.orderBy
     let orderBy: any[] | undefined;
 
     if (
       queryInfo.quereyInfo &&
+      typeof queryInfo.quereyInfo === "object" &&
       (queryInfo.quereyInfo as any).queryInfo &&
+      typeof (queryInfo.quereyInfo as any).queryInfo === "object" &&
       (queryInfo.quereyInfo as any).queryInfo.orderBy &&
       Array.isArray((queryInfo.quereyInfo as any).queryInfo.orderBy)
     ) {

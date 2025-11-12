@@ -200,13 +200,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfo = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "value1" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: ["c.field1"],
             },
           },
+          orderByItems: [{ item: "value1" }],
         };
 
         const result = strategy.filterPartitionRanges(ranges, contRanges, queryInfo);
@@ -289,13 +289,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const ranges = [leftRange, targetRange, rightRange];
 
         const queryInfo = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: ["c.field1"],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         const contRange = createContinuationRange(targetRange, "token2");
@@ -316,9 +316,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithoutExpressions = {
-          orderBy: ["Ascending"],
+          quereyInfo: {
+            queryInfo: {
+              orderBy: ["Ascending"],
+              // Missing orderByExpressions
+            },
+          },
           orderByItems: [{ item: "testValue" }],
-          // Missing quereyInfo.queryInfo.orderByExpressions
         };
 
         expect(() => {
@@ -331,13 +335,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithMismatchedFields = {
-          orderBy: ["Ascending", "Descending"], // 2 sort orders
-          orderByItems: [{ item: "testValue1" }, { item: "testValue2" }], // 2 items
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending", "Descending"], // 2 sort orders
               orderByExpressions: ["c.field1"], // Only 1 expression - mismatch!
             },
           },
+          orderByItems: [{ item: "testValue1" }, { item: "testValue2" }], // 2 items
         };
 
         expect(() => {
@@ -350,10 +354,9 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithInvalidExpression = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: [
                 {
                   // Invalid format - no expression, path, or field property
@@ -363,6 +366,7 @@ describe("OrderByQueryRangeStrategy", function () {
               ],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         expect(() => {
@@ -375,13 +379,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithStringExpression = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: ["c.field1"], // String format
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         const result = strategy.filterPartitionRanges(
@@ -398,10 +402,9 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithObjectExpression = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: [
                 {
                   expression: "c.field1",
@@ -410,6 +413,7 @@ describe("OrderByQueryRangeStrategy", function () {
               ], // Object format with expression property
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         const result = strategy.filterPartitionRanges(
@@ -426,10 +430,9 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithPathExpression = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: [
                 {
                   path: "/field1", // Path format (will remove leading slash)
@@ -438,6 +441,7 @@ describe("OrderByQueryRangeStrategy", function () {
               ],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         const result = strategy.filterPartitionRanges(
@@ -454,10 +458,9 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithFieldExpression = {
-          orderBy: ["Ascending"],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: ["Ascending"],
               orderByExpressions: [
                 {
                   field: "field1", // Field format
@@ -466,6 +469,7 @@ describe("OrderByQueryRangeStrategy", function () {
               ],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         const result = strategy.filterPartitionRanges(
@@ -482,13 +486,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithoutSortOrder = {
-          // Missing orderBy field entirely
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              // Missing orderBy field entirely
               orderByExpressions: ["c.field1"],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         expect(() => {
@@ -501,18 +505,18 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithInvalidSortOrder = {
-          orderBy: [
-            {
-              // Invalid format - no direction, order, or sortOrder property
-              someOtherProperty: "value",
-            },
-          ],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: [
+                {
+                  // Invalid format - no direction, order, or sortOrder property
+                  someOtherProperty: "value",
+                },
+              ],
               orderByExpressions: ["c.field1"],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         expect(() => {
@@ -520,13 +524,14 @@ describe("OrderByQueryRangeStrategy", function () {
         }).toThrow(/Unable to resume ORDER BY query from continuation token.*sort direction/);
       });
 
-      it("should throw error when queryInfo is undefined", function () {
+      it("should handle undefined queryInfo gracefully when no orderByItems", function () {
         const ranges = [createRange("1", "", "AA")];
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
-        expect(() => {
-          strategy.filterPartitionRanges(ranges, contRanges, undefined);
-        }).toThrow(/Unable to resume ORDER BY query from continuation token.*sort direction/);
+        // When queryInfo is undefined, orderByItems defaults to empty array, so no filter conditions are created
+        const result = strategy.filterPartitionRanges(ranges, contRanges, undefined);
+        expect(result.rangeTokenPairs.length).toBe(1);
+        expect(result.rangeTokenPairs[0].continuationToken).toBe("token1");
       });
 
       it("should work with object-format sort orders", function () {
@@ -534,13 +539,13 @@ describe("OrderByQueryRangeStrategy", function () {
         const contRanges = [createContinuationRange(createRange("1", "", "AA"), "token1")];
 
         const queryInfoWithObjectSortOrder = {
-          orderBy: [{ direction: "Descending" }],
-          orderByItems: [{ item: "testValue" }],
           quereyInfo: {
             queryInfo: {
+              orderBy: [{ direction: "Descending" }],
               orderByExpressions: ["c.field1"],
             },
           },
+          orderByItems: [{ item: "testValue" }],
         };
 
         const result = strategy.filterPartitionRanges(

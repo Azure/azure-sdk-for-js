@@ -954,8 +954,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         const result = await iterator.fetchNext();
 
         if (result.continuationToken) {
-          const tokenSize = Buffer.byteLength(result.continuationToken, "utf8");
-
           // Verify token is parseable even if large
           let parsed: any;
           expect(() => {
@@ -1113,19 +1111,12 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         allResults.push(...result.resources);
         iterationCount++;
 
-        if (result.resources.length > 0) {
-          // Log all items in this iteration for detailed analysis
-          result.resources.forEach((item, index) => {});
-        }
-
         if (result.continuationToken && queryIterator.hasMoreResults()) {
           // Create new iterator with continuation token
           queryIterator = multiPartitionContainer.items.query(query, {
             ...queryOptions,
             continuationToken: result.continuationToken,
           });
-        } else if (!result.continuationToken) {
-        } else if (!queryIterator.hasMoreResults()) {
         }
       }
 
@@ -1138,8 +1129,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       // Validate ordering is maintained across continuation boundaries
       for (let i = 1; i < allResults.length; i++) {
-        if (allResults[i].amount < allResults[i - 1].amount) {
-        }
         expect(allResults[i].amount).toBeGreaterThanOrEqual(allResults[i - 1].amount);
       }
 
@@ -1193,13 +1182,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       expect(allResults.length).equal(80);
 
       // Validate each item has expected properties
-      allResults.forEach((item, index) => {
+      allResults.forEach((item) => {
         expect(item.id).toBeDefined();
         expect(item.category).toBeDefined();
         expect(item.amount).toBeDefined();
         expect(typeof item.amount).toBe("number");
-        if (index === 0) {
-        }
       });
     });
 
@@ -1401,7 +1388,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         allResults.push(...result.resources);
         iterationCount++;
         if (result.resources.length > 0) {
-          result.resources.forEach((item, index) => {
+          result.resources.forEach((item) => {
             const combo = `${item.id}-${item.tagValue}`;
             seenCombinations.add(combo);
           });
@@ -2019,11 +2006,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       };
       expect(amountStats.min).toBeGreaterThanOrEqual(1);
       expect(amountStats.max).toBeLessThanOrEqual(100);
-
-      // Log token history for analysis
-      tokenHistory.slice(0, 5).forEach((entry, index) => {});
-      if (tokenHistory.length > 5) {
-      }
     });
   });
 
@@ -2044,11 +2026,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
 
       if (resumedIterator.hasMoreResults()) {
         const result = await resumedIterator.fetchNext();
-
-        // Validate that we can get another token if more results exist
-        if (result.continuationToken) {
-        }
-      } else {
       }
     } catch (error) {
       throw new Error(`Token reusability test failed: ${error.message}`);
