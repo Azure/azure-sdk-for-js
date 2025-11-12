@@ -19,8 +19,8 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const aiSearchProjectConnectionId =
-  process.env["AI_SEARCH_PROJECT_CONNECTION_ID"] || "<ai search project connection id>";
+const aiSearchConnectionId =
+  process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
 
 export async function main(): Promise<void> {
@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
         azure_ai_search: {
           indexes: [
             {
-              project_connection_id: aiSearchProjectConnectionId,
+              project_connection_id: aiSearchConnectionId,
               index_name: aiSearchIndexName,
               query_type: "simple",
             },

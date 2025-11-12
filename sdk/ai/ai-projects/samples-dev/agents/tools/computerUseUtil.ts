@@ -103,7 +103,7 @@ export function loadScreenshotAssets(): Screenshots {
 export interface ComputerAction {
   type: string;
   text?: string;
-  keys?: string;
+  keys?: string[];
   x?: number;
   y?: number;
   path?: Array<{ x: number; y: number }>;

@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
         server_url: "https://api.githubcopilot.com/mcp",
         require_approval: "always",
         project_connection_id: mcpProjectConnectionId,
-      } as any,
+      },
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

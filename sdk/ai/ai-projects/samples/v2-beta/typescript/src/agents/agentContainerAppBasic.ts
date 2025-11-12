@@ -54,9 +54,6 @@ async function main(): Promise<void> {
       conversation: conversation.id,
     },
     {
-      headers: {
-        "accept-encoding": "deflate",
-      },
       body: {
         agent: {
           type: "agent_reference",
@@ -92,9 +89,6 @@ async function main(): Promise<void> {
       conversation: conversation.id,
     },
     {
-      headers: {
-        "accept-encoding": "deflate",
-      },
       body: {
         agent: {
           type: "agent_reference",

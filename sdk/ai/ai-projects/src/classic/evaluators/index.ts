@@ -48,15 +48,15 @@ export interface EvaluatorsOperations {
     version: string,
     options?: EvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** List the latest version of each evaluator */
-  listLatestVersions: (
-    options?: EvaluatorsListLatestVersionsOptionalParams,
-  ) => PagedAsyncIterableIterator<EvaluatorVersion>;
   /** List all versions of the given evaluator */
-  listVersions: (
+  listVersions(
     name: string,
     options?: EvaluatorsListVersionsOptionalParams,
-  ) => PagedAsyncIterableIterator<EvaluatorVersion>;
+  ): PagedAsyncIterableIterator<EvaluatorVersion>;
+  /** List the latest version of each evaluator */
+  listVersions(
+    options?: EvaluatorsListLatestVersionsOptionalParams,
+  ): PagedAsyncIterableIterator<EvaluatorVersion>;
 }
 
 function _getEvaluators(context: AIProjectContext) {
@@ -79,10 +79,17 @@ function _getEvaluators(context: AIProjectContext) {
     ) => deleteVersion(context, name, version, options),
     getVersion: (name: string, version: string, options?: EvaluatorsGetVersionOptionalParams) =>
       getVersion(context, name, version, options),
-    listLatestVersions: (options?: EvaluatorsListLatestVersionsOptionalParams) =>
-      listLatestVersions(context, options),
-    listVersions: (name: string, options?: EvaluatorsListVersionsOptionalParams) =>
-      listVersions(context, name, options),
+    listVersions(
+      nameOrOptions?: string | EvaluatorsListLatestVersionsOptionalParams,
+      options?: EvaluatorsListVersionsOptionalParams,
+    ): PagedAsyncIterableIterator<EvaluatorVersion> {
+      // If first param is a string, it's listVersions(name, options)
+      if (typeof nameOrOptions === "string") {
+        return listVersions(context, nameOrOptions, options);
+      }
+      // Otherwise, it's listLatestVersions(options)
+      return listLatestVersions(context, nameOrOptions);
+    },
   };
 }
 
