@@ -137,3 +137,28 @@ export const sideEffects = packageJsonCheck({
     };
   },
 });
+
+export const noWorkspaceSpecifiersInDependencies = packageJsonCheck({
+  description: "non-private packages must not use workspace: specifiers in runtime dependencies",
+  tags: ["release"],
+  async check({ packageJson }) {
+    // Skip check for private packages as they are not published
+    if (packageJson.private) {
+      return;
+    }
+
+    const dependencies = packageJson.dependencies ?? {};
+    const workspaceDeps = Object.entries(dependencies).filter(([, version]) =>
+      version.startsWith("workspace:"),
+    );
+
+    if (workspaceDeps.length > 0) {
+      const depList = workspaceDeps.map(([name, version]) => `  ${name}: ${version}`).join("\n");
+      assert(
+        false,
+        "package.json dependencies must not use workspace: specifiers",
+        `The following runtime dependencies use workspace: specifiers which may resolve to unpublished versions:\n${depList}\n\nPlease use specific version ranges instead (e.g., "^1.0.0").`,
+      );
+    }
+  },
+});
