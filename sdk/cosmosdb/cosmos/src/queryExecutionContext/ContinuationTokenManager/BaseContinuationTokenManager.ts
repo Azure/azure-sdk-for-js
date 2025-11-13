@@ -74,7 +74,7 @@ export abstract class BaseContinuationTokenManager {
     const tokenString = this.generateContinuationTokenString();
 
     // Clean up processed ranges
-    this.cleanProcessedData(result.processedRanges, result.endIndex);
+    this.trimProcessedData(result.processedRanges, result.endIndex);
 
     return {
       endIndex: result.endIndex,
@@ -92,7 +92,7 @@ export abstract class BaseContinuationTokenManager {
 
   protected abstract generateContinuationTokenString(): string | undefined;
   protected abstract processQuerySpecificResponse(responseResult: ParallelQueryResult): void;
-  protected abstract performQuerySpecificCleanup(processedRanges: string[], endIndex: number): void;
+  protected abstract performQuerySpecificDataTrim(processedRanges: string[], endIndex: number): void;
 
   private removePartitionRangeMapping(rangeId: string): void {
     this.partitionRangeManager.removePartitionRangeMapping(rangeId);
@@ -102,13 +102,13 @@ export abstract class BaseContinuationTokenManager {
    * Cleans up processed data after a page has been returned.
    * Handles both common and query-specific cleanup.
    */
-  private cleanProcessedData(processedRanges: string[], endIndex: number): void {
+  private trimProcessedData(processedRanges: string[], endIndex: number): void {
     processedRanges.forEach((rangeId) => {
       this.removePartitionRangeMapping(rangeId);
     });
 
     // Delegate query-specific cleanup to subclass
-    this.performQuerySpecificCleanup(processedRanges, endIndex);
+    this.performQuerySpecificDataTrim(processedRanges, endIndex);
   }
 
   private setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {

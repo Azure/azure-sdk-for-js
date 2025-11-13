@@ -39,7 +39,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     }
   }
 
-  protected performQuerySpecificCleanup(_processedRanges: string[], endIndex: number): void {
+  protected performQuerySpecificDataTrim(_processedRanges: string[], endIndex: number): void {
     this.sliceOrderByItemsArray(endIndex);
   }
 

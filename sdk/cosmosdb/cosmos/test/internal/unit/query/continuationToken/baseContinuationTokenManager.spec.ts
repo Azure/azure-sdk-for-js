@@ -36,7 +36,7 @@ class TestContinuationTokenManager extends BaseContinuationTokenManager {
     // No query-specific processing needed for these tests
   }
 
-  protected performQuerySpecificCleanup(_processedRanges: string[], _endIndex: number): void {
+  protected performQuerySpecificDataTrim(_processedRanges: string[], _endIndex: number): void {
     // No query-specific cleanup needed for these tests
   }
 

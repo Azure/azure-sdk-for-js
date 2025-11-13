@@ -68,7 +68,7 @@ export class ParallelQueryContinuationTokenManager extends BaseContinuationToken
     // Parallel queries don't need additional response processing
   }
 
-  protected performQuerySpecificCleanup(_processedRanges: string[], _endIndex: number): void {
+  protected performQuerySpecificDataTrim(_processedRanges: string[], _endIndex: number): void {
     // Parallel queries don't need additional cleanup
   }
 
