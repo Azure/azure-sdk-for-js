@@ -131,12 +131,12 @@ describe("TargetPartitionRangeManager", function () {
 
   describe("Static Factory Methods", function () {
     it("should create parallel query manager", function () {
-      const manager = TargetPartitionRangeManager.createForParallelQuery();
+      const manager = TargetPartitionRangeManager.createForParallelQuery({});
       expect(manager.getStrategyType()).toBe("ParallelQuery");
     });
 
     it("should create order by query manager", function () {
-      const manager = TargetPartitionRangeManager.createForOrderByQuery();
+      const manager = TargetPartitionRangeManager.createForOrderByQuery({});
       expect(manager.getStrategyType()).toBe("OrderByQuery");
     });
 
@@ -153,13 +153,13 @@ describe("TargetPartitionRangeManager", function () {
 
   describe("Error Handling", function () {
     it("should handle null target ranges", function () {
-      const manager = TargetPartitionRangeManager.createForParallelQuery();
+      const manager = TargetPartitionRangeManager.createForParallelQuery({});
       const result = manager.filterPartitionRanges(null as any);
       expect(result.rangeTokenPairs).toEqual([]);
     });
 
     it("should handle undefined range tokens", function () {
-      const manager = TargetPartitionRangeManager.createForParallelQuery();
+      const manager = TargetPartitionRangeManager.createForParallelQuery({});
       const ranges = [createRange("1", "", "AA")];
       const result = manager.filterPartitionRanges(ranges, undefined);
       expect(result.rangeTokenPairs.length).toBe(1);

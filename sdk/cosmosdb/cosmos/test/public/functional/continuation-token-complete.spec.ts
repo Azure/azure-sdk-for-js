@@ -1261,13 +1261,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         totalItemsProcessed += itemsInThisPage;
         iterationCount++;
 
-        // Log the continuation token structure for debugging
-        if (result.continuationToken) {
-          try {
-            const parsedToken = JSON.parse(result.continuationToken);
-          } catch (e) {}
-        }
-
         if (result.continuationToken && queryIterator.hasMoreResults()) {
           queryIterator = multiPartitionContainer.items.query(query, {
             ...queryOptions,
@@ -1878,17 +1871,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             position: allCollectedIds.size,
             lastAmount: lastAmountInSession,
           });
-
-          // Parse token to validate ORDER BY structure
-          try {
-            const parsedToken = JSON.parse(sessionToken);
-            if (parsedToken.orderByItems && parsedToken.orderByItems.length > 0) {
-            }
-            if (parsedToken.rangeMappings) {
-            }
-          } catch (parseError) {
-            console.error(`  Failed to parse ORDER BY token:`, parseError);
-          }
 
           // Vary query options slightly for fuzzing
           const fuzzedOptions = {

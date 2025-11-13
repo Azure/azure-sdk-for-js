@@ -41,7 +41,7 @@ export interface TargetPartitionRangeManagerConfig {
   /**
    * Additional query information that might be needed for filtering decisions
    */
-  queryInfo?: Record<string, unknown>;
+  queryInfo: Record<string, unknown>;
 
   /**
    * Custom strategy instance (optional, will use default strategies if not provided)
@@ -132,7 +132,7 @@ export class TargetPartitionRangeManager {
    * Static factory method to create a manager for parallel queries
    */
   public static createForParallelQuery(
-    queryInfo?: Record<string, unknown>,
+    queryInfo: Record<string, unknown>,
   ): TargetPartitionRangeManager {
     return new TargetPartitionRangeManager({
       queryType: QueryExecutionContextType.Parallel,
@@ -144,7 +144,7 @@ export class TargetPartitionRangeManager {
    * Static factory method to create a manager for ORDER BY queries
    */
   public static createForOrderByQuery(
-    queryInfo?: Record<string, unknown>,
+    queryInfo: Record<string, unknown>,
   ): TargetPartitionRangeManager {
     return new TargetPartitionRangeManager({
       queryType: QueryExecutionContextType.OrderBy,
