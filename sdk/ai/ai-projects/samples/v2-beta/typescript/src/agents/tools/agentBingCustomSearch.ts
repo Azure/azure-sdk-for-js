@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
     },
   };
 
-  const agentDefintion = {
+  const agentDefinition = {
     kind: "prompt",
     model: deploymentName,
     instructions:
@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
     tools: [bingCustomSearchTool],
   } as any;
 
-  const agent = await project.agents.createVersion("MyAgent", agentDefintion);
+  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input
