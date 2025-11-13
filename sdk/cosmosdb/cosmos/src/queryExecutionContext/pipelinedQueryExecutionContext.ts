@@ -11,10 +11,9 @@ import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDis
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent.js";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import { getInitialHeader } from "./headerUtils.js";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
-import { Constants } from "../common/index.js";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
@@ -24,23 +23,23 @@ import {
   rejectContinuationTokenForUnsupportedQueries,
   QueryTypes,
 } from "./QueryValidationHelper.js";
-import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
-import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
 import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
+import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
+import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
-  private fetchBuffer: any[];
-  private fetchMoreRespHeaders: CosmosHeaders;
-  private endpoint: ExecutionContext;
-  private pageSize: number;
+  public fetchBuffer: any[];
+  public fetchMoreRespHeaders: CosmosHeaders;
+  public endpoint: ExecutionContext;
+  public pageSize: number;
   private vectorSearchBufferSize: number = 0;
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-  private continuationTokenManager?: BaseContinuationTokenManager;
   private readonly querySupportsTokens: boolean;
   private readonly isOrderByQuery: boolean;
+  private readonly fetchImplementation: LegacyFetchImplementation | QueryControlFetchImplementation;
 
   constructor(
     private clientContext: ClientContext,
@@ -230,6 +229,19 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
     }
     this.fetchBuffer = [];
+
+    // Initialize the appropriate fetch implementation based on enableQueryControl
+    if (this.options.enableQueryControl) {
+      this.fetchImplementation = new QueryControlFetchImplementation(
+        this,
+        this.collectionLink,
+        this.options.continuationToken,
+        this.isOrderByQuery,
+        this.querySupportsTokens,
+      );
+    } else {
+      this.fetchImplementation = new LegacyFetchImplementation(this);
+    }
   }
 
   public hasMoreResults(): boolean {
@@ -242,151 +254,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     this.fetchMoreRespHeaders = getInitialHeader();
-    if (this.options.enableQueryControl) {
-      return this._enableQueryControlFetchMoreImplementation(diagnosticNode);
-    }
-    return this._fetchMoreImplementation(diagnosticNode);
+    return this.fetchImplementation.fetchMore(diagnosticNode);
   }
 
-  private async _fetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    try {
-      // Keep fetching until we have enough items or no more results
-      while (this.fetchBuffer.length < this.pageSize && this.endpoint.hasMoreResults()) {
-        const response = await this.endpoint.fetchMore(diagnosticNode);
-        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-
-        if (
-          !response ||
-          !response.result ||
-          !response.result.buffer ||
-          response.result.buffer.length === 0
-        ) {
-          if (this.fetchBuffer.length > 0) {
-            const temp = this.fetchBuffer;
-            this.fetchBuffer = [];
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          } else {
-            return { result: undefined, headers: this.fetchMoreRespHeaders };
-          }
-        }
-        this.fetchBuffer.push(...response.result.buffer);
-      }
-
-      // Return collected items up to pageSize
-      if (this.fetchBuffer.length > 0) {
-        const temp = this.fetchBuffer.slice(0, this.pageSize);
-        this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
-      } else {
-        return { result: undefined, headers: this.fetchMoreRespHeaders };
-      }
-    } catch (err: any) {
-      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
-      err.headers = this.fetchMoreRespHeaders;
-      throw err;
-    }
-  }
-
-  private async _enableQueryControlFetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    // Use continuation token logic for supported queries when query control is enabled
-    // Otherwise use simplified buffer-only logic
-    if (this.options.enableQueryControl && this.querySupportsTokens) {
-      return this._handleQueryFetch(diagnosticNode);
-    } else {
-      return this._handleSimpleBufferFetch(diagnosticNode);
-    }
-  }
-
-  private async _handleSimpleBufferFetch(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    // Return buffered data if available
-    if (this.fetchBuffer.length > 0) {
-      const temp = this.fetchBuffer.slice(0, this.pageSize);
-      this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-      return { result: temp, headers: this.fetchMoreRespHeaders };
-    }
-
-    // Fetch new data from endpoint
-    const response = await this.endpoint.fetchMore(diagnosticNode);
-    mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-
-    if (!response?.result?.buffer?.length) {
-      return this.createEmptyResult(response?.headers);
-    }
-
-    // Buffer new data and return up to pageSize
-    this.fetchBuffer = response.result.buffer;
-    const temp = this.fetchBuffer.slice(0, this.pageSize);
-    this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-
-    return { result: temp, headers: this.fetchMoreRespHeaders };
-  }
-
-  private async _handleQueryFetch(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // Initialize continuation token manager lazily if not already created
-    if (!this.continuationTokenManager) {
-      this.continuationTokenManager = ContinuationTokenManagerFactory.create(
-        this.collectionLink,
-        this.options.continuationToken,
-        this.isOrderByQuery,
-      );
-    }
-
-    if (this.fetchBuffer.length > 0) {
-      const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
-        this.pageSize,
-        false,
-      );
-      const temp = this.fetchBuffer.slice(0, endIndex);
-      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-      this._setContinuationTokenInHeaders(continuationToken);
-
-      return { result: temp, headers: this.fetchMoreRespHeaders };
-    }
-
-    // Fetch new data from endpoint
-    this.fetchBuffer = [];
-    const response = await this.endpoint.fetchMore(diagnosticNode);
-    mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-
-    if (!response?.result?.buffer || response.result.buffer.length === 0) {
-      const { continuationToken } = this.continuationTokenManager.paginateResults(
-        this.pageSize,
-        true, // isResponseEmpty = true
-        response?.result, // Pass response data for processing
-      );
-      this._setContinuationTokenInHeaders(continuationToken);
-      return this.createEmptyResult(this.fetchMoreRespHeaders);
-    }
-
-    this.fetchBuffer = response.result.buffer;
-    const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
-      this.pageSize,
-      false, // isResponseEmpty = false
-      response.result, // Pass response data for processing
-    );
-
-    const temp = this.fetchBuffer.slice(0, endIndex);
-    this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-    this._setContinuationTokenInHeaders(continuationToken);
-
-    return { result: temp, headers: this.fetchMoreRespHeaders };
-  }
-
-  private _setContinuationTokenInHeaders(continuationToken?: string): void {
-    if (continuationToken) {
-      Object.assign(this.fetchMoreRespHeaders, {
-        [Constants.HttpHeaders.Continuation]: continuationToken,
-      });
-    }
-  }
-
-  private createEmptyResult(headers?: CosmosHeaders): Response<any> {
+  public createEmptyResult(headers?: CosmosHeaders): Response<any> {
     const hdrs = headers || getInitialHeader();
     return { result: [], headers: hdrs };
   }
