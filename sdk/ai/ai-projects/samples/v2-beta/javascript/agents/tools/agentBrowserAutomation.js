@@ -46,26 +46,24 @@ async function main() {
 
   console.log("Creating agent with Browser Automation tool...");
 
-  // Define Browser Automation tool
-  const browserAutomationTool = {
-    type: "browser_automation_preview",
-    browser_automation_preview: {
-      connection: {
-        project_connection_id: browserAutomationProjectConnectionId,
-      },
-    },
-  };
-
-  const agentDefinition = {
+  const agent = await project.agents.createVersion("MyAgent", {
     kind: "prompt",
     model: deploymentName,
     instructions: `You are an Agent helping with browser automation tasks. 
             You can answer questions, provide information, and assist with various tasks 
             related to web browsing using the Browser Automation tool available to you.`,
-    tools: [browserAutomationTool],
-  };
-
-  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
+    // Define Browser Automation tool
+    tools: [
+      {
+        type: "browser_automation_preview",
+        browser_automation_preview: {
+          connection: {
+            project_connection_id: browserAutomationProjectConnectionId,
+          },
+        },
+      },
+    ],
+  });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   console.log("\nSending browser automation request with streaming...");

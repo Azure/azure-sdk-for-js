@@ -27,20 +27,18 @@ async function main() {
 
   console.log("Creating agent with A2A tool...");
 
-  // Define A2A tool for agent-to-agent communication
-  const a2aTool = {
-    type: "a2a_preview",
-    project_connection_id: a2aProjectConnectionId,
-  };
-
-  const agentDefinition = {
+  const agent = await project.agents.createVersion("MyA2AAgent", {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant.",
-    tools: [a2aTool],
-  };
-
-  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
+    // Define A2A tool for agent-to-agent communication
+    tools: [
+      {
+        type: "a2a_preview",
+        project_connection_id: a2aProjectConnectionId,
+      },
+    ],
+  });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input

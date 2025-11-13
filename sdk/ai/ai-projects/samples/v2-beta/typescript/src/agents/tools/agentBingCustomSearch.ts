@@ -11,7 +11,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient, BingCustomSearchAgentTool } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
 
@@ -29,28 +29,25 @@ export async function main(): Promise<void> {
 
   console.log("Creating agent with Bing Custom Search tool...");
 
-  // Define Bing Custom Search tool that searches custom search instances
-  const bingCustomSearchTool: BingCustomSearchAgentTool = {
-    type: "bing_custom_search_preview",
-    bing_custom_search_preview: {
-      search_configurations: [
-        {
-          project_connection_id: bingCustomSearchProjectConnectionId,
-          instance_name: bingCustomSearchInstanceName,
-        },
-      ],
-    },
-  };
-
-  const agentDefinition = {
+  const agent = await project.agents.createVersion("MyAgent", {
     kind: "prompt",
     model: deploymentName,
     instructions:
       "You are a helpful agent that can use Bing Custom Search tools to assist users. Use the available Bing Custom Search tools to answer questions and perform tasks.",
-    tools: [bingCustomSearchTool],
-  };
-
-  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
+    tools: [
+      {
+        type: "bing_custom_search_preview",
+        bing_custom_search_preview: {
+          search_configurations: [
+            {
+              project_connection_id: bingCustomSearchProjectConnectionId,
+              instance_name: bingCustomSearchInstanceName,
+            },
+          ],
+        },
+      },
+    ],
+  });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Prompt user for input

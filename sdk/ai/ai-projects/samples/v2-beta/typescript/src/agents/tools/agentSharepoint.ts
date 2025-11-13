@@ -11,7 +11,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient, SharepointAgentTool } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -25,27 +25,25 @@ export async function main(): Promise<void> {
 
   console.log("Creating agent with SharePoint tool...");
 
-  // Define SharePoint tool that searches SharePoint content
-  const sharepointTool: SharepointAgentTool = {
-    type: "sharepoint_grounding_preview",
-    sharepoint_grounding_preview: {
-      project_connections: [
-        {
-          project_connection_id: sharepointProjectConnectionId,
-        },
-      ],
-    },
-  };
-
-  const agentDefinition = {
+  const agent = await project.agents.createVersion("MyAgent", {
     kind: "prompt",
     model: deploymentName,
     instructions:
       "You are a helpful agent that can use SharePoint tools to assist users. Use the available SharePoint tools to answer questions and perform tasks.",
-    tools: [sharepointTool],
-  };
-
-  const agent = await project.agents.createVersion("MyAgent", agentDefinition);
+    // Define SharePoint tool that searches SharePoint content
+    tools: [
+      {
+        type: "sharepoint_grounding_preview",
+        sharepoint_grounding_preview: {
+          project_connections: [
+            {
+              project_connection_id: sharepointProjectConnectionId,
+            },
+          ],
+        },
+      },
+    ],
+  });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
   // Send initial request that will trigger the SharePoint tool
