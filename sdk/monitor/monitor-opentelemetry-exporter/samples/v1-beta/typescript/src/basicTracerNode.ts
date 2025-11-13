@@ -3,15 +3,15 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing)
+ * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-sdk-trace-base)
  * to instrument a simple Node.js application - e.g. a batch job.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
  */
 
 import * as opentelemetry from "@opentelemetry/api";
-import { Resource } from "@opentelemetry/resources";
-import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
@@ -25,10 +25,9 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-
 const provider = new BasicTracerProvider({
-  resource: new Resource({
-    [ATTR_SERVICE_NAME]: "basic-service",
+  resource: resourceFromAttributes({
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
   spanProcessors: [new SimpleSpanProcessor(exporter)],
 });
@@ -42,7 +41,8 @@ const provider = new BasicTracerProvider({
  * do not register a global tracer provider, instrumentation which calls these
  * methods will receive no-op implementations.
  */
-provider.register();
+// Register the tracer provider with the OpenTelemetry API
+opentelemetry.trace.setGlobalTracerProvider(provider);
 const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
 export async function main(): Promise<void> {
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
   parentSpan.end();
 
   // flush and close the connection.
-  await exporter.shutdown();
+  await provider.shutdown();
 }
 
 function doWork(parent: opentelemetry.Span): void {
