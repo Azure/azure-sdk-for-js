@@ -2,32 +2,9 @@
 // Licensed under the MIT License.
 
 export {
-  KnownAcsCallEndedByKind,
-  KnownAcsCallParticipantKind,
-  AcsCallEndedBy,
-  AcsCallEndedByKind,
-  AcsCallEndedEventData,
-  AcsCallEndReason,
-  AcsCallGroup,
-  AcsCallingEvent,
-  AcsCallParticipantAddedEventData,
-  AcsCallParticipantRemovedEventData,
-  AcsCallParticipant,
-  AcsCallParticipantEvent,
-  AcsCallParticipantKind,
-  AcsCallRoom,
-  AcsCallStartedEventData,
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
   ApiCenterApiDefinitionUpdatedEventData,
-  ApiManagementCircuitBreakerOpenedEventData,
-  ApiManagementCircuitBreaker,
-  ApiManagementCircuitBreakerClosedEventData,
-  ApiManagementGatewayTokenNearExpiryEventData,
-  ApiManagementGateway,
-  ApiManagementNearExpiryGatewayToken,
-  ApiManagementGatewayTokenExpiredEventData,
-  ApiManagementExpiredGatewayToken,
   ApiManagementUserCreatedEventData,
   ApiManagementUserUpdatedEventData,
   ApiManagementUserDeletedEventData,
@@ -54,6 +31,14 @@ export {
   ApiManagementGatewayCertificateAuthorityDeletedEventData,
   ApiManagementGatewayApiAddedEventData,
   ApiManagementGatewayApiRemovedEventData,
+  ApiManagementCircuitBreakerOpenedEventData,
+  ApiManagementCircuitBreaker,
+  ApiManagementCircuitBreakerClosedEventData,
+  ApiManagementGatewayTokenNearExpiryEventData,
+  ApiManagementGateway,
+  ApiManagementNearExpiryGatewayToken,
+  ApiManagementGatewayTokenExpiredEventData,
+  ApiManagementExpiredGatewayToken,
   AppConfigurationKeyValueModifiedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationSnapshotEventData,
@@ -86,21 +71,36 @@ export {
   MicrosoftTeamsAppIdentifierModel,
   AcsIncomingCallCustomContext,
   AcsUserDisconnectedEventData,
-  AcsChatAzureBotCommandReceivedInThreadEventData,
-  AcsChatTypingIndicatorReceivedInThreadEventData,
-  AcsChatEventBase,
+  AcsCallingEvent,
+  AcsCallParticipant,
+  KnownAcsCallParticipantKind,
+  AcsCallParticipantKind,
+  AcsCallGroup,
+  AcsCallRoom,
+  AcsCallStartedEventData,
+  AcsCallEndedEventData,
+  AcsCallEndedBy,
+  KnownAcsCallEndedByKind,
+  AcsCallEndedByKind,
+  AcsCallEndReason,
+  AcsCallParticipantEvent,
+  AcsCallParticipantAddedEventData,
+  AcsCallParticipantRemovedEventData,
   AcsChatEventInThreadBase,
+  AcsChatEventBase,
   AcsChatMessageEventBase,
   AcsChatMessageReceivedEventData,
   AcsChatMessageEventInThreadBase,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageReceivedInThreadEventData,
   AcsChatMessageEditedEventData,
   AcsChatMessageEditedInThreadEventData,
   AcsChatMessageDeletedEventData,
   AcsChatMessageDeletedInThreadEventData,
+  AcsChatThreadParticipant,
   AcsChatThreadEventBase,
   AcsChatThreadCreatedWithUserEventData,
-  AcsChatThreadParticipant,
   AcsChatThreadEventInThreadBase,
   AcsChatThreadCreatedEventData,
   AcsChatThreadWithUserDeletedEventData,
@@ -177,10 +177,10 @@ export {
   AcsMessageChannelKind,
   AcsMessageReceivedEventData,
   AcsMessageMediaContent,
+  AcsMessageReactionContent,
   AcsMessageContext,
   AcsMessageButtonContent,
   AcsMessageInteractiveContent,
-  AcsMessageReactionContent,
   KnownAcsInteractiveReplyKind,
   AcsInteractiveReplyKind,
   AcsMessageInteractiveButtonReplyContent,
@@ -239,6 +239,16 @@ export {
   HealthcareDicomImageCreatedEventData,
   HealthcareDicomImageDeletedEventData,
   HealthcareDicomImageUpdatedEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultSecretExpiredEventData,
+  KeyVaultAccessPolicyChangedEventData,
   MachineLearningServicesModelRegisteredEventData,
   MachineLearningServicesModelDeployedEventData,
   MachineLearningServicesRunCompletedEventData,
@@ -251,9 +261,9 @@ export {
   RedisScalingCompletedEventData,
   RedisExportRDBCompletedEventData,
   RedisImportRDBCompletedEventData,
-  ResourceWriteSuccessEventData,
   ResourceAuthorization,
   ResourceHttpRequest,
+  ResourceWriteSuccessEventData,
   ResourceWriteFailureEventData,
   ResourceWriteCancelEventData,
   ResourceDeleteSuccessEventData,
@@ -277,10 +287,10 @@ export {
   StorageBlobRenamedEventData,
   StorageDirectoryRenamedEventData,
   StorageLifecyclePolicyCompletedEventData,
+  StorageLifecyclePolicyRunSummary,
   KnownStorageLifecycleCompletionStatus,
   StorageLifecycleCompletionStatus,
   StorageLifecyclePolicyActionSummaryDetail,
-  StorageLifecyclePolicyRunSummary,
   StorageBlobTierChangedEventData,
   StorageAsyncOperationInitiatedEventData,
   StorageBlobInventoryPolicyCompletedEventData,
@@ -328,34 +338,79 @@ export {
   EventGridMqttClientSessionDisconnectedEventData,
   KnownEventGridMqttClientDisconnectionReason,
   EventGridMqttClientDisconnectionReason,
-  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   ResourceNotificationsResourceUpdatedEventData,
   ResourceNotificationsResourceUpdatedDetails,
   ResourceNotificationsOperationalDetails,
   ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData,
   ResourceNotificationsHealthResourcesAnnotatedEventData,
-  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
-  ResourceNotificationsResourceDeletedEventData,
   ResourceNotificationsResourceDeletedDetails,
+  ResourceNotificationsResourceDeletedEventData,
+  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   ResourceNotificationsAksResourcesFleetGateCreatedEventData,
   ResourceNotificationsAksResourcesFleetGateUpdatedEventData,
   ResourceNotificationsAksResourcesFleetGateDeletedEventData,
-} from "./generated/index.js";
+} from "./models/index.js";
 
-export {
-  CloudEvent,
-  EventGridEvent,
-  KeyVaultCertificateNewVersionCreatedEventData,
-  KeyVaultCertificateNearExpiryEventData,
-  KeyVaultCertificateExpiredEventData,
-  KeyVaultKeyNewVersionCreatedEventData,
-  KeyVaultKeyNearExpiryEventData,
-  KeyVaultKeyExpiredEventData,
-  KeyVaultSecretNewVersionCreatedEventData,
-  KeyVaultSecretNearExpiryEventData,
-  KeyVaultAccessPolicyChangedEventData,
-  KeyVaultSecretExpiredEventData,
-} from "./models.js";
+export { CloudEvent, EventGridEvent } from "./events.js";
 
-export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates.js";
+import type { SystemEventNameToEventData } from "./nameMapping.js";
+export type { SystemEventNameToEventData };
+/**
+ * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an
+ * event is a system event of a given type.
+ */
+export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
+
+import type { CloudEvent, EventGridEvent } from "./events.js";
+
+/**
+ * isCloudEventLike returns "true" when the event is a CloudEvent
+ *
+ * @param o - Either an EventGrid our CloudEvent event.
+ */
+function isCloudEventLike(
+  o: EventGridEvent<unknown> | CloudEvent<unknown>,
+): o is CloudEvent<unknown> {
+  return (o as any).source !== undefined;
+}
+
+/**
+ * iSystemEvent returns "true" when a given event is a system event of a given type. When using
+ * TypeScript, this function acts as a custom type guard and allows the TypeScript compiler to
+ * identify the underlying data
+ *
+ * @param eventType - The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
+ * @param event - The event to test.
+ */
+export function isSystemEvent<T extends KnownSystemEventTypes>(
+  eventType: T,
+  event: EventGridEvent<unknown>,
+): event is EventGridEvent<SystemEventNameToEventData[T]>;
+
+/**
+ * iSystemEvent returns "true" when a given event is a system event of a given type. When using
+ * TypeScript, this function acts as a custom type guard and allows the TypeScript compiler to
+ * identify the underlying data
+ *
+ * @param eventType - The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
+ * @param event - The event to test.
+ */
+export function isSystemEvent<T extends KnownSystemEventTypes>(
+  eventType: T,
+  event: CloudEvent<unknown>,
+): event is CloudEvent<SystemEventNameToEventData[T]>;
+
+export function isSystemEvent<T extends KnownSystemEventTypes>(
+  eventType: T,
+  event: EventGridEvent<unknown> | CloudEvent<unknown>,
+): event is
+  | EventGridEvent<SystemEventNameToEventData[T]>
+  | CloudEvent<SystemEventNameToEventData[T]> {
+  if (isCloudEventLike(event)) {
+    return event.type === eventType;
+  } else {
+    return event.eventType === eventType;
+  }
+}

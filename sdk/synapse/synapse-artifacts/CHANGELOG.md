@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.16 (2025-09-30)
+## 1.0.0-beta.17 (2025-11-07)
 
 ### Features Added
 - Add a new Model ServiceNowV2LinkedService
