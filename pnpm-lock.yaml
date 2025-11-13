@@ -20807,8 +20807,8 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@opentelemetry/api-logs':
-        specifier: ^0.205.0
-        version: 0.205.0
+        specifier: ^0.208.0
+        version: 0.208.0
       '@opentelemetry/core':
         specifier: ^2.2.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
@@ -20816,8 +20816,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-logs':
-        specifier: ^0.205.0
-        version: 0.205.0(@opentelemetry/api@1.9.0)
+        specifier: ^0.208.0
+        version: 0.208.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-metrics':
         specifier: ^2.2.0
         version: 2.2.0(@opentelemetry/api@1.9.0)
@@ -34757,12 +34757,6 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
 
-  '@opentelemetry/sdk-logs@0.205.0':
-    resolution: {integrity: sha512-nyqhNQ6eEzPWQU60Nc7+A5LIq8fz3UeIzdEVBQYefB4+msJZ2vuVtRuk9KxPMw1uHoHDtYEwkr2Ct0iG29jU8w==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.4.0 <1.10.0'
-
   '@opentelemetry/sdk-logs@0.208.0':
     resolution: {integrity: sha512-QlAyL1jRpOeaqx7/leG1vJMp84g0xKP6gJmfELBpnI4O/9xPX+Hu5m1POk9Kl+veNkyth5t19hRlN6tNY1sjbA==}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -40674,13 +40668,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.204.0
-      '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 2.1.0(@opentelemetry/api@1.9.0)
-
-  '@opentelemetry/sdk-logs@0.205.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.205.0
       '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.1.0(@opentelemetry/api@1.9.0)
 
