@@ -52,13 +52,10 @@ export async function main(): Promise<void> {
   });
 
   const userInput = await new Promise<string>((resolve) => {
-    rl.question(
-      "Enter your question (e.g., 'What can the secondary agent do?'): \n",
-      (answer) => {
-        rl.close();
-        resolve(answer);
-      },
-    );
+    rl.question("Enter your question (e.g., 'What can the secondary agent do?'): \n", (answer) => {
+      rl.close();
+      resolve(answer);
+    });
   });
 
   console.log("\nSending request to A2A agent with streaming...");

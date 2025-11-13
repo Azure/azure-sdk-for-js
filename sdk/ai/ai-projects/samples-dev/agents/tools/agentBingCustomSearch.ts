@@ -13,10 +13,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
-  BingCustomSearchAgentTool,
-} from "@azure/ai-projects";
+import { AIProjectClient, BingCustomSearchAgentTool } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
 
